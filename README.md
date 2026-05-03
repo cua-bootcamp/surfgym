@@ -33,8 +33,8 @@ uv pip install -r requirements.txt
 To start the server, you need to run both the Gateway and the Omnibox Server.
 For easier log monitoring, we recommend running them in separate terminal sessions.
 
-You can configure both servers by editing config.json.
-There is no need to modify setting.sh.
+You can configure both servers by editing `config.json`.
+There is no need to modify `setting.sh`.
 
 ```bash
 bash omnibox_launch.bash
@@ -46,6 +46,14 @@ bash webgym_rl_launch.bash
 
 <br/>
 
+Check if the servers are properly launched using `health_check.bash`
+
+```bash
+bash health_check.bash
+```
+
+<br/>
+
 ## Testing
 
 ### Manual E2E Test
@@ -53,43 +61,42 @@ bash webgym_rl_launch.bash
 You can manually test tasks using the command below.
 
 ```bash
-bash tests/e2e_test_manual.sh
+bash tests/manual_test.sh
 ```
 
 <br/>
 
-Before running the test, make sure to check the following settings in `tests/setting.sh` and `tests/e2e_test_manual/run.py`.
+Before running the test, make sure to check the following settings in `tests/setting.sh` and `tests/runners/manual/run.py`.
 
 <br/>
 
 ```bash
 # tests/setting.sh
 
-# ============================================================
+# =============================================================================================
 # User-defined settings
 # Modify only the values below for testing.
-# ============================================================
+# 
+# * Use the appropriate WEBGYM_RL_CONFIG for the target test
+# * Make sure to set WITH_FIXTURE_WEBSITE=true when using fixture websites
+# =============================================================================================
 
-readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-readonly TEST_DIR="$ROOT_DIR/tests"
-readonly FIXTURE_DIR="$TEST_DIR/fixtures"
-readonly WEBGYM_RL_CONFIG="$FIXTURE_DIR/config/config.json"
+readonly WEBGYM_RL_CONFIG="$FIXTURE_DIR/CHANGE_HERE"
 
-readonly WITH_FIXTURE_WEBSITE=false
+readonly WITH_FIXTURE_WEBSITE=true
 readonly FIXTURE_WEBSITE_PORT=8123
 
-# ============================================================
+# =============================================================================================
 ```
 
 ```python
-# tests/e2e_test_manual/run.py
+# tests/runners/manual/run.py
 
 # ============================================================
 # User-defined settings
 # Modify only the values below for testing.
 # ============================================================
 TASK_ID = "form"
-SESSION_ID = int(time.time() * 1000)
 ACTIONS: list[list[dict[str, Any]]] = [
     [
         {
@@ -101,63 +108,4 @@ ACTIONS: list[list[dict[str, Any]]] = [
         },
     ]
 ]
-
-# ============================================================
 ```
-
-<br/>
-
-### OpenAI E2E Test
-
-> [!CAUTION]  
-> Requires refactoring. Unavailable now.
-
-> [!NOTE]  
-> Requires an `OPENAI_API_KEY` in `.env`
-
-You can test tasks using openai api using the command below.
-
-```bash
-bash tests/e2e_test_openai.sh
-```
-
-<br/>
-
-Before running the test, make sure to check the following settings in `tests/setting.sh` and `tests/e2e_test_openai/run.py`.
-
-<br/>
-
-
-```bash
-# tests/setting.sh
-
-readonly WEBGYM_RL_CONFIG="$FIXTURE_DIR/config/test.json"
-```
-
-```python
-# tests/e2e_test_openai/run.py
-
-# ============================================================
-# User-defined settings
-# Modify only the values below for testing.
-# ============================================================
-
-TASK_ID = "form"
-SESSION_ID = int(time.time() * 1000)
-CONFIG_PATH = (base_dir / "./tests/fixtures/config/test.json").resolve()
-MODEL = "gpt-5.4-mini"
-API_KEY = os.environ.get("OPENAI_API_KEY")
-MAX_STEPS = 10
-MAX_TRAJECTORY_IMAGES = 4
-```
-
-## TODO
-
-- [x] Master Server 완성
-- [ ] Instance Client 연결
-- [ ] MVP 상태로 복구
-
-- [ ] 1000 x 1000 Decoding
-- [ ] Error handling
-- [ ] Multi Browser
-- [ ] 중간에 성공여부 주기

@@ -17,8 +17,8 @@ class PlaywrightInstance:
     def __init__(self):
         self.id = None
 
-        self.VIEWPORT_WIDTH = 1280
-        self.VIEWPORT_HEIGHT = 768
+        self.VIEWPORT_WIDTH = 1920
+        self.VIEWPORT_HEIGHT = 1080
 
         self.page: Page | None = None
         self.context = None
@@ -73,12 +73,13 @@ class PlaywrightInstance:
 
         raise RuntimeError(f"Inconsistent PlaywrightInstance state: {states}")
 
-    async def screenshot(self) -> BytesIO:
+    async def screenshot(self) -> tuple[BytesIO, float, float]:
         if self.page is None:
             raise RuntimeError("[FATAL] page is none")
 
         screenshot_bytes = await self.controller.get_screenshot(self.page)
-        return BytesIO(screenshot_bytes)
+        mouse_x, mouse_y = self.controller.pointer_position
+        return BytesIO(screenshot_bytes), mouse_x, mouse_y
 
     async def execute(self, command: OmniboxCommand):
         if self.page is None:

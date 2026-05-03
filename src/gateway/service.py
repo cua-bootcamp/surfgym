@@ -1,7 +1,10 @@
+import base64
 import time
 from dataclasses import dataclass
+from io import BytesIO
 from typing import Callable, TypeVar
 
+from PIL import Image, ImageDraw
 from typing_extensions import assert_never
 
 from src.config import InstanceConfig
@@ -21,7 +24,7 @@ from src.gateway.rule_evaluator import (
     evaluate_page_rules,
     uses_page_html,
 )
-from src.gateway.task_store import TaskStore
+from src.gateway.task_store import Task, TaskStore
 from src.omnibox.protocol.instance_server_response import InteractiveTreeResponse
 
 _T = TypeVar("_T")
@@ -119,7 +122,9 @@ class Service:
 
         task = self.task_store.get(request.task_id)
         reward = self._evaluate(task, lease, deadline)
+
         self._release(lease)
+        self.active_sessions.pop(request.session_id, None)
 
         return RewardResponse(
             session_id=request.session_id,
@@ -153,11 +158,13 @@ class Service:
         )
 
     def _screenshot(self, deadline: Deadline, lease: Lease):
-        return self._run_with_retry(
+        (screenshot_b64, media_type, x, y) = self._run_with_retry(
             context="_screenshot",
             deadline=deadline,
             func=lambda: self.pool.screenshot(deadline, lease.instance_id, lease.port),
         )
+
+        return draw_cursor_on_screenshot(screenshot_b64, int(x), int(y)), media_type
 
     def _snapshot(
         self,
@@ -181,9 +188,9 @@ class Service:
             deadline=deadline,
             func=lambda: self.pool.get_interactive_tree(deadline, lease.instance_id, lease.port),
         )
-        return self._parse_interactive_tree_text(response)
+        return parse_interactive_tree_text(response)
 
-    def _evaluate(self, task, lease: Lease, deadline: Deadline) -> float:
+    def _evaluate(self, task: Task, lease: Lease, deadline: Deadline) -> float:
         if task.evaluation is None:
             print(f"Rule evaluation for task {task.task_id}: reward=0.0 (no rules)")
             return 0.0
@@ -243,25 +250,59 @@ class Service:
             yield delay
             delay = min(delay * 2, self.BACKOFF_MAX_SEC)
 
-    def _parse_interactive_tree_text(self, response: InteractiveTreeResponse) -> str:
-        lines: list[str] = []
 
-        mouse_position = response.mouse_position
-        lines.append(f"mouse_position: ({mouse_position.x}, {mouse_position.y})")
+####################
+# Helper Functions #
+####################
 
-        for region in response.regions.values():
-            if not region.rects:
-                continue
 
-            coords: list[str] = []
-            for rect in region.rects:
-                x = int((rect.left + rect.right) / 2)
-                y = int((rect.top + rect.bottom) / 2)
-                coords.append(f"({x}, {y})")
+def parse_interactive_tree_text(response: InteractiveTreeResponse) -> str:
+    lines: list[str] = []
 
-            lines.append(
-                f"tag: {region.tag_name}, role: {region.role}, "
-                f"text: {region.aria_name}, coords: {', '.join(coords)}"
-            )
+    mouse_position = response.mouse_position
+    lines.append(f"mouse_position: ({mouse_position.x}, {mouse_position.y})")
 
-        return "\n".join(lines)
+    for region in response.regions.values():
+        if not region.rects:
+            continue
+
+        coords: list[str] = []
+        for rect in region.rects:
+            x = int((rect.left + rect.right) / 2)
+            y = int((rect.top + rect.bottom) / 2)
+            coords.append(f"({x}, {y})")
+
+        lines.append(
+            f"tag: {region.tag_name}, role: {region.role}, "
+            f"text: {region.aria_name}, coords: {', '.join(coords)}"
+        )
+
+    return "\n".join(lines)
+
+
+def draw_cursor_on_screenshot(
+    screenshot_b64: str,
+    x: int,
+    y: int,
+) -> str:
+    raw = base64.b64decode(screenshot_b64)
+
+    with Image.open(BytesIO(raw)) as image:
+        image = image.convert("RGBA")
+        draw = ImageDraw.Draw(image)
+
+        cursor = [
+            (x, y),
+            (x, y + 24),
+            (x + 6, y + 18),
+            (x + 10, y + 31),
+            (x + 14, y + 29),
+            (x + 10, y + 17),
+            (x + 20, y + 17),
+        ]
+        draw.polygon(cursor, fill=(0, 0, 0, 255))
+
+        output = BytesIO()
+        image.save(output, format="PNG")
+
+    return base64.b64encode(output.getvalue()).decode("ascii")

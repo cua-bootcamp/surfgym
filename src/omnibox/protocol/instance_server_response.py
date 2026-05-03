@@ -35,6 +35,8 @@ class GetInstanceResponse(_FrozenBaseModel):
 class ScreenshotResponse(_FrozenBaseModel):
     snapshot_b64: str
     media_type: str
+    x: float
+    y: float
 
 
 class SnapshotResponse(_FrozenBaseModel):

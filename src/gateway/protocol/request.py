@@ -1,4 +1,4 @@
-from typing import Annotated, Literal, Union
+from typing import Annotated, Literal, TypeAlias, Union
 
 from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
 
@@ -28,9 +28,9 @@ class RewardRequest(_BaseRequest):
     op: Literal["reward"]
 
 
-Request = Annotated[
+Request: TypeAlias = Annotated[
     Union[StartRequest, ActionRequest, RewardRequest],
     Field(discriminator="op"),
 ]
 
-RequestAdapter = TypeAdapter(Request)
+RequestAdapter: TypeAdapter[Request] = TypeAdapter(Request)

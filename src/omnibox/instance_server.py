@@ -105,12 +105,14 @@ async def screenshot_instance(instance_id: str):
     if invalid is not None:
         return invalid
 
-    screenshot = await instance.screenshot()
+    screenshot, x, y = await instance.screenshot()
     screenshot_b64 = base64.b64encode(screenshot.getvalue()).decode("ascii")
 
     return ScreenshotResponse(
         snapshot_b64=screenshot_b64,
         media_type="image/png",
+        x=x,
+        y=y,
     )
 
 

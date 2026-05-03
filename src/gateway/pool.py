@@ -332,11 +332,11 @@ def execute_browser_command(
 
 
 def screenshot(
-    host,
-    port,
+    host: str,
+    port: int,
     instance_id: str,
 ):
     response = _instance_client(host=host, port=port).screenshot(instance_id)
     json_payload = _handle_response(response)
     payload = ScreenshotResponse.model_validate(json_payload)
-    return payload.snapshot_b64, payload.media_type
+    return payload.snapshot_b64, payload.media_type, payload.x, payload.y
