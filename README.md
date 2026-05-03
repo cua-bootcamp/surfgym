@@ -6,43 +6,24 @@ A web-based reinforcement learning environment for CUA.
 
 ## Setup
 
-> [!NOTE]  
-> This repository includes a slightly modified version of [webgym](https://github.com/praveen-palanisamy/webgym) as a submodule.
-
 
 ### 1. Clone the repository
 
 ```bash
-git clone --recursive https://github.com/Goonco/webgym-rl
-cd webgym-rl
+git clone https://github.com/cua-bootcamp/surfgym
+cd surfgym
 ```
 
 <br/>
 
-### 2. Set up the WebGym environment
+### 2. Set up environment
 
 ```bash
-conda create -n webgym-rl python=3.10
-conda activate webgym-rl
+conda create -n surfgym python=3.10 -y
+conda activate surfgym
 
 pip install -U pip uv
 uv pip install -r requirements.txt
-```
-
-The commands below install system-level dependencies and are not tied to the Conda environment.
-
-```bash
-playwright install chromium
-
-# Linux only
-playwright install-deps chromium
-
-# macOS
-brew install redis
-
-# Linux
-sudo apt-get update
-sudo apt-get install -y redis-server
 ```
 
 <br/>
