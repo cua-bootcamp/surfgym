@@ -2,25 +2,37 @@
 set -euo pipefail
 
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/setting.sh"
-
-readonly LOG_DIR="$TEST_DIR/e2e_test_manual_parallel/__logs__"
-readonly RUN_ID="$(date +%Y%m%d-%H%M%S)"
-readonly LOG_FILE="$LOG_DIR/$RUN_ID.log"
-
-# mkdir -p "$LOG_DIR"
-# exec > >(tee -a "$LOG_FILE") 2>&1
-
-# printf 'Logging test output to %s\n\n' "$LOG_FILE"
-
 PIDS=()
 
-cleanup() {
-  local pid
-  for pid in "${PIDS[@]}"; do
-    if kill -0 "$pid" 2>/dev/null; then
-      kill "$pid" 2>/dev/null || true
+terminate_pid() {
+  local pid="$1"
+  local i
+
+  if ! kill -0 "$pid" 2>/dev/null; then
+    return 0
+  fi
+
+  pkill -TERM -P "$pid" 2>/dev/null || true
+  kill -TERM "$pid" 2>/dev/null || true
+
+  for ((i = 0; i < 100; i++)); do
+    if ! kill -0 "$pid" 2>/dev/null; then
       wait "$pid" 2>/dev/null || true
+      return 0
     fi
+    sleep 0.1
+  done
+
+  pkill -KILL -P "$pid" 2>/dev/null || true
+  kill -KILL "$pid" 2>/dev/null || true
+  wait "$pid" 2>/dev/null || true
+}
+
+cleanup() {
+  local idx
+  trap - EXIT INT TERM
+  for ((idx=${#PIDS[@]}-1; idx>=0; idx--)); do
+    terminate_pid "${PIDS[idx]}"
   done
 }
 
@@ -74,37 +86,16 @@ wait_for_http \
 
 logstep "#2 launching omnibox"
 (
-  readonly DEPLOY_DIR="$ROOT_DIR/environment/webgym/omniboxes/deploy"
-  readonly REDIS_DATA_DIR="$DEPLOY_DIR/redis-data"
-
-  mkdir -p "$REDIS_DATA_DIR"
-
-  cd "$DEPLOY_DIR" || exit 1
-  printf 'Executing "python deploy.py %s %s %s --master-port %s --node-port %s --instance-start-port %s --redis-port %s"\n\n' \
-    "$OMNIBOX_INSTANCE" \
-    "$OMNIBOX_MASTER_WORKERS" \
-    "$OMNIBOX_NODE_WORKERS" \
-    "$OMNIBOX_MASTER_PORT" \
-    "$OMNIBOX_NODE_PORT" \
-    "$OMNIBOX_INSTANCE_START_PORT" \
-    "$OMNIBOX_REDIS_PORT"
-
-  exec python deploy.py \
-    "$OMNIBOX_INSTANCE" \
-    "$OMNIBOX_MASTER_WORKERS" \
-    "$OMNIBOX_NODE_WORKERS" \
-    --master-port "$OMNIBOX_MASTER_PORT" \
-    --node-port "$OMNIBOX_NODE_PORT" \
-    --instance-start-port "$OMNIBOX_INSTANCE_START_PORT" \
-    --redis-port "$OMNIBOX_REDIS_PORT"
+  cd "$ROOT_DIR" || exit 1
+  printf 'Executing "python -m src.omnibox.deploy %s"\n\n' \
+    "$WEBGYM_RL_CONFIG"
+  exec python -m src.omnibox.deploy "$WEBGYM_RL_CONFIG"
 ) &
 PIDS+=("$!")
+
 wait_for_http \
   "omnibox" \
-  "curl -fsS -H \"x-api-key: ${OMNIBOX_API_KEY}\" http://${OMNIBOX_HOST}:${OMNIBOX_MASTER_PORT}/info" \
-  "1000" \
-  "1"
-
+  "curl -fsS http://${OMNIBOX_HOST}:${OMNIBOX_MASTER_PORT}/health"
 
 if [[ "$WITH_FIXTURE_WEBSITE" == "true" ]]; then
   logstep "#3 launching fixture website"
@@ -125,8 +116,8 @@ else
 fi
 
 
-logstep "#4 e2e_test_manual"
+logstep "#4 manual_parallel"
 (
   cd "$ROOT_DIR"
-  python -m tests.e2e_test_manual_parallel.run --config-path "$WEBGYM_RL_CONFIG"
+  python -m tests.runners.manual_parallel.run --config-path "$WEBGYM_RL_CONFIG"
 )

@@ -119,5 +119,5 @@ fi
 logstep "#4 e2e_test_manual"
 (
   cd "$ROOT_DIR"
-  python -m tests.e2e_test_manual.run --config-path "$WEBGYM_RL_CONFIG"
+  python -m tests.runners.manual.run --config-path "$WEBGYM_RL_CONFIG"
 )

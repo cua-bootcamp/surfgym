@@ -22,19 +22,13 @@ class Runner:
         timestamp = datetime.now().strftime("%Y%m%d-%H%M%S-%f")[:-3]
 
         here_dir = Path(__file__).resolve().parent
-        self.base_dir = (here_dir / "../../").resolve()
-        self.snapshot_dir = (
-            self.base_dir / f"./tests/e2e_test_manual/__snapshots__/{task_id}-{timestamp}"
-        )
+        self.snapshot_dir = here_dir / f"__snapshots__/{task_id}-{timestamp}"
 
         with open(config_path, "r", encoding="utf-8") as f:
             config: dict[str, Any] = json.load(f)
 
         gateway = config["gateway"]
         self.url = f"http://{gateway['host']}:{gateway['port']}"
-
-        # task_store = TaskStore.from_file(path=self.base_dir / f"./{config.task_file_path}")
-        # self.task = task_store.get(self.task_id)
 
     def run(
         self,

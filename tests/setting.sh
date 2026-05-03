@@ -12,7 +12,7 @@ readonly FIXTURE_DIR="$TEST_DIR/fixtures"
 # * Make sure to set WITH_FIXTURE_WEBSITE=true when using fixture websites
 # =============================================================================================
 
-readonly WEBGYM_RL_CONFIG="$FIXTURE_DIR/config/config-single.json"
+readonly WEBGYM_RL_CONFIG="$FIXTURE_DIR/config/config-64.json"
 
 readonly WITH_FIXTURE_WEBSITE=true
 readonly FIXTURE_WEBSITE_PORT=8123

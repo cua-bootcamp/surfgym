@@ -28,11 +28,7 @@ class Runner:
         self.reward_delay_range = (0.0, 0.1)
 
         here_dir = Path(__file__).resolve().parent
-        base_dir = (here_dir / "../../").resolve()
-        self.snapshot_dir = (
-            base_dir
-            / f"./tests/e2e_test_manual_parallel/__snapshots__/{timestamp}_{task_id}/sid_{session_id}"
-        )
+        self.snapshot_dir = here_dir / f"__snapshots__/{timestamp}_{task_id}/sid_{session_id}"
 
         with open(config_path, "r", encoding="utf-8") as f:
             config: dict[str, Any] = json.load(f)

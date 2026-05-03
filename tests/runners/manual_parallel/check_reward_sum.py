@@ -1,7 +1,7 @@
-# python tests/e2e_test_manual_parallel/check_reward_sum.py \
-#   tests/e2e_test_manual_parallel/__snapshots__/260429-005233_counter \
-#   --expected 512 \
-#   --expected-count 512
+# python tests/runners/manual_parallel/check_reward_sum.py \
+# tests/runners/manual_parallel/__snapshots__/260503-211908_counter \
+#   --expected 64 \
+#   --expected-count 64
 
 import argparse
 from decimal import Decimal, InvalidOperation

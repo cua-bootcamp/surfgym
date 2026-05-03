@@ -26,6 +26,7 @@ class OmniboxSupervisor:
         self.processes: list[ManagedProcess] = []
         self._shutdown = threading.Event()
         self._cleaned = False
+        self._stream_threads: list[threading.Thread] = []
 
     def run(self) -> None:
         self._install_signal_handlers()
@@ -64,6 +65,9 @@ class OmniboxSupervisor:
                 item.process.wait(timeout=1.0)
             except subprocess.TimeoutExpired:
                 pass
+
+        for thread in self._stream_threads:
+            thread.join(timeout=1.0)
 
     def _install_signal_handlers(self) -> None:
         def _handle_signal(signum, _frame) -> None:
@@ -151,12 +155,12 @@ class OmniboxSupervisor:
             start_new_session=True,
         )
         self.processes.append(ManagedProcess(name=name, process=process))
-
         thread = threading.Thread(
             target=self._stream_output,
             args=(name, process),
-            daemon=True,
+            daemon=False,
         )
+        self._stream_threads.append(thread)
         thread.start()
 
     def _stream_output(self, name: str, process: subprocess.Popen[str]) -> None:
@@ -216,7 +220,13 @@ class OmniboxSupervisor:
             return
         try:
             os.killpg(process.pid, sig)
-        except ProcessLookupError:
+            return
+        except (ProcessLookupError, PermissionError, OSError):
+            pass
+
+        try:
+            process.send_signal(sig)
+        except (ProcessLookupError, PermissionError, OSError):
             pass
 
 
