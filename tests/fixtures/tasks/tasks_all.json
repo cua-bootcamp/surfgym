@@ -1,0 +1,97 @@
+[
+  {
+    "task_id": "counter",
+    "task_name": "Make the counter value 5.",
+    "website": "http://127.0.0.1:8123/counter.html",
+    "evaluation": {
+      "rules": [
+        {
+          "selector": "#count",
+          "text": "5",
+          "match": "exact"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "all_commands",
+    "task_name": "Exercise the full manual command surface on the local all-commands fixture and stop when every status is marked complete.",
+    "website": "http://127.0.0.1:8123/all_commands.html",
+    "evaluation": {
+      "mode": "all",
+      "rules": [
+        {
+          "selector": "#hover-status",
+          "text": "HOVERED",
+          "match": "exact"
+        },
+        {
+          "selector": "#click-status",
+          "text": "1",
+          "match": "exact"
+        },
+        {
+          "selector": "#double-status",
+          "text": "1",
+          "match": "exact"
+        },
+        {
+          "selector": "#right-status",
+          "text": "1",
+          "match": "exact"
+        },
+        {
+          "selector": "#hold-status",
+          "text": "DOWN+UP",
+          "match": "exact"
+        },
+        {
+          "selector": "#drag-status",
+          "text": "DONE",
+          "match": "exact"
+        },
+        {
+          "selector": "#wait-status",
+          "text": "READY",
+          "match": "exact"
+        },
+        {
+          "selector": "#command-input",
+          "attr": "value",
+          "value": "Hello",
+          "match": "exact"
+        },
+        {
+          "selector": "#enter-status",
+          "text": "1",
+          "match": "exact"
+        },
+        {
+          "selector": "#keydown-status",
+          "text": "1",
+          "match": "exact"
+        },
+        {
+          "selector": "#keyup-status",
+          "text": "1",
+          "match": "exact"
+        },
+        {
+          "selector": "#hotkey-status",
+          "text": "1",
+          "match": "exact"
+        },
+        {
+          "selector": "#scroll-status",
+          "text": "SCROLLED",
+          "match": "exact"
+        },
+        {
+          "selector": "#all-status",
+          "text": "PASS",
+          "match": "exact"
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "task_file_path": "tasks/tasks_all.json",
+  "log_path": "logs/",
+  "gateway": {
+    "host": "127.0.0.1",
+    "port": 18000,
+    "gateway_workers": 1,
+    "gateway_in_flight": 1,
+    "pool_workers": 2,
+    "verl_timeout": 60.0,
+    "in_flight_timeout": 5.0,
+    "deadline_margin": 2.0
+  },
+  "omnibox": {
+    "host": "127.0.0.1",
+    "master_port": 5500,
+    "master_workers": 1,
+    "instance_start_port": 9000,
+    "instances": 1
+  }
+}
