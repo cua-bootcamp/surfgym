@@ -7,6 +7,6 @@ echo "[1/2] checking gateway"
 curl -fsS "http://${GATEWAY_HOST}:${GATEWAY_PORT}/health" > /dev/null
 
 echo "[2/2] checking omnibox"
-curl -fsS -H "x-api-key: ${OMNIBOX_API_KEY}" "http://${OMNIBOX_HOST}:${OMNIBOX_MASTER_PORT}/info" > /dev/null
+curl -fsS "http://${OMNIBOX_HOST}:${OMNIBOX_MASTER_PORT}/health" > /dev/null
 
 echo "ok"
