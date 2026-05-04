@@ -68,6 +68,82 @@ Check if the servers are properly launched using `health_check.bash`
 bash scripts/health_check.bash
 ```
 
+### Defining Tasks
+
+Tasks are defined in a JSON file as a list of task objects. There are two type of task objecs : `Single` and `Multi`.
+
+
+#### Single Browser Task
+
+A single browser task opens one website and evaluates the final browser state with one evaluation block.
+
+```json
+{
+  "task_id": "counter",
+  "instruction": "Make the counter value 5.",
+  "website": "http://127.0.0.1:8123/counter.html",
+  "evaluation": {
+    "operator": "and",
+    "rule": {
+      "selector": "#count",
+      "target": "text",
+      "value": "5",
+      "match": "exact"
+    }
+  }
+}
+```
+
+<br>
+
+`evaulation` defines how each task will be rewarded.
+
+- `operator` controls how multiple rules are combined. `and` is for all rules pass and `or` is for at least one pass. It is **omittable** and `and` is default.
+
+
+<br>
+
+`rule` defines one or more checks against the final browser state. A single rule object or a list of rule objects can be provided.
+
+
+- `selector` is a CSS selector for element-level checks. This field is **omittable** for page-level checks such as `url` or `title`.
+
+- `target` defines what to check. Use `text`, `html`, `url`, `title`, or `attr`. It is **omittable** and defaults to `text`.
+
+- `attr` is the attribute name to inspect when `target` is `attr`, for example `value`. It is **omittable** for non-attribute checks.
+
+- `value` is the expected value.
+
+- `match` controls how `value` is matched. Use `contains`, `exact`, or `regex`. It is **omittable** and defaults to `contains`.
+
+- `normalize_space` controls whether whitespace is collapsed before matching. It is **omittable** and defaults to `false`.
+
+- `case_sensitive` controls whether matching is case-sensitive. It is **omittable** and defaults to `false`.
+
+
+
+##### Examples:
+
+```json
+{
+  "selector": "#answer",
+  "target": "attr",
+  "attr": "value",
+  "value": "hello",
+  "match": "exact"
+}
+```
+
+```json
+{
+  "target": "url",
+  "value": "example.com",
+  "match": "contains"
+}
+```
+
+#### Multi Browser Task
+
 <br/>
 
 ## Testing
