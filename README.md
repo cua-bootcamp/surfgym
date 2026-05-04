@@ -53,11 +53,11 @@ You can configure both servers by editing `config.json`.
 There is no need to modify `setting.sh`.
 
 ```bash
-bash wavepool_launch.bash
+bash scripts/wavepool_launch.bash
 ```
 
 ```bash
-bash gateway_launch.bash
+bash scripts/gateway_launch.bash
 ```
 
 <br/>
@@ -65,7 +65,7 @@ bash gateway_launch.bash
 Check if the servers are properly launched using `health_check.bash`
 
 ```bash
-bash health_check.bash
+bash scripts/health_check.bash
 ```
 
 <br/>

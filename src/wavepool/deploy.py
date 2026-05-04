@@ -120,6 +120,10 @@ class SurfGymSupervisor:
                     "src.wavepool.instance.server",
                     "--port",
                     str(port),
+                    "--viewport-width",
+                    str(cfg.viewport_width),
+                    "--viewport-height",
+                    str(cfg.viewport_height),
                 ],
             )
 

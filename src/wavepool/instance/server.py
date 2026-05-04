@@ -22,9 +22,14 @@ from src.wavepool.instance.playwright import PlaywrightInstance
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--port", type=int, required=True)
+parser.add_argument("--viewport-width", type=int, required=True)
+parser.add_argument("--viewport-height", type=int, required=True)
 args = parser.parse_args()
 
-instance = PlaywrightInstance()
+instance = PlaywrightInstance(
+    viewport_width=args.viewport_width,
+    viewport_height=args.viewport_height,
+)
 
 logger = logging.getLogger(__name__)
 

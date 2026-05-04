@@ -48,6 +48,9 @@ class Service:
         self.task_store = task_store
         self.pool = GatewayPool(pool_workers=pool_workers, instance_config=instance_config)
 
+        self.viewport_width = instance_config.viewport_width
+        self.viewport_height = instance_config.viewport_height
+
         # session_id -> (instance_id, port)
         self.active_sessions: dict[int, Lease] = {}
 
@@ -190,7 +193,9 @@ class Service:
             deadline=deadline,
             func=lambda: self.pool.get_interactive_tree(deadline, lease.instance_id, lease.port),
         )
-        return parse_interactive_tree_text(response)
+        return parse_interactive_tree_text(
+            response, viewport_width=self.viewport_width, viewport_height=self.viewport_height
+        )
 
     def _evaluate(self, task: Task, lease: Lease, deadline: Deadline) -> float:
         if task.evaluation is None:
@@ -258,11 +263,46 @@ class Service:
 ####################
 
 
-def parse_interactive_tree_text(response: InteractiveTreeResponse) -> str:
+NORMALIZED_COORD_SPACE = 1000
+
+
+def _normalize_coordinate(value: float, *, source_size: int) -> int:
+    if source_size <= 0:
+        raise ValueError(f"source_size must be positive, got {source_size}")
+
+    normalized = round((float(value) / float(source_size)) * NORMALIZED_COORD_SPACE)
+    return max(0, min(NORMALIZED_COORD_SPACE, normalized))
+
+
+def _normalize_point(
+    x: float,
+    y: float,
+    *,
+    viewport_width: int,
+    viewport_height: int,
+) -> tuple[int, int]:
+    return (
+        _normalize_coordinate(x, source_size=viewport_width),
+        _normalize_coordinate(y, source_size=viewport_height),
+    )
+
+
+def parse_interactive_tree_text(
+    response: InteractiveTreeResponse,
+    *,
+    viewport_width: int,
+    viewport_height: int,
+) -> str:
     lines: list[str] = []
 
     mouse_position = response.mouse_position
-    lines.append(f"mouse_position: ({mouse_position.x}, {mouse_position.y})")
+    mouse_x, mouse_y = _normalize_point(
+        mouse_position.x,
+        mouse_position.y,
+        viewport_width=viewport_width,
+        viewport_height=viewport_height,
+    )
+    lines.append(f"mouse_position: ({mouse_x}, {mouse_y})")
 
     for region in response.regions.values():
         if not region.rects:
@@ -270,15 +310,20 @@ def parse_interactive_tree_text(response: InteractiveTreeResponse) -> str:
 
         coords: list[str] = []
         for rect in region.rects:
-            x = int((rect.left + rect.right) / 2)
-            y = int((rect.top + rect.bottom) / 2)
+            center_x = (rect.left + rect.right) / 2
+            center_y = (rect.top + rect.bottom) / 2
+            x, y = _normalize_point(
+                center_x,
+                center_y,
+                viewport_width=viewport_width,
+                viewport_height=viewport_height,
+            )
             coords.append(f"({x}, {y})")
 
         lines.append(
             f"tag: {region.tag_name}, role: {region.role}, "
             f"text: {region.aria_name}, coords: {', '.join(coords)}"
         )
-
     return "\n".join(lines)
 
 

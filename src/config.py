@@ -31,6 +31,9 @@ class WavepoolConfig(FrozenBaseModel):
     instance_start_port: int
     instances: int
 
+    viewport_width: int
+    viewport_height: int
+
 
 class Config(FrozenBaseModel):
     task_file_path: Path

@@ -240,11 +240,16 @@ class PlaywrightController:
 
 
 class PlaywrightInstance:
-    def __init__(self):
+    def __init__(
+        self,
+        *,
+        viewport_width: int,
+        viewport_height: int,
+    ):
         self.id = None
 
-        self.VIEWPORT_WIDTH = 1920
-        self.VIEWPORT_HEIGHT = 1080
+        self.viewport_width = viewport_width
+        self.viewport_height = viewport_height
 
         self.page: Page | None = None
         self.context = None
@@ -252,7 +257,7 @@ class PlaywrightInstance:
         self.p = None
 
         self.controller = PlaywrightController(
-            veiwport_width=self.VIEWPORT_WIDTH, vewport_height=self.VIEWPORT_HEIGHT
+            veiwport_width=self.viewport_width, vewport_height=self.viewport_height
         )
 
     async def create(self, id: str) -> None:
@@ -261,7 +266,7 @@ class PlaywrightInstance:
         self.p = await async_playwright().start()
         self.browser = await self.p.chromium.launch()
         self.context = await self.browser.new_context(
-            viewport={"width": self.VIEWPORT_WIDTH, "height": self.VIEWPORT_HEIGHT}
+            viewport={"width": self.viewport_width, "height": self.viewport_height}
         )
         self.page = await self.context.new_page()
         await self.controller.on_new_page(self.page)

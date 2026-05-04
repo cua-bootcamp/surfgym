@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly SURFGYM_CONFIG="$ROOT_DIR/config.json"
+readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")"/.. && pwd)"
+readonly SURFGYM_CONFIG="$ROOT_DIR/scripts/config.json"
 
 json_get() {
   jq -r "$1" "$SURFGYM_CONFIG"
