@@ -4,7 +4,7 @@ import re
 from dataclasses import dataclass
 from typing import Any, Mapping
 
-from src.wavepool.protocol.instance_server_response import (
+from wavepool.instance.protocol.response import (
     ElementSnapshot,
     PageSnapshot,
 )

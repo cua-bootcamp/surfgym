@@ -10,21 +10,21 @@ from fastapi import Body, FastAPI
 from fastapi.responses import JSONResponse
 from pydantic import TypeAdapter, ValidationError
 
-from src.wavepool.playwright_instance import PlaywrightInstance
-from src.wavepool.protocol.instance_server_response import (
+from wavepool.instance.playwright import PlaywrightInstance
+from wavepool.instance.protocol.command import Command
+from wavepool.instance.protocol.response import (
     GetInstanceResponse,
     InstanceServerErrorType,
     ScreenshotResponse,
     StatusResponse,
     error_response,
 )
-from src.wavepool.protocol.omnibox_command import OmniboxCommand
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--port", type=int, required=True)
 args = parser.parse_args()
 
-command_adapter = TypeAdapter(OmniboxCommand)
+command_adapter = TypeAdapter(Command)
 instance = PlaywrightInstance()
 
 logger = logging.getLogger(__name__)

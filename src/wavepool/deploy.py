@@ -20,9 +20,9 @@ class ManagedProcess:
     process: subprocess.Popen[str]
 
 
-class OmniboxSupervisor:
+class SurfGymSupervisor:
     def __init__(self, config: Config) -> None:
-        self.instance_config = config.omnibox_config
+        self.instance_config = config.wavepool_config
         self.processes: list[ManagedProcess] = []
         self._shutdown = threading.Event()
         self._cleaned = False
@@ -71,7 +71,7 @@ class OmniboxSupervisor:
 
     def _install_signal_handlers(self) -> None:
         def _handle_signal(signum, _frame) -> None:
-            print(f"\n[omnibox-deploy] received signal {signum}, shutting down...", flush=True)
+            print(f"\n[surfgym-deploy] received signal {signum}, shutting down...", flush=True)
             self._shutdown.set()
 
         signal.signal(signal.SIGINT, _handle_signal)
@@ -144,7 +144,7 @@ class OmniboxSupervisor:
         )
 
     def _spawn(self, *, name: str, cmd: list[str]) -> None:
-        print(f"[omnibox-deploy] starting {name}: {' '.join(cmd)}", flush=True)
+        print(f"[surfgym-deploy] starting {name}: {' '.join(cmd)}", flush=True)
 
         process = subprocess.Popen(
             cmd,
@@ -192,7 +192,7 @@ class OmniboxSupervisor:
                     )
                     master_ready = client.get(master_url).status_code == 200
                     if instances_ready and master_ready:
-                        print("[omnibox-deploy] ready", flush=True)
+                        print("[surfgym-deploy] ready", flush=True)
                         return
                 except httpx.HTTPError:
                     pass
@@ -202,7 +202,7 @@ class OmniboxSupervisor:
 
                 time.sleep(0.2)
 
-        raise TimeoutError("timed out waiting for omnibox processes to become ready")
+        raise TimeoutError("timed out waiting for surfgym processes to become ready")
 
     def _watch_children(self) -> None:
         while not self._shutdown.is_set():
@@ -246,7 +246,7 @@ def _load_config(config_path: Path) -> Config:
 def main() -> None:
     args = _parse_args()
     config = _load_config(args.config_path)
-    supervisor = OmniboxSupervisor(config)
+    supervisor = SurfGymSupervisor(config)
     supervisor.run()
 
 

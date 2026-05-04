@@ -7,7 +7,7 @@ from typing import Callable, TypeVar
 from PIL import Image, ImageDraw
 from typing_extensions import assert_never
 
-from src.config import InstanceConfig
+from src.config import WavepoolConfig
 from src.gateway.error import Deadline, DeadlineExceeded, SGRetryableError
 from src.gateway.pool import GatewayPool
 from src.gateway.protocol.computer13 import TerminalAction
@@ -25,7 +25,7 @@ from src.gateway.rule_evaluator import (
     uses_page_html,
 )
 from src.gateway.task_store import Task, TaskStore
-from src.wavepool.protocol.instance_server_response import InteractiveTreeResponse
+from wavepool.instance.protocol.response import InteractiveTreeResponse
 
 _T = TypeVar("_T")
 
@@ -42,7 +42,7 @@ class Service:
         *,
         pool_workers: int,
         task_store: TaskStore,
-        instance_config: InstanceConfig,
+        instance_config: WavepoolConfig,
     ) -> None:
         self.task_store = task_store
         self.pool = GatewayPool(pool_workers=pool_workers, instance_config=instance_config)
@@ -103,7 +103,7 @@ class Service:
 
         for action in request.actions:
             if not isinstance(action, TerminalAction):
-                self._execute_browser_command(deadline, lease, action.to_omnibox_commands())
+                self._execute_browser_command(deadline, lease, action.to_commands())
 
         (screenshot_b64, media_type) = self._screenshot(deadline, lease)
         text = self._interactive_tree(deadline, lease) if request.include_a11y else None

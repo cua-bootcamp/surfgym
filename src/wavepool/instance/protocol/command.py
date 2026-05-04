@@ -130,7 +130,7 @@ class SleepCommand(_BaseCommand):
     duration_ms: int
 
 
-OmniboxCommandPayload: TypeAlias = Union[
+CommandPayload: TypeAlias = Union[
     MouseMoveCommand,
     DragToCommand,
     MouseWheelCommand,
@@ -148,9 +148,9 @@ OmniboxCommandPayload: TypeAlias = Union[
     InteractiveTreeCommand,
 ]
 
-OmniboxCommand = Annotated[
-    OmniboxCommandPayload,
+Command = Annotated[
+    CommandPayload,
     Field(discriminator="command"),
 ]
 
-CommandAdapter = TypeAdapter(OmniboxCommand)
+CommandAdapter = TypeAdapter(Command)

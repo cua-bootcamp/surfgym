@@ -8,11 +8,11 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 
-from src.wavepool.protocol.instance_server_response import GetInstanceResponse, StatusResponse
-from src.wavepool.protocol.master_server_response import (
+from wavepool.instance.protocol.response import GetInstanceResponse, StatusResponse
+from wavepool.master.protocol.response import (
     GetInstanceResponse as MasterGetInstanceResponse,
 )
-from src.wavepool.protocol.master_server_response import MasterServerErrorType, error_response
+from wavepool.master.protocol.response import MasterServerErrorType, error_response
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--master_host", type=str)

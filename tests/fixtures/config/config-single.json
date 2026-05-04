@@ -11,7 +11,7 @@
     "in_flight_timeout": 5.0,
     "deadline_margin": 2.0
   },
-  "omnibox": {
+  "wavepool": {
     "host": "127.0.0.1",
     "master_port": 5500,
     "master_workers": 1,

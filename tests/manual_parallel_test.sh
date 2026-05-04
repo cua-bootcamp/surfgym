@@ -84,7 +84,7 @@ wait_for_http \
   "gateway" \
   "curl -fsS http://${GATEWAY_HOST}:${GATEWAY_PORT}/health"
 
-logstep "#2 launching omnibox"
+logstep "#2 launching wavepool"
 (
   cd "$ROOT_DIR" || exit 1
   printf 'Executing "python -m src.wavepool.deploy %s"\n\n' \
@@ -94,8 +94,8 @@ logstep "#2 launching omnibox"
 PIDS+=("$!")
 
 wait_for_http \
-  "omnibox" \
-  "curl -fsS http://${OMNIBOX_HOST}:${OMNIBOX_MASTER_PORT}/health"
+  "wavepool" \
+  "curl -fsS http://${WAVEPOOL_HOST}:${WAVEPOOL_MASTER_PORT}/health"
 
 if [[ "$WITH_FIXTURE_WEBSITE" == "true" ]]; then
   logstep "#3 launching fixture website"

@@ -9,26 +9,26 @@ from typing import Any, Callable, ParamSpec, TypeVar, overload
 
 from requests import Response
 
-from src.config import InstanceConfig
+from src.config import WavepoolConfig
 from src.gateway.client import InstanceClient, MasterClient
 from src.gateway.error import (
     HttpStackOperationTimeoutError,
-    OmniboxBusyError,
+    InstanceBusyError,
 )
 from src.gateway.service import Deadline
-from src.wavepool.protocol.instance_server_response import (
+from wavepool.instance.protocol.command import (
+    Command,
+    CommandPayload,
+    InteractiveTreeCommand,
+    NavigateCommand,
+    SnapShotCommand,
+)
+from wavepool.instance.protocol.response import (
     InteractiveTreeResponse,
     ScreenshotResponse,
     SnapshotResponse,
 )
-from src.wavepool.protocol.master_server_response import GetInstanceResponse
-from src.wavepool.protocol.omnibox_command import (
-    InteractiveTreeCommand,
-    NavigateCommand,
-    OmniboxCommand,
-    OmniboxCommandPayload,
-    SnapShotCommand,
-)
+from wavepool.master.protocol.response import GetInstanceResponse
 
 _R = TypeVar("_R")
 _P = ParamSpec("_P")
@@ -131,7 +131,7 @@ class GatewayPool:
         self,
         *,
         pool_workers: int,
-        instance_config: InstanceConfig,
+        instance_config: WavepoolConfig,
     ):
         self.TIMEOUT_CAP = 10
         self._instance_config = instance_config
@@ -195,7 +195,7 @@ class GatewayPool:
         )
 
     def execute_browser_command(
-        self, deadline: Deadline, instance_id: str, instance_port: int, command: OmniboxCommand
+        self, deadline: Deadline, instance_id: str, instance_port: int, command: Command
     ):
         return self._run(
             self._general_pool,
@@ -255,7 +255,7 @@ class GatewayPool:
 def _handle_response(response: Response):
     if response.status_code != 200:
         if response.status_code >= 500:
-            raise OmniboxBusyError(f"Error: {response.status_code} - {response.text}")
+            raise InstanceBusyError(f"Error: {response.status_code} - {response.text}")
         raise Exception(f"Error: {response.status_code} - {response.text}")
     return response.json()
 
@@ -307,7 +307,7 @@ def execute_browser_command(
     host: str,
     port: int,
     instance_id: str,
-    command: OmniboxCommandPayload,
+    command: CommandPayload,
 ) -> Any: ...
 
 
@@ -315,7 +315,7 @@ def execute_browser_command(
     host: str,
     port: int,
     instance_id: str,
-    command: OmniboxCommandPayload,
+    command: CommandPayload,
 ) -> SnapshotResponse | InteractiveTreeResponse | Any:
     response = _instance_client(host=host, port=port).execute(instance_id, command)
     json_payload = _handle_response(response)

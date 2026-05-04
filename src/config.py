@@ -24,7 +24,7 @@ class GatewayConfig(FrozenBaseModel):
     deadline_margin: float
 
 
-class InstanceConfig(FrozenBaseModel):
+class WavepoolConfig(FrozenBaseModel):
     host: str
     master_port: int
     master_workers: int
@@ -37,4 +37,4 @@ class Config(FrozenBaseModel):
     log_path: Path
 
     gateway_config: GatewayConfig = Field(alias="gateway")
-    omnibox_config: InstanceConfig = Field(alias="omnibox")
+    wavepool_config: WavepoolConfig = Field(alias="wavepool")

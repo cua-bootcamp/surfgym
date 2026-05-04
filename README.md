@@ -4,6 +4,13 @@ A web-based reinforcement learning environment for CUA that supports multibrowse
 
 <br/>
 
+<div align="center">
+<img src="figures/architecture.png" alt="architecture" width="600">
+</div>
+
+
+<br/>
+
 ## Setup
 
 
@@ -39,7 +46,7 @@ playwright install-deps chromium
 
 ## Run
 
-To start the server, you need to run both the Gateway and the Omnibox Server.
+To start the server, you need to run 1. Gateway and 2. WavePool  Server.
 For easier log monitoring, we recommend running them in separate terminal sessions.
 
 You can configure both servers by editing `config.json`.

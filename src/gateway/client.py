@@ -2,8 +2,8 @@ from typing import Any
 
 import requests
 
-from src.gateway.error import OmniBoxTransportError
-from src.wavepool.protocol.omnibox_command import OmniboxCommand
+from src.gateway.error import InstanceTransportError
+from wavepool.instance.protocol.command import Command
 
 
 class _RequestsProxy:
@@ -11,13 +11,13 @@ class _RequestsProxy:
         try:
             return requests.post(*args, **kwargs)
         except requests.exceptions.RequestException as exc:
-            raise OmniBoxTransportError(f"requests.post failed: {exc}") from exc
+            raise InstanceTransportError(f"requests.post failed: {exc}") from exc
 
     def get(self, *args: Any, **kwargs: Any) -> requests.Response:
         try:
             return requests.get(*args, **kwargs)
         except requests.exceptions.RequestException as exc:
-            raise OmniBoxTransportError(f"requests.get failed: {exc}") from exc
+            raise InstanceTransportError(f"requests.get failed: {exc}") from exc
 
 
 _requests = _RequestsProxy()
@@ -52,7 +52,7 @@ class InstanceClient:
     def _get_base_url(self):
         return f"http://{self.host}:{self.port}"
 
-    def execute(self, instance_id: str, command: OmniboxCommand):
+    def execute(self, instance_id: str, command: Command):
         return _requests.post(
             f"{self._get_base_url()}/execute",
             params={

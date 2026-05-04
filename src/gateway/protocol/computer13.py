@@ -5,7 +5,8 @@ from typing import Annotated, Any, Literal, Optional, TypeAlias, Union
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from src.wavepool.protocol.omnibox_command import (
+from wavepool.instance.protocol.command import (
+    Command,
     DragToCommand,
     HotKeyCommand,
     KeyboardTypeCommand,
@@ -18,7 +19,6 @@ from src.wavepool.protocol.omnibox_command import (
     MouseMoveCommand,
     MouseUpCommand,
     MouseWheelCommand,
-    OmniboxCommand,
     SleepCommand,
 )
 
@@ -51,8 +51,8 @@ class _BaseComputerAction(BaseModel):
     def parameters(self) -> dict[str, Any]:
         return self.model_dump(exclude={"action_type"})
 
-    def to_omnibox_commands(self) -> OmniboxCommand:
-        raise NotImplementedError(f"{self.__class__.__name__} must implement to_omnibox_commands()")
+    def to_commands(self) -> Command:
+        raise NotImplementedError(f"{self.__class__.__name__} must implement to_commands()")
 
 
 class MoveToAction(_BaseComputerAction):
@@ -60,7 +60,7 @@ class MoveToAction(_BaseComputerAction):
     x: float
     y: float
 
-    def to_omnibox_commands(self) -> MouseMoveCommand:
+    def to_commands(self) -> MouseMoveCommand:
         return MouseMoveCommand(x=self.x, y=self.y)
 
 
@@ -69,7 +69,7 @@ class DragToAction(_BaseComputerAction):
     x: float
     y: float
 
-    def to_omnibox_commands(self) -> DragToCommand:
+    def to_commands(self) -> DragToCommand:
         return DragToCommand(x=self.x, y=self.y)
 
 
@@ -78,7 +78,7 @@ class ScrollAction(_BaseComputerAction):
     dx: int
     dy: int
 
-    def to_omnibox_commands(self) -> MouseWheelCommand:
+    def to_commands(self) -> MouseWheelCommand:
         return MouseWheelCommand(dx=self.dx, dy=self.dy)
 
 
@@ -86,14 +86,14 @@ class TypingAction(_BaseComputerAction):
     action_type: Literal[ActionType.TYPING]
     text: str
 
-    def to_omnibox_commands(self) -> KeyboardTypeCommand:
+    def to_commands(self) -> KeyboardTypeCommand:
         return KeyboardTypeCommand(text=self.text)
 
 
 class WaitAction(_BaseComputerAction):
     action_type: Literal[ActionType.WAIT]
 
-    def to_omnibox_commands(self) -> SleepCommand:
+    def to_commands(self) -> SleepCommand:
         return SleepCommand(duration_ms=1000)
 
 
@@ -105,19 +105,15 @@ class WaitAction(_BaseComputerAction):
 class FailAction(_BaseComputerAction):
     action_type: Literal[ActionType.FAIL]
 
-    def to_omnibox_commands(self) -> None:
-        raise AssertionError(
-            f"{self.__class__.__name__} does not have a corresponding omnibox command "
-        )
+    def to_commands(self) -> None:
+        raise AssertionError(f"{self.__class__.__name__} does not have a corresponding command ")
 
 
 class DoneAction(_BaseComputerAction):
     action_type: Literal[ActionType.DONE]
 
-    def to_omnibox_commands(self) -> None:
-        raise AssertionError(
-            f"{self.__class__.__name__} does not have a corresponding omnibox command "
-        )
+    def to_commands(self) -> None:
+        raise AssertionError(f"{self.__class__.__name__} does not have a corresponding command ")
 
 
 TerminalAction: TypeAlias = FailAction | DoneAction
@@ -134,21 +130,21 @@ class _SingleKeyAction(_BaseComputerAction):
 class PressAction(_SingleKeyAction):
     action_type: Literal[ActionType.PRESS]
 
-    def to_omnibox_commands(self) -> KeyPressCommand:
+    def to_commands(self) -> KeyPressCommand:
         return KeyPressCommand(key=self.key)
 
 
 class KeyDownAction(_SingleKeyAction):
     action_type: Literal[ActionType.KEY_DOWN]
 
-    def to_omnibox_commands(self) -> KeyDownCommand:
+    def to_commands(self) -> KeyDownCommand:
         return KeyDownCommand(key=self.key)
 
 
 class KeyUpAction(_SingleKeyAction):
     action_type: Literal[ActionType.KEY_UP]
 
-    def to_omnibox_commands(self) -> KeyUpCommand:
+    def to_commands(self) -> KeyUpCommand:
         return KeyUpCommand(key=self.key)
 
 
@@ -164,7 +160,7 @@ class HotkeyAction(_BaseComputerAction):
     action_type: Literal[ActionType.HOTKEY]
     keys: list[str]
 
-    def to_omnibox_commands(self) -> HotKeyCommand:
+    def to_commands(self) -> HotKeyCommand:
         return HotKeyCommand(keys=self.keys)
 
 
@@ -183,14 +179,14 @@ class _MouseAction(_BaseComputerAction):
 class MouseDownAction(_MouseAction):
     action_type: Literal[ActionType.MOUSE_DOWN]
 
-    def to_omnibox_commands(self) -> MouseDownCommand:
+    def to_commands(self) -> MouseDownCommand:
         return MouseDownCommand()
 
 
 class MouseUpAction(_MouseAction):
     action_type: Literal[ActionType.MOUSE_UP]
 
-    def to_omnibox_commands(self) -> MouseUpCommand:
+    def to_commands(self) -> MouseUpCommand:
         return MouseUpCommand()
 
 
@@ -209,7 +205,7 @@ class ClickAction(_MouseAction):
     button: MouseButtonType = MouseButtonType.LEFT
     num_clicks: int = Field(default=1, ge=1)
 
-    def to_omnibox_commands(self) -> MouseClickCommand:
+    def to_commands(self) -> MouseClickCommand:
         return MouseClickCommand(x=self.x, y=self.y, button=self.button, clickCount=self.num_clicks)
 
 

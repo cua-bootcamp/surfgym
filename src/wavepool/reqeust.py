@@ -5,14 +5,14 @@ from typing import Annotated, Literal, Union
 
 from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
 
-from src.wavepool.protocol.omnibox_command import OmniboxCommand
+from wavepool.instance.protocol.command import Command
 
 
 class _FrozenBaseModel(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
 
-class OmniboxOp(str, Enum):
+class InstanceOp(str, Enum):
     ALLOCATE = "allocate"
     RELEASE = "release"
     EXECUTE = "execute"
@@ -32,42 +32,42 @@ class InstanceRef(_FrozenBaseModel):
 
 
 class _BaseRequest(_FrozenBaseModel):
-    op: OmniboxOp
+    op: InstanceOp
 
 
 class AllocateRequest(_BaseRequest):
-    op: Literal[OmniboxOp.ALLOCATE] = OmniboxOp.ALLOCATE
+    op: Literal[InstanceOp.ALLOCATE] = InstanceOp.ALLOCATE
     lifetime_mins: int = Field(default=120, ge=1)
 
 
 class ReleaseRequest(_BaseRequest):
-    op: Literal[OmniboxOp.RELEASE] = OmniboxOp.RELEASE
+    op: Literal[InstanceOp.RELEASE] = InstanceOp.RELEASE
     instance: InstanceRef
 
 
 class ExecuteRequest(_BaseRequest):
-    op: Literal[OmniboxOp.EXECUTE] = OmniboxOp.EXECUTE
+    op: Literal[InstanceOp.EXECUTE] = InstanceOp.EXECUTE
     instance: InstanceRef
-    command: OmniboxCommand
+    command: Command
 
 
 class ScreenshotRequest(_BaseRequest):
-    op: Literal[OmniboxOp.SCREENSHOT] = OmniboxOp.SCREENSHOT
+    op: Literal[InstanceOp.SCREENSHOT] = InstanceOp.SCREENSHOT
     instance: InstanceRef
     interaction_mode: InteractionMode = InteractionMode.COORDINATE
 
 
 class MetadataRequest(_BaseRequest):
-    op: Literal[OmniboxOp.METADATA] = OmniboxOp.METADATA
+    op: Literal[InstanceOp.METADATA] = InstanceOp.METADATA
     instance: InstanceRef
 
 
 class ProbeRequest(_BaseRequest):
-    op: Literal[OmniboxOp.PROBE] = OmniboxOp.PROBE
+    op: Literal[InstanceOp.PROBE] = InstanceOp.PROBE
     instance: InstanceRef
 
 
-OmniboxRequest = Annotated[
+InstanceRequest = Annotated[
     Union[
         AllocateRequest,
         ReleaseRequest,
@@ -79,4 +79,4 @@ OmniboxRequest = Annotated[
     Field(discriminator="op"),
 ]
 
-OmniboxRequestAdapter = TypeAdapter(OmniboxRequest)
+InstanceRequestAdapter = TypeAdapter(InstanceRequest)

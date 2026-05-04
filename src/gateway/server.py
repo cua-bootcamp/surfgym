@@ -25,7 +25,7 @@ def launch(config: Config):
     gateway = Service(
         pool_workers=gc.pool_workers,
         task_store=task_store,
-        instance_config=config.omnibox_config,
+        instance_config=config.wavepool_config,
     )
     setup_logging(config.log_path)
 

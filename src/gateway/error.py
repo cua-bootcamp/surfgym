@@ -13,19 +13,15 @@ class SGRetryableError(Exception):
     pass
 
 
-class OmniboxBusyError(SGRetryableError):
+class InstanceBusyError(SGRetryableError):
     pass
 
 
-class OmniBoxTransportError(SGRetryableError):
+class InstanceTransportError(SGRetryableError):
     pass
 
 
 class HttpStackOperationTimeoutError(SGRetryableError):
-    pass
-
-
-class OmniboxInvalidScreenshotError(SGRetryableError):
     pass
 
 
