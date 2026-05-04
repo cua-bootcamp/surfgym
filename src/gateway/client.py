@@ -3,7 +3,7 @@ from typing import Any
 import requests
 
 from src.gateway.error import InstanceTransportError
-from wavepool.instance.protocol.command import Command
+from src.protocol.command import Command
 
 
 class _RequestsProxy:
@@ -24,7 +24,7 @@ _requests = _RequestsProxy()
 
 
 class MasterClient:
-    def __init__(self, host, port):
+    def __init__(self, host: str, port: int):
         self.host = host
         self.port = port
 
@@ -45,7 +45,7 @@ class MasterClient:
 
 
 class InstanceClient:
-    def __init__(self, host, port):
+    def __init__(self, host: str, port: int):
         self.host = host
         self.port = port
 

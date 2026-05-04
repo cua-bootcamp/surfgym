@@ -4,7 +4,11 @@ import copy
 import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterable, Mapping
+from typing import Any, Iterable, Mapping, TypeAlias, cast
+
+JSONScalar: TypeAlias = None | bool | int | float | str
+JSONValue: TypeAlias = JSONScalar | dict[str, "JSONValue"] | list["JSONValue"]
+JSONObject: TypeAlias = dict[str, JSONValue]
 
 
 @dataclass
@@ -58,7 +62,6 @@ class TaskStore:
 
 def row_to_task(row: Mapping[str, Any]) -> Task:
     task_data = dict(row)
-    # [TODO] KeyError handling needed
     return Task(
         instruction=task_data["task_name"],
         website=_normalize_website(task_data["website"]),
@@ -67,57 +70,56 @@ def row_to_task(row: Mapping[str, Any]) -> Task:
     )
 
 
-def _load_task_rows(path: Path) -> list[dict[str, Any]]:
+def _load_task_rows(path: Path) -> list[JSONObject]:
     if not path.exists():
         raise FileNotFoundError(path)
 
     suffix = path.suffix.lower()
     if suffix in {".json", ".jsonl", ".ndjson"}:
         return _load_json_rows(path)
-    # if suffix == ".csv":
-    #     return _load_pandas_rows(path, "csv")
-    # if suffix in {".parquet", ".pq"}:
-    #     return _load_pandas_rows(path, "parquet")
 
     raise ValueError(f"Unsupported task file type: {path.suffix}")
 
 
-def _load_json_rows(path: Path) -> list[dict[str, Any]]:
+def _parse_json_value(text: str) -> JSONValue:
+    return cast(JSONValue, json.loads(text))
+
+
+def _require_json_object(value: JSONValue, *, context: str) -> JSONObject:
+    if not isinstance(value, dict):
+        raise ValueError(f"Expected JSON object at {context}, got {type(value).__name__}")
+    return value
+
+
+def _load_json_rows(path: Path) -> list[JSONObject]:
     text = path.read_text(encoding="utf-8").strip()
     if not text:
         return []
 
     try:
-        data = json.loads(text)
+        data = _parse_json_value(text)
     except json.JSONDecodeError:
-        return [json.loads(line) for line in text.splitlines() if line.strip()]
+        return [
+            _require_json_object(_parse_json_value(line), context=f"{path}:{line_no}")
+            for line_no, line in enumerate(text.splitlines(), start=1)
+            if line.strip()
+        ]
 
     if isinstance(data, list):
-        return [dict(row) for row in data]
-    if isinstance(data, dict) and isinstance(data.get("tasks"), list):
-        return [dict(row) for row in data["tasks"]]
+        return [
+            _require_json_object(row, context=f"{path}[{index}]") for index, row in enumerate(data)
+        ]
+
     if isinstance(data, dict):
-        return [dict(data)]
+        tasks = data.get("tasks")
+        if isinstance(tasks, list):
+            return [
+                _require_json_object(row, context=f"{path}.tasks[{index}]")
+                for index, row in enumerate(tasks)
+            ]
+        return [data]
 
     raise ValueError(f"Unsupported JSON task payload in {path}")
-
-
-# def _load_pandas_rows(path: Path, file_type: str) -> list[dict[str, Any]]:
-#     try:
-#         import pandas as pd
-#     except ModuleNotFoundError as exc:
-#         raise ModuleNotFoundError(
-#             f"pandas is required to load {path.suffix} task files"
-#         ) from exc
-
-#     if file_type == "csv":
-#         frame = pd.read_csv(path)
-#     elif file_type == "parquet":
-#         frame = pd.read_parquet(path)
-#     else:
-#         raise ValueError(f"Unsupported pandas task file type: {file_type}")
-
-#     return frame.to_dict("records")
 
 
 def _normalize_website(website: Any) -> str:
@@ -133,6 +135,11 @@ def _extract_evaluation(task_data: Mapping[str, Any]) -> dict[str, Any] | list[A
         evaluation = task_data.get("rule_evaluation")
     if evaluation is None:
         evaluation = task_data.get("evaluator")
-    if isinstance(evaluation, (dict, list)):
-        return copy.deepcopy(evaluation)
+
+    if isinstance(evaluation, dict):
+        return copy.deepcopy(cast(dict[str, Any], evaluation))
+
+    if isinstance(evaluation, list):
+        return copy.deepcopy(cast(list[Any], evaluation))
+
     return None

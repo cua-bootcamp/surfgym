@@ -5,7 +5,7 @@ from typing import Annotated, Literal, Union
 
 from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
 
-from wavepool.instance.protocol.command import Command
+from src.protocol.command import Command
 
 
 class _FrozenBaseModel(BaseModel):
@@ -32,7 +32,7 @@ class InstanceRef(_FrozenBaseModel):
 
 
 class _BaseRequest(_FrozenBaseModel):
-    op: InstanceOp
+    pass
 
 
 class AllocateRequest(_BaseRequest):
@@ -79,4 +79,4 @@ InstanceRequest = Annotated[
     Field(discriminator="op"),
 ]
 
-InstanceRequestAdapter = TypeAdapter(InstanceRequest)
+InstanceRequestAdapter: TypeAdapter[InstanceRequest] = TypeAdapter(InstanceRequest)

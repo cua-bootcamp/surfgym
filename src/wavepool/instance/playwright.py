@@ -1,10 +1,13 @@
 from io import BytesIO
+from pathlib import Path
+from typing import Any, Dict, Optional, Tuple, Union, cast
 
 from playwright.async_api import Page, async_playwright
 from typing_extensions import assert_never
 
-from wavepool.instance.protocol.command import Command, CommandType
-from wavepool.instance.protocol.response import (
+from src.protocol.command import Command, CommandType, MouseButtonType
+from src.protocol.instance_to_gateway import (
+    InteractiveRegion,
     InteractiveTreeResponse,
     MousePosition,
     PageSnapshot,

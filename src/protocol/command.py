@@ -37,7 +37,6 @@ class CommandType(str, Enum):
 
 
 class _BaseCommand(BaseModel):
-    command: CommandType
     model_config = ConfigDict(frozen=True, extra="forbid")
 
 
@@ -153,4 +152,4 @@ Command = Annotated[
     Field(discriminator="command"),
 ]
 
-CommandAdapter = TypeAdapter(Command)
+CommandAdapter: TypeAdapter[Command] = TypeAdapter(Command)

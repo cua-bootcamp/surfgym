@@ -8,23 +8,22 @@ from typing import Annotated, Any
 import uvicorn
 from fastapi import Body, FastAPI
 from fastapi.responses import JSONResponse
-from pydantic import TypeAdapter, ValidationError
+from pydantic import ValidationError
 
-from wavepool.instance.playwright import PlaywrightInstance
-from wavepool.instance.protocol.command import Command
-from wavepool.instance.protocol.response import (
+from src.protocol.command import CommandAdapter
+from src.protocol.instance_to_gateway import (
     GetInstanceResponse,
     InstanceServerErrorType,
     ScreenshotResponse,
     StatusResponse,
     error_response,
 )
+from src.wavepool.instance.playwright import PlaywrightInstance
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--port", type=int, required=True)
 args = parser.parse_args()
 
-command_adapter = TypeAdapter(Command)
 instance = PlaywrightInstance()
 
 logger = logging.getLogger(__name__)
@@ -126,7 +125,7 @@ async def execute_instance(
         return invalid
 
     try:
-        command = command_adapter.validate_python(command_data)
+        command = CommandAdapter.validate_python(command_data)
     except ValidationError as exc:
         return error_response(
             InstanceServerErrorType.INVALID_COMMAND,

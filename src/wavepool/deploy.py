@@ -7,6 +7,7 @@ import threading
 import time
 from dataclasses import dataclass
 from pathlib import Path
+from types import FrameType
 
 import httpx
 from pydantic import ValidationError
@@ -70,7 +71,7 @@ class SurfGymSupervisor:
             thread.join(timeout=1.0)
 
     def _install_signal_handlers(self) -> None:
-        def _handle_signal(signum, _frame) -> None:
+        def _handle_signal(signum: int, _frame: FrameType | None) -> None:
             print(f"\n[surfgym-deploy] received signal {signum}, shutting down...", flush=True)
             self._shutdown.set()
 
@@ -116,7 +117,7 @@ class SurfGymSupervisor:
                 cmd=[
                     sys.executable,
                     "-m",
-                    "src.wavepool.instance_server",
+                    "src.wavepool.instance.server",
                     "--port",
                     str(port),
                 ],
@@ -129,7 +130,7 @@ class SurfGymSupervisor:
             cmd=[
                 sys.executable,
                 "-m",
-                "src.wavepool.master_server",
+                "src.wavepool.master.server",
                 "--master_host",
                 cfg.host,
                 "--master_port",

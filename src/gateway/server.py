@@ -9,11 +9,11 @@ from typing import Annotated
 from fastapi import Body, FastAPI
 
 from src.config import Config
-from src.gateway.protocol.request import Request
-from src.gateway.protocol.response import ErrorResponse, ErrorResponseType, Response
 from src.gateway.service import Service
 from src.gateway.task_store import TaskStore
 from src.log import file_logger, setup_logging
+from src.protocol.agent_to_gateway import Request
+from src.protocol.gateway_to_agent import ErrorResponse, ErrorResponseType, Response
 
 
 def launch(config: Config):
@@ -42,11 +42,9 @@ def launch(config: Config):
         lifespan=lifespan,
     )
 
-    @app.get("/health")
     async def health():
         return {"status": "ok"}
 
-    @app.post("/")
     async def handle_request(
         request: Annotated[Request, Body(discriminator="op")],
     ) -> Response:
@@ -80,4 +78,6 @@ def launch(config: Config):
         finally:
             in_flight.release()
 
+    app.add_api_route("/health", health, methods=["GET"])
+    app.add_api_route("/", handle_request, methods=["POST"])
     return app

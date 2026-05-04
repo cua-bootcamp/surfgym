@@ -1,11 +1,11 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import Annotated, Any, Literal, Optional, TypeAlias, Union
+from typing import Annotated, Any, Literal, TypeAlias, Union
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from wavepool.instance.protocol.command import (
+from src.protocol.command import (
     Command,
     DragToCommand,
     HotKeyCommand,
@@ -45,8 +45,6 @@ class ActionType(str, Enum):
 class _BaseComputerAction(BaseModel):
     model_config = ConfigDict(frozen=True)
 
-    action_type: ActionType
-
     @property
     def parameters(self) -> dict[str, Any]:
         return self.model_dump(exclude={"action_type"})
@@ -56,7 +54,7 @@ class _BaseComputerAction(BaseModel):
 
 
 class MoveToAction(_BaseComputerAction):
-    action_type: Literal[ActionType.MOVE_TO]
+    action_type: Literal[ActionType.MOVE_TO] = ActionType.MOVE_TO
     x: float
     y: float
 
@@ -105,14 +103,14 @@ class WaitAction(_BaseComputerAction):
 class FailAction(_BaseComputerAction):
     action_type: Literal[ActionType.FAIL]
 
-    def to_commands(self) -> None:
+    def to_commands(self):
         raise AssertionError(f"{self.__class__.__name__} does not have a corresponding command ")
 
 
 class DoneAction(_BaseComputerAction):
     action_type: Literal[ActionType.DONE]
 
-    def to_commands(self) -> None:
+    def to_commands(self):
         raise AssertionError(f"{self.__class__.__name__} does not have a corresponding command ")
 
 
@@ -198,27 +196,54 @@ MouseAction: TypeAlias = MouseDownAction | MouseUpAction
 ################
 
 
-class ClickAction(_MouseAction):
-    action_type: Literal[ActionType.CLICK]
-    x: Optional[int] = None
-    y: Optional[int] = None
+class _BaseClickAction(_BaseComputerAction):
+    x: int | None = None
+    y: int | None = None
+
+    def _to_click_command(
+        self,
+        *,
+        button: MouseButtonType,
+        click_count: int,
+    ) -> MouseClickCommand:
+        return MouseClickCommand(
+            x=self.x,
+            y=self.y,
+            button=button,
+            clickCount=click_count,
+        )
+
+
+class ClickAction(_BaseClickAction):
+    action_type: Literal[ActionType.CLICK] = ActionType.CLICK
     button: MouseButtonType = MouseButtonType.LEFT
     num_clicks: int = Field(default=1, ge=1)
 
     def to_commands(self) -> MouseClickCommand:
-        return MouseClickCommand(x=self.x, y=self.y, button=self.button, clickCount=self.num_clicks)
+        return self._to_click_command(
+            button=self.button,
+            click_count=self.num_clicks,
+        )
 
 
-class RightClickAction(ClickAction):
-    action_type: Literal[ActionType.RIGHT_CLICK]
-    button: Literal[MouseButtonType.RIGHT] = MouseButtonType.RIGHT
-    num_clicks: int = 1
+class RightClickAction(_BaseClickAction):
+    action_type: Literal[ActionType.RIGHT_CLICK] = ActionType.RIGHT_CLICK
+
+    def to_commands(self) -> MouseClickCommand:
+        return self._to_click_command(
+            button=MouseButtonType.RIGHT,
+            click_count=1,
+        )
 
 
-class DoubleClickAction(ClickAction):
-    action_type: Literal[ActionType.DOUBLE_CLICK]
-    button: Literal[MouseButtonType.LEFT] = MouseButtonType.LEFT
-    num_clicks: int = 2
+class DoubleClickAction(_BaseClickAction):
+    action_type: Literal[ActionType.DOUBLE_CLICK] = ActionType.DOUBLE_CLICK
+
+    def to_commands(self) -> MouseClickCommand:
+        return self._to_click_command(
+            button=MouseButtonType.LEFT,
+            click_count=2,
+        )
 
 
 Computer13 = Annotated[

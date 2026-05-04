@@ -8,11 +8,11 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 
-from wavepool.instance.protocol.response import GetInstanceResponse, StatusResponse
-from wavepool.master.protocol.response import (
+from src.protocol.instance_to_gateway import GetInstanceResponse, StatusResponse
+from src.protocol.master_to_gateway import (
     GetInstanceResponse as MasterGetInstanceResponse,
 )
-from wavepool.master.protocol.response import MasterServerErrorType, error_response
+from src.protocol.master_to_gateway import MasterServerErrorType, error_response
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--master_host", type=str)
@@ -29,9 +29,9 @@ class PortRegistry:
         self.instance_host = instance_host
 
         ports = [instance_start_port + i for i in range(instance_n)]
-        self.available_ports = set(ports)
-        self.broken_ports = set()
-        self.recovering_ports = set()
+        self.available_ports: set[int] = set(ports)
+        self.broken_ports: set[int] = set()
+        self.recovering_ports: set[int] = set()
 
         self.lock = asyncio.Lock()
 
@@ -43,18 +43,12 @@ class PortRegistry:
 
     async def allocate(self):
         async with self.lock:
-            if self.available_ports:
-                port = self.available_ports.pop()
-            else:
-                port = None
-                has_broken = bool(self.broken_ports)
+            port = self.available_ports.pop() if self.available_ports else None
 
-        if port is None and has_broken:
+        if port is None and self.broken_ports:
             await self._attempt_recover_batch()
-
             async with self.lock:
-                if self.available_ports:
-                    port = self.available_ports.pop()
+                port = self.available_ports.pop() if self.available_ports else None
 
         if port is None:
             return error_response(
@@ -234,7 +228,7 @@ async def health():
 # Currently doesn't support multi workers
 if __name__ == "__main__":
     uvicorn.run(
-        "src.wavepool.master_server:app",
+        "src.wavepool.master.server:app",
         host=args.master_host,
         port=args.master_port,
     )

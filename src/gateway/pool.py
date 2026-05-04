@@ -16,19 +16,19 @@ from src.gateway.error import (
     InstanceBusyError,
 )
 from src.gateway.service import Deadline
-from wavepool.instance.protocol.command import (
+from src.protocol.command import (
     Command,
     CommandPayload,
     InteractiveTreeCommand,
     NavigateCommand,
     SnapShotCommand,
 )
-from wavepool.instance.protocol.response import (
+from src.protocol.instance_to_gateway import (
     InteractiveTreeResponse,
     ScreenshotResponse,
     SnapshotResponse,
 )
-from wavepool.master.protocol.response import GetInstanceResponse
+from src.protocol.master_to_gateway import GetInstanceResponse
 
 _R = TypeVar("_R")
 _P = ParamSpec("_P")
@@ -108,10 +108,16 @@ class ProcessIsolator:
     #     os.setpgrp()
 
     @staticmethod
-    def _execute_wrapper(func, args, kwargs, func_name: str, hard_timeout: float):
+    def _execute_wrapper(
+        func: Callable[..., _R],
+        args: tuple[Any, ...],
+        kwargs: dict[str, Any],
+        func_name: str,
+        hard_timeout: float,
+    ) -> _R:
         worker_pid = os.getpid()
 
-        def timeout_handler(signum, frame):
+        def timeout_handler(signum: int, frame: object) -> None:
             os._exit(1)
 
         try:
@@ -265,14 +271,14 @@ def _master_client(host: str, port: int):
     return MasterClient(host=host, port=port)
 
 
-def allocate_instance(host, port):
+def allocate_instance(host: str, port: int):
     response = _master_client(host=host, port=port).get_instance()
     json_payload = _handle_response(response)
     payload = GetInstanceResponse.model_validate(json_payload)
     return (payload.instance_id, payload.instance_host, payload.instance_port)
 
 
-def release_instance(host, port, instance_id: str, instance_port: int):
+def release_instance(host: str, port: int, instance_id: str, instance_port: int):
     response = _master_client(host=host, port=port).reset(
         instance_id=instance_id, instance_port=instance_port
     )

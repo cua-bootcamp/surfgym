@@ -10,22 +10,23 @@ from typing_extensions import assert_never
 from src.config import WavepoolConfig
 from src.gateway.error import Deadline, DeadlineExceeded, SGRetryableError
 from src.gateway.pool import GatewayPool
-from src.gateway.protocol.computer13 import TerminalAction
-from src.gateway.protocol.request import (
-    ActionRequest,
-    Request,
-    RequestAdapter,
-    RewardRequest,
-    StartRequest,
-)
-from src.gateway.protocol.response import ActionResponse, ImagePayload, RewardResponse
 from src.gateway.rule_evaluator import (
     collect_selectors,
     evaluate_page_rules,
     uses_page_html,
 )
 from src.gateway.task_store import Task, TaskStore
-from wavepool.instance.protocol.response import InteractiveTreeResponse
+from src.protocol.agent_to_gateway import (
+    ActionRequest,
+    Request,
+    RequestAdapter,
+    RewardRequest,
+    StartRequest,
+)
+from src.protocol.command import Command
+from src.protocol.computer13 import TerminalAction
+from src.protocol.gateway_to_agent import ActionResponse, ImagePayload, RewardResponse
+from src.protocol.instance_to_gateway import InteractiveTreeResponse
 
 _T = TypeVar("_T")
 
@@ -61,16 +62,17 @@ class Service:
 
     def handle_request(self, request: Request, deadline_at: float):
         request = RequestAdapter.validate_python(request)
-
         deadline = Deadline(deadline_at)
-        if isinstance(request, StartRequest):
-            return self._handle_start(request, deadline)
-        if isinstance(request, ActionRequest):
-            return self._handle_action(request, deadline)
-        if isinstance(request, RewardRequest):
-            return self._handle_reward(request, deadline)
 
-        assert_never(request)
+        match request:
+            case StartRequest():
+                return self._handle_start(request, deadline)
+            case ActionRequest():
+                return self._handle_action(request, deadline)
+            case RewardRequest():
+                return self._handle_reward(request, deadline)
+            case _ as unreachable:
+                assert_never(unreachable)
 
     def _handle_start(self, request: StartRequest, deadline: Deadline) -> ActionResponse:
         if request.session_id in self.active_sessions:
@@ -148,7 +150,7 @@ class Service:
             func=lambda: self.pool.navigate(deadline, lease.instance_id, lease.port, url),
         )
 
-    def _execute_browser_command(self, deadline: Deadline, lease: Lease, command):
+    def _execute_browser_command(self, deadline: Deadline, lease: Lease, command: Command):
         return self._run_with_retry(
             context="_execute_browser_command",
             deadline=deadline,

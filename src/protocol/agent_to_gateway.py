@@ -2,7 +2,7 @@ from typing import Annotated, Literal, TypeAlias, Union
 
 from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
 
-from .computer13 import Computer13
+from src.protocol.computer13 import Computer13
 
 
 class _BaseRequest(BaseModel):
