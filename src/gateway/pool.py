@@ -16,13 +16,13 @@ from src.gateway.error import (
     OmniboxBusyError,
 )
 from src.gateway.service import Deadline
-from src.omnibox.protocol.instance_server_response import (
+from src.wavepool.protocol.instance_server_response import (
     InteractiveTreeResponse,
     ScreenshotResponse,
     SnapshotResponse,
 )
-from src.omnibox.protocol.master_server_response import GetInstanceResponse
-from src.omnibox.protocol.omnibox_command import (
+from src.wavepool.protocol.master_server_response import GetInstanceResponse
+from src.wavepool.protocol.omnibox_command import (
     InteractiveTreeCommand,
     NavigateCommand,
     OmniboxCommand,

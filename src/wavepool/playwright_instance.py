@@ -3,14 +3,14 @@ from io import BytesIO
 from playwright.async_api import Page, async_playwright
 from typing_extensions import assert_never
 
-from src.omnibox.playwright_controller import PlaywrightController
-from src.omnibox.protocol.instance_server_response import (
+from src.wavepool.playwright_controller import PlaywrightController
+from src.wavepool.protocol.instance_server_response import (
     InteractiveTreeResponse,
     MousePosition,
     PageSnapshot,
     SnapshotResponse,
 )
-from src.omnibox.protocol.omnibox_command import CommandType, OmniboxCommand
+from src.wavepool.protocol.omnibox_command import CommandType, OmniboxCommand
 
 
 class PlaywrightInstance:

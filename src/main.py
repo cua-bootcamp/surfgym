@@ -5,7 +5,7 @@ import uvicorn
 from pydantic import ValidationError
 
 from src.config import Config
-from src.gateway.error import ConfigError, WebGymRLError
+from src.gateway.error import ConfigError, SGError
 from src.gateway.server import launch
 from src.log import runtime_logger
 
@@ -51,7 +51,7 @@ def main() -> None:
         uvicorn.run(
             launch(config), host=config.gateway_config.host, port=config.gateway_config.port
         )
-    except WebGymRLError as exc:
+    except SGError as exc:
         runtime_logger.error(exc)
         raise SystemExit(1)
     except Exception as exc:

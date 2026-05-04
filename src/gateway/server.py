@@ -22,7 +22,7 @@ def launch(config: Config):
     executor = ThreadPoolExecutor(max_workers=gc.gateway_workers)
     in_flight = asyncio.Semaphore(gc.gateway_in_flight)
     task_store = TaskStore.from_file(config.task_file_path)
-    webgym = Service(
+    gateway = Service(
         pool_workers=gc.pool_workers,
         task_store=task_store,
         instance_config=config.omnibox_config,
@@ -32,10 +32,10 @@ def launch(config: Config):
     @asynccontextmanager
     async def lifespan(app: FastAPI):
         try:
-            webgym.open()
+            gateway.open()
             yield
         finally:
-            webgym.close()
+            gateway.close()
             executor.shutdown(wait=True, cancel_futures=True)
 
     app = FastAPI(
@@ -68,7 +68,7 @@ def launch(config: Config):
             loop = asyncio.get_running_loop()
             gateway_deadline = request_started_at + (gc.verl_timeout - gc.deadline_margin)
             return await loop.run_in_executor(
-                executor, webgym.handle_request, request, gateway_deadline
+                executor, gateway.handle_request, request, gateway_deadline
             )
         except Exception:
             file_logger.exception("Failed while handling %s", request)

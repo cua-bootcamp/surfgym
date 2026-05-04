@@ -5,7 +5,7 @@ from typing import Annotated, Any, Literal, Optional, TypeAlias, Union
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from src.omnibox.protocol.omnibox_command import (
+from src.wavepool.protocol.omnibox_command import (
     DragToCommand,
     HotKeyCommand,
     KeyboardTypeCommand,

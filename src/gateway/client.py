@@ -3,7 +3,7 @@ from typing import Any
 import requests
 
 from src.gateway.error import OmniBoxTransportError
-from src.omnibox.protocol.omnibox_command import OmniboxCommand
+from src.wavepool.protocol.omnibox_command import OmniboxCommand
 
 
 class _RequestsProxy:

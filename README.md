@@ -1,13 +1,13 @@
-# webgym-rl
+# SurfGym
 
-A web-based reinforcement learning environment for CUA.
+A web-based reinforcement learning environment for CUA that supports multibrowser requring tasks.
 
 <br/>
 
 ## Setup
 
 
-### 1. Clone the repository
+### 1. Clone this repository
 
 ```bash
 git clone https://github.com/cua-bootcamp/surfgym
@@ -26,6 +26,15 @@ pip install -U pip uv
 uv pip install -r requirements.txt
 ```
 
+The commands below install system-level dependencies and are not tied to the Conda environment.
+
+```bash
+playwright install chromium
+
+# Linux only
+playwright install-deps chromium
+```
+
 <br/>
 
 ## Run
@@ -37,11 +46,11 @@ You can configure both servers by editing `config.json`.
 There is no need to modify `setting.sh`.
 
 ```bash
-bash omnibox_launch.bash
+bash wavepool_launch.bash
 ```
 
 ```bash
-bash webgym_rl_launch.bash
+bash gateway_launch.bash
 ```
 
 <br/>
@@ -56,9 +65,9 @@ bash health_check.bash
 
 ## Testing
 
-### Manual E2E Test
+### Manual Action Test
 
-You can manually test tasks using the command below.
+You can test a single task based on manually written action sequence.
 
 ```bash
 bash tests/manual_test.sh
@@ -77,11 +86,11 @@ Before running the test, make sure to check the following settings in `tests/set
 # User-defined settings
 # Modify only the values below for testing.
 # 
-# * Use the appropriate WEBGYM_RL_CONFIG for the target test
+# * Use the appropriate SURFGYM_CONFIG for the target test
 # * Make sure to set WITH_FIXTURE_WEBSITE=true when using fixture websites
 # =============================================================================================
 
-readonly WEBGYM_RL_CONFIG="$FIXTURE_DIR/CHANGE_HERE"
+readonly SURFGYM_CONFIG="$FIXTURE_DIR/config/config-single.json"
 
 readonly WITH_FIXTURE_WEBSITE=true
 readonly FIXTURE_WEBSITE_PORT=8123
@@ -109,3 +118,8 @@ ACTIONS: list[list[dict[str, Any]]] = [
     ]
 ]
 ```
+
+## TODO
+
+- [ ] Key 관련 (에러에 어떻게 반응)
+- [ ] Multi Browser

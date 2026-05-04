@@ -3,8 +3,8 @@ from typing import Any, Dict, Optional, Tuple, Union, cast
 
 from playwright.async_api import Page
 
-from src.omnibox.protocol.instance_server_response import InteractiveRegion
-from src.omnibox.protocol.omnibox_command import MouseButtonType
+from src.wavepool.protocol.instance_server_response import InteractiveRegion
+from src.wavepool.protocol.omnibox_command import MouseButtonType
 
 # # Some of the Code for clicking coordinates and keypresses adapted from https://github.com/openai/openai-cua-sample-app/blob/main/computers/base_playwright.py
 # # Copyright 2025 OpenAI - MIT License

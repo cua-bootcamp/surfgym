@@ -16,7 +16,7 @@ class Task:
 
 
 class TaskStore:
-    """Preloaded lookup table for WebGym tasks rows keyed by dataset task_id."""
+    """Preloaded lookup table for Surfgym tasks."""
 
     def __init__(self, tasks_by_id: Mapping[str, Task]) -> None:
         self._tasks_by_id = dict(tasks_by_id)

@@ -1,31 +1,31 @@
 import time
 
 
-class WebGymRLError(Exception):
+class SGError(Exception):
     pass
 
 
-class ConfigError(WebGymRLError):
+class ConfigError(SGError):
     pass
 
 
-class WebGymEnvRetryableError(Exception):
+class SGRetryableError(Exception):
     pass
 
 
-class OmniboxBusyError(WebGymEnvRetryableError):
+class OmniboxBusyError(SGRetryableError):
     pass
 
 
-class OmniBoxTransportError(WebGymEnvRetryableError):
+class OmniBoxTransportError(SGRetryableError):
     pass
 
 
-class HttpStackOperationTimeoutError(WebGymEnvRetryableError):
+class HttpStackOperationTimeoutError(SGRetryableError):
     pass
 
 
-class OmniboxInvalidScreenshotError(WebGymEnvRetryableError):
+class OmniboxInvalidScreenshotError(SGRetryableError):
     pass
 
 

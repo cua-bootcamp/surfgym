@@ -5,7 +5,7 @@ from typing import Annotated, Literal, Union
 
 from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
 
-from src.omnibox.protocol.omnibox_command import OmniboxCommand
+from src.wavepool.protocol.omnibox_command import OmniboxCommand
 
 
 class _FrozenBaseModel(BaseModel):

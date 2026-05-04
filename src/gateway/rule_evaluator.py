@@ -4,7 +4,7 @@ import re
 from dataclasses import dataclass
 from typing import Any, Mapping
 
-from src.omnibox.protocol.instance_server_response import (
+from src.wavepool.protocol.instance_server_response import (
     ElementSnapshot,
     PageSnapshot,
 )

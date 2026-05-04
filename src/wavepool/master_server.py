@@ -8,11 +8,11 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 
-from src.omnibox.protocol.instance_server_response import GetInstanceResponse, StatusResponse
-from src.omnibox.protocol.master_server_response import (
+from src.wavepool.protocol.instance_server_response import GetInstanceResponse, StatusResponse
+from src.wavepool.protocol.master_server_response import (
     GetInstanceResponse as MasterGetInstanceResponse,
 )
-from src.omnibox.protocol.master_server_response import MasterServerErrorType, error_response
+from src.wavepool.protocol.master_server_response import MasterServerErrorType, error_response
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--master_host", type=str)
@@ -234,7 +234,7 @@ async def health():
 # Currently doesn't support multi workers
 if __name__ == "__main__":
     uvicorn.run(
-        "src.omnibox.master_server:app",
+        "src.wavepool.master_server:app",
         host=args.master_host,
         port=args.master_port,
     )

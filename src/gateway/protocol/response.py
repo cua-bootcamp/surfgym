@@ -44,7 +44,7 @@ class ErrorResponseType(str, Enum):
 
 ERROR_MESSAGES: dict[ErrorResponseType, str] = {
     ErrorResponseType.GATEWAY_BUSY: "Timed out waiting for gateway in-flight capacity.",
-    ErrorResponseType.FAIL_REQUEST_HANDLE: "WEBGYM-RL failed to handle request.",
+    ErrorResponseType.FAIL_REQUEST_HANDLE: "Failed to handle request.",
     ErrorResponseType.NO_OPERATION_BUDGET: "No operation budget remains after gateway admission.",
 }
 

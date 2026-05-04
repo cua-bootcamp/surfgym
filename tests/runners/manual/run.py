@@ -39,8 +39,8 @@ ACTIONS: list[list[dict[str, Any]]] = [
     [
         {
             "action_type": "CLICK",
-            "x": 696,
-            "y": 475,
+            "x": 1016,
+            "y": 631,
         },
     ],
     [

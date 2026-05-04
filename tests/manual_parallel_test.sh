@@ -72,12 +72,12 @@ logstep() {
 
 trap cleanup EXIT INT TERM
 
-logstep "#1 launching webgym-rl server"
+logstep "#1 launching gateway server"
 (
   cd "$ROOT_DIR" || exit 1
   printf 'Executing "python -m src.main %s"\n\n' \
-    "$WEBGYM_RL_CONFIG"
-  exec python -m src.main "$WEBGYM_RL_CONFIG"
+    "$SURFGYM_CONFIG"
+  exec python -m src.main "$SURFGYM_CONFIG"
 ) &
 PIDS+=("$!")
 wait_for_http \
@@ -87,9 +87,9 @@ wait_for_http \
 logstep "#2 launching omnibox"
 (
   cd "$ROOT_DIR" || exit 1
-  printf 'Executing "python -m src.omnibox.deploy %s"\n\n' \
-    "$WEBGYM_RL_CONFIG"
-  exec python -m src.omnibox.deploy "$WEBGYM_RL_CONFIG"
+  printf 'Executing "python -m src.wavepool.deploy %s"\n\n' \
+    "$SURFGYM_CONFIG"
+  exec python -m src.wavepool.deploy "$SURFGYM_CONFIG"
 ) &
 PIDS+=("$!")
 
@@ -119,5 +119,5 @@ fi
 logstep "#4 manual_parallel"
 (
   cd "$ROOT_DIR"
-  python -m tests.runners.manual_parallel.run --config-path "$WEBGYM_RL_CONFIG"
+  python -m tests.runners.manual_parallel.run --config-path "$SURFGYM_CONFIG"
 )

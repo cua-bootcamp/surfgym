@@ -8,7 +8,7 @@ from PIL import Image, ImageDraw
 from typing_extensions import assert_never
 
 from src.config import InstanceConfig
-from src.gateway.error import Deadline, DeadlineExceeded, WebGymEnvRetryableError
+from src.gateway.error import Deadline, DeadlineExceeded, SGRetryableError
 from src.gateway.pool import GatewayPool
 from src.gateway.protocol.computer13 import TerminalAction
 from src.gateway.protocol.request import (
@@ -25,7 +25,7 @@ from src.gateway.rule_evaluator import (
     uses_page_html,
 )
 from src.gateway.task_store import Task, TaskStore
-from src.omnibox.protocol.instance_server_response import InteractiveTreeResponse
+from src.wavepool.protocol.instance_server_response import InteractiveTreeResponse
 
 _T = TypeVar("_T")
 
@@ -234,7 +234,7 @@ class Service:
             try:
                 return func()
             except Exception as exc:
-                if not isinstance(exc, WebGymEnvRetryableError):
+                if not isinstance(exc, SGRetryableError):
                     raise
 
                 sleep_for = min(next(backoffs), max(0.0, deadline.remaining()))

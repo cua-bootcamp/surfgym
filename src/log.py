@@ -7,7 +7,7 @@ from rich.logging import RichHandler
 
 
 def _setup_runtime_logger() -> logging.Logger:
-    logger = logging.getLogger("webgym-rl.runtime")
+    logger = logging.getLogger("surfgym.runtime")
     logger.propagate = False
 
     if logger.handlers:
@@ -29,7 +29,7 @@ def _setup_file_logger(
         return
 
     run_id = datetime.now().strftime("%Y%m%d-%H%M%S")
-    log_file_path = log_path / run_id / "webgym-rl.log"
+    log_file_path = log_path / run_id / "surfgyml.log"
     log_file_path.parent.mkdir(parents=True, exist_ok=True)
 
     file_handler = RotatingFileHandler(

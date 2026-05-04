@@ -116,7 +116,7 @@ class OmniboxSupervisor:
                 cmd=[
                     sys.executable,
                     "-m",
-                    "src.omnibox.instance_server",
+                    "src.wavepool.instance_server",
                     "--port",
                     str(port),
                 ],
@@ -129,7 +129,7 @@ class OmniboxSupervisor:
             cmd=[
                 sys.executable,
                 "-m",
-                "src.omnibox.master_server",
+                "src.wavepool.master_server",
                 "--master_host",
                 cfg.host,
                 "--master_port",

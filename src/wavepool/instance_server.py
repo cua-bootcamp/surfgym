@@ -10,15 +10,15 @@ from fastapi import Body, FastAPI
 from fastapi.responses import JSONResponse
 from pydantic import TypeAdapter, ValidationError
 
-from src.omnibox.playwright_instance import PlaywrightInstance
-from src.omnibox.protocol.instance_server_response import (
+from src.wavepool.playwright_instance import PlaywrightInstance
+from src.wavepool.protocol.instance_server_response import (
     GetInstanceResponse,
     InstanceServerErrorType,
     ScreenshotResponse,
     StatusResponse,
     error_response,
 )
-from src.omnibox.protocol.omnibox_command import OmniboxCommand
+from src.wavepool.protocol.omnibox_command import OmniboxCommand
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--port", type=int, required=True)
