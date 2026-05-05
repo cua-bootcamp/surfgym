@@ -8,6 +8,29 @@ A web-based reinforcement learning environment for CUA that supports multibrowse
 <img src="figures/architecture.png" alt="architecture" width="600">
 </div>
 
+<br/>
+
+## Table of Contents
+
+<!--TOC-->
+
+- [Setup](#setup)
+  - [1. Clone this repository](#1-clone-this-repository)
+  - [2. Set up environment](#2-set-up-environment)
+- [Run](#run)
+  - [Launch Server](#launch-server)
+  - [Defining Tasks](#defining-tasks)
+    - [Single Browser Task](#single-browser-task)
+    - [Multi Browser Task](#multi-browser-task)
+- [Testing](#testing)
+  - [Manual Action Test](#manual-action-test)
+
+<!--TOC-->
+<!--TOC-->
+<!-- md_toc --in-place github --header-levels 4 README.md -->
+
+<!--TOC-->
+
 
 <br/>
 
@@ -46,6 +69,8 @@ playwright install-deps chromium
 
 ## Run
 
+### Launch Server
+
 To start the server, you need to run 1. Gateway and 2. WavePool  Server.
 For easier log monitoring, we recommend running them in separate terminal sessions.
 
@@ -67,6 +92,8 @@ Check if the servers are properly launched using `health_check.bash`
 ```bash
 bash scripts/health_check.bash
 ```
+
+<br/>
 
 ### Defining Tasks
 
@@ -106,19 +133,16 @@ A single browser task opens one website and evaluates the final browser state wi
 `rule` defines one or more checks against the final browser state. A single rule object or a list of rule objects can be provided.
 
 
-- `selector` is a CSS selector for element-level checks. This field is **omittable** for page-level checks such as `url` or `title`.
+| Field | Description | Allowed values | Omittable | Default |
+| --- | --- | --- | :---: | --- |
+| `selector` | CSS selector for element-level checks. Omit it for page-level checks such as `url` or `title`. | Any valid CSS selector | O |  |
+| `target` | Defines what to check. | `text`, `html`, `url`, `title`, `attr` | O | `text` |
+| `attr` | Attribute name to inspect when `target` is `attr`, for example `value`. | Any attribute name | O |  |
+| `value` | Expected value. | String |  |  |
+| `match` | Controls how `value` is matched. | `contains`, `exact`, `regex` | O | `contains` |
+| `normalize_space` | Controls whether whitespace is collapsed before matching. | `true`, `false` | O | `false` |
+| `case_sensitive` | Controls whether matching is case-sensitive. | `true`, `false` | O | `false` |
 
-- `target` defines what to check. Use `text`, `html`, `url`, `title`, or `attr`. It is **omittable** and defaults to `text`.
-
-- `attr` is the attribute name to inspect when `target` is `attr`, for example `value`. It is **omittable** for non-attribute checks.
-
-- `value` is the expected value.
-
-- `match` controls how `value` is matched. Use `contains`, `exact`, or `regex`. It is **omittable** and defaults to `contains`.
-
-- `normalize_space` controls whether whitespace is collapsed before matching. It is **omittable** and defaults to `false`.
-
-- `case_sensitive` controls whether matching is case-sensitive. It is **omittable** and defaults to `false`.
 
 
 
@@ -141,6 +165,8 @@ A single browser task opens one website and evaluates the final browser state wi
   "match": "contains"
 }
 ```
+
+<br/>
 
 #### Multi Browser Task
 
