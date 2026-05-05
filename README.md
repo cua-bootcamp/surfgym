@@ -26,10 +26,8 @@ A web-based reinforcement learning environment for CUA that supports multibrowse
   - [Manual Action Test](#manual-action-test)
 
 <!--TOC-->
-<!--TOC-->
-<!-- md_toc --in-place github --header-levels 4 README.md -->
 
-<!--TOC-->
+<!-- md_toc --in-place github --header-levels 4 README.md -->
 
 
 <br/>
@@ -141,7 +139,7 @@ A single browser task opens one website and evaluates the final browser state wi
 | `value` | Expected value. | String |  |  |
 | `match` | Controls how `value` is matched. | `contains`, `exact`, `regex` | O | `contains` |
 | `normalize_space` | Controls whether whitespace is collapsed before matching. | `true`, `false` | O | `false` |
-| `case_sensitive` | Controls whether matching is case-sensitive. | `true`, `false` | O | `false` |
+| `case_sensitive` | Controls whether matching is case-sensitive. | `true`, `false` | O | `true` |
 
 
 

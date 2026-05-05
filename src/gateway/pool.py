@@ -15,6 +15,7 @@ from src.gateway.error import (
     HttpStackOperationTimeoutError,
     InstanceBusyError,
 )
+from src.gateway.rule_evaluator import ObservationRequest
 from src.gateway.service import Deadline
 from src.protocol.command import (
     Command,
@@ -97,15 +98,6 @@ class ProcessIsolator:
 
         pool.terminate()
         pool.join()
-
-    # @staticmethod
-    # def _worker_init() -> None:
-    #     def signal_handler(signum, frame):
-    #         os._exit(1)
-
-    #     signal.signal(signal.SIGTERM, signal_handler)
-    #     signal.signal(signal.SIGINT, signal_handler)
-    #     os.setpgrp()
 
     @staticmethod
     def _execute_wrapper(
@@ -235,14 +227,13 @@ class GatewayPool:
         deadline: Deadline,
         instance_id: str,
         instance_port: int,
-        selectors: list[str],
-        include_html: bool,
+        observation_request: list[ObservationRequest],
     ) -> SnapshotResponse:
         return self.execute_browser_command(
             deadline,
             instance_id,
             instance_port,
-            SnapShotCommand(selectors=selectors, include_html=include_html),
+            SnapShotCommand(rules=observation_request),
         )
 
     def get_interactive_tree(

@@ -11,9 +11,9 @@ from src.config import WavepoolConfig
 from src.gateway.error import Deadline, DeadlineExceeded, SGRetryableError
 from src.gateway.pool import GatewayPool
 from src.gateway.rule_evaluator import (
-    collect_selectors,
+    ObservationRequest,
+    collect_observation_requests,
     evaluate_page_rules,
-    uses_page_html,
 )
 from src.gateway.task_store import Task, TaskStore
 from src.protocol.agent_to_gateway import (
@@ -82,9 +82,10 @@ class Service:
             raise RuntimeError(f"Session {request.session_id} already exists")
 
         task = self.task_store.get(request.task_id)
+        website = task.website[0]
 
         lease = self._allocate(deadline)
-        self._navigate(deadline, lease, task.website)
+        self._navigate(deadline, lease, website.url)
         (screenshot_b64, media_type) = self._screenshot(deadline, lease)
         text = self._interactive_tree(deadline, lease) if request.include_a11y else None
 
@@ -172,18 +173,13 @@ class Service:
         return draw_cursor_on_screenshot(screenshot_b64, int(x), int(y)), media_type
 
     def _snapshot(
-        self,
-        *,
-        deadline: Deadline,
-        lease: Lease,
-        selectors: list[str],
-        include_html: bool,
+        self, *, deadline: Deadline, lease: Lease, observation_request: list[ObservationRequest]
     ):
         return self._run_with_retry(
             context="_snapshot",
             deadline=deadline,
             func=lambda: self.pool.get_snapshot(
-                deadline, lease.instance_id, lease.port, selectors, include_html
+                deadline, lease.instance_id, lease.port, observation_request
             ),
         )
 
@@ -198,29 +194,13 @@ class Service:
         )
 
     def _evaluate(self, task: Task, lease: Lease, deadline: Deadline) -> float:
-        if task.evaluation is None:
-            print(f"Rule evaluation for task {task.task_id}: reward=0.0 (no rules)")
-            return 0.0
-
-        try:
-            selectors = collect_selectors(task.evaluation)
-            snapshot = self._snapshot(
-                deadline=deadline,
-                lease=lease,
-                selectors=selectors,
-                include_html=uses_page_html(task.evaluation),
-            )
-            result = evaluate_page_rules(task.evaluation, snapshot.snapshot)
-            print(
-                f"Rule evaluation for task {task.task_id}: "
-                f"reward={result.reward} ({result.summary()})"
-            )
-            return result.reward
-        except DeadlineExceeded:
-            raise
-        except Exception as exc:
-            print(f"Rule evaluation for task {task.task_id} failed: {exc}")
-            return 0.0
+        snapshot = self._snapshot(
+            deadline=deadline,
+            lease=lease,
+            observation_request=collect_observation_requests(task.evaluation),
+        )
+        result = evaluate_page_rules(task.evaluation, snapshot.snapshot)
+        return result.reward
 
     def _release(self, lease: Lease):
         release_deadline = Deadline(time.monotonic() + self.RELEASE_TIMEOUT_SEC)

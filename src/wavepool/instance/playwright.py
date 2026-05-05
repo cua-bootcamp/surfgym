@@ -5,12 +5,12 @@ from typing import Any, Dict, Optional, Tuple, Union, cast
 from playwright.async_api import Page, async_playwright
 from typing_extensions import assert_never
 
+from src.gateway.rule_evaluator import ObservationRequest
 from src.protocol.command import Command, CommandType, MouseButtonType
 from src.protocol.instance_to_gateway import (
     InteractiveRegion,
     InteractiveTreeResponse,
     MousePosition,
-    PageSnapshot,
     SnapshotResponse,
 )
 
@@ -161,82 +161,95 @@ class PlaywrightController:
     async def get_page_snapshot(
         self,
         page: Page,
-        selectors: list[str] | None = None,
-        include_html: bool = False,
-    ) -> Dict[str, Any]:
+        rules: list[ObservationRequest],
+    ) -> dict[int, str]:
         await self._ensure_page_ready(page)
-        return cast(
-            Dict[str, Any],
+
+        observation_requests = [rule.model_dump(mode="json") for rule in rules]
+
+        raw_observations = cast(
+            dict[str, str],
             await page.evaluate(
-                """({ selectors, includeHtml }) => {
-                    const selectorList = Array.isArray(selectors) ? selectors : [];
-
-                    function isVisible(el) {
-                        const style = window.getComputedStyle(el);
-                        const rect = el.getBoundingClientRect();
-                        const hasBox =
-                            rect.width > 0 ||
-                            rect.height > 0 ||
-                            el.getClientRects().length > 0;
-                        return hasBox &&
-                            style.display !== "none" &&
-                            style.visibility !== "hidden" &&
-                            style.opacity !== "0";
+                """(rules) => {
+                    function readText(element) {
+                        return element.innerText || element.textContent || "";
                     }
 
-                    function attributesFor(el) {
-                        const attrs = {};
-                        for (const attr of Array.from(el.attributes || [])) {
-                            attrs[attr.name] = attr.value;
+                    function readAttr(element, attr) {
+                        if (!attr) {
+                            return "";
                         }
-                        return attrs;
+
+                        if (attr in element) {
+                            const value = element[attr];
+                            return value === undefined || value === null ? "" : String(value);
+                        }
+
+                        return element.getAttribute(attr) || "";
                     }
 
-                    function elementSnapshot(el) {
-                        return {
-                            tagName: (el.tagName || "").toLowerCase(),
-                            text: el.innerText || el.textContent || "",
-                            textContent: el.textContent || "",
-                            html: el.outerHTML || "",
-                            visible: isVisible(el),
-                            attributes: attributesFor(el),
-                            value: "value" in el ? String(el.value) : "",
-                            checked: "checked" in el ? Boolean(el.checked) : false,
-                        };
-                    }
+                    function readFromElement(rule) {
+                        if (!rule.selector) {
+                            return "";
+                        }
 
-                    const elements = {};
-                    const selectorErrors = {};
-                    for (const selector of selectorList) {
+                        let element = null;
                         try {
-                            elements[selector] = Array.from(document.querySelectorAll(selector))
-                                .slice(0, 100)
-                                .map(elementSnapshot);
-                        } catch (error) {
-                            selectorErrors[selector] = String(
-                                error && error.message ? error.message : error
-                            );
-                            elements[selector] = [];
+                            element = document.querySelector(rule.selector);
+                        } catch {
+                            return "";
                         }
+
+                        if (!element) {
+                            return "";
+                        }
+
+                        if (rule.target === "text") {
+                            return readText(element);
+                        }
+                        if (rule.target === "html") {
+                            return element.outerHTML || "";
+                        }
+                        if (rule.target === "attr") {
+                            return readAttr(element, rule.attr);
+                        }
+
+                        return "";
                     }
 
-                    return {
-                        url: window.location.href,
-                        title: document.title || "",
-                        text: document.body ? document.body.innerText || "" : "",
-                        html: includeHtml && document.documentElement
-                            ? document.documentElement.outerHTML || ""
-                            : "",
-                        elements,
-                        selector_errors: selectorErrors,
-                    };
+                    function readFromPage(rule) {
+                        if (rule.target === "url") {
+                            return window.location.href;
+                        }
+                        if (rule.target === "title") {
+                            return document.title || "";
+                        }
+                        if (rule.target === "text") {
+                            return document.body ? document.body.innerText || "" : "";
+                        }
+                        if (rule.target === "html") {
+                            return document.documentElement
+                                ? document.documentElement.outerHTML || ""
+                                : "";
+                        }
+
+                        return "";
+                    }
+
+                    const observations = {};
+                    for (const rule of rules) {
+                        observations[rule.id] = rule.selector
+                            ? readFromElement(rule)
+                            : readFromPage(rule);
+                    }
+
+                    return observations;
                 }""",
-                {
-                    "selectors": selectors or [],
-                    "includeHtml": include_html,
-                },
+                observation_requests,
             ),
         )
+
+        return {int(rule_id): value for rule_id, value in raw_observations.items()}
 
 
 class PlaywrightInstance:
@@ -362,10 +375,9 @@ class PlaywrightInstance:
             case CommandType.SNAPSHOT:
                 snapshot = await self.controller.get_page_snapshot(
                     self.page,
-                    command.selectors,
-                    command.include_html,
+                    command.rules,
                 )
-                return SnapshotResponse(snapshot=PageSnapshot.model_validate(snapshot))
+                return SnapshotResponse(snapshot=snapshot)
 
             case CommandType.INTERACTIVE_TREE:
                 rects = await self.controller.get_interactive_rects(self.page)

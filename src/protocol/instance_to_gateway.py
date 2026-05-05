@@ -4,7 +4,7 @@ from enum import Enum
 
 from fastapi import status
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 
 
 class _FrozenBaseModel(BaseModel):
@@ -40,7 +40,7 @@ class ScreenshotResponse(_FrozenBaseModel):
 
 
 class SnapshotResponse(_FrozenBaseModel):
-    snapshot: PageSnapshot
+    snapshot: dict[int, str]
 
 
 class InteractiveTreeResponse(_FrozenBaseModel):
@@ -87,23 +87,3 @@ class InteractiveRegion(_FrozenBaseModel):
     aria_name: str
     v_scrollable: bool
     rects: list[DOMRectangle]
-
-
-class ElementSnapshot(_FrozenBaseModel):
-    tag_name: str = Field(alias="tagName")
-    text: str
-    text_content: str = Field(alias="textContent")
-    html: str
-    visible: bool
-    attributes: dict[str, str]
-    value: str
-    checked: bool
-
-
-class PageSnapshot(_FrozenBaseModel):
-    url: str
-    title: str
-    text: str
-    html: str
-    elements: dict[str, list[ElementSnapshot]]
-    selector_errors: dict[str, str]

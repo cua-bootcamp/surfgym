@@ -3,6 +3,8 @@ from typing import Annotated, Literal, Optional, TypeAlias, Union
 
 from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
 
+from src.gateway.rule_evaluator import ObservationRequest
+
 ###################
 # Action Commands #
 ###################
@@ -111,8 +113,7 @@ class HotKeyCommand(_BaseCommand):
 
 class SnapShotCommand(_BaseCommand):
     command: Literal[CommandType.SNAPSHOT] = CommandType.SNAPSHOT
-    selectors: list[str]
-    include_html: bool
+    rules: list[ObservationRequest]
 
 
 class NavigateCommand(_BaseCommand):
