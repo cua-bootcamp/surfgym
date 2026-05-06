@@ -13,6 +13,65 @@
     }
   },
   {
+  "task_id": "action",
+  "instruction": "Complete every interaction on the Action Lab page: click, double click, right click, drag, scroll to the hidden button, and type action-lab.",
+  "website": "http://127.0.0.1:8123/action.html",
+  "evaluation": {
+    "operator": "and",
+    "rules": [
+      {
+        "selector": "#click-status",
+        "target": "attr",
+        "attr": "data-done",
+        "value": "true",
+        "match": "exact"
+      },
+      {
+        "selector": "#double-click-status",
+        "target": "attr",
+        "attr": "data-done",
+        "value": "true",
+        "match": "exact"
+      },
+      {
+        "selector": "#right-click-status",
+        "target": "attr",
+        "attr": "data-done",
+        "value": "true",
+        "match": "exact"
+      },
+      {
+        "selector": "#drag-status",
+        "target": "attr",
+        "attr": "data-done",
+        "value": "true",
+        "match": "exact"
+      },
+      {
+        "selector": "#scroll-status",
+        "target": "attr",
+        "attr": "data-done",
+        "value": "true",
+        "match": "exact"
+      },
+      {
+        "selector": "#typing-status",
+        "target": "attr",
+        "attr": "data-done",
+        "value": "true",
+        "match": "exact"
+      },
+      {
+        "selector": "#all-status",
+        "target": "attr",
+        "attr": "data-done",
+        "value": "true",
+        "match": "exact"
+      }
+    ]
+  }
+},
+  {
     "task_id": "copy_left_to_right",
     "instruction": "Copy the exact text from the left browser into the answer field in the right browser.",
     "website": [

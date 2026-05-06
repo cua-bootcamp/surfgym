@@ -196,6 +196,14 @@ var MultimodalWebSurfer = MultimodalWebSurfer || (function() {
         return getInteractiveElements();
     };
 
+
+    let isPointInViewport = function (x, y) {
+        const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+        const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+        return x >= 0 && y >= 0 && x < viewportWidth && y < viewportHeight;
+    };
+
     /**
      * Checks if an element is the topmost element at given coordinates
      * @param {Element} element - Element to check
@@ -204,11 +212,13 @@ var MultimodalWebSurfer = MultimodalWebSurfer || (function() {
      * @returns {boolean} True if element is topmost at coordinates
      */
     let isTopmost = function (element, x, y) {
-        let hit = document.elementFromPoint(x, y);
+        if (!isPointInViewport(x, y)) {
+            return false;
+        }
 
-        // Hack to handle elements outside the viewport
+        let hit = document.elementFromPoint(x, y);
         if (hit === null) {
-            return true;
+            return false;
         }
 
         while (hit) {
@@ -324,6 +334,21 @@ var MultimodalWebSurfer = MultimodalWebSurfer || (function() {
         }
     };
 
+    let isRectInViewport = function (rect) {
+        const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+        const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+        return (
+            rect.width > 0 &&
+            rect.height > 0 &&
+            rect.right > 0 &&
+            rect.bottom > 0 &&
+            rect.left < viewportWidth &&
+            rect.top < viewportHeight
+        );
+    };
+
+
     /**
      * Gets information about all interactive elements including their:
      * - Position and dimensions
@@ -378,8 +403,13 @@ var MultimodalWebSurfer = MultimodalWebSurfer || (function() {
 
             if (rects.length > 0) {
                 for (const rect of rects) {
+                    if (!isRectInViewport(rect)) {
+                        continue;
+                    }
+
                     let x = rect.left + rect.width / 2;
                     let y = rect.top + rect.height / 2;
+
                     if (isTopmost(elements[i], x, y)) {
                         record["rects"].push(JSON.parse(JSON.stringify(rect)));
                     }
@@ -389,7 +419,10 @@ var MultimodalWebSurfer = MultimodalWebSurfer || (function() {
                 record["rects"].push(JSON.parse(JSON.stringify(rects)));
             }
 
-            results[key] = record;
+            if (record["rects"].length > 0) {
+                results[key] = record;
+            }
+
         }
         return results;
     };

@@ -10,7 +10,7 @@ A web-based reinforcement learning environment for CUA that supports multibrowse
 
 <br/>
 
-## Table of Contents
+**Table of Contents**
 
 <!--TOC-->
 
@@ -24,10 +24,16 @@ A web-based reinforcement learning environment for CUA that supports multibrowse
     - [Multi Browser Task](#multi-browser-task)
 - [Testing](#testing)
   - [Manual Action Test](#manual-action-test)
+  - [Parrallel Manual Action Test](#parrallel-manual-action-test)
+- [Examples](#examples-1)
+  - [Counter](#counter)
+  - [Action](#action)
+  - [Copy left to right](#copy-left-to-right)
 
 <!--TOC-->
 
-<!-- md_toc --in-place github --header-levels 4 README.md -->
+<!-- md_toc -s 1 --in-place github --header-levels 4 README.md -->
+
 
 
 <br/>
@@ -98,6 +104,8 @@ bash scripts/health_check.bash
 ### Defining Tasks
 
 Tasks are defined in a JSON file as a list of task objects. There are two type of task objecs : `Single` and `Multi`.
+
+<br/>
 
 
 #### Single Browser Task
@@ -228,7 +236,97 @@ ACTIONS: list[list[dict[str, Any]]] = [
 ]
 ```
 
-## TODO
+<br>
 
-- [ ] Key 관련 (에러에 어떻게 반응)
-- [ ] Multi Browser
+### Parrallel Manual Action Test
+
+<br>
+
+## Examples
+
+We provide several examples to check the features on the manual action test. Check the task definition and websites in `tests/fixtures`.
+
+<br/>
+
+### Counter
+
+
+<div align="center">
+<img src="figures/counter.png" alt="architecture" width="600">
+<img src="figures/counter-success.png" alt="architecture" width="600">
+</div>
+
+```python
+TASK_ID = "counter"
+ACTIONS: list[list[dict[str, Any]]] = [
+    [
+        {
+            "action_type": "CLICK",
+            "x": 1016,
+            "y": 631,
+        },
+    ],
+    [
+        {"action_type": "CLICK", "num_clicks": 4},
+    ]
+```
+
+<br>
+
+### Action
+
+<div align="center">
+<img src="figures/action.png" alt="architecture" width="600">
+<img src="figures/action-success.png" alt="architecture" width="600">
+</div>
+
+```python
+TASK_ID = "action"
+ACTIONS: list[list[dict[str, Any]]] = [
+    [{"action_type": "CLICK", "x": 537, "y": 193}],
+    [{"action_type": "DOUBLE_CLICK", "x": 1063, "y": 193}],
+    [{"action_type": "RIGHT_CLICK", "x": 559, "y": 393}],
+    [{"action_type": "CLICK", "x": 1209, "y": 393}],
+    [{"action_type": "TYPING", "text": "action-lab"}],
+    [{"action_type": "MOVE_TO", "x": 543, "y": 604}],
+    [{"action_type": "DRAG_TO", "x": 800, "y": 710}],
+    [{"action_type": "MOVE_TO", "x": 1200, "y": 700}],
+    [{"action_type": "SCROLL", "dx": 0, "dy": 700}],
+    [{"action_type": "CLICK", "x": 1067, "y": 715}],
+]
+```
+
+<br>
+
+### Copy left to right
+
+<div align="center">
+<img src="figures/copy_left_to_right.png" alt="architecture" width="600">
+<img src="figures/copy_left_to_right-success.png" alt="architecture" width="600">
+</div>
+
+```python
+TASK_ID = "copy_left_to_right"
+ACTIONS: list[list[dict[str, Any]]] = [
+    [
+        {
+            "action_type": "CLICK",
+            "x": 245,
+            "y": 622,
+        },
+    ],
+    [
+        {
+            "action_type": "CLICK",
+            "x": 1440,
+            "y": 561,
+        },
+    ],
+    [
+        {
+            "action_type": "HOTKEY",
+            "keys": ["ControlOrMeta", "v"],
+        },
+    ],
+]
+```
