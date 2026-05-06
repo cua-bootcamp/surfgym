@@ -1,6 +1,9 @@
 # SurfGym
 
-A web-based reinforcement learning environment for CUA that supports multibrowser requring tasks.
+**SurfGym** is a web-based rollout environment for computer-use agents (CUA). It provides a Gateway API based on the Computer13 action space for manipulating web browsers, evaluates task outcomes with rule-based reward functions, and includes a Playwright-powered browser backend that supports single- and multi-browser tasks.
+
+
+
 
 <br/>
 
@@ -10,49 +13,39 @@ A web-based reinforcement learning environment for CUA that supports multibrowse
 
 <br/>
 
-**Table of Contents**
+## Table of Contents
 
 <!--TOC-->
 
-- [Setup](#setup)
-  - [1. Clone this repository](#1-clone-this-repository)
-  - [2. Set up environment](#2-set-up-environment)
-- [Run](#run)
-  - [Launch Server](#launch-server)
-  - [Defining Tasks](#defining-tasks)
-    - [Single Browser Task](#single-browser-task)
-    - [Multi Browser Task](#multi-browser-task)
+- [Getting Started](#getting-started)
+  - [1. Set up the environment](#1-set-up-the-environment)
+  - [2. Start the servers](#2-start-the-servers)
+- [Server Configuration](#server-configuration)
+- [Defining Tasks](#defining-tasks)
+  - [Single-Browser Task](#single-browser-task)
+  - [Multi Browser Task](#multi-browser-task)
 - [Testing](#testing)
   - [Manual Action Test](#manual-action-test)
   - [Parrallel Manual Action Test](#parrallel-manual-action-test)
-- [Examples](#examples-1)
+- [Examples](#examples)
   - [Counter](#counter)
   - [Action](#action)
-  - [Copy left to right](#copy-left-to-right)
+  - [Copy Left to Right](#copy-left-to-right)
 
 <!--TOC-->
 
-<!-- md_toc -s 1 --in-place github --header-levels 4 README.md -->
-
-
+<!-- md_toc -s 1 --in-place github --header-levels 3 README.md -->
 
 <br/>
 
-## Setup
+## Getting Started
 
-
-### 1. Clone this repository
+### 1. Set up the environment
 
 ```bash
 git clone https://github.com/cua-bootcamp/surfgym
 cd surfgym
-```
 
-<br/>
-
-### 2. Set up environment
-
-```bash
 conda create -n surfgym python=3.10 -y
 conda activate surfgym
 
@@ -62,38 +55,41 @@ uv pip install -r requirements.txt
 
 <br/>
 
-The commands below install dependencies that are **not tied** to the Conda environment.
+Install Playwright's Chromium runtime and any required system dependencies:
 
 ```bash
 playwright install chromium
 
 # Linux only
-playwright install-deps chromium
+playwright install-deps chromiu
+
 ```
 
 <br/>
 
-## Run
+### 2. Start the servers
 
-### Launch Server
+SurfGym runs two server components: the **Gateway server** and the **WavePool server**. For easier monitoring, we recommend running them in separate terminal sessions.
 
-To start the server, you need to run 1. Gateway and 2. WavePool  Server.
-For easier log monitoring, we recommend running them in separate terminal sessions.
+Both servers can be configured through `scripts/config.json`. See [Server Configuration](#server-configuration) for details. You **do not** need to modify `scripts/setting.sh`.
 
-You can configure both servers by editing `config.json`.
-There is no need to modify `setting.sh`.
+
+<br>
+
+Start the WavePool server:
 
 ```bash
 bash scripts/wavepool_launch.bash
 ```
 
+Start the Gateway server:
 ```bash
 bash scripts/gateway_launch.bash
 ```
 
 <br/>
 
-Check if the servers are properly launched using `health_check.bash`
+Check that both servers are running:
 
 ```bash
 bash scripts/health_check.bash
@@ -101,16 +97,21 @@ bash scripts/health_check.bash
 
 <br/>
 
-### Defining Tasks
+## Server Configuration
 
-Tasks are defined in a JSON file as a list of task objects. There are two type of task objecs : `Single` and `Multi`.
+TODO 😭
 
 <br/>
 
+## Defining Tasks
 
-#### Single Browser Task
+Tasks are defined as a JSON list of task objects. SurfGym supports both **single-browser** and **multi-browser** tasks.
 
-A single browser task opens one website and evaluates the final browser state with one evaluation block.
+<br/>
+
+### Single-Browser Task
+
+A single-browser task uses a single URL string in the `website` field.
 
 ```json
 {
@@ -119,7 +120,7 @@ A single browser task opens one website and evaluates the final browser state wi
   "website": "http://127.0.0.1:8123/counter.html",
   "evaluation": {
     "operator": "and",
-    "rule": {
+    "rules": {
       "selector": "#count",
       "target": "text",
       "value": "5",
@@ -129,32 +130,29 @@ A single browser task opens one website and evaluates the final browser state wi
 }
 ```
 
-<br>
-
-`evaulation` defines how each task will be rewarded.
-
-- `operator` controls how multiple rules are combined. `and` is for all rules pass and `or` is for at least one pass. It is **omittable** and `and` is default.
-
 
 <br>
 
-`rule` defines one or more checks against the final browser state. A single rule object or a list of rule objects can be provided.
+`evaluation` defines how the final browser state is converted into a reward.
+
+- `operator` controls how multiple rules are combined. Use `and` when all rules must pass, or `or` when at least one rule must pass. This field is *optional* and defaults to `and`.
+- `rules` defines one or more checks against the final browser state. It can be either a single rule object or a list of rule objects.
 
 
-| Field | Description | Allowed values | Omittable | Default |
-| --- | --- | --- | :---: | --- |
-| `selector` | CSS selector for element-level checks. Omit it for page-level checks such as `url` or `title`. | Any valid CSS selector | O |  |
-| `target` | Defines what to check. | `text`, `html`, `url`, `title`, `attr` | O | `text` |
-| `attr` | Attribute name to inspect when `target` is `attr`, for example `value`. | Any attribute name | O |  |
-| `value` | Expected value. | String |  |  |
-| `match` | Controls how `value` is matched. | `contains`, `exact`, `regex` | O | `contains` |
-| `normalize_space` | Controls whether whitespace is collapsed before matching. | `true`, `false` | O | `false` |
-| `case_sensitive` | Controls whether matching is case-sensitive. | `true`, `false` | O | `true` |
+    | Field | Description | Allowed values | Optional | Default |
+    | --- | --- | --- | :---: | --- |
+    | `selector` | CSS selector for element-level checks. Omit it for page-level checks such as `url` or `title`. | Any valid CSS selector | O |  |
+    | `target` | Defines what to check. | `text`, `html`, `url`, `title`, `attr` | O | `text` |
+    | `attr` | Attribute name to inspect when `target` is `attr`, for example `value`. | Any attribute name | O |  |
+    | `value` | Expected value. | String |  |  |
+    | `match` | Controls how `value` is matched. | `contains`, `exact`, `regex` | O | `contains` |
+    | `normalize_space` | Controls whether whitespace is collapsed before matching. | `true`, `false` | O | `false` |
+    | `case_sensitive` | Controls whether matching is case-sensitive. | `true`, `false` | O | `true` |
 
 
+<br/>
 
-
-##### Examples:
+**Examples**
 
 ```json
 {
@@ -176,7 +174,61 @@ A single browser task opens one website and evaluates the final browser state wi
 
 <br/>
 
-#### Multi Browser Task
+### Multi Browser Task
+
+A multi-browser task opens multiple websites in the same rollout. Each website is assigned an `id`, and each evaluation rule should include `website_id` to specify which browser state should be checked.
+
+```json
+{
+  "task_id": "copy_left_to_right",
+  "instruction": "Copy the exact text from the left browser into the answer field in the right browser.",
+  "website": [
+    {
+      "id": "left",
+      "url": "http://127.0.0.1:8123/copy_source.html"
+    },
+    {
+      "id": "right",
+      "url": "http://127.0.0.1:8123/copy_target.html"
+    }
+  ],
+  "evaluation": {
+    "operator": "and",
+    "rules": [
+      {
+        "website_id": "right",
+        "selector": "#answer",
+        "target": "attr",
+        "attr": "value",
+        "value": "SURFGYM-MULTI-BROWSER-7429",
+        "match": "exact"
+      }
+    ]
+  }
+}
+```
+
+In this example, the reward is computed from the right browser only. The other evaluation fields follow the same rules described in the single-browser task section.
+
+<br/>
+
+**SurfGym** currently supports up to four websites in a single task. Websites are opened in the order they appear in the website list and arranged as shown below.
+
+```text
+* Single-Browser Task     * Double-Browser Task
+# +-----+-----+           # +-----+-----+
+# |           |           # |     |     |
+# |     1     |           # |  1  |  2  |
+# |           |           # |     |     |
+# +-----+-----+           # +-----+-----+
+
+* Triple-Browser Task     * Quadruple-Browser Task
+# +-----+-----+           # +-----+-----+
+# |     |  2  |           # |  1  |  2  |
+# |  1  +-----+           # +-----+-----+
+# |     |  3  |           # |  3  |  4  |
+# +-----+-----+           # +-----+-----+
+```
 
 <br/>
 
@@ -184,7 +236,7 @@ A single browser task opens one website and evaluates the final browser state wi
 
 ### Manual Action Test
 
-You can test a single task based on manually written action sequence.
+You can test a single task with a manually written action sequence.
 
 ```bash
 bash tests/manual_test.sh
@@ -192,7 +244,7 @@ bash tests/manual_test.sh
 
 <br/>
 
-Before running the test, make sure to check the following settings in `tests/setting.sh` and `tests/runners/manual/run.py`.
+Before running the test, review the user-defined values in `tests/setting.sh` and `tests/runners/manual/run.py`.
 
 <br/>
 
@@ -222,7 +274,7 @@ readonly FIXTURE_WEBSITE_PORT=8123
 # User-defined settings
 # Modify only the values below for testing.
 # ============================================================
-TASK_ID = "form"
+TASK_ID = "counter"
 ACTIONS: list[list[dict[str, Any]]] = [
     [
         {
@@ -240,21 +292,27 @@ ACTIONS: list[list[dict[str, Any]]] = [
 
 ### Parrallel Manual Action Test
 
+TODO 😭
+
 <br>
 
 ## Examples
 
-We provide several examples to check the features on the manual action test. Check the task definition and websites in `tests/fixtures`.
+The following examples show action sequences that can be used with the manual action test. Each example targets one fixture task and should receive a `1.0` reward when executed successfully.
 
 <br/>
 
 ### Counter
 
+This example tests basic mouse clicking. The agent clicks the counter button once with explicit coordinates, then clicks the same position four more times by reusing the current cursor position.
+
 
 <div align="center">
-<img src="figures/counter.png" alt="architecture" width="600">
-<img src="figures/counter-success.png" alt="architecture" width="600">
+  <img src="figures/counter.png" alt="counter task initial state" width="49%">
+  <img src="figures/counter-success.png" alt="counter task success state" width="49%">
 </div>
+
+<br/>
 
 ```python
 TASK_ID = "counter"
@@ -268,17 +326,22 @@ ACTIONS: list[list[dict[str, Any]]] = [
     ],
     [
         {"action_type": "CLICK", "num_clicks": 4},
-    ]
+    ],
+]
 ```
 
 <br>
 
 ### Action
 
+This example covers the main Computer13 browser actions supported by SurfGym, including click, double click, right click, typing, mouse movement, drag, scroll, and clicking an element after scrolling.
+
 <div align="center">
-<img src="figures/action.png" alt="architecture" width="600">
-<img src="figures/action-success.png" alt="architecture" width="600">
+<img src="figures/action.png" alt="action task initial state" width="49%">
+<img src="figures/action-success.png" alt="action task success state" width="49%">
 </div>
+
+<br/>
 
 ```python
 TASK_ID = "action"
@@ -298,12 +361,17 @@ ACTIONS: list[list[dict[str, Any]]] = [
 
 <br>
 
-### Copy left to right
+### Copy Left to Right
+
+This example tests a multi-browser rollout. The agent clicks the source text in the left browser, moves to the input field in the right browser, and pastes the copied value.
+
 
 <div align="center">
-<img src="figures/copy_left_to_right.png" alt="architecture" width="600">
-<img src="figures/copy_left_to_right-success.png" alt="architecture" width="600">
+<img src="figures/copy_left_to_right.png" alt="copy left to right task initial state" width="49%">
+<img src="figures/copy_left_to_right-success.png" alt="copy left to right task success state" width="49%">
 </div>
+
+<br/>
 
 ```python
 TASK_ID = "copy_left_to_right"

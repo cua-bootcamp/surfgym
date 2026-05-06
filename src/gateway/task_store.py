@@ -84,7 +84,7 @@ class TaskStore:
     """Preloaded lookup table for Surfgym tasks."""
 
     def __init__(self, tasks: list[Task]) -> None:
-        self._tasks_by_id = {task.task_id: task for task in tasks}
+        self._tasks_by_id: dict[str, Task] = {task.task_id: task for task in tasks}
 
     @classmethod
     def from_file(cls, path: str | Path) -> "TaskStore":
@@ -106,8 +106,8 @@ class TaskStore:
     def __len__(self) -> int:
         return len(self._tasks_by_id)
 
-    def ids(self) -> tuple[str, ...]:
-        return tuple(self._tasks_by_id.keys())
+    def values(self):
+        return self._tasks_by_id.values()
 
 
 def _load_task_rows(path: Path) -> list[Task]:
