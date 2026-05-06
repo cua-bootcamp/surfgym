@@ -3,7 +3,9 @@ from typing import Any
 import requests
 
 from src.gateway.error import InstanceTransportError
+from src.gateway.task_store import Website
 from src.protocol.command import Command
+from src.protocol.gateway_to_instance import GetInstanceRequest
 
 
 class _RequestsProxy:
@@ -31,11 +33,9 @@ class MasterClient:
     def _get_base_url(self):
         return f"http://{self.host}:{self.port}"
 
-    def get_instance(self):
-        url = f"{self._get_base_url()}/get"
-        return _requests.post(
-            url,
-        )
+    def get_instance(self, websites: list[Website]):
+        request = GetInstanceRequest(websites=websites)
+        return _requests.post(f"{self._get_base_url()}/get", json=request.model_dump(mode="json"))
 
     def reset(self, instance_id: str, instance_port: int):
         return _requests.post(

@@ -34,17 +34,27 @@ from .runner import Runner
 #     [{"action_type": "SCROLL", "dx": 0, "dy": 900}],
 # ]
 
-TASK_ID = "counter"
+TASK_ID = "copy_left_to_right"
 ACTIONS: list[list[dict[str, Any]]] = [
     [
         {
             "action_type": "CLICK",
-            "x": 1016,
-            "y": 631,
+            "x": 245,
+            "y": 622,
         },
     ],
     [
-        {"action_type": "CLICK", "num_clicks": 4},
+        {
+            "action_type": "CLICK",
+            "x": 1440,
+            "y": 561,
+        },
+    ],
+    [
+        {
+            "action_type": "HOTKEY",
+            "keys": ["ControlOrMeta", "v"],
+        },
     ],
 ]
 

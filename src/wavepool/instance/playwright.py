@@ -1,11 +1,14 @@
+from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
-from typing import Any, Dict, Optional, Tuple, Union, cast
+from typing import Any, Dict, Union, cast
 
+from PIL import Image
 from playwright.async_api import Page, async_playwright
 from typing_extensions import assert_never
 
 from src.gateway.rule_evaluator import ObservationRequest
+from src.gateway.task_store import Website
 from src.protocol.command import Command, CommandType, MouseButtonType
 from src.protocol.instance_to_gateway import (
     InteractiveRegion,
@@ -15,36 +18,38 @@ from src.protocol.instance_to_gateway import (
 )
 
 
+@dataclass(frozen=True)
+class PageLayout:
+    x: int
+    y: int
+    width: int
+    height: int
+
+
+@dataclass(frozen=True)
+class ScreenCursor:
+    x: float
+    y: float
+
+
+@dataclass(frozen=True)
+class PageCursor:
+    x: float
+    y: float
+
+
 class PlaywrightController:
     def __init__(
         self,
-        veiwport_width: int,
-        vewport_height: int,
     ) -> None:
-        self.viewport_width = veiwport_width
-        self.viewport_height = vewport_height
-
-        self.pointer_position: Tuple[float, float] = (0.0, 0.0)
+        self.cursor: PageCursor = PageCursor(0, 0)
 
         script_path = Path(__file__).parent / "_page_script.js"
         with open(script_path, "rt") as fh:
             self.page_script = fh.read()
 
-    def _set_pointer_position(self, x: float, y: float) -> None:
-        self.pointer_position = (float(x), float(y))
-
-    def _resolve_coords(
-        self,
-        x: float | None,
-        y: float | None,
-    ) -> tuple[float, float]:
-        if x is None or y is None:
-            return self.pointer_position
-        return x, y
-
-    async def on_new_page(self, page: Page):
-        await page.set_viewport_size({"width": self.viewport_width, "height": self.viewport_height})
-        # await self.sleep(page, 0.2)
+    async def on_new_page(self, page: Page, layout: PageLayout):
+        await page.set_viewport_size({"width": layout.width, "height": layout.height})
         await page.add_init_script(script=self.page_script)
         await page.wait_for_load_state(timeout=30000)
 
@@ -94,22 +99,20 @@ class PlaywrightController:
     async def click_coords(
         self,
         page: Page,
-        x: Optional[float],
-        y: Optional[float],
+        cursor: PageCursor,
         button: MouseButtonType,
         click_count: int,
     ):
         await self._ensure_page_ready(page)
+        await page.mouse.click(
+            cursor.x, cursor.y, delay=10, button=button.value, click_count=click_count
+        )
+        self.cursor = cursor
 
-        x, y = self._resolve_coords(x, y)
-        await page.mouse.click(x, y, delay=10, button=button.value, click_count=click_count)
-
-        self._set_pointer_position(x, y)
-
-    async def hover_coords(self, page: Page, x: float, y: float):
+    async def hover_coords(self, page: Page, cursor: PageCursor):
         await self._ensure_page_ready(page)
-        await page.mouse.move(x, y)
-        self._set_pointer_position(x, y)
+        await page.mouse.move(cursor.x, cursor.y)
+        self.cursor = cursor
 
     async def scroll_pointer(self, page: Page, dx: float, dy: float):
         await self._ensure_page_ready(page)
@@ -125,12 +128,12 @@ class PlaywrightController:
         await page.mouse.up()
         self._mouse_button_down = False
 
-    async def drag_to(self, page: Page, x: float, y: float):
+    async def drag_to(self, page: Page, cursor: PageCursor):
         await self._ensure_page_ready(page)
         await page.mouse.down()
-        await page.mouse.move(x, y, steps=20)
+        await page.mouse.move(cursor.x, cursor.y, steps=20)
         await page.mouse.up()
-        self._set_pointer_position(x, y)
+        self.cursor = cursor
 
     async def keyboard_type(self, page: Page, text: str):
         await self._ensure_page_ready(page)
@@ -263,17 +266,17 @@ class PlaywrightInstance:
 
         self.viewport_width = viewport_width
         self.viewport_height = viewport_height
+        self.active_page_id: str | None = None
 
-        self.page: Page | None = None
+        self.pages: dict[str, Page] = {}
+        self.page_layouts: dict[str, PageLayout] = {}
         self.context = None
         self.browser = None
         self.p = None
 
-        self.controller = PlaywrightController(
-            veiwport_width=self.viewport_width, vewport_height=self.viewport_height
-        )
+        self.controller = PlaywrightController()
 
-    async def create(self, id: str) -> None:
+    async def create(self, id: str, websites: list[Website]) -> None:
         self.id = id
 
         self.p = await async_playwright().start()
@@ -281,12 +284,27 @@ class PlaywrightInstance:
         self.context = await self.browser.new_context(
             viewport={"width": self.viewport_width, "height": self.viewport_height}
         )
-        self.page = await self.context.new_page()
-        await self.controller.on_new_page(self.page)
+
+        layouts = build_page_layouts(
+            page_count=len(websites),
+            total_width=self.viewport_width,
+            total_height=self.viewport_height,
+        )
+
+        for website, layout in zip(websites, layouts):
+            page = await self.context.new_page()
+            await self.controller.on_new_page(page, layout)
+            await self.controller.visit_page(page, website.url)
+
+            self.pages[website.id] = page
+            self.page_layouts[website.id] = layout
+            if self.active_page_id is None:
+                self.active_page_id = website.id
 
     async def delete(self) -> None:
-        if self.page:
-            await self.page.close()
+        for page in self.pages.values():
+            if not page.is_closed():
+                await page.close()
         if self.context:
             await self.context.close()
         if self.browser:
@@ -295,14 +313,18 @@ class PlaywrightInstance:
             await self.p.stop()
 
         self.id = None
-        self.page = None
         self.context = None
         self.browser = None
         self.p = None
 
+        self.pages = {}
+        self.page_layouts = {}
+        self.active_page_id = None
+        self.controller.cursor = PageCursor(0, 0)
+
     async def idle(self) -> bool:
         states = {
-            "page": self.page is None,
+            "page": not self.pages,
             "context": self.context is None,
             "browser": self.browser is None,
             "playwright": self.p is None,
@@ -318,77 +340,229 @@ class PlaywrightInstance:
         raise RuntimeError(f"Inconsistent PlaywrightInstance state: {states}")
 
     async def screenshot(self) -> tuple[BytesIO, float, float]:
-        if self.page is None:
-            raise RuntimeError("[FATAL] page is none")
+        canvas = Image.new(
+            "RGB",
+            (self.viewport_width, self.viewport_height),
+            color=(255, 255, 255),
+        )
 
-        screenshot_bytes = await self.controller.get_screenshot(self.page)
-        mouse_x, mouse_y = self.controller.pointer_position
-        return BytesIO(screenshot_bytes), mouse_x, mouse_y
+        for website_id, page in self.pages.items():
+            layout = self.page_layouts[website_id]
+
+            screenshot_bytes = await self.controller.get_screenshot(page)
+            page_image = Image.open(BytesIO(screenshot_bytes)).convert("RGB")
+
+            canvas.paste(page_image, (layout.x, layout.y))
+
+        output = BytesIO()
+        canvas.save(output, format="PNG")
+        output.seek(0)
+
+        screen_cursor = self._page_to_screen_cursor()
+        return output, screen_cursor.x, screen_cursor.y
 
     async def execute(self, command: Command):
-        if self.page is None:
-            raise RuntimeError("[FATAL] page is none")
+        if self.active_page_id is None:
+            raise RuntimeError("active_page_id should be initialized at this time")
+        page = self.pages[self.active_page_id]
 
         match command.command:
             case CommandType.NAVIGATE:
-                return await self.controller.visit_page(self.page, command.url)
+                raise ValueError("Deprecated")
 
             case CommandType.MOUSE_MOVE:
-                return await self.controller.hover_coords(self.page, command.x, command.y)
+                page_cursor = self._screen_to_page_cursor(command.x, command.y)
+                page = self.pages[self.active_page_id]
+                return await self.controller.hover_coords(page, page_cursor)
 
             case CommandType.MOUSE_CLICK:
+                page_cursor = self._screen_to_page_cursor(command.x, command.y)
+                page = self.pages[self.active_page_id]
                 return await self.controller.click_coords(
-                    self.page,
-                    command.x,
-                    command.y,
+                    page,
+                    page_cursor,
                     command.button,
                     click_count=command.clickCount,
                 )
 
             case CommandType.MOUSE_DOWN:
-                return await self.controller.mouse_down(self.page)
+                return await self.controller.mouse_down(page)
 
             case CommandType.MOUSE_UP:
-                return await self.controller.mouse_up(self.page)
+                return await self.controller.mouse_up(page)
 
             case CommandType.MOUSE_WHEEL:
-                return await self.controller.scroll_pointer(self.page, command.dx, command.dy)
+                return await self.controller.scroll_pointer(page, command.dx, command.dy)
 
             case CommandType.DRAG_TO:
-                return await self.controller.drag_to(self.page, command.x, command.y)
+                page_cursor = self._screen_to_page_cursor(command.x, command.y)
+                page = self.pages[self.active_page_id]
+                return await self.controller.drag_to(page, page_cursor)
 
             case CommandType.KEYBOARD_TYPE:
-                return await self.controller.keyboard_type(self.page, command.text)
+                return await self.controller.keyboard_type(page, command.text)
 
             case CommandType.KEY_DOWN:
-                return await self.controller.key_down(self.page, command.key)
+                return await self.controller.key_down(page, command.key)
 
             case CommandType.KEY_UP:
-                return await self.controller.key_up(self.page, command.key)
+                return await self.controller.key_up(page, command.key)
 
             case CommandType.KEY_PRESS:
-                return await self.controller.key_press(self.page, command.key)
+                return await self.controller.key_press(page, command.key)
 
             case CommandType.HOT_KEY:
-                return await self.controller.hotkey_press(self.page, command.keys)
+                return await self.controller.hotkey_press(page, command.keys)
 
             case CommandType.SNAPSHOT:
-                snapshot = await self.controller.get_page_snapshot(
-                    self.page,
-                    command.rules,
-                )
-                return SnapshotResponse(snapshot=snapshot)
+                return await self._get_snapshot(command.rules)
 
             case CommandType.INTERACTIVE_TREE:
-                rects = await self.controller.get_interactive_rects(self.page)
-                mouse_x, mouse_y = self.controller.pointer_position
-                return InteractiveTreeResponse(
-                    mouse_position=MousePosition(x=int(mouse_x), y=int(mouse_y)),
-                    regions=rects,
-                )
+                return await self._get_interactive_tree()
 
             case CommandType.SLEEP:
-                await self.controller.sleep(self.page, command.duration_ms)
+                await self.controller.sleep(page, command.duration_ms)
 
             case _ as unreachable:
                 assert_never(unreachable)
+
+    def _offset_region(self, region: InteractiveRegion, layout: PageLayout) -> InteractiveRegion:
+        rects = [
+            rect.model_copy(
+                update={
+                    "x": rect.x + layout.x,
+                    "y": rect.y + layout.y,
+                    "top": rect.top + layout.y,
+                    "right": rect.right + layout.x,
+                    "bottom": rect.bottom + layout.y,
+                    "left": rect.left + layout.x,
+                }
+            )
+            for rect in region.rects
+        ]
+
+        return region.model_copy(update={"rects": rects})
+
+    async def _get_interactive_tree(self) -> InteractiveTreeResponse:
+        regions: dict[str, InteractiveRegion] = {}
+
+        for website_id, page in self.pages.items():
+            layout = self.page_layouts[website_id]
+            page_regions = await self.controller.get_interactive_rects(page)
+
+            for region_id, region in page_regions.items():
+                regions[f"{website_id}:{region_id}"] = self._offset_region(region, layout)
+
+        screen_cursor = self._page_to_screen_cursor()
+
+        return InteractiveTreeResponse(
+            mouse_position=MousePosition(x=int(screen_cursor.x), y=int(screen_cursor.y)),
+            regions=regions,
+        )
+
+    async def _get_snapshot(self, rules: list[ObservationRequest]) -> SnapshotResponse:
+        grouped: dict[str, list[ObservationRequest]] = {}
+
+        for rule in rules:
+            grouped.setdefault(rule.website_id, []).append(rule)
+
+        snapshot: dict[int, str] = {}
+
+        for website_id, page_rules in grouped.items():
+            page = self.pages.get(website_id)
+            if page is None:
+                raise RuntimeError(f"unknown website_id in snapshot rules: {website_id}")
+
+            page_snapshot = await self.controller.get_page_snapshot(page, page_rules)
+            snapshot.update(page_snapshot)
+
+        return SnapshotResponse(snapshot=snapshot)
+
+    def _screen_to_page_cursor(self, x: float | None, y: float | None) -> PageCursor:
+        if x is None or y is None:
+            return self.controller.cursor
+
+        for website_id, layout in self.page_layouts.items():
+            if layout.x <= x < layout.x + layout.width and layout.y <= y < layout.y + layout.height:
+                self.active_page_id = website_id
+                return PageCursor(x - layout.x, y - layout.y)
+
+        raise RuntimeError(f"screen cursor is outside page layouts: ({x}, {y})")
+
+    def _page_to_screen_cursor(self) -> ScreenCursor:
+        page_id = self.active_page_id
+        if page_id is None:
+            return ScreenCursor(0.0, 0.0)
+
+        layout = self.page_layouts.get(page_id)
+        if layout is None:
+            return ScreenCursor(0.0, 0.0)
+
+        return ScreenCursor(
+            layout.x + self.controller.cursor.x, layout.y + self.controller.cursor.y
+        )
+
+
+def build_page_layouts(
+    *,
+    page_count: int,
+    total_width: int,
+    total_height: int,
+) -> list[PageLayout]:
+    half_width = total_width // 2
+    half_height = total_height // 2
+
+    # +-----+-----+
+    # |           |
+    # |     1     |
+    # |           |
+    # +-----+-----+
+    if page_count == 1:
+        return [
+            PageLayout(x=0, y=0, width=total_width, height=total_height),
+        ]
+
+    # +-----+-----+
+    # |     |     |
+    # |  1  |  2  |
+    # |     |     |
+    # +-----+-----+
+    if page_count == 2:
+        return [
+            PageLayout(x=0, y=0, width=half_width, height=total_height),
+            PageLayout(x=half_width, y=0, width=half_width, height=total_height),
+        ]
+
+    # +-----+-----+
+    # |     |  2  |
+    # |  1  +-----+
+    # |     |  3  |
+    # +-----+-----+
+    if page_count == 3:
+        return [
+            PageLayout(x=0, y=0, width=half_width, height=total_height),
+            PageLayout(x=half_width, y=0, width=half_width, height=half_height),
+            PageLayout(
+                x=half_width,
+                y=half_height,
+                width=half_width,
+                height=half_height,
+            ),
+        ]
+
+    # +-----+-----+
+    # |  1  |  2  |
+    # +-----+-----+
+    # |  3  |  4  |
+    # +-----+-----+
+    return [
+        PageLayout(x=0, y=0, width=half_width, height=half_height),
+        PageLayout(x=half_width, y=0, width=half_width, height=half_height),
+        PageLayout(x=0, y=half_height, width=half_width, height=half_height),
+        PageLayout(
+            x=half_width,
+            y=half_height,
+            width=half_width,
+            height=half_height,
+        ),
+    ]

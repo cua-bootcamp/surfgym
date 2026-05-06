@@ -17,6 +17,7 @@ from src.gateway.error import (
 )
 from src.gateway.rule_evaluator import ObservationRequest
 from src.gateway.service import Deadline
+from src.gateway.task_store import Website
 from src.protocol.command import (
     Command,
     CommandPayload,
@@ -168,7 +169,7 @@ class GatewayPool:
             **kwargs,
         )
 
-    def allocate(self, deadline: Deadline):
+    def allocate(self, deadline: Deadline, websites: list[Website]):
         return self._run(
             self._control_pool,
             context="allocate",
@@ -177,6 +178,7 @@ class GatewayPool:
             func=allocate_instance,
             host=self._instance_config.host,
             port=self._instance_config.master_port,
+            websites=websites,
         )
 
     def release(self, deadline: Deadline, instance_id: str, instance_port: int):
@@ -219,8 +221,12 @@ class GatewayPool:
             instance_id=instance_id,
         )
 
-    def navigate(self, deadline: Deadline, instance_id: str, instance_port: int, url: str):
-        self.execute_browser_command(deadline, instance_id, instance_port, NavigateCommand(url=url))
+    def navigate(
+        self, deadline: Deadline, instance_id: str, instance_port: int, website: list[Website]
+    ):
+        self.execute_browser_command(
+            deadline, instance_id, instance_port, NavigateCommand(websites=website)
+        )
 
     def get_snapshot(
         self,
@@ -262,8 +268,8 @@ def _master_client(host: str, port: int):
     return MasterClient(host=host, port=port)
 
 
-def allocate_instance(host: str, port: int):
-    response = _master_client(host=host, port=port).get_instance()
+def allocate_instance(host: str, port: int, websites: list[Website]):
+    response = _master_client(host=host, port=port).get_instance(websites)
     json_payload = _handle_response(response)
     payload = GetInstanceResponse.model_validate(json_payload)
     return (payload.instance_id, payload.instance_host, payload.instance_port)

@@ -54,7 +54,9 @@ pip install -U pip uv
 uv pip install -r requirements.txt
 ```
 
-The commands below install system-level dependencies and are not tied to the Conda environment.
+<br/>
+
+The commands below install dependencies that are **not tied** to the Conda environment.
 
 ```bash
 playwright install chromium
@@ -189,20 +191,20 @@ Before running the test, make sure to check the following settings in `tests/set
 ```bash
 # tests/setting.sh
 
-# =============================================================================================
+# ==================================================================================
 # User-defined settings
 # Modify only the values below for testing.
 # 
 # * Use the appropriate SURFGYM_CONFIG for the target test
 # * Make sure to set WITH_FIXTURE_WEBSITE=true when using fixture websites
-# =============================================================================================
+# ==================================================================================
 
 readonly SURFGYM_CONFIG="$FIXTURE_DIR/config/config-single.json"
 
 readonly WITH_FIXTURE_WEBSITE=true
 readonly FIXTURE_WEBSITE_PORT=8123
 
-# =============================================================================================
+# ==================================================================================
 ```
 
 ```python

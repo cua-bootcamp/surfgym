@@ -4,6 +4,7 @@ from typing import Annotated, Literal, Optional, TypeAlias, Union
 from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
 
 from src.gateway.rule_evaluator import ObservationRequest
+from src.gateway.task_store import Website
 
 ###################
 # Action Commands #
@@ -118,7 +119,7 @@ class SnapShotCommand(_BaseCommand):
 
 class NavigateCommand(_BaseCommand):
     command: Literal[CommandType.NAVIGATE] = CommandType.NAVIGATE
-    url: str
+    websites: list[Website]
 
 
 class InteractiveTreeCommand(_BaseCommand):

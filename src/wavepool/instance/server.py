@@ -11,6 +11,7 @@ from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 
 from src.protocol.command import CommandAdapter
+from src.protocol.gateway_to_instance import GetInstanceRequest
 from src.protocol.instance_to_gateway import (
     GetInstanceResponse,
     InstanceServerErrorType,
@@ -60,7 +61,9 @@ app = FastAPI(lifespan=lifespan)
 
 
 @app.post("/get")
-async def get_instance():
+async def get_instance(
+    request: Annotated[GetInstanceRequest, Body()],
+):
     if not await instance.idle():
         return error_response(
             InstanceServerErrorType.INSTANCE_NOT_IDLE,
@@ -70,7 +73,7 @@ async def get_instance():
     new_instance_id = str(uuid.uuid4())
 
     try:
-        await instance.create(new_instance_id)
+        await instance.create(new_instance_id, request.websites)
     except Exception as exc:
         logger.exception("Playwright instance creation failed on port %s", args.port)
 

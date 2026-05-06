@@ -1,13 +1,16 @@
 import argparse
 import asyncio
 from contextlib import asynccontextmanager
+from typing import Annotated
 
 import httpx
 import uvicorn
-from fastapi import FastAPI
+from fastapi import Body, FastAPI
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 
+from src.gateway.task_store import Website
+from src.protocol.gateway_to_instance import GetInstanceRequest
 from src.protocol.instance_to_gateway import GetInstanceResponse, StatusResponse
 from src.protocol.master_to_gateway import (
     GetInstanceResponse as MasterGetInstanceResponse,
@@ -41,7 +44,7 @@ class PortRegistry:
     async def close(self):
         await self.client.aclose()
 
-    async def allocate(self):
+    async def allocate(self, websites: list[Website]):
         async with self.lock:
             port = self.available_ports.pop() if self.available_ports else None
 
@@ -57,7 +60,10 @@ class PortRegistry:
             )
 
         try:
-            response = await self.client.post(self._get_base_url(port) + "/get")
+            request = GetInstanceRequest(websites=websites)
+            response = await self.client.post(
+                f"{self._get_base_url(port)}/get", json=request.model_dump(mode="json")
+            )
 
             if response.status_code != 200:
                 await self._mark_broken(port)
@@ -211,8 +217,10 @@ port_registry = PortRegistry(args.instance_host, args.instance_start_port, args.
 
 
 @app.post("/get")
-async def get_instance():
-    return await port_registry.allocate()
+async def get_instance(
+    request: Annotated[GetInstanceRequest, Body()],
+):
+    return await port_registry.allocate(request.websites)
 
 
 @app.post("/reset")
@@ -225,7 +233,7 @@ async def health():
     return {"status": "ok"}
 
 
-# Currently doesn't support multi workers
+# [TODO] Support multi worker
 if __name__ == "__main__":
     uvicorn.run(
         "src.wavepool.master.server:app",

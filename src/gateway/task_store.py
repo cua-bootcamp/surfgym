@@ -64,7 +64,7 @@ class Evaluation(FrozenBaseModel):
 class Task(FrozenBaseModel):
     task_id: str
     instruction: str
-    website: Annotated[list[Website], Field(min_length=1)]
+    website: Annotated[list[Website], Field(min_length=1, max_length=4)]
     evaluation: Evaluation
 
     @field_validator("website", mode="before")

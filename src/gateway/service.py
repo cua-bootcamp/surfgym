@@ -15,7 +15,7 @@ from src.gateway.rule_evaluator import (
     collect_observation_requests,
     evaluate_page_rules,
 )
-from src.gateway.task_store import Task, TaskStore
+from src.gateway.task_store import Task, TaskStore, Website
 from src.protocol.agent_to_gateway import (
     ActionRequest,
     Request,
@@ -82,10 +82,10 @@ class Service:
             raise RuntimeError(f"Session {request.session_id} already exists")
 
         task = self.task_store.get(request.task_id)
-        website = task.website[0]
 
-        lease = self._allocate(deadline)
-        self._navigate(deadline, lease, website.url)
+        lease = self._allocate(deadline, task.website)
+        # Deprecated
+        # self._navigate(deadline, lease, task.website)
         (screenshot_b64, media_type) = self._screenshot(deadline, lease)
         text = self._interactive_tree(deadline, lease) if request.include_a11y else None
 
@@ -138,20 +138,20 @@ class Service:
             reward=reward,
         )
 
-    def _allocate(self, deadline: Deadline) -> Lease:
+    def _allocate(self, deadline: Deadline, websites: list[Website]) -> Lease:
         instance_id, _, port = self._run_with_retry(
             context="_allocate_instance",
             deadline=deadline,
-            func=lambda: self.pool.allocate(deadline),
+            func=lambda: self.pool.allocate(deadline, websites),
         )
 
         return Lease(instance_id=instance_id, port=port)
 
-    def _navigate(self, deadline: Deadline, lease: Lease, url: str):
+    def _navigate(self, deadline: Deadline, lease: Lease, websites: list[Website]):
         return self._run_with_retry(
             context="_navigate",
             deadline=deadline,
-            func=lambda: self.pool.navigate(deadline, lease.instance_id, lease.port, url),
+            func=lambda: self.pool.navigate(deadline, lease.instance_id, lease.port, websites),
         )
 
     def _execute_browser_command(self, deadline: Deadline, lease: Lease, command: Command):
