@@ -39,7 +39,7 @@ class BrowserSession:
 
 
 def _load_websites_from_task_file(task_file: Path) -> list[str]:
-    from components.task_store import TaskStore
+    from src.components.task import TaskStore
 
     task_store = TaskStore.from_file(task_file)
     websites: set[str] = set()

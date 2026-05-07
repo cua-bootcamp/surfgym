@@ -1,3 +1,8 @@
+"""
+Service layer of the gateway.
+- Define works to do bout the
+"""
+
 import base64
 import time
 from dataclasses import dataclass
@@ -8,11 +13,9 @@ from PIL import Image, ImageDraw
 from typing_extensions import assert_never
 
 from src.components.evaluate import (
-    ObservationRequest,
-    collect_observation_requests,
     evaluate_page_rules,
 )
-from src.components.task_store import Task, TaskStore, Website
+from src.components.task import Evaluation, Task, TaskStore, Website
 from src.config import WavepoolConfig
 from src.gateway.error import Deadline, DeadlineExceeded, SGRetryableError
 from src.gateway.pool import GatewayPool
@@ -84,8 +87,6 @@ class Service:
         task = self.task_store.get(request.task_id)
 
         lease = self._allocate(deadline, task.website)
-        # Deprecated
-        # self._navigate(deadline, lease, task.website)
         (screenshot_b64, media_type) = self._screenshot(deadline, lease)
         text = self._interactive_tree(deadline, lease) if request.include_a11y else None
 
@@ -147,13 +148,6 @@ class Service:
 
         return Lease(instance_id=instance_id, port=port)
 
-    def _navigate(self, deadline: Deadline, lease: Lease, websites: list[Website]):
-        return self._run_with_retry(
-            context="_navigate",
-            deadline=deadline,
-            func=lambda: self.pool.navigate(deadline, lease.instance_id, lease.port, websites),
-        )
-
     def _execute_browser_command(self, deadline: Deadline, lease: Lease, command: Command):
         return self._run_with_retry(
             context="_execute_browser_command",
@@ -172,14 +166,12 @@ class Service:
 
         return draw_cursor_on_screenshot(screenshot_b64, int(x), int(y)), media_type
 
-    def _snapshot(
-        self, *, deadline: Deadline, lease: Lease, observation_request: list[ObservationRequest]
-    ):
+    def _snapshot(self, *, deadline: Deadline, lease: Lease, evaluation: Evaluation):
         return self._run_with_retry(
             context="_snapshot",
             deadline=deadline,
             func=lambda: self.pool.get_snapshot(
-                deadline, lease.instance_id, lease.port, observation_request
+                deadline, lease.instance_id, lease.port, evaluation
             ),
         )
 
@@ -197,7 +189,7 @@ class Service:
         snapshot = self._snapshot(
             deadline=deadline,
             lease=lease,
-            observation_request=collect_observation_requests(task.evaluation),
+            evaluation=task.evaluation,
         )
         result = evaluate_page_rules(task.evaluation, snapshot.snapshot)
         return result.reward

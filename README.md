@@ -396,3 +396,49 @@ ACTIONS: list[list[dict[str, Any]]] = [
     ],
 ]
 ```
+
+<br>
+
+
+### Spreadsheet
+
+```python
+TASK_ID = "spreadsheet_1"
+ACTIONS: list[list[dict[str, Any]]] = [
+    [{"action_type": "WAIT"}, {"action_type": "WAIT"}, {"action_type": "WAIT"}],
+    [
+        {"action_type": "PRESS", "key": "ArrowRight"},
+        {"action_type": "PRESS", "key": "ArrowDown"},
+        {"action_type": "PRESS", "key": "ArrowDown"},
+        {"action_type": "PRESS", "key": "ArrowDown"},
+        {"action_type": "PRESS", "key": "ArrowDown"},
+        {"action_type": "TYPING", "text": "5"},
+        {"action_type": "PRESS", "key": "Enter"},
+    ],
+]
+```
+
+### Spreadsheet2
+
+```python
+TASK_ID = "spreadsheet_2"
+ACTIONS: list[list[dict[str, Any]]] = [
+    [
+        {"action_type": "WAIT"},
+        {"action_type": "WAIT"},
+        {"action_type": "CLICK", "x": "1100", "y": "300"},
+    ],
+    [
+        {"action_type": "PRESS", "key": "ArrowRight"},
+        {"action_type": "PRESS", "key": "ArrowDown"},
+        {"action_type": "PRESS", "key": "ArrowDown"},
+        {"action_type": "PRESS", "key": "ArrowDown"},
+        {"action_type": "PRESS", "key": "ArrowDown"},
+        {"action_type": "TYPING", "text": "5"},
+        {"action_type": "PRESS", "key": "Enter"},
+    ],
+    [
+        {"action_type": "CLICK", "x": "178", "y": 575},
+    ],
+]
+```

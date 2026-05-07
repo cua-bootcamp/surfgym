@@ -9,8 +9,7 @@ from typing import Any, Callable, ParamSpec, TypeVar, overload
 
 from requests import Response
 
-from src.components.evaluate import ObservationRequest
-from src.components.task_store import Website
+from src.components.task import Evaluation, Website
 from src.config import WavepoolConfig
 from src.gateway.client import InstanceClient, MasterClient
 from src.gateway.error import (
@@ -22,7 +21,6 @@ from src.protocol.command import (
     Command,
     CommandPayload,
     InteractiveTreeCommand,
-    NavigateCommand,
     SnapShotCommand,
 )
 from src.protocol.instance_to_gateway import (
@@ -221,25 +219,18 @@ class GatewayPool:
             instance_id=instance_id,
         )
 
-    def navigate(
-        self, deadline: Deadline, instance_id: str, instance_port: int, website: list[Website]
-    ):
-        self.execute_browser_command(
-            deadline, instance_id, instance_port, NavigateCommand(websites=website)
-        )
-
     def get_snapshot(
         self,
         deadline: Deadline,
         instance_id: str,
         instance_port: int,
-        observation_request: list[ObservationRequest],
+        evaluation: Evaluation,
     ) -> SnapshotResponse:
         return self.execute_browser_command(
             deadline,
             instance_id,
             instance_port,
-            SnapShotCommand(rules=observation_request),
+            SnapShotCommand(evaluation=evaluation),
         )
 
     def get_interactive_tree(

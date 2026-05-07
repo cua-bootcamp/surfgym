@@ -2,7 +2,7 @@ from typing import Any
 
 import requests
 
-from src.components.task_store import Website
+from src.components.task import Website
 from src.gateway.error import InstanceTransportError
 from src.protocol.command import Command
 from src.protocol.gateway_to_instance import GetInstanceRequest

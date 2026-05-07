@@ -8,8 +8,8 @@ from typing import Annotated
 
 from fastapi import Body, FastAPI
 
-from src.components.log import file_logger, setup_logging
-from src.components.task_store import TaskStore
+from src.components.log import logger, setup_logging
+from src.components.task import TaskStore
 from src.config import Config
 from src.gateway.service import Service
 from src.protocol.agent_to_gateway import Request
@@ -69,7 +69,7 @@ def launch(config: Config):
                 executor, gateway.handle_request, request, gateway_deadline
             )
         except Exception:
-            file_logger.exception("Failed while handling %s", request)
+            logger.exception("Failed while handling %s", request)
             return ErrorResponse.from_type(
                 session_id=request.session_id,
                 task_id=request.task_id,

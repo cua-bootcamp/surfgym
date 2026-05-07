@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from enum import Enum
 from typing import Annotated, Any, Literal, TypeAlias, Union
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -23,25 +22,6 @@ from src.protocol.command import (
 )
 
 
-class ActionType(str, Enum):
-    MOVE_TO = "MOVE_TO"
-    CLICK = "CLICK"
-    MOUSE_DOWN = "MOUSE_DOWN"
-    MOUSE_UP = "MOUSE_UP"
-    RIGHT_CLICK = "RIGHT_CLICK"
-    DOUBLE_CLICK = "DOUBLE_CLICK"
-    DRAG_TO = "DRAG_TO"
-    SCROLL = "SCROLL"
-    TYPING = "TYPING"
-    PRESS = "PRESS"
-    KEY_DOWN = "KEY_DOWN"
-    KEY_UP = "KEY_UP"
-    HOTKEY = "HOTKEY"
-    WAIT = "WAIT"
-    FAIL = "FAIL"
-    DONE = "DONE"
-
-
 class _BaseComputerAction(BaseModel):
     model_config = ConfigDict(frozen=True)
 
@@ -54,7 +34,7 @@ class _BaseComputerAction(BaseModel):
 
 
 class MoveToAction(_BaseComputerAction):
-    action_type: Literal[ActionType.MOVE_TO] = ActionType.MOVE_TO
+    action_type: Literal["MOVE_TO"]
     x: float
     y: float
 
@@ -63,7 +43,7 @@ class MoveToAction(_BaseComputerAction):
 
 
 class DragToAction(_BaseComputerAction):
-    action_type: Literal[ActionType.DRAG_TO]
+    action_type: Literal["DRAG_TO"]
     x: float
     y: float
 
@@ -72,7 +52,7 @@ class DragToAction(_BaseComputerAction):
 
 
 class ScrollAction(_BaseComputerAction):
-    action_type: Literal[ActionType.SCROLL]
+    action_type: Literal["SCROLL"]
     dx: int
     dy: int
 
@@ -81,7 +61,7 @@ class ScrollAction(_BaseComputerAction):
 
 
 class TypingAction(_BaseComputerAction):
-    action_type: Literal[ActionType.TYPING]
+    action_type: Literal["TYPING"]
     text: str
 
     def to_commands(self) -> KeyboardTypeCommand:
@@ -89,7 +69,7 @@ class TypingAction(_BaseComputerAction):
 
 
 class WaitAction(_BaseComputerAction):
-    action_type: Literal[ActionType.WAIT]
+    action_type: Literal["WAIT"]
 
     def to_commands(self) -> SleepCommand:
         return SleepCommand(duration_ms=1000)
@@ -101,14 +81,14 @@ class WaitAction(_BaseComputerAction):
 
 
 class FailAction(_BaseComputerAction):
-    action_type: Literal[ActionType.FAIL]
+    action_type: Literal["FAIL"]
 
     def to_commands(self):
         raise AssertionError(f"{self.__class__.__name__} does not have a corresponding command ")
 
 
 class DoneAction(_BaseComputerAction):
-    action_type: Literal[ActionType.DONE]
+    action_type: Literal["DONE"]
 
     def to_commands(self):
         raise AssertionError(f"{self.__class__.__name__} does not have a corresponding command ")
@@ -126,21 +106,21 @@ class _SingleKeyAction(_BaseComputerAction):
 
 
 class PressAction(_SingleKeyAction):
-    action_type: Literal[ActionType.PRESS]
+    action_type: Literal["PRESS"]
 
     def to_commands(self) -> KeyPressCommand:
         return KeyPressCommand(key=self.key)
 
 
 class KeyDownAction(_SingleKeyAction):
-    action_type: Literal[ActionType.KEY_DOWN]
+    action_type: Literal["KEY_DOWN"]
 
     def to_commands(self) -> KeyDownCommand:
         return KeyDownCommand(key=self.key)
 
 
 class KeyUpAction(_SingleKeyAction):
-    action_type: Literal[ActionType.KEY_UP]
+    action_type: Literal["KEY_UP"]
 
     def to_commands(self) -> KeyUpCommand:
         return KeyUpCommand(key=self.key)
@@ -155,7 +135,7 @@ SingleKeyAction: TypeAlias = PressAction | KeyDownAction | KeyUpAction
 
 
 class HotkeyAction(_BaseComputerAction):
-    action_type: Literal[ActionType.HOTKEY]
+    action_type: Literal["HOTKEY"]
     keys: list[str]
 
     def to_commands(self) -> HotKeyCommand:
@@ -175,14 +155,14 @@ class _MouseAction(_BaseComputerAction):
 
 
 class MouseDownAction(_MouseAction):
-    action_type: Literal[ActionType.MOUSE_DOWN]
+    action_type: Literal["MOUSE_DOWN"]
 
     def to_commands(self) -> MouseDownCommand:
         return MouseDownCommand()
 
 
 class MouseUpAction(_MouseAction):
-    action_type: Literal[ActionType.MOUSE_UP]
+    action_type: Literal["MOUSE_UP"]
 
     def to_commands(self) -> MouseUpCommand:
         return MouseUpCommand()
@@ -215,7 +195,7 @@ class _BaseClickAction(_BaseComputerAction):
 
 
 class ClickAction(_BaseClickAction):
-    action_type: Literal[ActionType.CLICK] = ActionType.CLICK
+    action_type: Literal["CLICK"]
     button: MouseButtonType = MouseButtonType.LEFT
     num_clicks: int = Field(default=1, ge=1)
 
@@ -227,7 +207,7 @@ class ClickAction(_BaseClickAction):
 
 
 class RightClickAction(_BaseClickAction):
-    action_type: Literal[ActionType.RIGHT_CLICK] = ActionType.RIGHT_CLICK
+    action_type: Literal["RIGHT_CLICK"]
 
     def to_commands(self) -> MouseClickCommand:
         return self._to_click_command(
@@ -237,7 +217,7 @@ class RightClickAction(_BaseClickAction):
 
 
 class DoubleClickAction(_BaseClickAction):
-    action_type: Literal[ActionType.DOUBLE_CLICK] = ActionType.DOUBLE_CLICK
+    action_type: Literal["DOUBLE_CLICK"]
 
     def to_commands(self) -> MouseClickCommand:
         return self._to_click_command(

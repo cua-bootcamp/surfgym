@@ -1,5 +1,5 @@
 {
-  "task_file_path": "tests/fixtures/tasks/tasks_all.json",
+  "task_file_path": "tests/fixtures/tasks/test_tasks.json",
   "log_path": "logs/",
   "gateway": {
     "host": "127.0.0.1",

@@ -4,7 +4,7 @@ from pathlib import Path
 import uvicorn
 from pydantic import ValidationError
 
-from src.components.log import runtime_logger
+from src.components.log import logger
 from src.config import Config
 from src.gateway.error import ConfigError, SGError
 from src.gateway.server import launch
@@ -13,7 +13,7 @@ from src.gateway.server import launch
 def _validate_config(config: Config) -> None:
     gateway_config = config.gateway_config
     if gateway_config.gateway_workers < gateway_config.gateway_in_flight:
-        runtime_logger.warning(
+        logger.warning(
             "Gateway max_workers (%s) is smaller than max_in_flight (%s). "
             "Requests may acquire in-flight slots faster than executor workers "
             "can process them, which can lead to queued HTTP sessions timing out. "
@@ -52,7 +52,7 @@ def main() -> None:
             launch(config), host=config.gateway_config.host, port=config.gateway_config.port
         )
     except SGError as exc:
-        runtime_logger.error(exc)
+        logger.error(exc)
         raise SystemExit(1)
     except Exception as exc:
         raise RuntimeError(f"[unexpected error] {exc}") from exc

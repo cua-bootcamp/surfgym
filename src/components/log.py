@@ -6,11 +6,19 @@ from pathlib import Path
 from rich.logging import RichHandler
 
 
-def _setup_runtime_logger() -> logging.Logger:
-    logger = logging.getLogger("surfgym.runtime")
+def _get_logger() -> logging.Logger:
+    logger = logging.getLogger("surfgym")
     logger.propagate = False
+    logger.setLevel(logging.INFO)
+    return logger
 
-    if logger.handlers:
+
+def _has_handler(logger: logging.Logger, handler_type: type[logging.Handler]) -> bool:
+    return any(isinstance(handler, handler_type) for handler in logger.handlers)
+
+
+def _setup_console_handler(logger: logging.Logger) -> logging.Logger:
+    if _has_handler(logger, RichHandler):
         return logger
 
     console_handler = RichHandler(rich_tracebacks=True)
@@ -23,9 +31,8 @@ def _setup_runtime_logger() -> logging.Logger:
 def _setup_file_logger(
     log_path: Path,
 ) -> None:
-    file_logger.propagate = False
-
-    if file_logger.handlers:
+    logger = _get_logger()
+    if _has_handler(logger, RotatingFileHandler):
         return
 
     run_id = datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -46,11 +53,10 @@ def _setup_file_logger(
         )
     )
 
-    file_logger.addHandler(file_handler)
+    logger.addHandler(file_handler)
 
 
-runtime_logger = _setup_runtime_logger()
-file_logger = logging.getLogger()
+logger = _setup_console_handler(_get_logger())
 
 
 def setup_logging(

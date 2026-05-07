@@ -40,7 +40,7 @@ class ScreenshotResponse(_FrozenBaseModel):
 
 
 class SnapshotResponse(_FrozenBaseModel):
-    snapshot: dict[int, str]
+    snapshot: list[str]
 
 
 class InteractiveTreeResponse(_FrozenBaseModel):

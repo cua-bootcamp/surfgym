@@ -7,8 +7,8 @@ from PIL import Image
 from playwright.async_api import Page, async_playwright
 from typing_extensions import assert_never
 
-from src.components.evaluate import ObservationRequest
-from src.components.task_store import Website
+from src.components.log import logger
+from src.components.task import DomRule, Evaluation, SpreadsheetRule, Website
 from src.protocol.command import Command, CommandType, MouseButtonType
 from src.protocol.instance_to_gateway import (
     InteractiveRegion,
@@ -161,98 +161,68 @@ class PlaywrightController:
         for key in reversed(keys):
             await page.keyboard.up(key)
 
-    async def get_page_snapshot(
-        self,
-        page: Page,
-        rules: list[ObservationRequest],
-    ) -> dict[int, str]:
+    async def dom_snapshot(self, page: Page, dom_rule: DomRule) -> str:
+        await self._ensure_page_ready(page)
+        snapshots = cast(
+            list[str],
+            await page.evaluate(
+                DOM_SNAPSHOT_SCRIPT,
+                [
+                    {
+                        "target": dom_rule.target,
+                        "selector": dom_rule.selector,
+                        "attr": dom_rule.attr,
+                    }
+                ],
+            ),
+        )
+        return snapshots[0] if snapshots else ""
+
+    async def spreadsheet_snapshot(self, page: Page, rule: SpreadsheetRule) -> str:
         await self._ensure_page_ready(page)
 
-        observation_requests = [rule.model_dump(mode="json") for rule in rules]
+        meta = cast(dict[str, Any] | None, await page.evaluate(SPREADSHEET_META_SCRIPT))
+        if meta is None:
+            return ""
 
-        raw_observations = cast(
-            dict[str, str],
+        canvas = meta["canvas"]
+        start = meta["start"]
+        size = meta["size"]
+
+        col_index, row_index = _cell_indices(rule.cell)
+
+        x = (
+            float(canvas["left"])
+            + float(start["x"])
+            + (col_index * float(size["width"]))
+            + (float(size["width"]) / 2)
+        )
+        y = (
+            float(canvas["top"])
+            + float(start["y"])
+            + (row_index * float(size["height"]))
+            + (float(size["height"]) / 2)
+        )
+
+        await page.mouse.click(x, y, button=MouseButtonType.LEFT.value, click_count=1)
+        self.cursor = PageCursor(x, y)
+        await page.wait_for_timeout(250)
+
+        value = cast(
+            str | None,
             await page.evaluate(
-                """(rules) => {
-                    function readText(element) {
-                        return element.innerText || element.textContent || "";
-                    }
-
-                    function readAttr(element, attr) {
-                        if (!attr) {
-                            return "";
-                        }
-
-                        if (attr in element) {
-                            const value = element[attr];
-                            return value === undefined || value === null ? "" : String(value);
-                        }
-
-                        return element.getAttribute(attr) || "";
-                    }
-
-                    function readFromElement(rule) {
-                        if (!rule.selector) {
-                            return "";
-                        }
-
-                        let element = null;
-                        try {
-                            element = document.querySelector(rule.selector);
-                        } catch {
-                            return "";
-                        }
-
-                        if (!element) {
-                            return "";
-                        }
-
-                        if (rule.target === "text") {
-                            return readText(element);
-                        }
-                        if (rule.target === "html") {
-                            return element.outerHTML || "";
-                        }
-                        if (rule.target === "attr") {
-                            return readAttr(element, rule.attr);
-                        }
-
-                        return "";
-                    }
-
-                    function readFromPage(rule) {
-                        if (rule.target === "url") {
-                            return window.location.href;
-                        }
-                        if (rule.target === "title") {
-                            return document.title || "";
-                        }
-                        if (rule.target === "text") {
-                            return document.body ? document.body.innerText || "" : "";
-                        }
-                        if (rule.target === "html") {
-                            return document.documentElement
-                                ? document.documentElement.outerHTML || ""
-                                : "";
-                        }
-
-                        return "";
-                    }
-
-                    const observations = {};
-                    for (const rule of rules) {
-                        observations[rule.id] = rule.selector
-                            ? readFromElement(rule)
-                            : readFromPage(rule);
-                    }
-
-                    return observations;
-                }""",
-                observation_requests,
+                """() => {
+                    const input = document.querySelector(
+                        'input[placeholder^="Enter value or formula"]'
+                    );
+                    return input ? String(input.value || "") : "";
+                }"""
             ),
         )
 
-        return {int(rule_id): value for rule_id, value in raw_observations.items()}
+        if value is None:
+            return ""
+        return value
 
 
 class PlaywrightInstance:
@@ -367,9 +337,6 @@ class PlaywrightInstance:
         page = self.pages[self.active_page_id]
 
         match command.command:
-            case CommandType.NAVIGATE:
-                raise ValueError("Deprecated")
-
             case CommandType.MOUSE_MOVE:
                 page_cursor = self._screen_to_page_cursor(command.x, command.y)
                 page = self.pages[self.active_page_id]
@@ -409,13 +376,14 @@ class PlaywrightInstance:
                 return await self.controller.key_up(page, command.key)
 
             case CommandType.KEY_PRESS:
+                logger.info(f"Pressing on {self.active_page_id}")
                 return await self.controller.key_press(page, command.key)
 
             case CommandType.HOT_KEY:
                 return await self.controller.hotkey_press(page, command.keys)
 
             case CommandType.SNAPSHOT:
-                return await self._get_snapshot(command.rules)
+                return await self._get_snapshot(command.evaluation)
 
             case CommandType.INTERACTIVE_TREE:
                 return await self._get_interactive_tree()
@@ -460,23 +428,20 @@ class PlaywrightInstance:
             regions=regions,
         )
 
-    async def _get_snapshot(self, rules: list[ObservationRequest]) -> SnapshotResponse:
-        grouped: dict[str, list[ObservationRequest]] = {}
+    async def _get_snapshot(self, evaluation: Evaluation) -> SnapshotResponse:
+        page_snapshot: list[str] = []
 
-        for rule in rules:
-            grouped.setdefault(rule.website_id, []).append(rule)
+        for rule in evaluation.rules:
+            page = self.pages[rule.website_id]
+            if evaluation.mode == "dom":
+                domrule = cast(DomRule, rule)
+                page_snapshot.append(await self.controller.dom_snapshot(page, domrule))
 
-        snapshot: dict[int, str] = {}
+            if evaluation.mode == "spreadsheet":
+                srule = cast(SpreadsheetRule, rule)
+                page_snapshot.append(await self.controller.spreadsheet_snapshot(page, srule))
 
-        for website_id, page_rules in grouped.items():
-            page = self.pages.get(website_id)
-            if page is None:
-                raise RuntimeError(f"unknown website_id in snapshot rules: {website_id}")
-
-            page_snapshot = await self.controller.get_page_snapshot(page, page_rules)
-            snapshot.update(page_snapshot)
-
-        return SnapshotResponse(snapshot=snapshot)
+        return SnapshotResponse(snapshot=page_snapshot)
 
     def _screen_to_page_cursor(self, x: float | None, y: float | None) -> PageCursor:
         if x is None or y is None:
@@ -484,7 +449,9 @@ class PlaywrightInstance:
 
         for website_id, layout in self.page_layouts.items():
             if layout.x <= x < layout.x + layout.width and layout.y <= y < layout.y + layout.height:
-                self.active_page_id = website_id
+                if self.active_page_id != website_id:
+                    logger.info(f"Updating active page id : {self.active_page_id} -> {website_id}")
+                    self.active_page_id = website_id
                 return PageCursor(x - layout.x, y - layout.y)
 
         raise RuntimeError(f"screen cursor is outside page layouts: ({x}, {y})")
@@ -566,3 +533,208 @@ def build_page_layouts(
             height=half_height,
         ),
     ]
+
+
+DOM_SNAPSHOT_SCRIPT = """(rules) => {
+function readText(element) {
+return element.innerText || element.textContent || "";
+}
+
+function readAttr(element, attr) {
+if (!attr) {
+    return "";
+}
+
+if (attr in element) {
+    const value = element[attr];
+    return value === undefined || value === null ? "" : String(value);
+}
+
+return element.getAttribute(attr) || "";
+}
+
+function readFromElement(rule) {
+if (!rule.selector) {
+    return "";
+}
+
+let element = null;
+try {
+    element = document.querySelector(rule.selector);
+} catch {
+    return "";
+}
+
+if (!element) {
+    return "";
+}
+
+if (rule.target === "text") {
+    return readText(element);
+}
+if (rule.target === "html") {
+    return element.outerHTML || "";
+}
+if (rule.target === "attr") {
+    return readAttr(element, rule.attr);
+}
+
+return "";
+}
+
+function readFromPage(rule) {
+if (rule.target === "url") {
+    return window.location.href;
+}
+if (rule.target === "title") {
+    return document.title || "";
+}
+if (rule.target === "text") {
+    return document.body ? document.body.innerText || "" : "";
+}
+if (rule.target === "html") {
+    return document.documentElement
+        ? document.documentElement.outerHTML || ""
+        : "";
+}
+
+return "";
+}
+
+return rules.map((rule) =>
+rule.selector ? readFromElement(rule) : readFromPage(rule)
+);
+}
+"""
+
+
+SPREADSHEET_META_SCRIPT = """(() => {
+  const canvas = document.querySelector("canvas[id^='univer-sheet-main-canvas']");
+  if (!canvas) return null;
+
+  const rect = canvas.getBoundingClientRect();
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+
+  const w = canvas.width;
+  const h = canvas.height;
+  const data = ctx.getImageData(0, 0, w, h).data;
+
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+
+  function isNonWhite(x, y) {
+    const i = (y * w + x) * 4;
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
+    const a = data[i + 3];
+
+    if (a < 20) return false;
+
+    return Math.abs(255 - r) + Math.abs(255 - g) + Math.abs(255 - b) > 35;
+  }
+
+  function compact(values) {
+    const out = [];
+    let start = null;
+    let prev = null;
+
+    for (const v of values) {
+      if (start === null) {
+        start = prev = v;
+      } else if (v === prev + 1) {
+        prev = v;
+      } else {
+        out.push(Math.round((start + prev) / 2));
+        start = prev = v;
+      }
+    }
+
+    if (start !== null) out.push(Math.round((start + prev) / 2));
+    return out;
+  }
+
+  function verticalLines() {
+    const hits = [];
+    const y1 = 40;
+    const y2 = h - 20;
+    const threshold = (y2 - y1) * 0.45;
+
+    for (let x = 0; x < w; x++) {
+      let count = 0;
+      for (let y = y1; y < y2; y++) {
+        if (isNonWhite(x, y)) count++;
+      }
+      if (count > threshold) hits.push(x);
+    }
+
+    return compact(hits);
+  }
+
+  function horizontalLines() {
+    const hits = [];
+    const x1 = 80;
+    const x2 = w - 20;
+    const threshold = (x2 - x1) * 0.45;
+
+    for (let y = 0; y < h; y++) {
+      let count = 0;
+      for (let x = x1; x < x2; x++) {
+        if (isNonWhite(x, y)) count++;
+      }
+      if (count > threshold) hits.push(y);
+    }
+
+    return compact(hits);
+  }
+
+  const xLines = verticalLines();
+  const yLines = horizontalLines();
+
+  if (xLines.length < 2 || yLines.length < 2) {
+    return null;
+  }
+
+  return {
+    canvas: {
+      left: rect.left,
+      top: rect.top,
+    },
+    start: {
+      x: xLines[0] / scaleX,
+      y: yLines[0] / scaleY,
+    },
+    size: {
+      width: (xLines[1] - xLines[0]) / scaleX,
+      height: (yLines[1] - yLines[0]) / scaleY,
+    },
+  };
+})();
+"""
+
+
+def _cell_indices(address: str) -> tuple[int, int]:
+    column_label, row_number = _split_cell_address(address)
+    return _column_index(column_label) - 1, row_number - 1
+
+
+def _split_cell_address(address: str) -> tuple[str, int]:
+    normalized = address.replace("$", "").strip().upper()
+
+    index = 0
+    while index < len(normalized) and normalized[index].isalpha():
+        index += 1
+
+    if index == 0 or index == len(normalized):
+        raise ValueError(f"invalid spreadsheet cell address: {address!r}")
+
+    return normalized[:index], int(normalized[index:])
+
+
+def _column_index(label: str) -> int:
+    value = 0
+    for char in label:
+        if not ("A" <= char <= "Z"):
+            raise ValueError(f"invalid spreadsheet column label: {label!r}")
+        value = (value * 26) + (ord(char) - ord("A") + 1)
+    return value

@@ -3,8 +3,7 @@ from typing import Annotated, Literal, Optional, TypeAlias, Union
 
 from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
 
-from src.components.evaluate import ObservationRequest
-from src.components.task_store import Website
+from src.components.task import Evaluation
 
 ###################
 # Action Commands #
@@ -36,7 +35,6 @@ class CommandType(str, Enum):
 
     SNAPSHOT = "SNAPSHOT"
     INTERACTIVE_TREE = "INTERACTIVE_TREE"
-    NAVIGATE = "NAVIGATE"
 
 
 class _BaseCommand(BaseModel):
@@ -114,12 +112,7 @@ class HotKeyCommand(_BaseCommand):
 
 class SnapShotCommand(_BaseCommand):
     command: Literal[CommandType.SNAPSHOT] = CommandType.SNAPSHOT
-    rules: list[ObservationRequest]
-
-
-class NavigateCommand(_BaseCommand):
-    command: Literal[CommandType.NAVIGATE] = CommandType.NAVIGATE
-    websites: list[Website]
+    evaluation: Evaluation
 
 
 class InteractiveTreeCommand(_BaseCommand):
@@ -145,7 +138,6 @@ CommandPayload: TypeAlias = Union[
     HotKeyCommand,
     SleepCommand,
     SnapShotCommand,
-    NavigateCommand,
     InteractiveTreeCommand,
 ]
 

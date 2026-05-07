@@ -2,36 +2,10 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from typing import Literal, Optional
+from typing import Literal
 
-from pydantic import BaseModel, ConfigDict
-
-from components.task_store import Evaluation, Rule
-
-
-class FrozenBaseModel(BaseModel):
-    model_config = ConfigDict(frozen=True, extra="forbid")
-
-
-class ObservationRequest(FrozenBaseModel):
-    id: int
-    website_id: str
-    target: Literal["text", "html", "url", "title", "attr"]
-    selector: Optional[str]
-    attr: Optional[str]
-
-
-def collect_observation_requests(evaluation: Evaluation) -> list[ObservationRequest]:
-    return [
-        ObservationRequest(
-            id=rule_id,
-            website_id=rule.website_id,
-            target=rule.target,
-            selector=rule.selector,
-            attr=rule.attr,
-        )
-        for rule_id, rule in evaluation.rules.items()
-    ]
+from src.components.log import logger
+from src.components.task import DomRule, Evaluation, RuleUnion, SpreadsheetRule
 
 
 @dataclass(frozen=True)
@@ -57,10 +31,15 @@ class EvaluationResult:
 
 def evaluate_page_rules(
     evaluation: Evaluation,
-    snapshot: dict[int, str],
+    snapshot: list[str],
 ) -> EvaluationResult:
     checks = tuple(
-        _evaluate_rule(rule_id, rule, snapshot) for rule_id, rule in evaluation.rules.items()
+        _evaluate_rule(
+            rule_id=rule_id,
+            rule=rule,
+            actual=snapshot[rule_id] if rule_id < len(snapshot) else None,
+        )
+        for rule_id, rule in enumerate(evaluation.rules)
     )
 
     passed = (
@@ -73,33 +52,52 @@ def evaluate_page_rules(
 
 
 def _evaluate_rule(
+    *,
     rule_id: int,
-    rule: Rule,
-    snapshot: dict[int, str],
+    rule: RuleUnion,
+    actual: str | None,
 ) -> RuleCheck:
-    if rule_id not in snapshot:
+    if actual is None:
         return RuleCheck(False, f"rule {rule_id}: observation missing")
 
-    actual = snapshot[rule_id]
-    passed = _matches(
-        actual=actual,
-        expected=rule.value,
-        match=rule.match,
-        normalize_space=rule.normalize_space,
-        case_sensitive=rule.case_sensitive,
-    )
+    ruleType = ""
+    target = None
+    passed = False
+    if isinstance(rule, DomRule):
+        ruleType = "DOM RULE"
+        passed = _matches(
+            actual=actual,
+            expected=rule.value,
+            match=rule.match,
+            normalize_space=rule.normalize_space,
+            case_sensitive=rule.case_sensitive,
+        )
+        target = _describe_rule_target(rule)
+    if isinstance(rule, SpreadsheetRule):
+        ruleType = "SPREADSHEET RULE"
+        passed = _matches(
+            actual=actual,
+            expected=rule.value,
+            match="exact",
+            normalize_space=False,
+            case_sensitive=True,
+        )
+        target = _describe_rule_target(rule)
 
-    target = _describe_rule_target(rule)
-    status = "matched" if passed else "did not match"
+    status = "matched" if passed else f"{ruleType} in expected {rule.value!r}, got {actual!r}"
+    logger.info(status)
     return RuleCheck(passed, f"rule {rule_id}: {target} {status}")
 
 
-def _describe_rule_target(rule: Rule) -> str:
-    if rule.selector is not None:
-        if rule.target == "attr":
-            return f"{rule.selector!r} attr {rule.attr!r}"
-        return f"{rule.selector!r} {rule.target}"
-    return rule.target
+def _describe_rule_target(rule: RuleUnion) -> str:
+    if isinstance(rule, DomRule):
+        if rule.selector is not None:
+            if rule.target == "attr":
+                return f"{rule.selector!r} attr {rule.attr!r}"
+            return f"{rule.selector!r} {rule.target}"
+        return rule.target
+
+    return f"cell {rule.cell}"
 
 
 def _matches(
