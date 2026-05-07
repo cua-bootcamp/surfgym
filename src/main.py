@@ -4,10 +4,10 @@ from pathlib import Path
 import uvicorn
 from pydantic import ValidationError
 
+from src.components.log import runtime_logger
 from src.config import Config
 from src.gateway.error import ConfigError, SGError
 from src.gateway.server import launch
-from src.log import runtime_logger
 
 
 def _validate_config(config: Config) -> None:

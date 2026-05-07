@@ -246,8 +246,6 @@ bash tests/manual_test.sh
 
 Before running the test, review the user-defined values in `tests/setting.sh` and `tests/runners/manual/run.py`.
 
-<br/>
-
 ```bash
 # tests/setting.sh
 

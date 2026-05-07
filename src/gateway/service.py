@@ -7,15 +7,15 @@ from typing import Callable, TypeVar
 from PIL import Image, ImageDraw
 from typing_extensions import assert_never
 
-from src.config import WavepoolConfig
-from src.gateway.error import Deadline, DeadlineExceeded, SGRetryableError
-from src.gateway.pool import GatewayPool
-from src.gateway.rule_evaluator import (
+from src.components.evaluate import (
     ObservationRequest,
     collect_observation_requests,
     evaluate_page_rules,
 )
-from src.gateway.task_store import Task, TaskStore, Website
+from src.components.task_store import Task, TaskStore, Website
+from src.config import WavepoolConfig
+from src.gateway.error import Deadline, DeadlineExceeded, SGRetryableError
+from src.gateway.pool import GatewayPool
 from src.protocol.agent_to_gateway import (
     ActionRequest,
     Request,

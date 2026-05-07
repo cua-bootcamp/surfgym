@@ -3,8 +3,8 @@ from typing import Annotated, Literal, Optional, TypeAlias, Union
 
 from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
 
-from src.gateway.rule_evaluator import ObservationRequest
-from src.gateway.task_store import Website
+from src.components.evaluate import ObservationRequest
+from src.components.task_store import Website
 
 ###################
 # Action Commands #

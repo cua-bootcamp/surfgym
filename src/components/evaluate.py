@@ -6,7 +6,7 @@ from typing import Literal, Optional
 
 from pydantic import BaseModel, ConfigDict
 
-from src.gateway.task_store import Evaluation, Rule
+from components.task_store import Evaluation, Rule
 
 
 class FrozenBaseModel(BaseModel):

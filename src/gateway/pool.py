@@ -9,15 +9,15 @@ from typing import Any, Callable, ParamSpec, TypeVar, overload
 
 from requests import Response
 
+from src.components.evaluate import ObservationRequest
+from src.components.task_store import Website
 from src.config import WavepoolConfig
 from src.gateway.client import InstanceClient, MasterClient
 from src.gateway.error import (
     HttpStackOperationTimeoutError,
     InstanceBusyError,
 )
-from src.gateway.rule_evaluator import ObservationRequest
 from src.gateway.service import Deadline
-from src.gateway.task_store import Website
 from src.protocol.command import (
     Command,
     CommandPayload,

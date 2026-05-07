@@ -7,8 +7,8 @@ from PIL import Image
 from playwright.async_api import Page, async_playwright
 from typing_extensions import assert_never
 
-from src.gateway.rule_evaluator import ObservationRequest
-from src.gateway.task_store import Website
+from src.components.evaluate import ObservationRequest
+from src.components.task_store import Website
 from src.protocol.command import Command, CommandType, MouseButtonType
 from src.protocol.instance_to_gateway import (
     InteractiveRegion,

@@ -9,7 +9,7 @@ from fastapi import Body, FastAPI
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 
-from src.gateway.task_store import Website
+from src.components.task_store import Website
 from src.protocol.gateway_to_instance import GetInstanceRequest
 from src.protocol.instance_to_gateway import GetInstanceResponse, StatusResponse
 from src.protocol.master_to_gateway import (

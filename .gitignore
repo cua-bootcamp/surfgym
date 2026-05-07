@@ -5,3 +5,4 @@ logs/
 .vscode
 .env
 **/__snapshots__/
+tasks/

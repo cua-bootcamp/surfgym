@@ -8,10 +8,10 @@ from typing import Annotated
 
 from fastapi import Body, FastAPI
 
+from src.components.log import file_logger, setup_logging
+from src.components.task_store import TaskStore
 from src.config import Config
 from src.gateway.service import Service
-from src.gateway.task_store import TaskStore
-from src.log import file_logger, setup_logging
 from src.protocol.agent_to_gateway import Request
 from src.protocol.gateway_to_agent import ErrorResponse, ErrorResponseType, Response
 

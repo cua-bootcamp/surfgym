@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from src.gateway.task_store import Website
+from src.components.task_store import Website
 
 
 class _FrozenBaseModel(BaseModel):
