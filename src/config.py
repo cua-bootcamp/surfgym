@@ -1,3 +1,9 @@
+"""
+Runtime configuration models for SurfGym.
+
+- define Gateway and WavePool configuration schemas and validation logic
+"""
+
 from __future__ import annotations
 
 from pathlib import Path

@@ -1,3 +1,4 @@
+import os
 from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
@@ -250,7 +251,11 @@ class PlaywrightInstance:
         self.id = id
 
         self.p = await async_playwright().start()
-        self.browser = await self.p.chromium.launch()
+        if os.name == "nt":
+            self.browser = await self.p.chromium.launch(channel="chrome")
+        else:
+            self.browser = await self.p.chromium.launch()
+
         self.context = await self.browser.new_context(
             viewport={"width": self.viewport_width, "height": self.viewport_height}
         )

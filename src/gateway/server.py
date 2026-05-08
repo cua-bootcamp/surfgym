@@ -1,3 +1,10 @@
+"""
+FastAPI app factory for the SurfGym Gateway.
+
+- regulate request in_flight and worker number
+- generate global deadline
+"""
+
 from __future__ import annotations
 
 import asyncio

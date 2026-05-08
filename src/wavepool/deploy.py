@@ -48,7 +48,7 @@ class SurfGymSupervisor:
 
         managed = list(reversed(self.processes))
         for item in managed:
-            self._signal_group(item.process, signal.SIGTERM)
+            self._terminate_process(item.process)
 
         deadline = time.monotonic() + 3.0
         while time.monotonic() < deadline:
@@ -59,7 +59,7 @@ class SurfGymSupervisor:
 
         for item in managed:
             if item.process.poll() is None:
-                self._signal_group(item.process, signal.SIGKILL)
+                self._kill_process(item.process)
 
         for item in managed:
             try:
@@ -151,14 +151,19 @@ class SurfGymSupervisor:
     def _spawn(self, *, name: str, cmd: list[str]) -> None:
         print(f"[surfgym-deploy] starting {name}: {' '.join(cmd)}", flush=True)
 
-        process = subprocess.Popen(
-            cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-            bufsize=1,
-            start_new_session=True,
-        )
+        popen_kwargs = {
+            "stdout": subprocess.PIPE,
+            "stderr": subprocess.STDOUT,
+            "text": True,
+            "bufsize": 1,
+        }
+
+        if os.name == "nt":
+            popen_kwargs["creationflags"] = subprocess.CREATE_NEW_PROCESS_GROUP
+        else:
+            popen_kwargs["start_new_session"] = True
+
+        process = subprocess.Popen(cmd, **popen_kwargs)
         self.processes.append(ManagedProcess(name=name, process=process))
         thread = threading.Thread(
             target=self._stream_output,
@@ -220,9 +225,30 @@ class SurfGymSupervisor:
             if code is not None:
                 raise RuntimeError(f"{item.name} exited unexpectedly with code {code}")
 
+    def _terminate_process(self, process: subprocess.Popen[str]) -> None:
+        if process.poll() is not None:
+            return
+
+        if os.name == "nt":
+            process.terminate()
+            return
+
+        self._signal_group(process, signal.SIGTERM)
+
+    def _kill_process(self, process: subprocess.Popen[str]) -> None:
+        if process.poll() is not None:
+            return
+
+        if os.name == "nt":
+            process.kill()
+            return
+
+        self._signal_group(process, signal.SIGKILL)
+
     def _signal_group(self, process: subprocess.Popen[str], sig: int) -> None:
         if process.poll() is not None:
             return
+
         try:
             os.killpg(process.pid, sig)
             return

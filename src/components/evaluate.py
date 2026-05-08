@@ -1,3 +1,10 @@
+"""
+Evaluation logic for converting browser observations into rewards.
+
+- evaluate each rule against collected observations
+- combie rule results with and/or semantics
+"""
+
 from __future__ import annotations
 
 import re

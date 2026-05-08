@@ -31,6 +31,8 @@
   - [Counter](#counter)
   - [Action](#action)
   - [Copy Left to Right](#copy-left-to-right)
+  - [Spreadsheet](#spreadsheet)
+  - [Spreadsheet2](#spreadsheet2)
 
 <!--TOC-->
 
@@ -397,8 +399,7 @@ ACTIONS: list[list[dict[str, Any]]] = [
 ]
 ```
 
-<br>
-
+<br/>
 
 ### Spreadsheet
 
@@ -417,6 +418,8 @@ ACTIONS: list[list[dict[str, Any]]] = [
     ],
 ]
 ```
+
+<br/>
 
 ### Spreadsheet2
 

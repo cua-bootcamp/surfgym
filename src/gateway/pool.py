@@ -32,12 +32,14 @@ from src.protocol.master_to_gateway import GetInstanceResponse
 
 _R = TypeVar("_R")
 _P = ParamSpec("_P")
+_IS_WINDOWS = os.name == "nt"
 
 
 class ProcessIsolator:
     def __init__(self, max_workers: int) -> None:
         self.max_workers = max_workers
         self.process_pool: Pool | None = None
+        self._started = False
         self._shutdown = False
         self._process_lock = threading.Lock()
 
@@ -49,9 +51,16 @@ class ProcessIsolator:
         *args: _P.args,
         **kwargs: _P.kwargs,
     ) -> _R:
-        pool = self.process_pool
         if self._shutdown:
             raise RuntimeError("Process isolator is shut down")
+        if not self._started:
+            raise RuntimeError("Process isolator is not started")
+
+        if _IS_WINDOWS:
+            check_timeout(func.__name__)
+            return func(*args, **kwargs)
+
+        pool = self.process_pool
         if pool is None:
             raise RuntimeError("Process isolator is not started")
 
@@ -78,17 +87,20 @@ class ProcessIsolator:
         with self._process_lock:
             if self._shutdown:
                 raise RuntimeError("Process isolator is shut down")
-            if self.process_pool is not None:
-                raise RuntimeError("Process isolator alreay started")
+            if self._started:
+                raise RuntimeError("Process isolator already started")
 
-            self.process_pool = multiprocessing.Pool(
-                processes=self.max_workers,
-                # initializer=self._worker_init,
-            )
+            if _IS_WINDOWS:
+                self._started = True
+                return
+
+            self.process_pool = multiprocessing.Pool(processes=self.max_workers)
+            self._started = True
 
     def stop(self) -> None:
         with self._process_lock:
             self._shutdown = True
+            self._started = False
             pool = self.process_pool
             self.process_pool = None
 
@@ -107,6 +119,9 @@ class ProcessIsolator:
         hard_timeout: float,
     ) -> _R:
         worker_pid = os.getpid()
+
+        if not hasattr(signal, "SIGALRM") or not hasattr(signal, "alarm"):
+            return func(*args, **kwargs)
 
         def timeout_handler(signum: int, frame: object) -> None:
             os._exit(1)

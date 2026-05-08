@@ -1,3 +1,10 @@
+"""
+Entry point for running the SurfGym Gateway server.
+
+- load and validate configuration
+- run Gateway server
+"""
+
 import argparse
 from pathlib import Path
 

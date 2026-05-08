@@ -1,3 +1,10 @@
+"""
+Task domain models and task loading utilities.
+
+- define Task schema and validation logic
+- load and parse task files and provide task_id-based lookup
+"""
+
 from __future__ import annotations
 
 import json
