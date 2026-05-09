@@ -18,6 +18,7 @@ from src.protocol.command import (
     MouseMoveCommand,
     MouseUpCommand,
     MouseWheelCommand,
+    PlaywrightKey,
     SleepCommand,
 )
 
@@ -102,7 +103,7 @@ TerminalAction: TypeAlias = FailAction | DoneAction
 
 
 class _SingleKeyAction(_BaseComputerAction):
-    key: str
+    key: PlaywrightKey
 
 
 class PressAction(_SingleKeyAction):
@@ -136,7 +137,7 @@ SingleKeyAction: TypeAlias = PressAction | KeyDownAction | KeyUpAction
 
 class HotkeyAction(_BaseComputerAction):
     action_type: Literal["HOTKEY"]
-    keys: list[str]
+    keys: list[PlaywrightKey]
 
     def to_commands(self) -> HotKeyCommand:
         return HotKeyCommand(keys=self.keys)

@@ -10,7 +10,7 @@ from typing_extensions import assert_never
 
 from src.components.log import logger
 from src.components.task import DomRule, Evaluation, SpreadsheetRule, Website
-from src.protocol.command import Command, MouseButtonType
+from src.protocol.command import Command, MouseButtonType, PlaywrightKey
 from src.protocol.instance_to_gateway import (
     InteractiveRegion,
     InteractiveTreeResponse,
@@ -138,19 +138,19 @@ class PlaywrightController:
         await self._ensure_page_ready(page)
         await page.keyboard.type(text)
 
-    async def key_down(self, page: Page, key: str):
+    async def key_down(self, page: Page, key: PlaywrightKey):
         await self._ensure_page_ready(page)
         await page.keyboard.down(key)
 
-    async def key_up(self, page: Page, key: str):
+    async def key_up(self, page: Page, key: PlaywrightKey):
         await self._ensure_page_ready(page)
         await page.keyboard.up(key)
 
-    async def key_press(self, page: Page, key: str):
+    async def key_press(self, page: Page, key: PlaywrightKey):
         await self._ensure_page_ready(page)
         await page.keyboard.press(key)
 
-    async def hotkey_press(self, page: Page, keys: list[str]):
+    async def hotkey_press(self, page: Page, keys: list[PlaywrightKey]):
         """
         Press specified keys in sequence.
         """
