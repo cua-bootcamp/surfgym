@@ -33,12 +33,12 @@ class Website(FrozenBaseModel):
     url: str
 
 
-class Rule(FrozenBaseModel):
+class _Rule(FrozenBaseModel):
     website_id: str = "default"
-
-
-class DomRule(Rule):
     match: Literal["contains", "exact", "regex"] = "contains"
+
+
+class DomRule(_Rule):
     target: Literal["text", "html", "url", "title", "attr"] = "text"
     value: str
     normalize_space: bool = False
@@ -58,23 +58,23 @@ class DomRule(Rule):
         return self
 
 
-class SpreadsheetRule(Rule):
+class SpreadsheetRule(_Rule):
     cell: str
     value: str
 
 
 # [WARNING] New rule union elements must be distinguishable by their shape!
-RuleUnion = Union[DomRule, SpreadsheetRule]
+Rule = Union[DomRule, SpreadsheetRule]
 
 
 class Evaluation(FrozenBaseModel):
     mode: Literal["dom", "spreadsheet"] = "dom"
     operator: Literal["or", "and"] = "and"
-    rules: list[RuleUnion]
+    rules: list[Rule]
 
     @field_validator("rules", mode="before")
     @classmethod
-    def listify_rule(cls, value: RuleUnion | list[RuleUnion]) -> list[RuleUnion]:
+    def listify_rule(cls, value: Rule | list[Rule]) -> list[Rule]:
         return value if isinstance(value, list) else [value]
 
     @model_validator(mode="after")

@@ -8,109 +8,51 @@ Evaluation logic for converting browser observations into rewards.
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass
 from typing import Literal
 
-from src.components.log import logger
-from src.components.task import DomRule, Evaluation, RuleUnion, SpreadsheetRule
-
-
-@dataclass(frozen=True)
-class RuleCheck:
-    passed: bool
-    message: str
-
-
-@dataclass(frozen=True)
-class EvaluationResult:
-    passed: bool
-    checks: tuple[RuleCheck, ...]
-
-    @property
-    def reward(self) -> float:
-        return 1.0 if self.passed else 0.0
-
-    def summary(self) -> str:
-        if not self.checks:
-            return "no evaluation rules"
-        return "; ".join(check.message for check in self.checks)
+from src.components.task import DomRule, Evaluation, Rule
 
 
 def evaluate_page_rules(
     evaluation: Evaluation,
-    snapshot: list[str],
-) -> EvaluationResult:
+    observations: list[str],
+) -> float:
     checks = tuple(
-        _evaluate_rule(
-            rule_id=rule_id,
-            rule=rule,
-            actual=snapshot[rule_id] if rule_id < len(snapshot) else None,
+        evaluate(
+            rule,
+            observation,
         )
-        for rule_id, rule in enumerate(evaluation.rules)
+        for rule, observation in zip(evaluation.rules, observations)
     )
 
     passed = (
-        all(check.passed for check in checks)
+        all(check for check in checks)
         if evaluation.operator == "and"
-        else any(check.passed for check in checks)
+        else any(check for check in checks)
     )
 
-    return EvaluationResult(passed=passed, checks=checks)
+    return 1.0 if passed else 0
 
 
-def _evaluate_rule(
-    *,
-    rule_id: int,
-    rule: RuleUnion,
-    actual: str | None,
-) -> RuleCheck:
-    if actual is None:
-        return RuleCheck(False, f"rule {rule_id}: observation missing")
-
-    ruleType = ""
-    target = None
-    passed = False
+def evaluate(rule: Rule, observation: str) -> bool:
     if isinstance(rule, DomRule):
-        ruleType = "DOM RULE"
-        passed = _matches(
-            actual=actual,
-            expected=rule.value,
+        return _matches(
+            observation,
+            rule.value,
             match=rule.match,
             normalize_space=rule.normalize_space,
             case_sensitive=rule.case_sensitive,
         )
-        target = _describe_rule_target(rule)
-    if isinstance(rule, SpreadsheetRule):
-        ruleType = "SPREADSHEET RULE"
-        passed = _matches(
-            actual=actual,
-            expected=rule.value,
-            match="exact",
-            normalize_space=False,
-            case_sensitive=True,
+    else:
+        return _matches(
+            observation, rule.value, match=rule.match, normalize_space=False, case_sensitive=True
         )
-        target = _describe_rule_target(rule)
-
-    status = "matched" if passed else f"{ruleType} in expected {rule.value!r}, got {actual!r}"
-    logger.info(status)
-    return RuleCheck(passed, f"rule {rule_id}: {target} {status}")
-
-
-def _describe_rule_target(rule: RuleUnion) -> str:
-    if isinstance(rule, DomRule):
-        if rule.selector is not None:
-            if rule.target == "attr":
-                return f"{rule.selector!r} attr {rule.attr!r}"
-            return f"{rule.selector!r} {rule.target}"
-        return rule.target
-
-    return f"cell {rule.cell}"
 
 
 def _matches(
-    *,
     actual: str,
     expected: str,
+    *,
     match: Literal["contains", "exact", "regex"],
     normalize_space: bool,
     case_sensitive: bool,
