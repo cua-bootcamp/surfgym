@@ -151,7 +151,7 @@ MultiKeyAction: TypeAlias = HotkeyAction
 
 
 class _MouseAction(_BaseComputerAction):
-    button: MouseButtonType = MouseButtonType.LEFT
+    button: MouseButtonType = "left"
 
 
 class MouseDownAction(_MouseAction):
@@ -196,7 +196,7 @@ class _BaseClickAction(_BaseComputerAction):
 
 class ClickAction(_BaseClickAction):
     action_type: Literal["CLICK"]
-    button: MouseButtonType = MouseButtonType.LEFT
+    button: MouseButtonType = "left"
     num_clicks: int = Field(default=1, ge=1)
 
     def to_commands(self) -> MouseClickCommand:
@@ -211,7 +211,7 @@ class RightClickAction(_BaseClickAction):
 
     def to_commands(self) -> MouseClickCommand:
         return self._to_click_command(
-            button=MouseButtonType.RIGHT,
+            button="right",
             click_count=1,
         )
 
@@ -221,7 +221,7 @@ class DoubleClickAction(_BaseClickAction):
 
     def to_commands(self) -> MouseClickCommand:
         return self._to_click_command(
-            button=MouseButtonType.LEFT,
+            button="left",
             click_count=2,
         )
 

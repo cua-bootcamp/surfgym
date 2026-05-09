@@ -3,10 +3,9 @@ set -euo pipefail
 
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/setting.sh"
 
-cd "$ROOT_DIR"
-    
-printf 'Executing "python -m http.server %s --directory %s"\n\n' \
-    "$FIXTURE_WEBSITE_PORT" \
-    "$FIXTURE_DIR/website"
+cd "$FIXTURE_DIR/website" || exit 1
 
-exec python -m http.server "$FIXTURE_WEBSITE_PORT" --directory "$FIXTURE_DIR/website"
+printf 'Executing "pnpm run preview -- --host 127.0.0.1 --port %s --strictPort"\n\n' \
+    "$FIXTURE_WEBSITE_PORT"
+
+exec pnpm run preview -- --host 127.0.0.1 --port "$FIXTURE_WEBSITE_PORT" --strictPort

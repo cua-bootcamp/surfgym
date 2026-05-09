@@ -10,7 +10,7 @@ from typing_extensions import assert_never
 
 from src.components.log import logger
 from src.components.task import DomRule, Evaluation, SpreadsheetRule, Website
-from src.protocol.command import Command, CommandType, MouseButtonType
+from src.protocol.command import Command, MouseButtonType
 from src.protocol.instance_to_gateway import (
     InteractiveRegion,
     InteractiveTreeResponse,
@@ -105,9 +105,7 @@ class PlaywrightController:
         click_count: int,
     ):
         await self._ensure_page_ready(page)
-        await page.mouse.click(
-            cursor.x, cursor.y, delay=10, button=button.value, click_count=click_count
-        )
+        await page.mouse.click(cursor.x, cursor.y, delay=10, button=button, click_count=click_count)
         self.cursor = cursor
 
     async def hover_coords(self, page: Page, cursor: PageCursor):
@@ -205,7 +203,7 @@ class PlaywrightController:
             + (float(size["height"]) / 2)
         )
 
-        await page.mouse.click(x, y, button=MouseButtonType.LEFT.value, click_count=1)
+        await page.mouse.click(x, y, button="left", click_count=1)
         self.cursor = PageCursor(x, y)
         await page.wait_for_timeout(250)
 
@@ -213,10 +211,8 @@ class PlaywrightController:
             str | None,
             await page.evaluate(
                 """() => {
-                    const input = document.querySelector(
-                        'input[placeholder^="Enter value or formula"]'
-                    );
-                    return input ? String(input.value || "") : "";
+                    const input = document.querySelector('[data-testid="spreadsheet-formula-input"]');
+                    return input ? String(input.getAttribute('data-value') || input.textContent || "") : "";
                 }"""
             ),
         )
@@ -342,12 +338,12 @@ class PlaywrightInstance:
         page = self.pages[self.active_page_id]
 
         match command.command:
-            case CommandType.MOUSE_MOVE:
+            case "mouse_move":
                 page_cursor = self._screen_to_page_cursor(command.x, command.y)
                 page = self.pages[self.active_page_id]
                 return await self.controller.hover_coords(page, page_cursor)
 
-            case CommandType.MOUSE_CLICK:
+            case "mouse_click":
                 page_cursor = self._screen_to_page_cursor(command.x, command.y)
                 page = self.pages[self.active_page_id]
                 return await self.controller.click_coords(
@@ -357,43 +353,43 @@ class PlaywrightInstance:
                     click_count=command.clickCount,
                 )
 
-            case CommandType.MOUSE_DOWN:
+            case "mouse_down":
                 return await self.controller.mouse_down(page)
 
-            case CommandType.MOUSE_UP:
+            case "mouse_up":
                 return await self.controller.mouse_up(page)
 
-            case CommandType.MOUSE_WHEEL:
+            case "mouse_wheel":
                 return await self.controller.scroll_pointer(page, command.dx, command.dy)
 
-            case CommandType.DRAG_TO:
+            case "drag_to":
                 page_cursor = self._screen_to_page_cursor(command.x, command.y)
                 page = self.pages[self.active_page_id]
                 return await self.controller.drag_to(page, page_cursor)
 
-            case CommandType.KEYBOARD_TYPE:
+            case "typing":
                 return await self.controller.keyboard_type(page, command.text)
 
-            case CommandType.KEY_DOWN:
+            case "key_down":
                 return await self.controller.key_down(page, command.key)
 
-            case CommandType.KEY_UP:
+            case "key_up":
                 return await self.controller.key_up(page, command.key)
 
-            case CommandType.KEY_PRESS:
+            case "key_press":
                 logger.info(f"Pressing on {self.active_page_id}")
                 return await self.controller.key_press(page, command.key)
 
-            case CommandType.HOT_KEY:
+            case "hot_key":
                 return await self.controller.hotkey_press(page, command.keys)
 
-            case CommandType.SNAPSHOT:
+            case "observe":
                 return await self._get_snapshot(command.evaluation)
 
-            case CommandType.INTERACTIVE_TREE:
+            case "interactive_tree":
                 return await self._get_interactive_tree()
 
-            case CommandType.SLEEP:
+            case "sleep":
                 await self.controller.sleep(page, command.duration_ms)
 
             case _ as unreachable:

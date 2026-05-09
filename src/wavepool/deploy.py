@@ -15,6 +15,14 @@ from pydantic import ValidationError
 from src.config import Config
 
 
+def _is_windows() -> bool:
+    return os.name == "nt"
+
+
+def _windows_process_group_flag() -> int:
+    return getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0)
+
+
 @dataclass
 class ManagedProcess:
     name: str
@@ -151,19 +159,25 @@ class SurfGymSupervisor:
     def _spawn(self, *, name: str, cmd: list[str]) -> None:
         print(f"[surfgym-deploy] starting {name}: {' '.join(cmd)}", flush=True)
 
-        popen_kwargs = {
-            "stdout": subprocess.PIPE,
-            "stderr": subprocess.STDOUT,
-            "text": True,
-            "bufsize": 1,
-        }
-
-        if os.name == "nt":
-            popen_kwargs["creationflags"] = subprocess.CREATE_NEW_PROCESS_GROUP
+        if _is_windows():
+            process = subprocess.Popen(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                bufsize=1,
+                creationflags=_windows_process_group_flag(),
+            )
         else:
-            popen_kwargs["start_new_session"] = True
+            process = subprocess.Popen(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                bufsize=1,
+                start_new_session=True,
+            )
 
-        process = subprocess.Popen(cmd, **popen_kwargs)
         self.processes.append(ManagedProcess(name=name, process=process))
         thread = threading.Thread(
             target=self._stream_output,

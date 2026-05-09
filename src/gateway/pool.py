@@ -21,7 +21,7 @@ from src.protocol.command import (
     Command,
     CommandPayload,
     InteractiveTreeCommand,
-    SnapShotCommand,
+    ObserveCommand,
 )
 from src.protocol.instance_to_gateway import (
     InteractiveTreeResponse,
@@ -245,7 +245,7 @@ class GatewayPool:
             deadline,
             instance_id,
             instance_port,
-            SnapShotCommand(evaluation=evaluation),
+            ObserveCommand(evaluation=evaluation),
         )
 
     def get_interactive_tree(
@@ -307,7 +307,7 @@ def execute_browser_command(
     host: str,
     port: int,
     instance_id: str,
-    command: SnapShotCommand,
+    command: ObserveCommand,
 ) -> SnapshotResponse: ...
 
 
@@ -333,7 +333,7 @@ def execute_browser_command(
         case InteractiveTreeCommand():
             return InteractiveTreeResponse.model_validate(json_payload)
 
-        case SnapShotCommand():
+        case ObserveCommand():
             return SnapshotResponse.model_validate(json_payload)
 
         case _:

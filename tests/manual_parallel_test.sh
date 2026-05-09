@@ -100,11 +100,12 @@ wait_for_http \
 if [[ "$WITH_FIXTURE_WEBSITE" == "true" ]]; then
   logstep "#3 launching fixture website"
   (
-    cd "$ROOT_DIR" || exit 1
-    printf 'Executing "python -m http.server %s --directory %s"\n\n' \
-      "$FIXTURE_WEBSITE_PORT" \
-      "$FIXTURE_DIR/website"
-    exec python -m http.server "$FIXTURE_WEBSITE_PORT" --directory "$FIXTURE_DIR/website"
+    cd "$FIXTURE_DIR/website" || exit 1
+
+    printf 'Executing "pnpm run preview -- --host 127.0.0.1 --port %s --strictPort"\n\n' \
+      "$FIXTURE_WEBSITE_PORT"
+
+    exec pnpm run preview -- --host 127.0.0.1 --port "$FIXTURE_WEBSITE_PORT" --strictPort
   ) &
   PIDS+=("$!")
 
