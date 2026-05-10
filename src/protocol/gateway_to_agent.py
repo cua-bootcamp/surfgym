@@ -40,12 +40,14 @@ class ErrorResponseType(str, Enum):
     GATEWAY_BUSY = "gateway_busy"
     FAIL_REQUEST_HANDLE = "fail_request_handle"
     NO_OPERATION_BUDGET = "no_operation_budget"
+    INVALID_REQUEST = "invalid_request"
 
 
 ERROR_MESSAGES: dict[ErrorResponseType, str] = {
     ErrorResponseType.GATEWAY_BUSY: "Timed out waiting for gateway in-flight capacity.",
     ErrorResponseType.FAIL_REQUEST_HANDLE: "Failed to handle request.",
     ErrorResponseType.NO_OPERATION_BUDGET: "No operation budget remains after gateway admission.",
+    ErrorResponseType.INVALID_REQUEST: "Invalid request.",
 }
 
 
