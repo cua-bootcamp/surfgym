@@ -10,7 +10,7 @@ from __future__ import annotations
 import re
 from typing import Literal
 
-from src.components.task import DomRule, Evaluation, Rule
+from src.components.task import Evaluation, Rule
 
 
 def evaluate_page_rules(
@@ -35,24 +35,18 @@ def evaluate_page_rules(
 
 
 def evaluate(rule: Rule, observation: str) -> bool:
-    if isinstance(rule, DomRule):
-        return _matches(
-            observation,
-            rule.value,
-            match=rule.match,
-            normalize_space=rule.normalize_space,
-            case_sensitive=rule.case_sensitive,
-        )
-    else:
-        return _matches(
-            observation, rule.value, match=rule.match, normalize_space=False, case_sensitive=True
-        )
+    return _matches(
+        observation,
+        rule.value,
+        match=rule.match,
+        normalize_space=rule.normalize_space,
+        case_sensitive=rule.case_sensitive,
+    )
 
 
 def _matches(
     actual: str,
     expected: str,
-    *,
     match: Literal["contains", "exact", "regex"],
     normalize_space: bool,
     case_sensitive: bool,

@@ -9,8 +9,9 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Annotated, Any, Literal, Optional, Union
+from typing import Annotated, Any, Literal, Optional, Union, cast
 
+import json5
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -34,16 +35,20 @@ class Website(FrozenBaseModel):
 
 
 class _Rule(FrozenBaseModel):
+    mode: Literal["dom", "spreadsheet", "console"] = "dom"
     website_id: str = "default"
     match: Literal["contains", "exact", "regex"] = "contains"
+    normalize_space: bool = False
+    case_sensitive: bool = True
+    value: str
+
+
+class ConsoleRule(_Rule):
+    script: str
 
 
 class DomRule(_Rule):
     target: Literal["text", "html", "url", "title", "attr"] = "text"
-    value: str
-    normalize_space: bool = False
-    case_sensitive: bool = True
-
     selector: Optional[str] = None
     attr: Optional[str] = None
 
@@ -60,15 +65,12 @@ class DomRule(_Rule):
 
 class SpreadsheetRule(_Rule):
     cell: str
-    value: str
 
 
-# [WARNING] New rule union elements must be distinguishable by their shape!
-Rule = Union[DomRule, SpreadsheetRule]
+Rule = Union[DomRule, SpreadsheetRule, ConsoleRule]
 
 
 class Evaluation(FrozenBaseModel):
-    mode: Literal["dom", "spreadsheet"] = "dom"
     operator: Literal["or", "and"] = "and"
     rules: list[Rule]
 
@@ -76,15 +78,6 @@ class Evaluation(FrozenBaseModel):
     @classmethod
     def listify_rule(cls, value: Rule | list[Rule]) -> list[Rule]:
         return value if isinstance(value, list) else [value]
-
-    @model_validator(mode="after")
-    def validate_mode_matches_rules(self) -> "Evaluation":
-        for rule in self.rules:
-            if self.mode == "dom" and not isinstance(rule, DomRule):
-                raise ValueError("dom evaluation requires only DomRule")
-            if self.mode == "spreadsheet" and not isinstance(rule, SpreadsheetRule):
-                raise ValueError("spreadsheet evaluation requires only SpreadsheetRule")
-        return self
 
 
 class Task(FrozenBaseModel):
@@ -141,7 +134,7 @@ def _load_task_rows(path: Path) -> list[Task]:
         raise FileNotFoundError(path)
 
     suffix = path.suffix.lower()
-    if suffix not in {".json", ".jsonl", ".ndjson"}:
+    if suffix not in {".json", ".jsonl", ".ndjson", ".jsonc"}:
         raise ValueError(f"Unsupported task file type: {path.suffix}")
 
     text = path.read_text(encoding="utf-8").strip()
@@ -150,6 +143,8 @@ def _load_task_rows(path: Path) -> list[Task]:
 
     if suffix in {".jsonl", ".ndjson"}:
         payload = [json.loads(line) for line in text.splitlines() if line.strip()]
+    elif suffix == ".jsonc":
+        payload = cast(Any, json5.loads(text))
     else:
         payload = json.loads(text)
 

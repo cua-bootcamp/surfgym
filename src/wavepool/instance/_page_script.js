@@ -257,13 +257,6 @@ window.Surfgym =
       return normalizeText(element.innerText);
     }
 
-    function ensureElementId(element) {
-      if (!element.hasAttribute("__elementId")) {
-        element.setAttribute("__elementId", String(nextLabel++));
-      }
-      return element.getAttribute("__elementId");
-    }
-
     function isPointInViewport(x, y) {
       const viewportWidth =
         window.innerWidth || document.documentElement.clientWidth;
@@ -505,19 +498,178 @@ window.Surfgym =
     }
 
     // #####################################
-    // #        getInteractiveRects        #
+    // #         getDomObservation         #
     // #####################################
 
+    function readFromPage(rule) {
+      if (rule.target === "url") return window.location.href;
+
+      if (rule.target === "title") return document.title || "";
+
+      if (rule.target === "text")
+        return document.body ? document.body.innerText || "" : "";
+
+      if (rule.target === "html")
+        return document.documentElement
+          ? document.documentElement.outerHTML || ""
+          : "";
+
+      return "";
+    }
+
+    function readAttr(element, attr) {
+      if (!attr) {
+        return "";
+      }
+
+      if (attr in element) {
+        const value = element[attr];
+        return value === undefined || value === null ? "" : String(value);
+      }
+
+      return element.getAttribute(attr) || "";
+    }
+
+    function readFromElement(rule) {
+      let element = null;
+      try {
+        element = document.querySelector(rule.selector);
+      } catch {
+        return "";
+      }
+
+      if (!element) return "";
+      if (rule.target === "text") {
+        return element.innerText || element.textContent || "";
+      }
+      if (rule.target === "html") {
+        return element.outerHTML || "";
+      }
+      if (rule.target === "attr") {
+        return readAttr(element, rule.attr);
+      }
+
+      return "";
+    }
+
+    function getDomObservation(rules) {
+      return rules.map((rule) =>
+        rule.selector ? readFromElement(rule) : readFromPage(rule)
+      );
+    }
+
+    // #####################################
+    // #     getSpreadsheetObservation     #
+    // #####################################
+
+    function getSpreadsheetObservation() {
+      const canvas = document.querySelector(
+        "canvas[id^='univer-sheet-main-canvas']"
+      );
+      if (!canvas) return null;
+
+      const rect = canvas.getBoundingClientRect();
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
+
+      const w = canvas.width;
+      const h = canvas.height;
+      const data = ctx.getImageData(0, 0, w, h).data;
+
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+
+      function isNonWhite(x, y) {
+        const i = (y * w + x) * 4;
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+        const a = data[i + 3];
+
+        if (a < 20) return false;
+
+        return Math.abs(255 - r) + Math.abs(255 - g) + Math.abs(255 - b) > 35;
+      }
+
+      function compact(values) {
+        const out = [];
+        let start = null;
+        let prev = null;
+
+        for (const v of values) {
+          if (start === null) {
+            start = prev = v;
+          } else if (v === prev + 1) {
+            prev = v;
+          } else {
+            out.push(Math.round((start + prev) / 2));
+            start = prev = v;
+          }
+        }
+
+        if (start !== null) out.push(Math.round((start + prev) / 2));
+        return out;
+      }
+
+      function verticalLines() {
+        const hits = [];
+        const y1 = 40;
+        const y2 = h - 20;
+        const threshold = (y2 - y1) * 0.45;
+
+        for (let x = 0; x < w; x++) {
+          let count = 0;
+          for (let y = y1; y < y2; y++) {
+            if (isNonWhite(x, y)) count++;
+          }
+          if (count > threshold) hits.push(x);
+        }
+
+        return compact(hits);
+      }
+
+      function horizontalLines() {
+        const hits = [];
+        const x1 = 80;
+        const x2 = w - 20;
+        const threshold = (x2 - x1) * 0.45;
+
+        for (let y = 0; y < h; y++) {
+          let count = 0;
+          for (let x = x1; x < x2; x++) {
+            if (isNonWhite(x, y)) count++;
+          }
+          if (count > threshold) hits.push(y);
+        }
+
+        return compact(hits);
+      }
+
+      const xLines = verticalLines();
+      const yLines = horizontalLines();
+
+      if (xLines.length < 2 || yLines.length < 2) {
+        return null;
+      }
+
+      return {
+        canvas: {
+          left: rect.left,
+          top: rect.top
+        },
+        start: {
+          x: xLines[0] / scaleX,
+          y: yLines[0] / scaleY
+        },
+        size: {
+          width: (xLines[1] - xLines[0]) / scaleX,
+          height: (yLines[1] - yLines[0]) / scaleY
+        }
+      };
+    }
+
     return {
-      getInteractiveRects: getInteractiveRects
+      getInteractiveRects: getInteractiveRects,
+      getDomObservation: getDomObservation,
+      getSpreadsheetObservation: getSpreadsheetObservation
     };
   })();
-
-// [
-//    {
-//     "role": "button",
-//     "visible_text": "increase counter",
-//     "bbox": [498, 563, 62, 44]
-//    }
-// ...
-// ]

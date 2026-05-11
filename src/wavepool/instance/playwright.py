@@ -1,21 +1,22 @@
 import os
+from collections import defaultdict
 from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
-from typing import Any, Union, cast
+from typing import Any, DefaultDict, Union, cast
 
 from PIL import Image
 from playwright.async_api import Page, async_playwright
 from typing_extensions import assert_never
 
 from src.components.log import logger
-from src.components.task import DomRule, Evaluation, SpreadsheetRule, Website
+from src.components.task import ConsoleRule, DomRule, Evaluation, Rule, SpreadsheetRule, Website
 from src.protocol.command import Command, MouseButtonType, PlaywrightKey
 from src.protocol.instance_to_gateway import (
     InteractiveRegion,
     InteractiveTreeResponse,
     MousePosition,
-    SnapshotResponse,
+    ObservationResponse,
     interactive_region_list_adapter,
 )
 
@@ -62,12 +63,6 @@ class PlaywrightController:
 
     async def sleep(self, page: Page, duration_ms: Union[int, float]) -> None:
         await page.wait_for_timeout(duration_ms)
-
-    async def get_interactive_rects(self, page: Page) -> list[InteractiveRegion]:
-        await self._ensure_page_ready(page)
-        return interactive_region_list_adapter.validate_python(
-            await page.evaluate("Surfgym.getInteractiveRects();")
-        )
 
     async def _ensure_page_ready(self, page: Page) -> None:
         assert page is not None
@@ -147,66 +142,83 @@ class PlaywrightController:
         for key in reversed(keys):
             await page.keyboard.up(key)
 
-    async def dom_snapshot(self, page: Page, dom_rule: DomRule) -> str:
+    async def get_interactive_rects(self, page: Page) -> list[InteractiveRegion]:
         await self._ensure_page_ready(page)
-        snapshots = cast(
-            list[str],
-            await page.evaluate(
-                DOM_SNAPSHOT_SCRIPT,
-                [
-                    {
-                        "target": dom_rule.target,
-                        "selector": dom_rule.selector,
-                        "attr": dom_rule.attr,
-                    }
-                ],
-            ),
+        return interactive_region_list_adapter.validate_python(
+            await page.evaluate("Surfgym.getInteractiveRects();")
         )
-        return snapshots[0] if snapshots else ""
 
-    async def spreadsheet_snapshot(self, page: Page, rule: SpreadsheetRule) -> str:
+    async def get_console_observation(
+        self, page: Page, console_rules: list[ConsoleRule]
+    ) -> list[str]:
         await self._ensure_page_ready(page)
 
-        meta = cast(dict[str, Any] | None, await page.evaluate(SPREADSHEET_META_SCRIPT))
+        observations: list[str] = []
+        for rule in console_rules:
+            observations.append(await page.evaluate(rule.script))
+
+        return observations
+
+    async def get_dom_observation(self, page: Page, dom_rules: list[DomRule]) -> list[str]:
+        await self._ensure_page_ready(page)
+        return await page.evaluate(
+            """
+    (rules) => {
+        return Surfgym.getDomObservation(rules);
+    }
+    """,
+            [rule.model_dump(mode="json") for rule in dom_rules],
+        )
+
+    async def get_spreadsheet_observation(
+        self, page: Page, spreadsheet_rules: list[SpreadsheetRule]
+    ) -> list[str]:
+        await self._ensure_page_ready(page)
+
+        meta = cast(
+            dict[str, Any] | None, await page.evaluate("Surfgym.getSpreadsheetObservation();")
+        )
         if meta is None:
-            return ""
+            return [""] * len(spreadsheet_rules)
 
-        canvas = meta["canvas"]
-        start = meta["start"]
-        size = meta["size"]
+        observations: list[str] = []
+        for rule in spreadsheet_rules:
+            canvas = meta["canvas"]
+            start = meta["start"]
+            size = meta["size"]
 
-        col_index, row_index = _cell_indices(rule.cell)
+            col_index, row_index = _cell_indices(rule.cell)
 
-        x = (
-            float(canvas["left"])
-            + float(start["x"])
-            + (col_index * float(size["width"]))
-            + (float(size["width"]) / 2)
-        )
-        y = (
-            float(canvas["top"])
-            + float(start["y"])
-            + (row_index * float(size["height"]))
-            + (float(size["height"]) / 2)
-        )
+            x = (
+                float(canvas["left"])
+                + float(start["x"])
+                + (col_index * float(size["width"]))
+                + (float(size["width"]) / 2)
+            )
+            y = (
+                float(canvas["top"])
+                + float(start["y"])
+                + (row_index * float(size["height"]))
+                + (float(size["height"]) / 2)
+            )
 
-        await page.mouse.click(x, y, button="left", click_count=1)
-        self.cursor = PageCursor(x, y)
-        await page.wait_for_timeout(250)
+            await page.mouse.click(x, y, button="left", click_count=1)
+            self.cursor = PageCursor(x, y)
+            await page.wait_for_timeout(250)
 
-        value = cast(
-            str | None,
-            await page.evaluate(
-                """() => {
-                    const input = document.querySelector('[data-testid="spreadsheet-formula-input"]');
-                    return input ? String(input.getAttribute('data-value') || input.textContent || "") : "";
-                }"""
-            ),
-        )
+            value = cast(
+                str | None,
+                await page.evaluate(
+                    """() => {
+                        const input = document.querySelector('[data-testid="spreadsheet-formula-input"]');
+                        return input ? String(input.getAttribute('data-value') || input.textContent || "") : "";
+                    }"""
+                ),
+            )
 
-        if value is None:
-            return ""
-        return value
+            observations.append(value if value is not None else "")
+
+        return observations
 
 
 class PlaywrightInstance:
@@ -371,7 +383,7 @@ class PlaywrightInstance:
                 return await self.controller.hotkey_press(page, command.keys)
 
             case "observe":
-                return await self._get_snapshot(command.evaluation)
+                return await self._get_observation(command.evaluation)
 
             case "interactive_tree":
                 return await self._get_interactive_tree()
@@ -407,20 +419,44 @@ class PlaywrightInstance:
             regions=regions,
         )
 
-    async def _get_snapshot(self, evaluation: Evaluation) -> SnapshotResponse:
-        page_snapshot: list[str] = []
+    async def _get_observation(self, evaluation: Evaluation) -> ObservationResponse:
+        rules = evaluation.rules
+        observations: list[str] = [""] * len(rules)
 
-        for rule in evaluation.rules:
-            page = self.pages[rule.website_id]
-            if evaluation.mode == "dom":
-                domrule = cast(DomRule, rule)
-                page_snapshot.append(await self.controller.dom_snapshot(page, domrule))
+        grouped_rules: DefaultDict[tuple[str, str], list[tuple[int, Rule]]] = defaultdict(list)
 
-            if evaluation.mode == "spreadsheet":
-                srule = cast(SpreadsheetRule, rule)
-                page_snapshot.append(await self.controller.spreadsheet_snapshot(page, srule))
+        for idx, rule in enumerate(rules):
+            grouped_rules[(rule.website_id, rule.mode)].append((idx, rule))
 
-        return SnapshotResponse(snapshot=page_snapshot)
+        for (website_id, mode), indexed_rules in grouped_rules.items():
+            page = self.pages[website_id]
+
+            idx_arr = [idx for idx, _ in indexed_rules]
+            rule_arr = [rule for _, rule in indexed_rules]
+            obs_arr = []
+
+            if mode == "dom":
+                obs_arr = await self.controller.get_dom_observation(
+                    page=page,
+                    dom_rules=cast(list[DomRule], rule_arr),
+                )
+
+            if mode == "spreadsheet":
+                obs_arr = await self.controller.get_spreadsheet_observation(
+                    page=page,
+                    spreadsheet_rules=cast(list[SpreadsheetRule], rule_arr),
+                )
+
+            if mode == "console":
+                obs_arr = await self.controller.get_console_observation(
+                    page=page,
+                    console_rules=cast(list[ConsoleRule], rule_arr),
+                )
+
+            for original_idx, obs in zip(idx_arr, obs_arr):
+                observations[original_idx] = obs
+
+        return ObservationResponse(observation=observations)
 
     def _screen_to_page_cursor(self, x: float | None, y: float | None) -> PageCursor:
         if x is None or y is None:
@@ -512,184 +548,6 @@ def build_page_layouts(
             height=half_height,
         ),
     ]
-
-
-DOM_SNAPSHOT_SCRIPT = """(rules) => {
-function readText(element) {
-return element.innerText || element.textContent || "";
-}
-
-function readAttr(element, attr) {
-if (!attr) {
-    return "";
-}
-
-if (attr in element) {
-    const value = element[attr];
-    return value === undefined || value === null ? "" : String(value);
-}
-
-return element.getAttribute(attr) || "";
-}
-
-function readFromElement(rule) {
-if (!rule.selector) {
-    return "";
-}
-
-let element = null;
-try {
-    element = document.querySelector(rule.selector);
-} catch {
-    return "";
-}
-
-if (!element) {
-    return "";
-}
-
-if (rule.target === "text") {
-    return readText(element);
-}
-if (rule.target === "html") {
-    return element.outerHTML || "";
-}
-if (rule.target === "attr") {
-    return readAttr(element, rule.attr);
-}
-
-return "";
-}
-
-function readFromPage(rule) {
-if (rule.target === "url") {
-    return window.location.href;
-}
-if (rule.target === "title") {
-    return document.title || "";
-}
-if (rule.target === "text") {
-    return document.body ? document.body.innerText || "" : "";
-}
-if (rule.target === "html") {
-    return document.documentElement
-        ? document.documentElement.outerHTML || ""
-        : "";
-}
-
-return "";
-}
-
-return rules.map((rule) =>
-rule.selector ? readFromElement(rule) : readFromPage(rule)
-);
-}
-"""
-
-
-SPREADSHEET_META_SCRIPT = """(() => {
-  const canvas = document.querySelector("canvas[id^='univer-sheet-main-canvas']");
-  if (!canvas) return null;
-
-  const rect = canvas.getBoundingClientRect();
-  const ctx = canvas.getContext("2d", { willReadFrequently: true });
-
-  const w = canvas.width;
-  const h = canvas.height;
-  const data = ctx.getImageData(0, 0, w, h).data;
-
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
-
-  function isNonWhite(x, y) {
-    const i = (y * w + x) * 4;
-    const r = data[i];
-    const g = data[i + 1];
-    const b = data[i + 2];
-    const a = data[i + 3];
-
-    if (a < 20) return false;
-
-    return Math.abs(255 - r) + Math.abs(255 - g) + Math.abs(255 - b) > 35;
-  }
-
-  function compact(values) {
-    const out = [];
-    let start = null;
-    let prev = null;
-
-    for (const v of values) {
-      if (start === null) {
-        start = prev = v;
-      } else if (v === prev + 1) {
-        prev = v;
-      } else {
-        out.push(Math.round((start + prev) / 2));
-        start = prev = v;
-      }
-    }
-
-    if (start !== null) out.push(Math.round((start + prev) / 2));
-    return out;
-  }
-
-  function verticalLines() {
-    const hits = [];
-    const y1 = 40;
-    const y2 = h - 20;
-    const threshold = (y2 - y1) * 0.45;
-
-    for (let x = 0; x < w; x++) {
-      let count = 0;
-      for (let y = y1; y < y2; y++) {
-        if (isNonWhite(x, y)) count++;
-      }
-      if (count > threshold) hits.push(x);
-    }
-
-    return compact(hits);
-  }
-
-  function horizontalLines() {
-    const hits = [];
-    const x1 = 80;
-    const x2 = w - 20;
-    const threshold = (x2 - x1) * 0.45;
-
-    for (let y = 0; y < h; y++) {
-      let count = 0;
-      for (let x = x1; x < x2; x++) {
-        if (isNonWhite(x, y)) count++;
-      }
-      if (count > threshold) hits.push(y);
-    }
-
-    return compact(hits);
-  }
-
-  const xLines = verticalLines();
-  const yLines = horizontalLines();
-
-  if (xLines.length < 2 || yLines.length < 2) {
-    return null;
-  }
-
-  return {
-    canvas: {
-      left: rect.left,
-      top: rect.top,
-    },
-    start: {
-      x: xLines[0] / scaleX,
-      y: yLines[0] / scaleY,
-    },
-    size: {
-      width: (xLines[1] - xLines[0]) / scaleX,
-      height: (yLines[1] - yLines[0]) / scaleY,
-    },
-  };
-})();
-"""
 
 
 def _cell_indices(address: str) -> tuple[int, int]:

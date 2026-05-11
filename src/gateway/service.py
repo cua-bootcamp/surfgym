@@ -192,7 +192,7 @@ class Service:
             evaluation=task.evaluation,
         )
 
-        return evaluate_page_rules(task.evaluation, snapshot.snapshot)
+        return evaluate_page_rules(task.evaluation, snapshot.observation)
 
     def _release(self, lease: Lease):
         release_deadline = Deadline(time.monotonic() + self.RELEASE_TIMEOUT_SEC)

@@ -25,8 +25,8 @@ from src.protocol.command import (
 )
 from src.protocol.instance_to_gateway import (
     InteractiveTreeResponse,
+    ObservationResponse,
     ScreenshotResponse,
-    SnapshotResponse,
 )
 from src.protocol.master_to_gateway import GetInstanceResponse
 
@@ -240,7 +240,7 @@ class GatewayPool:
         instance_id: str,
         instance_port: int,
         evaluation: Evaluation,
-    ) -> SnapshotResponse:
+    ) -> ObservationResponse:
         return self.execute_browser_command(
             deadline,
             instance_id,
@@ -308,7 +308,7 @@ def execute_browser_command(
     port: int,
     instance_id: str,
     command: ObserveCommand,
-) -> SnapshotResponse: ...
+) -> ObservationResponse: ...
 
 
 @overload
@@ -325,7 +325,7 @@ def execute_browser_command(
     port: int,
     instance_id: str,
     command: CommandPayload,
-) -> SnapshotResponse | InteractiveTreeResponse | Any:
+) -> ObservationResponse | InteractiveTreeResponse | Any:
     response = _instance_client(host=host, port=port).execute(instance_id, command)
     json_payload = _handle_response(response)
 
@@ -334,7 +334,7 @@ def execute_browser_command(
             return InteractiveTreeResponse.model_validate(json_payload)
 
         case ObserveCommand():
-            return SnapshotResponse.model_validate(json_payload)
+            return ObservationResponse.model_validate(json_payload)
 
         case _:
             return json_payload

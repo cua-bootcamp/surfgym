@@ -4,73 +4,72 @@
     "instruction": "Make the counter value 5.",
     "website": "http://127.0.0.1:8123/counter.html",
     "evaluation": {
-      "rules": 
-        {
-          "selector": "#count",
-          "value": "5",
-          "match": "exact"
-        }
+      "rules": {
+        "selector": "#count",
+        "value": "5",
+        "match": "exact"
+      }
     }
   },
   {
-  "task_id": "action",
-  "instruction": "Complete every interaction on the Action Lab page: click, double click, right click, drag, scroll to the hidden button, and type action-lab.",
-  "website": "http://127.0.0.1:8123/action.html",
-  "evaluation": {
-    "operator": "and",
-    "rules": [
-      {
-        "selector": "#click-status",
-        "target": "attr",
-        "attr": "data-done",
-        "value": "true",
-        "match": "exact"
-      },
-      {
-        "selector": "#double-click-status",
-        "target": "attr",
-        "attr": "data-done",
-        "value": "true",
-        "match": "exact"
-      },
-      {
-        "selector": "#right-click-status",
-        "target": "attr",
-        "attr": "data-done",
-        "value": "true",
-        "match": "exact"
-      },
-      {
-        "selector": "#drag-status",
-        "target": "attr",
-        "attr": "data-done",
-        "value": "true",
-        "match": "exact"
-      },
-      {
-        "selector": "#scroll-status",
-        "target": "attr",
-        "attr": "data-done",
-        "value": "true",
-        "match": "exact"
-      },
-      {
-        "selector": "#typing-status",
-        "target": "attr",
-        "attr": "data-done",
-        "value": "true",
-        "match": "exact"
-      },
-      {
-        "selector": "#all-status",
-        "target": "attr",
-        "attr": "data-done",
-        "value": "true",
-        "match": "exact"
-      }
-    ]
-  }
-},
+    "task_id": "action",
+    "instruction": "Complete every interaction on the Action Lab page: click, double click, right click, drag, scroll to the hidden button, and type action-lab.",
+    "website": "http://127.0.0.1:8123/action.html",
+    "evaluation": {
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "#click-status",
+          "target": "attr",
+          "attr": "data-done",
+          "value": "true",
+          "match": "exact"
+        },
+        {
+          "selector": "#double-click-status",
+          "target": "attr",
+          "attr": "data-done",
+          "value": "true",
+          "match": "exact"
+        },
+        {
+          "selector": "#right-click-status",
+          "target": "attr",
+          "attr": "data-done",
+          "value": "true",
+          "match": "exact"
+        },
+        {
+          "selector": "#drag-status",
+          "target": "attr",
+          "attr": "data-done",
+          "value": "true",
+          "match": "exact"
+        },
+        {
+          "selector": "#scroll-status",
+          "target": "attr",
+          "attr": "data-done",
+          "value": "true",
+          "match": "exact"
+        },
+        {
+          "selector": "#typing-status",
+          "target": "attr",
+          "attr": "data-done",
+          "value": "true",
+          "match": "exact"
+        },
+        {
+          "selector": "#all-status",
+          "target": "attr",
+          "attr": "data-done",
+          "value": "true",
+          "match": "exact"
+        }
+      ]
+    }
+  },
   {
     "task_id": "copy_left_to_right",
     "instruction": "Copy the exact text from the left browser into the answer field in the right browser.",
@@ -99,21 +98,21 @@
     }
   },
   {
-   "task_id": "spreadsheet_1",
-   "instruction": "Insert 5 at B10.",
-   "website": "http://127.0.0.1:8123/index.html",
-   "evaluation": {
-      "mode" : "spreadsheet",
-      "rules" : {
-        "cell" : "B5",
+    "task_id": "spreadsheet_1",
+    "instruction": "Insert 5 at B10.",
+    "website": "http://127.0.0.1:8123/index.html",
+    "evaluation": {
+      "rules": {
+        "mode": "spreadsheet",
+        "cell": "B5",
         "value": "5"
       }
-   }
+    }
   },
   {
-   "task_id": "spreadsheet_2",
-   "instruction": "Insert 5 at B10 on the left page",
-   "website": [
+    "task_id": "spreadsheet_2",
+    "instruction": "Insert 5 at B10 on the left page",
+    "website": [
       {
         "id": "left",
         "url": "http://127.0.0.1:8123/counter.html"
@@ -123,13 +122,27 @@
         "url": "http://127.0.0.1:8123/index.html"
       }
     ],
-   "evaluation": {
-      "mode" : "spreadsheet",
-      "rules" : {
+    "evaluation": {
+      "rules": {
+        "mode": "spreadsheet",
         "website_id": "right",
-        "cell" : "B5",
+        "cell": "B5",
         "value": "5"
       }
-   }
+    }
+  },
+
+  {
+    "task_id": "prozilla",
+    "instruction": "test",
+    "website": "https://os.prozilla.dev/",
+    "evaluation": {
+      "rules": {
+        "mode": "console",
+        "script": "(() => {\n  const button = [...document.querySelectorAll('button.ProzillaOS-DirectoryList__Folder')]\n    .find((el) => el.textContent.trim() === 'Pictures');\n\n  button?.click();\n\n  return button?.innerText ?? '';\n})();",
+        "value": "Pictures",
+        "match": "exact"
+      }
+    }
   }
 ]

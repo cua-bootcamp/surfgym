@@ -39,8 +39,8 @@ class ScreenshotResponse(_FrozenBaseModel):
     y: float
 
 
-class SnapshotResponse(_FrozenBaseModel):
-    snapshot: list[str]
+class ObservationResponse(_FrozenBaseModel):
+    observation: list[str]
 
 
 class InteractiveTreeResponse(_FrozenBaseModel):
