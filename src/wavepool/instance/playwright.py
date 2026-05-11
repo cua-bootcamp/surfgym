@@ -2,7 +2,7 @@ import os
 from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
-from typing import Any, Dict, Union, cast
+from typing import Any, Union, cast
 
 from PIL import Image
 from playwright.async_api import Page, async_playwright
@@ -16,6 +16,7 @@ from src.protocol.instance_to_gateway import (
     InteractiveTreeResponse,
     MousePosition,
     SnapshotResponse,
+    interactive_region_list_adapter,
 )
 
 
@@ -52,35 +53,21 @@ class PlaywrightController:
     async def on_new_page(self, page: Page, layout: PageLayout):
         await page.set_viewport_size({"width": layout.width, "height": layout.height})
         await page.add_init_script(script=self.page_script)
+        await page.evaluate(f"""
+        () => {{
+            {self.page_script}
+        }}
+        """)
         await page.wait_for_load_state(timeout=30000)
 
     async def sleep(self, page: Page, duration_ms: Union[int, float]) -> None:
         await page.wait_for_timeout(duration_ms)
 
-    async def get_interactive_rects(self, page: Page) -> Dict[str, InteractiveRegion]:
+    async def get_interactive_rects(self, page: Page) -> list[InteractiveRegion]:
         await self._ensure_page_ready(page)
-        # Read the regions from the DOM
-        try:
-            await page.evaluate(self.page_script)
-        except Exception:
-            pass
-        result = cast(
-            Dict[str, Dict[str, Any]],
-            await page.evaluate("MultimodalWebSurfer.getInteractiveRects();"),
+        return interactive_region_list_adapter.validate_python(
+            await page.evaluate("Surfgym.getInteractiveRects();")
         )
-
-        # Convert the results into appropriate types
-        assert isinstance(result, dict)
-        result = cast(
-            dict[str, dict[str, Any]],
-            await page.evaluate("MultimodalWebSurfer.getInteractiveRects();"),
-        )
-
-        typed_results: dict[str, InteractiveRegion] = {}
-        for key, region in result.items():
-            typed_results[key] = InteractiveRegion.model_validate(region)
-
-        return typed_results
 
     async def _ensure_page_ready(self, page: Page) -> None:
         assert page is not None
@@ -396,31 +383,22 @@ class PlaywrightInstance:
                 assert_never(unreachable)
 
     def _offset_region(self, region: InteractiveRegion, layout: PageLayout) -> InteractiveRegion:
-        rects = [
-            rect.model_copy(
-                update={
-                    "x": rect.x + layout.x,
-                    "y": rect.y + layout.y,
-                    "top": rect.top + layout.y,
-                    "right": rect.right + layout.x,
-                    "bottom": rect.bottom + layout.y,
-                    "left": rect.left + layout.x,
-                }
-            )
-            for rect in region.rects
-        ]
+        (left, top, width, height) = region.bbox
 
-        return region.model_copy(update={"rects": rects})
+        return InteractiveRegion(
+            role=region.role,
+            visible_text=region.visible_text,
+            bbox=(left + layout.x, top + layout.y, width, height),
+        )
 
     async def _get_interactive_tree(self) -> InteractiveTreeResponse:
-        regions: dict[str, InteractiveRegion] = {}
+        regions: list[InteractiveRegion] = []
 
         for website_id, page in self.pages.items():
             layout = self.page_layouts[website_id]
-            page_regions = await self.controller.get_interactive_rects(page)
 
-            for region_id, region in page_regions.items():
-                regions[f"{website_id}:{region_id}"] = self._offset_region(region, layout)
+            for region in await self.controller.get_interactive_rects(page):
+                regions.append(self._offset_region(region, layout))
 
         screen_cursor = self._page_to_screen_cursor()
 

@@ -4,7 +4,7 @@ from enum import Enum
 
 from fastapi import status
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, TypeAdapter
 
 
 class _FrozenBaseModel(BaseModel):
@@ -45,7 +45,16 @@ class SnapshotResponse(_FrozenBaseModel):
 
 class InteractiveTreeResponse(_FrozenBaseModel):
     mouse_position: MousePosition
-    regions: dict[str, InteractiveRegion]
+    regions: list[InteractiveRegion]
+
+
+class InteractiveRegion(_FrozenBaseModel):
+    role: str
+    visible_text: str
+    bbox: tuple[float, float, float, float]  # [left, top, width, height]
+
+
+interactive_region_list_adapter = TypeAdapter(list[InteractiveRegion])
 
 
 class StatusResponse(_FrozenBaseModel):
@@ -68,22 +77,3 @@ def error_response(error_type: InstanceServerErrorType, msg: str) -> JSONRespons
 class MousePosition(_FrozenBaseModel):
     x: int
     y: int
-
-
-class DOMRectangle(_FrozenBaseModel):
-    x: float
-    y: float
-    width: float
-    height: float
-    top: float
-    right: float
-    bottom: float
-    left: float
-
-
-class InteractiveRegion(_FrozenBaseModel):
-    tag_name: str
-    role: str
-    aria_name: str
-    v_scrollable: bool
-    rects: list[DOMRectangle]

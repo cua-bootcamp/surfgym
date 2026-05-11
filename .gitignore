@@ -6,6 +6,7 @@ logs/
 .vscode
 .env
 **/__snapshots__/
+node_modules
 
 /tasks/
 website/

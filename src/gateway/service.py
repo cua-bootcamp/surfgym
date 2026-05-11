@@ -238,7 +238,7 @@ class Service:
 NORMALIZED_COORD_SPACE = 1000
 
 
-def _normalize_coordinate(value: float, *, source_size: int) -> int:
+def _normalize_value(value: float, *, source_size: int) -> int:
     if source_size <= 0:
         raise ValueError(f"source_size must be positive, got {source_size}")
 
@@ -254,8 +254,8 @@ def _normalize_point(
     viewport_height: int,
 ) -> tuple[int, int]:
     return (
-        _normalize_coordinate(x, source_size=viewport_width),
-        _normalize_coordinate(y, source_size=viewport_height),
+        _normalize_value(x, source_size=viewport_width),
+        _normalize_value(y, source_size=viewport_height),
     )
 
 
@@ -276,25 +276,18 @@ def parse_interactive_tree_text(
     )
     lines.append(f"mouse_position: ({mouse_x}, {mouse_y})")
 
-    for region in response.regions.values():
-        if not region.rects:
-            continue
+    for region in response.regions:
+        (left, top, width, height) = region.bbox
 
-        coords: list[str] = []
-        for rect in region.rects:
-            center_x = (rect.left + rect.right) / 2
-            center_y = (rect.top + rect.bottom) / 2
-            x, y = _normalize_point(
-                center_x,
-                center_y,
-                viewport_width=viewport_width,
-                viewport_height=viewport_height,
-            )
-            coords.append(f"({x}, {y})")
+        (left, top) = _normalize_point(
+            left, top, viewport_width=viewport_width, viewport_height=viewport_height
+        )
+        (width, height) = _normalize_point(
+            width, height, viewport_width=viewport_width, viewport_height=viewport_height
+        )
 
         lines.append(
-            f"tag: {region.tag_name}, role: {region.role}, "
-            f"text: {region.aria_name}, coords: {', '.join(coords)}"
+            f"role: {region.role}, text: {region.visible_text}, bbox: [{left}, {top}, {width}, {height}]"
         )
     return "\n".join(lines)
 
