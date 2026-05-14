@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Annotated, Any, Literal, Optional, Union, cast
+from typing import Annotated, Any, Literal, Optional, TypeAlias, Union, cast
 
 import json5
 from pydantic import (
@@ -34,8 +34,11 @@ class Website(FrozenBaseModel):
     url: str
 
 
+Rule_Mode: TypeAlias = Literal["dom", "console", "spreadsheet", "word"]
+
+
 class _Rule(FrozenBaseModel):
-    mode: Literal["dom", "spreadsheet", "console"] = "dom"
+    mode: Rule_Mode = "dom"
     website_id: str = "default"
     match: Literal["contains", "exact", "regex"] = "contains"
     normalize_space: bool = False
@@ -65,6 +68,7 @@ class DomRule(_Rule):
 
 class SpreadsheetRule(_Rule):
     cell: str
+    formula: bool = False
 
 
 Rule = Union[DomRule, SpreadsheetRule, ConsoleRule]

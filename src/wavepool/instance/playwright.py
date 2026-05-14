@@ -3,14 +3,23 @@ from collections import defaultdict
 from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
-from typing import Any, DefaultDict, Union, cast
+from typing import DefaultDict, Union, cast
 
 from PIL import Image
+from playwright.async_api import Error as PlaywrightError
 from playwright.async_api import Page, async_playwright
 from typing_extensions import assert_never
 
 from src.components.log import logger
-from src.components.task import ConsoleRule, DomRule, Evaluation, Rule, SpreadsheetRule, Website
+from src.components.task import (
+    ConsoleRule,
+    DomRule,
+    Evaluation,
+    Rule,
+    Rule_Mode,
+    SpreadsheetRule,
+    Website,
+)
 from src.protocol.command import Command, MouseButtonType, PlaywrightKey
 from src.protocol.instance_to_gateway import (
     InteractiveRegion,
@@ -148,7 +157,7 @@ class PlaywrightController:
             await page.evaluate("Surfgym.getInteractiveRects();")
         )
 
-    async def get_console_observation(
+    async def _get_console_observation(
         self, page: Page, console_rules: list[ConsoleRule]
     ) -> list[str]:
         await self._ensure_page_ready(page)
@@ -159,7 +168,7 @@ class PlaywrightController:
 
         return observations
 
-    async def get_dom_observation(self, page: Page, dom_rules: list[DomRule]) -> list[str]:
+    async def _get_dom_observation(self, page: Page, dom_rules: list[DomRule]) -> list[str]:
         await self._ensure_page_ready(page)
         return await page.evaluate(
             """
@@ -170,55 +179,60 @@ class PlaywrightController:
             [rule.model_dump(mode="json") for rule in dom_rules],
         )
 
-    async def get_spreadsheet_observation(
+    async def _get_spreadsheet_observation(
         self, page: Page, spreadsheet_rules: list[SpreadsheetRule]
     ) -> list[str]:
         await self._ensure_page_ready(page)
 
-        meta = cast(
-            dict[str, Any] | None, await page.evaluate("Surfgym.getSpreadsheetObservation();")
-        )
-        if meta is None:
-            return [""] * len(spreadsheet_rules)
-
         observations: list[str] = []
         for rule in spreadsheet_rules:
-            canvas = meta["canvas"]
-            start = meta["start"]
-            size = meta["size"]
+            try:
+                value = await page.evaluate(
+                    """({ cell, formula }) => {
+                        try {
+                            const getter = formula
+                                ? window.getSpreadsheetCellFormula
+                                : window.getSpreadsheetCellValue;
 
-            col_index, row_index = _cell_indices(rule.cell)
+                            const value = getter(cell);
+                            return value == null ? "" : String(value);
+                        } catch {
+                            return "";
+                        }
+                    }""",
+                    {
+                        "cell": rule.cell,
+                        "formula": bool(rule.formula),
+                    },
+                )
+            except PlaywrightError:
+                value = ""
 
-            x = (
-                float(canvas["left"])
-                + float(start["x"])
-                + (col_index * float(size["width"]))
-                + (float(size["width"]) / 2)
-            )
-            y = (
-                float(canvas["top"])
-                + float(start["y"])
-                + (row_index * float(size["height"]))
-                + (float(size["height"]) / 2)
-            )
-
-            await page.mouse.click(x, y, button="left", click_count=1)
-            self.cursor = PageCursor(x, y)
-            await page.wait_for_timeout(250)
-
-            value = cast(
-                str | None,
-                await page.evaluate(
-                    """() => {
-                        const input = document.querySelector('[data-testid="spreadsheet-formula-input"]');
-                        return input ? String(input.getAttribute('data-value') || input.textContent || "") : "";
-                    }"""
-                ),
-            )
-
-            observations.append(value if value is not None else "")
+            observations.append(value)
 
         return observations
+
+    async def get_obesrvation(self, page: Page, rules: list[Rule], mode: Rule_Mode) -> list[str]:
+        obs_arr: list[str] = []
+
+        if mode == "dom":
+            obs_arr = await self._get_dom_observation(
+                page=page,
+                dom_rules=cast(list[DomRule], rules),
+            )
+
+        if mode == "spreadsheet":
+            obs_arr = await self._get_spreadsheet_observation(
+                page=page,
+                spreadsheet_rules=cast(list[SpreadsheetRule], rules),
+            )
+
+        if mode == "console":
+            obs_arr = await self._get_console_observation(
+                page=page,
+                console_rules=cast(list[ConsoleRule], rules),
+            )
+        return obs_arr
 
 
 class PlaywrightInstance:
@@ -433,25 +447,7 @@ class PlaywrightInstance:
 
             idx_arr = [idx for idx, _ in indexed_rules]
             rule_arr = [rule for _, rule in indexed_rules]
-            obs_arr = []
-
-            if mode == "dom":
-                obs_arr = await self.controller.get_dom_observation(
-                    page=page,
-                    dom_rules=cast(list[DomRule], rule_arr),
-                )
-
-            if mode == "spreadsheet":
-                obs_arr = await self.controller.get_spreadsheet_observation(
-                    page=page,
-                    spreadsheet_rules=cast(list[SpreadsheetRule], rule_arr),
-                )
-
-            if mode == "console":
-                obs_arr = await self.controller.get_console_observation(
-                    page=page,
-                    console_rules=cast(list[ConsoleRule], rule_arr),
-                )
+            obs_arr = await self.controller.get_obesrvation(page, rule_arr, cast(Rule_Mode, mode))
 
             for original_idx, obs in zip(idx_arr, obs_arr):
                 observations[original_idx] = obs
@@ -483,6 +479,11 @@ class PlaywrightInstance:
         return ScreenCursor(
             layout.x + self.controller.cursor.x, layout.y + self.controller.cursor.y
         )
+
+
+########################################
+#           Helper Functions           #
+########################################
 
 
 def build_page_layouts(
@@ -548,30 +549,3 @@ def build_page_layouts(
             height=half_height,
         ),
     ]
-
-
-def _cell_indices(address: str) -> tuple[int, int]:
-    column_label, row_number = _split_cell_address(address)
-    return _column_index(column_label) - 1, row_number - 1
-
-
-def _split_cell_address(address: str) -> tuple[str, int]:
-    normalized = address.replace("$", "").strip().upper()
-
-    index = 0
-    while index < len(normalized) and normalized[index].isalpha():
-        index += 1
-
-    if index == 0 or index == len(normalized):
-        raise ValueError(f"invalid spreadsheet cell address: {address!r}")
-
-    return normalized[:index], int(normalized[index:])
-
-
-def _column_index(label: str) -> int:
-    value = 0
-    for char in label:
-        if not ("A" <= char <= "Z"):
-            raise ValueError(f"invalid spreadsheet column label: {label!r}")
-        value = (value * 26) + (ord(char) - ord("A") + 1)
-    return value
