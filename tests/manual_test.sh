@@ -36,20 +36,7 @@ cleanup() {
   done
 }
 
-logstep() {
-  local msg="$1"
-  local width=72
-  local border
-  local content_width=$((width - 4))
 
-  border="$(printf '%*s' "$content_width" '' | tr ' ' '=')"
-
-  printf '\n'
-  printf '# %s #\n' "$border"
-  printf '# %-*s #\n' "$content_width" "$msg"
-  printf '# %s #\n' "$border"
-  printf '\n'
-}
 
 wait_for_http() {
   local name="$1"
@@ -72,11 +59,13 @@ wait_for_http() {
 
 trap cleanup EXIT INT TERM
 
-logstep "#1 launching surfgym server"
+printf '##########################################\n'
+printf '#        Launching Gateway Server        #\n'
+printf '##########################################\n'
 (
   cd "$ROOT_DIR" || exit 1
   printf 'Executing "python -m src.main %s"\n\n' \
-    "$SURFGYM_CONFIG"
+    "$SURFGYM_CONFIG"ㅔ
   exec python -m src.main "$SURFGYM_CONFIG"
 ) &
 PIDS+=("$!")
@@ -84,7 +73,11 @@ wait_for_http \
   "gateway" \
   "curl -fsS http://${GATEWAY_HOST}:${GATEWAY_PORT}/health"
 
-logstep "#2 launching wavepool"
+
+
+printf '###########################################\n'
+printf '#        Launching Wavepool Server        #\n'
+printf '###########################################\n'
 (
   cd "$ROOT_DIR" || exit 1
   printf 'Executing "python -m src.wavepool.deploy %s"\n\n' \
@@ -97,26 +90,36 @@ wait_for_http \
   "wavepool" \
   "curl -fsS http://${WAVEPOOL_HOST}:${WAVEPOOL_MASTER_PORT}/health"
 
-if [[ "$WITH_FIXTURE_WEBSITE" == "true" ]]; then
-  logstep "#3 launching fixture website"
-  (
-    cd "$FIXTURE_DIR/website" || exit 1
 
-    printf 'Executing "pnpm run preview -- --host 127.0.0.1 --port %s --strictPort"\n\n' \
-      "$FIXTURE_WEBSITE_PORT"
 
-    exec pnpm exec vite preview --host 127.0.0.1 --port "$FIXTURE_WEBSITE_PORT" --strictPort
-  ) &
-  PIDS+=("$!")
+printf '##########################################\n'
+printf '#        Launching Fixture Server        #\n'
+printf '##########################################\n'
+(
+  cd "$FIXTURE_DIR/websites" || exit 1
 
-  wait_for_http \
-    "fixture website" \
-    "curl -fsS http://127.0.0.1:${FIXTURE_WEBSITE_PORT}/index.html"
-else
-  logstep "#3 skipping fixture website"
-fi
+  printf 'MAIN_PORT=%s PROZILLA_PORT=%s pnpm run serve\n' "$FIXTURE_MAIN_PORT" "$FIXTURE_PROZILLA_PORT"
 
-logstep "#4 e2e_test_manual"
+  exec env \
+    MAIN_PORT="$FIXTURE_MAIN_PORT" \
+    PROZILLA_PORT="$FIXTURE_PROZILLA_PORT" \
+    pnpm run serve
+) &
+PIDS+=("$!")
+
+wait_for_http \
+  "fixture website" \
+  "curl -fsS http://127.0.0.1:${FIXTURE_MAIN_PORT}/index.html"
+
+wait_for_http \
+  "fixture website" \
+  "curl -fsS http://127.0.0.1:${FIXTURE_PROZILLA_PORT}/index.html"
+
+
+
+printf '##########################################\n'
+printf '#             Executing Test             #\n'
+printf '##########################################\n'
 (
   cd "$ROOT_DIR"
   python -m tests.runners.manual.run --config-path "$SURFGYM_CONFIG"

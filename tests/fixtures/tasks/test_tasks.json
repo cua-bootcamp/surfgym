@@ -115,11 +115,11 @@
     "website": [
       {
         "id": "left",
-        "url": "http://127.0.0.1:8123/counter.html"
+        "url": "http://127.0.0.1:3000/counter"
       },
       {
         "id": "right",
-        "url": "http://127.0.0.1:8123/index.html"
+        "url": "http://127.0.0.1:3000/spreadsheet"
       }
     ],
     "evaluation": {
@@ -135,7 +135,7 @@
   {
     "task_id": "prozilla",
     "instruction": "test",
-    "website": "https://os.prozilla.dev/",
+    "website": "http://127.0.0.1:3100/index.html",
     "evaluation": {
       "rules": {
         "mode": "console",

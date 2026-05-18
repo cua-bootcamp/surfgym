@@ -1,5 +1,7 @@
 {
   "semi": true,
   "singleQuote": false,
-  "trailingComma": "none"
+  "trailingComma": "none",
+  "printWidth": 240,
+  "objectWrap": "collapse"
 }

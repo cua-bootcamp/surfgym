@@ -10,8 +10,23 @@ from .runner import Runner
 # Modify only the values below for testing.
 # ============================================================
 
-TASK_ID = pass
-ACTIONS: list[list[dict[str, Any]]] = pass
+TASK_ID = "spreadsheet_2"
+ACTIONS: list[list[dict[str, Any]]] = [
+    [
+        {"action_type": "WAIT"},
+        {"action_type": "WAIT"},
+        {"action_type": "CLICK", "x": "1100", "y": "50"},
+    ],
+    [
+        {"action_type": "PRESS", "key": "ArrowRight"},
+        {"action_type": "PRESS", "key": "ArrowDown"},
+        {"action_type": "PRESS", "key": "ArrowDown"},
+        {"action_type": "PRESS", "key": "ArrowDown"},
+        {"action_type": "PRESS", "key": "ArrowDown"},
+        {"action_type": "TYPING", "text": "5"},
+        {"action_type": "PRESS", "key": "Enter"},
+    ],
+]
 
 # ============================================================
 

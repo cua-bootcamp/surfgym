@@ -24,9 +24,8 @@ readonly FIXTURE_DIR="$TEST_DIR/fixtures"
 # =============================================================================
 
 readonly SURFGYM_CONFIG="$FIXTURE_DIR/config/config-single.json"
-
-readonly WITH_FIXTURE_WEBSITE=true
-readonly FIXTURE_WEBSITE_PORT=8123
+readonly FIXTURE_MAIN_PORT=3000
+readonly FIXTURE_PROZILLA_PORT=3100
 
 # =============================================================================
 
