@@ -9,5 +9,5 @@ logs/
 node_modules
 
 /tasks/
-website/
 nohup.out
+websites/

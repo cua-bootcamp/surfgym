@@ -564,118 +564,119 @@ window.Surfgym =
       );
     }
 
+    // Deprecated: Not used due to the new evaluation function
     // #####################################
     // #     getSpreadsheetObservation     #
     // #####################################
 
-    function getSpreadsheetObservation() {
-      const canvas = document.querySelector(
-        "canvas[id^='univer-sheet-main-canvas']"
-      );
-      if (!canvas) return null;
+    // function getSpreadsheetObservation() {
+    //   const canvas = document.querySelector(
+    //     "canvas[id^='univer-sheet-main-canvas']"
+    //   );
+    //   if (!canvas) return null;
 
-      const rect = canvas.getBoundingClientRect();
-      const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    //   const rect = canvas.getBoundingClientRect();
+    //   const ctx = canvas.getContext("2d", { willReadFrequently: true });
 
-      const w = canvas.width;
-      const h = canvas.height;
-      const data = ctx.getImageData(0, 0, w, h).data;
+    //   const w = canvas.width;
+    //   const h = canvas.height;
+    //   const data = ctx.getImageData(0, 0, w, h).data;
 
-      const scaleX = canvas.width / rect.width;
-      const scaleY = canvas.height / rect.height;
+    //   const scaleX = canvas.width / rect.width;
+    //   const scaleY = canvas.height / rect.height;
 
-      function isNonWhite(x, y) {
-        const i = (y * w + x) * 4;
-        const r = data[i];
-        const g = data[i + 1];
-        const b = data[i + 2];
-        const a = data[i + 3];
+    //   function isNonWhite(x, y) {
+    //     const i = (y * w + x) * 4;
+    //     const r = data[i];
+    //     const g = data[i + 1];
+    //     const b = data[i + 2];
+    //     const a = data[i + 3];
 
-        if (a < 20) return false;
+    //     if (a < 20) return false;
 
-        return Math.abs(255 - r) + Math.abs(255 - g) + Math.abs(255 - b) > 35;
-      }
+    //     return Math.abs(255 - r) + Math.abs(255 - g) + Math.abs(255 - b) > 35;
+    //   }
 
-      function compact(values) {
-        const out = [];
-        let start = null;
-        let prev = null;
+    //   function compact(values) {
+    //     const out = [];
+    //     let start = null;
+    //     let prev = null;
 
-        for (const v of values) {
-          if (start === null) {
-            start = prev = v;
-          } else if (v === prev + 1) {
-            prev = v;
-          } else {
-            out.push(Math.round((start + prev) / 2));
-            start = prev = v;
-          }
-        }
+    //     for (const v of values) {
+    //       if (start === null) {
+    //         start = prev = v;
+    //       } else if (v === prev + 1) {
+    //         prev = v;
+    //       } else {
+    //         out.push(Math.round((start + prev) / 2));
+    //         start = prev = v;
+    //       }
+    //     }
 
-        if (start !== null) out.push(Math.round((start + prev) / 2));
-        return out;
-      }
+    //     if (start !== null) out.push(Math.round((start + prev) / 2));
+    //     return out;
+    //   }
 
-      function verticalLines() {
-        const hits = [];
-        const y1 = 40;
-        const y2 = h - 20;
-        const threshold = (y2 - y1) * 0.45;
+    //   function verticalLines() {
+    //     const hits = [];
+    //     const y1 = 40;
+    //     const y2 = h - 20;
+    //     const threshold = (y2 - y1) * 0.45;
 
-        for (let x = 0; x < w; x++) {
-          let count = 0;
-          for (let y = y1; y < y2; y++) {
-            if (isNonWhite(x, y)) count++;
-          }
-          if (count > threshold) hits.push(x);
-        }
+    //     for (let x = 0; x < w; x++) {
+    //       let count = 0;
+    //       for (let y = y1; y < y2; y++) {
+    //         if (isNonWhite(x, y)) count++;
+    //       }
+    //       if (count > threshold) hits.push(x);
+    //     }
 
-        return compact(hits);
-      }
+    //     return compact(hits);
+    //   }
 
-      function horizontalLines() {
-        const hits = [];
-        const x1 = 80;
-        const x2 = w - 20;
-        const threshold = (x2 - x1) * 0.45;
+    //   function horizontalLines() {
+    //     const hits = [];
+    //     const x1 = 80;
+    //     const x2 = w - 20;
+    //     const threshold = (x2 - x1) * 0.45;
 
-        for (let y = 0; y < h; y++) {
-          let count = 0;
-          for (let x = x1; x < x2; x++) {
-            if (isNonWhite(x, y)) count++;
-          }
-          if (count > threshold) hits.push(y);
-        }
+    //     for (let y = 0; y < h; y++) {
+    //       let count = 0;
+    //       for (let x = x1; x < x2; x++) {
+    //         if (isNonWhite(x, y)) count++;
+    //       }
+    //       if (count > threshold) hits.push(y);
+    //     }
 
-        return compact(hits);
-      }
+    //     return compact(hits);
+    //   }
 
-      const xLines = verticalLines();
-      const yLines = horizontalLines();
+    //   const xLines = verticalLines();
+    //   const yLines = horizontalLines();
 
-      if (xLines.length < 2 || yLines.length < 2) {
-        return null;
-      }
+    //   if (xLines.length < 2 || yLines.length < 2) {
+    //     return null;
+    //   }
 
-      return {
-        canvas: {
-          left: rect.left,
-          top: rect.top
-        },
-        start: {
-          x: xLines[0] / scaleX,
-          y: yLines[0] / scaleY
-        },
-        size: {
-          width: (xLines[1] - xLines[0]) / scaleX,
-          height: (yLines[1] - yLines[0]) / scaleY
-        }
-      };
-    }
+    //   return {
+    //     canvas: {
+    //       left: rect.left,
+    //       top: rect.top
+    //     },
+    //     start: {
+    //       x: xLines[0] / scaleX,
+    //       y: yLines[0] / scaleY
+    //     },
+    //     size: {
+    //       width: (xLines[1] - xLines[0]) / scaleX,
+    //       height: (yLines[1] - yLines[0]) / scaleY
+    //     }
+    //   };
+    // }
 
     return {
       getInteractiveRects: getInteractiveRects,
-      getDomObservation: getDomObservation,
-      getSpreadsheetObservation: getSpreadsheetObservation
+      getDomObservation: getDomObservation
+      // getSpreadsheetObservation: getSpreadsheetObservation
     };
   })();

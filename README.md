@@ -429,7 +429,7 @@ ACTIONS: list[list[dict[str, Any]]] = [
     [
         {"action_type": "WAIT"},
         {"action_type": "WAIT"},
-        {"action_type": "CLICK", "x": "1100", "y": "300"},
+        {"action_type": "CLICK", "x": "1100", "y": "50"},
     ],
     [
         {"action_type": "PRESS", "key": "ArrowRight"},
@@ -439,9 +439,6 @@ ACTIONS: list[list[dict[str, Any]]] = [
         {"action_type": "PRESS", "key": "ArrowDown"},
         {"action_type": "TYPING", "text": "5"},
         {"action_type": "PRESS", "key": "Enter"},
-    ],
-    [
-        {"action_type": "CLICK", "x": "178", "y": 575},
     ],
 ]
 ```
