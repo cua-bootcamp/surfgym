@@ -254,7 +254,14 @@ window.Surfgym =
         );
       }
 
-      return normalizeText(element.innerText);
+      const text = normalizeText(element.innerText);
+      if (text) return text;
+
+      return normalizeText(
+        element.getAttribute("aria-label") ||
+        element.getAttribute("title") ||
+        ""
+      );
     }
 
     function isPointInViewport(x, y) {
@@ -484,14 +491,13 @@ window.Surfgym =
           continue;
         }
 
-        let visible_text = getVisibleText(element);
+        const visible_text = getVisibleText(element);
 
-        if (visible_text !== "")
-          results.push({
-            role: getInteractiveRole(element),
-            visible_text,
-            bbox: bboxFromClippedRect(clippedRect)
-          });
+        results.push({
+          role: getInteractiveRole(element),
+          visible_text: visible_text || "[icon]",
+          bbox: bboxFromClippedRect(clippedRect)
+        });
       }
 
       return results;
