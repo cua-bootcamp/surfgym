@@ -1,3 +1,4 @@
+import asyncio
 import os
 from collections import defaultdict
 from dataclasses import dataclass
@@ -76,8 +77,7 @@ class PlaywrightController:
 
     async def visit_page(self, page: Page, url: str):
         await self._ensure_page_ready(page)
-        await page.goto(url)
-        await page.wait_for_load_state()
+        await page.goto(url, wait_until="domcontentloaded")
 
     async def click_coords(
         self,
@@ -87,7 +87,26 @@ class PlaywrightController:
         click_count: int,
     ):
         await self._ensure_page_ready(page)
-        await page.mouse.click(cursor.x, cursor.y, delay=10, button=button, click_count=click_count)
+        option_value = await page.evaluate(
+            """([x, y]) => {
+                const active = document.activeElement;
+                if (!active || active.tagName !== 'SELECT') return null;
+                const rect = active.getBoundingClientRect();
+                const opts = Array.from(active.options);
+                if (!opts.length) return null;
+                const relY = y - rect.bottom;
+                if (relY < 0) return null;
+                const optionHeight = rect.height > 0 ? rect.height : 22;
+                const idx = Math.floor(relY / optionHeight);
+                if (idx < 0 || idx >= opts.length) return null;
+                return opts[idx].value;
+            }""",
+            [cursor.x, cursor.y],
+        )
+        if option_value is not None:
+            await page.locator("select:focus").select_option(value=option_value)
+        else:
+            await page.mouse.click(cursor.x, cursor.y, delay=10, button=button, click_count=click_count)
         self.cursor = cursor
 
     async def hover_coords(self, page: Page, cursor: PageCursor):
@@ -155,7 +174,19 @@ class PlaywrightController:
 
         observations: list[str] = []
         for rule in console_rules:
-            observations.append(await page.evaluate(rule.script))
+            try:
+                result = await page.evaluate(rule.script)
+            except Exception:
+                logger.exception("Console observation evaluate failed")
+                observations.append("")
+                continue
+
+            if result is None:
+                observations.append("")
+            elif isinstance(result, str):
+                observations.append(result)
+            else:
+                observations.append(str(result))
 
         return observations
 
@@ -310,6 +341,7 @@ class PlaywrightInstance:
         raise RuntimeError(f"Inconsistent PlaywrightInstance state: {states}")
 
     async def screenshot(self) -> tuple[BytesIO, float, float]:
+        await asyncio.sleep(0.8)
         canvas = Image.new(
             "RGB",
             (self.viewport_width, self.viewport_height),
