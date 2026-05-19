@@ -16,9 +16,9 @@ from surfgym_contracts.protocol.instance_to_gateway import (
     InstanceServerErrorType,
     ScreenshotResponse,
     StatusResponse,
-    error_response,
 )
 
+from surfgym_runtime.wavepool.instance.error import error_response
 from surfgym_runtime.wavepool.instance.playwright import PlaywrightInstance
 
 parser = argparse.ArgumentParser()

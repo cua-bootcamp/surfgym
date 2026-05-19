@@ -218,7 +218,7 @@ class PlaywrightInstance:
 
         self.controller = PlaywrightController()
 
-    async def create(self, id: str, websites: list[Website], setup: Optional[Action]) -> None:
+    async def create(self, id: str, websites: list[Website], setup: Optional[list[Action]]) -> None:
         self.id = id
 
         self.p = await async_playwright().start()
@@ -242,10 +242,15 @@ class PlaywrightInstance:
             await self.controller.on_new_page(page, layout)
             await self.controller.visit_page(page, website.url)
 
-            self.pages[website.id] = page
-            self.page_layouts[website.id] = layout
+            self.pages[website.website_id] = page
+            self.page_layouts[website.website_id] = layout
             if self.active_page_id is None:
-                self.active_page_id = website.id
+                self.active_page_id = website.website_id
+
+        if setup:
+            for action in setup:
+                page = self.pages[action.website_id]
+                await page.evaluate(action.script)
 
     async def delete(self) -> None:
         for page in self.pages.values():

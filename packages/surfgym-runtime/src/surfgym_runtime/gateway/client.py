@@ -33,7 +33,7 @@ class MasterClient:
     def _get_base_url(self):
         return f"http://{self.host}:{self.port}"
 
-    def get_instance(self, websites: list[Website], setup: Optional[Action]):
+    def get_instance(self, websites: list[Website], setup: Optional[list[Action]]):
         request = GetInstanceRequest(websites=websites, setup=setup)
         return _requests.post(
             f"{self._get_base_url()}/get",

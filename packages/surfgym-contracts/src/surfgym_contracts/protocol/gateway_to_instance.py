@@ -11,4 +11,4 @@ class _FrozenBaseModel(BaseModel):
 
 class GetInstanceRequest(_FrozenBaseModel):
     websites: list[Website] = Field(min_length=1)
-    setup: Optional[Action]
+    setup: Optional[list[Action]]

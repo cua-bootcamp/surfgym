@@ -18,8 +18,11 @@ class FrozenBaseModel(BaseModel):
     )
 
 
-class Website(FrozenBaseModel):
-    id: str = "_"
+class _WebsiteDependent(FrozenBaseModel):
+    website_id: str = "_"
+
+
+class Website(_WebsiteDependent):
     url: str
 
 
@@ -29,7 +32,7 @@ Value: TypeAlias = Union[str, int, float, bool]
 Rule_Mode: TypeAlias = Literal["dom", "console"]
 
 
-class _Rule(FrozenBaseModel):
+class _Rule(_WebsiteDependent):
     website_id: str = "_"
     match: Literal["contains", "exact", "regex"] = "contains"
     normalize_space: bool = False
@@ -78,7 +81,7 @@ class Evaluation(FrozenBaseModel):
         return value if isinstance(value, list) else [value]
 
 
-class Action(FrozenBaseModel):
+class Action(_WebsiteDependent):
     mode: Literal["console", "playwright"] = "console"
     script: str
 
@@ -90,8 +93,8 @@ class Task(FrozenBaseModel):
     evaluation: Evaluation
     complexity: int
 
-    setup: Optional[Action] = None
-    transition: Optional[Action] = None
+    setup: Optional[list[Action]] = None
+    transition: Optional[list[Action]] = None
 
     @field_validator("website", mode="before")
     @classmethod
@@ -100,6 +103,15 @@ class Task(FrozenBaseModel):
     ) -> Annotated[list[Website], Field(min_length=1)]:
         if isinstance(value, str):
             return [Website(url=value)]
+        return value
+
+    @field_validator("setup", "transition", mode="before")
+    @classmethod
+    def listify_actions(cls, value: None | Action | list[Action]) -> Optional[list[Action]]:
+        if value is None:
+            return None
+        if isinstance(value, Action):
+            return [value]
         return value
 
 

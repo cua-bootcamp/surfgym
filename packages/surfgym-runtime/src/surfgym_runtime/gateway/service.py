@@ -135,7 +135,7 @@ class Service:
         )
 
     def _allocate(
-        self, deadline: Deadline, websites: list[Website], setup: Optional[Action]
+        self, deadline: Deadline, websites: list[Website], setup: Optional[list[Action]]
     ) -> Lease:
         instance_id, _, port = self._run_with_retry(
             context="_allocate_instance",

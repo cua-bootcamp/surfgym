@@ -24,10 +24,10 @@ from surfgym_contracts.task import Action, Evaluation, Website
 
 from surfgym_runtime.gateway.client import InstanceClient, MasterClient
 from surfgym_runtime.gateway.error import (
+    Deadline,
     HttpStackOperationTimeoutError,
     InstanceBusyError,
 )
-from surfgym_runtime.gateway.service import Deadline
 from surfgym_runtime.support.config import WavepoolConfig
 
 _R = TypeVar("_R")
@@ -182,7 +182,7 @@ class GatewayPool:
             **kwargs,
         )
 
-    def allocate(self, deadline: Deadline, websites: list[Website], setup: Optional[Action]):
+    def allocate(self, deadline: Deadline, websites: list[Website], setup: Optional[list[Action]]):
         return self._run(
             self._control_pool,
             context="allocate",
@@ -275,7 +275,7 @@ def _master_client(host: str, port: int):
     return MasterClient(host=host, port=port)
 
 
-def allocate_instance(host: str, port: int, websites: list[Website], setup: Optional[Action]):
+def allocate_instance(host: str, port: int, websites: list[Website], setup: Optional[list[Action]]):
     response = _master_client(host=host, port=port).get_instance(websites, setup)
     json_payload = _handle_response(response)
     payload = GetInstanceResponse.model_validate(json_payload)

@@ -1,14 +1,14 @@
 import argparse
 import asyncio
 from contextlib import asynccontextmanager
-from typing import Annotated
+from typing import Annotated, Optional
 
 import httpx
 import uvicorn
 from fastapi import Body, FastAPI
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
-from surfgym_contracts import Website
+from surfgym_contracts import Action, Website
 from surfgym_contracts.protocol.gateway_to_instance import GetInstanceRequest
 from surfgym_contracts.protocol.instance_to_gateway import GetInstanceResponse, StatusResponse
 from surfgym_contracts.protocol.master_to_gateway import (
@@ -44,7 +44,7 @@ class PortRegistry:
     async def close(self):
         await self.client.aclose()
 
-    async def allocate(self, websites: list[Website]):
+    async def allocate(self, websites: list[Website], setup: Optional[list[Action]]):
         async with self.lock:
             port = self.available_ports.pop() if self.available_ports else None
 
@@ -60,7 +60,7 @@ class PortRegistry:
             )
 
         try:
-            request = GetInstanceRequest(websites=websites)
+            request = GetInstanceRequest(websites=websites, setup=setup)
             response = await self.client.post(
                 f"{self._get_base_url(port)}/get", json=request.model_dump(mode="json")
             )
@@ -220,7 +220,7 @@ port_registry = PortRegistry(args.instance_host, args.instance_start_port, args.
 async def get_instance(
     request: Annotated[GetInstanceRequest, Body()],
 ):
-    return await port_registry.allocate(request.websites)
+    return await port_registry.allocate(request.websites, request.setup)
 
 
 @app.post("/reset")
