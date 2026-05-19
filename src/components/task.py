@@ -9,11 +9,12 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Annotated, Any, Literal, Optional, TypeAlias, Union, cast
+from typing import Annotated, Literal, Optional, TypeAlias, Union, cast
 
 import json5
 from pydantic import (
     BaseModel,
+    BeforeValidator,
     ConfigDict,
     Field,
     TypeAdapter,
@@ -30,48 +31,53 @@ class FrozenBaseModel(BaseModel):
 
 
 class Website(FrozenBaseModel):
-    id: str = "default"
+    id: str = "_"
     url: str
 
 
-Rule_Mode: TypeAlias = Literal["dom", "console", "spreadsheet", "word"]
+Value: TypeAlias = Union[str, int, float, bool]
+
+
+Rule_Mode: TypeAlias = Literal["dom", "console"]
 
 
 class _Rule(FrozenBaseModel):
-    mode: Rule_Mode = "dom"
-    website_id: str = "default"
+    website_id: str = "_"
     match: Literal["contains", "exact", "regex"] = "contains"
     normalize_space: bool = False
     case_sensitive: bool = True
-    value: str
+    value: Value
 
 
 class ConsoleRule(_Rule):
+    mode: Literal["console"] = "console"
     script: str
 
 
 class DomRule(_Rule):
+    mode: Literal["dom"] = "dom"
     target: Literal["text", "html", "url", "title", "attr"] = "text"
     selector: Optional[str] = None
     attr: Optional[str] = None
 
     @model_validator(mode="after")
-    def validate_shape(self) -> DomRule:
-        if self.target == "attr" and not self.attr:
-            raise ValueError("attr is required when target='attr'")
-        if self.target != "attr" and self.attr is not None:
-            raise ValueError("attr is only allowed when target='attr'")
-        if self.target in {"url", "title"} and self.selector is not None:
-            raise ValueError("selector is not allowed when target is 'url' or 'title'")
-        return self
+    def validate_shape(self) -> "DomRule": ...
 
 
-class SpreadsheetRule(_Rule):
-    cell: str
-    formula: bool = False
+def fill_rule_mode(value: object) -> object:
+    if not isinstance(value, dict) or "mode" in value:
+        return value  # pyright: ignore[reportUnknownVariableType]
+
+    if "script" in value:
+        return {**value, "mode": "console"}  # pyright: ignore[reportUnknownVariableType]
+    return {**value, "mode": "dom"}  # pyright: ignore[reportUnknownVariableType]
 
 
-Rule = Union[DomRule, SpreadsheetRule, ConsoleRule]
+Rule = Annotated[
+    Union[DomRule, ConsoleRule],
+    Field(discriminator="mode"),
+    BeforeValidator(fill_rule_mode),
+]
 
 
 class Evaluation(FrozenBaseModel):
@@ -89,6 +95,10 @@ class Task(FrozenBaseModel):
     instruction: str
     website: Annotated[list[Website], Field(min_length=1, max_length=4)]
     evaluation: Evaluation
+    complexity: int
+
+    setup: Optional[Action] = None
+    transition: Optional[Action] = None
 
     @field_validator("website", mode="before")
     @classmethod
@@ -98,6 +108,11 @@ class Task(FrozenBaseModel):
         if isinstance(value, str):
             return [Website(url=value)]
         return value
+
+
+class Action(FrozenBaseModel):
+    mode: Literal["console", "playwright"] = "console"
+    script: str
 
 
 TaskRowsAdapter: TypeAdapter[list[Task]] = TypeAdapter(list[Task])
@@ -114,7 +129,7 @@ class TaskStore:
         return cls(_load_task_rows(Path(path)))
 
     @classmethod
-    def from_rows(cls, rows: list[dict[str, Any]]) -> "TaskStore":
+    def from_rows(cls, rows: list[dict[str, object]]) -> "TaskStore":
         return cls(TaskRowsAdapter.validate_python(rows))
 
     def get(self, task_id: str | int) -> Task:
@@ -148,7 +163,7 @@ def _load_task_rows(path: Path) -> list[Task]:
     if suffix in {".jsonl", ".ndjson"}:
         payload = [json.loads(line) for line in text.splitlines() if line.strip()]
     elif suffix == ".jsonc":
-        payload = cast(Any, json5.loads(text))
+        payload = cast(object, json5.loads(text))
     else:
         payload = json.loads(text)
 

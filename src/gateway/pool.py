@@ -5,11 +5,11 @@ import threading
 import traceback
 from functools import lru_cache
 from multiprocessing.pool import Pool
-from typing import Any, Callable, ParamSpec, TypeVar, overload
+from typing import Any, Callable, Optional, ParamSpec, TypeVar, overload
 
 from requests import Response
 
-from src.components.task import Evaluation, Website
+from src.components.task import Action, Evaluation, Website
 from src.config import WavepoolConfig
 from src.gateway.client import InstanceClient, MasterClient
 from src.gateway.error import (
@@ -182,7 +182,7 @@ class GatewayPool:
             **kwargs,
         )
 
-    def allocate(self, deadline: Deadline, websites: list[Website]):
+    def allocate(self, deadline: Deadline, websites: list[Website], setup: Optional[Action]):
         return self._run(
             self._control_pool,
             context="allocate",
@@ -192,6 +192,7 @@ class GatewayPool:
             host=self._instance_config.host,
             port=self._instance_config.master_port,
             websites=websites,
+            setup=setup,
         )
 
     def release(self, deadline: Deadline, instance_id: str, instance_port: int):
@@ -274,8 +275,8 @@ def _master_client(host: str, port: int):
     return MasterClient(host=host, port=port)
 
 
-def allocate_instance(host: str, port: int, websites: list[Website]):
-    response = _master_client(host=host, port=port).get_instance(websites)
+def allocate_instance(host: str, port: int, websites: list[Website], setup: Optional[Action]):
+    response = _master_client(host=host, port=port).get_instance(websites, setup)
     json_payload = _handle_response(response)
     payload = GetInstanceResponse.model_validate(json_payload)
     return (payload.instance_id, payload.instance_host, payload.instance_port)

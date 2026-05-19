@@ -1,8 +1,8 @@
-from typing import Any
+from typing import Any, Optional
 
 import requests
 
-from src.components.task import Website
+from src.components.task import Action, Website
 from src.gateway.error import InstanceTransportError
 from src.protocol.command import Command
 from src.protocol.gateway_to_instance import GetInstanceRequest
@@ -33,9 +33,12 @@ class MasterClient:
     def _get_base_url(self):
         return f"http://{self.host}:{self.port}"
 
-    def get_instance(self, websites: list[Website]):
-        request = GetInstanceRequest(websites=websites)
-        return _requests.post(f"{self._get_base_url()}/get", json=request.model_dump(mode="json"))
+    def get_instance(self, websites: list[Website], setup: Optional[Action]):
+        request = GetInstanceRequest(websites=websites, setup=setup)
+        return _requests.post(
+            f"{self._get_base_url()}/get",
+            json=request.model_dump(mode="json"),
+        )
 
     def reset(self, instance_id: str, instance_port: int):
         return _requests.post(

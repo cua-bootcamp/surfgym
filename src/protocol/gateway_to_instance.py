@@ -1,8 +1,8 @@
-from __future__ import annotations
+from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from src.components.task import Website
+from src.components.task import Action, Website
 
 
 class _FrozenBaseModel(BaseModel):
@@ -11,3 +11,4 @@ class _FrozenBaseModel(BaseModel):
 
 class GetInstanceRequest(_FrozenBaseModel):
     websites: list[Website] = Field(min_length=1)
+    setup: Optional[Action]

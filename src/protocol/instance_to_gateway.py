@@ -6,6 +6,8 @@ from fastapi import status
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, TypeAdapter
 
+from src.components.evaluate import Observation
+
 
 class _FrozenBaseModel(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
@@ -40,7 +42,7 @@ class ScreenshotResponse(_FrozenBaseModel):
 
 
 class ObservationResponse(_FrozenBaseModel):
-    observation: list[str]
+    observation: list[Observation]
 
 
 class InteractiveTreeResponse(_FrozenBaseModel):

@@ -5,7 +5,7 @@ window.Surfgym =
     // #        getInteractiveRects        #
     // #####################################
 
-    let nextLabel = 10;
+    // let nextLabel = 10;
     const USE_CURSOR_HEURISTIC = true;
     const INTERACTIVE_SELECTOR = [
       "a[href]",
@@ -34,34 +34,9 @@ window.Surfgym =
       "[role='menuitem']"
     ].join(",");
 
-    const INTERACTIVE_ROLES = new Set([
-      "button",
-      "link",
-      "checkbox",
-      "radio",
-      "textbox",
-      "searchbox",
-      "combobox",
-      "listbox",
-      "option",
-      "slider",
-      "spinbutton",
-      "switch",
-      "tab",
-      "menuitem",
-      "menuitemcheckbox",
-      "menuitemradio"
-    ]);
+    const INTERACTIVE_ROLES = new Set(["button", "link", "checkbox", "radio", "textbox", "searchbox", "combobox", "listbox", "option", "slider", "spinbutton", "switch", "tab", "menuitem", "menuitemcheckbox", "menuitemradio"]);
 
-    const INERT_CURSORS = new Set([
-      "auto",
-      "default",
-      "none",
-      "text",
-      "vertical-text",
-      "not-allowed",
-      "no-drop"
-    ]);
+    const INERT_CURSORS = new Set(["auto", "default", "none", "text", "vertical-text", "not-allowed", "no-drop"]);
 
     const INPUT_ROLE_BY_TYPE = {
       button: "button",
@@ -86,15 +61,7 @@ window.Surfgym =
       week: "textbox"
     };
 
-    const TAG_ROLE = {
-      a: "link",
-      area: "link",
-      button: "button",
-      select: "combobox",
-      option: "option",
-      textarea: "textbox",
-      summary: "button"
-    };
+    const TAG_ROLE = { a: "link", area: "link", button: "button", select: "combobox", option: "option", textarea: "textbox", summary: "button" };
 
     function normalizeText(text) {
       return (text || "").replace(/\s+/g, " ").trim();
@@ -105,26 +72,14 @@ window.Surfgym =
     }
 
     function isDisabled(element) {
-      return (
-        element.disabled === true ||
-        element.getAttribute("aria-disabled") === "true"
-      );
+      return element.disabled === true || element.getAttribute("aria-disabled") === "true";
     }
 
     function isRectInViewport(rect) {
-      const viewportWidth =
-        window.innerWidth || document.documentElement.clientWidth;
-      const viewportHeight =
-        window.innerHeight || document.documentElement.clientHeight;
+      const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 
-      return (
-        rect.width > 0 &&
-        rect.height > 0 &&
-        rect.right > 0 &&
-        rect.bottom > 0 &&
-        rect.left < viewportWidth &&
-        rect.top < viewportHeight
-      );
+      return rect.width > 0 && rect.height > 0 && rect.right > 0 && rect.bottom > 0 && rect.left < viewportWidth && rect.top < viewportHeight;
     }
 
     function isVisible(element) {
@@ -134,12 +89,7 @@ window.Surfgym =
 
       const style = getStyle(element);
 
-      if (
-        style.display === "none" ||
-        style.visibility === "hidden" ||
-        style.pointerEvents === "none" ||
-        Number(style.opacity) === 0
-      ) {
+      if (style.display === "none" || style.visibility === "hidden" || style.pointerEvents === "none" || Number(style.opacity) === 0) {
         return false;
       }
 
@@ -200,21 +150,7 @@ window.Surfgym =
         const type = (element.getAttribute("type") || "text").toLowerCase();
 
         // Screen-visible value or placeholder.
-        if (
-          [
-            "text",
-            "search",
-            "email",
-            "tel",
-            "url",
-            "number",
-            "date",
-            "time",
-            "month",
-            "week",
-            "datetime-local"
-          ].includes(type)
-        ) {
+        if (["text", "search", "email", "tel", "url", "number", "date", "time", "month", "week", "datetime-local"].includes(type)) {
           return normalizeText(element.value || element.placeholder);
         }
 
@@ -249,26 +185,18 @@ window.Surfgym =
 
       if (tag === "select") {
         const selected = Array.from(element.selectedOptions || []);
-        return normalizeText(
-          selected.map((option) => option.innerText).join(" ")
-        );
+        return normalizeText(selected.map((option) => option.innerText).join(" "));
       }
 
       const text = normalizeText(element.innerText);
       if (text) return text;
 
-      return normalizeText(
-        element.getAttribute("aria-label") ||
-        element.getAttribute("title") ||
-        ""
-      );
+      return normalizeText(element.getAttribute("aria-label") || element.getAttribute("title") || "");
     }
 
     function isPointInViewport(x, y) {
-      const viewportWidth =
-        window.innerWidth || document.documentElement.clientWidth;
-      const viewportHeight =
-        window.innerHeight || document.documentElement.clientHeight;
+      const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 
       return x >= 0 && y >= 0 && x < viewportWidth && y < viewportHeight;
     }
@@ -281,10 +209,7 @@ window.Surfgym =
           return true;
         }
 
-        current =
-          current.parentNode ||
-          (current.getRootNode && current.getRootNode().host) ||
-          null;
+        current = current.parentNode || (current.getRootNode && current.getRootNode().host) || null;
       }
 
       return false;
@@ -304,29 +229,15 @@ window.Surfgym =
     }
 
     function hasTopmostPoint(element) {
-      const rects = Array.from(element.getClientRects()).filter(
-        isRectInViewport
-      );
+      const rects = Array.from(element.getClientRects()).filter(isRectInViewport);
 
       for (const rect of rects) {
         const points = [
           [rect.left + rect.width / 2, rect.top + rect.height / 2],
-          [
-            rect.left + Math.min(5, rect.width / 2),
-            rect.top + Math.min(5, rect.height / 2)
-          ],
-          [
-            rect.right - Math.min(5, rect.width / 2),
-            rect.top + Math.min(5, rect.height / 2)
-          ],
-          [
-            rect.left + Math.min(5, rect.width / 2),
-            rect.bottom - Math.min(5, rect.height / 2)
-          ],
-          [
-            rect.right - Math.min(5, rect.width / 2),
-            rect.bottom - Math.min(5, rect.height / 2)
-          ]
+          [rect.left + Math.min(5, rect.width / 2), rect.top + Math.min(5, rect.height / 2)],
+          [rect.right - Math.min(5, rect.width / 2), rect.top + Math.min(5, rect.height / 2)],
+          [rect.left + Math.min(5, rect.width / 2), rect.bottom - Math.min(5, rect.height / 2)],
+          [rect.right - Math.min(5, rect.width / 2), rect.bottom - Math.min(5, rect.height / 2)]
         ];
 
         for (const [x, y] of points) {
@@ -385,10 +296,7 @@ window.Surfgym =
     }
 
     function getInteractiveElements() {
-      const candidates = [
-        ...queryAllDeep(INTERACTIVE_SELECTOR),
-        ...getCursorInteractiveElements()
-      ];
+      const candidates = [...queryAllDeep(INTERACTIVE_SELECTOR), ...getCursorInteractiveElements()];
 
       const unique = Array.from(new Set(candidates));
 
@@ -402,10 +310,7 @@ window.Surfgym =
     }
 
     function getViewportSize() {
-      return {
-        width: window.innerWidth || document.documentElement.clientWidth,
-        height: window.innerHeight || document.documentElement.clientHeight
-      };
+      return { width: window.innerWidth || document.documentElement.clientWidth, height: window.innerHeight || document.documentElement.clientHeight };
     }
 
     function clipRectToViewport(rect) {
@@ -423,47 +328,20 @@ window.Surfgym =
         return null;
       }
 
-      return {
-        left,
-        top,
-        right,
-        bottom,
-        width,
-        height
-      };
+      return { left, top, right, bottom, width, height };
     }
 
     function bboxFromClippedRect(rect) {
-      return [
-        Math.round(rect.left),
-        Math.round(rect.top),
-        Math.round(rect.width),
-        Math.round(rect.height)
-      ];
+      return [Math.round(rect.left), Math.round(rect.top), Math.round(rect.width), Math.round(rect.height)];
     }
 
     function isTopmostInClippedRect(element, clippedRect) {
       const points = [
-        [
-          clippedRect.left + clippedRect.width / 2,
-          clippedRect.top + clippedRect.height / 2
-        ],
-        [
-          clippedRect.left + Math.min(5, clippedRect.width / 2),
-          clippedRect.top + Math.min(5, clippedRect.height / 2)
-        ],
-        [
-          clippedRect.right - Math.min(5, clippedRect.width / 2),
-          clippedRect.top + Math.min(5, clippedRect.height / 2)
-        ],
-        [
-          clippedRect.left + Math.min(5, clippedRect.width / 2),
-          clippedRect.bottom - Math.min(5, clippedRect.height / 2)
-        ],
-        [
-          clippedRect.right - Math.min(5, clippedRect.width / 2),
-          clippedRect.bottom - Math.min(5, clippedRect.height / 2)
-        ]
+        [clippedRect.left + clippedRect.width / 2, clippedRect.top + clippedRect.height / 2],
+        [clippedRect.left + Math.min(5, clippedRect.width / 2), clippedRect.top + Math.min(5, clippedRect.height / 2)],
+        [clippedRect.right - Math.min(5, clippedRect.width / 2), clippedRect.top + Math.min(5, clippedRect.height / 2)],
+        [clippedRect.left + Math.min(5, clippedRect.width / 2), clippedRect.bottom - Math.min(5, clippedRect.height / 2)],
+        [clippedRect.right - Math.min(5, clippedRect.width / 2), clippedRect.bottom - Math.min(5, clippedRect.height / 2)]
       ];
 
       for (const [x, y] of points) {
@@ -493,11 +371,7 @@ window.Surfgym =
 
         const visible_text = getVisibleText(element);
 
-        results.push({
-          role: getInteractiveRole(element),
-          visible_text: visible_text || "[icon]",
-          bbox: bboxFromClippedRect(clippedRect)
-        });
+        results.push({ role: getInteractiveRole(element), visible_text: visible_text || "[icon]", bbox: bboxFromClippedRect(clippedRect) });
       }
 
       return results;
@@ -509,59 +383,30 @@ window.Surfgym =
 
     function readFromPage(rule) {
       if (rule.target === "url") return window.location.href;
-
-      if (rule.target === "title") return document.title || "";
-
-      if (rule.target === "text")
-        return document.body ? document.body.innerText || "" : "";
-
-      if (rule.target === "html")
-        return document.documentElement
-          ? document.documentElement.outerHTML || ""
-          : "";
-
-      return "";
-    }
-
-    function readAttr(element, attr) {
-      if (!attr) {
-        return "";
-      }
-
-      if (attr in element) {
-        const value = element[attr];
-        return value === undefined || value === null ? "" : String(value);
-      }
-
-      return element.getAttribute(attr) || "";
+      if (rule.target === "title") return document.title;
+      if (rule.target === "text") return document.body.innerText;
+      if (rule.target === "html") return document.documentElement.outerHTML;
     }
 
     function readFromElement(rule) {
-      let element = null;
-      try {
-        element = document.querySelector(rule.selector);
-      } catch {
-        return "";
-      }
+      let element = document.querySelector(rule.selector);
 
-      if (!element) return "";
-      if (rule.target === "text") {
-        return element.innerText || element.textContent || "";
-      }
-      if (rule.target === "html") {
-        return element.outerHTML || "";
-      }
+      if (rule.target === "text") return element.innerText || element.textContent;
+      if (rule.target === "html") return element.outerHTML;
       if (rule.target === "attr") {
-        return readAttr(element, rule.attr);
+        const value = element[rule.attr];
+        return value === undefined || value === null ? element.getAttribute(rule.attr) : value;
       }
-
-      return "";
     }
 
     function getDomObservation(rules) {
-      return rules.map((rule) =>
-        rule.selector ? readFromElement(rule) : readFromPage(rule)
-      );
+      return rules.map((rule) => {
+        try {
+          return rule.selector ? readFromElement(rule) : readFromPage(rule);
+        } catch {
+          return undefined;
+        }
+      });
     }
 
     // Deprecated: Not used due to the new evaluation function

@@ -10,12 +10,12 @@ from io import BytesIO
 from typing import Callable, TypeVar
 
 from PIL import Image, ImageDraw
-from typing_extensions import assert_never
+from typing_extensions import Optional
 
 from src.components.evaluate import (
     evaluate_page_rules,
 )
-from src.components.task import Evaluation, Task, TaskStore, Website
+from src.components.task import Action, Evaluation, Task, TaskStore, Website
 from src.config import WavepoolConfig
 from src.gateway.error import Deadline, DeadlineExceeded, SGRetryableError
 from src.gateway.pool import GatewayPool
@@ -77,8 +77,6 @@ class Service:
                 return self._handle_action(request, deadline)
             case RewardRequest():
                 return self._handle_reward(request, deadline)
-            case _ as unreachable:
-                assert_never(unreachable)
 
     def _handle_start(self, request: StartRequest, deadline: Deadline) -> ActionResponse:
         if request.session_id in self.active_sessions:
@@ -86,7 +84,7 @@ class Service:
 
         task = self.task_store.get(request.task_id)
 
-        lease = self._allocate(deadline, task.website)
+        lease = self._allocate(deadline, task.website, task.setup)
         (screenshot_b64, media_type) = self._screenshot(deadline, lease)
         text = self._interactive_tree(deadline, lease) if request.include_a11y else None
 
@@ -139,11 +137,13 @@ class Service:
             reward=reward,
         )
 
-    def _allocate(self, deadline: Deadline, websites: list[Website]) -> Lease:
+    def _allocate(
+        self, deadline: Deadline, websites: list[Website], setup: Optional[Action]
+    ) -> Lease:
         instance_id, _, port = self._run_with_retry(
             context="_allocate_instance",
             deadline=deadline,
-            func=lambda: self.pool.allocate(deadline, websites),
+            func=lambda: self.pool.allocate(deadline, websites, setup),
         )
 
         return Lease(instance_id=instance_id, port=port)

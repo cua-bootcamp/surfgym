@@ -8,19 +8,24 @@ Evaluation logic for converting browser observations into rewards.
 from __future__ import annotations
 
 import re
-from typing import Literal
+from typing import Literal, Optional, TypeAlias
 
-from src.components.task import Evaluation, Rule
+from src.components.task import Evaluation, Value
+
+Observation: TypeAlias = Optional[Value]
 
 
 def evaluate_page_rules(
     evaluation: Evaluation,
-    observations: list[str],
+    observations: list[Observation],
 ) -> float:
     checks = tuple(
-        evaluate(
-            rule,
+        _matches(
             observation,
+            rule.value,
+            match=rule.match,
+            normalize_space=rule.normalize_space,
+            case_sensitive=rule.case_sensitive,
         )
         for rule, observation in zip(evaluation.rules, observations)
     )
@@ -34,25 +39,15 @@ def evaluate_page_rules(
     return 1.0 if passed else 0
 
 
-def evaluate(rule: Rule, observation: str) -> bool:
-    return _matches(
-        observation,
-        rule.value,
-        match=rule.match,
-        normalize_space=rule.normalize_space,
-        case_sensitive=rule.case_sensitive,
-    )
-
-
 def _matches(
-    actual: str,
-    expected: str,
+    actual: Observation,
+    expected: Value,
     match: Literal["contains", "exact", "regex"],
     normalize_space: bool,
     case_sensitive: bool,
 ) -> bool:
-    actual_text = actual
-    expected_text = expected
+    actual_text = _to_text(actual)
+    expected_text = _to_text(expected)
 
     if normalize_space:
         actual_text = _normalize_space(actual_text)
@@ -70,6 +65,12 @@ def _matches(
         return actual_text == expected_text
 
     return expected_text in actual_text
+
+
+def _to_text(value: Observation) -> str:
+    if value is None:
+        return ""
+    return str(value)
 
 
 def _normalize_space(value: str) -> str:

@@ -1,26 +1,19 @@
 import asyncio
+import math
 import os
 from collections import defaultdict
 from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
-from typing import DefaultDict, Union, cast
+from typing import DefaultDict, Optional, Union
 
 from PIL import Image
-from playwright.async_api import Error as PlaywrightError
 from playwright.async_api import Page, async_playwright
 from typing_extensions import assert_never
 
+from src.components.evaluate import Observation
 from src.components.log import logger
-from src.components.task import (
-    ConsoleRule,
-    DomRule,
-    Evaluation,
-    Rule,
-    Rule_Mode,
-    SpreadsheetRule,
-    Website,
-)
+from src.components.task import Action, ConsoleRule, DomRule, Evaluation, Website
 from src.protocol.command import Command, MouseButtonType, PlaywrightKey
 from src.protocol.instance_to_gateway import (
     InteractiveRegion,
@@ -115,7 +108,9 @@ class PlaywrightController:
         if option_value is not None:
             await page.locator("select:focus").select_option(value=option_value)
         else:
-            await page.mouse.click(cursor.x, cursor.y, delay=10, button=button, click_count=click_count)
+            await page.mouse.click(
+                cursor.x, cursor.y, delay=10, button=button, click_count=click_count
+            )
         self.cursor = cursor
 
     async def hover_coords(self, page: Page, cursor: PageCursor):
@@ -161,9 +156,6 @@ class PlaywrightController:
         await page.keyboard.press(key)
 
     async def hotkey_press(self, page: Page, keys: list[PlaywrightKey]):
-        """
-        Press specified keys in sequence.
-        """
         await self._ensure_page_ready(page)
         for key in keys:
             await page.keyboard.down(key)
@@ -176,94 +168,34 @@ class PlaywrightController:
             await page.evaluate("Surfgym.getInteractiveRects();")
         )
 
-    async def _get_console_observation(
+    async def get_console_observation(
         self, page: Page, console_rules: list[ConsoleRule]
-    ) -> list[str]:
+    ) -> list[object]:
         await self._ensure_page_ready(page)
 
-        observations: list[str] = []
+        observations: list[object] = []
         for rule in console_rules:
             try:
-                result = await page.evaluate(rule.script)
+                observations.append(await page.evaluate(rule.script))
             except Exception:
-                logger.exception("Console observation evaluate failed")
-                observations.append("")
-                continue
-
-            if result is None:
-                observations.append("")
-            elif isinstance(result, str):
-                observations.append(result)
-            else:
-                observations.append(str(result))
+                observations.append(None)
 
         return observations
 
-    async def _get_dom_observation(self, page: Page, dom_rules: list[DomRule]) -> list[str]:
-        await self._ensure_page_ready(page)
-        return await page.evaluate(
-            """
-    (rules) => {
-        return Surfgym.getDomObservation(rules);
-    }
-    """,
-            [rule.model_dump(mode="json") for rule in dom_rules],
-        )
-
-    async def _get_spreadsheet_observation(
-        self, page: Page, spreadsheet_rules: list[SpreadsheetRule]
-    ) -> list[str]:
+    async def get_dom_observation(self, page: Page, dom_rules: list[DomRule]) -> list[object]:
         await self._ensure_page_ready(page)
 
-        observations: list[str] = []
-        for rule in spreadsheet_rules:
-            try:
-                value = await page.evaluate(
-                    """({ cell, formula }) => {
-                        try {
-                            const getter = formula
-                                ? window.getSpreadsheetCellFormula
-                                : window.getSpreadsheetCellValue;
-
-                            const value = getter(cell);
-                            return value == null ? "" : String(value);
-                        } catch {
-                            return "";
-                        }
-                    }""",
-                    {
-                        "cell": rule.cell,
-                        "formula": bool(rule.formula),
-                    },
-                )
-            except PlaywrightError:
-                value = ""
-
-            observations.append(value)
-
-        return observations
-
-    async def get_obesrvation(self, page: Page, rules: list[Rule], mode: Rule_Mode) -> list[str]:
-        obs_arr: list[str] = []
-
-        if mode == "dom":
-            obs_arr = await self._get_dom_observation(
-                page=page,
-                dom_rules=cast(list[DomRule], rules),
+        try:
+            return await page.evaluate(
+                """
+        (rules) => {
+            return Surfgym.getDomObservation(rules);
+        }
+        """,
+                [rule.model_dump(mode="json") for rule in dom_rules],
             )
-
-        if mode == "spreadsheet":
-            obs_arr = await self._get_spreadsheet_observation(
-                page=page,
-                spreadsheet_rules=cast(list[SpreadsheetRule], rules),
-            )
-
-        if mode == "console":
-            obs_arr = await self._get_console_observation(
-                page=page,
-                console_rules=cast(list[ConsoleRule], rules),
-            )
-        return obs_arr
+        except Exception:
+            return [None] * len(dom_rules)
 
 
 class PlaywrightInstance:
@@ -287,7 +219,7 @@ class PlaywrightInstance:
 
         self.controller = PlaywrightController()
 
-    async def create(self, id: str, websites: list[Website]) -> None:
+    async def create(self, id: str, websites: list[Website], setup: Optional[Action]) -> None:
         self.id = id
 
         self.p = await async_playwright().start()
@@ -300,7 +232,7 @@ class PlaywrightInstance:
             viewport={"width": self.viewport_width, "height": self.viewport_height}
         )
 
-        layouts = build_page_layouts(
+        layouts = _build_page_layouts(
             page_count=len(websites),
             total_width=self.viewport_width,
             total_height=self.viewport_height,
@@ -467,22 +399,42 @@ class PlaywrightInstance:
 
     async def _get_observation(self, evaluation: Evaluation) -> ObservationResponse:
         rules = evaluation.rules
-        observations: list[str] = [""] * len(rules)
+        observations: list[Observation] = [None] * len(rules)
 
-        grouped_rules: DefaultDict[tuple[str, str], list[tuple[int, Rule]]] = defaultdict(list)
+        dom_groups: DefaultDict[str, list[tuple[int, DomRule]]] = defaultdict(list)
+        console_groups: DefaultDict[str, list[tuple[int, ConsoleRule]]] = defaultdict(list)
 
         for idx, rule in enumerate(rules):
-            grouped_rules[(rule.website_id, rule.mode)].append((idx, rule))
+            match rule:
+                case DomRule():
+                    dom_groups[rule.website_id].append((idx, rule))
+                case ConsoleRule():
+                    console_groups[rule.website_id].append((idx, rule))
 
-        for (website_id, mode), indexed_rules in grouped_rules.items():
+        for website_id, idx_rules in dom_groups.items():
             page = self.pages[website_id]
+            idx_arr = [idx for idx, _ in idx_rules]
+            rule_arr = [rule for _, rule in idx_rules]
 
-            idx_arr = [idx for idx, _ in indexed_rules]
-            rule_arr = [rule for _, rule in indexed_rules]
-            obs_arr = await self.controller.get_obesrvation(page, rule_arr, cast(Rule_Mode, mode))
+            obs_arr = await self.controller.get_dom_observation(
+                page=page,
+                dom_rules=rule_arr,
+            )
 
             for original_idx, obs in zip(idx_arr, obs_arr):
-                observations[original_idx] = obs
+                observations[original_idx] = _coerce_playwright_observation(obs)
+
+        for website_id, idx_rules in console_groups.items():
+            page = self.pages[website_id]
+            idx_arr = [idx for idx, _ in idx_rules]
+            rule_arr = [rule for _, rule in idx_rules]
+
+            obs_arr = await self.controller.get_console_observation(
+                page=page, console_rules=rule_arr
+            )
+
+            for original_idx, obs in zip(idx_arr, obs_arr):
+                observations[original_idx] = _coerce_playwright_observation(obs)
 
         return ObservationResponse(observation=observations)
 
@@ -518,7 +470,7 @@ class PlaywrightInstance:
 ########################################
 
 
-def build_page_layouts(
+def _build_page_layouts(
     *,
     page_count: int,
     total_width: int,
@@ -581,3 +533,21 @@ def build_page_layouts(
             height=half_height,
         ),
     ]
+
+
+def _coerce_playwright_observation(value: object) -> Observation:
+    if isinstance(value, bool):
+        return value
+
+    if isinstance(value, str):
+        return value
+
+    if isinstance(value, int):
+        return value
+
+    if isinstance(value, float):
+        if not math.isfinite(value):  # handle NaN & Infinity
+            return str(value)
+        return value
+
+    return None

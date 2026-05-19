@@ -73,7 +73,7 @@ async def get_instance(
     new_instance_id = str(uuid.uuid4())
 
     try:
-        await instance.create(new_instance_id, request.websites)
+        await instance.create(new_instance_id, request.websites, request.setup)
     except Exception as exc:
         logger.exception("Playwright instance creation failed on port %s", args.port)
 
