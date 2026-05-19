@@ -12,7 +12,7 @@ from types import FrameType
 import httpx
 from pydantic import ValidationError
 
-from src.config import Config
+from surfgym_runtime.support import Config
 
 
 def _is_windows() -> bool:

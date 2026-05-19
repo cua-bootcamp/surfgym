@@ -10,26 +10,23 @@ from io import BytesIO
 from typing import Callable, TypeVar
 
 from PIL import Image, ImageDraw
-from typing_extensions import Optional
-
-from src.components.evaluate import (
-    evaluate_page_rules,
-)
-from src.components.task import Action, Evaluation, Task, TaskStore, Website
-from src.config import WavepoolConfig
-from src.gateway.error import Deadline, DeadlineExceeded, SGRetryableError
-from src.gateway.pool import GatewayPool
-from src.protocol.agent_to_gateway import (
+from surfgym_contracts.command import Command
+from surfgym_contracts.computer13 import TerminalAction
+from surfgym_contracts.protocol.agent_to_gateway import (
     ActionRequest,
     Request,
     RequestAdapter,
     RewardRequest,
     StartRequest,
 )
-from src.protocol.command import Command
-from src.protocol.computer13 import TerminalAction
-from src.protocol.gateway_to_agent import ActionResponse, ImagePayload, RewardResponse
-from src.protocol.instance_to_gateway import InteractiveTreeResponse
+from surfgym_contracts.protocol.gateway_to_agent import ActionResponse, ImagePayload, RewardResponse
+from surfgym_contracts.protocol.instance_to_gateway import InteractiveTreeResponse
+from surfgym_contracts.task import Action, Evaluation, Task, Website
+from typing_extensions import Optional
+
+from surfgym_runtime.gateway.error import Deadline, DeadlineExceeded, SGRetryableError
+from surfgym_runtime.gateway.pool import GatewayPool
+from surfgym_runtime.support import TaskStore, WavepoolConfig, evaluate_page_rules
 
 _T = TypeVar("_T")
 

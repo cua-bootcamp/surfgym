@@ -13,8 +13,7 @@ from pydantic import ValidationError
 
 from surfgym_runtime.gateway.error import ConfigError, SGError
 from surfgym_runtime.gateway.server import launch
-from surfgym_runtime.support.config import Config
-from surfgym_runtime.support.logger import logger
+from surfgym_runtime.support import Config, logger
 
 
 def _validate_config(config: Config) -> None:

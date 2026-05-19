@@ -8,14 +8,14 @@ import uvicorn
 from fastapi import Body, FastAPI
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
-
-from src.components.task import Website
-from src.protocol.gateway_to_instance import GetInstanceRequest
-from src.protocol.instance_to_gateway import GetInstanceResponse, StatusResponse
-from src.protocol.master_to_gateway import (
+from surfgym_contracts import Website
+from surfgym_contracts.protocol.gateway_to_instance import GetInstanceRequest
+from surfgym_contracts.protocol.instance_to_gateway import GetInstanceResponse, StatusResponse
+from surfgym_contracts.protocol.master_to_gateway import (
     GetInstanceResponse as MasterGetInstanceResponse,
 )
-from src.protocol.master_to_gateway import MasterServerErrorType, error_response
+from surfgym_contracts.protocol.master_to_gateway import MasterServerErrorType
+from surfgym_runtime.wavepool.master.error import error_response
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--master_host", type=str)

@@ -13,9 +13,7 @@ from surfgym_contracts.protocol.agent_to_gateway import Request
 from surfgym_contracts.protocol.gateway_to_agent import ErrorResponse, ErrorResponseType, Response
 
 from surfgym_runtime.gateway.service import Service
-from surfgym_runtime.support.config import Config
-from surfgym_runtime.support.logger import logger, setup_logging
-from surfgym_runtime.support.task_store import TaskStore
+from surfgym_runtime.support import Config, TaskStore, logger, setup_logging
 
 
 def launch(config: Config):

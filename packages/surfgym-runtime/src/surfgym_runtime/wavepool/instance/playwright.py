@@ -18,8 +18,9 @@ from surfgym_contracts.protocol.instance_to_gateway import (
     interactive_region_list_adapter,
 )
 from surfgym_contracts.task import Action, ConsoleRule, DomRule, Evaluation, Observation, Website
-from surfgym_runtime.support.logger import logger
 from typing_extensions import assert_never
+
+from surfgym_runtime.support import logger
 
 
 @dataclass(frozen=True)
