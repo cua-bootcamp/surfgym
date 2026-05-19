@@ -1,12 +1,15 @@
-**/.DS_Store/*
 __pycache__
 .ruff_cache
 logs/
 .pytest_cache
 .vscode
 .env
-**/__snapshots__/
-node_modules
 
 nohup.out
-websites/
+
+**/.DS_Store/*
+**/__snapshots__/*
+**/node_modules/*
+**/.browser-home/*
+**/.ms-playwright/*
+**/dist/*

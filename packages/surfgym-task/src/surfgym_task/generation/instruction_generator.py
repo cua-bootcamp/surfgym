@@ -5,7 +5,8 @@ from typing import Any
 
 from dotenv import load_dotenv
 from openai import OpenAI
-from src.schema import HoareState, SeedTask, State
+
+from surfgym_task.generation.schema import HoareState, SeedTask, State
 
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 

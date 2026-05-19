@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Action Lab</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        background: #f4f6f8;
+        color: #111827;
+      }
+
+      main {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 28px;
+      }
+
+      h1 {
+        margin: 0 0 20px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      section {
+        background: white;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        padding: 18px;
+      }
+
+      button,
+      input {
+        height: 44px;
+        font-size: 16px;
+      }
+
+      button {
+        padding: 0 16px;
+        border: 0;
+        border-radius: 6px;
+        background: #111827;
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0 12px;
+        border: 1px solid #9ca3af;
+        border-radius: 6px;
+      }
+
+      .status {
+        margin-top: 12px;
+        min-height: 22px;
+        font-weight: 700;
+        color: #047857;
+      }
+
+      #drag-source {
+        width: 110px;
+        height: 64px;
+        display: grid;
+        place-items: center;
+        background: #2563eb;
+        color: white;
+        border-radius: 6px;
+        user-select: none;
+        cursor: grab;
+      }
+
+      #drop-target {
+        margin-top: 18px;
+        height: 110px;
+        display: grid;
+        place-items: center;
+        border: 2px dashed #6b7280;
+        border-radius: 8px;
+        background: #f9fafb;
+      }
+
+      #scroll-box {
+        height: 180px;
+        overflow-y: auto;
+        border: 1px solid #9ca3af;
+        border-radius: 6px;
+        background: #f9fafb;
+      }
+
+      .spacer {
+        height: 440px;
+        padding: 16px;
+        color: #6b7280;
+      }
+
+      #scroll-target {
+        margin: 16px;
+      }
+
+      .wide {
+        grid-column: 1 / -1;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Action Lab</h1>
+
+      <div class="grid">
+        <section>
+          <h2>Click</h2>
+          <button id="click-button" type="button">Click me</button>
+          <div id="click-status" class="status" data-done="false"></div>
+        </section>
+
+        <section>
+          <h2>Double Click</h2>
+          <button id="double-click-button" type="button">Double click me</button>
+          <div id="double-click-status" class="status" data-done="false"></div>
+        </section>
+
+        <section>
+          <h2>Right Click</h2>
+          <button id="right-click-button" type="button">Right click me</button>
+          <div id="right-click-status" class="status" data-done="false"></div>
+        </section>
+
+        <section>
+          <h2>Typing</h2>
+          <input id="typing-input" aria-label="typing input" placeholder="Type action-lab here" />
+          <div id="typing-status" class="status" data-done="false"></div>
+        </section>
+
+        <section>
+          <h2>Drag</h2>
+          <div id="drag-source">Drag me</div>
+          <div id="drop-target">Drop here</div>
+          <div id="drag-status" class="status" data-done="false"></div>
+        </section>
+
+        <section>
+          <h2>Scrolling</h2>
+          <div id="scroll-box">
+            <div class="spacer">Scroll down to find the hidden button.</div>
+            <button id="scroll-target" type="button">I was hidden</button>
+          </div>
+          <div id="scroll-status" class="status" data-done="false"></div>
+        </section>
+
+        <section class="wide">
+          <h2>Completion</h2>
+          <div id="all-status" data-done="false">Incomplete</div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const done = {
+        click: false,
+        doubleClick: false,
+        rightClick: false,
+        drag: false,
+        scroll: false,
+        typing: false,
+      };
+
+      const setDone = (key, id, label) => {
+        done[key] = true;
+        const el = document.getElementById(id);
+        el.dataset.done = "true";
+        el.textContent = label;
+        renderAll();
+      };
+
+      const renderAll = () => {
+        const allDone = Object.values(done).every(Boolean);
+        const allStatus = document.getElementById("all-status");
+        allStatus.dataset.done = String(allDone);
+        allStatus.textContent = allDone ? "Complete" : "Incomplete";
+      };
+
+      document.getElementById("click-button").addEventListener("click", () => {
+        setDone("click", "click-status", "Clicked");
+      });
+
+      document.getElementById("double-click-button").addEventListener("dblclick", () => {
+        setDone("doubleClick", "double-click-status", "Double clicked");
+      });
+
+      document.getElementById("right-click-button").addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+        setDone("rightClick", "right-click-status", "Right clicked");
+      });
+
+      document.getElementById("typing-input").addEventListener("input", (event) => {
+        if (event.target.value === "action-lab") {
+          setDone("typing", "typing-status", "Typed");
+        }
+      });
+
+      let dragging = false;
+      const dragSource = document.getElementById("drag-source");
+      const dropTarget = document.getElementById("drop-target");
+
+      dragSource.addEventListener("mousedown", () => {
+        dragging = true;
+      });
+
+      document.addEventListener("mouseup", (event) => {
+        if (!dragging) return;
+        dragging = false;
+
+        const rect = dropTarget.getBoundingClientRect();
+        const inside =
+          rect.left <= event.clientX &&
+          event.clientX <= rect.right &&
+          rect.top <= event.clientY &&
+          event.clientY <= rect.bottom;
+
+        if (inside) {
+          setDone("drag", "drag-status", "Dragged");
+        }
+      });
+
+      document.getElementById("scroll-target").addEventListener("click", () => {
+        setDone("scroll", "scroll-status", "Scrolled");
+      });
+
+      renderAll();
+    </script>
+  </body>
+</html>

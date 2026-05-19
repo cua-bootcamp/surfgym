@@ -1,0 +1,100 @@
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow: hidden;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+[data-u-comp="ribbon-toolbar"] {
+  min-height: 68px;
+  align-items: center;
+}
+
+div:has(> [data-u-comp="ribbon-toolbar"]) {
+  min-height: 68px;
+}
+
+[data-u-comp="ribbon-toolbar"] [data-u-command],
+[data-u-comp="ribbon-toolbar"] button {
+  min-width: 20px;
+  min-height: 20px;
+}
+
+[data-u-comp="ribbon-toolbar"] svg {
+  width: 20px;
+  height: 20px;
+}
+
+[data-u-comp="ribbon-toolbar"] [data-u-command="sheet.command.smart-toggle-filter"],
+[data-u-comp="ribbon-toolbar"] [data-u-command="sheet.operation.open.conditional.formatting.panel"] {
+  display: none !important;
+}
+
+.spreadsheet-fill-color-palette {
+  display: flex !important;
+  gap: 8px !important;
+  padding: 4px !important;
+}
+
+.spreadsheet-fill-color-palette-button {
+  box-sizing: border-box;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  cursor: pointer;
+  border: 1px solid rgb(209, 213, 219);
+  border-radius: 6px;
+  padding: 0;
+}
+
+.spreadsheet-fill-color-palette-button:hover {
+  border-color: rgb(17, 24, 39);
+}
+
+.spreadsheet-start-filter-toolbar-group {
+  display: grid;
+  grid-auto-flow: column;
+  flex-shrink: 0;
+  gap: 8px;
+  padding: 0 8px;
+}
+
+.spreadsheet-start-filter-toolbar-button {
+  box-sizing: border-box;
+  display: inline-flex;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: rgb(17, 24, 39);
+  padding: 0;
+}
+
+.spreadsheet-start-filter-toolbar-button:hover {
+  background: rgb(243, 244, 246);
+}
+
+.spreadsheet-start-filter-toolbar-button svg {
+  width: 30px;
+  height: 30px;
+  fill: currentColor;
+}

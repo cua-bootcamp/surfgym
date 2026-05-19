@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Copy Source</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        background: #f6f7f9;
+        color: #111827;
+      }
+
+      main {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        box-sizing: border-box;
+      }
+
+      section {
+        width: min(560px, 100%);
+        padding: 28px;
+        background: #ffffff;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: 28px;
+      }
+
+      p {
+        margin: 0 0 18px;
+        color: #4b5563;
+      }
+
+      textarea {
+        width: 100%;
+        height: 96px;
+        box-sizing: border-box;
+        padding: 14px;
+        font: 20px/1.4 monospace;
+        border: 1px solid #9ca3af;
+        border-radius: 6px;
+        resize: none;
+      }
+
+      button {
+        margin-top: 16px;
+        height: 44px;
+        padding: 0 18px;
+        border: 0;
+        border-radius: 6px;
+        background: #111827;
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      #copy-status {
+        margin-top: 12px;
+        min-height: 20px;
+        color: #047857;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section aria-labelledby="source-title">
+        <h1 id="source-title">Source Browser</h1>
+        <p>Copy this exact text into the answer field in the right browser.</p>
+        <textarea id="source-text" readonly>SURFGYM-MULTI-BROWSER-7429</textarea>
+        <button id="copy-button" type="button">Copy text</button>
+        <div id="copy-status" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <script>
+      const sourceText = document.getElementById("source-text");
+      const copyButton = document.getElementById("copy-button");
+      const copyStatus = document.getElementById("copy-status");
+
+      copyButton.addEventListener("click", async () => {
+        sourceText.focus();
+        sourceText.select();
+
+        try {
+          await navigator.clipboard.writeText(sourceText.value);
+          copyStatus.textContent = "Copied.";
+        } catch {
+          document.execCommand("copy");
+          copyStatus.textContent = "Copied.";
+        }
+      });
+    </script>
+  </body>
+</html>
