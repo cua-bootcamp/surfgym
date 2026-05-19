@@ -6,8 +6,8 @@ from typing import Any, Iterator, TypeVar, cast
 import json5
 from pydantic import TypeAdapter
 
-from surfgym_task.generation.instruction_generator import InstructionGenerator
-from surfgym_task.generation.schema import (
+from surfgym_task.augmentation.instruction_generator import InstructionGenerator
+from surfgym_task.augmentation.schema import (
     Granularity,
     HoareState,
     HoareStateInstructionRowAdapter,

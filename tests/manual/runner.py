@@ -1,11 +1,9 @@
 import json
-import random
-import time
-from collections.abc import Iterable
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
 
-from tests.util import assert_ok_response, decode_png_base64, post
+from tests.manual.util import assert_ok_response, decode_png_base64, post
 
 
 class Runner:
@@ -14,21 +12,17 @@ class Runner:
         *,
         task_id: str,
         session_id: int,
-        actions: Iterable[list[dict[str, Any]]],
+        actions: list[list[dict[str, Any]]],
         config_path: Path,
-        timestamp: str,
     ):
         self.task_id = task_id
         self.session_id = session_id
         self.actions = actions
-        self.rng = random.Random(session_id)
 
-        self.start_delay_range = (0.0, 1.5)
-        self.action_delay_range = (0.2, 1.0)
-        self.reward_delay_range = (0.0, 0.1)
+        timestamp = datetime.now().strftime("%Y%m%d-%H%M%S-%f")[:-3]
 
         here_dir = Path(__file__).resolve().parent
-        self.snapshot_dir = here_dir / f"__snapshots__/{timestamp}_{task_id}/sid_{session_id}"
+        self.snapshot_dir = here_dir / f"__snapshots__/{task_id}-{timestamp}"
 
         with open(config_path, "r", encoding="utf-8") as f:
             config: dict[str, Any] = json.load(f)
@@ -36,18 +30,11 @@ class Runner:
         gateway = config["gateway"]
         self.url = f"http://{gateway['host']}:{gateway['port']}"
 
-    def _sleep_jitter(self, delay_range: tuple[float, float]) -> None:
-        low, high = delay_range
-        if high <= 0:
-            return
-        time.sleep(self.rng.uniform(low, high))
-
     def run(
         self,
     ):
         step = self._step_gen()
 
-        self._sleep_jitter(self.start_delay_range)
         start_response = post(
             self.url,
             {
@@ -59,7 +46,6 @@ class Runner:
         self._check_and_save_response("start", next(step), start_response)
 
         for action_batch in self.actions:
-            self._sleep_jitter(self.action_delay_range)
             action_response = post(
                 self.url,
                 {
@@ -72,7 +58,6 @@ class Runner:
             )
             self._check_and_save_response("action", next(step), action_response)
 
-        self._sleep_jitter(self.reward_delay_range)
         reward_response = post(
             self.url,
             {

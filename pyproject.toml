@@ -25,3 +25,11 @@ surfgym-contracts = { workspace = true }
 surfgym-runtime = { workspace = true }
 surfgym-task = { workspace = true }
 surfgym-fixture = { workspace = true }
+
+[dependency-groups]
+dev = [
+    "uv",
+    "pip",
+    "ruff",
+    "pyright"
+]
