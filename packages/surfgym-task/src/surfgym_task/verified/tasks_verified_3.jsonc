@@ -1,0 +1,2169 @@
+[
+    // os -> sheet tasks
+    {
+        "task_id": "prozilla_sheet_maths_calc_01",
+        "instruction": "Could you use the Maths app in Prozilla to calculate 50 + 50 and record the result in cell A1 of the spreadsheet?",
+        "website": [
+            {
+                "id": "prozilla",
+                "url": "http://localhost:3100"
+            },
+            {
+                "id": "spreadsheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "spreadsheet",
+                    "cell": "A1",
+                    "value": "100"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_sheet_settings_theme_01",
+        "instruction": "I'd like to know Prozilla's current theme. Could you check it in Settings and record the theme name in cell B1 of the spreadsheet?",
+        "website": [
+            {
+                "id": "prozilla",
+                "url": "http://localhost:3100"
+            },
+            {
+                "id": "spreadsheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "spreadsheet",
+                    "cell": "B1",
+                    "value": "default"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_sheet_photos_png_count_01",
+        "instruction": "Could you count how many PNG files are in Pictures/Wallpapers in the Prozilla Photos app and record the count in cell C1 of the spreadsheet?",
+        "website": [
+            {
+                "id": "prozilla",
+                "url": "http://localhost:3100"
+            },
+            {
+                "id": "spreadsheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "spreadsheet",
+                    "cell": "C1",
+                    "value": "11"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_sheet_maths_calc_02",
+        "instruction": "Could you use the Maths app in Prozilla to calculate 75 × 4 and record the result in cell D1 of the spreadsheet?",
+        "website": [
+            {
+                "id": "prozilla",
+                "url": "http://localhost:3100"
+            },
+            {
+                "id": "spreadsheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "spreadsheet",
+                    "cell": "D1",
+                    "value": "300"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_sheet_file_size_01",
+        "instruction": "Could you check the file size of the SVG file in the Pictures folder of Prozilla's Photos app and record it in cell E1 of the spreadsheet?",
+        "website": [
+            {
+                "id": "prozilla",
+                "url": "http://localhost:3100"
+            },
+            {
+                "id": "spreadsheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "spreadsheet",
+                    "cell": "E1",
+                    "value": "9"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_sheet_maths_calc_03",
+        "instruction": "Could you use the Maths app in Prozilla to divide 1000 by 10 and record the result in cell F1 of the spreadsheet?",
+        "website": [
+            {
+                "id": "prozilla",
+                "url": "http://localhost:3100"
+            },
+            {
+                "id": "spreadsheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "spreadsheet",
+                    "cell": "F1",
+                    "value": "100"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_sheet_image_count_01",
+        "instruction": "I want to know how many image files are in the Pictures/Crumbling City folder in Prozilla. Could you check and record the count in cell G1 of the spreadsheet?",
+        "website": [
+            {
+                "id": "prozilla",
+                "url": "http://localhost:3100"
+            },
+            {
+                "id": "spreadsheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "spreadsheet",
+                    "cell": "G1",
+                    "value": "3"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_sheet_notif_status_01",
+        "instruction": "Could you check whether notifications are enabled or disabled in Prozilla Settings and record the status in cell H1 of the spreadsheet?",
+        "website": [
+            {
+                "id": "prozilla",
+                "url": "http://localhost:3100"
+            },
+            {
+                "id": "spreadsheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "spreadsheet",
+                    "cell": "H1",
+                    "value": "enabled"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_sheet_maths_calc_04",
+        "instruction": "Could you use the Maths app in Prozilla to calculate 12 × 12 and record the result in cell I1 of the spreadsheet?",
+        "website": [
+            {
+                "id": "prozilla",
+                "url": "http://localhost:3100"
+            },
+            {
+                "id": "spreadsheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "spreadsheet",
+                    "cell": "I1",
+                    "value": "144"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_sheet_file_prop_01",
+        "instruction": "Could you check which app opens Wallpaper1.png in Pictures/Wallpapers in Prozilla and record that app name in cell J1 of the spreadsheet?",
+        "website": [
+            {
+                "id": "prozilla",
+                "url": "http://localhost:3100"
+            },
+            {
+                "id": "spreadsheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "spreadsheet",
+                    "cell": "J1",
+                    "value": "Photos"
+                }
+            ]
+        }
+    },
+    // website revise 404 error
+    {
+        // BMI record: 5 children, metric units
+        "task_id": "web_sheet_bmi_child_record_03",
+        "instruction": "I am compiling pediatric health assessments for five children and need their BMI profiles calculated using the CDC children's calculator. Could you please use the children's BMI tool to compute BMI and categories for five children (Names: Alex, Bella, Charlie, Diana, Ethan) with their respective ages and physical measurements (Alex: boy, 5 years 3 months, 113 cm, 19 kg; Bella: girl, 9 years 6 months, 138 cm, 50 kg; Charlie: boy, 4 years 3 months, 104 cm, 17 kg; Diana: girl, 13 years 2 months, 155 cm, 73 kg; Ethan: boy, 11 years, 148 cm, 50 kg), then record all information including names, ages, measurements, calculated BMI values, and BMI categories in the spreadsheet starting at A1 with appropriate headers?",
+        "website": [
+            {
+                "id": "web",
+                "url": "https://www.cdc.gov/bmi/child-teen-calculator/index.html"
+            },
+            {
+                "id": "sheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "sheet",
+                    "cell": "A1",
+                    "value": "Name",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A2",
+                    "value": "Alex",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A3",
+                    "value": "Bella",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A4",
+                    "value": "Charlie",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A5",
+                    "value": "Diana",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A6",
+                    "value": "Ethan",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    {
+        // BMI filter: healthy weight children only
+        "task_id": "web_sheet_bmi_child_filter_healthy_02",
+        "instruction": "I am filtering pediatric health records to identify children in a specific BMI category for targeted health interventions. Could you please use the CDC children's BMI calculator to compute BMI values for five children (Names: Alex, Bella, Charlie, Diana, Ethan) with their respective ages and measurements (Alex: boy, 5 years 3 months, 113 cm, 19 kg; Bella: girl, 9 years 6 months, 138 cm, 50 kg; Charlie: boy, 4 years 3 months, 104 cm, 17 kg; Diana: girl, 13 years 2 months, 155 cm, 73 kg; Ethan: boy, 11 years, 148 cm, 50 kg), then save only those children matching the healthy weight category in the spreadsheet starting at A1 with appropriate headers?",
+        "website": [
+            {
+                "id": "web",
+                "url": "https://www.cdc.gov/bmi/child-teen-calculator/index.html"
+            },
+            {
+                "id": "sheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "sheet",
+                    "cell": "A1",
+                    "value": "Name",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A2",
+                    "value": "Alex",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A3",
+                    "value": "Charlie",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A4",
+                    "value": "Ethan",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    {
+        // BMI filter: healthy weight children, US units
+        "task_id": "web_sheet_bmi_child_filter_healthy_us_02",
+        "instruction": "I am compiling health records for five children from our US program and need to identify those in a specific BMI category. Could you please use the CDC children's BMI calculator to compute BMI values for five children (Names: Alex, Bella, Charlie, Diana, Ethan) with their respective ages and US measurements (Alex: boy, 5 years 3 months, 3 feet 9 inches, 43 pounds; Bella: girl, 9 years 6 months, 4 feet 6 inches, 100 pounds; Charlie: boy, 4 years 3 months, 3 feet 5 inches, 38 pounds; Diana: girl, 13 years 2 months, 5 feet 1 inch, 160 pounds; Ethan: boy, 11 years, 4 feet 10 inches, 105 pounds), then enter only those children matching the healthy weight category in the spreadsheet starting at A1 with appropriate headers?",
+        "website": [
+            {
+                "id": "web",
+                "url": "https://www.cdc.gov/bmi/child-teen-calculator/index.html"
+            },
+            {
+                "id": "sheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "sheet",
+                    "cell": "A1",
+                    "value": "Name",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A2",
+                    "value": "Alex",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A3",
+                    "value": "Charlie",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A4",
+                    "value": "Ethan",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    {
+        // BMI reference table: child/teen categories
+        "task_id": "web_sheet_bmi_reference_child_01",
+        "instruction": "I am creating a pediatric health education resource and need to compile the official BMI classification system for children and teens. Could you please visit the CDC BMI calculator site, find the complete children and teen BMI categories along with their corresponding BMI ranges, and save this reference information in the spreadsheet starting at A1 with column headers 'BMI Category' and 'BMI Range'?",
+        "website": [
+            {
+                "id": "web",
+                "url": "https://www.cdc.gov/bmi/child-teen-calculator/index.html"
+            },
+            {
+                "id": "sheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "sheet",
+                    "cell": "A1",
+                    "value": "BMI Category",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B1",
+                    "value": "BMI Range",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    // new 3 website task (Single)
+    {
+        "task_id": "web_task_allrecipes_01",
+        "instruction": "On the Absolutely the Best Chocolate Chip Cookies recipe page, check the calorie value listed in the Nutrition Facts (per serving) section.",
+        "website": "https://www.allrecipes.com/recipe/17209/absolutely-the-best-chocolate-chip-cookies/",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "td.mm-recipes-nutrition-facts-summary__table-cell.text-body-100-prominent",
+                    "target": "text",
+                    "value": "241",
+                    "match": "contains",
+                    "normalize_space": true
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_task_allrecipes_02",
+        "instruction": "On the Alabama Fire Crackers recipe page, check the Total Time listed.",
+        "website": "https://www.allrecipes.com/recipe/214184/alabama-fire-crackers/",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "target": "text",
+                    "value": "9 hrs 15 mins",
+                    "match": "contains",
+                    "normalize_space": true
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_task_allrecipes_03",
+        "instruction": "On the Allrecipes website, search for 'banana bread' and check the title of the first result.",
+        "website": "https://www.allrecipes.com/",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "span.card__title-text",
+                    "target": "text",
+                    "value": "Janet's Rich Banana Bread",
+                    "match": "contains",
+                    "normalize_space": true
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_task_allrecipes_04",
+        "instruction": "On the Easy Chocolate Chip Pound Cake recipe page, scale the recipe to 2x and check the number of eggs listed in the ingredients.",
+        "website": "https://www.allrecipes.com/recipe/17572/easy-chocolate-chip-pound-cake/",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "span[data-ingredient-quantity='true'][data-original-quantity='4']",
+                    "target": "text",
+                    "value": "8",
+                    "match": "contains",
+                    "normalize_space": true
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_task_allrecipes_05",
+        "instruction": "On the Easy Chocolate Chip Pound Cake recipe page, check the star rating displayed for the recipe.",
+        "website": "https://www.allrecipes.com/recipe/17572/easy-chocolate-chip-pound-cake/",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "#mm-recipes-review-bar__rating_1-0",
+                    "target": "text",
+                    "value": "4.7",
+                    "match": "contains",
+                    "normalize_space": true
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_task_arxiv_01",
+        "instruction": "On the arXiv website, search for 'attention is all you need' and check the title of the first result.",
+        "website": "https://arxiv.org/",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "p.title.is-5.mathjax",
+                    "target": "text",
+                    "value": "Attention Is Not All You Need for Diffraction",
+                    "match": "contains",
+                    "normalize_space": true
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_task_arxiv_02",
+        "instruction": "On the arXiv website, search for the paper with ID '1408.4969' and check the list of authors on the paper's page.",
+        "website": "https://arxiv.org/",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": ".authors",
+                    "target": "text",
+                    "value": "Takaaki Miyajima",
+                    "match": "contains",
+                    "normalize_space": true
+                },
+                {
+                    "selector": ".authors",
+                    "target": "text",
+                    "value": "David Thomas",
+                    "match": "contains",
+                    "normalize_space": true
+                },
+                {
+                    "selector": ".authors",
+                    "target": "text",
+                    "value": "Hideharu Amano",
+                    "match": "contains",
+                    "normalize_space": true
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_task_arxiv_03",
+        "instruction": "On the arXiv website, search for the paper with ID '2605.10702' and check the submission date on the paper's page.",
+        "website": "https://arxiv.org/",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "div.dateline",
+                    "target": "text",
+                    "value": "11 May 2026",
+                    "match": "contains",
+                    "normalize_space": true
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_task_arxiv_04",
+        "instruction": "On the arXiv page for paper 2605.10912, open the paper using the 'HTML (experimental)' option and verify that a 'Related Work' section exists in the paper.",
+        "website": "https://arxiv.org/abs/2605.10912",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "#S2",
+                    "target": "text",
+                    "value": "Related Work",
+                    "match": "contains",
+                    "normalize_space": true
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_task_apple_01",
+        "instruction": "On the Apple Store iPhone 17 Pro page, configure the purchase options as follows: select the White (Silver) color, choose 1TB storage, set the payment option to Buy (not monthly installments), select AT&T as the carrier, do not add a trade-in, and do not add AppleCare. Then check the displayed price.",
+        "website": "https://www.apple.com/shop/buy-iphone/iphone-17-pro",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "span.as-price-currentprice[data-autom=\"price-MFXN4\"]",
+                    "target": "text",
+                    "value": "$1,599",
+                    "match": "contains",
+                    "normalize_space": true
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_task_apple_02",
+        "instruction": "On the Apple Mac Studio purchase page, configure the options as follows: select the M4 Max chip with 16-core CPU and 40-core GPU, choose 64GB memory, choose 1TB storage, add a Final Cut Pro license, add a Logic Pro license, do not add a trade-in, and select Buy as the payment option. Then check the displayed total price.",
+        "website": "https://www.apple.com/shop/buy-mac/mac-studio",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "div.as-price-currentprice[data-autom=\"summaryPrice\"]",
+                    "target": "text",
+                    "value": "$3,398.98",
+                    "match": "contains",
+                    "normalize_space": true
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_task_apple_03",
+        "instruction": "On the Apple iPad 11-inch purchase page, configure the options as follows: select the White (Silver) color, choose 256GB storage, select Wi-Fi + Cellular connectivity, skip engraving, add an Apple Pencil (USB-C), add a Magic Keyboard Folio (US English), do not add a trade-in, select Buy as the payment option (no financing), and do not add AppleCare. Then check the displayed total price.",
+        "website": "https://www.apple.com/shop/buy-ipad/ipad",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "div.as-price-currentprice[data-autom=\"summaryPrice\"]",
+                    "target": "text",
+                    "value": "$927.00",
+                    "match": "contains",
+                    "normalize_space": true
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_task_apple_04",
+        "instruction": "Starting from the Apple homepage, navigate to the Apple Music page and find the monthly price of the Individual plan.",
+        "website": "https://www.apple.com/",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "p.tile-headline.typography-eyebrow-elevated",
+                    "target": "text",
+                    "value": "$10.99/month",
+                    "match": "contains",
+                    "normalize_space": true
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_task_apple_05",
+        "instruction": "Starting from the Apple iPad Accessories page, navigate to the Apple Pencil Pro product page and find its price.",
+        "website": "https://www.apple.com/shop/ipad/accessories",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "div.rc-prices-fullprice[data-autom=\"full-price\"]",
+                    "target": "text",
+                    "value": "$129.00",
+                    "match": "contains",
+                    "normalize_space": true
+                }
+            ]
+        }
+    },
+    // Task_A revise evaluation logic, except using text.txt
+    {
+        // Taskbar pin + auto-launch (multi)
+        "task_id": "prozilla_setting_taskbar&app_01",
+        "instruction": "Pin 'Wordle' to the taskbar, and enable it to launch automatically upon system startup. Keep the Settings window open.",
+        "website": "http://localhost:3100",
+        "evaluation": {
+            "rules": [
+                {
+                    "mode": "console",
+                    "script": "(() => { const has = [...document.querySelectorAll('.ProzillaOS-Taskbar__AppIcon:not([class*=\"_Hidden\"])')].find(el => el.title === \"Wordle\"); return has?.title ?? \"\"; })();",
+                    "value": "Wordle",
+                    "match": "exact"
+                },
+                {
+                    "mode": "console",
+                    "script": "(() => { const targetLabel = [...document.querySelectorAll(\"span[class*='_Label_']\")].find(span => span.querySelector(\"svg[data-src*='wordle.svg']\") && span.textContent.includes(\"Wordle\")); const container = targetLabel?.closest(\"button\"); const checkbox = container?.querySelector(\"div[class*='_Checkbox_']\"); return checkbox?.className ?? \"\"; })();",
+                    "value": "_Checked_oddmx_347",
+                    "match": "contains"
+                }
+            ]
+        }
+    },
+    {
+        // App Center filter + auto-launch
+        "task_id": "prozilla_appfilter&autolaunch01",
+        "instruction": "In the App Center, filter apps by the 'Photo & video' category to find the application. Then enable that app to launch automatically upon system startup. Keep the Settings window open.",
+        "website": "http://localhost:3100",
+        "evaluation": {
+            "rules": [
+                {
+                    "mode": "console",
+                    "script": "(() => { const targetLabel = [...document.querySelectorAll(\"span[class*='_Label_']\")].find(span => span.querySelector(\"svg[data-src*='wordle.svg']\") && span.textContent.includes(\"Photos\")); const container = targetLabel?.closest(\"button\"); const checkbox = container?.querySelector(\"div[class*='_Checkbox_']\"); return checkbox?.className ?? \"\"; })();",
+                    "value": "Checked",
+                    "match": "exact"
+                }
+            ]
+        }
+    },
+    {
+        // App Center filter + auto-launch
+        "task_id": "prozilla_app&auto_launch_01",
+        "instruction": "Configure all applications belonging to the 'Utilities & tools' category to launch automatically upon system startup. Keep the Settings window open.",
+        "website": "http://localhost:3100",
+        "evaluation": {
+            "rules": [
+                {
+                    "mode": "console",
+                    "script": "(() => { const targetLabel = [...document.querySelectorAll(\"span[class*='_Label_']\")].find(span => span.querySelector(\"svg[data-src*='app-center.svg']\") && span.textContent.includes(\"Apps\")); const container = targetLabel?.closest(\"button\"); const checkbox = container?.querySelector(\"div[class*='_Checkbox_']\"); return checkbox?.className ?? \"\"; })();",
+                    "value": "Checked",
+                    "match": "contains"
+                },
+                {
+                    "mode": "console",
+                    "script": "(() => { const targetLabel = [...document.querySelectorAll(\"span[class*='_Label_']\")].find(span => span.querySelector(\"svg[data-src*='browser.svg']\") && span.textContent.includes(\"Browser\")); const container = targetLabel?.closest(\"button\"); const checkbox = container?.querySelector(\"div[class*='_Checkbox_']\"); return checkbox?.className ?? \"\"; })();",
+                    "value": "Checked",
+                    "match": "contains"
+                },
+                {
+                    "mode": "console",
+                    "script": "(() => { const targetLabel = [...document.querySelectorAll(\"span[class*='_Label_']\")].find(span => span.querySelector(\"svg[data-src*='terminal.svg']\") && span.textContent.includes(\"Commands\")); const container = targetLabel?.closest(\"button\"); const checkbox = container?.querySelector(\"div[class*='_Checkbox_']\"); return checkbox?.className ?? \"\"; })();",
+                    "value": "Checked",
+                    "match": "contains"
+                },
+                {
+                    "mode": "console",
+                    "script": "(() => { const targetLabel = [...document.querySelectorAll(\"span[class*='_Label_']\")].find(span => span.querySelector(\"svg[data-src*='file-explorer.svg']\") && span.textContent.includes(\"Files\")); const container = targetLabel?.closest(\"button\"); const checkbox = container?.querySelector(\"div[class*='_Checkbox_']\"); return checkbox?.className ?? \"\"; })();",
+                    "value": "Checked",
+                    "match": "contains"
+                },
+                {
+                    "mode": "console",
+                    "script": "(() => { const targetLabel = [...document.querySelectorAll(\"span[class*='_Label_']\")].find(span => span.querySelector(\"svg[data-src*='calculator.svg']\") && span.textContent.includes(\"Maths\")); const container = targetLabel?.closest(\"button\"); const checkbox = container?.querySelector(\"div[class*='_Checkbox_']\"); return checkbox?.className ?? \"\"; })();",
+                    "value": "Checked",
+                    "match": "contains"
+                },
+                {
+                    "mode": "console",
+                    "script": "(() => { const targetLabel = [...document.querySelectorAll(\"span[class*='_Label_']\")].find(span => span.querySelector(\"svg[data-src*='text-editor.svg']\") && span.textContent.includes(\"Notes\")); const container = targetLabel?.closest(\"button\"); const checkbox = container?.querySelector(\"div[class*='_Checkbox_']\"); return checkbox?.className ?? \"\"; })();",
+                    "value": "Checked",
+                    "match": "contains"
+                }
+            ]
+        }
+    },
+    {
+        // Delete all files in folder
+        "task_id": "prozilla_file_delete_02",
+        "instruction": "Delete all images inside 'Pictures/Crumbling City'.",
+        "website": "http://localhost:3100",
+        "evaluation": {
+            "rules": [
+                {
+                    "mode": "console",
+                    "script": "document.querySelector(\"input[class*='PathInput']\")?.value ?? \"\"",
+                    "value": "Crumbling City",
+                    "match": "contains"
+                },
+                {
+                    "mode": "console",
+                    "script": "document.querySelector(\"[class*='DirectoryList']\")?.textContent ?? \"\"",
+                    "value": "",
+                    "match": "exact"
+                }
+            ]
+        }
+    },
+    {
+        // File edit
+        "task_id": "prozilla_file_edit_02",
+        "instruction": "Open 'fizzbuzz.sh' inside the 'Scripts' folder using the Text Editor, modify the default iteration range (COUNT) from its original value to 50, and save the file. Keep the file open after saving.",
+        "website": "http://localhost:3100",
+        "evaluation": {
+            "rules": [
+                {
+                    "mode": "console",
+                    "script": "[...document.querySelectorAll(\"div[class*='Window-container']:not([class*='Minimized']) p[class*='ProzillaOS-WindowTitle']\")].map(el => el.textContent).join(' ')",
+                    "value": "fizzbuzz.sh",
+                    "match": "contains"
+                },
+                {
+                    "mode": "console",
+                    "script": "document.querySelector(\"[class*='_View_']\")?.value || document.querySelector(\"[class*='_View_']\")?.textContent || \"\"",
+                    "value": "COUNT=${1:-50}",
+                    "match": "contains"
+                }
+            ]
+        }
+    },
+    {
+        // Compare folder sizes + delete larger
+        "task_id": "prozilla_file_delete_folder_01",
+        "instruction": "Open the Files application, compare the total file sizes inside the 'Videos' and 'Audio' folders. Delete the folder that has the larger total file size, and then navigate back to the home directory in the Files application.",
+        "website": "http://localhost:3100",
+        "evaluation": {
+            "rules": [
+                {
+                    "mode": "console",
+                    "script": "document.querySelector(\"input[class*='PathInput']\")?.value ?? \"\"",
+                    "value": "~",
+                    "match": "exact"
+                },
+                {
+                    "mode": "console",
+                    "script": "document.querySelector(\"[class*='DirectoryList']\")?.textContent ?? \"\"",
+                    "value": "(?s)^(?!.*Audio)",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    // web -> sheet
+    {
+        "task_id": "web_sheet_allrecipes_cook_time_01",
+        "instruction": "I want to make a chicken tot pie, but I'm not sure how long it takes. Search for it and organize the prep time, cook time, and total time in a sheet.",
+        "website": [
+            {
+                "id": "web",
+                "url": "https://www.allrecipes.com/"
+            },
+            {
+                "id": "sheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "sheet",
+                    "cell": "A1",
+                    "value": "(?i).*Prep\\s*Time.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B1",
+                    "value": "(?i).*Cook\\s*Time.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "C1",
+                    "value": "(?i).*Total\\s*Time.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A2",
+                    "value": ".*20.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B2",
+                    "value": ".*1.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "C2",
+                    "value": ".*1.*20.*",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_sheet_allrecipes_nutrition_01",
+        "instruction": "Find the Nutrition Facts for Shoyu chicken, Best Taco Casserole, and German Chocolate Dump Cake, and organize the information in a sheet. Set the columns starting from A1 to Recipe, Calories, Fat, Carbs, and Protein.",
+        "website": [
+            {
+                "id": "web",
+                "url": "https://www.allrecipes.com/"
+            },
+            {
+                "id": "sheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "sheet",
+                    "cell": "A1",
+                    "value": "(?i).*Recipe.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B1",
+                    "value": "(?i).*Calories.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "C1",
+                    "value": "(?i).*Fat.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "D1",
+                    "value": "(?i).*Carbs.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "E1",
+                    "value": "(?i).*Protein.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A2",
+                    "value": "(?i).*Shoyu\\s*Chicken.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B2",
+                    "value": ".*338.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "C2",
+                    "value": ".*13.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "D2",
+                    "value": ".*22.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "E2",
+                    "value": ".*33.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A3",
+                    "value": "(?i).*Best\\s*Taco\\s*Casserole.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B3",
+                    "value": ".*632.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "C3",
+                    "value": ".*44.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "D3",
+                    "value": ".*33.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "E3",
+                    "value": ".*32.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A4",
+                    "value": "(?i).*German\\s*Chocolate\\s*Dump\\s*Cake.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B4",
+                    "value": ".*689.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "C4",
+                    "value": ".*33.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "D4",
+                    "value": ".*94.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "E4",
+                    "value": ".*7.*",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_sheet_allrecipes_ingredient_count_01",
+        "instruction": "I want to make Smoky Grilled Pork Chops but need to know how many ingredients are required. Could you organize this into a sheet with columns Recipe and Kind of Ingredients starting at A1?",
+        "website": [
+            {
+                "id": "web",
+                "url": "https://www.allrecipes.com/"
+            },
+            {
+                "id": "sheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "sheet",
+                    "cell": "A1",
+                    "value": "(?i).*Recipe.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B1",
+                    "value": "(?i).*Kind\\s*Of\\s*Ingredients.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A2",
+                    "value": "(?i).*Smoky\\s*Grilled\\s*Pork\\s*Chops.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B2",
+                    "value": ".*8.*",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_sheet_apple_ipad_price_01",
+        "instruction": "I want to buy an iPad but I'm not sure which one to get. Could you find the starting prices for iPad Pro, iPad Air, iPad, and iPad mini on Apple's site and organize them in a sheet with columns Product and Price starting at A1?",
+        "website": [
+            {
+                "id": "web",
+                "url": "https://www.apple.com/"
+            },
+            {
+                "id": "sheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "sheet",
+                    "cell": "A1",
+                    "value": "(?i).*Product.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B1",
+                    "value": "(?i).*Price.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A2",
+                    "value": "(?i).*iPad\\s*Pro.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B2",
+                    "value": ".*999.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A3",
+                    "value": "(?i).*iPad\\s*Air.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B3",
+                    "value": ".*599.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A4",
+                    "value": "(?i)^\\s*iPad\\s*$",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B4",
+                    "value": ".*349.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A5",
+                    "value": "(?i).*iPad\\s*mini.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B5",
+                    "value": ".*499.*",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_sheet_apple_pencil_compat_01",
+        "instruction": "I want to buy an Apple Pencil Pro but need to check which iPads it supports. Could you find all compatible iPad models on Apple's site and list them in a sheet with a Compatibility column starting at A1?",
+        "website": [
+            {
+                "id": "web",
+                "url": "https://www.apple.com/"
+            },
+            {
+                "id": "sheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "sheet",
+                    "cell": "A1",
+                    "value": "(?i).*Compatibility.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A2",
+                    "value": "(?i).*iPad\\s*Pro.*13.*M5.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A3",
+                    "value": "(?i).*iPad\\s*Pro.*13.*M4.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A4",
+                    "value": "(?i).*iPad\\s*Pro.*11.*M5.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A5",
+                    "value": "(?i).*iPad\\s*Pro.*11.*M4.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A6",
+                    "value": "(?i).*iPad\\s*Air.*13.*M4.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A7",
+                    "value": "(?i).*iPad\\s*Air.*11.*M4.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A8",
+                    "value": "(?i).*iPad\\s*Air.*13.*M3.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A9",
+                    "value": "(?i).*iPad\\s*Air.*11.*M3.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A10",
+                    "value": "(?i).*iPad\\s*Air.*13.*M2.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A11",
+                    "value": "(?i).*iPad\\s*Air.*11.*M2.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A12",
+                    "value": "(?i).*iPad\\s*mini.*A17.*",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_sheet_apple_macbook_compare_01",
+        "instruction": "I'm looking to buy a MacBook and want to compare specs. Could you use 'Compare Mac' on Apple's site to compare MacBook Neo (A18 Pro), Air 13-in. (M5), and Pro 14-in. (M5) on battery life, CPU, GPU, unified memory, and storage, then record them in a sheet with those columns starting at A1?",
+        "website": [
+            {
+                "id": "web",
+                "url": "https://www.apple.com/"
+            },
+            {
+                "id": "sheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "sheet",
+                    "cell": "A1",
+                    "value": "(?i).*Product\\s*name.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B1",
+                    "value": "(?i).*Battery\\s*life.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "C1",
+                    "value": "(?i).*CPU.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "D1",
+                    "value": "(?i).*GPU.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "E1",
+                    "value": "(?i).*unified\\s*memory.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "F1",
+                    "value": "(?i).*storage.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A2",
+                    "value": "(?i).*MacBook\\s*Neo.*A18\\s*Pro.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B2",
+                    "value": ".*16.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "C2",
+                    "value": ".*6.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "D2",
+                    "value": ".*5.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "E2",
+                    "value": ".*8.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "F2",
+                    "value": ".*256.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A3",
+                    "value": "(?i).*MacBook\\s*Air\\s*13.*M5.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B3",
+                    "value": ".*18.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "C3",
+                    "value": ".*10.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "D3",
+                    "value": ".*8.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "E3",
+                    "value": ".*16.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "F3",
+                    "value": ".*512.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A4",
+                    "value": "(?i).*MacBook\\s*Pro\\s*14.*M5.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B4",
+                    "value": ".*24.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "C4",
+                    "value": ".*10.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "D4",
+                    "value": ".*10.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "E4",
+                    "value": ".*16.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "F4",
+                    "value": ".*1.*",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_sheet_arxiv_author_list_01",
+        "instruction": "I want to know all the authors of 'OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments'. Could you find it on arXiv and save all authors' names in column A with the header 'Author'?",
+        "website": [
+            {
+                "id": "web",
+                "url": "https://arxiv.org/"
+            },
+            {
+                "id": "sheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "sheet",
+                    "cell": "A1",
+                    "value": "(?i).*Author.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A2",
+                    "value": "(?i).*Tianbao\\s*Xie.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A3",
+                    "value": "(?i).*Danyang\\s*Zhang.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A4",
+                    "value": "(?i).*Jixuan\\s*Chen.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A5",
+                    "value": "(?i).*Xiaochuan\\s*Li.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A6",
+                    "value": "(?i).*Siheng\\s*Zhao.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A7",
+                    "value": "(?i).*Ruisheng\\s*Cao.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A8",
+                    "value": "(?i).*Toh\\s*Jing\\s*Hua.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A9",
+                    "value": "(?i).*Zhoujun\\s*Cheng.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A10",
+                    "value": "(?i).*Dongchan\\s*Shin.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A11",
+                    "value": "(?i).*Fangyu\\s*Lei.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A12",
+                    "value": "(?i).*Yitao\\s*Liu.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A13",
+                    "value": "(?i).*Yiheng\\s*Xu.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A14",
+                    "value": "(?i).*Shuyan\\s*Zhou.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A15",
+                    "value": "(?i).*Silvio\\s*Savarese.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A16",
+                    "value": "(?i).*Caiming\\s*Xiong.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A17",
+                    "value": "(?i).*Victor\\s*Zhong.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A18",
+                    "value": "(?i).*Tao\\s*Yu.*",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_sheet_arxiv_submit_date_01",
+        "instruction": "I need the submission dates for two arXiv papers — 'OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments' and 'UI-TARS-2 Technical Report: Advancing GUI Agent with Multi-Turn Reinforcement Learning'. Could you record each paper's title and submission date in a sheet with columns Article and Submitted Date starting from A1?",
+        "website": [
+            {
+                "id": "web",
+                "url": "https://arxiv.org/"
+            },
+            {
+                "id": "sheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "sheet",
+                    "cell": "A1",
+                    "value": "(?i).*Article.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B1",
+                    "value": "(?i).*Submitted\\s*Date.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A2",
+                    "value": "(?i).*OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B2",
+                    "value": "(?i).*30.*May.*2024.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A3",
+                    "value": "(?i).*UI-TARS-2 Technical Report: Advancing GUI Agent with Multi-Turn Reinforcement Learning.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B3",
+                    "value": "(?i).*5.*September.*2025.*",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_sheet_arxiv_monthly_count_01",
+        "instruction": "I'd like to see how many articles were published each month in the Astrophysics category in 2024. Could you look it up on arXiv and record the results in a sheet with columns Month and Counts starting at A1?",
+        "website": [
+            {
+                "id": "web",
+                "url": "https://arxiv.org/"
+            },
+            {
+                "id": "sheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "sheet",
+                    "cell": "A1",
+                    "value": "(?i).*Month.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B1",
+                    "value": "(?i).*Counts.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A2",
+                    "value": "(?i)^(1|Jan(uary)?)$",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B2",
+                    "value": ".*1376.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A3",
+                    "value": "(?i)^(2|Feb(ruary)?)$",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B3",
+                    "value": ".*1155.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A4",
+                    "value": "(?i)^(3|Mar(ch)?)$",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B4",
+                    "value": ".*1238.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A5",
+                    "value": "(?i)^(4|Apr(il)?)$",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B5",
+                    "value": ".*1363.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A6",
+                    "value": "(?i)^(5|May)$",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B6",
+                    "value": ".*1454.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A7",
+                    "value": "(?i)^(6|Jun(e)?)$",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B7",
+                    "value": ".*1338.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A8",
+                    "value": "(?i)^(7|Jul(y)?)$",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B8",
+                    "value": ".*1506.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A9",
+                    "value": "(?i)^(8|Aug(ust)?)$",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B9",
+                    "value": ".*1162.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A10",
+                    "value": "(?i)^(9|Sep(tember)?)$",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B10",
+                    "value": ".*1434.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A11",
+                    "value": "(?i)^(10|Oct(ober)?)$",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B11",
+                    "value": ".*1655.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A12",
+                    "value": "(?i)^(11|Nov(ember)?)$",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B12",
+                    "value": ".*1368.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A13",
+                    "value": "(?i)^(12|Dec(ember)?)$",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B13",
+                    "value": ".*1284.*",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "web_sheet_arxiv_staff_list_01",
+        "instruction": "I'd like a list of the arXiv staff and their roles. Could you find the Staff page (under 'Who We Are') and save each person's name and role in a sheet with columns Name and Role starting at A1?",
+        "website": [
+            {
+                "id": "web",
+                "url": "https://arxiv.org/"
+            },
+            {
+                "id": "sheet",
+                "url": "http://localhost:3000/spreadsheet"
+            }
+        ],
+        "evaluation": {
+            "mode": "spreadsheet",
+            "operator": "and",
+            "rules": [
+                {
+                    "website_id": "sheet",
+                    "cell": "A1",
+                    "value": "(?i).*Name.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B1",
+                    "value": "(?i).*Role.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A2",
+                    "value": "(?i).*Yoav\\s*Artzi.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B2",
+                    "value": "(?i).*Associate\\s*Faculty\\s*Director.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A3",
+                    "value": "(?i).*Amanda\\s*Bartley.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B3",
+                    "value": "(?i).*Senior\\s*Moderation.*User\\s*Support\\s*Specialist.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A4",
+                    "value": "(?i).*Kai\\s*Beavers.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B4",
+                    "value": "(?i).*User\\s*Support\\s*Specialist.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A5",
+                    "value": "(?i).*Kat\\s*Boboris.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B5",
+                    "value": "(?i).*Community\\s*Engagement\\s*Manager.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A6",
+                    "value": "(?i).*Shamsi\\s*Brinn.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B6",
+                    "value": "(?i).*User\\s*Experience\\s*Manager.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A7",
+                    "value": "(?i).*Christopher\\s*Cameron.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B7",
+                    "value": "(?i).*Computational\\s*Social\\s*Scientist.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A8",
+                    "value": "(?i).*Brian\\s*Caruso.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B8",
+                    "value": "(?i).*Lead\\s*Developer.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A9",
+                    "value": "(?i).*Jim\\s*R-B\\s*Entwood.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B9",
+                    "value": "(?i).*Head\\s*of\\s*Content.*User\\s*Support.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A10",
+                    "value": "(?i).*David\\s*Fielding.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B10",
+                    "value": "(?i).*Senior\\s*Developer.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A11",
+                    "value": "(?i).*Deyan\\s*Ginev.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B11",
+                    "value": "(?i).*Software\\s*Engineer.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A12",
+                    "value": "(?i).*Mike\\s*Greco.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B12",
+                    "value": "(?i).*DevOps\\s*Engineer.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A13",
+                    "value": "(?i).*Alison\\s*Hofer.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B13",
+                    "value": "(?i).*Documentation\\s*Specialist.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A14",
+                    "value": "(?i).*Carly\\s*Jones.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B14",
+                    "value": "(?i).*Software\\s*Engineer.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A15",
+                    "value": "(?i).*Kim\\s*Laine.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B15",
+                    "value": "(?i).*Senior\\s*User.*Membership\\s*Support\\s*Specialist.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A16",
+                    "value": "(?i).*Lauren\\s*Niu.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B16",
+                    "value": "(?i).*Scientist\\s*Software\\s*Engineer.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A17",
+                    "value": "(?i).*Jamie\\s*Magyar.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B17",
+                    "value": "(?i).*Production\\s*Editor.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A18",
+                    "value": "(?i).*Brian\\s*Maltzan.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B18",
+                    "value": "(?i).*Backend\\s*Python\\s*Developer.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A19",
+                    "value": "(?i).*Stephanie\\s*Orphan.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B19",
+                    "value": "(?i).*Program\\s*Director.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A20",
+                    "value": "(?i).*Norbert\\s*Preining.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B20",
+                    "value": "(?i).*Principal\\s*Software\\s*Engineer.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A21",
+                    "value": "(?i).*Erin\\s*Aster.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B21",
+                    "value": "(?i).*Developer.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A22",
+                    "value": "(?i).*Rebecca\\s*Rich\\s*Goldweber.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B22",
+                    "value": "(?i).*Lead\\s*Production\\s*Editor.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A23",
+                    "value": "(?i).*Jeff\\s*Sank.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B23",
+                    "value": "(?i).*Engineering\\s*Director.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A24",
+                    "value": "(?i).*Jessica\\s*Schriver.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B24",
+                    "value": "(?i).*Production\\s*Editor.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A25",
+                    "value": "(?i).*Steinn\\s*Sigurdsson.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B25",
+                    "value": "(?i).*Scientific\\s*Director.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A26",
+                    "value": "(?i).*Valpuri\\s*Sovero.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B26",
+                    "value": "(?i).*User\\s*Support.*Editorial\\s*Assistant.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A27",
+                    "value": "(?i).*Naoyuki\\s*Tai.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B27",
+                    "value": "(?i).*Senior\\s*Software\\s*Engineer.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A28",
+                    "value": "(?i).*Jake\\s*Weiskoff.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B28",
+                    "value": "(?i).*Project\\s*Manager.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A29",
+                    "value": "(?i).*Jonathan\\s*Young.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B29",
+                    "value": "(?i).*Lead\\s*ML\\s*Engineer.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "A30",
+                    "value": "(?i).*Ramin\\s*Zabih.*",
+                    "match": "regex"
+                },
+                {
+                    "website_id": "sheet",
+                    "cell": "B30",
+                    "value": "(?i).*Executive\\s*Director.*",
+                    "match": "regex"
+                }
+            ]
+        }
+    }
+
+]

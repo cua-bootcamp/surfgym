@@ -1,9 +1,19 @@
 # SurfGym
 
+```bash
+cd surfgym
+
+python3 -m pip install -U uv
+
+uv sync --locked --all-packages
+
+uv run playwright install chromium
+
+source .venv/bin/activate
+```
+
+<!-- 
 **SurfGym** is a web-based rollout environment for computer-use agents (CUA). It provides a Gateway API based on the Computer13 action space for manipulating web browsers, evaluates task outcomes with rule-based reward functions, and includes a Playwright-powered browser backend that supports single- and multi-browser tasks.
-
-
-
 
 <br/>
 
@@ -441,4 +451,4 @@ ACTIONS: list[list[dict[str, Any]]] = [
         {"action_type": "PRESS", "key": "Enter"},
     ],
 ]
-```
+``` -->

@@ -1,0 +1,471 @@
+// Semantic Word seed tasks from tasks/archive/Single/word_tasks_0517.jsonc
+// Total counts: 50
+// State identity follows the Prozilla convention: app/property/value/match differences create different states.
+// NOTE: tasks/src does not yet validate word-* apps until a Word schema/converter is added.
+[
+  {
+    "task_id": "word_onepointfive_spacing_first_paragraph_01",
+    "instruction": "Type two paragraphs exactly as follows: \"overview line\" and \"follow-up line\". Then change only the first paragraph to 1.5 line spacing.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "overview line\nfollow-up line", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-paragraph", "property": ["paragraphs", "0", "lineSpacing"], "value": "1.5", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-paragraph", "property": ["paragraphs", "1", "lineSpacingNot"], "value": "1.5", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_justify_align_paragraph_02",
+    "instruction": "Please type \"balanced report note\" on a single line and justify-align that paragraph.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "balanced report note", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-paragraph", "property": ["paragraphs", "0", "horizontalAlign"], "value": "justify", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_subscript_nh3_03",
+    "instruction": "Please type \"NH3\" and make only the number 3 a subscript.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "NH3", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "3", "verticalAlign"], "value": "subscript", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "N", "verticalAlign"], "value": "normal", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "H", "verticalAlign"], "value": "normal", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_font_size_18_line_04",
+    "instruction": "Please type \"priority marker\" and change the whole line to font size 18.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "priority marker", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "priority marker", "fontSize"], "value": "18", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_verdana_text_05",
+    "instruction": "Please type \"status memo\" and apply Verdana to the whole line.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "status memo", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "status memo", "fontFamily"], "value": "Verdana", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_insert_table_3x2_06",
+    "instruction": "Insert a blank table with 3 columns and 2 rows into the document.",
+    "website": "http://localhost:3000/word",
+    "states": [{ "f": "word-table", "property": ["tables", "0", "shape"], "value": "3x2", "match": "exact", "normalize_space": false, "case_sensitive": true }]
+  },
+  {
+    "task_id": "word_blue_highlight_keyword_07",
+    "instruction": "Please type \"marker active\" and apply a blue text background only to the word \"marker\".",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "marker active", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "marker", "backgroundColor"], "value": "blue", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "active", "backgroundColor"], "value": "normal", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_strikethrough_second_line_08",
+    "instruction": "Create two lines with \"carry forward\" on the first line and \"retire this entry\" on the second line. Apply strikethrough only to the second line.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "carry forward\nretire this entry", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "retire this entry", "strikethrough"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "carry forward", "strikethrough"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_green_orange_color_split_09",
+    "instruction": "Please write \"moss amber\" and make \"moss\" green while making \"amber\" orange.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "moss amber", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "moss", "color"], "value": "green", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "amber", "color"], "value": "orange", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_lowercase_cleanup_10",
+    "instruction": "Enter this line and make sure it ends up fully lowercase: \"REGIONAL STATUS SHOULD STAY QUIET\".",
+    "website": "http://localhost:3000/word",
+    "states": [{ "f": "word-body", "property": ["text"], "value": "regional status should stay quiet", "match": "exact", "normalize_space": false, "case_sensitive": true }]
+  },
+  {
+    "task_id": "word_title_case_11",
+    "instruction": "Please write the phrase \"river audit memo\" so that every word starts with a capital letter.",
+    "website": "http://localhost:3000/word",
+    "states": [{ "f": "word-body", "property": ["text"], "value": "River Audit Memo", "match": "exact", "normalize_space": false, "case_sensitive": true }]
+  },
+  {
+    "task_id": "word_sentence_gap_12",
+    "instruction": "Please write these three entries with one empty line between each entry: \"North entry\", \"West entry\", and \"South entry\".",
+    "website": "http://localhost:3000/word",
+    "states": [{ "f": "word-body", "property": ["text"], "value": "North entry\n\nWest entry\n\nSouth entry", "match": "exact", "normalize_space": false, "case_sensitive": true }]
+  },
+  {
+    "task_id": "word_unique_code_list_13",
+    "instruction": "Use these lab sample codes to make a clean unique list with one code per line, keeping the first appearance order only: R18, M02, R18, K77, M02, P31, K77.",
+    "website": "http://localhost:3000/word",
+    "states": [{ "f": "word-body", "property": ["text"], "value": "R18\nM02\nK77\nP31", "match": "exact", "normalize_space": false, "case_sensitive": true }]
+  },
+  {
+    "task_id": "word_page_break_between_lines_14",
+    "instruction": "Create one page break between two lines so the document shows \"Page one text\" before the break and \"Page two text\" after it.",
+    "website": "http://localhost:3000/word",
+    "states": [{ "f": "word-body", "property": ["textWithPageBreak"], "value": "Page one text\fPage two text", "match": "exact", "normalize_space": false, "case_sensitive": true }]
+  },
+  {
+    "task_id": "word_bold_heading_15",
+    "instruction": "Please type \"Signal Ledger\" on a single line and make that text bold.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "Signal Ledger", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "Signal Ledger", "bold"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_italic_phrase_16",
+    "instruction": "Write the sentence \"The draft needs revision.\" and italicize only the words \"needs revision\".",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "The draft needs revision.", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "needs revision", "italic"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "The draft", "italic"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_underlined_keyword_17",
+    "instruction": "Please write \"Deadline confirmed\" and underline only the word \"Deadline\".",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "Deadline confirmed", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "Deadline", "underline"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "confirmed", "underline"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_bold_underlined_title_18",
+    "instruction": "Create a two-line note with \"Field Notes\" on the first line and \"draft copy\" on the second line. Make the text on the first line both bold and underlined.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "Field Notes\ndraft copy", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "Field Notes", "bold"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "Field Notes", "underline"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "draft copy", "bold"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "draft copy", "underline"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_italic_font_size_16_19",
+    "instruction": "Write the sentence \"check the summary now\". Make only the word \"summary\" italic and change that same word to font size 16.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "check the summary now", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "summary", "italic"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "summary", "fontSize"], "value": "16", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "check the", "italic"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "check the", "fontSizeNot"], "value": "16", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "now", "italic"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "now", "fontSizeNot"], "value": "16", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_superscript_digits_20",
+    "instruction": "Please type \"a2 + b2\" and make both number 2 characters superscript.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "a2 + b2", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "2#0", "verticalAlign"], "value": "superscript", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "2#1", "verticalAlign"], "value": "superscript", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_underline_two_words_21",
+    "instruction": "Write \"Check budget and timeline\" and underline the words \"budget\" and \"timeline\".",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "Check budget and timeline", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "budget", "underline"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "timeline", "underline"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_bold_italic_phrase_22",
+    "instruction": "Please write \"Status is nearly complete\" and make the phrase \"nearly complete\" both bold and italic.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "Status is nearly complete", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "nearly complete", "bold"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "nearly complete", "italic"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_three_line_style_mix_23",
+    "instruction": "Create a three-line note with \"Weekly Plan\", \"editing in progress\", and \"ready tomorrow\". Make the first line bold and the second line italic.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "Weekly Plan\nediting in progress\nready tomorrow", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "Weekly Plan", "bold"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "editing in progress", "italic"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_bold_labels_report_24",
+    "instruction": "Write exactly three lines: \"Owner: Mina\", \"Stage: Review\", and \"Flag: Active\". Make only the labels before the colon bold.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "Owner: Mina\nStage: Review\nFlag: Active", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "Owner", "bold"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "Stage", "bold"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "Flag", "bold"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "Mina", "bold"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "Review", "bold"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "Active", "bold"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_italic_book_title_25",
+    "instruction": "Write the sentence \"We discussed The Silent Harbor yesterday.\" and italicize only the phrase \"The Silent Harbor\".",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "We discussed The Silent Harbor yesterday.", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "The Silent Harbor", "italic"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "We discussed", "italic"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "yesterday", "italic"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_underline_deadline_date_26",
+    "instruction": "Please write \"Submit by 2026-08-14\" and underline only the date.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "Submit by 2026-08-14", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "2026-08-14", "underline"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "Submit by", "underline"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_bold_and_underline_split_27",
+    "instruction": "Write \"ALERT update required\" and make \"ALERT\" bold while underlining \"required\".",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "ALERT update required", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "ALERT", "bold"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "ALERT", "underline"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "required", "underline"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "required", "bold"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "update", "bold"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "update", "underline"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_right_align_paragraph_28",
+    "instruction": "Please type \"shift this memo\" on a single line and right-align that paragraph.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "shift this memo", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-paragraph", "property": ["paragraphs", "0", "horizontalAlign"], "value": "right", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_center_second_paragraph_29",
+    "instruction": "Create two paragraphs: \"plain note remains left\" and \"focus line moves inward\". Then center-align only the second paragraph.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "plain note remains left\nfocus line moves inward", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-paragraph", "property": ["paragraphs", "1", "horizontalAlign"], "value": "center", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-paragraph", "property": ["paragraphs", "0", "horizontalAlignNot"], "value": "center", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_mixed_line_spacing_30",
+    "instruction": "Create three paragraphs in this order: \"alpha note\", \"beta note\", and \"gamma note\". Set their line spacing to 1.15, 1.5, and 2 respectively.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "alpha note\nbeta note\ngamma note", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-paragraph", "property": ["paragraphs", "0", "lineSpacing"], "value": "1.15", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-paragraph", "property": ["paragraphs", "1", "lineSpacing"], "value": "1.5", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-paragraph", "property": ["paragraphs", "2", "lineSpacing"], "value": "2", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_tahoma_size_15_31",
+    "instruction": "Please type \"schedule ready\" and format the whole line in Tahoma with font size 15.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "schedule ready", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "schedule ready", "fontFamily"], "value": "Tahoma", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "schedule ready", "fontSize"], "value": "15", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_footer_text_32",
+    "instruction": "Add a footer to this document and put exactly \"Archive note\" in it.",
+    "website": "http://localhost:3000/word",
+    "states": [{ "f": "word-footer", "property": ["text"], "value": "Archive note", "match": "exact", "normalize_space": false, "case_sensitive": true }]
+  },
+  {
+    "task_id": "word_sentence_split_note_33",
+    "instruction": "Write these short notes on separate lines in the same order: \"Log sample.\" \"Flag anomaly.\" \"Close review.\"",
+    "website": "http://localhost:3000/word",
+    "states": [{ "f": "word-body", "property": ["text"], "value": "Log sample.\nFlag anomaly.\nClose review.", "match": "exact", "normalize_space": false, "case_sensitive": true }]
+  },
+  {
+    "task_id": "word_strikethrough_middle_paragraph_34",
+    "instruction": "Create three paragraphs: \"reference note\", \"archive this note\", and \"closing note\". Apply strikethrough only to the entire middle paragraph.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "reference note\narchive this note\nclosing note", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "archive this note", "strikethrough"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "reference note", "strikethrough"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "closing note", "strikethrough"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_box_border_paragraph_35",
+    "instruction": "Please type \"boxed paragraph\" and give that paragraph a simple box border on all four sides.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "boxed paragraph", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-paragraph", "property": ["paragraphs", "0", "border"], "value": "box", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_bold_first_line_36",
+    "instruction": "Create a two-line note with \"Checkpoint Log\" on the first line and \"notes pending\" on the second line. Make the first line bold.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "Checkpoint Log\nnotes pending", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "Checkpoint Log", "bold"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "notes pending", "bold"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_italic_middle_line_37",
+    "instruction": "Create three lines with \"phase one\", \"phase two review\", and \"phase three\". Make only the middle line italic.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "phase one\nphase two review\nphase three", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "phase two review", "italic"], "value": "true", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "phase one", "italic"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "phase three", "italic"], "value": "false", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_green_phrase_sentence_38",
+    "instruction": "Write the sentence \"please review the green section\" and make only the word \"green\" green.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "please review the green section", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "green", "color"], "value": "green", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "please review the", "color"], "value": "normal", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "section", "color"], "value": "normal", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_set_heading2_style_39",
+    "instruction": "Type \"Internal Memo\" on a single line and set that line to Heading 2 style.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "Internal Memo", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-paragraph", "property": ["paragraphs", "0", "namedStyleType"], "value": "heading2", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_password_protection_40",
+    "instruction": "Please password-protect this document so it cannot be opened without a password, using only the word fixture's built-in controls.",
+    "website": "http://localhost:3000/word",
+    "states": [{ "f": "word-infeasible", "property": ["reason"], "value": "password protection is unavailable in the word fixture", "match": "exact", "normalize_space": false, "case_sensitive": true }]
+  },
+  {
+    "task_id": "word_find_replace_term_41",
+    "instruction": "Create the line \"temp report temp checklist\". Then replace every occurrence of \"temp\" with \"final\".",
+    "website": "http://localhost:3000/word",
+    "states": [{ "f": "word-body", "property": ["text"], "value": "final report final checklist", "match": "exact", "normalize_space": false, "case_sensitive": true }]
+  },
+  {
+    "task_id": "word_sort_lines_alpha_42",
+    "instruction": "Create four separate lines with \"delta\", \"alpha\", \"charlie\", and \"bravo\". Then reorder the lines alphabetically.",
+    "website": "http://localhost:3000/word",
+    "states": [{ "f": "word-body", "property": ["text"], "value": "alpha\nbravo\ncharlie\ndelta", "match": "exact", "normalize_space": false, "case_sensitive": true }]
+  },
+  {
+    "task_id": "word_remove_blank_lines_43",
+    "instruction": "Create this draft with extra blank lines between the entries: \"north\", \"south\", and \"east\". Then remove the blank lines so only one line break remains between entries.",
+    "website": "http://localhost:3000/word",
+    "states": [{ "f": "word-body", "property": ["text"], "value": "north\nsouth\neast", "match": "exact", "normalize_space": false, "case_sensitive": true }]
+  },
+  {
+    "task_id": "word_split_comma_items_44",
+    "instruction": "Create the comma-separated text \"redwood, cedar, maple\". Then split it into three separate lines without commas.",
+    "website": "http://localhost:3000/word",
+    "states": [{ "f": "word-body", "property": ["text"], "value": "redwood\ncedar\nmaple", "match": "exact", "normalize_space": false, "case_sensitive": true }]
+  },
+  {
+    "task_id": "word_target_font_size_45",
+    "instruction": "Write \"small note big note plain note\" on one line. Then change only \"big note\" to font size 18.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "small note big note plain note", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "big note", "fontSize"], "value": "18", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "small note", "fontSizeNot"], "value": "18", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-text-style", "property": ["targets", "plain note", "fontSizeNot"], "value": "18", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_second_paragraph_spacing_46",
+    "instruction": "Create two paragraphs: \"compact note\" and \"spaced note\". Then set only the second paragraph to double line spacing.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "compact note\nspaced note", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-paragraph", "property": ["paragraphs", "1", "lineSpacing"], "value": "2", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-paragraph", "property": ["paragraphs", "0", "lineSpacingNot"], "value": "2", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_insert_table_4x2_47",
+    "instruction": "Insert a blank table with 4 columns and 2 rows into the document.",
+    "website": "http://localhost:3000/word",
+    "states": [{ "f": "word-table", "property": ["tables", "0", "shape"], "value": "4x2", "match": "exact", "normalize_space": false, "case_sensitive": true }]
+  },
+  {
+    "task_id": "word_reference_number_marker_48",
+    "instruction": "Create four paragraphs in this order: \"Source queue\", \"Park, Ji. \"Harbor Sampling Log.\" Field Archive Review, 2021.\", \"Nolan, Avery. \"Bridge Sensor Memo.\" Urban Systems Notes, 2022.\", and \"Add the latest calibration note [REF]\". Then change only the [REF] marker in the fourth paragraph to [1], and add a reference list entry: [1] Rao, Lina. \"Calibration Trace.\" Applied Sensor Letters, 2025.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      {
+        "f": "word-body",
+        "property": ["text"],
+        "value": "Source queue\nPark, Ji. \"Harbor Sampling Log.\" Field Archive Review, 2021.\nNolan, Avery. \"Bridge Sensor Memo.\" Urban Systems Notes, 2022.\nAdd the latest calibration note [1]\n[1] Rao, Lina. \"Calibration Trace.\" Applied Sensor Letters, 2025.",
+        "match": "exact",
+        "normalize_space": false,
+        "case_sensitive": true
+      },
+      { "f": "word-body", "property": ["notContains"], "value": "[REF]", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_section_spacing_font12_49",
+    "instruction": "Create three paragraphs exactly as follows: \"Opening frame: scope and context\", \"Evidence block: signals and details\", and \"Decision note: action and owner\". Apply single spacing to the opening paragraph, double spacing to the evidence paragraph, and 1.5 spacing to the decision paragraph. Make sure all document text is font size 12 and no other font size is used.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-body", "property": ["text"], "value": "Opening frame: scope and context\nEvidence block: signals and details\nDecision note: action and owner", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-paragraph", "property": ["paragraphs", "0", "lineSpacing"], "value": "1", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-paragraph", "property": ["paragraphs", "1", "lineSpacing"], "value": "2", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-paragraph", "property": ["paragraphs", "2", "lineSpacing"], "value": "1.5", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-document", "property": ["style", "fontSizeOnly"], "value": "12", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  },
+  {
+    "task_id": "word_comma_to_table_cells_50",
+    "instruction": "Create the comma-separated text \"Name, Score, Ilya, 87, Noor, 91\". Then convert it into a table with 2 columns and 3 rows so the first row is Name, Score, the second row is Ilya, 87, and the third row is Noor, 91.",
+    "website": "http://localhost:3000/word",
+    "states": [
+      { "f": "word-table", "property": ["tables", "0", "shape"], "value": "2x3", "match": "exact", "normalize_space": false, "case_sensitive": true },
+      { "f": "word-table", "property": ["tables", "0", "cellsText"], "value": "Name|Score|Ilya|87|Noor|91", "match": "exact", "normalize_space": false, "case_sensitive": true }
+    ]
+  }
+]

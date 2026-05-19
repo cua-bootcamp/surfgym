@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Task Screenshot Viewer</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>Task Screenshot Viewer</h1>
+        <p id="sourceMeta">Loading capture data...</p>
+      </div>
+      <nav class="nav" aria-label="Task navigation">
+        <button id="prevButton" type="button">Prev</button>
+        <span id="counter">0 / 0</span>
+        <button id="nextButton" type="button">Next</button>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <section class="screenshotPane" aria-label="Captured screenshot">
+        <div id="emptyState" class="emptyState" hidden>
+          <h2>No capture data found</h2>
+          <p>Run <code>npm run capture</code> from <code>test-exp</code>, then refresh this viewer.</p>
+        </div>
+        <img id="screenshot" alt="Captured task screenshot" hidden />
+      </section>
+
+      <aside class="detailPane" aria-label="Task details">
+        <div class="taskHeader">
+          <p class="label">Task</p>
+          <h2 id="taskId">-</h2>
+          <a id="website" href="#" target="_blank" rel="noreferrer">Website</a>
+        </div>
+
+        <section class="detailBlock">
+          <h3>Instruction</h3>
+          <p id="instruction"></p>
+        </section>
+
+        <section class="detailBlock">
+          <h3>Rules</h3>
+          <pre id="rules"></pre>
+        </section>
+
+        <section class="detailBlock compact">
+          <h3>Capture</h3>
+          <dl>
+            <div>
+              <dt>Status</dt>
+              <dd id="status">-</dd>
+            </div>
+            <div>
+              <dt>Setup</dt>
+              <dd id="setup">-</dd>
+            </div>
+            <div>
+              <dt>Errors</dt>
+              <dd id="errors">-</dd>
+            </div>
+          </dl>
+        </section>
+      </aside>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

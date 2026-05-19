@@ -1,0 +1,13 @@
+{
+  "name": "surfgym-test-exp",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "capture": "PLAYWRIGHT_BROWSERS_PATH=.ms-playwright node capture-screenshots.mjs",
+    "install:browsers": "PLAYWRIGHT_BROWSERS_PATH=.ms-playwright playwright install chromium",
+    "view": "node serve-viewer.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.60.0"
+  }
+}

@@ -13,3 +13,15 @@ ignore = ["E501"]
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = ["packages/*"]
+
+[tool.uv.sources]
+surfgym-contracts = { workspace = true }
+surfgym-runtime = { workspace = true }
+surfgym-task = { workspace = true }
+surfgym-fixture = { workspace = true }

@@ -8,6 +8,5 @@ logs/
 **/__snapshots__/
 node_modules
 
-/tasks/
 nohup.out
 websites/

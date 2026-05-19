@@ -1,0 +1,470 @@
+[
+  {
+    "task_id": "web_task_E_01",
+    "instruction": "Help me calculate my BMI using metric units. My height is 180 cm and my weight is 70 kg.",
+    "website": "https://www.cdc.gov/bmi/adult-calculator/index.html",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "#calc_results > div.section.px-0 > div > div:nth-child(1) > p.h3.m-0 > span",
+          "target": "text",
+          "value": "21.6",
+          "match": "exact"
+        },
+        {
+          "selector": "#calc_results > div.section.px-0 > div > div:nth-child(2) > p.h3.m-0 > span",
+          "target": "text",
+          "value": "Healthy Weight",
+          "match": "exact"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_E_02",
+    "instruction": "I'd like to find out my BMI using US Customary units. I'm 6 feet 1 inch tall and my weight is 160 pounds.",
+    "website": "https://www.cdc.gov/bmi/adult-calculator/index.html",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "#calc_results > div.section.px-0 > div > div:nth-child(1) > p.h3.m-0 > span",
+          "target": "text",
+          "value": "21.1",
+          "match": "exact"
+        },
+        {
+          "selector": "#calc_results > div.section.px-0 > div > div:nth-child(2) > p.h3.m-0 > span",
+          "target": "text",
+          "value": "Healthy Weight",
+          "match": "exact"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_E_03",
+    "instruction": "Could you check the BMI for my son? He's a boy, 2 Years 0 Months old, 2 feet 8 inches tall, and weighs 24 pounds. Please use US Customary units.",
+    "website": "https://www.cdc.gov/bmi/child-teen-calculator/index.html",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "#calc_results > div.section.px-0 > div > div:nth-child(1) > p.h3.m-0 > span",
+          "target": "text",
+          "value": "16.5",
+          "match": "exact"
+        },
+        {
+          "selector": "#calc_results > div.section.px-0 > div > div:nth-child(2) > p.h3.m-0 > span",
+          "target": "text",
+          "value": "Healthy Weight",
+          "match": "exact"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_E_04",
+    "instruction": "How do I calculate the BMI for a girl born on April 7 2018? Today is May 9 2026. She's 3 feet 11 1/2 inches tall and weighs 58 pounds. Use US Customary units.",
+    "website": "https://www.cdc.gov/bmi/child-teen-calculator/index.html",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "#calc_results > div.section.px-0 > div > div:nth-child(1) > p.h3.m-0 > span",
+          "target": "text",
+          "value": "18.1",
+          "match": "exact"
+        },
+        {
+          "selector": "#calc_results > div.section.px-0 > div > div:nth-child(2) > p.h3.m-0 > span",
+          "target": "text",
+          "value": "Healthy Weight",
+          "match": "exact"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_E_05",
+    "instruction": "Can you tell me the BMI for a boy who is 200 months old, 172 cm tall, and weighs 77 kg? Use Metric units.",
+    "website": "https://www.cdc.gov/bmi/child-teen-calculator/index.html",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "#calc_results > div.section.px-0 > div > div:nth-child(1) > p.h3.m-0 > span",
+          "target": "text",
+          "value": "26.0",
+          "match": "exact"
+        },
+        {
+          "selector": "#calc_results > div.section.px-0 > div > div:nth-child(2) > p.h3.m-0 > span",
+          "target": "text",
+          "value": "Overweight",
+          "match": "exact"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_E_06",
+    "instruction": "I want to know the distance from 동서울 to 광주, but I'm not sure how to check it. Can you help me?",
+    "website": "https://www.hipass.co.kr/board/TollPaySearchList.do",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "#tb_route_list > tr:nth-child(4) > td:nth-child(2)",
+          "target": "text",
+          "value": "299.65km",
+          "match": "exact"
+        },
+        {
+          "target": "text",
+          "value": "동서울",
+          "match": "contains"
+        },
+        {
+          "target": "text",
+          "value": "광주",
+          "match": "contains"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_E_07",
+    "instruction": "I want to travel from 서울 to 부산 via 대구. My car is 1종 vehicle, but I don't know how to find out the toll cost.",
+    "website": "https://www.hipass.co.kr/board/TollPaySearchList.do",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "#tb_route_list > tr:nth-child(3) > td:nth-child(2)",
+          "target": "text",
+          "value": "29,400",
+          "match": "exact"
+        },
+        {
+          "target": "text",
+          "value": "서울",
+          "match": "contains"
+        },
+        {
+          "target": "text",
+          "value": "부산",
+          "match": "contains"
+        },
+        {
+          "target": "text",
+          "value": "대구",
+          "match": "contains"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_D_01",
+    "instruction": "Find the exact postal code for the address '서울특별시 종로구 세종대로 175'.",
+    "website": "https://www.juso.go.kr/",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "selector": ".zipNo, .number",
+          "target": "text",
+          "value": "03172",
+          "match": "contains",
+          "normalize_space": true
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_D_02",
+    "instruction": "Lookup the postal code for the address '제주특별자치도 제주시 첨단로 242'.",
+    "website": "https://www.juso.go.kr/",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "selector": ".zipNo, .number",
+          "target": "text",
+          "value": "63309",
+          "match": "contains",
+          "normalize_space": true
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_D_03",
+    "instruction": "Find the postal code of '경기도 성남시 분당구 판교역로 166'.",
+    "website": "https://www.juso.go.kr/",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "selector": ".zipNo, .number",
+          "target": "text",
+          "value": "13529",
+          "match": "contains",
+          "normalize_space": true
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_D_04",
+    "instruction": "Calculate the total pay for an tipped employee working 45 hours(works on weekdays, 9hrs/day, No Additional Compensation) in a week with an hourly rate of $20.00.",
+    "website": "https://webapps.dol.gov/elaws/otcalculator.htm",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "target": "text",
+          "value": "950",
+          "match": "contains",
+          "normalize_space": true
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_D_05",
+    "instruction": "Determine the total weekly wage for a fire fighter for 41 hours of work(9hrs on Mon, 8hrs/day on other weekdays) at $30.00 an hour.",
+    "website": "https://webapps.dol.gov/elaws/otcalculator.htm",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "target": "text",
+          "value": "1,245.00",
+          "match": "contains",
+          "normalize_space": true
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_D_06",
+    "instruction": "Find the total weekly compensation for a teacher(will be none of the above), 42 hours of work(7hrs/day except Sunday) at $28.00 per hour and gets only a bonus gift due to a holiday.",
+    "website": "https://webapps.dol.gov/elaws/otcalculator.htm",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "target": "text",
+          "value": "1,204",
+          "match": "contains",
+          "normalize_space": true
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_D_07",
+    "instruction": "Calculate the expected retirement pay. Use the following details: Employment Date: 2022-01-01, Retirement Date: 2023-01-01, Monthly Base Salary: 3,000,000 KRW, Other Allowances: 0 KRW, Annual Bonus: 0 KRW, Annual Leave Allowance: 0 KRW.",
+    "website": "https://labor.moel.go.kr/cmmt/calRtrmnt.do",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "#dd_pay3",
+          "target": "attr",
+          "attr": "value",
+          "value": "2,934,78",
+          "match": "contains",
+          "normalize_space": true
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_D_08",
+    "instruction": "Find the expected retirement pay. Employment Date: 2020-01-01, Retirement Date: 2023-01-01, Monthly Base Salary: 4,000,000 KRW, Other Allowances: 0 KRW, Annual Bonus: 0 KRW, Annual Leave Allowance: 0 KRW.",
+    "website": "https://labor.moel.go.kr/cmmt/calRtrmnt.do",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "#dd_pay3",
+          "target": "attr",
+          "attr": "value",
+          "value": "11,749,85",
+          "match": "contains",
+          "normalize_space": true
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_D_09",
+    "instruction": "Compute the retirement compensation. Employment Date: 2020-01-01, Retirement Date: 2023-01-01, Monthly Base Salary: 5,000,000 KRW, Other Allowances: 0 KRW, Annual Bonus: 0 KRW, Annual Leave Allowance: 0 KRW.",
+    "website": "https://labor.moel.go.kr/cmmt/calRtrmnt.do",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "#dd_pay3",
+          "target": "attr",
+          "attr": "value",
+          "value": "14,687,31",
+          "match": "contains",
+          "normalize_space": true
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_D_10",
+    "instruction": "Calculate the estimated monthly health insurance premium for a workplace subscriber. Details - Reported Monthly Remuneration (신고 보수월액): 3,000,000 KRW, Annual Business Income (사업소득): 25,000,000 KRW.",
+    "website": "https://www.nhis.or.kr/nhis/minwon/initCtrbCalcView.do",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "em[name='spanSum']",
+          "target": "text",
+          "value": "155,90",
+          "match": "contains",
+          "normalize_space": true
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_D_11",
+    "instruction": "Calculate the health insurance premium including rental income. Details - Reported Monthly Remuneration (신고 보수월액): 5,000,000 KRW, Annual Separately Taxed Housing Rental Income (분리과세 주택임대소득): 15,000,000 KRW.",
+    "website": "https://www.nhis.or.kr/nhis/minwon/initCtrbCalcView.do",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "em[name='spanSum']",
+          "target": "text",
+          "value": "203,37",
+          "match": "contains",
+          "normalize_space": true
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_D_12",
+    "instruction": "Compute the health insurance premium including three extra income sources. Details - Reported Monthly Remuneration (신고 보수월액): 3,500,000 KRW, Annual Business Income (사업소득): 8,000,000 KRW, Annual Pension Income (연금소득): 12,000,000 KRW, Annual Separately Taxed Housing Rental Income (분리과세 주택임대소득): 10,000,000 KRW.",
+    "website": "https://www.nhis.or.kr/nhis/minwon/initCtrbCalcView.do",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "em[name='spanSum']",
+          "target": "text",
+          "value": "196,57",
+          "match": "contains",
+          "normalize_space": true
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_D_13",
+    "instruction": "Find the toll fee for a Class 1 vehicle traveling from Seoul Tollgate to Busan Tollgate.",
+    "website": "https://www.hipass.co.kr/board/TollPaySearchList.do",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "target": "text",
+          "value": "서울",
+          "match": "contains"
+        },
+        {
+          "target": "text",
+          "value": "부산",
+          "match": "contains"
+        },
+        {
+          "target": "text",
+          "value": "1종",
+          "match": "contains"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_D_14",
+    "instruction": "Check the toll fee for a Class 1 vehicle traveling in the reverse direction, from Busan Tollgate to Seoul Tollgate.",
+    "website": "https://www.hipass.co.kr/board/TollPaySearchList.do",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "target": "text",
+          "value": "부산",
+          "match": "contains"
+        },
+        {
+          "target": "text",
+          "value": "서울",
+          "match": "contains"
+        },
+        {
+          "target": "text",
+          "value": "1종",
+          "match": "contains"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_task_D_15",
+    "instruction": "Find the toll fee for a Class 1 vehicle traveling from Seoul Tollgate to Jeonju Tollgate.",
+    "website": "https://www.hipass.co.kr/board/TollPaySearchList.do",
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        {
+          "target": "text",
+          "value": "서울",
+          "match": "contains"
+        },
+        {
+          "target": "text",
+          "value": "전주",
+          "match": "contains"
+        },
+        {
+          "target": "text",
+          "value": "1종",
+          "match": "contains"
+        }
+      ]
+    }
+  }
+]
