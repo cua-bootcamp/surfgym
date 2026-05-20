@@ -5,20 +5,20 @@
     "website": "http://localhost:3000/spreadsheet",
     "states": [
       [
-        { "match": "exact", "f": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Name" },
-        { "match": "exact", "f": "getCellMeta", "param": "A1", "property": ["style", "bl"], "value": 1 }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Name" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["style", "bl"], "value": 1 }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Alice" },
-        { "match": "exact", "f": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Brian" },
-        { "match": "exact", "f": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Chloe" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Alice" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Brian" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Chloe" }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Score" },
-        { "match": "exact", "f": "getCellMeta", "param": "B1", "property": ["style", "bl"], "value": 1 },
-        { "match": "exact", "f": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": 85 },
-        { "match": "exact", "f": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": 92 },
-        { "match": "exact", "f": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": 78 }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Score" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["style", "bl"], "value": 1 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": 85 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": 92 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": 78 }
       ]
     ]
   },
@@ -28,28 +28,28 @@
     "website": "http://localhost:3000/spreadsheet",
     "states": [
       [
-        { "match": "exact", "f": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Name" },
-        { "match": "exact", "f": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Alice" },
-        { "match": "exact", "f": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Brian" },
-        { "match": "exact", "f": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Chloe" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Name" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Alice" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Brian" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Chloe" }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Department" },
-        { "match": "exact", "f": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Math" },
-        { "match": "exact", "f": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "Science" },
-        { "match": "exact", "f": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "English" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Department" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Math" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "Science" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "English" }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Score" },
-        { "match": "exact", "f": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": 85 },
-        { "match": "exact", "f": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": 92 },
-        { "match": "exact", "f": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": 78 }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Score" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": 85 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": 92 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": 78 }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "A1", "property": ["style", "bg", "rgb"], "value": "rgb(255, 0, 0)" },
-        { "match": "exact", "f": "getCellMeta", "param": "A2", "property": ["style", "bg", "rgb"], "value": "rgb(255, 0, 0)" },
-        { "match": "exact", "f": "getCellMeta", "param": "A3", "property": ["style", "bg", "rgb"], "value": "rgb(255, 0, 0)" },
-        { "match": "exact", "f": "getCellMeta", "param": "A4", "property": ["style", "bg", "rgb"], "value": "rgb(255, 0, 0)" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["style", "bg", "rgb"], "value": "rgb(255, 0, 0)" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["style", "bg", "rgb"], "value": "rgb(255, 0, 0)" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["style", "bg", "rgb"], "value": "rgb(255, 0, 0)" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["style", "bg", "rgb"], "value": "rgb(255, 0, 0)" }
       ]
     ]
   },
@@ -59,32 +59,32 @@
     "website": "http://localhost:3000/spreadsheet",
     "states": [
       [
-        { "match": "exact", "f": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Product" },
-        { "match": "exact", "f": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Inventory" },
-        { "match": "exact", "f": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Reorder Level" },
-        { "match": "exact", "f": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Pencil" },
-        { "match": "exact", "f": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": 25 },
-        { "match": "exact", "f": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": 20 },
-        { "match": "exact", "f": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Marker" },
-        { "match": "exact", "f": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": 8 },
-        { "match": "exact", "f": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": 15 },
-        { "match": "exact", "f": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Notebook" },
-        { "match": "exact", "f": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": 12 },
-        { "match": "exact", "f": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": 10 },
-        { "match": "exact", "f": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Eraser" },
-        { "match": "exact", "f": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": 4 },
-        { "match": "exact", "f": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": 8 },
-        { "match": "exact", "f": "getCellMeta", "param": "A6", "property": ["cell", "v"], "value": "Folder" },
-        { "match": "exact", "f": "getCellMeta", "param": "B6", "property": ["cell", "v"], "value": 30 },
-        { "match": "exact", "f": "getCellMeta", "param": "C6", "property": ["cell", "v"], "value": 25 }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Product" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Inventory" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Reorder Level" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Pencil" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": 25 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": 20 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Marker" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": 8 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": 15 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Notebook" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": 12 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": 10 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Eraser" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": 4 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": 8 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A6", "property": ["cell", "v"], "value": "Folder" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B6", "property": ["cell", "v"], "value": 30 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C6", "property": ["cell", "v"], "value": 25 }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "A3", "property": ["style", "bg", "rgb"], "value": "rgb(250, 200, 21)" },
-        { "match": "exact", "f": "getCellMeta", "param": "B3", "property": ["style", "bg", "rgb"], "value": "rgb(250, 200, 21)" },
-        { "match": "exact", "f": "getCellMeta", "param": "C3", "property": ["style", "bg", "rgb"], "value": "rgb(250, 200, 21)" },
-        { "match": "exact", "f": "getCellMeta", "param": "A5", "property": ["style", "bg", "rgb"], "value": "rgb(250, 200, 21)" },
-        { "match": "exact", "f": "getCellMeta", "param": "B5", "property": ["style", "bg", "rgb"], "value": "rgb(250, 200, 21)" },
-        { "match": "exact", "f": "getCellMeta", "param": "C5", "property": ["style", "bg", "rgb"], "value": "rgb(250, 200, 21)" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["style", "bg", "rgb"], "value": "rgb(250, 200, 21)" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["style", "bg", "rgb"], "value": "rgb(250, 200, 21)" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["style", "bg", "rgb"], "value": "rgb(250, 200, 21)" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["style", "bg", "rgb"], "value": "rgb(250, 200, 21)" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["style", "bg", "rgb"], "value": "rgb(250, 200, 21)" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C5", "property": ["style", "bg", "rgb"], "value": "rgb(250, 200, 21)" }
       ]
     ]
   },
@@ -94,24 +94,24 @@
     "website": "http://localhost:3000/spreadsheet",
     "states": [
       [
-        { "match": "exact", "f": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Category" },
-        { "match": "exact", "f": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Rent" },
-        { "match": "exact", "f": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Meals" },
-        { "match": "exact", "f": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Transport" },
-        { "match": "exact", "f": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Supplies" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Category" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Rent" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Meals" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Transport" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Supplies" }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Amount" },
-        { "match": "exact", "f": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": 1200.123 },
-        { "match": "exact", "f": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": 45.789 },
-        { "match": "exact", "f": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": 32.323 },
-        { "match": "exact", "f": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": 89.999 }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Amount" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": 1200.123 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": 45.789 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": 32.323 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": 89.999 }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "B2", "property": ["style", "n", "pattern"], "value": "$#,##0.00" },
-        { "match": "exact", "f": "getCellMeta", "param": "B3", "property": ["style", "n", "pattern"], "value": "$#,##0.00" },
-        { "match": "exact", "f": "getCellMeta", "param": "B4", "property": ["style", "n", "pattern"], "value": "$#,##0.00" },
-        { "match": "exact", "f": "getCellMeta", "param": "B5", "property": ["style", "n", "pattern"], "value": "$#,##0.00" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["style", "n", "pattern"], "value": "$#,##0.00" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["style", "n", "pattern"], "value": "$#,##0.00" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["style", "n", "pattern"], "value": "$#,##0.00" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["style", "n", "pattern"], "value": "$#,##0.00" }
       ]
     ]
   },
@@ -121,22 +121,22 @@
     "website": "http://localhost:3000/spreadsheet",
     "states": [
       [
-        { "match": "exact", "f": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Event" },
-        { "match": "exact", "f": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Date" },
-        { "match": "exact", "f": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Kickoff" },
-        { "match": "exact", "f": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Jan 5, 2024" },
-        { "match": "exact", "f": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Review" },
-        { "match": "exact", "f": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "Feb 14, 2024" },
-        { "match": "exact", "f": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Launch" },
-        { "match": "exact", "f": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "Mar 3, 2024" },
-        { "match": "exact", "f": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Wrap-up" },
-        { "match": "exact", "f": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "Apr 22, 2024" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Event" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Date" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Kickoff" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Jan 5, 2024" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Review" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "Feb 14, 2024" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Launch" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "Mar 3, 2024" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Wrap-up" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "Apr 22, 2024" }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "B2", "property": ["style", "n", "pattern"], "value": "yyyy-MM-dd" },
-        { "match": "exact", "f": "getCellMeta", "param": "B3", "property": ["style", "n", "pattern"], "value": "yyyy-MM-dd" },
-        { "match": "exact", "f": "getCellMeta", "param": "B4", "property": ["style", "n", "pattern"], "value": "yyyy-MM-dd" },
-        { "match": "exact", "f": "getCellMeta", "param": "B5", "property": ["style", "n", "pattern"], "value": "yyyy-MM-dd" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["style", "n", "pattern"], "value": "yyyy-MM-dd" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["style", "n", "pattern"], "value": "yyyy-MM-dd" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["style", "n", "pattern"], "value": "yyyy-MM-dd" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["style", "n", "pattern"], "value": "yyyy-MM-dd" }
       ]
     ]
   },
@@ -146,32 +146,32 @@
     "website": "http://localhost:3000/spreadsheet",
     "states": [
       [
-        { "match": "exact", "f": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Name" },
-        { "match": "exact", "f": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Role" },
-        { "match": "exact", "f": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Status" },
-        { "match": "exact", "f": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Alice" },
-        { "match": "exact", "f": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Manager" },
-        { "match": "exact", "f": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": "Active" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Name" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Role" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Status" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Alice" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Manager" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": "Active" }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "" },
-        { "match": "exact", "f": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "Analyst" },
-        { "match": "exact", "f": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": "Active" },
-        { "match": "exact", "f": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Chloe" },
-        { "match": "exact", "f": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "Designer" },
-        { "match": "exact", "f": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": "Leave" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "Analyst" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": "Active" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Chloe" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "Designer" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": "Leave" }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "" },
-        { "match": "exact", "f": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "Engineer" },
-        { "match": "exact", "f": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": "Active" },
-        { "match": "exact", "f": "getCellMeta", "param": "A6", "property": ["cell", "v"], "value": "Evan" },
-        { "match": "exact", "f": "getCellMeta", "param": "B6", "property": ["cell", "v"], "value": "Intern" },
-        { "match": "exact", "f": "getCellMeta", "param": "C6", "property": ["cell", "v"], "value": "Pending" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "Engineer" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": "Active" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A6", "property": ["cell", "v"], "value": "Evan" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B6", "property": ["cell", "v"], "value": "Intern" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C6", "property": ["cell", "v"], "value": "Pending" }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Unknown" },
-        { "match": "exact", "f": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Unknown" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Unknown" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Unknown" }
       ]
     ]
   },
@@ -181,28 +181,28 @@
     "website": "http://localhost:3000/spreadsheet",
     "states": [
       [
-        { "match": "exact", "f": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Product" },
-        { "match": "exact", "f": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Quantity" },
-        { "match": "exact", "f": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Unit Price" },
-        { "match": "exact", "f": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Pen" },
-        { "match": "exact", "f": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": 4 },
-        { "match": "exact", "f": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": 1.5 },
-        { "match": "exact", "f": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Notebook" },
-        { "match": "exact", "f": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": 3 },
-        { "match": "exact", "f": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": 4.25 },
-        { "match": "exact", "f": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Folder" },
-        { "match": "exact", "f": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": 6 },
-        { "match": "exact", "f": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": 2.1 },
-        { "match": "exact", "f": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Tape" },
-        { "match": "exact", "f": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": 2 },
-        { "match": "exact", "f": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": 3.75 }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Product" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Quantity" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Unit Price" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Pen" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": 4 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": 1.5 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Notebook" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": 3 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": 4.25 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Folder" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": 6 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": 2.1 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Tape" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": 2 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": 3.75 }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "D1", "property": ["cell", "v"], "value": "Line Total" },
-        { "match": "exact", "f": "getCellMeta", "param": "D2", "property": ["cell", "v"], "value": 6 },
-        { "match": "exact", "f": "getCellMeta", "param": "D3", "property": ["cell", "v"], "value": 12.75 },
-        { "match": "exact", "f": "getCellMeta", "param": "D4", "property": ["cell", "v"], "value": 12.6 },
-        { "match": "exact", "f": "getCellMeta", "param": "D5", "property": ["cell", "v"], "value": 7.5 }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D1", "property": ["cell", "v"], "value": "Line Total" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D2", "property": ["cell", "v"], "value": 6 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D3", "property": ["cell", "v"], "value": 12.75 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D4", "property": ["cell", "v"], "value": 12.6 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D5", "property": ["cell", "v"], "value": 7.5 }
       ]
     ]
   },
@@ -212,30 +212,30 @@
     "website": "http://localhost:3000/spreadsheet",
     "states": [
       [
-        { "match": "exact", "f": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Item" },
-        { "match": "exact", "f": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Amount" },
-        { "match": "exact", "f": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Tax Rate" },
-        { "match": "exact", "f": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Desk" },
-        { "match": "exact", "f": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": 200 },
-        { "match": "exact", "f": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": 0.08 },
-        { "match": "exact", "f": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Chair" },
-        { "match": "exact", "f": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": 75 },
-        { "match": "exact", "f": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": 0.08 },
-        { "match": "exact", "f": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Lamp" },
-        { "match": "exact", "f": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": 40 },
-        { "match": "exact", "f": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": 0.05 }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Item" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Amount" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Tax Rate" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Desk" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": 200 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": 0.08 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Chair" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": 75 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": 0.08 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Lamp" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": 40 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": 0.05 }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "D1", "property": ["cell", "v"], "value": "Tax Amount" },
-        { "match": "exact", "f": "getCellMeta", "param": "D2", "property": ["cell", "v"], "value": 16 },
-        { "match": "exact", "f": "getCellMeta", "param": "D3", "property": ["cell", "v"], "value": 6 },
-        { "match": "exact", "f": "getCellMeta", "param": "D4", "property": ["cell", "v"], "value": 2 }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D1", "property": ["cell", "v"], "value": "Tax Amount" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D2", "property": ["cell", "v"], "value": 16 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D3", "property": ["cell", "v"], "value": 6 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D4", "property": ["cell", "v"], "value": 2 }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "E1", "property": ["cell", "v"], "value": "Final Amount" },
-        { "match": "exact", "f": "getCellMeta", "param": "E2", "property": ["cell", "v"], "value": 216 },
-        { "match": "exact", "f": "getCellMeta", "param": "E3", "property": ["cell", "v"], "value": 81 },
-        { "match": "exact", "f": "getCellMeta", "param": "E4", "property": ["cell", "v"], "value": 42 }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E1", "property": ["cell", "v"], "value": "Final Amount" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E2", "property": ["cell", "v"], "value": 216 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E3", "property": ["cell", "v"], "value": 81 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E4", "property": ["cell", "v"], "value": 42 }
       ]
     ]
   },
@@ -245,26 +245,26 @@
     "website": "http://localhost:3000/spreadsheet",
     "states": [
       [
-        { "match": "exact", "f": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Name" },
-        { "match": "exact", "f": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Alice" },
-        { "match": "exact", "f": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Brian" },
-        { "match": "exact", "f": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Chloe" },
-        { "match": "exact", "f": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Daniel" },
-        { "match": "exact", "f": "getCellMeta", "param": "A6", "property": ["cell", "v"], "value": "Emma" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Name" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Alice" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Brian" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Chloe" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Daniel" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A6", "property": ["cell", "v"], "value": "Emma" }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Email" },
-        { "match": "exact", "f": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "alice@google.com" },
-        { "match": "exact", "f": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "brian@google.com" },
-        { "match": "exact", "f": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "alice@google.com" },
-        { "match": "exact", "f": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "chloe@google.com" },
-        { "match": "exact", "f": "getCellMeta", "param": "B6", "property": ["cell", "v"], "value": "brian@google.com" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Email" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "alice@google.com" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "brian@google.com" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "alice@google.com" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "chloe@google.com" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B6", "property": ["cell", "v"], "value": "brian@google.com" }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "B2", "property": ["style", "bl"], "value": 1 },
-        { "match": "exact", "f": "getCellMeta", "param": "B3", "property": ["style", "bl"], "value": 1 },
-        { "match": "exact", "f": "getCellMeta", "param": "B4", "property": ["style", "bl"], "value": 1 },
-        { "match": "exact", "f": "getCellMeta", "param": "B6", "property": ["style", "bl"], "value": 1 }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["style", "bl"], "value": 1 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["style", "bl"], "value": 1 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["style", "bl"], "value": 1 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B6", "property": ["style", "bl"], "value": 1 }
       ]
     ]
   },
@@ -274,32 +274,32 @@
     "website": "http://localhost:3000/spreadsheet",
     "states": [
       [
-        { "match": "exact", "f": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Full Name" },
-        { "match": "exact", "f": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Alice M Carter" },
-        { "match": "exact", "f": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Brian T Lee" },
-        { "match": "exact", "f": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Chloe R Kim" },
-        { "match": "exact", "f": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "David P Jones" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Full Name" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Alice M Carter" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Brian T Lee" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Chloe R Kim" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "David P Jones" }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "First Name" },
-        { "match": "exact", "f": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Alice" },
-        { "match": "exact", "f": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "Brian" },
-        { "match": "exact", "f": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "Chloe" },
-        { "match": "exact", "f": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "David" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "First Name" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Alice" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "Brian" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "Chloe" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "David" }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Middle Initial" },
-        { "match": "exact", "f": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": "M" },
-        { "match": "exact", "f": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": "T" },
-        { "match": "exact", "f": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": "R" },
-        { "match": "exact", "f": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": "P" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Middle Initial" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": "M" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": "T" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": "R" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": "P" }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "D1", "property": ["cell", "v"], "value": "Last Name" },
-        { "match": "exact", "f": "getCellMeta", "param": "D2", "property": ["cell", "v"], "value": "Carter" },
-        { "match": "exact", "f": "getCellMeta", "param": "D3", "property": ["cell", "v"], "value": "Lee" },
-        { "match": "exact", "f": "getCellMeta", "param": "D4", "property": ["cell", "v"], "value": "Kim" },
-        { "match": "exact", "f": "getCellMeta", "param": "D5", "property": ["cell", "v"], "value": "Jones" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D1", "property": ["cell", "v"], "value": "Last Name" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D2", "property": ["cell", "v"], "value": "Carter" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D3", "property": ["cell", "v"], "value": "Lee" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D4", "property": ["cell", "v"], "value": "Kim" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D5", "property": ["cell", "v"], "value": "Jones" }
       ]
     ]
   },
@@ -309,22 +309,22 @@
     "website": "http://localhost:3000/spreadsheet",
     "states": [
       [
-        { "match": "exact", "f": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Name" },
-        { "match": "exact", "f": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Phone Number" },
-        { "match": "exact", "f": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Alice" },
-        { "match": "exact", "f": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "(415) 555 0182" },
-        { "match": "exact", "f": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Brian" },
-        { "match": "exact", "f": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "212.555.0198" },
-        { "match": "exact", "f": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Chloe" },
-        { "match": "exact", "f": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "6175550134" },
-        { "match": "exact", "f": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Daniel" },
-        { "match": "exact", "f": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "305-555-0177" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Name" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Phone Number" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Alice" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "(415) 555 0182" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Brian" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "212.555.0198" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Chloe" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "6175550134" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Daniel" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "305-555-0177" }
       ],
       [
-        { "match": "exact", "f": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "415-555-0182" },
-        { "match": "exact", "f": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "212-555-0198" },
-        { "match": "exact", "f": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "617-555-0134" },
-        { "match": "exact", "f": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "305-555-0177" }
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "415-555-0182" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "212-555-0198" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "617-555-0134" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "305-555-0177" }
       ]
     ]
   }

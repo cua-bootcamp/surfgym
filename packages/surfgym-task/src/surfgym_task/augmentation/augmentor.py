@@ -175,7 +175,12 @@ class Augmentor:
 
     def _dump(self, surfgym_tasks: list[Task]) -> None:
         (self.output_dir / "augmented.jsonc").write_text(
-            json.dumps(surfgym_tasks, ensure_ascii=False, indent=2) + "\n",
+            json.dumps(
+                [task.model_dump(mode="json", exclude_none=True) for task in surfgym_tasks],
+                ensure_ascii=False,
+                indent=2,
+            )
+            + "\n",
             encoding="utf-8",
         )
 

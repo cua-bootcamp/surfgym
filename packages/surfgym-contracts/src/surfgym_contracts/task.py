@@ -88,14 +88,6 @@ class TaskCore(FrozenBaseModel):
     instruction: str
     website: Annotated[list[Website], Field(min_length=1, max_length=4)]
 
-
-class Task(TaskCore):
-    evaluation: Evaluation
-    complexity: int
-
-    setup: Optional[list[Action]] = None
-    transition: Optional[list[Action]] = None
-
     @field_validator("website", mode="before")
     @classmethod
     def listify_website(
@@ -104,6 +96,14 @@ class Task(TaskCore):
         if isinstance(value, str):
             return [Website(url=value)]
         return value
+
+
+class Task(TaskCore):
+    evaluation: Evaluation
+    complexity: int
+
+    setup: Optional[list[Action]] = None
+    transition: Optional[list[Action]] = None
 
     @field_validator("setup", "transition", mode="before")
     @classmethod

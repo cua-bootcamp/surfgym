@@ -1,6 +1,6 @@
 import argparse
 from pathlib import Path
-from typing import cast, get_args
+from typing import get_args
 
 from surfgym_task.augmentation import Accumulation, Augmentor, Granularity
 
@@ -14,8 +14,8 @@ def main() -> None:
 
     augmentor = Augmentor(
         seed_dir=Path(args.seed_dir_path),
-        granularity=cast(Granularity, args.granularity),
-        accumulation=cast(Accumulation, args.state_scope),
+        granularity=args.granularity,
+        accumulation=args.accumulation,
     )
     augmentor.run()
 
