@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 from typing import Annotated, Literal, Optional, TypeAlias, Union
 
 from pydantic import (
@@ -29,23 +30,19 @@ class Website(_WebsiteDependent):
 Value: TypeAlias = Union[str, int, float, bool]
 
 
-Rule_Mode: TypeAlias = Literal["dom", "console"]
-
-
-class _Rule(_WebsiteDependent):
-    website_id: str = "_"
+class RuleCore(_WebsiteDependent):
     match: Literal["contains", "exact", "regex"] = "contains"
     normalize_space: bool = False
     case_sensitive: bool = True
     value: Value
 
 
-class ConsoleRule(_Rule):
+class ConsoleRule(RuleCore):
     mode: Literal["console"] = "console"
     script: str
 
 
-class DomRule(_Rule):
+class DomRule(RuleCore):
     mode: Literal["dom"] = "dom"
     target: Literal["text", "html", "url", "title", "attr"] = "text"
     selector: Optional[str] = None
@@ -73,7 +70,7 @@ Rule = Annotated[
 
 class Evaluation(FrozenBaseModel):
     operator: Literal["or", "and"] = "and"
-    rules: list[Rule]
+    rules: Sequence[Rule]
 
     @field_validator("rules", mode="before")
     @classmethod
@@ -86,10 +83,13 @@ class Action(_WebsiteDependent):
     script: str
 
 
-class Task(FrozenBaseModel):
+class TaskCore(FrozenBaseModel):
     task_id: str
     instruction: str
     website: Annotated[list[Website], Field(min_length=1, max_length=4)]
+
+
+class Task(TaskCore):
     evaluation: Evaluation
     complexity: int
 

@@ -3,85 +3,40 @@ from __future__ import annotations
 import hashlib
 import json
 from functools import cached_property
-from typing import Annotated, Any, Literal, Optional, TypeAlias, Union, cast
+from typing import Annotated, Any, Literal, Optional, Protocol, TypeAlias, cast
 
 from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, TypeAdapter
+from surfgym_contracts import RuleCore, TaskCore
 
 
 class FrozenBaseModel(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
 
-class _StateAtom(FrozenBaseModel):
-    match: Literal["contains", "exact", "regex"] = "contains"
-    normalize_space: bool = False
-    case_sensitive: bool = True
+class StateAtom(RuleCore):
+    evalf: str
+    applyf: str
 
     param: Optional[str] = None
     property: list[str] = []
-    value: str | int | float | bool
     return_type: Literal["list", "obj"] = "obj"
 
 
-class SpreadsheetStateAtom(_StateAtom):
-    f: Literal["getCellMeta"]
-
-
-class WordStateAtom(_StateAtom):
-    f: Literal[
-        "word-text-style",
-        "word-body",
-        "word-paragraph",
-        "word-infeasible",
-        "word-document",
-        "word-table",
-        "word-footer",
-    ]
-
-
-class ProzillaStateAtom(_StateAtom):
-    f: Literal[
-        'prozilla["file-explorer"]',
-        'prozilla["text-editor"]',
-        'prozilla["media-viewer"]',
-        'prozilla["filetree"]',
-        'prozilla["settings"]',
-        'prozilla["modal"]',
-        'prozilla["taskbar"]',
-        'prozilla["commands"]',
-    ]
-
-
-StateAtomPayload: TypeAlias = Union[
-    SpreadsheetStateAtom,
-    ProzillaStateAtom,
-    WordStateAtom,
-]
-
-StateAtom: TypeAlias = Annotated[
-    StateAtomPayload,
-    Field(discriminator="f"),
-]
-
-
-def _as_list(value: object) -> list[object]:
+def listify(value: object) -> list[object]:
     if isinstance(value, list):
         return cast(list[object], value)
     return [value]
 
 
 # StateAtom converts to a rule
-State: TypeAlias = Annotated[list[StateAtom], BeforeValidator(_as_list)]
+State: TypeAlias = Annotated[list[StateAtom], BeforeValidator(listify)]
 
 
 # State converts to an evaluation
-States: TypeAlias = Annotated[list[State], BeforeValidator(_as_list), Field(min_length=1)]
+States: TypeAlias = Annotated[list[State], BeforeValidator(listify), Field(min_length=1)]
 
 
-class SeedTask(FrozenBaseModel):
-    task_id: str
-    instruction: str
-    website: str
+class SeedTask(TaskCore):
     states: States
 
 
@@ -99,10 +54,47 @@ def _canonical_state(state: State) -> list[dict[str, Any]]:
     return sorted(atoms, key=_canonical_json)
 
 
+class HoareCreator(Protocol):
+    def __call__(
+        self,
+        states: list[State],
+        to: int,
+        from_idx: Optional[int] = None,
+    ) -> HoareState: ...
+
+
 class HoareState(FrozenBaseModel):
     start_state: Optional[State] = None
     end_state: State
     complexity: int
+
+    @staticmethod
+    def creator(
+        accumulation: Accumulation,
+    ) -> HoareCreator:
+        def accumulate(states: list[State], idx: int) -> State:
+            if accumulation == "DELTA":
+                return states[idx]
+
+            keep_fresh_state: dict[Any, StateAtom] = {}
+            for state in states[: idx + 1]:
+                for atom in state:
+                    keep_fresh_state[(atom.evalf, atom.param, tuple(atom.property))] = atom
+
+            return list(keep_fresh_state.values())
+
+        def aux(states: list[State], end: int, start: Optional[int] = None) -> HoareState:
+            if start is None:
+                start_state = None
+                complexity = end + 1
+            else:
+                start_state = accumulate(states, start)
+                complexity = end - start
+
+            end_state = accumulate(states, end)
+            return HoareState(start_state=start_state, end_state=end_state, complexity=complexity)
+
+        return aux
 
     @cached_property
     def canonical_payload(self) -> dict[str, Any]:
@@ -135,7 +127,7 @@ class HoareState(FrozenBaseModel):
 
 
 Granularity: TypeAlias = Literal["COARSE", "FINE"]
-State_Scope: TypeAlias = Literal["DELTA", "CUMULATIVE"]
+Accumulation: TypeAlias = Literal["DELTA", "CUMULATIVE"]
 
 
 TaskRowsAdapter: TypeAdapter[list[SeedTask]] = TypeAdapter(list[SeedTask])
