@@ -3,30 +3,15 @@ import time
 from pathlib import Path
 from typing import Any
 
-from .runner import Runner
+from tests.client import Client
 
 # ============================================================
 # User-defined settings
 # Modify only the values below for testing.
 # ============================================================
 
-TASK_ID = "spreadsheet_2"
-ACTIONS: list[list[dict[str, Any]]] = [
-    [
-        {"action_type": "WAIT"},
-        {"action_type": "WAIT"},
-        {"action_type": "CLICK", "x": "1100", "y": "50"},
-    ],
-    [
-        {"action_type": "PRESS", "key": "ArrowRight"},
-        {"action_type": "PRESS", "key": "ArrowDown"},
-        {"action_type": "PRESS", "key": "ArrowDown"},
-        {"action_type": "PRESS", "key": "ArrowDown"},
-        {"action_type": "PRESS", "key": "ArrowDown"},
-        {"action_type": "TYPING", "text": "5"},
-        {"action_type": "PRESS", "key": "Enter"},
-    ],
-]
+TASK_ID = ""
+ACTIONS: list[list[dict[str, Any]]] = [[]]
 
 # ============================================================
 
@@ -45,14 +30,19 @@ def main() -> None:
     args = parse_args()
     config_path = args.config_path.resolve()
 
-    runner = Runner(
+    client = Client(
         task_id=TASK_ID,
         session_id=int(time.time() * 1000),
         actions=ACTIONS,
         config_path=config_path,
     )
-    runner.run()
+    client.run()
 
 
 if __name__ == "__main__":
     main()
+
+
+# uv run python -m tests.task_evaluation.run \
+#   --gateway_url http://127.0.0.1:18000 \
+#   --task-path packages/surfgym-task/src/surfgym_task/data/seed/spreadsheet/out/augmented.jsonc

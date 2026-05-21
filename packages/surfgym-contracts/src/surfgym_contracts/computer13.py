@@ -6,6 +6,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from surfgym_contracts.command import (
     Command,
+    ConsoleCommand,
     DragToCommand,
     HotKeyCommand,
     KeyboardTypeCommand,
@@ -21,6 +22,7 @@ from surfgym_contracts.command import (
     PlaywrightKey,
     SleepCommand,
 )
+from surfgym_contracts.task import Action
 
 
 class _BaseComputerAction(BaseModel):
@@ -227,6 +229,14 @@ class DoubleClickAction(_BaseClickAction):
         )
 
 
+class ConsoleAction(_BaseComputerAction):
+    action_type: Literal["CONSOLE"]
+    actions: list[Action]
+
+    def to_commands(self) -> ConsoleCommand:
+        return ConsoleCommand(actions=self.actions)
+
+
 Computer13 = Annotated[
     Union[
         MoveToAction,
@@ -245,6 +255,7 @@ Computer13 = Annotated[
         WaitAction,
         FailAction,
         DoneAction,
+        ConsoleAction,
     ],
     Field(discriminator="action_type"),
 ]

@@ -4,7 +4,7 @@ from typing import Annotated, Any, Literal, Optional, TypeAlias, Union
 from pydantic import BaseModel, ConfigDict, Field, GetCoreSchemaHandler, TypeAdapter
 from pydantic_core import core_schema
 
-from surfgym_contracts.task import Evaluation
+from surfgym_contracts.task import Action, Evaluation
 
 ###################
 # Action Commands #
@@ -171,6 +171,11 @@ class SleepCommand(_BaseCommand):
     duration_ms: int
 
 
+class ConsoleCommand(_BaseCommand):
+    command: Literal["command"] = "command"
+    actions: list[Action]
+
+
 CommandPayload: TypeAlias = Union[
     MouseMoveCommand,
     DragToCommand,
@@ -185,6 +190,7 @@ CommandPayload: TypeAlias = Union[
     HotKeyCommand,
     SleepCommand,
     ObserveCommand,
+    ConsoleCommand,
     InteractiveTreeCommand,
 ]
 

@@ -373,6 +373,11 @@ class PlaywrightInstance:
             case "sleep":
                 await self.controller.sleep(page, command.duration_ms)
 
+            case "command":
+                for action in command.actions:
+                    page = self.pages[action.website_id]
+                    await page.evaluate(action.script)
+
             case _ as unreachable:
                 assert_never(unreachable)
 

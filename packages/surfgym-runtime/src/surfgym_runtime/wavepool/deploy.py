@@ -125,7 +125,7 @@ class SurfGymSupervisor:
                 cmd=[
                     sys.executable,
                     "-m",
-                    "src.wavepool.instance.server",
+                    "surfgym_runtime.wavepool.instance.server",
                     "--port",
                     str(port),
                     "--viewport-width",
@@ -142,7 +142,7 @@ class SurfGymSupervisor:
             cmd=[
                 sys.executable,
                 "-m",
-                "src.wavepool.master.server",
+                "surfgym_runtime.wavepool.master.server",
                 "--master_host",
                 cfg.host,
                 "--master_port",

@@ -58,8 +58,8 @@ class HoareCreator(Protocol):
     def __call__(
         self,
         states: list[State],
-        to: int,
-        from_idx: Optional[int] = None,
+        end: int,
+        start: Optional[int] = None,
     ) -> HoareState: ...
 
 

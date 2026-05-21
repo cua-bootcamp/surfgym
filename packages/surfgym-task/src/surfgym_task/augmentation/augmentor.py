@@ -92,23 +92,26 @@ class Augmentor:
 
     def _atom_to_script(self, state_atom: StateAtom) -> str:
         param = "()" if state_atom.param is None else f'("{state_atom.param}")'
-        property = "?.".join(f'["{x}"]' for x in state_atom.property)
+        property = "".join(f'["{x}"]' for x in state_atom.property)
+        expected = json.dumps(state_atom.value, ensure_ascii=False)
 
         if state_atom.return_type == "list":
             return f"""
 (() => {{
-    const objs = window.{state_atom.evalf}{param};
-    const obj = objs.find(el => el?.{property}  === "{state_atom.value}");
-    return obj.{property}
+    const objs = window[{json.dumps(state_atom.evalf)}]{param};
+    const obj = objs.find(el => el?.{property} === {expected});
+    return obj{property}
 }})();
-"""
+""".strip()
+
         if state_atom.return_type == "obj":
             return f"""
 (() => {{
-    const obj = window.{state_atom.evalf}{param};
-    return obj.{property}
+    const obj = window[{json.dumps(state_atom.evalf)}]{param};
+    return obj{property}
 }})();
-"""
+""".strip()
+
         raise ValueError(f"Unsupported return type: {state_atom.return_type}")
 
     def _state_to_actions(self, state: State) -> list[Action]:
@@ -124,7 +127,6 @@ class Augmentor:
         return f"""
 (() => {{
     const atom = {json.dumps(payload, ensure_ascii=False)};
-    const applyf = {json.dumps(atom.applyf, ensure_ascii=False)};
 
     const isRecord = (value) =>
         value !== null && typeof value === "object" && !Array.isArray(value);
@@ -151,9 +153,9 @@ class Augmentor:
 
     setNested(entry, atom.property ?? [], atom.value);
 
-    const apply = window[applyf];
+    const apply = window[{json.dumps(atom.applyf)}];
     if (typeof apply !== "function") {{
-        throw new Error(`Missing setup apply function: ${{applyf}}`);
+        throw new Error(`Missing setup apply function: {atom.applyf}`);
     }}
 
     apply([entry]);

@@ -236,7 +236,7 @@ async def health():
 # [TODO] Support multi worker
 if __name__ == "__main__":
     uvicorn.run(
-        "src.wavepool.master.server:app",
+        app,
         host=args.master_host,
         port=args.master_port,
     )

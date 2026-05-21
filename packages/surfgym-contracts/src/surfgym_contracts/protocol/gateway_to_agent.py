@@ -3,7 +3,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import Literal, TypeAlias
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
 
 
 class _FrozenBaseModel(BaseModel):
@@ -73,3 +73,4 @@ class ErrorResponse(_BaseResponse):
 
 
 Response: TypeAlias = ActionResponse | RewardResponse | ErrorResponse
+ResponseAdapter: TypeAdapter[Response] = TypeAdapter(Response)

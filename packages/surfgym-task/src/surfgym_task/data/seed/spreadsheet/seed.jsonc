@@ -176,7 +176,7 @@
     ]
   },
   {
-    "task_id": "prozilla_mult_sum_and_multiply",
+    "task_id": "spreadsheet_mult_sum_and_multiply",
     "instruction": "Create a product sales table in Sheet1. In column A, enter the column header \"Product\" and list four products below it: Pen, Notebook, Folder, and Tape. In column B, enter the column header \"Quantity\" and list their quantities below it: 4, 3, 6, and 2. In column C, enter the column header \"Unit Price\" and list their unit prices below it: 1.5, 4.25, 2.1, and 3.75. Then add a column D with the header \"Line Total\" and calculate each line total by multiplying Quantity by Unit Price.",
     "website": "http://localhost:3000/spreadsheet",
     "states": [
@@ -207,7 +207,7 @@
     ]
   },
   {
-    "task_id": "prozilla_mult_sum_01",
+    "task_id": "spreadsheet_mult_and_sum",
     "instruction": "Create an invoice table in Sheet1. In column A, enter the column header \"Item\" and list three items below it: Desk, Chair, and Lamp. In column B, enter the column header \"Amount\" and list their amounts below it: 200, 75, and 40. In column C, enter the column header \"Tax Rate\" and list their tax rates below it: 0.08, 0.08, and 0.05. Then add column D with the header \"Tax Amount\" and calculate Amount multiplied by Tax Rate. Add column E with the header \"Final Amount\" and calculate Amount plus Tax Amount.",
     "website": "http://localhost:3000/spreadsheet",
     "states": [

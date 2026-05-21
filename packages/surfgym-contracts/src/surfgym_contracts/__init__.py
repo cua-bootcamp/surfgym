@@ -23,6 +23,7 @@ from surfgym_contracts.command import (
 from surfgym_contracts.computer13 import (
     ClickAction,
     Computer13,
+    ConsoleAction,
     DoneAction,
     DoubleClickAction,
     DragToAction,
@@ -68,6 +69,7 @@ __all__ = [
     "CommandPayload",
     "Computer13",
     "ConsoleRule",
+    "ConsoleAction",
     "DomRule",
     "DoneAction",
     "DoubleClickAction",

@@ -32,8 +32,8 @@ class TaskStore:
     def __len__(self) -> int:
         return len(self._tasks_by_id)
 
-    def values(self):
-        return self._tasks_by_id.values()
+    def all_tasks(self):
+        return list(self._tasks_by_id.values())
 
 
 def _load_task_rows(path: Path) -> list[Task]:
