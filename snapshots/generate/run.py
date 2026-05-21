@@ -6,8 +6,8 @@ from pathlib import Path
 from surfgym_contracts import ConsoleAction
 from surfgym_runtime.support import TaskStore
 
-from tests.client import Client
-from tests.schema import Manifest, Summary, TaskMeta
+from .client import Client
+from .schema import Manifest, Summary, TaskMeta
 
 
 def parse_args() -> argparse.Namespace:
@@ -23,8 +23,8 @@ def main() -> None:
     args = parse_args()
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S-%f")[:-3]
 
-    tests_dir = Path(__file__).resolve().parent
-    snapshot_root = tests_dir / "__snapshots__" / f"task_evaluation_{timestamp}"
+    snapshots_dir = Path(__file__).resolve().parent.parent
+    snapshot_root = snapshots_dir / "__snapshots__" / timestamp
     snapshot_root.mkdir(parents=True, exist_ok=True)
 
     manifest_tasks: dict[str, TaskMeta] = {}

@@ -10,6 +10,7 @@ nohup.out
 **/.DS_Store/*
 **/__snapshots__/*
 **/node_modules/*
+**/.pnpm-store/*
 **/.browser-home/*
 **/.ms-playwright/*
 **/dist/*
