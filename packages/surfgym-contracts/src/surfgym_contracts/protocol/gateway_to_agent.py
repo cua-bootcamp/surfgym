@@ -36,40 +36,13 @@ class RewardResponse(_BaseResponse):
     reward: float
 
 
-class ErrorResponseType(str, Enum):
-    GATEWAY_BUSY = "gateway_busy"
-    FAIL_REQUEST_HANDLE = "fail_request_handle"
-    NO_OPERATION_BUDGET = "no_operation_budget"
-    INVALID_REQUEST = "invalid_request"
-
-
-ERROR_MESSAGES: dict[ErrorResponseType, str] = {
-    ErrorResponseType.GATEWAY_BUSY: "Timed out waiting for gateway in-flight capacity.",
-    ErrorResponseType.FAIL_REQUEST_HANDLE: "Failed to handle request.",
-    ErrorResponseType.NO_OPERATION_BUDGET: "No operation budget remains after gateway admission.",
-    ErrorResponseType.INVALID_REQUEST: "Invalid request.",
-}
+ErrorType: TypeAlias = Literal["TIMEOUT", "INVALID_REQUEST"]
 
 
 class ErrorResponse(_BaseResponse):
     status: Literal[ResponseStatus.ERROR] = ResponseStatus.ERROR
-    error_type: ErrorResponseType
+    error_type: ErrorType
     message: str
-
-    @classmethod
-    def from_type(
-        cls,
-        *,
-        session_id: int,
-        task_id: str,
-        error_type: ErrorResponseType,
-    ) -> "ErrorResponse":
-        return cls(
-            session_id=session_id,
-            task_id=task_id,
-            error_type=error_type,
-            message=ERROR_MESSAGES[error_type],
-        )
 
 
 Response: TypeAlias = ActionResponse | RewardResponse | ErrorResponse

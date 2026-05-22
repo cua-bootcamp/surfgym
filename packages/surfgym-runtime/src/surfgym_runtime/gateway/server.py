@@ -10,10 +10,11 @@ from fastapi import Request as FastAPIRequest
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from surfgym_contracts.protocol.agent_to_gateway import Request
-from surfgym_contracts.protocol.gateway_to_agent import ErrorResponse, ErrorResponseType, Response
+from surfgym_contracts.protocol.gateway_to_agent import ErrorResponse, Response
 
+from surfgym_runtime.gateway.error import GatewayError
 from surfgym_runtime.gateway.service import Service
-from surfgym_runtime.support import Config, TaskStore, logger, setup_logging
+from surfgym_runtime.support import Config, TaskStore, surfgym_logger
 
 
 def launch(config: Config):
@@ -27,7 +28,6 @@ def launch(config: Config):
         task_store=task_store,
         instance_config=config.wavepool_config,
     )
-    setup_logging(config.log_path)
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
@@ -54,15 +54,19 @@ def launch(config: Config):
 
         session_id, task_id = _extract_request_ids(exc.body)
         message = _format_validation_error(exc)
-
-        logger.info("Invalid gateway request: %s", message)
-
         payload = ErrorResponse(
             session_id=session_id,
             task_id=task_id,
-            error_type=ErrorResponseType.INVALID_REQUEST,
+            error_type="INVALID_REQUEST",
             message=message,
         )
+
+        surfgym_logger.warning(
+            "Invalid request: session_id=%s task_id=%s",
+            session_id,
+            task_id,
+        )
+        surfgym_logger.warning("Invalid gateway request: %s", payload)
         return JSONResponse(status_code=200, content=payload.model_dump(mode="json"))
 
     async def handle_request(
@@ -76,10 +80,11 @@ def launch(config: Config):
                 timeout=gc.in_flight_timeout,
             )
         except asyncio.TimeoutError:
-            return ErrorResponse.from_type(
+            return ErrorResponse(
                 session_id=request.session_id,
                 task_id=request.task_id,
-                error_type=ErrorResponseType.GATEWAY_BUSY,
+                error_type="TIMEOUT",
+                message="Gateway in_flight timeout occured. The gateway worker may be too busy.",
             )
 
         try:
@@ -88,13 +93,25 @@ def launch(config: Config):
             return await loop.run_in_executor(
                 executor, gateway.handle_request, request, gateway_deadline
             )
-        except Exception:
-            logger.exception("Failed while handling %s", request)
-            return ErrorResponse.from_type(
+        except GatewayError as exc:
+            surfgym_logger.warning(
+                "Gateway failed handling request: session_id=%s task_id=%s error_type=%s message=%s",
+                request.session_id,
+                request.task_id,
+                exc.error_type,
+                exc.message,
+            )
+            return ErrorResponse(
                 session_id=request.session_id,
                 task_id=request.task_id,
-                error_type=ErrorResponseType.FAIL_REQUEST_HANDLE,
+                error_type=exc.error_type,
+                message=exc.message,
             )
+        except Exception:
+            surfgym_logger.exception(
+                "Unexpected gateway failure while handling request : %s", request
+            )
+            raise
         finally:
             in_flight.release()
 
@@ -102,6 +119,11 @@ def launch(config: Config):
     app.add_api_route("/health", health, methods=["GET"])
     app.add_api_route("/", handle_request, methods=["POST"])
     return app
+
+
+######################################
+#          Helper Functions          #
+######################################
 
 
 def _extract_request_ids(body: object) -> tuple[int, str]:
@@ -112,28 +134,9 @@ def _extract_request_ids(body: object) -> tuple[int, str]:
     raw_session_id = request_body.get("session_id", -1)
     raw_task_id = request_body.get("task_id", "")
 
-    return _coerce_session_id(raw_session_id), _coerce_task_id(raw_task_id)
-
-
-def _coerce_session_id(value: object) -> int:
-    if isinstance(value, bool):
-        return -1
-    if isinstance(value, int):
-        return value
-    if isinstance(value, str):
-        try:
-            return int(value)
-        except ValueError:
-            return -1
-    return -1
-
-
-def _coerce_task_id(value: object) -> str:
-    if isinstance(value, str):
-        return value
-    if value is None:
-        return ""
-    return str(value)
+    return raw_session_id if isinstance(raw_session_id, int) else -1, raw_task_id if isinstance(
+        raw_task_id, str
+    ) else str(raw_task_id)
 
 
 def _format_validation_error(exc: RequestValidationError) -> str:

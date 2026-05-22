@@ -1,12 +1,13 @@
 import time
 
-
-class SGError(Exception):
-    pass
+from surfgym_contracts.protocol.gateway_to_agent import ErrorType
 
 
-class ConfigError(SGError):
-    pass
+class GatewayError(Exception):
+    def __init__(self, error_type: ErrorType, message: str) -> None:
+        super().__init__(message)
+        self.error_type: ErrorType = error_type
+        self.message = message
 
 
 class SGRetryableError(Exception):
