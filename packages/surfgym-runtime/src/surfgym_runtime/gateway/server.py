@@ -26,7 +26,7 @@ def launch(config: Config):
     gateway = Service(
         pool_workers=gc.pool_workers,
         task_store=task_store,
-        instance_config=config.wavepool_config,
+        wavepool_config=config.wavepool_config,
     )
 
     @asynccontextmanager

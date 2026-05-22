@@ -4,9 +4,12 @@ Service layer of the gateway.
 """
 
 import base64
+import random
 import time
 from dataclasses import dataclass
 from io import BytesIO
+from queue import SimpleQueue
+from threading import Lock, Thread
 from typing import Callable, TypeVar
 
 from PIL import Image, ImageDraw
@@ -21,12 +24,12 @@ from surfgym_contracts.protocol.agent_to_gateway import (
 )
 from surfgym_contracts.protocol.gateway_to_agent import ActionResponse, ImagePayload, RewardResponse
 from surfgym_contracts.protocol.instance_to_gateway import InteractiveTreeResponse
-from surfgym_contracts.task import Action, Evaluation, Task, Website
+from surfgym_contracts.task import Action, Evaluation, Website
 from typing_extensions import Optional
 
-from surfgym_runtime.gateway.error import Deadline, DeadlineExceeded, SGRetryableError
+from surfgym_runtime.gateway.error import Deadline, InvalidRequest, RetryableError
 from surfgym_runtime.gateway.pool import GatewayPool
-from surfgym_runtime.support import TaskStore, WavepoolConfig, evaluate_page_rules
+from surfgym_runtime.support import TaskStore, WavepoolConfig, evaluate_page_rules, surfgym_logger
 
 _T = TypeVar("_T")
 
@@ -43,29 +46,46 @@ class Service:
         *,
         pool_workers: int,
         task_store: TaskStore,
-        instance_config: WavepoolConfig,
+        wavepool_config: WavepoolConfig,
     ) -> None:
         self.task_store = task_store
-        self.pool = GatewayPool(pool_workers=pool_workers, instance_config=instance_config)
-
-        self.viewport_width = instance_config.viewport_width
-        self.viewport_height = instance_config.viewport_height
+        self.pool = GatewayPool(pool_workers=pool_workers, instance_config=wavepool_config)
+        self.viewport_width = wavepool_config.viewport_width
+        self.viewport_height = wavepool_config.viewport_height
+        self.process_timeout = wavepool_config.process_timeout
 
         # session_id -> (instance_id, port)
         self.active_sessions: dict[int, Lease] = {}
 
-        self.BACKOFF_MAX_SEC = 8
-        self.RELEASE_TIMEOUT_SEC = 5.0
+        # release daemon
+        self._release_queue: SimpleQueue[Lease | None] = SimpleQueue()
+        self._release_worker: Thread | None = None
+        self._release_timeout = (
+            wavepool_config.process_timeout.release + self.process_timeout.layer_gap
+        )
+
+        # allocation lock
+        self._session_lock = Lock()
+        self._starting_sessions: set[int] = set()
 
     def open(self) -> None:
         self.pool.start()
+        self._release_worker = Thread(
+            target=self._release_worker_loop,
+            name="surfgym-release-worker",
+            daemon=True,
+        )
+        self._release_worker.start()
 
     def close(self) -> None:
+        self._release_queue.put(None)
+        if self._release_worker is not None:
+            self._release_worker.join(timeout=1.0)
         self.pool.stop()
 
     def handle_request(self, request: Request, deadline_at: float):
         request = RequestAdapter.validate_python(request)
-        deadline = Deadline(deadline_at)
+        deadline = deadline_for(deadline_at)
 
         match request:
             case StartRequest():
@@ -75,164 +95,206 @@ class Service:
             case RewardRequest():
                 return self._handle_reward(request, deadline)
 
-    def _handle_start(self, request: StartRequest, deadline: Deadline) -> ActionResponse:
-        if request.session_id in self.active_sessions:
-            raise RuntimeError(f"Session {request.session_id} already exists")
+    def _handle_start(
+        self, request: StartRequest, deadline: Callable[[str], Deadline]
+    ) -> ActionResponse:
+        self._reserve_session_start(request.session_id)
+        lease = None
 
-        task = self.task_store.get(request.task_id)
+        try:
+            task = self.task_store.get(request.task_id)
+            lease = self._allocate(deadline, task.website, task.setup)
 
-        lease = self._allocate(deadline, task.website, task.setup)
-        (screenshot_b64, media_type) = self._screenshot(deadline, lease)
-        text = self._interactive_tree(deadline, lease) if request.include_a11y else None
+            screenshot_b64, media_type = self._screenshot(deadline, lease)
+            self._commit_session_start(request.session_id, lease)
 
-        self.active_sessions[request.session_id] = lease
-
-        return ActionResponse(
-            session_id=request.session_id,
-            task_id=request.task_id,
-            text=text,
-            image=ImagePayload(data=screenshot_b64, mimeType=media_type),
-        )
+            return ActionResponse(
+                session_id=request.session_id,
+                task_id=request.task_id,
+                image=ImagePayload(data=screenshot_b64, mimeType=media_type),
+            )
+        except Exception:
+            self._abort_session_start(request.session_id)
+            if lease:
+                self._enqueue_release(lease)
+            raise
 
     def _handle_action(
         self,
         request: ActionRequest,
-        deadline: Deadline,
+        deadline: Callable[[str], Deadline],
     ) -> ActionResponse:
-        lease = self.active_sessions.get(request.session_id)
-        if lease is None:
-            raise RuntimeError(f"Session {request.session_id} does not exist")
+        lease = self._get_lease_safe(request.session_id)
 
         for action in request.actions:
             if not isinstance(action, TerminalAction):
-                self._execute_browser_command(deadline, lease, action.to_commands())
+                self._execute(deadline, lease, action.to_commands())
 
         (screenshot_b64, media_type) = self._screenshot(deadline, lease)
-        text = self._interactive_tree(deadline, lease) if request.include_a11y else None
+        # text = self._interactive_tree(deadline, lease) if request.include_a11y else None
 
         return ActionResponse(
             session_id=request.session_id,
             task_id=request.task_id,
-            text=text,
+            # text=text,
             image=ImagePayload(data=screenshot_b64, mimeType=media_type),
         )
 
-    def _handle_reward(self, request: RewardRequest, deadline: Deadline) -> RewardResponse:
-        lease = self.active_sessions.get(request.session_id)
-        if lease is None:
-            raise RuntimeError(f"Session {request.session_id} does not exist")
+    def _handle_reward(
+        self, request: RewardRequest, deadline: Callable[[str], Deadline]
+    ) -> RewardResponse:
+        lease = self._get_lease_safe(request.session_id)
 
-        task = self.task_store.get(request.task_id)
-        reward = self._evaluate(task, lease, deadline)
+        try:
+            task = self.task_store.get(request.task_id)
 
-        self._release(lease)
-        self.active_sessions.pop(request.session_id, None)
+            snapshot = self._observe(
+                deadline=deadline,
+                lease=lease,
+                evaluation=task.evaluation,
+            )
 
-        return RewardResponse(
-            session_id=request.session_id,
-            task_id=request.task_id,
-            reward=reward,
-        )
+            reward = evaluate_page_rules(task.evaluation, snapshot.observation)
+            return RewardResponse(
+                session_id=request.session_id,
+                task_id=request.task_id,
+                reward=reward,
+            )
+        finally:
+            self._enqueue_release(lease)
+            self.active_sessions.pop(request.session_id, None)
 
     def _allocate(
-        self, deadline: Deadline, websites: list[Website], setup: Optional[list[Action]]
+        self,
+        deadline: Callable[[str], Deadline],
+        websites: list[Website],
+        setup: Optional[list[Action]],
     ) -> Lease:
+        d = deadline("allocate")
         instance_id, _, port = self._run_with_retry(
-            context="_allocate_instance",
-            deadline=deadline,
-            func=lambda: self.pool.allocate(deadline, websites, setup),
+            min_attempt_time=self.process_timeout.allocate,
+            deadline=d,
+            func=lambda: self.pool.allocate(d, websites, setup),
         )
-
         return Lease(instance_id=instance_id, port=port)
 
-    def _execute_browser_command(self, deadline: Deadline, lease: Lease, command: Command):
-        return self._run_with_retry(
-            context="_execute_browser_command",
-            deadline=deadline,
-            func=lambda: self.pool.execute_browser_command(
-                deadline, lease.instance_id, lease.port, command
-            ),
-        )
-
-    def _screenshot(self, deadline: Deadline, lease: Lease):
+    def _screenshot(self, deadline: Callable[[str], Deadline], lease: Lease):
+        d = deadline("screenshot")
         (screenshot_b64, media_type, x, y) = self._run_with_retry(
-            context="_screenshot",
-            deadline=deadline,
-            func=lambda: self.pool.screenshot(deadline, lease.instance_id, lease.port),
+            min_attempt_time=self.process_timeout.screenshot,
+            deadline=d,
+            func=lambda: self.pool.screenshot(d, lease.instance_id, lease.port),
         )
 
         return draw_cursor_on_screenshot(screenshot_b64, int(x), int(y)), media_type
 
-    def _snapshot(self, *, deadline: Deadline, lease: Lease, evaluation: Evaluation):
+    def _observe(
+        self, *, deadline: Callable[[str], Deadline], lease: Lease, evaluation: Evaluation
+    ):
+        d = deadline("observe")
         return self._run_with_retry(
-            context="_snapshot",
-            deadline=deadline,
-            func=lambda: self.pool.get_snapshot(
-                deadline, lease.instance_id, lease.port, evaluation
-            ),
+            min_attempt_time=self.process_timeout.observe,
+            deadline=d,
+            func=lambda: self.pool.get_snapshot(d, lease.instance_id, lease.port, evaluation),
         )
 
-    def _interactive_tree(self, deadline: Deadline, lease: Lease):
-        response = self._run_with_retry(
-            context="_interactive_tree",
-            deadline=deadline,
-            func=lambda: self.pool.get_interactive_tree(deadline, lease.instance_id, lease.port),
+    def _execute(self, deadline: Callable[[str], Deadline], lease: Lease, command: Command):
+        return self.pool.execute_browser_command(
+            deadline("execute"), lease.instance_id, lease.port, command
         )
-        return parse_interactive_tree_text(
-            response, viewport_width=self.viewport_width, viewport_height=self.viewport_height
-        )
-
-    def _evaluate(self, task: Task, lease: Lease, deadline: Deadline) -> float:
-        snapshot = self._snapshot(
-            deadline=deadline,
-            lease=lease,
-            evaluation=task.evaluation,
-        )
-
-        return evaluate_page_rules(task.evaluation, snapshot.observation)
-
-    def _release(self, lease: Lease):
-        release_deadline = Deadline(time.monotonic() + self.RELEASE_TIMEOUT_SEC)
-        self.pool.release(release_deadline, lease.instance_id, lease.port)
 
     def _run_with_retry(
         self,
         *,
-        context: str,
+        min_attempt_time: float,
         deadline: Deadline,
         func: Callable[[], _T],
     ) -> _T:
-        backoffs = self._backoff_delays()
+        backoffs = jittered_backoff()
 
         while True:
-            deadline.check(context)
+            deadline.alarm(min_attempt_time)
 
             try:
                 return func()
-            except Exception as exc:
-                if not isinstance(exc, SGRetryableError):
-                    raise
+            except RetryableError:
+                sleep_budget = deadline.remaining() - min_attempt_time
+                if sleep_budget <= 0:
+                    raise deadline.error
 
-                sleep_for = min(next(backoffs), max(0.0, deadline.remaining()))
-                if sleep_for <= 0:
-                    raise DeadlineExceeded(
-                        f"Gateway request deadline exceeded in {context}"
-                    ) from exc
+                sleep_for = min(next(backoffs), sleep_budget)
                 time.sleep(sleep_for)
 
-    def _backoff_delays(self):
-        delay = 1.0
+    def _get_lease_safe(self, session_id: int) -> Lease:
+        lease = self.active_sessions.get(session_id)
+        if lease is None:
+            raise InvalidRequest(f"Session {session_id} does not exist")
+        return lease
+
+    def _enqueue_release(self, lease: Lease) -> None:
+        self._release_queue.put(lease)
+
+    def _release_worker_loop(self) -> None:
         while True:
-            yield delay
-            delay = min(delay * 2, self.BACKOFF_MAX_SEC)
+            lease = self._release_queue.get()
+            if lease is None:
+                return
+
+            try:
+                release_deadline = Deadline(time.monotonic() + self._release_timeout, "release")
+                self.pool.release(release_deadline, lease.instance_id, lease.port)
+            except Exception:
+                surfgym_logger.exception(
+                    "Failed to release lease: instance_id=%s port=%s",
+                    lease.instance_id,
+                    lease.port,
+                )
+
+    def _reserve_session_start(self, session_id: int) -> None:
+        with self._session_lock:
+            if session_id in self.active_sessions or session_id in self._starting_sessions:
+                raise InvalidRequest(f"Session {session_id} already exists")
+            self._starting_sessions.add(session_id)
+
+    def _commit_session_start(self, session_id: int, lease: Lease) -> None:
+        with self._session_lock:
+            self._starting_sessions.discard(session_id)
+            self.active_sessions[session_id] = lease
+
+    def _abort_session_start(self, session_id: int) -> None:
+        with self._session_lock:
+            self._starting_sessions.discard(session_id)
+
+    # def _interactive_tree(self, deadline: Deadline, lease: Lease):
+    #     response = self._run_with_retry(
+    #         context="_interactive_tree",
+    #         deadline=deadline,
+    #         func=lambda: self.pool.get_interactive_tree(deadline, lease.instance_id, lease.port),
+    #     )
+    #     return parse_interactive_tree_text(
+    #         response, viewport_width=self.viewport_width, viewport_height=self.viewport_height
+    #     )
 
 
-####################
-# Helper Functions #
-####################
+################################################
+#               Helper Functions               #
+################################################
 
 
 NORMALIZED_COORD_SPACE = 1000
+
+
+def jittered_backoff():
+    delay_min = 0.0
+    delay_max = 1.0
+    while True:
+        yield random.uniform(delay_min, delay_max)
+        delay_min = delay_max
+        delay_max = min(delay_max * 2, 8)
+
+
+def deadline_for(deadline_at: float) -> Callable[[str], Deadline]:
+    return lambda context: Deadline(deadline_at, context)
 
 
 def _normalize_value(value: float, *, source_size: int) -> int:

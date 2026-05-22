@@ -10,39 +10,36 @@ class GatewayError(Exception):
         self.message = message
 
 
-class SGRetryableError(Exception):
-    pass
+class InvalidRequest(GatewayError):
+    def __init__(self, message: str) -> None:
+        super().__init__("INVALID_REQUEST", message)
 
 
-class InstanceBusyError(SGRetryableError):
-    pass
+class DeadlineExceeded(GatewayError):
+    def __init__(self, message: str) -> None:
+        super().__init__("TIMEOUT", message)
 
 
-class InstanceTransportError(SGRetryableError):
-    pass
-
-
-class HttpStackOperationTimeoutError(SGRetryableError):
-    pass
-
-
-class DeadlineExceeded(TimeoutError):
-    pass
+class RetryableError(Exception):
+    def __init__(self, message: str) -> None:
+        super().__init__(message)
+        self.message = message
 
 
 class Deadline:
-    def __init__(self, deadline_at: float) -> None:
+    def __init__(self, deadline_at: float, context: str) -> None:
         self.deadline_at = deadline_at
+        self.error = DeadlineExceeded(f"Deadline exceeded in {context}")
 
     def remaining(self) -> float:
         return self.deadline_at - time.monotonic()
 
-    def check(self, context: str) -> None:
+    def check(self) -> None:
         if self.remaining() <= 0:
-            raise DeadlineExceeded(f"Gateway request deadline exceeded in {context}")
+            raise self.error
 
-    def timeout(self, cap: float) -> float:
-        remaining = self.remaining()
-        if remaining <= 0:
-            raise DeadlineExceeded("Gateway request deadline exceeded")
-        return min(cap, remaining)
+    def alarm(self, alarm: float) -> float:
+        r = self.remaining()
+        if r <= alarm:
+            raise self.error
+        return r

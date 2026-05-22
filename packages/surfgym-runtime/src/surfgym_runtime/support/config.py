@@ -24,15 +24,29 @@ class GatewayConfig(FrozenBaseModel):
     deadline_margin: float
 
 
+class ProcessTimeout(FrozenBaseModel):
+    allocate: float
+    release: float
+    screenshot: float
+    observe: float
+    execute: float
+
+    layer_gap: float
+
+
 class WavepoolConfig(FrozenBaseModel):
     host: str
     master_port: int
     master_workers: int
+
     instance_start_port: int
     instances: int
+    context_per_instance: int
 
     viewport_width: int
     viewport_height: int
+
+    process_timeout: ProcessTimeout
 
 
 class Config(FrozenBaseModel):
