@@ -23,12 +23,12 @@ from surfgym_contracts.protocol.agent_to_gateway import (
     StartRequest,
 )
 from surfgym_contracts.protocol.gateway_to_agent import ActionResponse, ImagePayload, RewardResponse
-from surfgym_contracts.protocol.instance_to_gateway import InteractiveTreeResponse
+from surfgym_contracts.protocol.upstream_to_gateway import InteractiveTreeResponse
 from surfgym_contracts.task import Action, Evaluation, Website
 from typing_extensions import Optional
 
-from surfgym_runtime.gateway.error import Deadline, InvalidRequest, RetryableError
-from surfgym_runtime.gateway.pool import GatewayPool
+from surfgym_runtime.gateway.error import Deadline, InvalidRequest, RetryableError, deadline_for
+from surfgym_runtime.gateway.transport import GatewayTransport
 from surfgym_runtime.support import TaskStore, WavepoolConfig, evaluate_page_rules, surfgym_logger
 
 _T = TypeVar("_T")
@@ -49,7 +49,7 @@ class Service:
         wavepool_config: WavepoolConfig,
     ) -> None:
         self.task_store = task_store
-        self.pool = GatewayPool(pool_workers=pool_workers, instance_config=wavepool_config)
+        self.pool = GatewayTransport(wavepool_config)
         self.viewport_width = wavepool_config.viewport_width
         self.viewport_height = wavepool_config.viewport_height
         self.process_timeout = wavepool_config.process_timeout
@@ -69,7 +69,6 @@ class Service:
         self._starting_sessions: set[int] = set()
 
     def open(self) -> None:
-        self.pool.start()
         self._release_worker = Thread(
             target=self._release_worker_loop,
             name="surfgym-release-worker",
@@ -81,7 +80,6 @@ class Service:
         self._release_queue.put(None)
         if self._release_worker is not None:
             self._release_worker.join(timeout=1.0)
-        self.pool.stop()
 
     def handle_request(self, request: Request, deadline_at: float):
         request = RequestAdapter.validate_python(request)
@@ -148,13 +146,13 @@ class Service:
         try:
             task = self.task_store.get(request.task_id)
 
-            snapshot = self._observe(
+            observations = self._observe(
                 deadline=deadline,
                 lease=lease,
                 evaluation=task.evaluation,
             )
 
-            reward = evaluate_page_rules(task.evaluation, snapshot.observation)
+            reward = evaluate_page_rules(task.evaluation, observations)
             return RewardResponse(
                 session_id=request.session_id,
                 task_id=request.task_id,
@@ -195,13 +193,11 @@ class Service:
         return self._run_with_retry(
             min_attempt_time=self.process_timeout.observe,
             deadline=d,
-            func=lambda: self.pool.get_snapshot(d, lease.instance_id, lease.port, evaluation),
+            func=lambda: self.pool.observe(d, lease.instance_id, lease.port, evaluation),
         )
 
     def _execute(self, deadline: Callable[[str], Deadline], lease: Lease, command: Command):
-        return self.pool.execute_browser_command(
-            deadline("execute"), lease.instance_id, lease.port, command
-        )
+        return self.pool.execute(deadline("execute"), lease.instance_id, lease.port, command)
 
     def _run_with_retry(
         self,
@@ -213,7 +209,7 @@ class Service:
         backoffs = jittered_backoff()
 
         while True:
-            deadline.alarm(min_attempt_time)
+            deadline.require_remaining(min_attempt_time)
 
             try:
                 return func()
@@ -291,10 +287,6 @@ def jittered_backoff():
         yield random.uniform(delay_min, delay_max)
         delay_min = delay_max
         delay_max = min(delay_max * 2, 8)
-
-
-def deadline_for(deadline_at: float) -> Callable[[str], Deadline]:
-    return lambda context: Deadline(deadline_at, context)
 
 
 def _normalize_value(value: float, *, source_size: int) -> int:

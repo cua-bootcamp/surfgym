@@ -11,6 +11,20 @@ class _FrozenBaseModel(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
 
+class AllocateResponse(_FrozenBaseModel):
+    instance_id: str
+    instance_host: str
+    instance_port: int
+
+
+class ErrorResponse(_FrozenBaseModel):
+    error_type: str
+    message: str
+    retryable: bool = False
+
+    # ###########
+
+
 class InstanceServerErrorType(str, Enum):
     INSTANCE_NOT_IDLE = "INSTANCE_NOT_IDLE"
     INSTANCE_IDLE = "INSTANCE_IDLE"
@@ -50,11 +64,6 @@ interactive_region_list_adapter = TypeAdapter(list[InteractiveRegion])
 
 class StatusResponse(_FrozenBaseModel):
     idle: bool
-
-
-class ErrorResponse(_FrozenBaseModel):
-    error_type: InstanceServerErrorType
-    message: str
 
 
 class MousePosition(_FrozenBaseModel):

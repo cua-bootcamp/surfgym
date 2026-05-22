@@ -9,12 +9,12 @@ from fastapi import Body, FastAPI
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 from surfgym_contracts import Action, Website
-from surfgym_contracts.protocol.gateway_to_instance import GetInstanceRequest
-from surfgym_contracts.protocol.instance_to_gateway import GetInstanceResponse, StatusResponse
+from surfgym_contracts.protocol.gateway_to_upstream import AllocateRequest
 from surfgym_contracts.protocol.master_to_gateway import (
     GetInstanceResponse as MasterGetInstanceResponse,
 )
 from surfgym_contracts.protocol.master_to_gateway import MasterServerErrorType
+from surfgym_contracts.protocol.upstream_to_gateway import GetInstanceResponse, StatusResponse
 from surfgym_runtime.wavepool.master.error import error_response
 
 parser = argparse.ArgumentParser()
@@ -60,7 +60,7 @@ class PortRegistry:
             )
 
         try:
-            request = GetInstanceRequest(websites=websites, setup=setup)
+            request = AllocateRequest(websites=websites, setup=setup)
             response = await self.client.post(
                 f"{self._get_base_url(port)}/get", json=request.model_dump(mode="json")
             )
@@ -218,7 +218,7 @@ port_registry = PortRegistry(args.instance_host, args.instance_start_port, args.
 
 @app.post("/get")
 async def get_instance(
-    request: Annotated[GetInstanceRequest, Body()],
+    request: Annotated[AllocateRequest, Body()],
 ):
     return await port_registry.allocate(request.websites, request.setup)
 

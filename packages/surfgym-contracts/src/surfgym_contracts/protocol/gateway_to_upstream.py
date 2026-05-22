@@ -9,6 +9,6 @@ class _FrozenBaseModel(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
 
-class GetInstanceRequest(_FrozenBaseModel):
+class AllocateRequest(_FrozenBaseModel):
     websites: list[Website] = Field(min_length=1)
     setup: Optional[list[Action]]

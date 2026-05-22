@@ -36,7 +36,7 @@ class RewardResponse(_BaseResponse):
     reward: float
 
 
-ErrorType: TypeAlias = Literal["TIMEOUT", "INVALID_REQUEST"]
+ErrorType: TypeAlias = Literal["TIMEOUT", "INVALID_REQUEST", "UPSTREAM"]
 
 
 class ErrorResponse(_BaseResponse):

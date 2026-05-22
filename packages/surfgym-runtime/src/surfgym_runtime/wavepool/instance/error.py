@@ -1,6 +1,6 @@
 from fastapi import status
 from fastapi.responses import JSONResponse
-from surfgym_contracts.protocol.instance_to_gateway import ErrorResponse, InstanceServerErrorType
+from surfgym_contracts.protocol.upstream_to_gateway import ErrorResponse, InstanceServerErrorType
 
 _status_code_map: dict[InstanceServerErrorType, int] = {
     InstanceServerErrorType.INSTANCE_NOT_IDLE: status.HTTP_500_INTERNAL_SERVER_ERROR,

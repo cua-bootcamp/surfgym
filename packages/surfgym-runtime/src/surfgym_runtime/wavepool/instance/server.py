@@ -10,8 +10,8 @@ from fastapi import Body, FastAPI
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 from surfgym_contracts.command import CommandAdapter
-from surfgym_contracts.protocol.gateway_to_instance import GetInstanceRequest
-from surfgym_contracts.protocol.instance_to_gateway import (
+from surfgym_contracts.protocol.gateway_to_upstream import AllocateRequest
+from surfgym_contracts.protocol.upstream_to_gateway import (
     GetInstanceResponse,
     InstanceServerErrorType,
     ScreenshotResponse,
@@ -62,7 +62,7 @@ app = FastAPI(lifespan=lifespan)
 
 @app.post("/get")
 async def get_instance(
-    request: Annotated[GetInstanceRequest, Body()],
+    request: Annotated[AllocateRequest, Body()],
 ):
     if not await instance.idle():
         return error_response(

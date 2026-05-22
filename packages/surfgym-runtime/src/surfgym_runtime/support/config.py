@@ -17,7 +17,6 @@ class GatewayConfig(FrozenBaseModel):
     port: int
     gateway_workers: int
     gateway_in_flight: int
-    pool_workers: int
 
     verl_timeout: float
     in_flight_timeout: float

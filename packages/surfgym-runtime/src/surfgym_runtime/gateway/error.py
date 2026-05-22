@@ -1,4 +1,5 @@
 import time
+from collections.abc import Callable
 
 from surfgym_contracts.protocol.gateway_to_agent import ErrorType
 
@@ -15,6 +16,11 @@ class InvalidRequest(GatewayError):
         super().__init__("INVALID_REQUEST", message)
 
 
+class UpstreamError(GatewayError):
+    def __init__(self, message: str) -> None:
+        super().__init__("UPSTREAM", message)
+
+
 class DeadlineExceeded(GatewayError):
     def __init__(self, message: str) -> None:
         super().__init__("TIMEOUT", message)
@@ -27,19 +33,27 @@ class RetryableError(Exception):
 
 
 class Deadline:
-    def __init__(self, deadline_at: float, context: str) -> None:
-        self.deadline_at = deadline_at
+    def __init__(self, expires_at: float, context: str) -> None:
+        self.expires_at = expires_at
         self.error = DeadlineExceeded(f"Deadline exceeded in {context}")
 
     def remaining(self) -> float:
-        return self.deadline_at - time.monotonic()
+        return self.expires_at - time.monotonic()
 
     def check(self) -> None:
         if self.remaining() <= 0:
             raise self.error
 
-    def alarm(self, alarm: float) -> float:
-        r = self.remaining()
-        if r <= alarm:
+    def require_remaining(self, required: float) -> None:
+        if self.remaining() <= required:
             raise self.error
-        return r
+
+    def timeout_for(self, max_timeout: float) -> float:
+        remaining = self.remaining()
+        if remaining <= 0:
+            raise self.error
+        return min(max_timeout, remaining)
+
+
+def deadline_for(deadline_at: float) -> Callable[[str], Deadline]:
+    return lambda context: Deadline(deadline_at, context)
