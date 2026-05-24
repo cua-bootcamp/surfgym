@@ -23,11 +23,16 @@ from surfgym_contracts.protocol.agent_to_gateway import (
     StartRequest,
 )
 from surfgym_contracts.protocol.gateway_to_agent import ActionResponse, ImagePayload, RewardResponse
-from surfgym_contracts.protocol.upstream_to_gateway import InteractiveTreeResponse
 from surfgym_contracts.task import Action, Evaluation, Website
 from typing_extensions import Optional
 
-from surfgym_runtime.gateway.error import Deadline, InvalidRequest, RetryableError, deadline_for
+from surfgym_runtime.gateway.error import (
+    Deadline,
+    GatewayError,
+    InvalidRequest,
+    RetryableError,
+    deadline_for,
+)
 from surfgym_runtime.gateway.transport import GatewayTransport
 from surfgym_runtime.support import TaskStore, WavepoolConfig, evaluate_page_rules, surfgym_logger
 
@@ -44,14 +49,11 @@ class Service:
     def __init__(
         self,
         *,
-        pool_workers: int,
         task_store: TaskStore,
         wavepool_config: WavepoolConfig,
     ) -> None:
         self.task_store = task_store
         self.pool = GatewayTransport(wavepool_config)
-        self.viewport_width = wavepool_config.viewport_width
-        self.viewport_height = wavepool_config.viewport_height
         self.process_timeout = wavepool_config.process_timeout
 
         # session_id -> (instance_id, port)
@@ -60,9 +62,7 @@ class Service:
         # release daemon
         self._release_queue: SimpleQueue[Lease | None] = SimpleQueue()
         self._release_worker: Thread | None = None
-        self._release_timeout = (
-            wavepool_config.process_timeout.release + self.process_timeout.layer_gap
-        )
+        self._release_timeout = wavepool_config.process_timeout.release
 
         # allocation lock
         self._session_lock = Lock()
@@ -96,15 +96,15 @@ class Service:
     def _handle_start(
         self, request: StartRequest, deadline: Callable[[str], Deadline]
     ) -> ActionResponse:
-        self._reserve_session_start(request.session_id)
+        self._reserve_session(request.session_id)
         lease = None
 
         try:
-            task = self.task_store.get(request.task_id)
+            task = self._get_task_safe(request.task_id)
             lease = self._allocate(deadline, task.website, task.setup)
 
             screenshot_b64, media_type = self._screenshot(deadline, lease)
-            self._commit_session_start(request.session_id, lease)
+            self._commit_session(request.session_id, lease)
 
             return ActionResponse(
                 session_id=request.session_id,
@@ -112,7 +112,7 @@ class Service:
                 image=ImagePayload(data=screenshot_b64, mimeType=media_type),
             )
         except Exception:
-            self._abort_session_start(request.session_id)
+            self._abort_session(request.session_id)
             if lease:
                 self._enqueue_release(lease)
             raise
@@ -142,10 +142,9 @@ class Service:
         self, request: RewardRequest, deadline: Callable[[str], Deadline]
     ) -> RewardResponse:
         lease = self._get_lease_safe(request.session_id)
+        task = self._get_task_safe(request.task_id)
 
         try:
-            task = self.task_store.get(request.task_id)
-
             observations = self._observe(
                 deadline=deadline,
                 lease=lease,
@@ -158,9 +157,10 @@ class Service:
                 task_id=request.task_id,
                 reward=reward,
             )
-        finally:
+        except Exception:
             self._enqueue_release(lease)
             self.active_sessions.pop(request.session_id, None)
+            raise
 
     def _allocate(
         self,
@@ -183,7 +183,6 @@ class Service:
             deadline=d,
             func=lambda: self.pool.screenshot(d, lease.instance_id, lease.port),
         )
-
         return draw_cursor_on_screenshot(screenshot_b64, int(x), int(y)), media_type
 
     def _observe(
@@ -197,7 +196,7 @@ class Service:
         )
 
     def _execute(self, deadline: Callable[[str], Deadline], lease: Lease, command: Command):
-        return self.pool.execute(deadline("execute"), lease.instance_id, lease.port, command)
+        self.pool.execute(deadline("execute"), lease.instance_id, lease.port, command)
 
     def _run_with_retry(
         self,
@@ -227,6 +226,12 @@ class Service:
             raise InvalidRequest(f"Session {session_id} does not exist")
         return lease
 
+    def _get_task_safe(self, task_id: str):
+        try:
+            return self.task_store.get(task_id)
+        except KeyError as exc:
+            raise InvalidRequest(f"Unknown task_id: {task_id}") from exc
+
     def _enqueue_release(self, lease: Lease) -> None:
         self._release_queue.put(lease)
 
@@ -239,25 +244,36 @@ class Service:
             try:
                 release_deadline = Deadline(time.monotonic() + self._release_timeout, "release")
                 self.pool.release(release_deadline, lease.instance_id, lease.port)
+            except GatewayError as exc:
+                surfgym_logger.warning(
+                    (
+                        "Failed to release: instance_id=%s port=%s",
+                        "Error Detail: error_type=%s message=%s",
+                    ),
+                    lease.instance_id,
+                    lease.port,
+                    exc.error_type,
+                    exc.message,
+                )
             except Exception:
                 surfgym_logger.exception(
-                    "Failed to release lease: instance_id=%s port=%s",
+                    "Unexpected release worker failure: instance_id=%s port=%s",
                     lease.instance_id,
                     lease.port,
                 )
 
-    def _reserve_session_start(self, session_id: int) -> None:
+    def _reserve_session(self, session_id: int) -> None:
         with self._session_lock:
             if session_id in self.active_sessions or session_id in self._starting_sessions:
                 raise InvalidRequest(f"Session {session_id} already exists")
             self._starting_sessions.add(session_id)
 
-    def _commit_session_start(self, session_id: int, lease: Lease) -> None:
+    def _commit_session(self, session_id: int, lease: Lease) -> None:
         with self._session_lock:
             self._starting_sessions.discard(session_id)
             self.active_sessions[session_id] = lease
 
-    def _abort_session_start(self, session_id: int) -> None:
+    def _abort_session(self, session_id: int) -> None:
         with self._session_lock:
             self._starting_sessions.discard(session_id)
 
@@ -277,9 +293,6 @@ class Service:
 ################################################
 
 
-NORMALIZED_COORD_SPACE = 1000
-
-
 def jittered_backoff():
     delay_min = 0.0
     delay_max = 1.0
@@ -287,60 +300,6 @@ def jittered_backoff():
         yield random.uniform(delay_min, delay_max)
         delay_min = delay_max
         delay_max = min(delay_max * 2, 8)
-
-
-def _normalize_value(value: float, *, source_size: int) -> int:
-    if source_size <= 0:
-        raise ValueError(f"source_size must be positive, got {source_size}")
-
-    normalized = round((float(value) / float(source_size)) * NORMALIZED_COORD_SPACE)
-    return max(0, min(NORMALIZED_COORD_SPACE, normalized))
-
-
-def _normalize_point(
-    x: float,
-    y: float,
-    *,
-    viewport_width: int,
-    viewport_height: int,
-) -> tuple[int, int]:
-    return (
-        _normalize_value(x, source_size=viewport_width),
-        _normalize_value(y, source_size=viewport_height),
-    )
-
-
-def parse_interactive_tree_text(
-    response: InteractiveTreeResponse,
-    *,
-    viewport_width: int,
-    viewport_height: int,
-) -> str:
-    lines: list[str] = []
-
-    mouse_position = response.mouse_position
-    mouse_x, mouse_y = _normalize_point(
-        mouse_position.x,
-        mouse_position.y,
-        viewport_width=viewport_width,
-        viewport_height=viewport_height,
-    )
-    lines.append(f"mouse_position: ({mouse_x}, {mouse_y})")
-
-    for region in response.regions:
-        (left, top, width, height) = region.bbox
-
-        (left, top) = _normalize_point(
-            left, top, viewport_width=viewport_width, viewport_height=viewport_height
-        )
-        (width, height) = _normalize_point(
-            width, height, viewport_width=viewport_width, viewport_height=viewport_height
-        )
-
-        lines.append(
-            f"role: {region.role}, text: {region.visible_text}, bbox: [{left}, {top}, {width}, {height}]"
-        )
-    return "\n".join(lines)
 
 
 def draw_cursor_on_screenshot(
@@ -369,3 +328,59 @@ def draw_cursor_on_screenshot(
         image.save(output, format="PNG")
 
     return base64.b64encode(output.getvalue()).decode("ascii")
+
+
+# NORMALIZED_COORD_SPACE = 1000
+
+# def _normalize_value(value: float, *, source_size: int) -> int:
+#     if source_size <= 0:
+#         raise ValueError(f"source_size must be positive, got {source_size}")
+
+#     normalized = round((float(value) / float(source_size)) * NORMALIZED_COORD_SPACE)
+#     return max(0, min(NORMALIZED_COORD_SPACE, normalized))
+
+
+# def _normalize_point(
+#     x: float,
+#     y: float,
+#     *,
+#     viewport_width: int,
+#     viewport_height: int,
+# ) -> tuple[int, int]:
+#     return (
+#         _normalize_value(x, source_size=viewport_width),
+#         _normalize_value(y, source_size=viewport_height),
+#     )
+
+
+# def parse_interactive_tree_text(
+#     response: InteractiveTreeResponse,
+#     *,
+#     viewport_width: int,
+#     viewport_height: int,
+# ) -> str:
+#     lines: list[str] = []
+
+#     mouse_position = response.mouse_position
+#     mouse_x, mouse_y = _normalize_point(
+#         mouse_position.x,
+#         mouse_position.y,
+#         viewport_width=viewport_width,
+#         viewport_height=viewport_height,
+#     )
+#     lines.append(f"mouse_position: ({mouse_x}, {mouse_y})")
+
+#     for region in response.regions:
+#         (left, top, width, height) = region.bbox
+
+#         (left, top) = _normalize_point(
+#             left, top, viewport_width=viewport_width, viewport_height=viewport_height
+#         )
+#         (width, height) = _normalize_point(
+#             width, height, viewport_width=viewport_width, viewport_height=viewport_height
+#         )
+
+#         lines.append(
+#             f"role: {region.role}, text: {region.visible_text}, bbox: [{left}, {top}, {width}, {height}]"
+#         )
+#     return "\n".join(lines)

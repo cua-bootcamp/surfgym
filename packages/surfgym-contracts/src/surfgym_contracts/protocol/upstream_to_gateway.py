@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 from enum import Enum
+from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, TypeAdapter
+from pydantic import BaseModel, ConfigDict
 
 from surfgym_contracts.task import Observation
 
@@ -17,8 +18,31 @@ class AllocateResponse(_FrozenBaseModel):
     instance_port: int
 
 
+class ScreenshotResponse(_FrozenBaseModel):
+    snapshot_b64: str
+    media_type: str
+    x: float
+    y: float
+
+
+class ObservationResponse(_FrozenBaseModel):
+    observation: list[Observation]
+
+
+class IdleResponse(_FrozenBaseModel):
+    idle: bool
+
+
+class ExecuteResponse(_FrozenBaseModel):
+    pass
+
+
+class ReleaseResponse(_FrozenBaseModel):
+    pass
+
+
 class ErrorResponse(_FrozenBaseModel):
-    error_type: str
+    error_type: Literal["NO_INSTANCE_AVAILABLE", "UNKNOWN_INSTANCE_RESPONSE"]
     message: str
     retryable: bool = False
 
@@ -37,35 +61,20 @@ class GetInstanceResponse(_FrozenBaseModel):
     instance_id: str
 
 
-class ScreenshotResponse(_FrozenBaseModel):
-    snapshot_b64: str
-    media_type: str
-    x: float
-    y: float
+# class InteractiveTreeResponse(_FrozenBaseModel):
+#     mouse_position: MousePosition
+#     regions: list[InteractiveRegion]
 
 
-class ObservationResponse(_FrozenBaseModel):
-    observation: list[Observation]
+# class InteractiveRegion(_FrozenBaseModel):
+#     role: str
+#     visible_text: str
+#     bbox: tuple[float, float, float, float]  # [left, top, width, height]
 
 
-class InteractiveTreeResponse(_FrozenBaseModel):
-    mouse_position: MousePosition
-    regions: list[InteractiveRegion]
+# interactive_region_list_adapter = TypeAdapter(list[InteractiveRegion])
 
 
-class InteractiveRegion(_FrozenBaseModel):
-    role: str
-    visible_text: str
-    bbox: tuple[float, float, float, float]  # [left, top, width, height]
-
-
-interactive_region_list_adapter = TypeAdapter(list[InteractiveRegion])
-
-
-class StatusResponse(_FrozenBaseModel):
-    idle: bool
-
-
-class MousePosition(_FrozenBaseModel):
-    x: int
-    y: int
+# class MousePosition(_FrozenBaseModel):
+#     x: int
+#     y: int

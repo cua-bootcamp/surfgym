@@ -13,9 +13,9 @@ from surfgym_contracts.command import CommandAdapter
 from surfgym_contracts.protocol.gateway_to_upstream import AllocateRequest
 from surfgym_contracts.protocol.upstream_to_gateway import (
     GetInstanceResponse,
+    IdleResponse,
     InstanceServerErrorType,
     ScreenshotResponse,
-    StatusResponse,
 )
 
 from surfgym_runtime.wavepool.instance.error import error_response
@@ -60,7 +60,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 
-@app.post("/get")
+@app.post("/allocate")
 async def get_instance(
     request: Annotated[AllocateRequest, Body()],
 ):
@@ -104,6 +104,12 @@ async def reset_instance(instance_id: str):
     await instance.delete()
 
 
+@app.post("/force_reset")
+async def force_reset():
+    if not await instance.idle():
+        await instance.delete()
+
+
 @app.get(
     "/screenshot",
 )
@@ -145,17 +151,11 @@ async def execute_instance(
 
 @app.get("/idle")
 async def get_status():
-    return StatusResponse(
+    return IdleResponse(
         idle=await instance.idle(),
     )
 
 
-@app.post("/force_reset")
-async def force_reset():
-    if not await instance.idle():
-        await instance.delete()
-
-
-if __name__ == "__main__":
+ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     uvicorn.run(app, host="0.0.0.0", port=args.port)

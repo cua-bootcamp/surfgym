@@ -3,6 +3,10 @@ from collections.abc import Callable
 
 from surfgym_contracts.protocol.gateway_to_agent import ErrorType
 
+#########################################
+#              Known Error              #
+#########################################
+
 
 class GatewayError(Exception):
     def __init__(self, error_type: ErrorType, message: str) -> None:
@@ -26,10 +30,14 @@ class DeadlineExceeded(GatewayError):
         super().__init__("TIMEOUT", message)
 
 
-class RetryableError(Exception):
+class RetryableError(GatewayError):
     def __init__(self, message: str) -> None:
-        super().__init__(message)
-        self.message = message
+        super().__init__("RETRYABLE", message)
+
+
+#######################################
+#                Deadline             #
+#######################################
 
 
 class Deadline:

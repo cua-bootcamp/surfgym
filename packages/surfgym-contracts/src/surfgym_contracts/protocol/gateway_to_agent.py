@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import Literal, TypeAlias
+from typing import Any, Literal, TypeAlias
 
 from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
 
@@ -36,10 +36,12 @@ class RewardResponse(_BaseResponse):
     reward: float
 
 
-ErrorType: TypeAlias = Literal["TIMEOUT", "INVALID_REQUEST", "UPSTREAM"]
+ErrorType: TypeAlias = Literal["TIMEOUT", "INVALID_REQUEST", "UPSTREAM", "RETRYABLE", "UNEXPECTED"]
 
 
-class ErrorResponse(_BaseResponse):
+class ErrorResponse(_FrozenBaseModel):
+    session_id: Any
+    task_id: Any
     status: Literal[ResponseStatus.ERROR] = ResponseStatus.ERROR
     error_type: ErrorType
     message: str

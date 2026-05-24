@@ -4,6 +4,8 @@ from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from surfgym_runtime.support import surfgym_logger
+
 
 class FrozenBaseModel(BaseModel):
     model_config = ConfigDict(
@@ -40,10 +42,6 @@ class WavepoolConfig(FrozenBaseModel):
 
     instance_start_port: int
     instances: int
-    context_per_instance: int
-
-    viewport_width: int
-    viewport_height: int
 
     process_timeout: ProcessTimeout
 
@@ -54,3 +52,22 @@ class Config(FrozenBaseModel):
 
     gateway_config: GatewayConfig = Field(alias="gateway")
     wavepool_config: WavepoolConfig = Field(alias="wavepool")
+
+
+def _validate_config(config: Config) -> None:
+    gateway_config = config.gateway_config
+    if gateway_config.gateway_workers < gateway_config.gateway_in_flight:
+        surfgym_logger.warning(
+            "Gateway max_workers (%s) is smaller than max_in_flight (%s). "
+            "Requests may acquire in-flight slots faster than executor workers "
+            "can process them, which can lead to queued HTTP sessions timing out. "
+            "Consider setting max_workers >= max_in_flight.",
+            gateway_config.gateway_workers,
+            gateway_config.gateway_in_flight,
+        )
+
+
+def load_config(config_path: Path) -> Config:
+    config = Config.model_validate_json(config_path.read_text())
+    _validate_config(config)
+    return config

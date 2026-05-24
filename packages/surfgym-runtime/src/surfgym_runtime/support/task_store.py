@@ -24,7 +24,7 @@ class TaskStore:
         key = str(task_id)
         if key not in self._tasks_by_id:
             raise KeyError(f"Unknown task_id: {key}")
-        return self._tasks_by_id[key].model_copy(deep=True)
+        return self._tasks_by_id[key]
 
     def __contains__(self, task_id: object) -> bool:
         return str(task_id) in self._tasks_by_id
