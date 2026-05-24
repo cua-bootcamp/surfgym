@@ -46,4 +46,7 @@ def setup_logging(logger: logging.Logger, log_path: Path) -> logging.Logger:
 
 
 surfgym_logger = get_logger("surfgym.gateway")
-wavepool_logger = get_logger("surfgym.wavepool")
+
+deploy_logger = get_logger("surfgym.wavepool.deploy")
+master_logger = get_logger("surfgym.wavepool.master")
+instance_logger = get_logger("surfgym.wavepool.instance")
