@@ -104,10 +104,10 @@ def create_app(
             )
         except GatewayError as exc:
             surfgym_logger.warning(
-                (
-                    "Gateway request failed: session_id=%s task_id=%s op=%s",
-                    "Error Detail: error_type=%s message=%s",
-                ),
+                """
+Gateway request failed: session_id=%s task_id=%s op=%s
+Error Detail: error_type=%s message=%s
+""".strip(),
                 request.session_id,
                 request.task_id,
                 request.op,

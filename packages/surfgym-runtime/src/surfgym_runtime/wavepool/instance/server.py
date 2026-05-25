@@ -14,6 +14,8 @@ from surfgym_contracts.protocol.gateway_to_upstream import AllocateRequest
 from surfgym_contracts.protocol.upstream_to_gateway import (
     GetInstanceResponse,
     IdleResponse,
+    ReleaseResponse,
+    ExecuteResponse,
     InstanceServerErrorType,
     ScreenshotResponse,
 )
@@ -102,11 +104,15 @@ async def reset_instance(instance_id: str):
 
     await instance.delete()
 
+    return ReleaseResponse()
+
 
 @app.post("/force_reset")
 async def force_reset():
     if not await instance.idle():
         await instance.delete()
+
+    return ReleaseResponse()
 
 
 @app.get(
@@ -145,10 +151,12 @@ async def execute_instance(
             msg=f"Invalid command data.\n{exc}",
         )
 
-    return await instance.execute(command)
+    await instance.execute(command)
+
+    return ExecuteResponse()
 
 
-@app.get("/idle")
+@app.post("/idle")
 async def get_status():
     return IdleResponse(
         idle=await instance.idle(),

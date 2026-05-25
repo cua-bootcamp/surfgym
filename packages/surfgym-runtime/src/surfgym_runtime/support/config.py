@@ -4,7 +4,7 @@ from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from surfgym_runtime.support import surfgym_logger
+from surfgym_runtime.support.logger import setup_logging, surfgym_logger
 
 
 class FrozenBaseModel(BaseModel):
@@ -69,5 +69,6 @@ def _validate_config(config: Config) -> None:
 
 def load_config(config_path: Path) -> Config:
     config = Config.model_validate_json(config_path.read_text())
+    setup_logging(surfgym_logger, config.log_path)
     _validate_config(config)
     return config

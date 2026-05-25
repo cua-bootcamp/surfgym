@@ -157,10 +157,9 @@ class Service:
                 task_id=request.task_id,
                 reward=reward,
             )
-        except Exception:
+        finally:
             self._enqueue_release(lease)
             self.active_sessions.pop(request.session_id, None)
-            raise
 
     def _allocate(
         self,
@@ -246,10 +245,10 @@ class Service:
                 self.pool.release(release_deadline, lease.instance_id, lease.port)
             except GatewayError as exc:
                 surfgym_logger.warning(
-                    (
-                        "Failed to release: instance_id=%s port=%s",
-                        "Error Detail: error_type=%s message=%s",
-                    ),
+                    """
+Failed to release: instance_id=%s port=%s
+Error Detail: error_type=%s message=%s
+""".strip(),
                     lease.instance_id,
                     lease.port,
                     exc.error_type,

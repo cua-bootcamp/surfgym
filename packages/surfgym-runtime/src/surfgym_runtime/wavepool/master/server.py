@@ -1,14 +1,22 @@
 import argparse
 import asyncio
 from contextlib import asynccontextmanager
+from functools import wraps
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, Awaitable, Callable, ParamSpec, TypeVar
 
 import uvicorn
-from fastapi import Body, FastAPI
+from fastapi import Body, FastAPI, status
+from fastapi.responses import JSONResponse
 from surfgym_contracts.protocol.gateway_to_upstream import AllocateRequest
+from surfgym_contracts.protocol.upstream_to_gateway import ErrorResponse, UpstreamErrorType
+
 from surfgym_runtime.support import WavepoolConfig, load_config, master_logger, setup_logging
+from surfgym_runtime.wavepool.master.error import MasterError
 from surfgym_runtime.wavepool.master.service import MasterService, PortRegistry
+
+_P = ParamSpec("_P")
+_T = TypeVar("_T")
 
 
 def create_app(wavepool_config: WavepoolConfig) -> FastAPI:
@@ -28,9 +36,11 @@ def create_app(wavepool_config: WavepoolConfig) -> FastAPI:
             recover_task.cancel()
             await master.close()
 
+    @handle_master_errors
     async def allocate(request: Annotated[AllocateRequest, Body()]):
         return await master.allocate(request)
 
+    @handle_master_errors
     async def release(instance_id: str, instance_port: int):
         return await master.release(instance_id, instance_port)
 
@@ -43,6 +53,59 @@ def create_app(wavepool_config: WavepoolConfig) -> FastAPI:
     app.add_api_route("/release", release, methods=["POST"])
 
     return app
+
+
+def handle_master_errors(
+    func: Callable[_P, Awaitable[_T]],
+) -> Callable[_P, Awaitable[_T | JSONResponse]]:
+    @wraps(func)
+    async def wrapper(*args: _P.args, **kwargs: _P.kwargs) -> _T | JSONResponse:
+        op = func.__name__
+
+        try:
+            return await func(*args, **kwargs)
+        except MasterError as exc:
+            master_logger.warning(
+                "Master request failed: op=%s error_type=%s retryable=%s message=%s",
+                op,
+                exc.error_type,
+                exc.retryable,
+                exc.message,
+            )
+            return _error_response(
+                status_code=exc.status_code,
+                error_type=exc.error_type,
+                message=exc.message,
+                retryable=exc.retryable,
+            )
+        except Exception:
+            master_logger.exception("Unexpected master request failure: op=%s", op)
+            return _error_response(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                error_type="UNEXPECTED",
+                message=f"Unexpected master error during {op}",
+                retryable=True,
+            )
+
+    return wrapper
+
+
+def _error_response(
+    *,
+    status_code: int,
+    error_type: UpstreamErrorType,
+    message: str,
+    retryable: bool,
+) -> JSONResponse:
+    payload = ErrorResponse(
+        error_type=error_type,
+        message=message,
+        retryable=retryable,
+    )
+    return JSONResponse(
+        status_code=status_code,
+        content=payload.model_dump(mode="json"),
+    )
 
 
 def _parse_args() -> argparse.Namespace:

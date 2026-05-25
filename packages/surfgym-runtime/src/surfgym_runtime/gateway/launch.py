@@ -4,7 +4,7 @@ from pathlib import Path
 import uvicorn
 
 from surfgym_runtime.gateway.server import create_app
-from surfgym_runtime.support import TaskStore, load_config, setup_logging, surfgym_logger
+from surfgym_runtime.support import TaskStore, load_config
 
 
 def _parse_args():
@@ -16,9 +16,7 @@ def _parse_args():
 
 def launch() -> None:
     args = _parse_args()
-
     config = load_config(args.config_path)
-    setup_logging(surfgym_logger, config.log_path)
     task_store = TaskStore.from_file(config.task_file_path)
 
     uvicorn.run(
