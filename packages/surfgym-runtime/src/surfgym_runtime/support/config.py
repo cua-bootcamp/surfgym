@@ -38,7 +38,6 @@ class ProcessTimeout(FrozenBaseModel):
 class WavepoolConfig(FrozenBaseModel):
     host: str
     master_port: int
-    master_workers: int
 
     instance_start_port: int
     instances: int

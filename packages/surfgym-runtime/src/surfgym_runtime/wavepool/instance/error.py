@@ -1,19 +1,45 @@
 from fastapi import status
-from fastapi.responses import JSONResponse
-from surfgym_contracts.protocol.upstream_to_gateway import ErrorResponse, InstanceServerErrorType
-
-_status_code_map: dict[InstanceServerErrorType, int] = {
-    InstanceServerErrorType.INSTANCE_NOT_IDLE: status.HTTP_500_INTERNAL_SERVER_ERROR,
-    InstanceServerErrorType.INSTANCE_IDLE: status.HTTP_500_INTERNAL_SERVER_ERROR,
-    InstanceServerErrorType.INVALID_COMMAND: status.HTTP_400_BAD_REQUEST,
-    InstanceServerErrorType.INVALID_INSTANCE_ID: status.HTTP_400_BAD_REQUEST,
-    InstanceServerErrorType.CREATE_FAILED: status.HTTP_500_INTERNAL_SERVER_ERROR,
-}
+from surfgym_contracts.protocol.upstream_to_gateway import InstanceErrorType
 
 
-def error_response(error_type: InstanceServerErrorType, msg: str) -> JSONResponse:
-    payload = ErrorResponse(error_type=error_type, message=msg)
-    return JSONResponse(
-        status_code=_status_code_map.get(error_type, status.HTTP_500_INTERNAL_SERVER_ERROR),
-        content=payload.model_dump(),
-    )
+class InstanceError(Exception):
+    def __init__(
+        self, error_type: InstanceErrorType, message: str, status_code: int, retryable: bool = False
+    ) -> None:
+        super().__init__(message)
+        self.error_type: InstanceErrorType = error_type
+        self.message = message
+        self.retryable = retryable
+        self.status_code = status_code
+
+
+class UnexpectedError(InstanceError):
+    def __init__(self, message: str):
+        super().__init__(
+            "INSTANCE_UNEXPECTED", message, status.HTTP_500_INTERNAL_SERVER_ERROR, False
+        )
+
+
+class InstanceNotIdle(InstanceError):
+    def __init__(self, message: str) -> None:
+        super().__init__("INSTANCE_NOT_IDLE", message, status.HTTP_409_CONFLICT, True)
+
+
+class InstanceIdle(InstanceError):
+    def __init__(self, message: str) -> None:
+        super().__init__("INSTANCE_IDLE", message, status.HTTP_409_CONFLICT, False)
+
+
+class InvalidCommand(InstanceError):
+    def __init__(self, message: str) -> None:
+        super().__init__("INVALID_COMMAND", message, status.HTTP_400_BAD_REQUEST, False)
+
+
+class InvalidInstanceId(InstanceError):
+    def __init__(self, message: str) -> None:
+        super().__init__("INVALID_INSTANCE_ID", message, status.HTTP_400_BAD_REQUEST, False)
+
+
+class CreateFailed(InstanceError):
+    def __init__(self, message: str) -> None:
+        super().__init__("CREATE_FAILED", message, status.HTTP_500_INTERNAL_SERVER_ERROR, True)

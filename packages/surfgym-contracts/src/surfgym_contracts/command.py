@@ -162,8 +162,8 @@ class ObserveCommand(_BaseCommand):
     evaluation: Evaluation
 
 
-class InteractiveTreeCommand(_BaseCommand):
-    command: Literal["interactive_tree"] = "interactive_tree"
+# class InteractiveTreeCommand(_BaseCommand):
+#     command: Literal["interactive_tree"] = "interactive_tree"
 
 
 class SleepCommand(_BaseCommand):
@@ -191,7 +191,7 @@ CommandPayload: TypeAlias = Union[
     SleepCommand,
     ObserveCommand,
     ConsoleCommand,
-    InteractiveTreeCommand,
+    # InteractiveTreeCommand,
 ]
 
 Command = Annotated[

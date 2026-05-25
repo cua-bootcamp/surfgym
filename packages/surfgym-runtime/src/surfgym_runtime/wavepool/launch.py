@@ -32,9 +32,10 @@ class ManagedProcess:
 
 
 class WavepoolSupervisor:
-    def __init__(self, *, config: WavepoolConfig, config_path: Path) -> None:
+    def __init__(self, *, config: WavepoolConfig, config_path: Path, log_path: Path) -> None:
         self.config = config
         self.config_path = config_path.resolve()
+        self.log_path = log_path.resolve()
 
         self.processes: list[ManagedProcess] = []
         self._stream_threads: list[threading.Thread] = []
@@ -157,8 +158,12 @@ class WavepoolSupervisor:
                     sys.executable,
                     "-m",
                     "surfgym_runtime.wavepool.instance.server",
+                    "--host",
+                    str(self.config.host),
                     "--port",
                     str(port),
+                    "--log-path",
+                    str(self.log_path),
                 ],
             )
 
@@ -274,8 +279,7 @@ def launch() -> None:
     setup_logging(deploy_logger, config.log_path)
 
     supervisor = WavepoolSupervisor(
-        config=config.wavepool_config,
-        config_path=args.config_path,
+        config=config.wavepool_config, config_path=args.config_path, log_path=config.log_path
     )
 
     try:

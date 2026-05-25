@@ -22,7 +22,7 @@ def setup_logging(logger: logging.Logger, log_path: Path) -> logging.Logger:
     console_handler.setFormatter(logging.Formatter("[%(name)s] %(levelname)s: %(message)s"))
 
     run_id = datetime.now().strftime("%Y%m%d-%H%M%S")
-    log_file_path = log_path / run_id / "gateway.log"
+    log_file_path = log_path / run_id / logger.name
     log_file_path.parent.mkdir(parents=True, exist_ok=True)
 
     file_handler = RotatingFileHandler(

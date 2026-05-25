@@ -44,7 +44,18 @@ class ReleaseResponse(_FrozenBaseModel):
     pass
 
 
-UpstreamErrorType: TypeAlias = Literal["OUT_OF_INSTANCE", "UNEXPECTED", "INSTANCE_REQUEST_FAILED"]
+InstanceErrorType: TypeAlias = Literal[
+    "INSTANCE_UNEXPECTED",
+    "INSTANCE_NOT_IDLE",
+    "INSTNACE_IDLE",
+    "INVALID_INSTANCE_ID",
+    "CREATE_FAILED",
+    "INSTANCE_IDLE",
+    "INVALID_COMMAND",
+]
+UpstreamErrorType: TypeAlias = (
+    Literal["OUT_OF_INSTANCE", "UNEXPECTED", "INSTANCE_REQUEST_FAILED"] | InstanceErrorType
+)
 
 
 class ErrorResponse(_FrozenBaseModel):

@@ -8,7 +8,6 @@ from pydantic import (
     Field,
     TypeAdapter,
     field_validator,
-    model_validator,
 )
 
 
@@ -47,9 +46,6 @@ class DomRule(RuleCore):
     target: Literal["text", "html", "url", "title", "attr"] = "text"
     selector: Optional[str] = None
     attr: Optional[str] = None
-
-    @model_validator(mode="after")
-    def validate_shape(self) -> "DomRule": ...
 
 
 def fill_rule_mode(value: object) -> object:

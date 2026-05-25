@@ -19,13 +19,13 @@ _P = ParamSpec("_P")
 _T = TypeVar("_T")
 
 
-def create_app(wavepool_config: WavepoolConfig) -> FastAPI:
+def create_app(config: WavepoolConfig) -> FastAPI:
     registry = PortRegistry(
-        instance_start_port=wavepool_config.instance_start_port,
-        instance_n=wavepool_config.instances,
+        instance_start_port=config.instance_start_port,
+        instance_n=config.instances,
     )
 
-    master = MasterService(registry, wavepool_config)
+    master = MasterService(registry, config)
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):

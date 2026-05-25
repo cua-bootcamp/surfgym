@@ -1,6 +1,5 @@
 import asyncio
 import math
-import os
 from collections import defaultdict
 from dataclasses import dataclass
 from io import BytesIO
@@ -11,16 +10,18 @@ from PIL import Image
 from playwright.async_api import Page, async_playwright
 from surfgym_contracts.command import Command, MouseButtonType, PlaywrightKey
 from surfgym_contracts.protocol.upstream_to_gateway import (
-    InteractiveRegion,
-    InteractiveTreeResponse,
-    MousePosition,
     ObservationResponse,
-    interactive_region_list_adapter,
 )
 from surfgym_contracts.task import Action, ConsoleRule, DomRule, Evaluation, Observation, Website
 from typing_extensions import assert_never
 
-from surfgym_runtime.support import logger
+from surfgym_runtime.support import instance_logger
+from surfgym_runtime.wavepool.instance.error import (
+    CreateFailed,
+    InstanceError,
+    InvalidCommand,
+    UnexpectedError,
+)
 
 
 @dataclass(frozen=True)
@@ -67,9 +68,8 @@ class PlaywrightController:
         await page.wait_for_timeout(duration_ms)
 
     async def _ensure_page_ready(self, page: Page) -> None:
-        assert page is not None
         if page.is_closed():
-            raise RuntimeError("Page is closed")
+            raise UnexpectedError("Page is closed")
 
     async def get_screenshot(self, page: Page, path: str | None = None) -> bytes:
         await self._ensure_page_ready(page)
@@ -161,11 +161,11 @@ class PlaywrightController:
         for key in reversed(keys):
             await page.keyboard.up(key)
 
-    async def get_interactive_rects(self, page: Page) -> list[InteractiveRegion]:
-        await self._ensure_page_ready(page)
-        return interactive_region_list_adapter.validate_python(
-            await page.evaluate("Surfgym.getInteractiveRects();")
-        )
+    # async def get_interactive_rects(self, page: Page) -> list[InteractiveRegion]:
+    #     await self._ensure_page_ready(page)
+    #     return interactive_region_list_adapter.validate_python(
+    #         await page.evaluate("Surfgym.getInteractiveRects();")
+    #     )
 
     async def get_console_observation(
         self, page: Page, console_rules: list[ConsoleRule]
@@ -219,38 +219,45 @@ class PlaywrightInstance:
         self.controller = PlaywrightController()
 
     async def create(self, id: str, websites: list[Website], setup: Optional[list[Action]]) -> None:
-        self.id = id
-
-        self.p = await async_playwright().start()
-        if os.name == "nt":
-            self.browser = await self.p.chromium.launch(channel="chrome")
-        else:
+        try:
+            self.id = id
+            self.p = await async_playwright().start()
             self.browser = await self.p.chromium.launch()
+            self.context = await self.browser.new_context(
+                viewport={"width": self.viewport_width, "height": self.viewport_height}
+            )
 
-        self.context = await self.browser.new_context(
-            viewport={"width": self.viewport_width, "height": self.viewport_height}
-        )
+            layouts = _build_page_layouts(
+                page_count=len(websites),
+                total_width=self.viewport_width,
+                total_height=self.viewport_height,
+            )
 
-        layouts = _build_page_layouts(
-            page_count=len(websites),
-            total_width=self.viewport_width,
-            total_height=self.viewport_height,
-        )
+            for website, layout in zip(websites, layouts):
+                page = await self.context.new_page()
+                await self.controller.on_new_page(page, layout)
+                await self.controller.visit_page(page, website.url)
 
-        for website, layout in zip(websites, layouts):
-            page = await self.context.new_page()
-            await self.controller.on_new_page(page, layout)
-            await self.controller.visit_page(page, website.url)
+                self.pages[website.website_id] = page
+                self.page_layouts[website.website_id] = layout
+                if self.active_page_id is None:
+                    self.active_page_id = website.website_id
 
-            self.pages[website.website_id] = page
-            self.page_layouts[website.website_id] = layout
-            if self.active_page_id is None:
-                self.active_page_id = website.website_id
+            if setup:
+                for action in setup:
+                    page = self.pages[action.website_id]
+                    await page.evaluate(action.script)
+        except Exception as exc:
+            try:
+                await self.delete()
+            except Exception:
+                instance_logger.exception(
+                    "Failed to clean up partially created Playwright instance"
+                )
 
-        if setup:
-            for action in setup:
-                page = self.pages[action.website_id]
-                await page.evaluate(action.script)
+            raise CreateFailed(
+                f"Playwright instance creation failed: {type(exc).__name__}: {exc}"
+            ) from exc
 
     async def delete(self) -> None:
         for page in self.pages.values():
@@ -288,123 +295,133 @@ class PlaywrightInstance:
         if not any(states.values()):
             return False
 
-        raise RuntimeError(f"Inconsistent PlaywrightInstance state: {states}")
+        raise UnexpectedError(f"Inconsistent PlaywrightInstance state: {states}")
 
     async def screenshot(self) -> tuple[BytesIO, float, float]:
-        await asyncio.sleep(0.8)
-        canvas = Image.new(
-            "RGB",
-            (self.viewport_width, self.viewport_height),
-            color=(255, 255, 255),
-        )
+        try:
+            await asyncio.sleep(1)
+            canvas = Image.new(
+                "RGB",
+                (self.viewport_width, self.viewport_height),
+                color=(255, 255, 255),
+            )
 
-        for website_id, page in self.pages.items():
-            layout = self.page_layouts[website_id]
+            for website_id, page in self.pages.items():
+                layout = self.page_layouts[website_id]
 
-            screenshot_bytes = await self.controller.get_screenshot(page)
-            page_image = Image.open(BytesIO(screenshot_bytes)).convert("RGB")
+                screenshot_bytes = await self.controller.get_screenshot(page)
+                page_image = Image.open(BytesIO(screenshot_bytes)).convert("RGB")
 
-            canvas.paste(page_image, (layout.x, layout.y))
+                canvas.paste(page_image, (layout.x, layout.y))
 
-        output = BytesIO()
-        canvas.save(output, format="PNG")
-        output.seek(0)
+            output = BytesIO()
+            canvas.save(output, format="PNG")
+            output.seek(0)
 
-        screen_cursor = self._page_to_screen_cursor()
-        return output, screen_cursor.x, screen_cursor.y
+            screen_cursor = self._page_to_screen_cursor()
+            return output, screen_cursor.x, screen_cursor.y
+        except InstanceError:
+            raise
+        except Exception as exc:
+            raise UnexpectedError(f"Screenshot failed: {type(exc).__name__}: {exc}") from exc
 
     async def execute(self, command: Command):
-        if self.active_page_id is None:
-            raise RuntimeError("active_page_id should be initialized at this time")
-        page = self.pages[self.active_page_id]
+        try:
+            page = self._active_page()
 
-        match command.command:
-            case "mouse_move":
-                page_cursor = self._screen_to_page_cursor(command.x, command.y)
-                page = self.pages[self.active_page_id]
-                return await self.controller.hover_coords(page, page_cursor)
+            match command.command:
+                case "mouse_move":
+                    page_cursor = self._screen_to_page_cursor(command.x, command.y)
+                    page = self._active_page()
+                    return await self.controller.hover_coords(page, page_cursor)
 
-            case "mouse_click":
-                page_cursor = self._screen_to_page_cursor(command.x, command.y)
-                page = self.pages[self.active_page_id]
-                return await self.controller.click_coords(
-                    page,
-                    page_cursor,
-                    command.button,
-                    click_count=command.clickCount,
-                )
+                case "mouse_click":
+                    page_cursor = self._screen_to_page_cursor(command.x, command.y)
+                    page = self._active_page()
+                    return await self.controller.click_coords(
+                        page,
+                        page_cursor,
+                        command.button,
+                        click_count=command.clickCount,
+                    )
 
-            case "mouse_down":
-                return await self.controller.mouse_down(page)
+                case "mouse_down":
+                    return await self.controller.mouse_down(page)
 
-            case "mouse_up":
-                return await self.controller.mouse_up(page)
+                case "mouse_up":
+                    return await self.controller.mouse_up(page)
 
-            case "mouse_wheel":
-                return await self.controller.scroll_pointer(page, command.dx, command.dy)
+                case "mouse_wheel":
+                    return await self.controller.scroll_pointer(page, command.dx, command.dy)
 
-            case "drag_to":
-                page_cursor = self._screen_to_page_cursor(command.x, command.y)
-                page = self.pages[self.active_page_id]
-                return await self.controller.drag_to(page, page_cursor)
+                case "drag_to":
+                    page_cursor = self._screen_to_page_cursor(command.x, command.y)
+                    page = self._active_page()
+                    return await self.controller.drag_to(page, page_cursor)
 
-            case "typing":
-                return await self.controller.keyboard_type(page, command.text)
+                case "typing":
+                    return await self.controller.keyboard_type(page, command.text)
 
-            case "key_down":
-                return await self.controller.key_down(page, command.key)
+                case "key_down":
+                    return await self.controller.key_down(page, command.key)
 
-            case "key_up":
-                return await self.controller.key_up(page, command.key)
+                case "key_up":
+                    return await self.controller.key_up(page, command.key)
 
-            case "key_press":
-                logger.info(f"Pressing on {self.active_page_id}")
-                return await self.controller.key_press(page, command.key)
+                case "key_press":
+                    return await self.controller.key_press(page, command.key)
 
-            case "hot_key":
-                return await self.controller.hotkey_press(page, command.keys)
+                case "hot_key":
+                    return await self.controller.hotkey_press(page, command.keys)
 
-            case "observe":
-                return await self._get_observation(command.evaluation)
+                case "observe":
+                    return await self._get_observation(command.evaluation)
 
-            case "interactive_tree":
-                return await self._get_interactive_tree()
+                # case "interactive_tree":
+                #     return await self._get_interactive_tree()
 
-            case "sleep":
-                await self.controller.sleep(page, command.duration_ms)
+                case "sleep":
+                    await self.controller.sleep(page, command.duration_ms)
 
-            case "command":
-                for action in command.actions:
-                    page = self.pages[action.website_id]
-                    await page.evaluate(action.script)
+                case "command":
+                    for action in command.actions:
+                        page = self.pages[action.website_id]
+                        await page.evaluate(action.script)
 
-            case _ as unreachable:
-                assert_never(unreachable)
+                case _ as unreachable:
+                    assert_never(unreachable)
 
-    def _offset_region(self, region: InteractiveRegion, layout: PageLayout) -> InteractiveRegion:
-        (left, top, width, height) = region.bbox
+        except InstanceError:
+            raise
+        except Exception as exc:
+            raise UnexpectedError(
+                f"Command execution failed: command={command.command} error={type(exc).__name__}: {exc}"
+            ) from exc
 
-        return InteractiveRegion(
-            role=region.role,
-            visible_text=region.visible_text,
-            bbox=(left + layout.x, top + layout.y, width, height),
-        )
+    # def _offset_region(self, region: InteractiveRegion, layout: PageLayout) -> InteractiveRegion:
+    #     (left, top, width, height) = region.bbox
 
-    async def _get_interactive_tree(self) -> InteractiveTreeResponse:
-        regions: list[InteractiveRegion] = []
+    #     return InteractiveRegion(
+    #         role=region.role,
+    #         visible_text=region.visible_text,
+    #         bbox=(left + layout.x, top + layout.y, width, height),
+    #     )
 
-        for website_id, page in self.pages.items():
-            layout = self.page_layouts[website_id]
+    # async def _get_interactive_tree(self) -> InteractiveTreeResponse:
+    #     regions: list[InteractiveRegion] = []
 
-            for region in await self.controller.get_interactive_rects(page):
-                regions.append(self._offset_region(region, layout))
+    #     for website_id, page in self.pages.items():
+    #         layout = self.page_layouts[website_id]
 
-        screen_cursor = self._page_to_screen_cursor()
+    #         for region in await self.controller.get_interactive_rects(page):
+    #             regions.append(self._offset_region(region, layout))
 
-        return InteractiveTreeResponse(
-            mouse_position=MousePosition(x=int(screen_cursor.x), y=int(screen_cursor.y)),
-            regions=regions,
-        )
+    #     screen_cursor = self._page_to_screen_cursor()
+
+    #     return InteractiveTreeResponse(
+    #         mouse_position=MousePosition(x=int(screen_cursor.x), y=int(screen_cursor.y)),
+    #         regions=regions,
+    #     )
 
     async def _get_observation(self, evaluation: Evaluation) -> ObservationResponse:
         rules = evaluation.rules
@@ -454,7 +471,6 @@ class PlaywrightInstance:
         for website_id, layout in self.page_layouts.items():
             if layout.x <= x < layout.x + layout.width and layout.y <= y < layout.y + layout.height:
                 if self.active_page_id != website_id:
-                    logger.info(f"Updating active page id : {self.active_page_id} -> {website_id}")
                     self.active_page_id = website_id
                 return PageCursor(x - layout.x, y - layout.y)
 
@@ -472,6 +488,19 @@ class PlaywrightInstance:
         return ScreenCursor(
             layout.x + self.controller.cursor.x, layout.y + self.controller.cursor.y
         )
+
+    def _active_page(self) -> Page:
+        page_id = self.active_page_id
+        if page_id is None:
+            raise UnexpectedError("active_page_id is not initialized")
+
+        return self._page_for_website(page_id, context="active page")
+
+    def _page_for_website(self, website_id: str, *, context: str) -> Page:
+        try:
+            return self.pages[website_id]
+        except KeyError as exc:
+            raise InvalidCommand(f"{context} references unknown website_id: {website_id}") from exc
 
 
 ########################################
