@@ -10,8 +10,10 @@ cd "$ROOT_DIR"
 
 printf 'Generating snapshots\n'
 printf '  gateway: %s\n' "$GATEWAY_URL"
-printf '  task path: %s\n\n' "$TASK_PATH"
+printf '  task path: %s\n' "$TASK_PATH"
+printf '  max parallel: %s\n\n' "16"
 
 exec uv run python -m snapshots.generate.run \
   --gateway-url "$GATEWAY_URL" \
-  --task-path "$TASK_PATH"
+  --task-path "$TASK_PATH" \
+  --max-parallel 16

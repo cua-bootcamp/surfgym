@@ -164,6 +164,8 @@ class WavepoolSupervisor:
                     str(port),
                     "--log-path",
                     str(self.log_path),
+                    "--contexts-per-instance",
+                    str(self.config.contexts_per_instance),
                 ],
             )
 

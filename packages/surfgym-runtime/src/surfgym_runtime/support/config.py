@@ -41,6 +41,7 @@ class WavepoolConfig(FrozenBaseModel):
 
     instance_start_port: int
     instances: int
+    contexts_per_instance: int
 
     process_timeout: ProcessTimeout
 

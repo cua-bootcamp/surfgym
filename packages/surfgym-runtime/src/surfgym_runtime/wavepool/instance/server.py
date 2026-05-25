@@ -22,28 +22,23 @@ from surfgym_contracts.protocol.upstream_to_gateway import (
 )
 
 from surfgym_runtime.support import instance_logger, setup_logging
-from surfgym_runtime.wavepool.instance.error import (
-    InstanceError,
-    InstanceIdle,
-    InstanceNotIdle,
-    InvalidInstanceId,
-)
-from surfgym_runtime.wavepool.instance.service import PlaywrightInstance
+from surfgym_runtime.wavepool.instance.error import InstanceError, InstanceNotIdle
+from surfgym_runtime.wavepool.instance.service import PlaywrightBrowserWorker
 
 _P = ParamSpec("_P")
 _T = TypeVar("_T")
 
 
-def create_app() -> FastAPI:
-    instance = PlaywrightInstance(
-        viewport_width=1920,
-        viewport_height=1080,
-    )
+def create_app(contexts_per_instance: int) -> FastAPI:
+    worker = PlaywrightBrowserWorker(contexts_per_instance=contexts_per_instance)
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
-        yield
-        await instance.delete()
+        await worker.open()
+        try:
+            yield
+        finally:
+            await worker.close()
 
     async def health():
         return {"status": "ok"}
@@ -52,32 +47,26 @@ def create_app() -> FastAPI:
     async def get_instance(
         request: Annotated[AllocateRequest, Body()],
     ):
-        if not await instance.idle():
-            raise InstanceNotIdle(
-                "Cannot allocate a new instance while another instance is active."
-            )
+        if not await worker.has_capacity():
+            raise InstanceNotIdle("No available context slot on this instance.")
+
         new_instance_id = str(uuid.uuid4())
-        await instance.create(new_instance_id, request.websites, request.setup)
+        await worker.create(new_instance_id, request.websites, request.setup)
         return GetInstanceResponse(instance_id=new_instance_id)
 
     @handle_instance_errors
     async def reset_instance(instance_id: str):
-        await _validate_active_instance(instance_id)
-
-        await instance.delete()
+        await worker.delete(instance_id)
         return ReleaseResponse()
 
     @handle_instance_errors
     async def force_reset():
-        if not await instance.idle():
-            await instance.delete()
-
+        await worker.delete_all()
         return ReleaseResponse()
 
     @handle_instance_errors
     async def screenshot_instance(instance_id: str):
-        await _validate_active_instance(instance_id)
-        screenshot, x, y = await instance.screenshot()
+        screenshot, x, y = await worker.screenshot(instance_id)
         screenshot_b64 = base64.b64encode(screenshot.getvalue()).decode("ascii")
 
         return ScreenshotResponse(
@@ -92,29 +81,18 @@ def create_app() -> FastAPI:
         instance_id: str,
         command_data: Annotated[dict[str, Any], Body(...)],
     ):
-        await _validate_active_instance(instance_id)
         command = CommandAdapter.validate_python(command_data)
-        result = await instance.execute(command)
+        result = await worker.execute(instance_id, command)
 
         if result is None:
             return ExecuteResponse()
-        else:
-            return result
+        return result
 
     @handle_instance_errors
     async def get_status():
         return IdleResponse(
-            idle=await instance.idle(),
+            idle=await worker.idle(),
         )
-
-    async def _validate_active_instance(instance_id: str) -> None:
-        if await instance.idle():
-            raise InstanceIdle(
-                "Instance is idle. Cannot perform an operation that requires an active instance."
-            )
-
-        if instance.id != instance_id:
-            raise InvalidInstanceId(f"Instance id {instance_id} is not running on this server.")
 
     app = FastAPI(lifespan=lifespan)
     app.add_api_route("/health", health, methods=["GET"])
@@ -185,13 +163,18 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--host", type=str, required=True)
     parser.add_argument("--port", type=int, required=True)
     parser.add_argument("--log-path", type=Path, required=True)
+    parser.add_argument("--contexts-per-instance", type=int, default=1)
     return parser.parse_args()
 
 
 def launch():
     args = _parse_args()
     setup_logging(instance_logger, args.log_path)
-    uvicorn.run(create_app(), host=args.host, port=args.port)
+    uvicorn.run(
+        create_app(args.contexts_per_instance),
+        host=args.host,
+        port=args.port,
+    )
 
 
 if __name__ == "__main__":

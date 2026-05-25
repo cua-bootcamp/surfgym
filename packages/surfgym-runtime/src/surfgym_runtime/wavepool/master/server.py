@@ -13,16 +13,17 @@ from surfgym_contracts.protocol.upstream_to_gateway import ErrorResponse, Upstre
 
 from surfgym_runtime.support import WavepoolConfig, load_config, master_logger, setup_logging
 from surfgym_runtime.wavepool.master.error import MasterError
-from surfgym_runtime.wavepool.master.service import MasterService, PortRegistry
+from surfgym_runtime.wavepool.master.service import MasterService, SlotRegistry
 
 _P = ParamSpec("_P")
 _T = TypeVar("_T")
 
 
 def create_app(config: WavepoolConfig) -> FastAPI:
-    registry = PortRegistry(
+    registry = SlotRegistry(
         instance_start_port=config.instance_start_port,
         instance_n=config.instances,
+        contexts_per_instance=config.contexts_per_instance,
     )
 
     master = MasterService(registry, config)
