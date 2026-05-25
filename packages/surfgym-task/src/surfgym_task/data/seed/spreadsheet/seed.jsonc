@@ -1,0 +1,331 @@
+[
+  {
+    "task_id": "spreadsheet_bold_header",
+    "instruction": "Create a simple student score table in the spreadsheet. In column A, enter the column header \"Name\" and list three student names below it: Alice, Brian, and Chloe. In column B, enter the column header \"Score\" and list their scores below it: 85, 92, and 78. Make each column header bold",
+    "website": "http://localhost:3000/spreadsheet",
+    "states": [
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Name" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["style", "bl"], "value": 1 }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Alice" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Brian" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Chloe" }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Score" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["style", "bl"], "value": 1 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": 85 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": 92 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": 78 }
+      ]
+    ]
+  },
+  {
+    "task_id": "spreadsheet_bgcolor_red",
+    "instruction": "In Sheet1, create a simple table with headers Name, Department, and Score in the first row. The names are 'Alice', 'Brian', 'Chole'. The departments are 'Math', 'Science', 'English'. The scores are 85, 92, 78. Then make the first column red",
+    "website": "http://localhost:3000/spreadsheet",
+    "states": [
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Name" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Alice" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Brian" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Chloe" }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Department" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Math" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "Science" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "English" }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Score" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": 85 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": 92 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": 78 }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["style", "bg", "rgb"], "value": "rgb(255, 0, 0)" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["style", "bg", "rgb"], "value": "rgb(255, 0, 0)" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["style", "bg", "rgb"], "value": "rgb(255, 0, 0)" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["style", "bg", "rgb"], "value": "rgb(255, 0, 0)" }
+      ]
+    ]
+  },
+  {
+    "task_id": "spreadsheet_bgcolor_yellow",
+    "instruction": "Create an inventory table in Sheet1. In column A, enter the column header \"Product\" and list five products below it: Pencil, Marker, Notebook, Eraser, and Folder. In column B, enter the column header \"Inventory\" and list the inventory values below it: 25, 8, 12, 4, and 30. In column C, enter the column header \"Reorder Level\" and list the reorder levels below it: 20, 15, 10, 8, and 25. Then highlight the entire row in yellow for each product where Inventory is less than Reorder Level.",
+    "website": "http://localhost:3000/spreadsheet",
+    "states": [
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Product" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Inventory" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Reorder Level" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Pencil" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": 25 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": 20 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Marker" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": 8 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": 15 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Notebook" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": 12 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": 10 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Eraser" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": 4 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": 8 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A6", "property": ["cell", "v"], "value": "Folder" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B6", "property": ["cell", "v"], "value": 30 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C6", "property": ["cell", "v"], "value": 25 }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["style", "bg", "rgb"], "value": "rgb(250, 200, 21)" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["style", "bg", "rgb"], "value": "rgb(250, 200, 21)" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["style", "bg", "rgb"], "value": "rgb(250, 200, 21)" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["style", "bg", "rgb"], "value": "rgb(250, 200, 21)" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["style", "bg", "rgb"], "value": "rgb(250, 200, 21)" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C5", "property": ["style", "bg", "rgb"], "value": "rgb(250, 200, 21)" }
+      ]
+    ]
+  },
+  {
+    "task_id": "spreadsheet_format_currency",
+    "instruction": "Create an expense table in Sheet1. In column A, enter the column header \"Category\" and list four categories below it: Rent, Meals, Transport, and Supplies. In column B, enter the column header \"Amount\" and list their amounts below it: 1200.123, 45.789, 32.323, and 89.999. Then format the Amount column values as currency with exactly two decimal places.",
+    "website": "http://localhost:3000/spreadsheet",
+    "states": [
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Category" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Rent" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Meals" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Transport" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Supplies" }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Amount" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": 1200.123 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": 45.789 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": 32.323 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": 89.999 }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["style", "n", "pattern"], "value": "$#,##0.00" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["style", "n", "pattern"], "value": "$#,##0.00" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["style", "n", "pattern"], "value": "$#,##0.00" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["style", "n", "pattern"], "value": "$#,##0.00" }
+      ]
+    ]
+  },
+  {
+    "task_id": "spreadsheet_format_date",
+    "instruction": "Create an event date table in Sheet1. In column A, enter the column header \"Event\" and list four events below it: Kickoff, Review, Launch, and Wrap-up. In column B, enter the column header \"Date\" and list the date text below it: Jan 5, 2024; Feb 14, 2024; Mar 3, 2024; and Apr 22, 2024. Then convert the Date column values into actual date values and format them as yyyy-MM-dd.",
+    "website": "http://localhost:3000/spreadsheet",
+    "states": [
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Event" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Date" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Kickoff" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Jan 5, 2024" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Review" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "Feb 14, 2024" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Launch" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "Mar 3, 2024" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Wrap-up" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "Apr 22, 2024" }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["style", "n", "pattern"], "value": "yyyy-MM-dd" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["style", "n", "pattern"], "value": "yyyy-MM-dd" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["style", "n", "pattern"], "value": "yyyy-MM-dd" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["style", "n", "pattern"], "value": "yyyy-MM-dd" }
+      ]
+    ]
+  },
+  {
+    "task_id": "spreadsheet_grounding",
+    "instruction": "Create an employee table in Sheet1. In column A, enter the column header \"Name\". Enter Alice in A2, leave A3 blank, enter Chloe in A4, leave A5 blank, and enter Evan in A6. In column B, enter the column header \"Role\" and list the roles below it: Manager, Analyst, Designer, Engineer, and Intern. In column C, enter the column header \"Status\" and list the statuses below it: Active, Active, Leave, Active, and Pending. Then fill every blank cell in column A within A2:A6 with \"Unknown\".",
+    "website": "http://localhost:3000/spreadsheet",
+    "states": [
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Name" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Role" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Status" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Alice" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Manager" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": "Active" }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "Analyst" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": "Active" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Chloe" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "Designer" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": "Leave" }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "Engineer" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": "Active" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A6", "property": ["cell", "v"], "value": "Evan" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B6", "property": ["cell", "v"], "value": "Intern" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C6", "property": ["cell", "v"], "value": "Pending" }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Unknown" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Unknown" }
+      ]
+    ]
+  },
+  {
+    "task_id": "spreadsheet_mult_sum_and_multiply",
+    "instruction": "Create a product sales table in Sheet1. In column A, enter the column header \"Product\" and list four products below it: Pen, Notebook, Folder, and Tape. In column B, enter the column header \"Quantity\" and list their quantities below it: 4, 3, 6, and 2. In column C, enter the column header \"Unit Price\" and list their unit prices below it: 1.5, 4.25, 2.1, and 3.75. Then add a column D with the header \"Line Total\" and calculate each line total by multiplying Quantity by Unit Price.",
+    "website": "http://localhost:3000/spreadsheet",
+    "states": [
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Product" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Quantity" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Unit Price" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Pen" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": 4 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": 1.5 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Notebook" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": 3 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": 4.25 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Folder" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": 6 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": 2.1 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Tape" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": 2 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": 3.75 }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D1", "property": ["cell", "v"], "value": "Line Total" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D2", "property": ["cell", "v"], "value": 6 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D3", "property": ["cell", "v"], "value": 12.75 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D4", "property": ["cell", "v"], "value": 12.6 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D5", "property": ["cell", "v"], "value": 7.5 }
+      ]
+    ]
+  },
+  {
+    "task_id": "spreadsheet_mult_and_sum",
+    "instruction": "Create an invoice table in Sheet1. In column A, enter the column header \"Item\" and list three items below it: Desk, Chair, and Lamp. In column B, enter the column header \"Amount\" and list their amounts below it: 200, 75, and 40. In column C, enter the column header \"Tax Rate\" and list their tax rates below it: 0.08, 0.08, and 0.05. Then add column D with the header \"Tax Amount\" and calculate Amount multiplied by Tax Rate. Add column E with the header \"Final Amount\" and calculate Amount plus Tax Amount.",
+    "website": "http://localhost:3000/spreadsheet",
+    "states": [
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Item" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Amount" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Tax Rate" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Desk" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": 200 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": 0.08 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Chair" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": 75 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": 0.08 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Lamp" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": 40 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": 0.05 }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D1", "property": ["cell", "v"], "value": "Tax Amount" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D2", "property": ["cell", "v"], "value": 16 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D3", "property": ["cell", "v"], "value": 6 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D4", "property": ["cell", "v"], "value": 2 }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E1", "property": ["cell", "v"], "value": "Final Amount" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E2", "property": ["cell", "v"], "value": 216 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E3", "property": ["cell", "v"], "value": 81 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E4", "property": ["cell", "v"], "value": 42 }
+      ]
+    ]
+  },
+  {
+    "task_id": "spreadsheet_conditional_formattion",
+    "instruction": "Create a contact table in Sheet1. In column A, enter the column header \"Name\" and list five names below it: Alice, Brian, Chloe, Daniel, and Emma. In column B, enter the column header \"Email\" and list their emails below it: alice@google.com, brian@google.com, alice@google.com, chloe@google.com, and brian@google.com. Then apply conditional formatting to the Email column so duplicate email values are bolded.",
+    "website": "http://localhost:3000/spreadsheet",
+    "states": [
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Name" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Alice" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Brian" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Chloe" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Daniel" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A6", "property": ["cell", "v"], "value": "Emma" }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Email" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "alice@google.com" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "brian@google.com" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "alice@google.com" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "chloe@google.com" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B6", "property": ["cell", "v"], "value": "brian@google.com" }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["style", "bl"], "value": 1 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["style", "bl"], "value": 1 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["style", "bl"], "value": 1 },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B6", "property": ["style", "bl"], "value": 1 }
+      ]
+    ]
+  },
+  {
+    "task_id": "spreadsheet_name_split",
+    "instruction": "Create a name table in Sheet1. In column A, enter the column header \"Full Name\" and list four full names below it: Alice M Carter, Brian T Lee, Chloe R Kim, and David P Jones. Then split each full name into three new columns: column B with the header \"First Name\", column C with the header \"Middle Initial\", and column D with the header \"Last Name\".",
+    "website": "http://localhost:3000/spreadsheet",
+    "states": [
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Full Name" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Alice M Carter" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Brian T Lee" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Chloe R Kim" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "David P Jones" }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "First Name" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Alice" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "Brian" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "Chloe" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "David" }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Middle Initial" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": "M" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": "T" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": "R" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": "P" }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D1", "property": ["cell", "v"], "value": "Last Name" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D2", "property": ["cell", "v"], "value": "Carter" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D3", "property": ["cell", "v"], "value": "Lee" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D4", "property": ["cell", "v"], "value": "Kim" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D5", "property": ["cell", "v"], "value": "Jones" }
+      ]
+    ]
+  },
+  {
+    "task_id": "spreadsheet_phonenumber",
+    "instruction": "Create a phone list in Sheet1. In column A, enter the column header \"Name\" and list four names below it: Alice, Brian, Chloe, and Daniel. In column B, enter the column header \"Phone Number\" and list their phone numbers below it: (415) 555 0182, 212.555.0198, 6175550134, and 305-555-0177. Then normalize every phone number in column B into the ###-###-#### format.",
+    "website": "http://localhost:3000/spreadsheet",
+    "states": [
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Name" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Phone Number" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Alice" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "(415) 555 0182" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Brian" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "212.555.0198" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Chloe" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "6175550134" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Daniel" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "305-555-0177" }
+      ],
+      [
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "415-555-0182" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "212-555-0198" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "617-555-0134" },
+        { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "305-555-0177" }
+      ]
+    ]
+  }
+]

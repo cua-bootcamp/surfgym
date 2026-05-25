@@ -1,0 +1,332 @@
+// from prozillaos_tasks_safe.jsonc
+// on hold due to writing text.txt
+[
+    {
+        "task_id": "prozilla_task_A_04",
+        "instruction": "Read 'Prozilla.md' inside the Documents folder to find the VR game created by Sieben De Beule, then save its name inside 'text.txt'. Keep the file open.",
+        "website": "http://localhost:3000",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "p[class*='ProzillaOS-WindowTitle']",
+                    "target": "text",
+                    "value": "text.txt",
+                    "match": "contains"
+                },
+                {
+                    "selector": "textarea[class*='_View_']",
+                    "target": "text",
+                    "value": "Crumbling City",
+                    "match": "contains"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_task_A_05",
+        "instruction": "Read 'Prozilla.md' inside the Documents folder, find the final sentence under the 'About me' section, and save it inside 'text.txt'. Keep the file open.",
+        "website": "http://localhost:3000",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "p[class*='ProzillaOS-WindowTitle']",
+                    "target": "text",
+                    "value": "text.txt",
+                    "match": "contains"
+                },
+                {
+                    "selector": "textarea[class*='_View_']",
+                    "target": "text",
+                    "value": "If you have any suggestions, bug reports on ProzillaOS or if you've made your own version of ProzillaOS, don't hesitate to contact me!",
+                    "match": "contains"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_task_A_06",
+        "instruction": "Read 'info.md' inside the Documents folder to find the donation link, then save it inside 'text.txt'. Keep the file open.",
+        "website": "http://localhost:3000",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "p[class*='ProzillaOS-WindowTitle']",
+                    "target": "text",
+                    "value": "text.txt",
+                    "match": "contains"
+                },
+                {
+                    "selector": "textarea[class*='_View_']",
+                    "target": "text",
+                    "value": "ko-fi.com/prozilla",
+                    "match": "contains"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_task_A_07",
+        "instruction": "Read 'info.md' inside the Documents folder to find the technologies used to build the website, then save that sentence inside 'text.txt'. Keep the file open.",
+        "website": "http://localhost:3000",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "p[class*='ProzillaOS-WindowTitle']",
+                    "target": "text",
+                    "value": "text.txt",
+                    "match": "contains"
+                },
+                {
+                    "selector": "textarea[class*='_View_']",
+                    "target": "text",
+                    "value": "This website was made using React, Vite and TypeScript.",
+                    "match": "contains"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_task_A_21",
+        "instruction": "Open the App Center, browse apps with the 'Personalization' filter. And change the content of text.txt file to 'Presonalization' filtered app name and save the file. Keep the file open.",
+        "website": "http://localhost:3000",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "p[class*='ProzillaOS-WindowTitle']",
+                    "target": "text",
+                    "value": "text.txt",
+                    "match": "contains"
+                },
+                {
+                    "selector": "textarea[class*='_View_']",
+                    "target": "text",
+                    "value": "(?i)Maths",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_task_A_25",
+        "instruction": "Check the currently used virtual drive space size (in KB) in Storage. Overwrite '~/Documents/text.txt' with this numeric value and save it. Keep the file open.",
+        "website": "http://localhost:3000",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "p[class*='ProzillaOS-WindowTitle']",
+                    "target": "text",
+                    "value": "text.txt",
+                    "match": "contains"
+                },
+                {
+                    "selector": "textarea[class*='_View_']",
+                    "target": "text",
+                    "value": "^\\d+(\\.\\d+)?$",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_task_A_28",
+        "instruction": "Filter applications in the App Center by 'Utilities & tools', and note all displayed application names. Write these names joined by a comma and a space into '~/Documents/text.txt' and save the file. Keep the file open.",
+        "website": "http://localhost:3000",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "p[class*='ProzillaOS-WindowTitle']",
+                    "target": "text",
+                    "value": "text.txt",
+                    "match": "contains"
+                },
+                {
+                    "selector": "textarea[class*='_View_']",
+                    "target": "text",
+                    "value": "Notes|Maths|Files|Commands|Browser|Apps",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    { //delete. writing test.txt 
+        "task_id": "prozilla_task_A_29",
+        "instruction": "Filter applications in the App Center by 'Utilities & tools', sort all displayed app names in reverse alphabetical order, then write them joined by a comma and a space into '~/Documents/text.txt' and save. Keep the file open.",
+        "website": "http://localhost:3000",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "p[class*='ProzillaOS-WindowTitle']",
+                    "target": "text",
+                    "value": "text.txt",
+                    "match": "contains"
+                },
+                {
+                    "selector": "textarea[class*='_View_']",
+                    "target": "text",
+                    "value": "Notes, Maths, Files, Commands, Browser, Apps",
+                    "match": "contains"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_task_A_30",
+        "instruction": "Open the Properties window of 'City Center.png' in Pictures Folder. Overwrite '~/Documents/text.txt' with the file size (in bytes) and its full path, and save. Keep the file open.",
+        "website": "http://localhost:3000",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "p[class*='ProzillaOS-WindowTitle']",
+                    "target": "text",
+                    "value": "text.txt",
+                    "match": "contains"
+                },
+                {
+                    "selector": "textarea[class*='_View_']",
+                    "target": "text",
+                    "value": "79",
+                    "match": "contains"
+                },
+                {
+                    "selector": "textarea[class*='_View_']",
+                    "target": "text",
+                    "value": "City Center.png",
+                    "match": "contains"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_task_A_32",
+        "instruction": "Read the developer's business email from 'prozilla.md' and the donation link from 'info.md' inside the Documents folder. Change the content of 'text.txt' to 'email: [email], donate: [donation_link]' format and save the file. Keep the file open.",
+        "website": "http://localhost:3000",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "p[class*='ProzillaOS-WindowTitle']",
+                    "target": "text",
+                    "value": "text.txt",
+                    "match": "contains"
+                },
+                {
+                    "selector": "textarea[class*='_View_']",
+                    "target": "text",
+                    "value": "email: business@prozilla.dev, donate: \\[ko-fi\\.com/prozilla\\]\\(http://ko-fi\\.com/prozilla\\)",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_task_A_34",
+        "instruction": "In the App Center, filter applications by 'Personalization' and 'Education' categories separately, and count the number of apps displayed in each category. Write a report inside 'text.txt' in the format 'Personalization: [count], Education: [count]' and save the file. Keep the file open.",
+        "website": "http://localhost:3000",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "p[class*='ProzillaOS-WindowTitle']",
+                    "target": "text",
+                    "value": "text.txt",
+                    "match": "contains"
+                },
+                {
+                    "selector": "textarea[class*='_View_']",
+                    "target": "text",
+                    "value": "Personalization:\\s*1,\\s*Education:\\s*1",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_task_A_35",
+        "instruction": "Read the developer's name, email, and portfolio address from 'prozilla.md' inside the Documents folder. Change the content of 'text.txt' to organize this information in the format 'Name: [name], Email: [email], Portfolio: [portfolio]' and save the file. Keep the file open.",
+        "website": "http://localhost:3000",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "p[class*='ProzillaOS-WindowTitle']",
+                    "target": "text",
+                    "value": "text.txt",
+                    "match": "contains"
+                },
+                {
+                    "selector": "textarea[class*='_View_']",
+                    "target": "text",
+                    "value": "Name:\\s*Sieben De Beule,\\s*Email:\\s*business@prozilla\\.dev,\\s*Portfolio:\\s*prozilla\\.dev",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_task_A_36",
+        "instruction": "Find the name of the virtual market/platform where the developer's game was released in 'prozilla.md', and find the core framework/tech stack mentioned in 'info.md'. Combine these findings and record them on the first line of 'text.txt' in the format 'Platform: [platform], Tech: [tech_stack]' and save the file. Keep the file open.",
+        "website": "http://localhost:3000",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "p[class*='ProzillaOS-WindowTitle']",
+                    "target": "text",
+                    "value": "text.txt",
+                    "match": "contains"
+                },
+                {
+                    "selector": "textarea[class*='_View_']",
+                    "target": "text",
+                    "value": "Platform:\\s*Steam,\\s*Tech:\\s*React,\\s*Vite\\s+and\\s+TypeScript",
+                    "match": "regex"
+                }
+            ]
+        }
+    },
+    {
+        "task_id": "prozilla_task_A_38",
+        "instruction": "Go to the 'Pictures' folder, check the file sizes of 'Wallpaper1.png' through 'Wallpaper5.png'. Clear any existing content in 'text.txt' inside the Documents folder, write down their sizes in the format 'Wallpaper[n]: [number] bytes' on separate lines, and save the file. Keep the file open.",
+        "website": "http://localhost:3000",
+        "evaluation": {
+            "mode": "dom",
+            "operator": "and",
+            "rules": [
+                {
+                    "selector": "p[class*='ProzillaOS-WindowTitle']",
+                    "target": "text",
+                    "value": "text.txt",
+                    "match": "contains"
+                },
+                {
+                    "selector": "textarea[class*='_View_']",
+                    "target": "text",
+                    "value": "Wallpaper1:\\s*56\\s*bytes\\s*\\n\\s*Wallpaper2:\\s*63\\s*bytes\\s*\\n\\s*Wallpaper3:\\s*54\\s*bytes\\s*\\n\\s*Wallpaper4:\\s*60\\s*bytes\\s*\\n\\s*Wallpaper5:\\s*65\\s*bytes",
+                    "match": "regex"
+                }
+            ]
+        }
+    }
+]

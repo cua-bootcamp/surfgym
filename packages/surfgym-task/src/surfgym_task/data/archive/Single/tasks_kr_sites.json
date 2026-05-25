@@ -1,0 +1,311 @@
+[
+  {
+    "task_id": "moel_retirement_basic_exact",
+    "instruction": "On the MOEL retirement pay calculator, set the join date to 2021-01-01 and the leave date to 2024-01-31, then click 평균임금계산기간보기.",
+    "website": "https://labor.moel.go.kr/cmmt/calRtrmnt.do",
+    "evaluation": {
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "#termDays",
+          "target": "attr",
+          "attr": "value",
+          "match": "exact",
+          "value": "1125"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "moel_retirement_full_flow_exact",
+    "instruction": "On the MOEL retirement pay calculator, set the join date to 2021-01-01 and the leave date to 2024-01-31, fill the generated wage rows with 기본급 100000, 3000000, 3100000, 3000000, then run 평균임금계산 and 퇴직금계산.",
+    "website": "https://labor.moel.go.kr/cmmt/calRtrmnt.do",
+    "evaluation": {
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "#termDays",
+          "target": "attr",
+          "attr": "value",
+          "match": "exact",
+          "value": "1125"
+        },
+        {
+          "selector": "#basicSum",
+          "target": "attr",
+          "attr": "value",
+          "match": "regex",
+          "value": "^9,?200,?000$"
+        },
+        {
+          "selector": "#dd_pay1",
+          "target": "attr",
+          "attr": "value",
+          "match": "regex",
+          "value": "^100,?000(?:\\.0+)?$"
+        },
+        {
+          "selector": "#dd_pay3",
+          "target": "attr",
+          "attr": "value",
+          "match": "regex",
+          "value": "^9,?246,?575(?:\\.0+)?$"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "nhis_open_sick_pay_income_check",
+    "instruction": "On the NHIS mock-calculation hub, find the calculator page for checking support related to being unable to work because of an illness or injury that is not work-related, and open it.",
+    "website": "https://www.nhis.or.kr/nhis/minwon/initCtrbCalcView.do",
+    "evaluation": {
+      "operator": "and",
+      "rules": [
+        {
+          "target": "url",
+          "match": "regex",
+          "value": "nhis\\.or\\.kr/nhis/policy/retrieveStp2FtbfOslfChkList\\.do"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "nhis_sick_pay_income_check_consultation_eligible",
+    "instruction": "On the NHIS mock-calculation hub, find the calculator for checking support related to being unable to work because of an illness or injury that is not work-related, open it, then check the expected eligibility result for this case: 취업자 자격은 건강보험직장가입자, 가입자 종류는 직장가입자, 가구원 수는 1인, 보험료는 50000.",
+    "website": "https://www.nhis.or.kr/nhis/minwon/initCtrbCalcView.do",
+    "evaluation": {
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "#selWkpcPrsn",
+          "target": "attr",
+          "attr": "value",
+          "match": "exact",
+          "value": "1"
+        },
+        {
+          "selector": "#selIsrpKind",
+          "target": "attr",
+          "attr": "value",
+          "match": "exact",
+          "value": "1"
+        },
+        {
+          "selector": "#selHhmCnt",
+          "target": "attr",
+          "attr": "value",
+          "match": "exact",
+          "value": "1"
+        },
+        {
+          "selector": "#iptWorkAcnImprTermBfmmNhib",
+          "target": "attr",
+          "attr": "value",
+          "match": "regex",
+          "value": "^50,?000(?:\\.0+)?$"
+        },
+        {
+          "selector": "#iptTgtYnFcstRslt",
+          "target": "attr",
+          "attr": "value",
+          "match": "exact",
+          "value": "상담 대상자"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "nhis_sick_pay_income_check_consultation_ineligible",
+    "instruction": "On the NHIS mock-calculation hub, find the calculator for checking support related to being unable to work because of an illness or injury that is not work-related, open it, then check the expected eligibility result for this case: 취업자 자격은 건강보험직장가입자, 가입자 종류는 직장가입자, 가구원 수는 1인, 보험료는 150000.",
+    "website": "https://www.nhis.or.kr/nhis/minwon/initCtrbCalcView.do",
+    "evaluation": {
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "#selWkpcPrsn",
+          "target": "attr",
+          "attr": "value",
+          "match": "exact",
+          "value": "1"
+        },
+        {
+          "selector": "#selIsrpKind",
+          "target": "attr",
+          "attr": "value",
+          "match": "exact",
+          "value": "1"
+        },
+        {
+          "selector": "#selHhmCnt",
+          "target": "attr",
+          "attr": "value",
+          "match": "exact",
+          "value": "1"
+        },
+        {
+          "selector": "#iptWorkAcnImprTermBfmmNhib",
+          "target": "attr",
+          "attr": "value",
+          "match": "regex",
+          "value": "^150,?000(?:\\.0+)?$"
+        },
+        {
+          "selector": "#iptTgtYnFcstRslt",
+          "target": "attr",
+          "attr": "value",
+          "match": "exact",
+          "value": "상담 비대상자"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "nhis_arrear_fee_estimate_basic",
+    "instruction": "I missed a National Health Insurance payment and want to estimate the late fee. Please open the arrear calculator from the NHIS mock-calculation hub and check it for 내국인 건강보험 with 보험료 100000원, 고지년월 202501, and 납부예정일 20250315.",
+    "website": "https://www.nhis.or.kr/nhis/minwon/initCtrbCalcView.do",
+    "evaluation": {
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "#inputCtrb",
+          "target": "attr",
+          "attr": "value",
+          "match": "regex",
+          "value": "^100,?000(?:\\.0+)?$"
+        },
+        {
+          "selector": "#inputGojiYyyymm",
+          "target": "attr",
+          "attr": "value",
+          "match": "exact",
+          "value": "202501"
+        },
+        {
+          "selector": "#inputNabbuDt",
+          "target": "attr",
+          "attr": "value",
+          "match": "exact",
+          "value": "20250315"
+        },
+        {
+          "selector": "#ararAmt",
+          "target": "text",
+          "match": "regex",
+          "value": "^2,?050$"
+        },
+        {
+          "selector": "#ararDdCnt",
+          "target": "text",
+          "match": "exact",
+          "value": "33일"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "nhis_overseas_departure_reduction_eligible",
+    "instruction": "I expect to stay abroad for a little over three months and want to check whether my National Health Insurance premium could be waived. Please open the overseas-departure reduction checker from the NHIS mock-calculation hub and look it up for 출국일 2025.01.01 and 입국일 2025.04.15.",
+    "website": "https://www.nhis.or.kr/nhis/minwon/initCtrbCalcView.do",
+    "evaluation": {
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "#dctrDt",
+          "target": "attr",
+          "attr": "value",
+          "match": "exact",
+          "value": "2025.01.01"
+        },
+        {
+          "selector": "#enctrDt",
+          "target": "attr",
+          "attr": "value",
+          "match": "exact",
+          "value": "2025.04.15"
+        },
+        {
+          "selector": "#resultDiv",
+          "target": "text",
+          "match": "regex",
+          "value": "보험료 면제 대상에 해당합니다"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "ex_toll_basic_exact",
+    "instruction": "I need to check how much the toll is for a passenger car traveling from Seoul to Gwangju. Please look it up on the Hi-Pass toll page.",
+    "website": "https://www.hipass.co.kr/board/TollPaySearchList.do",
+    "evaluation": {
+      "operator": "and",
+      "rules": [
+        {
+          "selector": "#tb_route_list tr:nth-child(2) td:nth-child(2)",
+          "target": "text",
+          "match": "regex",
+          "value": "^15,?200$"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "alphaedit_spreadsheet_small_expense_total",
+    "instruction": "I wrote down three small expenses and want to total them in a spreadsheet. Please put 12, 30, and 8 into cells A1 through A3, then use a spreadsheet formula in B1 to calculate the total.",
+    "website": "https://www.alphaedit.app/spreadsheet",
+    "scoring": {
+      "mode": "alphaEdit_spreadsheet",
+      "expected_cells": [
+        {
+          "address": "B1",
+          "expected": "=SUM(A1:A3)"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "alphaedit_spreadsheet_four_day_total",
+    "instruction": "I want a tiny four-day sales sheet. Please put 14, 9, 11, and 16 into cells A1 through A4, then use a spreadsheet formula in B2 to calculate the overall total.",
+    "website": "https://www.alphaedit.app/spreadsheet",
+    "scoring": {
+      "mode": "alphaEdit_spreadsheet",
+      "expected_cells": [
+        {
+          "address": "B2",
+          "expected": "=SUM(A1:A4)"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "alphaedit_document_packing_checklist",
+    "instruction": "Please turn a short packing note into a clean bulleted checklist with these three items: charger, jacket, and notebook.",
+    "website": "https://www.alphaedit.app/document",
+    "evaluation": {
+      "operator": "and",
+      "rules": [
+        {
+          "selector": ".ProseMirror",
+          "target": "html",
+          "match": "regex",
+          "value": "(?s)<ul>\\s*<li><p>charger</p></li>\\s*<li><p>jacket</p></li>\\s*<li><p>notebook</p></li>\\s*</ul>"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "alphaedit_document_weekly_plan_table",
+    "instruction": "I need a simple weekly plan table. Please insert a 3x3 table and place Mon, Tue, and Wed across the first row.",
+    "website": "https://www.alphaedit.app/document",
+    "evaluation": {
+      "operator": "and",
+      "rules": [
+        {
+          "selector": ".ProseMirror",
+          "target": "html",
+          "match": "regex",
+          "value": "(?s)<table[^>]*>.*?<colgroup>(?:<col[^>]*>){3}</colgroup><tbody><tr><th[^>]*><p>Mon</p></th><th[^>]*><p>Tue</p></th><th[^>]*><p>Wed</p></th></tr><tr>(?:<td[^>]*>.*?</td>){3}</tr><tr>(?:<td[^>]*>.*?</td>){3}</tr></tbody></table>"
+        }
+      ]
+    }
+  }
+]

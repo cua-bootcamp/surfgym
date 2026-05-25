@@ -1,0 +1,205 @@
+// Verified Tasks by Goonco
+[
+  {
+    "task_id": "web_bmi_01",
+    "instruction": "I'd like to find out my BMI using US Customary units. I'm 6 feet 1 inch tall and my weight is 160 pounds.",
+    "website": "https://www.cdc.gov/bmi/adult-calculator/index.html",
+    "evaluation": {
+      "rules": [
+        {
+          "selector": ".entered_height",
+          "value": "6 feet 1 inch",
+          "match": "exact"
+        },
+        {
+          "selector": ".entered_weight",
+          "value": "160 pounds",
+          "match": "exact"
+        }
+      ]
+    }
+  },
+  {
+    // click "Metric Units", insert the given values, click calculate
+    "task_id": "web_bmi_02",
+    "instruction": "Help me calculate my BMI using metric units. My height is 180 cm and my weight is 70 kg.",
+    "website": "https://www.cdc.gov/bmi/adult-calculator/index.html",
+    "evaluation": {
+      "rules": [
+        {
+          "selector": ".entered_height",
+          "value": "180 centimeters",
+          "match": "exact"
+        },
+        {
+          "selector": ".entered_weight",
+          "value": "70 kilograms",
+          "match": "exact"
+        }
+      ]
+    }
+  },
+  // click "BMI Calculator for Children and Teens" to navigate
+  {
+    "task_id": "web_bmi_03",
+    "instruction": "Could you check the BMI for my son? You should use the BMI Calculator for children. He's a boy, 2 Years 2 Months old, 2 feet 8 inches tall, and weighs 24 pounds.",
+    "website": "https://www.cdc.gov/bmi/adult-calculator/index.html",
+    "evaluation": {
+      "rules": [
+        {
+          "selector": ".entered_age",
+          "value": "2 years and 2 months",
+          "match": "exact"
+        },
+        {
+          "selector": ".entered_sex",
+          "value": "Boy",
+          "match": "exact"
+        },
+        {
+          "selector": ".entered_height",
+          "value": "2 feet 8 inches",
+          "match": "exact"
+        },
+        {
+          "selector": ".entered_weight",
+          "value": "24 pounds",
+          "match": "exact"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_travelfee_01",
+    "instruction": "Please help me know the distance from 부산 to 서울.",
+    "website": "https://www.hipass.co.kr/board/TollPaySearchList.do",
+    "evaluation": {
+      "rules": [
+        {
+          "target": "attr",
+          "selector": "#input_text_start",
+          "attr": "value",
+          "value": "부산",
+          "match": "exact"
+        },
+        {
+          "target": "attr",
+          "selector": "#input_text_end",
+          "attr": "value",
+          "value": "서울",
+          "match": "exact"
+        },
+        {
+          "selector": "#tb_route_list",
+          "value": "총거리"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_travelfee_02",
+    "instruction": "I want to travel from 서울 to 부산 via 대구. Please find out the toll cost.",
+    "website": "https://www.hipass.co.kr/board/TollPaySearchList.do",
+    "evaluation": {
+      "rules": [
+        {
+          "target": "attr",
+          "selector": "#input_text_start",
+          "attr": "value",
+          "value": "서울",
+          "match": "exact"
+        },
+        {
+          "target": "attr",
+          "selector": "#input_text_end",
+          "attr": "value",
+          "value": "광주",
+          "match": "exact"
+        },
+        {
+          "target": "attr",
+          "selector": "#input_text_via",
+          "attr": "value",
+          "value": "대구",
+          "match": "exact"
+        },
+        {
+          "selector": "#tb_route_list",
+          "value": "총거리"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_postal_01",
+    "instruction": "Find the postal code for the address '서울특별시 종로구 세종대로 175'.",
+    "website": "https://www.juso.go.kr/",
+    "evaluation": {
+      "rules": [
+        {
+          "selector": ".zipNo, .number",
+          "value": "03172",
+          "normalize_space": true
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "web_retirecalc_01",
+    "instruction": "Calculate my total working days between May 11, 2024, and July 29, 2025?",
+    "website": "https://labor.moel.go.kr/cmmt/calRtrmnt.do",
+    "evaluation": {
+      "rules": [
+        {
+          "selector": "#syear",
+          "target": "attr",
+          "attr": "value",
+          "value": "2024",
+          "match": "exact"
+        },
+        {
+          "selector": "#smon",
+          "target": "attr",
+          "attr": "value",
+          "value": "5",
+          "match": "exact"
+        },
+        {
+          "selector": "#sday",
+          "target": "attr",
+          "attr": "value",
+          "value": "11",
+          "match": "exact"
+        },
+        {
+          "selector": "#eyear",
+          "target": "attr",
+          "attr": "value",
+          "value": "2025",
+          "match": "exact"
+        },
+        {
+          "selector": "#emon",
+          "target": "attr",
+          "attr": "value",
+          "value": "7",
+          "match": "exact"
+        },
+        {
+          "selector": "#eday",
+          "target": "attr",
+          "attr": "value",
+          "value": "29",
+          "match": "exact"
+        },
+        {
+          "selector": "#termDays",
+          "target": "attr",
+          "attr": "value",
+          "value": "444",
+          "match": "exact"
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,208 @@
+[
+  {
+    "task_id": "NHIS-WEB-SHEET-OS-001",
+    "instruction": "I am preparing a travel insurance exemption application for two planned overseas trips and need to verify which scenarios qualify for premium exemption. Could you please check the NHIS portal for premium exemption eligibility for both cases (Case A: departure 2026.05.12, return 2026.05.13; Case B: departure 2026.05.12, return 2026.11.20), record the eligibility flags in spreadsheet range A1:B3 with a sum in B4, and document the final flags and eligible count in ~/Documents/finance_report.txt using the format 'CaseA Flag: [value]', 'CaseB Flag: [value]', and 'Eligible Count: [sum]'?",
+    "website": [
+      { "id": "web", "url": "https://www.nhis.or.kr/nhis/minwon/initCtrbCalcView.do" },
+      { "id": "sheet", "url": "http://localhost:3000/spreadsheet" },
+      { "id": "os", "url": "http://localhost:3000/prozilla" }
+    ],
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "CaseA Flag: 0", "match": "contains" },
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "CaseB Flag: 1", "match": "contains" },
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "Eligible Count: 1", "match": "contains" }
+      ]
+    }
+  },
+  {
+    "task_id": "NHIS-WEB-SHEET-OS-002",
+    "instruction": "I am advising a small business on health insurance registration and need to verify workplace enrollment eligibility before submitting their application. Could you please verify the workplace enrollment eligibility for registration number 1111111111 through the NHIS simulation, compile the findings — including employment status, enrollment status, and the portal's final result text — into spreadsheet range A1:C2, and persist the outcome to ~/Documents/finance_report.txt following the schema 'Final Result: [result_text]' and 'Pass Flag: [flag]'?",
+    "website": [
+      { "id": "web", "url": "https://www.nhis.or.kr/nhis/minwon/initCtrbCalcView.do" },
+      { "id": "sheet", "url": "http://localhost:3000/spreadsheet" },
+      { "id": "os", "url": "http://localhost:3000/prozilla" }
+    ],
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "Final Result: 사업장 적용이 가능 합니다.", "match": "contains" },
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "Pass Flag: 1", "match": "contains" }
+      ]
+    }
+  },
+  {
+    "task_id": "NHIS-WEB-SHEET-OS-003",
+    "instruction": "I am helping a new employee who just received their D-4 visa with a May 29, 2026 arrival date, and they need to understand when their mandatory health insurance enrollment deadline is. Could you please look up the scheduled enrollment date through the NHIS website, format the entry date, scheduled date, and day gap in spreadsheet range A1:D2 (with the gap in D2), and save the resolved metrics to ~/Documents/finance_report.txt using the format 'Entry: [date]', 'Scheduled: [date]', and 'Gap Days: [days]'?",
+    "website": [
+      { "id": "web", "url": "https://www.nhis.or.kr/nhis/minwon/initCtrbCalcView.do" },
+      { "id": "sheet", "url": "http://localhost:3000/spreadsheet" },
+      { "id": "os", "url": "http://localhost:3000/prozilla" }
+    ],
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "Entry: 2026.05.29", "match": "contains" },
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "Scheduled: 2026.11.29", "match": "contains" },
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "Gap Days: 184", "match": "contains" }
+      ]
+    }
+  },
+  {
+    "task_id": "NHIS-WEB-SHEET-OS-004",
+    "instruction": "I am estimating tax-deductible health insurance costs for next year's household budget with business income and property holdings, and I need to calculate the regional premium impact. Could you please run the regional insurance premium simulation on the NHIS portal for a domestic case with income '사업소득 등=30000' and housing '주택=100000', record the calculated premium in spreadsheet cell B2 and the rounded thousand-unit value in B4, and document the validation outcome to ~/Documents/finance_report.txt using the template 'Expected Local Premium: [premium]원' and 'Verification: [PASS/FAIL]'?",
+    "website": [
+      { "id": "web", "url": "https://www.nhis.or.kr/nhis/minwon/initCtrbCalcView.do" },
+      { "id": "sheet", "url": "http://localhost:3000/spreadsheet" },
+      { "id": "os", "url": "http://localhost:3000/prozilla" }
+    ],
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "Expected Local Premium: 2273220원", "match": "contains" },
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "Verification: PASS", "match": "contains" }
+      ]
+    }
+  },
+  {
+    "task_id": "NHIS-WEB-SHEET-OS-005",
+    "instruction": "I recently discovered an overdue health insurance premium notice and need to understand the penalty I face before contacting the insurer to settle the debt. Could you please use the NHIS late fee calculator — with a 100,005 won health premium (domestic/workplace) noticed in July 2024 and a due date of April 24, 2025 — to determine the late fee, elapsed days, and per-day rate, record these in spreadsheet range A1:B4, and report the findings to ~/Documents/finance_report.txt using the format 'Late Fee: [amount]원', 'Days: [count]일', and 'Verification: [status]'?",
+    "website": [
+      { "id": "web", "url": "https://www.nhis.or.kr/nhis/minwon/initCtrbCalcView.do" },
+      { "id": "sheet", "url": "http://localhost:3000/spreadsheet" },
+      { "id": "os", "url": "http://localhost:3000/prozilla" }
+    ],
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "Late Fee: 5000원", "match": "contains" },
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "Days: 210일", "match": "contains" },
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "Verification: PASS", "match": "contains" }
+      ]
+    }
+  },
+  {
+    "task_id": "NHIS-WEB-SHEET-OS-006",
+    "instruction": "I am evaluating sickness allowance eligibility for a colleague who is a workplace health insurance member in a 3-person household, and we need to determine if they qualify for consultation and potential support. Could you please run the sickness allowance income simulation on the NHIS portal for an employee (건강보험직장가입자) with a 3-member household paying 50,000 won premium, summarize the results in spreadsheet range A1:B3, and persist the outcome to ~/Documents/finance_report.txt using the format 'Applicant Type: [type]', 'Household: [size]인', and 'Result: [consultation_result]'?",
+    "website": [
+      { "id": "web", "url": "https://www.nhis.or.kr/nhis/minwon/initCtrbCalcView.do" },
+      { "id": "sheet", "url": "http://localhost:3000/spreadsheet" },
+      { "id": "os", "url": "http://localhost:3000/prozilla" }
+    ],
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "Applicant Type: 건강보험직장가입자", "match": "contains" },
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "Household: 3인", "match": "contains" },
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "Result: 상담 대상자", "match": "contains" }
+      ]
+    }
+  },
+  {
+    "task_id": "NHIS-WEB-SHEET-OS-008",
+    "instruction": "I am a small business owner with fewer than 150 employees reviewing next year's payroll costs, and I need to understand the full social insurance burden breakdown for salary planning and budgeting. Could you please look up the social insurance cost breakdown on the NHIS portal for a 1,000,000 won monthly salary, compile the total, worker share, and employer share into spreadsheet column B and compute their difference in B5, then log the precise results to ~/Documents/finance_report.txt using the labels 'Total: [value]원', 'Worker: [value]원', 'Employer: [value]원', and 'Gap: [value]원'?",
+    "website": [
+      { "id": "web", "url": "https://www.nhis.or.kr/nhis/minwon/initCtrbCalcView.do" },
+      { "id": "sheet", "url": "http://localhost:3000/spreadsheet" },
+      { "id": "os", "url": "http://localhost:3000/prozilla" }
+    ],
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "Total: 196840원", "match": "contains" },
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "Worker: 97170원", "match": "contains" },
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "Employer: 99670원", "match": "contains" },
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "Gap: 2500원", "match": "contains" }
+      ]
+    }
+  },
+  {
+    "task_id": "MOEL-WEB-SHEET-OS-001",
+    "instruction": "I am preparing a relocation package proposal for an international employee and need to express their earned daily average wage in US dollars for benefit calculations. Could you please use the MoEL Retirement Calculator for the period January 1, 2020 to January 1, 2023 with a base salary of 3,500,000 KRW, record the average daily wage in spreadsheet cell A1 and its USD equivalent (converted at 1400 KRW/USD) in A2, and save the final converted value to text.txt on Prozilla OS?",
+    "website": [
+      { "id": "web", "url": "https://labor.moel.go.kr/cmmt/calRtrmnt.do" },
+      { "id": "sheet", "url": "http://localhost:3000/spreadsheet" },
+      { "id": "os", "url": "http://localhost:3000/prozilla" }
+    ],
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "$69.88", "match": "contains" }
+      ]
+    }
+  },
+  {
+    "task_id": "MOEL-WEB-SHEET-OS-002",
+    "instruction": "I am presenting two retirement scenarios to a departing employee to help them understand the impact of their tenure length on severance benefits, and I need to quantify the financial difference. Could you please calculate the severance pay for both scenarios using the MoEL calculator — the first from January 1, 2020 to January 1, 2023 and the second from January 1, 2022 to January 1, 2023, each with a base salary of 4,000,000 KRW — record each result in spreadsheet cells A1 and A2, compute the difference in A3 using formula '=A1-A2', and have the Prozilla OS terminal display the result as 'Difference is [value]'?",
+    "website": [
+      { "id": "web", "url": "https://labor.moel.go.kr/cmmt/calRtrmnt.do" },
+      { "id": "sheet", "url": "http://localhost:3000/spreadsheet" },
+      { "id": "os", "url": "http://localhost:3000/prozilla" }
+    ],
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        { "website_id": "os", "selector": "div[class*='Terminal']", "target": "text", "value": "Difference is [7,836,808.00]", "match": "contains" }
+      ]
+    }
+  },
+  {
+    "task_id": "MOEL-WEB-SHEET-OS-003",
+    "instruction": "I have calculated a gross severance amount from a long career and need to determine the net amount after a lump-sum tax or debt deduction to understand my true take-home value. Could you please use the MoEL website to compute the severance pay for the period September 1, 2007 to December 25, 2024 with quarterly base salaries of 6M, 8M, 8M, and 9M KRW, record this in spreadsheet cell A7, subtract 150,000,000 from that amount, and save only the final net result to text.txt on Prozilla OS?",
+    "website": [
+      { "id": "web", "url": "https://labor.moel.go.kr/cmmt/calRtrmnt.do" },
+      { "id": "sheet", "url": "http://localhost:3000/spreadsheet" },
+      { "id": "os", "url": "http://localhost:3000/prozilla" }
+    ],
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "15670631", "match": "contains" }
+      ]
+    }
+  },
+  {
+    "task_id": "MOEL-WEB-SHEET-OS-004",
+    "instruction": "I am calculating my colleague's post-tax severance benefit after they leave the company, including deductions, so I can provide them with an accurate final payment estimate before their departure. Could you please use the MoEL calculator for the period March 1, 2016 to November 19, 2024 — with quarterly base salaries of 6M, 6M, 7M, and 7.5M KRW and allowances of 1M, 0, 3.33M, and 0.7M KRW respectively — record the gross severance in spreadsheet cell C6, compute the net after-tax amount (deducting 3.3%) in C7, and document the final net figure in the Note application on Prozilla OS prefixed with 'Final Pay: '?",
+    "website": [
+      { "id": "web", "url": "https://labor.moel.go.kr/cmmt/calRtrmnt.do" },
+      { "id": "sheet", "url": "http://localhost:3000/spreadsheet" },
+      { "id": "os", "url": "http://localhost:3000/prozilla" }
+    ],
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        { "website_id": "os", "selector": "textarea", "target": "attr", "attr": "value", "value": "Final Pay: 86756187.18", "match": "contains" }
+      ]
+    }
+  },
+  {
+    "task_id": "MOEL-WEB-SHEET-OS-005",
+    "instruction": "I am comparing severance entitlements across different countries and need to convert a Korean severance amount to its US wage equivalent based on a typical 44-hour work week to understand the total compensation gap between the two markets. Could you please compute the severance pay from the MoEL site for the period June 1, 2018 to February 18, 2021 (base salary 4.4M KRW each quarter, allowances 10K/20K/30K/40K KRW) and record it in spreadsheet cell E1; separately, determine the Total Weekly Wage using the DOL overtime calculator for a standard 44-hour week at $21/hr (based on personal wage circumstances) and record it in E2; convert that figure to KRW in E3 using '=E2*1400'; and then resolve the variance between E1 and E3 using the Prozilla OS system calculator?",
+    "website": [
+      { "id": "web", "url": "https://labor.moel.go.kr/cmmt/calRtrmnt.do" },
+      { "id": "sheet", "url": "http://localhost:3000/spreadsheet" },
+      { "id": "web2", "url": "https://webapps.dol.gov/elaws/otcalculator.htm" },
+      { "id": "os", "url": "http://localhost:3000/prozilla" }
+    ],
+    "evaluation": {
+      "mode": "dom",
+      "operator": "and",
+      "rules": [
+        { "website_id": "os", "selector": "p[class*='_Preview_']", "target": "text", "value": "49011955", "match": "contains" }
+      ]
+    }
+  }
+]

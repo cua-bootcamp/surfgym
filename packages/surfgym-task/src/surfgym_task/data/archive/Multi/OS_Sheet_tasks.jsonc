@@ -1,0 +1,252 @@
+[
+  {
+    "task_id": "task_multi_O_S_01",
+    "instruction": "In the left browser (Prozilla), open the Maths app and calculate 50 + 50. Copy the result. In the right browser (Spreadsheet), navigate to cell A1 and paste the calculation result. Keep the spreadsheet open and visible.",
+    "website": [
+      {
+        "id": "prozilla",
+        "url": "http://localhost:3000"
+      },
+      {
+        "id": "spreadsheet",
+        "url": "http://localhost:4173/spreadsheet/"
+      }
+    ],
+    "evaluation": {
+      "mode": "spreadsheet",
+      "operator": "and",
+      "rules": [
+        {
+          "website_id": "spreadsheet",
+          "cell": "A1",
+          "value": "100"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "task_multi_O_S_02",
+    "instruction": "In the left browser (Prozilla), open the Settings app and note the current theme. Copy the theme name. In the right browser (Spreadsheet), navigate to cell B1 and paste the theme name. Keep the spreadsheet open and visible.",
+    "website": [
+      {
+        "id": "prozilla",
+        "url": "http://localhost:3000"
+      },
+      {
+        "id": "spreadsheet",
+        "url": "http://localhost:4173/spreadsheet/"
+      }
+    ],
+    "evaluation": {
+      "mode": "spreadsheet",
+      "operator": "and",
+      "rules": [
+        {
+          "website_id": "spreadsheet",
+          "cell": "B1",
+          "value": "default"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "task_multi_O_S_03",
+    "instruction": "In the left browser (Prozilla), open the Photos app and navigate to Pictures/Wallpapers. Count the PNG files and copy the count. In the right browser (Spreadsheet), navigate to cell C1 and paste the count. Keep the spreadsheet open and visible.",
+    "website": [
+      {
+        "id": "prozilla",
+        "url": "http://localhost:3000"
+      },
+      {
+        "id": "spreadsheet",
+        "url": "http://localhost:4173/spreadsheet/"
+      }
+    ],
+    "evaluation": {
+      "mode": "spreadsheet",
+      "operator": "and",
+      "rules": [
+        {
+          "website_id": "spreadsheet",
+          "cell": "C1",
+          "value": "11"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "task_multi_O_S_04",
+    "instruction": "In the left browser (Prozilla), open the Maths app and calculate 75 * 4. Copy the result. In the right browser (Spreadsheet), navigate to cell D1 and paste the calculation result. Keep the spreadsheet open and visible.",
+    "website": [
+      {
+        "id": "prozilla",
+        "url": "http://localhost:3000"
+      },
+      {
+        "id": "spreadsheet",
+        "url": "http://localhost:4173/spreadsheet/"
+      }
+    ],
+    "evaluation": {
+      "mode": "spreadsheet",
+      "operator": "and",
+      "rules": [
+        {
+          "website_id": "spreadsheet",
+          "cell": "D1",
+          "value": "300"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "task_multi_O_S_05",
+    "instruction": "In the left browser (Prozilla), open the Photos app and navigate to Pictures. Find an SVG file and view its file size. Copy the size. In the right browser (Spreadsheet), navigate to cell E1 and paste the file size. Keep the spreadsheet open and visible.",
+    "website": [
+      {
+        "id": "prozilla",
+        "url": "http://localhost:3000"
+      },
+      {
+        "id": "spreadsheet",
+        "url": "http://localhost:4173/spreadsheet/"
+      }
+    ],
+    "evaluation": {
+      "mode": "spreadsheet",
+      "operator": "and",
+      "rules": [
+        {
+          "website_id": "spreadsheet",
+          "cell": "E1",
+          "value": "9"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "task_multi_O_S_06",
+    "instruction": "In the left browser (Prozilla), open the Maths app and calculate 1000 / 10. Copy the result. In the right browser (Spreadsheet), navigate to cell F1 and paste the calculation result. Keep the spreadsheet open and visible.",
+    "website": [
+      {
+        "id": "prozilla",
+        "url": "http://localhost:3000"
+      },
+      {
+        "id": "spreadsheet",
+        "url": "http://localhost:4173/spreadsheet/"
+      }
+    ],
+    "evaluation": {
+      "mode": "spreadsheet",
+      "operator": "and",
+      "rules": [
+        {
+          "website_id": "spreadsheet",
+          "cell": "F1",
+          "value": "100"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "task_multi_O_S_07",
+    "instruction": "In the left browser (Prozilla), open the Photos app and navigate to Pictures/Crumbling City. Count the total image files and copy the count. In the right browser (Spreadsheet), navigate to cell G1 and paste the count. Keep the spreadsheet open and visible.",
+    "website": [
+      {
+        "id": "prozilla",
+        "url": "http://localhost:3000"
+      },
+      {
+        "id": "spreadsheet",
+        "url": "http://localhost:4173/spreadsheet/"
+      }
+    ],
+    "evaluation": {
+      "mode": "spreadsheet",
+      "operator": "and",
+      "rules": [
+        {
+          "website_id": "spreadsheet",
+          "cell": "G1",
+          "value": "3"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "task_multi_O_S_08",
+    "instruction": "In the left browser (Prozilla), open the Settings app. Check the notification setting status. Copy the status (enabled/disabled). In the right browser (Spreadsheet), navigate to cell H1 and paste the notification status. Keep the spreadsheet open and visible.",
+    "website": [
+      {
+        "id": "prozilla",
+        "url": "http://localhost:3000"
+      },
+      {
+        "id": "spreadsheet",
+        "url": "http://localhost:4173/spreadsheet/"
+      }
+    ],
+    "evaluation": {
+      "mode": "spreadsheet",
+      "operator": "and",
+      "rules": [
+        {
+          "website_id": "spreadsheet",
+          "cell": "H1",
+          "value": "enabled"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "task_multi_O_S_09",
+    "instruction": "In the left browser (Prozilla), open the Maths app and calculate 12 * 12. Copy the result. In the right browser (Spreadsheet), navigate to cell I1 and paste the calculation result. Keep the spreadsheet open and visible.",
+    "website": [
+      {
+        "id": "prozilla",
+        "url": "http://localhost:3000"
+      },
+      {
+        "id": "spreadsheet",
+        "url": "http://localhost:4173/spreadsheet/"
+      }
+    ],
+    "evaluation": {
+      "mode": "spreadsheet",
+      "operator": "and",
+      "rules": [
+        {
+          "website_id": "spreadsheet",
+          "cell": "I1",
+          "value": "144"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "task_multi_O_S_10",
+    "instruction": "In the left browser (Prozilla), open the Photos app and navigate to Pictures/Wallpapers. Open Wallpaper1.png and view its 'Opens with' property. Copy the property value. In the right browser (Spreadsheet), navigate to cell J1 and paste the property value. Keep the spreadsheet open and visible.",
+    "website": [
+      {
+        "id": "prozilla",
+        "url": "http://localhost:3000"
+      },
+      {
+        "id": "spreadsheet",
+        "url": "http://localhost:4173/spreadsheet/"
+      }
+    ],
+    "evaluation": {
+      "mode": "spreadsheet",
+      "operator": "and",
+      "rules": [
+        {
+          "website_id": "spreadsheet",
+          "cell": "J1",
+          "value": "Photos"
+        }
+      ]
+    }
+  }
+]
