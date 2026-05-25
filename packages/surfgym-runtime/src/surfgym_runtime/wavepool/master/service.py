@@ -1,9 +1,7 @@
 import asyncio
 
 from surfgym_contracts.protocol.gateway_to_upstream import AllocateRequest
-from surfgym_contracts.protocol.upstream_to_gateway import (
-    AllocateResponse,
-)
+from surfgym_contracts.protocol.upstream_to_gateway import AllocateResponse, ReleaseResponse
 
 from surfgym_runtime.support import WavepoolConfig, master_logger
 from surfgym_runtime.wavepool.master.error import OutOfInstanceError
@@ -76,6 +74,7 @@ class MasterService:
         try:
             await self.client.release(instance_id, port)
             await self.registry.release(port)
+            return ReleaseResponse()
         except Exception:
             await self.registry.mark_broken(port)
             raise

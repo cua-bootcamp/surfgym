@@ -21,6 +21,7 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    run_started_at = time.perf_counter()
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S-%f")[:-3]
 
     snapshots_dir = Path(__file__).resolve().parent.parent
@@ -56,11 +57,13 @@ def main() -> None:
         )
         reward_sum += result.reward
 
+    elapsed_seconds = time.perf_counter() - run_started_at
     manifest = Manifest(
         summary=Summary(
             total=len(manifest_tasks),
             reward_sum=int(reward_sum),
             task_source=str(args.task_path),
+            elapsed_seconds=elapsed_seconds,
         ),
         tasks=manifest_tasks,
     )

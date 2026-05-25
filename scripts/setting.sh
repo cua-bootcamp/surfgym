@@ -43,7 +43,6 @@ readonly WAVEPOOL_HOST="$(json_get '.wavepool.host')"
 readonly WAVEPOOL_MASTER_PORT="$(json_get '.wavepool.master_port')"
 readonly WAVEPOOL_INSTANCE_START_PORT="$(json_get '.wavepool.instance_start_port')"
 readonly WAVEPOOL_INSTANCE="$(json_get '.wavepool.instances')"
-readonly WAVEPOOL_MASTER_WORKERS="$(json_get '.wavepool.master_workers')"
 
 readonly FIXTURE_MAIN_PORT=3000
 readonly FIXTURE_PROZILLA_PORT=3100

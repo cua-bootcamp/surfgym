@@ -14,6 +14,7 @@ class Summary(FrozneBaseModel):
     total: int
     reward_sum: float
     task_source: str
+    elapsed_seconds: float
 
 
 class TaskMeta(FrozneBaseModel):

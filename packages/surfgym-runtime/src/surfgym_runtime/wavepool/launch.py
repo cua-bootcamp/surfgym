@@ -208,7 +208,7 @@ class WavepoolSupervisor:
 
     def _wait_until_ready(self) -> None:
         health_check_urls: list[str] = [
-            f"http://{self.config.host}:{port}/idle" for port in self.instance_ports
+            f"http://{self.config.host}:{port}/health" for port in self.instance_ports
         ]
         health_check_urls.append(f"http://{self.config.host}:{self.master_port}/health")
 

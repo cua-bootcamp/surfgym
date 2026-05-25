@@ -3,6 +3,7 @@ import base64
 import uuid
 from contextlib import asynccontextmanager
 from functools import wraps
+from pathlib import Path
 from typing import Annotated, Any, Awaitable, Callable, ParamSpec, TypeVar
 
 import uvicorn
@@ -93,8 +94,12 @@ def create_app() -> FastAPI:
     ):
         await _validate_active_instance(instance_id)
         command = CommandAdapter.validate_python(command_data)
-        await instance.execute(command)
-        return ExecuteResponse()
+        result = await instance.execute(command)
+
+        if result is None:
+            return ExecuteResponse()
+        else:
+            return result
 
     @handle_instance_errors
     async def get_status():
@@ -179,7 +184,7 @@ def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--host", type=str, required=True)
     parser.add_argument("--port", type=int, required=True)
-    parser.add_argument("--log-path", type=str, required=True)
+    parser.add_argument("--log-path", type=Path, required=True)
     return parser.parse_args()
 
 
