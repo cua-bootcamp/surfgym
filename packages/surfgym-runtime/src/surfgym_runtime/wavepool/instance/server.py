@@ -169,7 +169,7 @@ def _parse_args() -> argparse.Namespace:
 
 def launch():
     args = _parse_args()
-    setup_logging(instance_logger, args.log_path)
+    setup_logging(instance_logger, args.log_path, component=f"instances/{args.port}")
     uvicorn.run(
         create_app(args.contexts_per_instance),
         host=args.host,

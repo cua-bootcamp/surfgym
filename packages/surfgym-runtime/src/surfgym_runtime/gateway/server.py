@@ -14,7 +14,7 @@ from surfgym_contracts.protocol.gateway_to_agent import ErrorResponse, Response
 
 from surfgym_runtime.gateway.error import GatewayError
 from surfgym_runtime.gateway.service import Service
-from surfgym_runtime.support import GatewayConfig, TaskStore, WavepoolConfig, surfgym_logger
+from surfgym_runtime.support import GatewayConfig, TaskStore, WavepoolConfig, gateway_logger
 
 
 def create_app(
@@ -59,7 +59,7 @@ def create_app(
             error_type="INVALID_REQUEST",
             message=message,
         )
-        surfgym_logger.warning(
+        gateway_logger.warning(
             "Invalid request: session_id=%s task_id=%s",
             session_id,
             task_id,
@@ -79,7 +79,7 @@ def create_app(
         except asyncio.TimeoutError:
             error_type = "TIMEOUT"
             message = "Gateway in-flight timeout. The gateway is too busy to accept this request."
-            surfgym_logger.warning(
+            gateway_logger.warning(
                 "Gateway request failed: session_id=%s task_id=%s op=%s error_type=%s message=%s",
                 request.session_id,
                 request.task_id,
@@ -103,7 +103,7 @@ def create_app(
                 executor, gateway.handle_request, request, gateway_deadline
             )
         except GatewayError as exc:
-            surfgym_logger.warning(
+            gateway_logger.warning(
                 """
 Gateway request failed: session_id=%s task_id=%s op=%s
 Error Detail: error_type=%s message=%s
@@ -121,7 +121,7 @@ Error Detail: error_type=%s message=%s
                 message=exc.message,
             )
         except Exception:
-            surfgym_logger.exception(
+            gateway_logger.exception(
                 "Unexpected gateway request failure: session_id=%s task_id=%s op=%s",
                 request.session_id,
                 request.task_id,

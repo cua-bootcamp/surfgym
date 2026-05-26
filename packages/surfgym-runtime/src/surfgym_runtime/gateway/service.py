@@ -34,7 +34,7 @@ from surfgym_runtime.gateway.error import (
     deadline_for,
 )
 from surfgym_runtime.gateway.transport import GatewayTransport
-from surfgym_runtime.support import TaskStore, WavepoolConfig, evaluate_page_rules, surfgym_logger
+from surfgym_runtime.support import TaskStore, WavepoolConfig, evaluate_page_rules, gateway_logger
 
 _T = TypeVar("_T")
 
@@ -244,7 +244,7 @@ class Service:
                 release_deadline = Deadline(time.monotonic() + self._release_timeout, "release")
                 self.pool.release(release_deadline, lease.instance_id, lease.port)
             except GatewayError as exc:
-                surfgym_logger.warning(
+                gateway_logger.warning(
                     """
 Failed to release: instance_id=%s port=%s
 Error Detail: error_type=%s message=%s
@@ -255,7 +255,7 @@ Error Detail: error_type=%s message=%s
                     exc.message,
                 )
             except Exception:
-                surfgym_logger.exception(
+                gateway_logger.exception(
                     "Unexpected release worker failure: instance_id=%s port=%s",
                     lease.instance_id,
                     lease.port,

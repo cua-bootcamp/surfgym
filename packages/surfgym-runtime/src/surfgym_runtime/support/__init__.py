@@ -8,10 +8,10 @@ from surfgym_runtime.support.config import (
 from surfgym_runtime.support.evaluator import evaluate_page_rules
 from surfgym_runtime.support.logger import (
     deploy_logger,
+    gateway_logger,
     instance_logger,
     master_logger,
     setup_logging,
-    surfgym_logger,
 )
 from surfgym_runtime.support.task_store import TaskStore
 
@@ -23,7 +23,7 @@ __all__ = [
     "load_config",
     "TaskStore",
     "evaluate_page_rules",
-    "surfgym_logger",
+    "gateway_logger",
     "master_logger",
     "instance_logger",
     "deploy_logger",
