@@ -34,7 +34,8 @@ _T = TypeVar("_T")
 
 
 @dataclass(frozen=True)
-class Lease:
+class SessionState:
+    task_id: str
     instance_id: str
     port: int
 
@@ -47,20 +48,16 @@ class Service:
         wavepool_config: WavepoolConfig,
     ) -> None:
         self.task_store = task_store
-        self.pool = GatewayTransport(wavepool_config)
+        self.transport = GatewayTransport(wavepool_config)
         self.process_timeout = wavepool_config.process_timeout
 
-        # session_id -> (instance_id, port)
-        self.active_sessions: dict[int, Lease] = {}
+        self._session_lock = Lock()
+        self.session_states: dict[int, SessionState | None] = {}
 
         # release daemon
-        self._release_queue: SimpleQueue[Lease | None] = SimpleQueue()
+        self._release_queue: SimpleQueue[SessionState | None] = SimpleQueue()
         self._release_worker: Thread | None = None
         self._release_timeout = wavepool_config.process_timeout.release
-
-        # allocation lock
-        self._session_lock = Lock()
-        self._starting_sessions: set[int] = set()
 
     def open(self) -> None:
         self._release_worker = Thread(
@@ -89,14 +86,15 @@ class Service:
         self, request: StartRequest, deadline: Callable[[str], Deadline]
     ) -> ActionResponse:
         self._reserve_session(request.session_id)
-        lease = None
-
+        session_state = None
         try:
-            task = self._get_task_safe(request.task_id)
-            lease = self._allocate(deadline, task.website, task.setup)
-
-            screenshot_b64, media_type = self._screenshot(deadline, lease)
-            self._commit_session(request.session_id, lease)
+            task = self._require_task(request.task_id)
+            instance_id, port = self._allocate(deadline, task.website, task.setup)
+            session_state = SessionState(
+                task_id=request.task_id, instance_id=instance_id, port=port
+            )
+            screenshot_b64, media_type = self._screenshot(deadline, session_state)
+            self._start_session(request.session_id, session_state)
 
             return ActionResponse(
                 session_id=request.session_id,
@@ -104,9 +102,9 @@ class Service:
                 image=ImagePayload(data=screenshot_b64, mimeType=media_type),
             )
         except Exception:
-            self._abort_session(request.session_id)
-            if lease:
-                self._enqueue_release(lease)
+            self._end_session(request.session_id)
+            if session_state is not None:
+                self._release_queue.put(session_state)
             raise
 
     def _handle_action(
@@ -114,13 +112,13 @@ class Service:
         request: ActionRequest,
         deadline: Callable[[str], Deadline],
     ) -> ActionResponse:
-        lease = self._get_lease_safe(request.session_id)
+        session_state = self._require_session_state(request.session_id, request.task_id)
 
         for action in request.actions:
             if not isinstance(action, TerminalAction):
-                self._execute(deadline, lease, action.to_commands())
+                self._execute(deadline, session_state, action.to_commands())
 
-        (screenshot_b64, media_type) = self._screenshot(deadline, lease)
+        (screenshot_b64, media_type) = self._screenshot(deadline, session_state)
         # text = self._interactive_tree(deadline, lease) if request.include_a11y else None
 
         return ActionResponse(
@@ -133,61 +131,60 @@ class Service:
     def _handle_reward(
         self, request: RewardRequest, deadline: Callable[[str], Deadline]
     ) -> RewardResponse:
-        lease = self._get_lease_safe(request.session_id)
-        task = self._get_task_safe(request.task_id)
+        task = self._require_task(request.task_id)
+        session_state = self._require_session_state(request.session_id, request.task_id)
 
-        try:
-            observations = self._observe(
-                deadline=deadline,
-                lease=lease,
-                evaluation=task.evaluation,
-            )
+        observations = self._observe(
+            deadline=deadline,
+            state=session_state,
+            evaluation=task.evaluation,
+        )
 
-            reward = evaluate_page_rules(task.evaluation, observations)
-            return RewardResponse(
-                session_id=request.session_id,
-                task_id=request.task_id,
-                reward=reward,
-            )
-        finally:
-            self._enqueue_release(lease)
-            self.active_sessions.pop(request.session_id, None)
+        reward = evaluate_page_rules(task.evaluation, observations)
+
+        self._release_queue.put(session_state)
+        self._end_session(request.session_id)
+
+        return RewardResponse(
+            session_id=request.session_id,
+            task_id=request.task_id,
+            reward=reward,
+        )
 
     def _allocate(
         self,
         deadline: Callable[[str], Deadline],
         websites: list[Website],
         setup: Optional[list[Action]],
-    ) -> Lease:
+    ) -> tuple[str, int]:
         d = deadline("allocate")
-        instance_id, _, port = self._run_with_retry(
+        return self._run_with_retry(
             min_attempt_time=self.process_timeout.allocate,
             deadline=d,
-            func=lambda: self.pool.allocate(d, websites, setup),
+            func=lambda: self.transport.allocate(d, websites, setup),
         )
-        return Lease(instance_id=instance_id, port=port)
 
-    def _screenshot(self, deadline: Callable[[str], Deadline], lease: Lease):
+    def _screenshot(self, deadline: Callable[[str], Deadline], state: SessionState):
         d = deadline("screenshot")
         (screenshot_b64, media_type, x, y) = self._run_with_retry(
             min_attempt_time=self.process_timeout.screenshot,
             deadline=d,
-            func=lambda: self.pool.screenshot(d, lease.instance_id, lease.port),
+            func=lambda: self.transport.screenshot(d, state.instance_id, state.port),
         )
         return draw_cursor_on_screenshot(screenshot_b64, int(x), int(y)), media_type
 
     def _observe(
-        self, *, deadline: Callable[[str], Deadline], lease: Lease, evaluation: Evaluation
+        self, *, deadline: Callable[[str], Deadline], state: SessionState, evaluation: Evaluation
     ):
         d = deadline("observe")
         return self._run_with_retry(
             min_attempt_time=self.process_timeout.observe,
             deadline=d,
-            func=lambda: self.pool.observe(d, lease.instance_id, lease.port, evaluation),
+            func=lambda: self.transport.observe(d, state.instance_id, state.port, evaluation),
         )
 
-    def _execute(self, deadline: Callable[[str], Deadline], lease: Lease, command: Command):
-        self.pool.execute(deadline("execute"), lease.instance_id, lease.port, command)
+    def _execute(self, deadline: Callable[[str], Deadline], state: SessionState, command: Command):
+        self.transport.execute(deadline("execute"), state.instance_id, state.port, command)
 
     def _run_with_retry(
         self,
@@ -211,62 +208,65 @@ class Service:
                 sleep_for = min(next(backoffs), sleep_budget)
                 time.sleep(sleep_for)
 
-    def _get_lease_safe(self, session_id: int) -> Lease:
-        lease = self.active_sessions.get(session_id)
-        if lease is None:
-            raise InvalidRequest(f"Session {session_id} does not exist")
-        return lease
-
-    def _get_task_safe(self, task_id: str):
-        try:
-            return self.task_store.get(task_id)
-        except KeyError as exc:
-            raise InvalidRequest(f"Unknown task_id: {task_id}") from exc
-
-    def _enqueue_release(self, lease: Lease) -> None:
-        self._release_queue.put(lease)
-
     def _release_worker_loop(self) -> None:
         while True:
-            lease = self._release_queue.get()
-            if lease is None:
+            state = self._release_queue.get()
+            if state is None:
                 return
 
             try:
                 release_deadline = Deadline(time.monotonic() + self._release_timeout, "release")
-                self.pool.release(release_deadline, lease.instance_id, lease.port)
+                self.transport.release(release_deadline, state.instance_id, state.port)
             except GatewayError as exc:
                 gateway_logger.warning(
                     """
 Failed to release: instance_id=%s port=%s
 Error Detail: error_type=%s message=%s
 """.strip(),
-                    lease.instance_id,
-                    lease.port,
+                    state.instance_id,
+                    state.port,
                     exc.error_type,
                     exc.message,
                 )
             except Exception:
                 gateway_logger.exception(
                     "Unexpected release worker failure: instance_id=%s port=%s",
-                    lease.instance_id,
-                    lease.port,
+                    state.instance_id,
+                    state.port,
                 )
 
     def _reserve_session(self, session_id: int) -> None:
         with self._session_lock:
-            if session_id in self.active_sessions or session_id in self._starting_sessions:
-                raise InvalidRequest(f"Session {session_id} already exists")
-            self._starting_sessions.add(session_id)
+            if session_id in self.session_states:
+                raise InvalidRequest(f"Session {session_id} already active or starting.")
+            self.session_states[session_id] = None
 
-    def _commit_session(self, session_id: int, lease: Lease) -> None:
+    def _start_session(self, session_id: int, state: SessionState) -> None:
         with self._session_lock:
-            self._starting_sessions.discard(session_id)
-            self.active_sessions[session_id] = lease
+            self.session_states[session_id] = state
 
-    def _abort_session(self, session_id: int) -> None:
+    def _end_session(self, session_id: int) -> None:
         with self._session_lock:
-            self._starting_sessions.discard(session_id)
+            self.session_states.pop(session_id, None)
+
+    def _require_session_state(self, session_id: int, task_id: str) -> SessionState:
+        session_state = self.session_states.get(session_id)
+        if session_state is None:
+            raise InvalidRequest(
+                f"Session {session_id} is not active. Please request a start action first."
+            )
+        if session_state.task_id != task_id:
+            raise InvalidRequest(
+                f"Task mismatch for session {session_id}: "
+                f"expected task_id={session_state.task_id}, got task_id={task_id}."
+            )
+        return session_state
+
+    def _require_task(self, task_id: str):
+        task = self.task_store.get(task_id)
+        if task is None:
+            raise InvalidRequest(f"Unknown task_id: {task_id}")
+        return task
 
     # def _interactive_tree(self, deadline: Deadline, lease: Lease):
     #     response = self._run_with_retry(

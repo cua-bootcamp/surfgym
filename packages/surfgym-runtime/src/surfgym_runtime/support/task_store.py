@@ -20,11 +20,9 @@ class TaskStore:
     def from_rows(cls, rows: list[dict[str, object]]) -> "TaskStore":
         return cls(TaskRowsAdapter.validate_python(rows))
 
-    def get(self, task_id: str | int) -> Task:
+    def get(self, task_id: str | int) -> Task | None:
         key = str(task_id)
-        if key not in self._tasks_by_id:
-            raise KeyError(f"Unknown task_id: {key}")
-        return self._tasks_by_id[key]
+        return self._tasks_by_id.get(key)
 
     def __contains__(self, task_id: object) -> bool:
         return str(task_id) in self._tasks_by_id

@@ -43,7 +43,7 @@ class GatewayTransport:
         timeout = deadline.timeout_for(self._timeouts.allocate)
         response = self._master_client.allocate(websites, setup, timeout)
         payload = _handle_response(response, AllocateResponse)
-        return (payload.instance_id, payload.instance_host, payload.instance_port)
+        return (payload.instance_id, payload.instance_port)
 
     def release(self, deadline: Deadline, instance_id: str, instance_port: int) -> None:
         timeout = deadline.timeout_for(self._timeouts.release)
