@@ -43,7 +43,14 @@ def setup_logging(
     if console:
         console_handler = RichHandler(rich_tracebacks=True)
         console_handler.setLevel(logging.INFO)
-        console_handler.setFormatter(logging.Formatter("[%(name)s] %(levelname)s: %(message)s"))
+        console_handler.setFormatter(
+            logging.Formatter(
+                """
+[%(name)s] %(levelname)s:
+%(message)s
+""".strip()
+            )
+        )
         logger.addHandler(console_handler)
 
     if file:

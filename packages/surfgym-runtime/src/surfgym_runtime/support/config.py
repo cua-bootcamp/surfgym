@@ -52,18 +52,18 @@ class Config(FrozenBaseModel):
     wavepool_config: WavepoolConfig = Field(alias="wavepool")
 
 
-def _validate_config(config: Config) -> None:
-    gateway_config = config.gateway_config
-    if gateway_config.gateway_workers < gateway_config.gateway_in_flight:
-        raise ValueError(
-            f"""
-Gateway max_workers ({config.gateway_config.gateway_workers}) is smaller than max_in_flight ({config.gateway_config.gateway_in_flight}).
-Please set gateway_workers larger than gateway_in_flight to avoid in-flight timeout.
-""".strip()
-        )
+# def _validate_config(config: Config) -> None:
+#     gateway_config = config.gateway_config
+#     if gateway_config.gateway_workers < gateway_config.gateway_in_flight:
+#         raise ValueError(
+#             f"""
+# Gateway max_workers ({config.gateway_config.gateway_workers}) is smaller than max_in_flight ({config.gateway_config.gateway_in_flight}).
+# Please set gateway_workers larger than gateway_in_flight to avoid in-flight timeout.
+# """.strip()
+#         )
 
 
 def load_config(config_path: Path) -> Config:
     config = Config.model_validate_json(config_path.read_text())
-    _validate_config(config)
+    # _validate_config(config)
     return config

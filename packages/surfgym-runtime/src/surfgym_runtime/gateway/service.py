@@ -1,8 +1,3 @@
-"""
-Service layer of the gateway.
-- Define works to do bout the
-"""
-
 import base64
 import random
 import time
@@ -18,7 +13,6 @@ from surfgym_contracts.computer13 import TerminalAction
 from surfgym_contracts.protocol.agent_to_gateway import (
     ActionRequest,
     Request,
-    RequestAdapter,
     RewardRequest,
     StartRequest,
 )
@@ -82,9 +76,7 @@ class Service:
             self._release_worker.join(timeout=1.0)
 
     def handle_request(self, request: Request, deadline_at: float):
-        request = RequestAdapter.validate_python(request)
         deadline = deadline_for(deadline_at)
-
         match request:
             case StartRequest():
                 return self._handle_start(request, deadline)
