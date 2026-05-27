@@ -177,10 +177,10 @@ class WavepoolSupervisor:
 
         process = subprocess.Popen(
             cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
+            # stdout=subprocess.PIPE,
+            # stderr=subprocess.STDOUT,
             text=True,
-            bufsize=1,
+            # bufsize=1,
             start_new_session=True,
             env=env,
         )
@@ -188,25 +188,25 @@ class WavepoolSupervisor:
         self.processes.append(ManagedProcess(name=name, process=process))
 
         thread = threading.Thread(
-            target=self._stream_output,
+            # target=self._stream_output,
             args=(name, process),
             daemon=False,
         )
         self._stream_threads.append(thread)
         thread.start()
 
-    def _stream_output(self, name: str, process: subprocess.Popen[str]) -> None:
-        stdout = process.stdout
-        if stdout is None:
-            return
+    # def _stream_output(self, name: str, process: subprocess.Popen[str]) -> None:
+    #     stdout = process.stdout
+    #     if stdout is None:
+    #         return
 
-        try:
-            for line in stdout:
-                line = line.rstrip()
-                if line:
-                    deploy_logger.info("[%s] %s", name, line)
-        finally:
-            stdout.close()
+    #     try:
+    #         for line in stdout:
+    #             line = line.rstrip()
+    #             if line:
+    #                 deploy_logger.info("[%s] %s", name, line)
+    #     finally:
+    #         stdout.close()
 
     def _wait_until_ready(self) -> None:
         health_check_urls: list[str] = [
@@ -278,7 +278,7 @@ def launch() -> None:
     args = _parse_args()
 
     config = load_config(args.config_path)
-    setup_logging(deploy_logger, config.log_path)
+    setup_logging(deploy_logger, config.log_path, component="deploy")
 
     supervisor = WavepoolSupervisor(
         config=config.wavepool_config, config_path=args.config_path, log_path=config.log_path

@@ -117,9 +117,8 @@ def _parse_args() -> argparse.Namespace:
 
 def launch() -> None:
     args = _parse_args()
-
     config = load_config(args.config_path)
-    setup_logging(master_logger, config.log_path)
+    setup_logging(master_logger, config.log_path, component="master")
 
     uvicorn.run(
         create_app(config.wavepool_config),

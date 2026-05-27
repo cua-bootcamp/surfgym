@@ -3,10 +3,6 @@ from collections.abc import Callable
 
 from surfgym_contracts.protocol.gateway_to_agent import ErrorType
 
-#########################################
-#              Known Error              #
-#########################################
-
 
 class GatewayError(Exception):
     def __init__(self, error_type: ErrorType, message: str) -> None:
@@ -20,14 +16,19 @@ class InvalidRequest(GatewayError):
         super().__init__("INVALID_REQUEST", message)
 
 
-class UpstreamError(GatewayError):
-    def __init__(self, message: str) -> None:
-        super().__init__("UPSTREAM", message)
-
-
-class DeadlineExceeded(GatewayError):
+class TimeOutError(GatewayError):
     def __init__(self, message: str) -> None:
         super().__init__("TIMEOUT", message)
+
+
+class Unexpected(GatewayError):
+    def __init__(self, message: str) -> None:
+        super().__init__("UNEXPECTED", message)
+
+
+class Upstream(GatewayError):
+    def __init__(self, message: str) -> None:
+        super().__init__("UPSTREAM", message)
 
 
 class RetryableError(GatewayError):
@@ -43,7 +44,7 @@ class RetryableError(GatewayError):
 class Deadline:
     def __init__(self, expires_at: float, context: str) -> None:
         self.expires_at = expires_at
-        self.error = DeadlineExceeded(f"Deadline exceeded in {context}")
+        self.error = TimeOutError(f"Deadline exceeded in {context}")
 
     def remaining(self) -> float:
         return self.expires_at - time.monotonic()

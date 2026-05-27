@@ -17,7 +17,7 @@ from surfgym_contracts.protocol.upstream_to_gateway import (
 )
 from surfgym_contracts.task import Action, Evaluation, Website
 
-from surfgym_runtime.gateway.error import Deadline, RetryableError, UpstreamError
+from surfgym_runtime.gateway.error import Deadline, RetryableError, Upstream
 from surfgym_runtime.support.config import WavepoolConfig
 
 _T = TypeVar("_T", bound=BaseModel)
@@ -43,7 +43,7 @@ class GatewayTransport:
         timeout = deadline.timeout_for(self._timeouts.allocate)
         response = self._master_client.allocate(websites, setup, timeout)
         payload = _handle_response(response, AllocateResponse)
-        return (payload.instance_id, payload.instance_host, payload.instance_port)
+        return (payload.instance_id, payload.instance_port)
 
     def release(self, deadline: Deadline, instance_id: str, instance_port: int) -> None:
         timeout = deadline.timeout_for(self._timeouts.release)
@@ -164,7 +164,7 @@ def _handle_response(response: requests.Response, schema: type[_T]) -> _T:
     try:
         body: object = response.json() if response.content.strip() else {}
     except ValueError as exc:
-        raise UpstreamError(
+        raise Upstream(
             f"Upstream returned invalid JSON response (status={response.status_code})"
         ) from exc
 
@@ -174,14 +174,14 @@ def _handle_response(response: requests.Response, schema: type[_T]) -> _T:
     try:
         payload = ErrorResponse.model_validate(body)
     except ValidationError as exc:
-        raise UpstreamError(
+        raise Upstream(
             f"Upstream returned invalid error response (status={response.status_code})"
         ) from exc
 
     if payload.retryable:
         raise RetryableError(f"Upstream retryable error: {payload.error_type}: {payload.message}")
 
-    raise UpstreamError(
+    raise Upstream(
         f"""
 Upstream failed handling request.
 [DETAIL] 
