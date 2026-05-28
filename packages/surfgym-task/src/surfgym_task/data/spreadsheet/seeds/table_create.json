@@ -1,0 +1,14 @@
+{
+  "instruction": "Create a simple student score table in the spreadsheet. In column A, enter the column header \"Name\" and list three student names below it: Alice, Brian, and Chloe. In column B, enter the column header \"Score\" and list their scores below it: 85, 92, and 78.",
+  "empty_start": true,
+  "states": [
+    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Name" }],
+    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Score" }],
+    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Alice" }],
+    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Brian" }],
+    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Chloe" }],
+    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": 85 }],
+    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": 92 }],
+    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": 78 }]
+  ]
+}

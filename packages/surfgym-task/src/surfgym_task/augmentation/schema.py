@@ -6,7 +6,7 @@ from functools import cached_property
 from typing import Annotated, Any, Literal, Optional, Protocol, TypeAlias, cast
 
 from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, TypeAdapter
-from surfgym_contracts import RuleCore, TaskCore
+from surfgym_contracts import RuleCore
 
 
 class FrozenBaseModel(BaseModel):
@@ -36,7 +36,9 @@ State: TypeAlias = Annotated[list[StateAtom], BeforeValidator(listify)]
 States: TypeAlias = Annotated[list[State], BeforeValidator(listify), Field(min_length=1)]
 
 
-class SeedTask(TaskCore):
+class SeedTask(FrozenBaseModel):
+    instruction: str
+    empty_start: bool
     states: States
 
 
@@ -129,5 +131,6 @@ Granularity: TypeAlias = Literal["COARSE", "FINE"]
 Accumulation: TypeAlias = Literal["DELTA", "CUMULATIVE"]
 
 
+SeedTaskAdapter: TypeAdapter[SeedTask] = TypeAdapter(SeedTask)
 TaskRowsAdapter: TypeAdapter[list[SeedTask]] = TypeAdapter(list[SeedTask])
 HoareStateInstructionRowAdapter: TypeAdapter[dict[str, str]] = TypeAdapter(dict[str, str])

@@ -4,7 +4,7 @@ from typing import Any, Iterator, Optional, TypeVar, cast
 
 import json5
 from pydantic import TypeAdapter
-from surfgym_contracts import Action, ConsoleRule, Evaluation, Task
+from surfgym_contracts import Action, ConsoleRule, Evaluation, Task, Website
 
 from surfgym_task.augmentation.instruction_generator import InstructionGenerator
 from surfgym_task.augmentation.schema import (
@@ -13,9 +13,9 @@ from surfgym_task.augmentation.schema import (
     HoareState,
     HoareStateInstructionRowAdapter,
     SeedTask,
+    SeedTaskAdapter,
     State,
     StateAtom,
-    TaskRowsAdapter,
 )
 
 T = TypeVar("T")
@@ -23,19 +23,19 @@ T = TypeVar("T")
 
 class Augmentor:
     def __init__(
-        self, seed_dir: Path, granularity: Granularity, accumulation: Accumulation
+        self, seed_dir: Path, granularity: Granularity, accumulation: Accumulation, website: str
     ) -> None:
+        self.website = website
         self.granularity: Granularity = granularity
         self.instruction_generator = InstructionGenerator()
 
-        self.seed_path = seed_dir / "seed.jsonc"
         self.instruction_path = seed_dir / "instruction.jsonc"
         if not self.instruction_path.exists():
             self.instruction_path.write_text("{}\n", encoding="utf-8")
         self.output_dir = seed_dir / "out"
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
-        self.seeds: list[SeedTask] = load_rows(self.seed_path, TaskRowsAdapter)
+        self.seeds_with_ids = load_seed_tasks(seed_dir)
         self.hash_to_inst = load_rows(self.instruction_path, HoareStateInstructionRowAdapter, {})
 
         self.hash_to_state: dict[str, HoareState] = {}
@@ -43,7 +43,7 @@ class Augmentor:
         self.hoare_creator = HoareState.creator(accumulation)
 
         # update the initial hoare_state_instruction with seed instructions
-        for seed in self.seeds:
+        for seed, _ in self.seeds_with_ids:
             seed_hoare = self.hoare_creator(seed.states, len(seed.states) - 1)
             seed_hoare_key = seed_hoare.to_key()
             self.hash_to_state[seed_hoare_key] = seed_hoare
@@ -52,7 +52,7 @@ class Augmentor:
     def run(self) -> None:
         surfgym_tasks: list[Task] = []
 
-        for seed in self.seeds:
+        for seed, id in self.seeds_with_ids:
             state_pair_gen = self._hoare_state_generator(seed.states)
 
             for hoare, start, end in state_pair_gen:
@@ -65,9 +65,9 @@ class Augmentor:
 
                 surfgym_tasks.append(
                     Task(
-                        task_id=f"{seed.task_id}_{start}_{end}",
+                        task_id=f"{id}_{start}_{end}",
                         instruction=self.hash_to_inst[hash],
-                        website=seed.website,
+                        website=[Website(url=self.website)],
                         complexity=hoare.complexity,
                         evaluation=Evaluation(rules=self._state_to_rules(hoare.end_state)),
                         setup=(
@@ -201,7 +201,7 @@ class Augmentor:
         (self.output_dir / "summary.txt").write_text(
             "\n".join(
                 [
-                    f"seed task count: {len(self.seeds)}",
+                    f"seed task count: {len(self.seeds_with_ids)}",
                     f"generated task count: {len(surfgym_tasks)}",
                 ]
             )
@@ -271,6 +271,22 @@ def dumps_state_compact(value: Optional[list[dict[Any, str]]], indent: int = 8) 
     lines.append(" " * (indent - 2) + "]")
 
     return "\n".join(lines)
+
+
+def load_seed_tasks(seeds_dir: Path) -> list[tuple[SeedTask, str]]:
+    if not seeds_dir.exists():
+        raise FileNotFoundError(seeds_dir)
+    if not seeds_dir.is_dir():
+        raise NotADirectoryError(seeds_dir)
+
+    json_paths = sorted(
+        path for path in seeds_dir.iterdir() if path.is_file() and path.suffix == ".json"
+    )
+    if not json_paths:
+        raise FileNotFoundError(f"No seed JSON files found in {seeds_dir}")
+
+    domain_name = seeds_dir.parent.name
+    return [(load_rows(path, SeedTaskAdapter), f"{domain_name}_{path.stem}") for path in json_paths]
 
 
 def load_rows(path: Path, validator: TypeAdapter[T], init: Optional[T] = None) -> T:

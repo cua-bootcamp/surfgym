@@ -10,15 +10,19 @@ def main() -> None:
     parser.add_argument("--seed-dir-path")
     parser.add_argument("--granularity", default="COARSE", choices=get_args(Granularity))
     parser.add_argument("--accumulation", default="DELTA", choices=get_args(Accumulation))
+    parser.add_argument("--website", type=str)
     args = parser.parse_args()
 
     augmentor = Augmentor(
         seed_dir=Path(args.seed_dir_path),
         granularity=args.granularity,
         accumulation=args.accumulation,
+        website=args.website,
     )
     augmentor.run()
 
 
 if __name__ == "__main__":
     main()
+
+# http://localhost:3000/spreadsheet
