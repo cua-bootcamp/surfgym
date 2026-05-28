@@ -30,11 +30,14 @@ class Augmentor:
 
         self.seed_path = seed_dir / "seed.jsonc"
         self.instruction_path = seed_dir / "instruction.jsonc"
+        if not self.instruction_path.exists():
+            self.instruction_path.write_text("{}\n", encoding="utf-8")
         self.output_dir = seed_dir / "out"
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
         self.seeds: list[SeedTask] = load_rows(self.seed_path, TaskRowsAdapter)
         self.hash_to_inst = load_rows(self.instruction_path, HoareStateInstructionRowAdapter, {})
+
         self.hash_to_state: dict[str, HoareState] = {}
 
         self.hoare_creator = HoareState.creator(accumulation)

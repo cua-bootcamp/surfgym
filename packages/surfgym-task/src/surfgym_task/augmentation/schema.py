@@ -111,8 +111,7 @@ class HoareState(FrozenBaseModel):
 
     @cached_property
     def key(self) -> str:
-        digest = hashlib.sha256(self.canonical_json.encode("utf-8")).hexdigest()
-        return f"hoare:v1:{digest}"
+        return hashlib.sha256(self.canonical_json.encode("utf-8")).hexdigest()
 
     def __hash__(self) -> int:
         return hash(self.key)

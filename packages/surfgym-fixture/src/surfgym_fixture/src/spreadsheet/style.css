@@ -38,6 +38,10 @@ div:has(> [data-u-comp="ribbon-toolbar"]) {
 }
 
 [data-u-comp="ribbon-toolbar"] [data-u-command="sheet.command.smart-toggle-filter"],
+[data-u-comp="ribbon-toolbar"] [data-u-command="sheet.command.sort-range-asc"],
+[data-u-comp="ribbon-toolbar"] [data-u-command="sheet.command.sort-range-desc"],
+[data-u-comp="ribbon-toolbar"] [data-u-command="sheet.command.sort-range-custom"],
+[data-u-comp="ribbon-toolbar"] [data-u-command="sheet.command.insert-chart"],
 [data-u-comp="ribbon-toolbar"] [data-u-command="sheet.operation.open.conditional.formatting.panel"] {
   display: none !important;
 }
@@ -97,4 +101,37 @@ div:has(> [data-u-comp="ribbon-toolbar"]) {
   width: 30px;
   height: 30px;
   fill: currentColor;
+}
+
+.spreadsheet-sort-direction-menu {
+  position: fixed;
+  z-index: 10000;
+  box-sizing: border-box;
+  width: 168px;
+  padding: 6px;
+  border: 1px solid rgb(229, 231, 235);
+  border-radius: 6px;
+  background: rgb(255, 255, 255);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.spreadsheet-sort-direction-menu-button {
+  display: flex;
+  width: 100%;
+  min-height: 32px;
+  cursor: pointer;
+  align-items: center;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: rgb(17, 24, 39);
+  font: inherit;
+  padding: 0 10px;
+  text-align: left;
+}
+
+.spreadsheet-sort-direction-menu-button:hover {
+  background: rgb(243, 244, 246);
 }
