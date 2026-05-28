@@ -1,0 +1,354 @@
+{"hash":"010a8496980738c91d912587df1cbfea95fb53b3af0bdeb856d7b4288aa5d751","instruction":"Copy the Raw Tag values into D3:D8 as 6-digit asset tags, padding with leading zeros where needed."}
+{"hash":"0137a743d9cda2cd5cd29b10fb42483bd6c322da1beffd423af71898ecf9d146","instruction":"Calculate the Tax Amount and Final Amount in D4 and E4."}
+{"hash":"03838b75fd48c213e30b9619fc48182dbdd46fe7b7f6696ac80981a4e1a3b2d9","instruction":"Calculate the quarterly totals in B7:E7."}
+{"hash":"0449db603a812ffccd424eaaa21d45cd8e2009a58346eae7f511b90290fbc875","instruction":"Calculate the quarterly total in E7."}
+{"hash":"045d70d869b46b30f2649d9a2b1fed434ef0308bf5af7cce12eb8974056aeac1","instruction":"Calculate the correct revenue values in F5:F7."}
+{"hash":"0492bbee4241e034bc47dbbafc2f6231bf89da2d6a13a5e3914376648792cbbe","instruction":"Calculate the remaining annual totals in F4:F6 and the quarterly totals plus grand total in B7:F7."}
+{"hash":"068e1173aa74a62e035b141b66061cae20bac5cd0cc1a07029ee80b20cdf9db3","instruction":"Calculate the revenue values in F3:F7 using Unit Price × Quantity × (1 - Discount Rate)."}
+{"hash":"0836d8f88a56136c70aa1336af501d8cc1126aa6099735f62b77b1bde7824a20","instruction":"Calculate the revenue values in F4:F10 and complete the product revenue summary in K3:L4."}
+{"hash":"090a414e09593ed83ad68992f4507de21f2f7dcbef3f4f16f2b7e9e48d553121","instruction":"Calculate the correct revenue values in F9 and F10."}
+{"hash":"09d4170266fd958a97d08cff3a2efe7b2481083dafe7f7ed72f4bb0d73a94242","instruction":"Copy the Raw Tag numbers from B3:B5 into D3:D5 and pad them with leading zeros so each asset tag is exactly 6 digits."}
+{"hash":"0a115f711524c43ab47ea2270db433a0a17f33471d952bd3db3183b78cda0fde","instruction":"Calculate the total revenue for each sales channel in K4:L5."}
+{"hash":"0b88fb95a1eb8604aeade38ecc9707dff9fdaf7f1cd1abc710d09da77e988d66","instruction":"Enter Alice, Brian, and Chloe in A2 through A4."}
+{"hash":"0c7d26ccec5b69a592d3874bf196a868013e82d4af3079db84e5a28a6e298663","instruction":"Format B2:B3 as currency with two decimal places."}
+{"hash":"0d29dfb22f7c54c4461a5ab2d7c7a603b0d182b7b4118b5e542284a6edde9c89","instruction":"Normalize the raw tags in D5 and D6 into 6-digit asset tags."}
+{"hash":"0eb12593337068b7f994c056edb569d8209ddb93c61f00d36a56e54dec4adf9f","instruction":"Calculate the correct total rental charge in D7."}
+{"hash":"0f33ede5ecae2414275a772193b497bed6416ee0e9e89693b4231efbce5aceab","instruction":"Make the Marker and Eraser row yellow for the given table"}
+{"hash":"108c4908de95f674ff1347357d1c3ffbe8cebe20352511866e6226fb0a3ddac2","instruction":"Calculate the correct total rental charge in D6:D7."}
+{"hash":"10faa1359a13e2e8872fef07ede748ca8376ca6b1f0bea10e6670aebaab167f1","instruction":"Calculate the total revenue for the product summary in K3 and L3, and calculate the revenue in F10."}
+{"hash":"118dddf1fac8b5c42e2569578ff2e10e6474721a8cdd48704320203266f321f0","instruction":"Calculate the total revenue summary in K3:L6 and the remaining revenue values in F7:F10."}
+{"hash":"12aa9855e03b29b6582e176dc3100fa6ffd1def4d66f7e64f38b323658add929","instruction":"Calculate the correct revenue in F9."}
+{"hash":"12bf2f1424d086e807f3abf1b75b097c6c79c6e1145fee047e71d20215ec2a40","instruction":"Normalize the raw tags in D7:D8 into 6-digit asset tags."}
+{"hash":"130a2e5170fb5969a32e100e76f1fcfdca45aa4959ea529b73a4afe33e68a1d3","instruction":"Enter 85, 92, Chloe, and 78 in B2, B3, A4, and B4."}
+{"hash":"13fe6f9a2d667079c4daabedfda9e4344dd49d7dd6280a62f6ba45a2ba79e8e7","instruction":"Enter Name in A1, Score in B1, and Alice in A2."}
+{"hash":"15369e7e51935059f5cd5d435d374bd64146753761a0c2d896ac54fe3a790de7","instruction":"Calculate the total revenue for each sales channel in K3:L5 and the remaining product totals in H4:I6."}
+{"hash":"16f78dfcded13931ba82c55cdba2dfe84e4dd6230177bc943201b5c9e60ceac0","instruction":"Calculate the correct manager names in D3 and D4 based on each employee’s department using the lookup table in F:G."}
+{"hash":"193d8eb4ba762e3978be07c879ef45be2b4102cfa23c41eff13b9ecf10bcbc50","instruction":"Enter Score in B1, Alice in A2, 85 in B2, Brian in A3, 92 in B3, and Chloe in A4."}
+{"hash":"1ab1946f5ca28bd5c25885f88707c76c6c75194cef7f6bb3cbc3e432858d16b2","instruction":"Calculate the annual totals in F3:F5."}
+{"hash":"1d2b1de6f64aafd30ac5003fb8e916e1b7453871c8af7467b52271dc26092341","instruction":"Calculate the total revenue for each product in K4:L6."}
+{"hash":"1de53fbba3238ef867c9f80095dec9fcb192d6b412e11a50ceedf7e290faf3a5","instruction":"Calculate the revenue in F5."}
+{"hash":"1ea73723b9c0a755392591b36c66e755990ecef3ae28b99baa450bc2313c8d86","instruction":"Calculate the annual change rates compared with the previous year for the Cash Reserve, Equipment Value, and Other Investment columns. Enter the results as decimal rates, for example 0.10 for a 10% increase. Put the summary table in cells F2:I6."}
+{"hash":"1fc9dc04d7e3ddf07d5115de3929be96e74fd91a95cc59ca2eb7ae80c42a158a","instruction":"Enter Alice, Brian, and Chloe in A2:A4 and 85, 92, and 78 in B2:B4."}
+{"hash":"23cfee0d5e1aee982b8ee3878516a2a986547bee26a075d75133c62cdad5d310","instruction":"The total equipment rental duration is recorded as a time value, and the hourly rental fee is entered as a regular number. Directly multiplying the two cells gives the wrong charge because the duration is stored as a fraction of a day. Please calculate the correct total rental charge in the blank result cell."}
+{"hash":"242dfed4d7c156f20f0f6766d58fc8a805e98cbb6c6ce17e77b1dedf19eeef74","instruction":"Calculate the revenue summary in K3:L6 and the remaining revenue values in F8:F10."}
+{"hash":"268c0a304c7c2aa34736caa4b59cbe2bd1059a48078dfa01ec267b8b46d03603","instruction":"Pad the raw tags with leading zeros to make six-digit asset tags in D4:D7."}
+{"hash":"2708175bf779d6db55576990f5c8efe9df56e219fc62f98806fb516c7e539666","instruction":"Calculate the correct manager names in D4:D9 using the department lookup table in F:G."}
+{"hash":"27e99bc883d73ac7c0a49b2ecfdd94cd4bb01c83fc3188c675fd76ef25c49a22","instruction":"Calculate the remaining receipt code counts in F4:G6."}
+{"hash":"2832b823287b36906067b424e67687ff6458d36e19e076565115cead4c9e5044","instruction":"Format the Amount values in B2:B5 as currency with two decimal places."}
+{"hash":"2859c2ae46d784815cb3c10c95fe3ec23a9d52008e19e1c2e480946af4a961eb","instruction":"Copy each number from the \"Raw Tag\" column into the \"6-Digit Asset Tag\" column, padding zeros in front so that every asset tag has exactly six digits. Finish the work and do not touch irrelevant regions, even if they are blank."}
+{"hash":"2875728aa9a4694b451919e86261902352db13bc3fe7c2b436abddccf0ff4215","instruction":"Calculate the correct manager name in D5."}
+{"hash":"2c2b90fa36a990b2b5044cbea92234f770e3a46302fb94d90dbceec4ec49296e","instruction":"Enter M, T, R, and P in C2:C5."}
+{"hash":"2e9c382dff3ddd88e91f7b43affb87c9ccf5b8e94cb7c4a7c63701943e369c0a","instruction":"Calculate the grand total in F7."}
+{"hash":"315c31b24b43a4123e4e4d52ae49605a0242d404eeca960a648ca10f6f0e3863","instruction":"Format B4 as a date using yyyy-MM-dd."}
+{"hash":"3250bb380c94aded3b8aba9ab2f62ad70c156d6584e85f5d9c086c47eebe0122","instruction":"List the remaining unique receipt codes in ascending order in F5, F6, F7, and complete their counts in G5:G7."}
+{"hash":"338720add700e5d9842e4b46abc4fa0124425a4e92f89761dc9e7b6fcb1bb339","instruction":"Calculate the correct manager names in D5:D10 using the department lookup table in F:G."}
+{"hash":"33f874fc5a3f3e761af9fc209a2c18e35d1ed7487279bc9e12496169914feb57","instruction":"Copy and pad the asset tags into D4:D5 so they each have exactly six digits."}
+{"hash":"341c8ceff16c9b157d5d1dd268e29aea91e1db7af9e5dbe7967f2890a0885c11","instruction":"Calculate the product revenue summary in K3:L5."}
+{"hash":"3479e59f99aa76afacdf5cb0cc416d045f94a721b84f82211db69c451089fc11","instruction":"Convert the Raw Tag values in B3:B7 to 6-digit asset tags in D3:D7 by padding leading zeros as needed."}
+{"hash":"34e50971d1fc1761d376e1014e77ebcca06c65e44b47c1574d13c42418298897","instruction":"Calculate the correct total in F4."}
+{"hash":"35acf84e48797d497a6091a8f2e7bd88f023de7b9da1d3ab82cf614550f03a71","instruction":"Calculate the line totals in D2:D4 by multiplying Quantity by Unit Price."}
+{"hash":"35e47e51ecae74047ed6ec37aa34c48a9dff2bf607b3e54b28b74b3316d535d5","instruction":"Calculate the revenue in F6."}
+{"hash":"36841928322a2fda698d1ea64add3be55c865e333ec338d14b79f30f44553169","instruction":"Normalize the Raw Tag values into 6-digit asset tags in D6:D8."}
+{"hash":"36c6eda5eefb6261747364bf684dc1eac5ea596162d35f5b463a51c5df73954c","instruction":"Calculate the total revenue for each product in K3:L4 and F10."}
+{"hash":"36dc70e80a26c82d9ac8e34ed0221ed3b332118f37be1388654025533072ab00","instruction":"Calculate the total revenue for each product in K3:L5."}
+{"hash":"383d432005c3cb2ebcac2be7f9edac3ad94a79045499e72ed62a47b0cfd92294","instruction":"Calculate the product revenue summary in K3:L4 and fill in the remaining revenue values in F9:F10."}
+{"hash":"392c57ca4d7ad4d08fb95f700a00ae2be713369977f1900d280c1d250e73ce44","instruction":"Calculate the revenue values in F5:F9."}
+{"hash":"396638bb921682595bf96ef2d048094a8b733bac2c89448311df77fb484bc172","instruction":"Calculate the total revenue summary in K3:L5 and F10."}
+{"hash":"3b0fe66f72fd8934b90c8c3c2123a19cf1b341fb5e08884efba7b6cd0f741e1c","instruction":"Calculate the correct totals in F4:F6 and B7:D7."}
+{"hash":"3b38a9cb88180012c926807cf2e7a30bfaea405ac3922e979c23e06914a781f8","instruction":"Enter Brian in A3."}
+{"hash":"3b3cac5d1382645f35a03a2efa22b9b4ccdd0edb2d6613754c05b647022b349e","instruction":"Calculate the correct manager names in D3:D7 based on each employee’s department using the lookup table in F:G."}
+{"hash":"3bd24182c2cc2c5ef9f14bf2b3ea74de03a889cff1eb26a0a09692b8f69a19ff","instruction":"Apply the yyyy-MM-dd date format to B3:B4."}
+{"hash":"3c947d30a49db88385aefb8197fe581ab06dd0ae9596675b8f1faa35f9c241fe","instruction":"Round each numeric value in column B to two decimal places and place the rounded result in column C. Make sure every result in column C is displayed with exactly two decimal digits, including trailing zeros for whole numbers or one-decimal values."}
+{"hash":"3d1ad3a6227acf147e1000fe175930899d70b0ed8ff684d1822df18959a9b0f4","instruction":"Calculate the quarterly totals in B7:D7."}
+{"hash":"3d1be7cf7d88ff44cec34a78463f3fc9e8b1dad4907786b5f8a2a5b653030839","instruction":"Calculate the correct revenue values in F4:F7."}
+{"hash":"3e1ed957eb40d6bc013e0fd1e84982a8cf72c95580f61933a8f237a0ae02d4b3","instruction":"Calculate the correct quarterly totals in C7 and D7."}
+{"hash":"3fb3b3b2942bdbcd34d0107f215f847d0690a0029d39bb9ec36ccfc72aa30f3d","instruction":"Enter Score in B1."}
+{"hash":"4046a729d8ec42bae1139c7e9846b86a4cfd537883e9064fa5207df578bd6d5f","instruction":"Calculate the revenue values in F6:F10 and the product revenue summary in K3:L4."}
+{"hash":"40e73960dc81888cd9e807120c2a37de8a3f352eda9397fe9e389c56a3c9186b","instruction":"Split the full names in A2:A5 into first names in B2:B5 while keeping the given middle initials in C2:C5 and last names in D2:D5."}
+{"hash":"410e2a50fbc0793969af2902410db98ec7982e776d9edc278280ebf184e90cbb","instruction":"Make each column header bold for the given table"}
+{"hash":"41f15924fa1141d8f5e34ca1db250c0286886c5c5e4629a91e625c214f6e6aaf","instruction":"Enter Alice, Brian, and Chloe in A2, A3, and A4, and 85 and 92 in B2 and B3."}
+{"hash":"42369626a3d3cff9f5cc6a98f49239ee77ee080042607f925e768e0281e386d8","instruction":"Calculate the correct manager name in D10 based on Oliver Shin’s department and the lookup table in F:G."}
+{"hash":"432b498b20b3de773cc040b566c45e47aa51a2abbe7d04b5b21cc3ab26bf52a5","instruction":"Calculate the correct total rental charge in D5."}
+{"hash":"4521efb71ecdbd8c2c0446b197e4387a45b9819220c7ffa06a49e9790a99c20b","instruction":"Pad the raw tag values with leading zeros to make six-digit asset tags in D5:D8."}
+{"hash":"465f4f7a73aab74e0f4056137e5d50129df793b3a65ff7821d59b5911c56a063","instruction":"Calculate the correct total rental charges in D4 and D5."}
+{"hash":"4741a0ee6c8c1614393675aa00569a1cbb7a330c691ca808d054a95108d6b4b7","instruction":"Calculate the correct totals in F5, F6, and B7."}
+{"hash":"47cffe59a209258aa0ae72ad5ab580f59b46fdb325caeb5232ee0283e9f7fe0e","instruction":"Calculate the correct receipt code counts in F7:G7."}
+{"hash":"4882549b80ecc5fb0dff9f16319bef88b742ef4067856bbbf6de6980240faa1f","instruction":"Calculate the revenue values in F5:F8."}
+{"hash":"4a5c41039ef8b4a4aa7df912d21d264274e19d25f57f9063de9dc5b779e17d5f","instruction":"Calculate the total revenue for the remaining product in K5 and L5."}
+{"hash":"4b5ba7423ca8f9fcb7697cd94f4876a434de850e05055c56e5a5eecf6fd94844","instruction":"Enter 85 in B2, Brian in A3, and Chloe in A4."}
+{"hash":"4b7a0340f8896533fd24fc72af120a17aa4fbc131a05abe2a5d0e9f605ea4e67","instruction":"Calculate the correct manager names in D3:D8 based on each employee’s department using the lookup table in F:G."}
+{"hash":"4c7c92a2f6a5641ac5fc08ccb7b14ac962f65db7123efb5af6e0b17086781751","instruction":"Enter Total Service Revenue in F3 and calculate the total of the Service Revenue column in G3."}
+{"hash":"4cab40743b1ebd4e9179bd240bc355ee00a8fa58ebbaf99ea3dec9fb04cf72aa","instruction":"Calculate the correct Manager Name in D5:D6 using the department lookup table in F:G."}
+{"hash":"4df8618290aec460e7cc3356888cef7130c7e6f28443c9937bc2e9fd6f4c8053","instruction":"Calculate the correct manager names in D4:D10 using the department lookup table in F:G."}
+{"hash":"4e0cdd02469b9249c31cb814e52c2a11f6d8d43c115797a53f38802de3c65152","instruction":"Fill in the remaining Manager Name cells in D4:D8 by looking up each employee’s department in the table in F:G."}
+{"hash":"4ede6452400e75ee17d70ef48aa4cdd8ed8b775a590323491b008fbe61982a18","instruction":"Calculate the correct manager names in D4:D6 using the department lookup table in F:G."}
+{"hash":"4f43d4b3e4d24016e34fa68f89e2e48322609eb00cfd52f8a8692be1eeab096b","instruction":"Calculate the annual total in F6 and the quarterly totals in B7:D7."}
+{"hash":"4f5df6a3b23ce2d672042d8bf57fcd9e4cb0ba9760cc130c1687c58bfb570d64","instruction":"Calculate the total revenue for the sales channels in K3:L3."}
+{"hash":"4f9e947fc059bfec901d22cc09318a9320fd3b7a747243d9f045b3013888c6d4","instruction":"Calculate the quarterly totals in D7:F7."}
+{"hash":"4fbfaa32ad2133eb1c181821775786aca54454806e92d971b93c1c2739fec274","instruction":"Calculate the correct manager names in D7:D9 using the department lookup table in F:G."}
+{"hash":"50c7fd04285910bff953d4f12a40c3e679a7daf775fce1dd523ef0e440891ba8","instruction":"Calculate the annual totals in F3:F6 and the quarterly total in B7."}
+{"hash":"5113d63b93ff8ff7336570b74e7e1fa396af2bbf875ff7b7391e46ddfc9f342b","instruction":"Calculate the revenue in F4."}
+{"hash":"52b8cca6db47a21bac1ef142d742638e9bfda3944ca64271409402e6586804f7","instruction":"Calculate the correct receipt code and count in F6 and G6."}
+{"hash":"52bc8376aec5d82d073e69503b527f0f024486ea63a63af026bd15889a99e6f1","instruction":"Calculate the revenue values in F4:F10."}
+{"hash":"548c94e3aa905302ab2bddfe0ebb945adec9ea72a2ec82d5481e211f496c5b72","instruction":"Calculate the annual totals in F4:F6 and the quarterly total in B7."}
+{"hash":"555198ac27a314142b085693b687f13afb810443062bd4572e92a1f0fb412311","instruction":"Calculate the correct grand total in D7."}
+{"hash":"5568a98d1eeace9ce49045d17c88052f3f79da4c19ac3e8ec8df560cc90c2269","instruction":"Calculate the product revenue summary in K3:L6 and the remaining revenue values in F9:F10."}
+{"hash":"55db8f41f7acda718a0f56deac11763a7420669641a7172dd02e74f75be7f671","instruction":"Calculate the total revenue for the remaining sales channel in K4 and L4."}
+{"hash":"56cade34a8fe85fb869539dc5194e8e2e9dd8dd5a7015c03731e292e106152dc","instruction":"Calculate the annual totals in F4:F5."}
+{"hash":"56e025d1c79e68dadaebd1b356ada40cb76d61a751644f0fbf166ad4f4e57896","instruction":"Calculate the total revenue for each product in H3:I6 and for each sales channel in K3:L5."}
+{"hash":"572cec96fb8680fee33497905e351024add0378aa2293de4398b3435ca60a838","instruction":"Calculate the revenue summary in K3:L6 and the remaining revenues in F9:F10."}
+{"hash":"576bbfb16fcf51d73405ee017bff4ac4272b76d5ab73a9dc24823cebdcd0956a","instruction":"Convert the Raw Tag values in D3:D4 to 6-digit asset tags by padding zeros in front as needed."}
+{"hash":"58424c01f60e752cb6671fced7993ec5a042dfe9112c4b69b0dee408161e365c","instruction":"Calculate the line totals in D2:D3 by multiplying Quantity by Unit Price."}
+{"hash":"5902acfd292eac1cc50af3bf0f0bc2306b677bb6ea002b877d541748ea5eecc9","instruction":"Normalize the raw tags into 6-digit asset tags in D6:D7."}
+{"hash":"5a8ce3955e52b11e4c08228644ba611b9789e9ae89cba836b648ec89a72d3695","instruction":"Calculate the correct line totals in D4 and D5."}
+{"hash":"5c2e37b581c316b24e27b3a4fb1aa4ff324a2a3a705cff16165164b22560309f","instruction":"Calculate the annual totals in F3:F4."}
+{"hash":"5cf09483f484019a7a9390ba2de3c3883a055d03eb0d8eb2cf8fe8c26420bc46","instruction":"Calculate the annual change rates in G5, H5, and I6."}
+{"hash":"5d82e26fee31c1e36ce6855effffedc5fef59d9f9ace10bb6cf7148a9860c109","instruction":"Normalize the raw tags into 6-digit asset tags in D4:D8."}
+{"hash":"5d8a0b7c574c98994fbf2f49e41fc1db33f117047e387a4e8a9fa7477fa10b9d","instruction":"Calculate the annual total in F3."}
+{"hash":"5de445045ad846522ea10f45e6a20fecd651035eeb7d124328d79993e0de0912","instruction":"Normalize the phone numbers in B3:B4 into the ###-###-#### format."}
+{"hash":"5f98e96b78e6c160224bac595a59cc28d0772e0a63b6f11bf8756b2b47cf3741","instruction":"Format B3 as currency with exactly two decimal places using $#,##0.00"}
+{"hash":"600efcf1995604d82c02074d96cbc8a115438013c807a3df77431e034b86c968","instruction":"Enter Chloe in A4."}
+{"hash":"619f30abdb1508efc5967f1ac7a448d024237e6a334a094f5fda639f32fd52db","instruction":"Calculate the revenue in F6:F10."}
+{"hash":"61a5a100e7eab1e261b3503bc68fa5324f9f066bee63cdfc2df950571abc5bca","instruction":"Format B5 as yyyy-MM-dd."}
+{"hash":"63268c0876b326212bf03a8f886667a8e9c74491017ed4820450504d156c7394","instruction":"Format D4 as the 6-digit asset tag by padding the Raw Tag value with leading zeros as needed."}
+{"hash":"634af5d829d5f6e5ac8b61e486bd824a180b3497d8d3b8e227063cc9e9259375","instruction":"Make A5:C5 yellow."}
+{"hash":"63cf804f8fa0a4d05984d66e0b26dc27419b5cd691377a679fb2d79f5ed45173","instruction":"Calculate the correct manager names in D8:D10 according to each employee’s department using the lookup table in F:G."}
+{"hash":"63ef94c5b17611b416f685b0e077dad1fe6bf817e7d3ee924283e6bb32007866","instruction":"Calculate the product revenue summary in K6 and L6."}
+{"hash":"63f40935d84279435dcdb947503b464206d321a8db66e0e460616bd7ffb5b1bd","instruction":"Calculate the revenue summary in K3:L4 and the remaining revenue values in F7:F10."}
+{"hash":"65481eb0a28ae7de228c115d0df5c05a8b5d5e3c0fe64b888f2159fb185d1dda","instruction":"Calculate the remaining revenue values in F6:F10 and complete the product revenue summary in K3:L3."}
+{"hash":"68228429a4ae42edff23c86ce3f7b31f891fc0b7c19191cff28dfbcf568c2b55","instruction":"Calculate the total revenue for the remaining product summary cells H5:I5."}
+{"hash":"683a96ce2961c7f4db3f1b721be5669d3e2e237b665a7c1cf80f9b9076c9776d","instruction":"Fill in all blank total cells in the current sheet. The \"Annual Total\" column should contain the sum of Q1, Q2, Q3, and Q4 for each department. The \"Quarterly Total\" row should contain the sum of each quarter across all departments, and the bottom-right cell should contain the grand total."}
+{"hash":"68f98c2dbbec264efaa5efdd3dab14f9bf598a4adc43173af4611ecab10354c0","instruction":"Calculate the total revenue for each product in H4:I6."}
+{"hash":"6929cfeb813bac4f79c7de6ac38d5e2bc3b7cebbe1afefd0909bd5e43080edfd","instruction":"Calculate the correct revenue values in F5 and F6."}
+{"hash":"6ad5badc2858ae6e980b7d346120298e0929ed88c58a31711edcee23c67ac0fe","instruction":"Split the full names in A2:A5 into first names in B2:B5, middle initials in C2:C5, and last names in D2:D5."}
+{"hash":"6d99790d32c2d5f348e7e7196bbab246014b5fcc3c53d9316478eba3ce466b23","instruction":"Calculate the Tax Amount and Final Amount in D2 and E2."}
+{"hash":"6e1f62c6a6dfaaf7ae01a449518b3078bfa3be37b01a50f3ff82c9499edd695a","instruction":"Calculate the revenue summary in K3:L5 and the remaining revenue values in F7:F10."}
+{"hash":"6e5ccc9093b1618875df35ec8e5e558c369e329e837b36c3d7fb1aba1187df70","instruction":"Calculate the correct manager name in D9."}
+{"hash":"6e8f5c2a1ad60d57b25ae130a33a7d82714741044bd36c5e3deda4a8af73e65f","instruction":"Complete the receipt code summary table in F4:G7, listing the remaining unique receipt codes in ascending order with their counts."}
+{"hash":"6f8358e2d9f7815976073430cb2dc56c3a31bebf153a68bebade45cae3bb561e","instruction":"Format the date for the given table. Convert the Date column values in the format yyyy-MM-dd."}
+{"hash":"70d6afeba6567fbd01e5ac7d08f2bac4360d8179632fb7da8132a2d4543c8fa3","instruction":"Calculate the revenue totals in F5:F10 and the product revenue summary in K3:L5."}
+{"hash":"70dd8271a6587f5192b2bd98ee861f1d3a9d269615ec1fe6272e248239eb8879","instruction":"Normalize the phone number in B2 into the ###-###-#### format."}
+{"hash":"73a95764542e433ef7bc8e197dac59bfb333dd18f458f52fa594653b3d37f7e3","instruction":"Calculate the total revenue for the remaining products in K4:L5."}
+{"hash":"745a197c1b118cf9821f3c5f36feac5f59b38f382abe84aa7f6c4b890ddd11a1","instruction":"Calculate the revenue in F3:F10 and the product revenue summary in K3:L5."}
+{"hash":"74ee4280a767e50de89c5e7a18a3a1d18491a32b8aa191d50edd1033da5e4cca","instruction":"Calculate the total revenue for each product in H3:I6 and for each sales channel in K3:L5."}
+{"hash":"7625d288f990cf4bb71bab22cfa24da6a338e258e7ce446b36864b4c84b1947d","instruction":"Calculate the revenue in F4:F10 and the product revenue summary in K3:L3."}
+{"hash":"77019316e40b03e195975546821aa4ecb8efc06ed941f412ab761835efb80476","instruction":"Calculate the correct total rental charges in D5 and D6."}
+{"hash":"7883983bb82acb30d4853746363483f0828fdfb219c2dd70e52db7a837d12e00","instruction":"Calculate the total revenue for the remaining product summary in K3:L3."}
+{"hash":"7a2a69a563ffae99ca1dc67f1199b86a9a67e4709c821f53462902a3253670d8","instruction":"Calculate the annual change rates for Cash Reserve, Equipment Value, and Other Investment in G3:I6."}
+{"hash":"7ac5d805ddf2b1ccc924db718e2fea76f16cd3366278910cb67f89e7267a878a","instruction":"Calculate the total revenue for each product in H3:I5."}
+{"hash":"7b520893e32ca148e9fcce39885d0d035d22eccbb1958b3feb179bd21c4b9240","instruction":"Enter 92 in B3 and 78 in B4."}
+{"hash":"7e913a4b191f501fe3e5d29b9f7ec198777e5e8c9086b20303741d525b9ce878","instruction":"Calculate the revenue in F6 and F7."}
+{"hash":"7fa13866e1f757948251ee3ee2949fd9ba1293d892d2599558875d1101967139","instruction":"Calculate the revenue values in F7 and F8."}
+{"hash":"7fada55705af4b1942ca233d192c934e223cf018d9e5baff8648cfb222dc9ca9","instruction":"Calculate the revenue values in F8 and F9."}
+{"hash":"7fda48c5c25202df39c06ec4473b6625c605b480b433b2d76b31dbe67e9ae98a","instruction":"Calculate the correct totals in F4:F6 and B7:E7."}
+{"hash":"818846c5c315b0075da2ef674d951d728d1b60beaaf9520042e14101c6b3b75e","instruction":"Format B2:B4 as currency with two decimal places."}
+{"hash":"81ab90b72998ca62ec679d457b826b96e8b2f2be2c80d14d1740a6a90fcf8524","instruction":"Calculate the correct manager names in D7:D10."}
+{"hash":"8200d1a656d7d29d315bbbbab0820ee748c44c69c0ffe4390ba45dca6c78a401","instruction":"Calculate the total revenue for the remaining products in H4:I6."}
+{"hash":"8212a5b85815945253fc7d9c9aaeca0fffb6bf6a854d5ee4632e83beadbaffc9","instruction":"Calculate the annual change rates for Cash Reserve, Equipment Value, and Other Investment in F3:I6."}
+{"hash":"826fc325a0899f82612bc99f622d46610bc8f4eec7dd7a929efafc2ac8a8501e","instruction":"Calculate the receipt code count in F4 and G4."}
+{"hash":"82b760d339f2fbb51ac2b863c17b9de7ea1c53ed337c0de12a45d0c600f7f6c9","instruction":"Calculate the annual totals in F3:F6 and the quarterly totals in B7:D7."}
+{"hash":"84d9ba24546f58c5e97d9b2f2e199c7e120822e9e15b774fc19bbc680e07e737","instruction":"Enter 85 in B2."}
+{"hash":"88161765b1954080f2469c666cc4331d187951cfd37fe306c4b99a8283052e8c","instruction":"Calculate the revenue values in F4:F9."}
+{"hash":"8818cbab2b4e6c38e4e681ce8e52c1b2d308241079eabaebcc18172e969415f8","instruction":"Calculate the missing receipt code counts in F6:G7."}
+{"hash":"88b9ec177c842a79a7194a9505d6f86222fd71c154ea0d3a889a9391e933a0df","instruction":"Calculate the correct total in F6."}
+{"hash":"89c5af24f5c60ba0e9095c77e356a0884c8c080f11ad471334441f8768fe04a6","instruction":"Calculate the rounded fixed-decimal values for the numbers in B3:B4 and place the results in C3:C4, displaying each with exactly two decimal places."}
+{"hash":"8a66e7bb272619cfa50f26fa7461a285ec0605ba747f5b34197f3943eb59ee70","instruction":"Calculate the total revenue for each product in H3:I4."}
+{"hash":"8adf5c1e5b74ef192daf497d66fa54b286946ddd3044aa543c485903021c4276","instruction":"Calculate the revenue in F7:F10."}
+{"hash":"8b445de79d44b9bdbb6b9f5959e3336ef5f29694776e711bb83e6692d92a8832","instruction":"Calculate the correct revenue values in F5:F10 and the product revenue summary in K3:L6."}
+{"hash":"8b5e16470cd1de761d353643932b79608a0bb8a5567f2bf9580ac3e6958c7580","instruction":"Calculate the total revenue for each sales channel in K3:L5 and each product in H4:I6."}
+{"hash":"8c6c330d383aa5c90e2e4a88608f4d2be3e6e881662805df6edacd4e04df232f","instruction":"Calculate the quarterly totals in B7 and C7."}
+{"hash":"8d77c367f9b60ce6449fa1caa480d931c870e84e541eb24b419623b4a0d07061","instruction":"Calculate the Tax Amount and Final Amount in D2:E3."}
+{"hash":"8d7da1f529c6033e4623ee055cbb9d5263bc87444cc750433fc856dca8b24896","instruction":"Calculate the correct Manager Name values in D7:D8 using the department lookup table in F:G."}
+{"hash":"8f5e2605cc1b6a05995a0c1f39af62aa3752ecd1513f42ae0a2135b52e0db6c6","instruction":"Calculate the correct totals in F4:F6."}
+{"hash":"91918ae41db18a469a91c4e4fbbc294a6bd76d4c774f9306f70aa61f363cf161","instruction":"Format B4:B5 as yyyy-MM-dd."}
+{"hash":"9255c6e70b900bfc14e14bd3d8c6fec185079138be93e5f8967fa4b331eed0d8","instruction":"Round the values in B3:B5 to two decimal places and place the results in C3:C5, with each value displayed using exactly two decimal digits."}
+{"hash":"92cfa4f82eadd95eabda3790baf122e16d59acc85f4c01f83bcf3ad417e1e8ac","instruction":"Make A1:A4 red."}
+{"hash":"93cba770c68998cbc52c3089499b6ffa27019aa01b6465ca54921d9a9c0a7fea","instruction":"Calculate the quarterly totals in C7:F7."}
+{"hash":"95341046657eb68a305cd91941962502d0dd109e5aef051b47ae3a4b0bbec2ba","instruction":"Based on the given table calculate each line total by multiplying Quantity by Unit Price."}
+{"hash":"962901ccdd7f88a9ecf72ecc6cf7c972ebf43e4587dd45d05ad5333285acf533","instruction":"Enter 78 in B4."}
+{"hash":"969b16250fc87ea55568d8b1cb03eeb9d1068c5ca0ad7e272bbebc6a61ee6965","instruction":"Calculate the total revenue for each product in H3:I6."}
+{"hash":"96a31075e01d550624fcadb9c873b08f0291130a8a50d2526e59fea4d7ce2867","instruction":"Calculate the correct manager names in D6:D10 using the department lookup table in F:G."}
+{"hash":"96d87474f671ada63f9e145fc4102609d6fc496d2880412c4f179f08a337c4d7","instruction":"Calculate the total revenue for each sales channel in K3:L4 and complete the product revenue summary in H6:I6."}
+{"hash":"96ebf80cc08a3ba8f834941d8bd047c78bab83bea726d4fc28f031ace9943740","instruction":"Calculate the annual change rates in G5 and H5, and enter 0.1 in I5."}
+{"hash":"97431e3a0097aea03b7476bb6d84c77812086f32d514634cfe43b1b6b28737ca","instruction":"Normalize the Raw Tag values into 6-digit asset tags in D6."}
+{"hash":"976582a0270ea4e533f2079dd6cfb676864bb603b26eea9a858c6fb1703729b9","instruction":"Calculate the revenue in F3:F8."}
+{"hash":"98a037c483d0df5b07498c5cd9ceaeaed8db76e5cd6dda6d72daa12c8c7b05aa","instruction":"Create a phone list. Then normalize every phone number in column B into the ###-###-#### format for the given table"}
+{"hash":"99187155ba0dbcea33bb27c4dd5630cdbd95625044e6b21df7f1090084d8b771","instruction":"Calculate the revenue values in F4 and F5."}
+{"hash":"9923a58b6fb0795555c021a48cf6ab32f22382c976959ea8d28c728412c9751f","instruction":"Enter 85 in B2, Brian in A3, 92 in B3, Chloe in A4, and 78 in B4."}
+{"hash":"9a4ba0067ae16e776c4b912f11699b28d78d32d474e25d3aa9694cbc85286e3a","instruction":"Calculate the correct Manager Name values in D8 and D9 using the lookup table in F:G."}
+{"hash":"9bfe6d5e548dd37384b50a2d0a56f2453291cdc5ae3fb865983416955295e6c4","instruction":"Calculate the correct manager name in D6."}
+{"hash":"9d129328f1fe60d7342fc9a97630d77c9147e07bac4f68db63b243c6e4da6c61","instruction":"Calculate the correct annual total in F6 and the quarterly totals and grand total in B7:F7."}
+{"hash":"9e4379fcf9c96c8edd9fc521e5791948246adbb0b384086fdb090e6e3011f191","instruction":"Convert the Raw Tag values into 6-digit asset tags in D4:D6 by padding with leading zeros as needed."}
+{"hash":"9f74ea2f3266fe8015e2100f707270e1313daa0cae735ad202af64ca1193407d","instruction":"Calculate the quarterly totals and grand total in B7:F7."}
+{"hash":"9ffb7177e63efa0c1759e9bf7c0c8c7576211de3e4961ddc597051afac704de5","instruction":"Calculate the revenue values in F5:F10 and the product revenue summary in K3:L6."}
+{"hash":"a01bfb0e121358fead49623bb0db65d473ebbc033d4c9b56b68c2955e46075fa","instruction":"Calculate the correct manager names in D5:D8 based on each employee’s department using the lookup table in F:G."}
+{"hash":"a08578863bec3a2b43a832d6a26433ea28b8d41674e0d69a73322938e0068957","instruction":"Normalize the phone numbers in B2:B3 into the ###-###-#### format."}
+{"hash":"a11ac2536d90f881b5a10ff8ea69817bb8da041558fc107cce58e0fc5e8514a0","instruction":"Format the Date column values in B2:B4 as yyyy-MM-dd."}
+{"hash":"a128b66918d28b2f46b11f77b0819dfeb2b1da2dce53c8530b8f4f7f9722c146","instruction":"Calculate the total revenue for the remaining products in H5:I6 and for the sales channel summary in K3:L3."}
+{"hash":"a159bf1375050f14ef79997eeca6ca22f8ca458cd278519d671ac64a43b9bba5","instruction":"Calculate the correct receipt code in F5."}
+{"hash":"a166e594d1778b3b64df62140a231c8dbfc9bc6fd05989c91f9fe19b7765ad4f","instruction":"Calculate the annual totals in F3:F6 and the quarterly totals in B7:C7."}
+{"hash":"a1b8527fa6c748d4b7ad5d6486e9ffaf5b6679c3bd910f3c2822618dd436713c","instruction":"For the given table calculate the Tax Amount and Final Amount. \"Tax Amount\" is calculated by multiplying each amount and tax rate. \"Final Amount\" is the sum of Tax amount and the original amount."}
+{"hash":"a1bb44de05c6de52609672e93c539e8301a0f381df99cd1c234e6d1b2125e53b","instruction":"Format B3:B4 as currency with exactly two decimal places."}
+{"hash":"a2041a8f0594a06d3eb03b8ff0abbb8345b3e6827ff97daf9494d0560a4d71fb","instruction":"Enter Name in A1, Score in B1, Alice in A2, 85 in B2, Brian in A3, and Chloe in A4."}
+{"hash":"a223e6aa2a3c3cf3553d775cf68bd02594ec61f78beca00102f2da8bec849ad5","instruction":"Enter Alice in A2, 85 in B2, Brian in A3, and Chloe in A4."}
+{"hash":"a23efcbc6474d05342bcdb928c7c52e198ca2cc8e45a088d389b856f240f5c78","instruction":"Calculate the correct annual totals in F5 and F6."}
+{"hash":"a2e694c7b9da30df30974a4a672be79259396ebd1eb5c6db0ff0b3152f707181","instruction":"Calculate the correct total rental charge in D4:D6."}
+{"hash":"a34c7dfed7d85c602e5f8164a4e6e19952fae8a8211111d97666758a4d321e28","instruction":"Calculate the annual change rates in G4, H4, and I4."}
+{"hash":"a3718007c6185ae1165e1912c227aec1f3740e84c00bcd32357933fa78c891a3","instruction":"Fill in the last names in D2:D5 and ensure the middle initials in C2:C5 are M, T, R, and P."}
+{"hash":"a4bb6a595a13403f7812287b9a2e71c8fb2647cf6f85ea5cda973d25991ab103","instruction":"Calculate the receipt code counts for the remaining summary table cells F5:G6."}
+{"hash":"a5473a279a38c4b7658449ba6b8dcf2010468b19abf9bc611d49f0d8cce4d5ec","instruction":"Calculate the correct line total in D4."}
+{"hash":"a553dfae9cfa52e91161d4cdee8c841c24c416fe172b17763cd0634fbf8811a3","instruction":"Calculate the total revenue summary in K3:L6."}
+{"hash":"a5dfae9a3e822a86b893c435e38ad7f2acc94bc0df0cd14a418fabef1a3ee67d","instruction":"Calculate the revenue values in F6:F9."}
+{"hash":"a631e8fab54c7140013353384156a1aa7950a63acb10ecf8f4b402bf7ce69035","instruction":"Format B5 as currency with two decimal places."}
+{"hash":"a666ad9993864a8478f0aa6d3cdb752f7319b69faed17bc10a1a026d559207fc","instruction":"Create two revenue summary tables. First, summarize the total revenue for each product in cells H2:I6. Second, summarize the total revenue for each sales channel in cells K2:L5. Use the existing order data in columns A:E, and do not modify unrelated cells."}
+{"hash":"a7169b20365237f4d152fd5e1c1f9f94e0e1cc9b7ff256dcfbb96c2ae44a8fd9","instruction":"Calculate the correct totals in F4:F6 and B7:C7."}
+{"hash":"a7c15cd09959e25814c158c6c7bad2c21a7d141b4d2bc7c8a0f3e95c483c2d48","instruction":"Calculate the total revenue for the remaining sales channel in K5 and L5."}
+{"hash":"a987bd2c4a59ce76df460b024d4dfc80d6b4eebf94d773b042ab3af17ecf1d0e","instruction":"Format B2:B5 as yyyy-MM-dd."}
+{"hash":"a9a12065109af3e8f9da0018a79a2bb3d809f377650b4ca193230aaded94d754","instruction":"Enter 85 in B2 and 92 in B3."}
+{"hash":"ac85a715db17d7ac507737d3df99ffe8aa498ddf0f7f86f9a835cdf425d102af","instruction":"Calculate the line total in D2 by multiplying Quantity by Unit Price."}
+{"hash":"ad4a70ad056c541054207e88416d76f0d7add38b9a827de882031e854761c8e0","instruction":"Calculate the line total in D3."}
+{"hash":"ad625e45f9d35b7d389a70ff1998a31547cdbe6a3e08a900491e6b668bb3f779","instruction":"In the current sheet, count how many times each \"Receipt Code\" appears. Do not create a new sheet or a Pivot Table. Instead, create a summary table in cells F2:G7 with the headers \"Receipt Code\" and \"Times Appeared\". List each unique receipt code in ascending order in column F, and put its count in column G."}
+{"hash":"ad6df7e19f72e4c7b05108e1c0d00484da8b4041371c0b0e56de173235f1a374","instruction":"Round the value in B5 to two decimal places and place the fixed-decimal result in C5."}
+{"hash":"ada091a982fae62d26c374fbc8cf7fd61797f20aaf5e4d352a957e9c94200a04","instruction":"Enter Name in A1, Score in B1, Alice in A2, Brian in A3, and Chloe in A4."}
+{"hash":"adadfa7ca9a43a96ea54c5f9022af7fc13dcea19c0bedc0cfbb0887542af3756","instruction":"Create a simple student score table in the spreadsheet. In column A, enter the column header \"Name\" and list three student names below it: Alice, Brian, and Chloe. In column B, enter the column header \"Score\" and list their scores below it: 85, 92, and 78."}
+{"hash":"ade39fca09c47ef98750a83b5ae70a767e60ca58e395e18455fd1d1265c0f774","instruction":"Calculate the correct manager names in D3:D9 using the department lookup table in F:G."}
+{"hash":"adeabb88fb7bec21fbed6f3a1b68ca77c7bfbfb29ca131207ca42bbd1434c83c","instruction":"Calculate the revenue values in F3:F5."}
+{"hash":"ae4abad2fb8c2d7862de466d239f978d773ecc06c6d9e35134cc8519b196123f","instruction":"Make C1:C4 red."}
+{"hash":"ae5f3bccf92d399024e280fa1155bbe78f7379cca32cbaae82553c885a3a5a44","instruction":"Normalize the phone number in B4 into the ###-###-#### format."}
+{"hash":"aec85cf00ead1ec442ec0d0dba9185875292dcd86ce17ff2a2993448c306aaed","instruction":"Calculate the total revenue for each sales channel in K3:L5."}
+{"hash":"af74b31cf1ec968b1558c25665847cb00a95538e1c262396b459867998eac506","instruction":"Calculate the revenue in F10."}
+{"hash":"af9c2b6835fb9ee5a91565675ccc6eb45d725d7c28fcf0e30311a487bdee297a","instruction":"Enter 92 in B3."}
+{"hash":"b03a35b260b08114b22a923e8370a339e06f1aeadc4189617068b969a3a360be","instruction":"Calculate the revenue values in F6:F8."}
+{"hash":"b049713c1fc8f9f279c346ac1d60103e3cc2b0b632173681a962e5d9b9d32405","instruction":"A department lookup table contains the manager assigned to each department. In the employee request table, fill the blank \"Manager Name\" cells according to each employee's department. Use the lookup table in columns F and G."}
+{"hash":"b05b5304cf28770e09e84ee3f466e8691ffe49bb5a0b5e4d5af63dfe11957636","instruction":"Calculate the total revenue for each sales channel in K3:L5."}
+{"hash":"b0af8283104705e2cb684b00a1bc03e29dff2f229bc95c0063bad6b8bab60e69","instruction":"Calculate the correct manager name in D8."}
+{"hash":"b2246b54c651473d3ea8c9a203618f42ebc41b9fffdc5b9df0880bbe69212656","instruction":"Calculate the receipt code counts in F3:G7, listing each unique receipt code in ascending order in column F and its occurrences in column G."}
+{"hash":"b335158d5ebb888ca88180e8e7bf065a1084d160f66ce9bca73732dadbfb5644","instruction":"Format B3 as yyyy-MM-dd."}
+{"hash":"b37c7cb87976e231e9047081b42c1926b1503e64418b657d0c8c3e5647f6021d","instruction":"Calculate the total revenue for each product and sales channel in H6:I6 and K3:L5."}
+{"hash":"b383e7d5fb75606b4a28f56facbf0e1e37490cc342fda8e207df1246718a4d9f","instruction":"Round the value in B6 to two decimal places and place the result in C6, displaying it with exactly two decimal digits."}
+{"hash":"b3b1aa20b6489b1248851692bae4e9e1303e844ea156d03466f97c01b4d1165f","instruction":"Calculate the revenue summary in K3:L3 and the remaining revenue values in F7:F10."}
+{"hash":"b3dd20e9f610573701424cb4462f8e7b35656b0c6c1baa4ddb1f6d302d7ea23c","instruction":"Round the numeric value in B3 to two decimal places and place the fixed-decimal result in C3."}
+{"hash":"b433cbfb09ced455911371a418bbeb34db27427b2be946c8a429688776e10e79","instruction":"Calculate the correct annual totals in F5:F6 and the quarterly totals in B7:D7."}
+{"hash":"b680d2a7d382cdc64c883f029febf4aff24eded1defd4cda5a6596079dd6c876","instruction":"Calculate the total revenue for each product in K3:L5."}
+{"hash":"b6ad9425bed6fac828f717ed6aadcfd8287cd8be45f2546060142559ccf8c596","instruction":"Normalize the phone numbers in column B into the ###-###-#### format."}
+{"hash":"b784b350ab7f1e190c97e6677c8fb0138493f79c7fadefa831195b2687a63075","instruction":"Calculate the correct quarterly total in C7."}
+{"hash":"b7e98b4168ad6305a1d5dc1b9ae87751746a08cfc077b486df819b949f122504","instruction":"Enter Score in B1, Alice in A2, 85 in B2, Brian in A3, 92 in B3, Chloe in A4, and 78 in B4."}
+{"hash":"b91c9140e95cdc9802b3fb3eb984f8454d81e9ac1d339468b3d90296574bf0e5","instruction":"Calculate the revenue summary in K3:L4 and finish the revenue calculations in F8:F10."}
+{"hash":"bbf62d8347f948daf1a54250170d1ceb1ca6dca4441311a491ef688ebc32f1ee","instruction":"Calculate the rounded fixed-decimal values in C4:C6 and ensure they display with exactly two decimal places."}
+{"hash":"bc24f53b132d7d8bdaa162f9c50ba9b4eb8be11b3f00c24d35cdfcb6f7ad3c26","instruction":"Enter Brian and Chloe in A3 and A4."}
+{"hash":"bcf9b3d8cef0814f63a701eac7da0fbedde3b40ed6cc7ad1fc268e4786d0b35e","instruction":"Calculate the Tax Amount and Final Amount in D3 and E3."}
+{"hash":"bd113b83e1577d354e7d79e1fad503e27023d2fdcd820964bc6e6216da496b12","instruction":"Calculate the revenue in F3:F10 using Unit Price × Quantity × (1 - Discount Rate), and create the product revenue summary in K2:L6."}
+{"hash":"bda04ecc112c0d987ac5f6bf92ff45876c1250a30c754af39ebe35f3ab7fe6d1","instruction":"Create the product revenue summary in K3:L6 and calculate the revenue value in F10."}
+{"hash":"bda4e495c91548a6404b88288aa19f5251eda26f4b89c196e933b235d5059f67","instruction":"Enter Name in A1."}
+{"hash":"bdd13cc4a87623c6887ccffe160524b94304798b373db0c8166f50543e9949a5","instruction":"Calculate the remaining totals in F5:F6 and B7:C7."}
+{"hash":"bf204a5f59465ce264ae3bf2f2897f592686c72a434b21402a511c269ed52822","instruction":"Calculate the revenue values in F3:F4 using Unit Price × Quantity × (1 - Discount Rate)."}
+{"hash":"bf7f4980ddcd70ec1012b73d6f4e64582dd3fe9221205c79aa283a8cc0a9968b","instruction":"Normalize the phone number in B3 into the ###-###-#### format."}
+{"hash":"bf96d8b181fdbc6dec333cbade85194cea3c26e8d93ceab436e06aab201cbc3e","instruction":"Calculate the correct manager names in D5:D9 using the department lookup table in F:G."}
+{"hash":"c0f034d87d44a46d801196ed503ad3f0a520c380b9ebb638cad2baf24c8a0f47","instruction":"Calculate the revenue summary in K3:L5 and complete the revenue calculations in F9 and F10."}
+{"hash":"c2dddafd83d29979ce6737cfd323e24ed1d8528e30b00928f2fdeb4cb866a2bf","instruction":"Fill the Manager Name cells in D3:D6 by looking up each employee’s department in the table in F:G."}
+{"hash":"c3652a0c769d7bb3e354c6bff3e891c6081bb3e460d55057d6a425564b4b9b08","instruction":"Calculate the correct total rental charge in D5:D7."}
+{"hash":"c4207d938c7045cf92cf5b3f378fca2b85c9e403adc3acb3a967cb6a46647e31","instruction":"Format B4:B5 as currency with two decimal places."}
+{"hash":"c42e3442ebfd6c9f4a7ecccc1b9bd496668910b79db41cb220ab83adb53dd642","instruction":"Calculate the correct annual total in F5."}
+{"hash":"c482f8b2b0bbc0869dddb50168958b332f3f9002f2e2444fdb61bfca1558bcb1","instruction":"Calculate the correct Manager Name values in D6:D9 using the department lookup table in F:G."}
+{"hash":"c5a79a406c94cc77f4d62516c0dc3aa1933fee96288c89d9295be6a8d3fcda59","instruction":"Calculate the Other Investment change rate in I6."}
+{"hash":"c706ff74000d90091ac6f0677be39388f25a2fa981ce615353bf5ae4378eb435","instruction":"Calculate the revenue values in F5:F10 and the product revenue summary in K3:L3."}
+{"hash":"c8428e32d928b0c572ddc2a6c1e770c10851834521891d810a0b98422bdc0b3f","instruction":"Calculate the quarterly total in B7."}
+{"hash":"c856d05dafc63bfd619440b9014d10c3437b8d401f3b3361b588fa409f5bca3d","instruction":"Calculate the revenue in F3:F6 using Unit Price × Quantity × (1 - Discount Rate)."}
+{"hash":"c8f19c229f7489ea3f50166e987ac33618b56201ecd07b68d066ff53ecb7aa56","instruction":"Calculate the revenue values in F4:F10 and the total revenue summary in K3:L6."}
+{"hash":"c93c8fd3bdb1f4cf1ba0a6669bf00989d5e244b60e986baefb328ed815070cf7","instruction":"Format B4 as currency with two decimal places."}
+{"hash":"c9a0a7d6ef3d45badffc66370a66805fb8ac4f26c62b4962fe9ec77275874c70","instruction":"Calculate the annual change rates in G4:I6 for Cash Reserve, Equipment Value, and Other Investment."}
+{"hash":"c9a2109fd843550b959551b009fa9e5e18327dcb484514f10cba86252587c39f","instruction":"Round the values from column B into column C for C4:C5, and display each result with exactly two decimal places."}
+{"hash":"caed886f9089721f39471312e977fb8cdf66f091a21d1ba60071a3a6fe5133a7","instruction":"Calculate the correct manager name in D4 using the department lookup table in F:G."}
+{"hash":"cb0e5ea5dc5038e63e879236935ed734bf345294b75896ea273654e81184675e","instruction":"Enter Name in A1, Score in B1, Alice in A2, and Brian in A3."}
+{"hash":"cba4a8bed34fc73cc98fed997070ee609d81be9d545c77e7cdde9a2272488621","instruction":"Calculate the correct total in F5, F6, B7:F7."}
+{"hash":"cc8e35ec84d59574f2ddff12224ce7027bac1e2459dc36d4faba701de64fe122","instruction":"Pad the Raw Tag numbers with leading zeros to make six-digit asset tags in D3:D6."}
+{"hash":"cd142d0072d217329a1d2f8ce1314fc10622e004341a722901ef0cff5778c5f6","instruction":"Enter 85 in B2 and Chloe in A4."}
+{"hash":"cd4e19df5c512fabc54cc0a1160b1a857f660fd561b1adea6cc7bfca13599524","instruction":"Enter Name in A1 and Score in B1."}
+{"hash":"cf09718185cfb449842e0db016e5e02210ab15d983509b93500937503179a78f","instruction":"Calculate the Tax Amount and Final Amount in D3:E4."}
+{"hash":"cf9a612fd73d47df927d10e3259911043c8a4e7965ed8a5d421ee302eca58154","instruction":"Calculate the correct manager names in D6:D8 לפי each employee’s department using the lookup table in F:G."}
+{"hash":"d0b482cf5185b6c45834d39a08c7709bd158b34c12c4dcce2059993ef262a017","instruction":"Calculate the revenue values in F5:F10."}
+{"hash":"d1321ae17a37b6b8eedd1bf21f42cd84306c13ad21fed394a18468f01842ea36","instruction":"Calculate the remaining receipt code counts in F4:G5."}
+{"hash":"d28bef63374a5232c8d3fcf079186d17e609ded2f38fe15b7cb85c118417b6d9","instruction":"Calculate the correct manager name in D7."}
+{"hash":"d2e214637a467c1d8a9df9112d71efa243577977f874da5de9563395902e4fbe","instruction":"Calculate the correct total rental charge in D4."}
+{"hash":"d31bea8b39d1ea1fffe78a94bca474b67f5e5fb45ee76bbd05ab3b2b922a8761","instruction":"Calculate the correct totals in C7:E7."}
+{"hash":"d33eecd4984cd2ff98bee9dea8ad75cd9b3ee1726692ad55e253827299d35bb4","instruction":"Calculate the revenue values in F4:F8."}
+{"hash":"d3554461e6f729eb7916a280946a807bd1d401690fd56cb87f8ccf5c9a607ab4","instruction":"Calculate the total revenue for the remaining product summary row in K4 and L4."}
+{"hash":"d36345d03639fd8d2e7b4712ecef35d59ec0d29e5f4f2e6b4467708674c0084b","instruction":"Calculate the annual totals in F3:F6."}
+{"hash":"d448f1be1151fd8135006100c4458b8f288bfdca503dadc246806cf4fc357406","instruction":"Calculate the correct total in F6, and calculate the quarterly totals in B7 and C7."}
+{"hash":"d4a84bee1238911dc5632bbd33009b311bdd669847a088299207e6b173a838c5","instruction":"Normalize the raw tags into 6-digit asset tags in D8."}
+{"hash":"d4b7d52b5ca21ec73cf287b74c3778e1f1c9b439db659901c01249a07ea72fa5","instruction":"Calculate the annual change rates for Cash Reserve, Equipment Value, and Other Investment in G3:I6."}
+{"hash":"d4e8e4fe77d730237a760e38d9f9a022447b29904639c4e238c59dd2d6b80afe","instruction":"Make A1 bold."}
+{"hash":"d4fabe999965f1ff6b134959fd64b9e86ab03535c5a75926abfb35defc745293","instruction":"Enter 85, 92, and 78 in B2 through B4."}
+{"hash":"d64110a3f24b8e650c118a8514d667fbbbaee6d11d622405a87827b958c53c4c","instruction":"Calculate the total revenue for each product in K3:L6."}
+{"hash":"d64e8aef05114dd39aa36213bb057ad2d79e2b69374c1c226f87c3438b5df5af","instruction":"Calculate the total revenue for the remaining summary cells in K3:L3 and H6:I6."}
+{"hash":"d71377417d9e42416e3b8b812c9a0238b16fbb1f66736e1458fdb5110f8c5e6e","instruction":"Calculate the correct total rental charge in D6."}
+{"hash":"d714c366ebb591397deb64a4568b070548b1099a98952208c9119f1ffb368a17","instruction":"Enter Score in B1 and Alice and Brian in A2 and A3."}
+{"hash":"d76c2f5bc4fd5a1ed25487132286a4db824b1f3783d874ff7c32b89430555263","instruction":"Calculate the total revenue for each sales channel in K3:L4 and the remaining product summary values in H5:I6."}
+{"hash":"d7ff64c4c55a7895c15444a8e4d0657f275651623cf1fd830d1146ff6e8a27f1","instruction":"Round the value in B4 to two decimal places and put the result in C4, displayed with exactly two decimal digits."}
+{"hash":"d81fffda2a5cc0f6a7567db4c260a1ee7004049b6d305e2e0dd1383cd615ce22","instruction":"Calculate the correct line total in D5."}
+{"hash":"d846d8f90e196633fae4659418fa8ff4983db3719693a8452f9c1588b0050762","instruction":"Calculate the annual change rate for Equipment Value in H3."}
+{"hash":"d91aa7b74a811bbcc659d13c1b5df17ce54df1016c7ec3b83c2769644f37da76","instruction":"Calculate the annual totals in F5:F6 and the quarterly totals in B7:E7."}
+{"hash":"d93bb4bd616bf7c84891d2203d21ef8c778211dee76689088240fb6779a81b8a","instruction":"Calculate the total revenue for each product in K3:L6."}
+{"hash":"da3c9d6ace926fa7a4454978d1c096f24b7665ee71f5cb10228d5d3cdd6ac16b","instruction":"Calculate the line totals in D3 and D4 by multiplying Quantity by Unit Price."}
+{"hash":"da4e6fe8f3b7fe55a5b58b09a2cccbf91384fb97655691f7f201d962456c8338","instruction":"Calculate the correct line totals in D3:D5."}
+{"hash":"da962c95752614a8f5c7e045b7daf0664243efb36f368276fbecdbf02d1d947b","instruction":"Calculate the total of the \"Service Revenue\" column and the total of the \"Operating Expenses\" column. Put the labels \"Total Service Revenue\" and \"Total Operating Expenses\" in cells F3 and F4, and put the corresponding totals in cells G3 and G4."}
+{"hash":"daaf9d0f6370cf28c476692fac6cb5e6bd7c5ece2c5047af1ded13bc5f069f80","instruction":"Calculate the total revenue for each sales channel in K3:L5 and the remaining product total in H6:I6."}
+{"hash":"dba13fb43ca057a075f59b4d9b52248fb151654c03491142f6184b8964c8d9c0","instruction":"Make the Marker and Eraser row yellow in A3:C3."}
+{"hash":"dc2a53d02f16cedb7577942bd5f29eb22ed4943ae6d6a635d182b8d86629a8ff","instruction":"Calculate the total revenue for the product summary in H3:I3."}
+{"hash":"dc50f23f0b1b55a6e846937da34c0ab0c25f9a752b325e9a1e69c420875798ac","instruction":"Modify the expense table. Format the Amount column values as \"currency\" with exactly two decimal places. Use the formatting feature."}
+{"hash":"dc7c4b0656a296a4d920e835908202f368af8adbd97b96753a8a35f0186fc290","instruction":"Enter Score in B1 and Alice in A2."}
+{"hash":"dcbe4f0fb0a14f88695ef0e0b88599cc79de03e4862cda227259b5174549a7de","instruction":"Calculate the remaining total revenue values in H4 and I4."}
+{"hash":"ddaa457c6b45331c828760d1d0496695361f6b64c770a801d7f41452a277a8bd","instruction":"Enter Name in A1 and Score in B1, then enter Alice, Brian, and Chloe in A2:A4 and 85, 92, and 78 in B2:B4."}
+{"hash":"ddafc19c29fa3759a4cf3bf541f6d141c165328e971533b48885dd2bb48fd9d2","instruction":"Calculate the revenue values in F4:F10 and the total revenue summary in K3:L5."}
+{"hash":"ddfe2d09966ab98cdafc20ba4ae96cee5c74372100c5de869a95cd019a4166e0","instruction":"Extract the last names into D2:D5."}
+{"hash":"e00d5e87b28b862297c3280a59518e753f0efbe9251d7ef69689b6b460ec76ea","instruction":"In the current sheet, use the product price table to calculate the revenue for each order. Revenue should be calculated as Unit Price × Quantity × (1 - Discount Rate). Put the revenue values in column F with the header \"Revenue\" in F2. Then create a product revenue summary in cells K2:L6, with product names in column K and the total revenue for each product in column L."}
+{"hash":"e0300dee8609cb72d88ac9f6fa61811c5a7c897f456791e0419764eca9fd51a2","instruction":"Enter Total Operating Expenses in F4 and calculate the total of the Operating Expenses column in G4."}
+{"hash":"e0555e8bce1788902982414b4a8f52e3904c51b589b42bb0dc0d0ca66460fb4f","instruction":"Count the unique receipt codes in B3:B14 and fill the summary table in F3:G5 with the codes in ascending order and their times appeared."}
+{"hash":"e0a0512867fe6ec1a33304446e9191b4d063539b2488bc48899dc76ea8cc2b93","instruction":"Calculate the correct manager name in D3 based on the department lookup table in F:G."}
+{"hash":"e2094893e79cb654760135de93e36b3cbda6ce8ae5face7e59f5640989db1fe8","instruction":"Calculate the total revenue by sales channel in K3:L4."}
+{"hash":"e2863a041a67fdc41396f2e26dfb1bcc17cc3081ad3ec634138030a7ac328265","instruction":"Enter Alice in A2."}
+{"hash":"e2a11d9f8298889db4f00bda069d60de5465611ef544a61c954812c3ab50c84d","instruction":"Format B3:B5 as currency with exactly two decimal places."}
+{"hash":"e380edc81e19a98b5a8ae13cb6fe4f6e09c178fbd49580a7d3cfb02de68f8e65","instruction":"Calculate the correct quarterly total values in D7 and E7."}
+{"hash":"e4ac6bf106bc96a7fad3c22ab0705985c16b0b37f5e15a414ff71dd5ea8847e9","instruction":"Calculate the correct annual total in F6 and the quarterly total for the grand total row in B7."}
+{"hash":"e4bc53df4dadba5f6dc24f30c14f884251bd124909ae234e38c39de0ce97dbd5","instruction":"Create a name table in Sheet1. Split each full name into three new columns: column B with the header \"First Name\", column C with the header \"Middle Initial\", and column D with the header \"Last Name\"."}
+{"hash":"e4fdbe582c47d035040fbb15c8e4e37e8518d1981b0067d8bb929dffc7ed663a","instruction":"Calculate the receipt code summary in F3:G7."}
+{"hash":"e52e265f9f0b04a6969acc6cac2f50059ccf0f1afb9053eda9524317d04da44c","instruction":"Format B2:B3 with the yyyy-MM-dd number format."}
+{"hash":"e712ab07c91f3a8cffd5e565338e1a6c6859aa3d1c73c12f63858cfc06f6974d","instruction":"Calculate the correct manager names in D9:D10."}
+{"hash":"e82a7af1f69d7d793fb0e287d5e4caff2175824f894613651764c7983d4ad309","instruction":"Calculate the correct Manager Name values in D6 and D7 based on each employee’s department using the lookup table in F:G."}
+{"hash":"e87da66d53eadf54c3cbfa44f937acfb2df16503dddd0478de67292f8c50c09a","instruction":"Enter 85 in B2, 92 in B3, and Chloe in A4."}
+{"hash":"e9ba8637ffb792591004da6ead64f617af93498fae5f895f49aad222731f6f88","instruction":"Calculate the total revenue for each product in K3:L6."}
+{"hash":"e9d1203f15ad3b1a870ba6dd020ad14488a7fd0bb6120400fd8d8191a995f380","instruction":"Enter Score in B1 and Alice, Brian, and Chloe in A2 through A4."}
+{"hash":"e9e6e85c88cc57e3ba0f0c638408a2cb39b97db8814e64714089af739214deeb","instruction":"Calculate the remaining revenue values in F5:F10 and the product revenue summary in K3:L4."}
+{"hash":"ea70a61adb40afa8267177397cc3b8f3e34b3f807d77988d0a08be62701b87da","instruction":"Calculate the revenue in F7."}
+{"hash":"eaaba1274316894735b8e2d40b113544bf2261a88a965dd009e80938ee2a3a22","instruction":"Enter 85 in B2, Brian in A3, 92 in B3, and Chloe in A4."}
+{"hash":"eae3b272075be89f9f26294fccec3ec0e3fd20e41c57c173b872e11c40b2a6d0","instruction":"Calculate the correct manager names in D4 and D5 using the department lookup table in F:G."}
+{"hash":"eb154cdba2b2ba20d63eb1fdfe10d78151e344aa096925454a26b0319140a78e","instruction":"Calculate the revenue values in F7:F9."}
+{"hash":"eca46f3baf47e75450b8697b83a5f7c78e32dd4a131504a100eae3697018c5d1","instruction":"Calculate the correct total revenue values in H5:I6."}
+{"hash":"ed931b1d1999eeb5773027c91af5e3ec646efe91970d7b90caaedb5e5e551786","instruction":"Enter Score in B1, Alice in A2, 85 in B2, Brian in A3, and Chloe in A4."}
+{"hash":"edef1d55ea7c34d9abc1330bdd3a57ae26aaa83b7065d7f0d38850c8a9935bca","instruction":"Calculate the revenue in F3:F10 and create the product revenue summary in K3:L6."}
+{"hash":"efb59f5de29b15725e6ecea5af47894acad9b13a5741da728504dde044505727","instruction":"Calculate the revenue values in F3:F10 and the product revenue summary in K3:L6."}
+{"hash":"f093a4fe75633ee602d10147b21179a915f27e4545bd0d876966a9a4a5c952b1","instruction":"Calculate the manager names in D4:D7 using the department lookup table in F:G."}
+{"hash":"f0c448240c208a65c3883df3ac7be0a14c641d1c623df1c006697cc497576817","instruction":"Normalize the raw tags in D5 so the asset tag has exactly six digits."}
+{"hash":"f15117261bd1f200667adf067c59ba9ed818756e0aac15f4aed3a12ce061681f","instruction":"Enter Alice in A2 and Brian in A3."}
+{"hash":"f1687b6b74d954a0b6f72848f005f8995a7c05aee13eb2312faec8b0a7942c14","instruction":"Calculate the receipt code counts in F3:G7, listing the unique receipt codes in ascending order in column F and their corresponding times appeared in column G."}
+{"hash":"f21aed30bc101f7f96e659a4a62b348c7d0f089fcb406e1212ce0acff5225bf0","instruction":"Calculate the revenue in F8."}
+{"hash":"f2d6b08ea780e7d47f016a057abd590d2d3b1bd7f9086a5b334948452499a50d","instruction":"Calculate the correct totals in F6, B7:E7, and the bottom-right grand total cell."}
+{"hash":"f3e946666c9aed1907e834ae55cb8dd774841f3be263bbb7c1cda50b3e9dc622","instruction":"Calculate the correct manager names in D3:D5 using the department lookup table in F:G."}
+{"hash":"f4111e4859333a86123b9b975f265eb357b58f58e21247bc3fbe83f25ec32051","instruction":"Round the values in B5:B6 to two decimal places and place the results in C5:C6, with each result displayed using exactly two decimal digits."}
+{"hash":"f438006fbb3d36221167f81a408467ecfd838749958de3659a18d9990db72fad","instruction":"Calculate the total revenue for each sales channel in K3:L5 and for each product in H4:I6."}
+{"hash":"f480c9881caf145443073df86c8339449801887ab85b4bcd2e9dcb5373dc7a15","instruction":"Calculate the correct totals in F3:F6 and B7:E7."}
+{"hash":"f5b430eb90ba88770a08c70045191074b4c0e9af23be5dbca59dbb67afd15480","instruction":"Sort the given table by the Date column in ascending order."}
+{"hash":"f60a1068e726b290bd946ab2c590cc25e01bca989b0eecd1b1c57bf3a6e5f292","instruction":"Some project delivery dates are not confirmed yet and are temporarily marked as \"TBD\". Please hide the rows that contain \"TBD\" in the Delivery Date column. Do not delete any cells or rows, and do not use a filter. Leave all other rows visible."}
+{"hash":"f656a892caa89759221e982f07076d1339aaa08d167c8a6f56c53e00f1a58ef9","instruction":"Calculate the quarterly totals in E7 and F7."}
+{"hash":"f6b5538041c3faab32f76e914bb92d1b0f4df11ce0edc3a6efeff9a5c40b3232","instruction":"Calculate the revenue in F8:F10."}
+{"hash":"f747c53745db8e76e715f63ccea405e8837232f0df73e2e2aa0f370abb0e7492","instruction":"Calculate the total revenue for the remaining products in K5:L6."}
+{"hash":"f8060bec685de191c9cfb2e5e9014f9b9e15f5bfbcaa66314717a7b7130cdb3e","instruction":"Continue padding the Raw Tag values into 6-digit asset tags in D5:D7."}
+{"hash":"f8e919d214bee2ff9f43f419f20913e6ebcc44aae2a93f12ea32747e7249bdbc","instruction":"Make B1 bold."}
+{"hash":"f952d1afd256254aab84f9c775de4c523fcc219ba45ed4e24e3085e557986556","instruction":"Format B3:B5 as yyyy-MM-dd."}
+{"hash":"f9be62e474a67a72be9c862e2f7e8375b9e5015e18c9afa897b13d05a47136d5","instruction":"Normalize the Raw Tag values into 6-digit asset tags in D7."}
+{"hash":"fa8888ab449b4697c0420cec60c3ed12b3e0081a2db85e1f9f0fc6091f54cfc5","instruction":"Make the first column and third column red about the given table"}
+{"hash":"fbfb4e33f38e7c4d69160ddd214bd0994801504d93dfa091d830db96c9c2376f","instruction":"Calculate the correct manager names in D5:D7 based on each employee’s department using the lookup table in columns F:G."}
+{"hash":"fc2034caf40c8d1117997123c8f60a2e33ce9b66b1a7bc3b449eb1067f08f0ae","instruction":"Apply conditional formatting to the Email column so duplicate email values are bolded."}
+{"hash":"fe444137715b8039ea1c2865e9918249b29a3d3541d9153affad4b16f07dc682","instruction":"Calculate the revenue in F3 using Unit Price × Quantity × (1 - Discount Rate)."}
+{"hash":"ff3b7c109119f3f8473a4c9f5a5930d5815c6a174a33a8a1e20395fa20534785","instruction":"Calculate the revenue in F3:F9 and create the product revenue summary in K3:L6."}
+{"hash":"fff97682f584f39470625254138f01b1ae2357afdeba77aa7c8379239dcb829e","instruction":"Calculate the revenue in F4:F6."}

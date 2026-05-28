@@ -95,6 +95,7 @@ class TaskCore(FrozenBaseModel):
 
 
 class Task(TaskCore):
+    hash: str
     evaluation: Evaluation
     complexity: int
 

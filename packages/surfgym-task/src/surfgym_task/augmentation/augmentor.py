@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import Any, Iterator, Optional, TypeVar, cast
+from typing import Any, Iterator, Optional, TextIO, TypeVar, cast
 
 import json5
 from pydantic import TypeAdapter
@@ -11,7 +11,6 @@ from surfgym_task.augmentation.schema import (
     Accumulation,
     Granularity,
     HoareState,
-    HoareStateInstructionRowAdapter,
     SeedTask,
     SeedTaskAdapter,
     State,
@@ -25,18 +24,33 @@ class Augmentor:
     def __init__(
         self, seed_dir: Path, granularity: Granularity, accumulation: Accumulation, website: str
     ) -> None:
+        if not seed_dir.exists():
+            raise FileNotFoundError(f"Seed directory not found: {seed_dir}")
+        if not seed_dir.is_dir():
+            raise NotADirectoryError(seed_dir)
+
+        seeds_dir = seed_dir / "seeds"
+        if not seeds_dir.exists():
+            raise FileNotFoundError(f"Seeds directory not found: {seeds_dir}")
+        if not seeds_dir.is_dir():
+            raise NotADirectoryError(seeds_dir)
+
         self.website = website
         self.granularity: Granularity = granularity
         self.instruction_generator = InstructionGenerator()
 
-        self.instruction_path = seed_dir / "instruction.jsonc"
+        legacy_instruction_path = seed_dir / "instruction.jsonc"
+        self.instruction_path = seed_dir / "instruction.jsonl"
         if not self.instruction_path.exists():
-            self.instruction_path.write_text("{}\n", encoding="utf-8")
+            self.instruction_path.touch()
+
         self.output_dir = seed_dir / "out"
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
-        self.seeds_with_ids = load_seed_tasks(seed_dir)
-        self.hash_to_inst = load_rows(self.instruction_path, HoareStateInstructionRowAdapter, {})
+        self.seeds_with_ids = load_seed_tasks(seeds_dir)
+        self.hash_to_inst = load_instruction_rows(self.instruction_path)
+        if not self.hash_to_inst and legacy_instruction_path.exists():
+            self.hash_to_inst = load_instruction_object(legacy_instruction_path)
 
         self.hash_to_state: dict[str, HoareState] = {}
 
@@ -44,27 +58,30 @@ class Augmentor:
 
         # update the initial hoare_state_instruction with seed instructions
         for seed, _ in self.seeds_with_ids:
-            seed_hoare = self.hoare_creator(seed.states, len(seed.states) - 1)
+            seed_hoare = self.hoare_creator(
+                seed.states, len(seed.states) - 1, -1 if seed.empty_start else 0
+            )
             seed_hoare_key = seed_hoare.to_key()
             self.hash_to_state[seed_hoare_key] = seed_hoare
             self.hash_to_inst[seed_hoare_key] = seed.instruction
 
     def run(self) -> None:
-        surfgym_tasks: list[Task] = []
+        generated_task_count = 0
 
-        for seed, id in self.seeds_with_ids:
-            state_pair_gen = self._hoare_state_generator(seed.states)
+        with (self.output_dir / "augmented.jsonl").open("w", encoding="utf-8") as fp:
+            for seed, id in self.seeds_with_ids:
+                state_pair_gen = self._hoare_state_generator(seed.states, seed.empty_start)
 
-            for hoare, start, end in state_pair_gen:
-                hash = hoare.to_key()
-                self.hash_to_state[hash] = hoare
+                for hoare, start, end in state_pair_gen:
+                    hash = hoare.to_key()
+                    self.hash_to_state[hash] = hoare
 
-                if hash not in self.hash_to_inst:
-                    instruction = self.instruction_generator.generate(seed, hoare)
-                    self.hash_to_inst[hash] = instruction
+                    if hash not in self.hash_to_inst:
+                        instruction = self.instruction_generator.generate(seed, hoare)
+                        self.hash_to_inst[hash] = instruction
 
-                surfgym_tasks.append(
-                    Task(
+                    task = Task(
+                        hash=hash,
                         task_id=f"{id}_{start}_{end}",
                         instruction=self.hash_to_inst[hash],
                         website=[Website(url=self.website)],
@@ -77,9 +94,10 @@ class Augmentor:
                         ),
                         transition=self._state_to_actions(hoare.end_state),
                     )
-                )
+                    write_task_row(fp, task)
+                    generated_task_count += 1
 
-        self._dump(surfgym_tasks)
+        self._dump(generated_task_count)
 
     def _state_to_rules(self, state: State) -> list[ConsoleRule]:
         return [
@@ -165,85 +183,37 @@ class Augmentor:
 }})();
 """.strip()
 
-    def _hoare_state_generator(self, states: list[State]) -> Iterator[tuple[HoareState, int, int]]:
-        for end_idx in range(len(states)):
+    def _hoare_state_generator(
+        self, states: list[State], empty_start: bool
+    ) -> Iterator[tuple[HoareState, int, int]]:
+        for end_idx in range(0 if empty_start else 1, len(states)):
             if self.granularity == "COARSE":
-                yield (self.hoare_creator(states, end_idx), 0, end_idx + 1)
+                start_idx = -1 if empty_start else 0
+                yield (
+                    self.hoare_creator(states, end_idx, start_idx),
+                    start_idx + 1,
+                    end_idx + 1,
+                )
 
             elif self.granularity == "FINE":
-                for start_idx in range(-1, end_idx):
+                for start_idx in range(-1 if empty_start else 0, end_idx):
                     yield (
                         self.hoare_creator(states, end_idx, start_idx),
                         start_idx + 1,
                         end_idx + 1,
                     )
 
-    def _dump(self, surfgym_tasks: list[Task]) -> None:
-        (self.output_dir / "augmented.jsonc").write_text(
-            json.dumps(
-                [task.model_dump(mode="json", exclude_none=True) for task in surfgym_tasks],
-                ensure_ascii=False,
-                indent=2,
-            )
-            + "\n",
-            encoding="utf-8",
-        )
-
-        state_instruction_payload: dict[str, str] = dict(
-            sorted(self.hash_to_inst.items(), key=lambda item: item[0])
-        )
-
-        self.instruction_path.write_text(
-            json.dumps(state_instruction_payload, ensure_ascii=False, indent=2) + "\n",
-            encoding="utf-8",
-        )
+    def _dump(self, generated_task_count: int) -> None:
+        write_instruction_rows(self.instruction_path, self.hash_to_inst)
 
         (self.output_dir / "summary.txt").write_text(
             "\n".join(
                 [
                     f"seed task count: {len(self.seeds_with_ids)}",
-                    f"generated task count: {len(surfgym_tasks)}",
+                    f"generated task count: {generated_task_count}",
                 ]
             )
             + "\n",
-            encoding="utf-8",
-        )
-
-        readable_lines: list[str] = []
-        for hash, instruction in sorted(
-            self.hash_to_inst.items(),
-            key=lambda item: item[0],
-        ):
-            hoare = self.hash_to_state.get(hash)
-            if hoare is None:
-                continue
-
-            separator = "=" * 80
-            start_state = (
-                None
-                if hoare.start_state is None
-                else [atom.model_dump(mode="json") for atom in hoare.start_state]
-            )
-            end_state = [atom.model_dump(mode="json") for atom in hoare.end_state]
-
-            readable_lines.extend(
-                f"""\
-            {separator}
-            HASH : {hash}
-            COMPLEXITY : {hoare.complexity}
-            INSTRUCTION : {instruction}
-            {separator}
-
-            {dumps_state_compact(start_state)}
-
-            ⬇
-
-            {dumps_state_compact(end_state)}
-            """.splitlines()
-            )
-
-        (self.output_dir / "instruction.txt").write_text(
-            "\n".join(readable_lines) + "\n",
             encoding="utf-8",
         )
 
@@ -289,6 +259,82 @@ def load_seed_tasks(seeds_dir: Path) -> list[tuple[SeedTask, str]]:
     return [(load_rows(path, SeedTaskAdapter), f"{domain_name}_{path.stem}") for path in json_paths]
 
 
+def load_instruction_rows(path: Path) -> dict[str, str]:
+    if not path.exists():
+        return {}
+
+    instructions: dict[str, str] = {}
+    text = path.read_text(encoding="utf-8").strip()
+    if not text:
+        return instructions
+
+    for line_no, line in enumerate(text.splitlines(), start=1):
+        if not line.strip():
+            continue
+
+        row = json.loads(line)
+        if row == {}:
+            continue
+        if not isinstance(row, dict):
+            raise ValueError(f"Invalid instruction row at {path}:{line_no}: expected object")
+
+        hash_value = row.get("hash")  # pyright: ignore[reportUnknownVariableType, reportUnknownMemberType]
+        instruction = row.get("instruction")  # pyright: ignore[reportUnknownVariableType, reportUnknownMemberType]
+        if not isinstance(hash_value, str) or not isinstance(instruction, str):
+            raise ValueError(
+                f"Invalid instruction row at {path}:{line_no}: "
+                'expected string "hash" and "instruction" fields'
+            )
+
+        instructions[hash_value] = instruction
+
+    return instructions
+
+
+def load_instruction_object(path: Path) -> dict[str, str]:
+    text = path.read_text(encoding="utf-8").strip()
+    if not text:
+        return {}
+
+    payload = cast(Any, json5.loads(text)) if path.suffix == ".jsonc" else json.loads(text)
+    if not isinstance(payload, dict):
+        raise ValueError(f"Invalid instruction cache at {path}: expected object")
+
+    instructions: dict[str, str] = {}
+    for hash_value, instruction in payload.items():  # pyright: ignore[reportUnknownVariableType]
+        if not isinstance(hash_value, str) or not isinstance(instruction, str):
+            raise ValueError(
+                f"Invalid instruction cache at {path}: expected string keys and values"
+            )
+        instructions[hash_value] = instruction
+
+    return instructions
+
+
+def write_instruction_rows(path: Path, instructions: dict[str, str]) -> None:
+    with path.open("w", encoding="utf-8") as fp:
+        for hash_value, instruction in sorted(instructions.items(), key=lambda item: item[0]):
+            fp.write(
+                json.dumps(
+                    {"hash": hash_value, "instruction": instruction},
+                    ensure_ascii=False,
+                    separators=(",", ":"),
+                )
+                + "\n"
+            )
+
+
+def write_task_row(fp: TextIO, task: Task) -> None:
+    fp.write(
+        json.dumps(
+            task.model_dump(mode="json", exclude_none=True),
+            ensure_ascii=False,
+            separators=(",", ":"),
+        )
+        + "\n"
+    )
+
+
 def load_rows(path: Path, validator: TypeAdapter[T], init: Optional[T] = None) -> T:
     if not path.exists():
         if init:
@@ -302,7 +348,7 @@ def load_rows(path: Path, validator: TypeAdapter[T], init: Optional[T] = None) -
 
     text = path.read_text(encoding="utf-8").strip()
     if not text:
-        return validator.validate_python([])
+        return validator.validate_python({})
 
     if suffix in {".jsonl", ".ndjson"}:
         payload = [json.loads(line) for line in text.splitlines() if line.strip()]

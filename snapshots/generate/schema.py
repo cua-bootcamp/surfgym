@@ -12,6 +12,8 @@ class FrozneBaseModel(BaseModel):
 
 class Summary(FrozneBaseModel):
     total: int
+    succeeded: int
+    failed: int
     reward_sum: float
     task_source: str
     elapsed_seconds: float
@@ -22,6 +24,14 @@ class TaskMeta(FrozneBaseModel):
     reward: float
 
 
+class TaskFailure(FrozneBaseModel):
+    snapshot_dir: Path
+    error_type: str
+    error_message: str
+    traceback: str
+
+
 class Manifest(FrozneBaseModel):
     summary: Summary
     tasks: dict[str, TaskMeta]
+    failures: dict[str, TaskFailure]

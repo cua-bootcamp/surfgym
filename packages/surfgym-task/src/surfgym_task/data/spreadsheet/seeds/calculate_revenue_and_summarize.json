@@ -80,7 +80,6 @@
       { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "K4", "property": ["cell", "v"], "value": "Mini Drone" },
       { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "L4", "property": ["cell", "v"], "value": "193.2" }
     ],
-
     [
       { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "K5", "property": ["cell", "v"], "value": "Foam Glider" },
       { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "L5", "property": ["cell", "v"], "value": "153" }

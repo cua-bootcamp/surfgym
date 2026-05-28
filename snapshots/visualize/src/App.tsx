@@ -16,7 +16,7 @@ export type SnapshotTask = {
 
 type SnapshotRunDetail = SnapshotRun & {
   instructionPath: string;
-  seedPath: string;
+  taskSourcePath: string;
   tasks: SnapshotTask[];
 };
 
@@ -145,7 +145,7 @@ export function App() {
               <div className="min-w-0">
                 <h2 className="truncate text-xl font-semibold">{selectedTask.taskId}</h2>
                 <p className="mt-1 truncate text-sm text-slate-500">
-                  Editing `instruction.jsonc` via key: {selectedTask.instructionKey ?? "not mapped"}
+                  Editing `instruction.jsonl` via key: {selectedTask.instructionKey ?? "not mapped"}
                 </p>
               </div>
               <div className="flex shrink-0 items-center gap-2">
@@ -171,12 +171,11 @@ export function App() {
         </header>
 
         <div className="flex flex-col flex-1 gap-4 p-4">
-          
           <section className="rounded-md border border-slate-200 bg-white collapse-0">
             <div className="border-b border-slate-200 px-4 py-3">
               <div className="text-sm font-semibold">Instruction</div>
               <div className="mt-1 text-xs text-slate-500">
-                Save writes to {runDetail?.instructionPath ?? "instruction.jsonc"}
+                Save writes to {runDetail?.instructionPath ?? "instruction.jsonl"}
               </div>
             </div>
 
@@ -226,13 +225,12 @@ export function App() {
             </div> */}
 
             <div className="min-h-0 flex flex-row overflow-y-auto bg-slate-50 p-3">
-              {
-                selectedTask?.screenshots.map(s => <img
+              {selectedTask?.screenshots.map((s) => (
+                <img
                   className="w-1/2 rounded border border-slate-200 bg-white object-contain"
                   src={s}
-                />)
-              }
-        
+                />
+              ))}
             </div>
           </section>
         </div>

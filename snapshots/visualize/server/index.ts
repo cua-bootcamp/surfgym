@@ -1,27 +1,26 @@
-import { createHash } from "node:crypto";
 import { createReadStream } from "node:fs";
 import fs from "node:fs/promises";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { applyEdits, modify, parse } from "jsonc-parser";
+import { parse } from "jsonc-parser";
 
 const serverDir = path.dirname(fileURLToPath(import.meta.url));
 const appRoot = path.resolve(serverDir, "..");
 const repoRoot = path.resolve(appRoot, "..", "..");
 
 const snapshotsRoot = path.join(repoRoot, "snapshots", "__snapshots__");
-const seedPath = path.join(
+const augmentedPath = path.join(
   repoRoot,
   "packages",
   "surfgym-task",
   "src",
   "surfgym_task",
   "data",
-  "seed",
   "spreadsheet",
-  "seed.jsonc"
+  "out",
+  "augmented.jsonl"
 );
 const instructionPath = path.join(
   repoRoot,
@@ -30,9 +29,8 @@ const instructionPath = path.join(
   "src",
   "surfgym_task",
   "data",
-  "seed",
   "spreadsheet",
-  "instruction.jsonc"
+  "instruction.jsonl"
 );
 
 type Manifest = {
@@ -40,20 +38,9 @@ type Manifest = {
   tasks: Record<string, { snapshot_dir: string; reward: number }>;
 };
 
-type StateAtom = {
-  website_id?: string;
-  match?: "contains" | "exact" | "regex";
-  normalize_space?: boolean;
-  case_sensitive?: boolean;
-  value: unknown;
-  evalf: string;
-  applyf: string;
-  param?: string | null;
-  property?: string[];
-  return_type?: "list" | "obj";
-};
-
-type SeedTask = { task_id: string; instruction: string; states: StateAtom[][] };
+type AugmentedTask = { task_id: string; instruction?: string; hash?: string };
+type TaskSourceEntry = { instruction: string; hash: string | null };
+type InstructionRow = { hash?: unknown; instruction?: unknown };
 
 type InstructionMap = Record<string, string>;
 
@@ -82,127 +69,48 @@ async function readJsonc<T>(filePath: string): Promise<T> {
   return parse(text) as T;
 }
 
-function canonicalJson(value: unknown): string {
-  if (value === undefined) {
-    return "null";
-  }
-
-  if (Array.isArray(value)) {
-    return `[${value.map(canonicalJson).join(",")}]`;
-  }
-
-  if (value !== null && typeof value === "object") {
-    const record = value as Record<string, unknown>;
-    return `{${Object.keys(record)
-      .sort()
-      .map((key) => `${JSON.stringify(key)}:${canonicalJson(record[key])}`)
-      .join(",")}}`;
-  }
-
-  return JSON.stringify(value);
+async function readJsonl<T>(filePath: string): Promise<T[]> {
+  const text = await fs.readFile(filePath, "utf8");
+  return text
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => JSON.parse(line) as T);
 }
 
-function normalizeAtom(atom: StateAtom): Required<StateAtom> {
-  return {
-    website_id: atom.website_id ?? "_",
-    match: atom.match ?? "contains",
-    normalize_space: atom.normalize_space ?? false,
-    case_sensitive: atom.case_sensitive ?? true,
-    value: atom.value,
-    evalf: atom.evalf,
-    applyf: atom.applyf,
-    param: atom.param ?? null,
-    property: atom.property ?? [],
-    return_type: atom.return_type ?? "obj"
-  };
-}
+async function readInstructionMap(): Promise<InstructionMap> {
+  const rows = await readJsonl<InstructionRow>(instructionPath).catch(() => []);
+  const instructions: InstructionMap = {};
 
-function canonicalState(state: StateAtom[]) {
-  return state.map(normalizeAtom).sort((left, right) => {
-    const leftJson = canonicalJson(left);
-    const rightJson = canonicalJson(right);
-    return leftJson < rightJson ? -1 : leftJson > rightJson ? 1 : 0;
-  });
-}
-
-function hoareKey(startState: StateAtom[] | null, endState: StateAtom[]): string {
-  const payload = {
-    startState: startState === null ? null : canonicalState(startState),
-    endState: canonicalState(endState)
-  };
-  return `hoare:v1:${createHash("sha256").update(canonicalJson(payload), "utf8").digest("hex")}`;
-}
-
-function atomFreshnessKey(atom: StateAtom): string {
-  return canonicalJson([atom.evalf, atom.param ?? null, atom.property ?? []]);
-}
-
-function accumulatedState(states: StateAtom[][], endIndex: number): StateAtom[] {
-  const fresh = new Map<string, StateAtom>();
-  for (const state of states.slice(0, endIndex + 1)) {
-    for (const atom of state) {
-      fresh.set(atomFreshnessKey(atom), atom);
-    }
-  }
-  return [...fresh.values()];
-}
-
-function parseGeneratedTaskId(taskId: string) {
-  const match = /^(.*)_(\d+)_(\d+)$/.exec(taskId);
-  if (!match) return null;
-
-  return { seedId: match[1], startOrdinal: Number(match[2]), endOrdinal: Number(match[3]) };
-}
-
-function candidateInstructionKeys(seed: SeedTask, startOrdinal: number, endOrdinal: number) {
-  const endIndex = endOrdinal - 1;
-  const startIndex = startOrdinal > 0 ? startOrdinal - 1 : null;
-
-  if (endIndex < 0 || endIndex >= seed.states.length) {
-    return [];
-  }
-
-  const deltaStart = startIndex === null ? null : (seed.states[startIndex] ?? null);
-  const deltaEnd = seed.states[endIndex];
-  const cumulativeStart = startIndex === null ? null : accumulatedState(seed.states, startIndex);
-  const cumulativeEnd = accumulatedState(seed.states, endIndex);
-
-  return [hoareKey(deltaStart, deltaEnd), hoareKey(cumulativeStart, cumulativeEnd)];
-}
-
-async function buildInstructionResolver(instructions: InstructionMap) {
-  const seeds = await readJsonc<SeedTask[]>(seedPath);
-  const seedsById = new Map(seeds.map((seed) => [seed.task_id, seed]));
-  const directIndex = new Map<string, string>();
-
-  for (const seed of seeds) {
-    for (let endIndex = 0; endIndex < seed.states.length; endIndex += 1) {
-      const seedTaskId = `${seed.task_id}_0_${endIndex + 1}`;
-      const key = hoareKey(null, seed.states[endIndex]);
-      directIndex.set(seedTaskId, key);
+  for (const row of rows) {
+    if (typeof row.hash === "string" && typeof row.instruction === "string") {
+      instructions[row.hash] = row.instruction;
     }
   }
 
-  return (taskId: string): string | undefined => {
-    const existing = directIndex.get(taskId);
-    if (existing) return existing;
-
-    const parsed = parseGeneratedTaskId(taskId);
-    if (!parsed) return undefined;
-
-    const seed = seedsById.get(parsed.seedId);
-    if (!seed) return undefined;
-
-    return candidateInstructionKeys(seed, parsed.startOrdinal, parsed.endOrdinal).find(
-      (key) => key in instructions
-    );
-  };
+  return instructions;
 }
 
-async function readTaskSourceInstructions(taskSource: string): Promise<Map<string, string>> {
+async function writeInstructionMap(instructions: InstructionMap) {
+  const rows = Object.entries(instructions)
+    .sort(([left], [right]) => left.localeCompare(right))
+    .map(([hash, instruction]) => JSON.stringify({ hash, instruction }));
+
+  await fs.writeFile(instructionPath, `${rows.join("\n")}${rows.length > 0 ? "\n" : ""}`, "utf8");
+}
+
+async function readTaskSourceTasks(taskSource: string): Promise<Map<string, TaskSourceEntry>> {
   try {
-    const rows = await readJsonc<Array<{ task_id: string; instruction?: string }>>(taskSource);
-    return new Map(rows.map((row) => [row.task_id, row.instruction ?? ""]));
+    const rows = taskSource.endsWith(".jsonl")
+      ? await readJsonl<AugmentedTask>(taskSource)
+      : await readJsonc<AugmentedTask[]>(taskSource);
+
+    return new Map(
+      rows.map((row) => [
+        row.task_id,
+        { instruction: row.instruction ?? "", hash: typeof row.hash === "string" ? row.hash : null }
+      ])
+    );
   } catch {
     return new Map();
   }
@@ -243,13 +151,14 @@ async function runDetail(runId: string) {
   const safeRunId = path.basename(runId);
   const runDir = path.join(snapshotsRoot, safeRunId);
   const manifest = await readManifest(safeRunId);
-  const instructions = await readJsonc<InstructionMap>(instructionPath);
-  const resolveInstructionKey = await buildInstructionResolver(instructions);
-  const sourceInstructions = await readTaskSourceInstructions(manifest.summary.task_source);
+  const instructions = await readInstructionMap();
+  const taskSourcePath = manifest.summary.task_source || augmentedPath;
+  const sourceTasks = await readTaskSourceTasks(taskSourcePath);
 
   const tasks = await Promise.all(
     Object.entries(manifest.tasks).map(async ([taskId, meta]) => {
-      const instructionKey = resolveInstructionKey(taskId) ?? null;
+      const sourceTask = sourceTasks.get(taskId);
+      const instructionKey = sourceTask?.hash ?? null;
       const taskDir = path.join(runDir, path.basename(String(meta.snapshot_dir)));
       const screenshots = await listScreenshots(taskDir);
 
@@ -258,9 +167,9 @@ async function runDetail(runId: string) {
         reward: meta.reward,
         instructionKey,
         instruction: instructionKey
-          ? (instructions[instructionKey] ?? "")
-          : (sourceInstructions.get(taskId) ?? ""),
-        sourceInstruction: sourceInstructions.get(taskId) ?? "",
+          ? (instructions[instructionKey] ?? sourceTask?.instruction ?? "")
+          : (sourceTask?.instruction ?? ""),
+        sourceInstruction: sourceTask?.instruction ?? "",
         screenshots: screenshots.map(
           (file) =>
             `/api/runs/${encodeURIComponent(safeRunId)}/tasks/${encodeURIComponent(taskId)}/screenshots/${encodeURIComponent(file)}`
@@ -269,18 +178,13 @@ async function runDetail(runId: string) {
     })
   );
 
-  return { id: safeRunId, summary: manifest.summary, instructionPath, seedPath, tasks };
+  return { id: safeRunId, summary: manifest.summary, instructionPath, taskSourcePath, tasks };
 }
 
 async function updateInstruction(key: string, instruction: string) {
-  const text = await fs.readFile(instructionPath, "utf8");
-  const nextText = applyEdits(
-    text,
-    modify(text, [key], instruction, {
-      formattingOptions: { insertSpaces: true, tabSize: 2, eol: "\n" }
-    })
-  );
-  await fs.writeFile(instructionPath, nextText, "utf8");
+  const instructions = await readInstructionMap();
+  instructions[key] = instruction;
+  await writeInstructionMap(instructions);
 }
 
 async function serveScreenshot(

@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 
-TASK_PATH="${1:-$ROOT_DIR/packages/surfgym-task/src/surfgym_task/data/seed/spreadsheet/out/augmented.jsonc}"
+TASK_PATH="${1:-$ROOT_DIR/packages/surfgym-task/src/surfgym_task/data/spreadsheet/out/augmented.jsonl}"
 GATEWAY_URL="${GATEWAY_URL:-http://127.0.0.1:18000}"
 
 cd "$ROOT_DIR"

@@ -1,10 +1,10 @@
 import json
 import os
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from dotenv import load_dotenv
-from openai import OpenAI
+from openai import OpenAI  # pyright: ignore[reportMissingImports,reportUnknownVariableType]
 
 from surfgym_task.augmentation.schema import HoareState, SeedTask, State
 
@@ -15,8 +15,34 @@ def _dump_state(state: State) -> list[dict[str, Any]]:
     return [atom.model_dump(mode="json") for atom in state]
 
 
+def _atom_func(atom: dict[str, Any]) -> str:
+    value = atom.get("evalf", atom.get("f"))
+    return value if isinstance(value, str) else ""
+
+
+def _atom_param(atom: dict[str, Any]) -> str | None:
+    value = atom.get("param")
+    return value if isinstance(value, str) else None
+
+
+def _atom_property(atom: dict[str, Any]) -> list[str]:
+    value = atom.get("property", [])
+    if not isinstance(value, list):
+        return []
+
+    result: list[str] = []
+    for item in cast(list[object], value):
+        if isinstance(item, str):
+            result.append(item)
+    return result
+
+
+def _atom_identity(atom: dict[str, Any]) -> tuple[str, str | None, tuple[str, ...]]:
+    return (_atom_func(atom), _atom_param(atom), tuple(_atom_property(atom)))
+
+
 def _normalized_atom_value(atom: dict[str, Any]) -> Any:
-    if atom.get("f") == "getCellMeta" and atom.get("property") == ["style", "bl"]:
+    if _atom_func(atom) == "getCellMeta" and _atom_property(atom) == ["style", "bl"]:
         return _is_truthy_style_value(atom.get("value"))
 
     return atom.get("value")
@@ -25,9 +51,9 @@ def _normalized_atom_value(atom: dict[str, Any]) -> Any:
 def _atom_key(atom: dict[str, Any]) -> str:
     return json.dumps(
         {
-            "f": atom.get("f"),
-            "param": atom.get("param"),
-            "property": atom.get("property", []),
+            "evalf": _atom_func(atom),
+            "param": _atom_param(atom),
+            "property": _atom_property(atom),
             "value": _normalized_atom_value(atom),
         },
         sort_keys=True,
@@ -46,77 +72,276 @@ def _diff_state(start_state: State | None, end_state: State) -> list[dict[str, A
     return [atom for atom in end_atoms if _atom_key(atom) not in start_atom_keys]
 
 
-def _format_value(value: Any) -> str:
-    return json.dumps(value, ensure_ascii=False)
-
-
 def _is_truthy_style_value(value: Any) -> bool:
     return value in (1, True, "1", "true", "True")
 
 
-def _describe_spreadsheet_atom(atom: dict[str, Any]) -> str | None:
-    address = atom.get("param")
-    prop = atom.get("property", [])
-    value = atom.get("value")
+def _property_label(prop: list[str]) -> str:
+    if prop == ["cell", "v"]:
+        return "cell.value"
+    if prop == ["style", "bl"]:
+        return "style.bold"
+    if prop == ["style", "bg", "rgb"]:
+        return "style.background_color"
+    if prop == ["style", "n", "pattern"]:
+        return "style.number_format"
+    if prop == ["row", "visible"]:
+        return "row.visible"
+    if prop == ["row", "rawVisible"]:
+        return "row.raw_visible"
+    if prop == ["row", "filtered"]:
+        return "row.filtered"
+    return ".".join(prop) if prop else "object"
+
+
+def _column_name_to_index(column_name: str) -> int:
+    result = 0
+    for char in column_name.upper():
+        if not ("A" <= char <= "Z"):
+            return 10**9
+        result = result * 26 + ord(char) - 64
+    return result - 1
+
+
+def _cell_sort_key(address: str | None) -> tuple[int, int, str]:
+    if address is None:
+        return (10**9, 10**9, "")
+
+    letters = ""
+    digits = ""
+    for char in address.strip().upper():
+        if char == "$":
+            continue
+        if char.isalpha() and not digits:
+            letters += char
+        elif char.isdigit():
+            digits += char
+        else:
+            return (10**9, 10**9, address)
+
+    if not letters or not digits:
+        return (10**9, 10**9, address)
+
+    return (int(digits), _column_name_to_index(letters), address)
+
+
+def _infer_operation_kind(instruction: str) -> str:
+    text = instruction.lower()
+
+    if "sort" in text:
+        return "structural_sort"
+    if "hide" in text or "visible" in text:
+        return "structural_visibility"
+    if "conditional" in text or ("duplicate" in text and ("bold" in text or "highlight" in text)):
+        return "conditional_format"
+
+    computed_terms = (
+        "calculate",
+        "computed",
+        "compute",
+        "sum",
+        "summarize",
+        "summary",
+        "total",
+        "count",
+        "revenue",
+        "tax",
+        "charge",
+        "rate",
+        "lookup",
+        "according to",
+        "manager",
+    )
+    if any(term in text for term in computed_terms):
+        return "computed_output"
+
+    transformed_terms = (
+        "split",
+        "normalize",
+        "round",
+        "convert",
+        "format the date",
+        "phone number",
+        "padding",
+        "pad ",
+        "padded",
+    )
+    if any(term in text for term in transformed_terms):
+        return "transformed_output"
+
+    format_terms = ("format", "bold", "background", "color", "highlight", "currency")
+    if any(term in text for term in format_terms):
+        return "direct_format"
+
+    return "literal_entry"
+
+
+def _hides_evaluator_values(operation_kind: str) -> bool:
+    return operation_kind in {
+        "computed_output",
+        "transformed_output",
+        "conditional_format",
+        "structural_sort",
+        "structural_visibility",
+    }
+
+
+def _value_is_named_in_source(value: Any, source_instruction: str) -> bool:
+    if not isinstance(value, str):
+        return False
+
+    normalized = value.strip().lower()
+    return bool(normalized) and normalized in source_instruction.lower()
+
+
+def _include_value_in_prompt(atom: dict[str, Any], operation_kind: str, source_instruction: str) -> bool:
+    if not _hides_evaluator_values(operation_kind):
+        return True
+    return _value_is_named_in_source(atom.get("value"), source_instruction)
+
+
+def _requirement_role(atom: dict[str, Any], operation_kind: str, source_instruction: str) -> str:
+    prop = _atom_property(atom)
 
     if prop == ["cell", "v"]:
-        return f"Cell {address} should contain {_format_value(value)}."
+        if _include_value_in_prompt(atom, operation_kind, source_instruction):
+            return "literal_value"
+        return "operation_result"
 
-    if prop == ["style", "bl"]:
-        return (
-            f"Cell {address} should be bold."
-            if _is_truthy_style_value(value)
-            else f"Cell {address} should not be bold."
-        )
+    if prop[:1] == ["style"]:
+        if operation_kind == "conditional_format":
+            return "conditional_format_effect"
+        return "formatting"
 
-    if prop == ["style", "bg", "rgb"]:
-        return f"Cell {address} should have background color {_format_value(value)}."
+    if prop[:1] == ["row"]:
+        return "row_state"
 
-    if prop == ["style", "n", "pattern"]:
-        return f"Cell {address} should use number format {_format_value(value)}."
-
-    return None
+    return "state_requirement"
 
 
-def _describe_atom(atom: dict[str, Any]) -> str:
-    if atom.get("f") == "getCellMeta":
-        spreadsheet_description = _describe_spreadsheet_atom(atom)
-        if spreadsheet_description is not None:
-            return spreadsheet_description
+def _public_requirement(
+    atom: dict[str, Any],
+    operation_kind: str,
+    source_instruction: str,
+) -> dict[str, Any]:
+    prop = _atom_property(atom)
+    value_visible = _include_value_in_prompt(atom, operation_kind, source_instruction)
+    requirement = {
+        "address": _atom_param(atom),
+        "property": _property_label(prop),
+        "role": _requirement_role(atom, operation_kind, source_instruction),
+        "value_visible": value_visible,
+    }
 
-    return (
-        f"Requirement: {atom.get('f')} at {atom.get('param')} has "
-        f"{'.'.join(atom.get('property', []))} = {_format_value(atom.get('value'))}."
+    if value_visible:
+        requirement["value"] = atom.get("value")
+
+    return requirement
+
+
+def _public_context_atom(atom: dict[str, Any]) -> dict[str, Any]:
+    prop = _atom_property(atom)
+    return {
+        "address": _atom_param(atom),
+        "property": _property_label(prop),
+        "value": atom.get("value"),
+    }
+
+
+def _flatten_states(states: list[State]) -> list[dict[str, Any]]:
+    return [atom for state in states for atom in _dump_state(state)]
+
+
+def _task_output_identities(seed_task: SeedTask) -> set[tuple[str, str | None, tuple[str, ...]]]:
+    output_states = seed_task.states if seed_task.empty_start else seed_task.states[1:]
+    return {_atom_identity(atom) for atom in _flatten_states(output_states)}
+
+
+def _public_context(
+    start_state: State | None,
+    output_identities: set[tuple[str, str | None, tuple[str, ...]]],
+    operation_kind: str,
+    source_instruction: str,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    if start_state is None:
+        return ([], [])
+
+    visible_context: list[dict[str, Any]] = []
+    completed_targets: list[dict[str, Any]] = []
+
+    for atom in _dump_state(start_state):
+        is_output = _atom_identity(atom) in output_identities
+        show_value = not is_output or _include_value_in_prompt(atom, operation_kind, source_instruction)
+
+        if show_value:
+            visible_context.append(_public_context_atom(atom))
+        else:
+            completed_targets.append(_public_requirement(atom, operation_kind, source_instruction))
+
+    visible_context.sort(key=lambda item: (_cell_sort_key(item.get("address")), item["property"]))
+    completed_targets.sort(key=lambda item: (_cell_sort_key(item.get("address")), item["property"]))
+    return (visible_context, completed_targets)
+
+
+def _build_instruction_payload(seed_task: SeedTask, hoare_state: HoareState) -> dict[str, Any]:
+    required_state = _diff_state(hoare_state.start_state, hoare_state.end_state)
+    operation_kind = _infer_operation_kind(seed_task.instruction)
+    output_identities = _task_output_identities(seed_task)
+    visible_context, completed_targets = _public_context(
+        hoare_state.start_state,
+        output_identities,
+        operation_kind,
+        seed_task.instruction,
     )
 
+    pending_requirements = [
+        _public_requirement(atom, operation_kind, seed_task.instruction) for atom in required_state
+    ]
+    pending_requirements.sort(key=lambda item: (_cell_sort_key(item.get("address")), item["property"]))
 
-def _describe_state(state: list[dict[str, Any]]) -> list[str]:
-    return [_describe_atom(atom) for atom in state]
+    return {
+        "source_instruction": seed_task.instruction,
+        "operation_contract": {
+            "domain": "spreadsheet",
+            "kind": operation_kind,
+            "value_policy": (
+                "hide_evaluator_values"
+                if _hides_evaluator_values(operation_kind)
+                else "literal_values_allowed"
+            ),
+        },
+        "progress": {
+            "completed_targets": completed_targets,
+        },
+        "pending": {
+            "requirements": pending_requirements,
+            "target_addresses": sorted(
+                {
+                    address
+                    for address in (
+                        item.get("address")
+                        for item in pending_requirements
+                        if not item["value_visible"]
+                    )
+                    if isinstance(address, str)
+                },
+                key=_cell_sort_key,
+            ),
+        },
+        "visible_start_context": visible_context,
+    }
 
 
 class InstructionGenerator:
     def __init__(self):
         api_key = os.getenv("OPENAI_API_KEY")
-        self.client = OpenAI(api_key=api_key)
+        self.client: Any = OpenAI(api_key=api_key)
         self.model = "gpt-5.4-mini"
 
     def generate(self, seedTask: SeedTask, hoare_state: HoareState) -> str:
-        start_state = (
-            None if hoare_state.start_state is None else _dump_state(hoare_state.start_state)
-        )
-        end_state = _dump_state(hoare_state.end_state)
-        required_state = _diff_state(hoare_state.start_state, hoare_state.end_state)
+        payload = _build_instruction_payload(seedTask, hoare_state)
 
-        payload = {
-            "seed_instruction": seedTask.instruction,
-            "seed_states": [_dump_state(state) for state in seedTask.states],
-            "start_state": start_state,
-            "end_state": end_state,
-            "required_state": required_state,
-            "required_facts": _describe_state(required_state),
-        }
-
-        response = self.client.responses.create(
+        response: Any = self.client.responses.create(
             model=self.model,
             input=[
                 {
@@ -131,7 +356,7 @@ class InstructionGenerator:
             max_output_tokens=120,
         )
 
-        instruction = response.output_text.strip()
+        instruction = str(response.output_text).strip()
         instruction = self._normalize_instruction(instruction)
 
         if not instruction:
@@ -154,66 +379,36 @@ class InstructionGenerator:
 
 
 SYSTEM_PROMPT = """
-You will generate concise GUI benchmark subtask instructions.
+You write one concise user-facing spreadsheet benchmark instruction from an operation contract.
 
-You will receive JSON with:
-- seed_instruction: the original full task instruction
-- seed_states: ordered internal milestone states from the original task
-- start_state: the actual state the user starts from, or null
-- end_state: the target state the generated instruction should lead to
-- required_state: the exact internal requirements that are present in end_state but not already present in start_state
-- required_facts: natural-language descriptions of required_state
+Input shape:
+- source_instruction: the original whole task, used to preserve the user's intended operation.
+- operation_contract.kind: the operation category inferred from the original task.
+- operation_contract.value_policy: whether evaluator-only values are hidden.
+- progress.completed_targets: target cells/properties that were completed before this subtask. Their hidden values are not user instructions.
+- pending.requirements: the exact unfinished targets for this subtask. Requirements with value_visible=false are destinations/evaluator checks only.
+- pending.target_addresses: unfinished destination cells whose final values were intentionally hidden.
+- visible_start_context: values and formatting the user can already see at the start of this subtask.
 
-Your job is to generate one short user-facing instruction that moves the user from start_state to end_state while staying consistent with seed_instruction.
-
-Critical semantics:
-- Only start_state describes what already exists for the user.
-- seed_states are reference milestones used only to understand ordering and intent. They are not setup state, and they are not preconditions.
-- required_state and required_facts are the authoritative list of work the user must perform.
-- Mention only the required change. Do not ask the user to create, edit, format, or verify anything that is already present in start_state but absent from required_state.
-- If start_state is null, assume none of the task-specific requirements have been completed yet.
-- When start_state is null, required_state will usually match end_state and every user-visible requirement in required_state must be included in the instruction.
-- If start_state is not null, repeated facts in both start_state and end_state are context only, not work to perform.
-- If required_state is not empty, never output "No changes are needed."
-- Output "No changes are needed." only when required_state is empty.
-- Never say or imply that something is "existing", "already", or pre-filled unless it is explicitly present in start_state.
-- Generate the transition from required_state, not as the difference between adjacent seed_states.
-
-Spreadsheet state interpretation:
-- property ["cell", "v"] means the cell's displayed value.
-- property ["style", "bl"] with value 1 means the cell is bold.
-- property ["style", "bl"] with value 0 or false means the cell is not bold.
-- For spreadsheet tasks, convert cell facts into natural instructions. You may mention cell addresses when that is the clearest instruction.
-- Include a cell's value or style only if that exact value or style appears in required_state or required_facts.
-- If a cell value or style appears only in start_state, do not mention it as an action.
-
-Operation intent preservation:
-- Use required_state to decide which final requirements must be satisfied, but use seed_instruction to preserve the user's intended operation.
-- If seed_instruction describes a rule-based or derived operation, keep that operation wording instead of rewriting it as direct cell assignments.
-- Rule-based or derived operations include: fill blank cells, replace missing values, normalize values, split text into columns, calculate formulas, apply conditional formatting, highlight matching rows, format numbers or dates, sort or filter, remove duplicates, and compute derived values.
-- When required_state contains final cell values that are the result of such an operation, describe the operation, not just the resulting cells.
-- Keep the range, column, condition, target value, and transformation from seed_instruction when they are available and still relevant to required_state.
-- If start_state shows blank cells and required_state changes those cells to a shared value, prefer wording like: Fill every blank cell in [range or column] with "[value]".
-- If start_state does not yet show the blank cells, but seed_instruction says to create blanks before filling them, first ask for the remaining table data with those cells left blank, then ask to fill the blank cells using the original rule.
-- Do not say "Enter [value] in A3 and A5" when seed_instruction says to fill blank cells with that value.
-- Direct cell-entry wording is appropriate only when seed_instruction itself describes direct entry, or when no rule-based or derived operation is implied.
+Core rules:
+- Treat source_instruction and operation_contract.kind as the source of truth for the user's action.
+- Treat hidden pending requirements as validation targets, not literal values to type.
+- Never reveal, invent, or ask the user to enter a final value for a requirement where value_visible=false.
+- For computed_output, transformed_output, structural_sort, structural_visibility, and conditional_format tasks, describe the operation to perform, scoped to the pending targets.
+- For literal_value and formatting requirements where value_visible=true, include the visible literal value or style if it is needed for a clear instruction.
+- Use completed_targets only to avoid repeating finished work.
+- Use visible_start_context only as context for the user-visible inputs and labels.
+- Mention target cells or ranges when that makes the subtask clear.
+- If there are multiple pending target cells in the same column, prefer compact range wording such as D5:D7.
 
 Examples:
-- If required_facts are Cell A2 should contain "Alice", Cell A3 should contain "Brian", Cell A4 should contain "Chloe", output: Enter Alice, Brian, and Chloe in A2 through A4.
-- If required_facts are Cell B1 should contain "Score", Cell B1 should be bold, Cell B2 should contain 85, Cell B3 should contain 92, Cell B4 should contain 78, output: Enter Score in B1, enter 85, 92, and 78 in B2 through B4, and make B1 bold.
-- If required_facts include both the names in A2 through A4 and the scores in B1 through B4, include both groups in the instruction.
-- If seed_instruction says to fill every blank cell in column A within A2:A6 with "Unknown", start_state has A3 and A5 blank, and required_facts are Cell A3 should contain "Unknown" and Cell A5 should contain "Unknown", output: Fill every blank cell in column A within A2:A6 with "Unknown".
-- If seed_instruction says to create an employee table with blanks in A3 and A5 and then fill every blank cell in column A within A2:A6 with "Unknown", and required_facts include both remaining table rows and Unknown in A3 and A5, output: Complete the remaining employee table rows with the specified blank Name cells, then fill every blank cell in column A within A2:A6 with "Unknown".
-- Do not output: Enter Unknown in A3 and A5.
-- Do not output instructions for cells or formatting that are absent from required_facts.
-
-Guidelines:
-- Focus only on what the user must do to satisfy end_state from start_state.
-- If start_state already includes part of the seed task, do not repeat that completed part.
-- If end_state appears to be the final goal of the seed task, the instruction may closely match seed_instruction.
-- Prefer direct imperative wording such as "Open...", "Navigate to...", "Enter...", "Select...", or "Change...".
-- Write the instruction as if you are giving it to a user who will perform the task on their computer.
-- Keep it concise, specific, and actionable.
+- For a computed_output task with pending target D5, output: Calculate the correct total rental charge in D5.
+- Do not output: Enter 300 in D5.
+- For a computed_output task with pending targets D5 and D6, output: Calculate the correct total rental charges in D5 and D6.
+- Do not output: Enter 300 in D5 and 220 in D6.
+- For a transformed_output task that normalizes phone numbers in pending targets B3:B5, output: Normalize the phone numbers in B3:B5 into the requested format.
+- For a literal_entry task with visible literal requirements A2="Alice", A3="Brian", and A4="Chloe", output: Enter Alice, Brian, and Chloe in A2 through A4.
+- For a direct_format task with visible formatting requirements, output the formatting action, such as: Make A1 bold.
 
 Output rules:
 - Output only the instruction text.

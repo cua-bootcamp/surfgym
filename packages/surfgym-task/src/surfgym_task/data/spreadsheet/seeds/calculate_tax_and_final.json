@@ -18,11 +18,17 @@
       { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D1", "property": ["cell", "v"], "value": "Tax Amount" },
       { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E1", "property": ["cell", "v"], "value": "Final Amount" }
     ],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D2", "property": ["cell", "v"], "value": 16 }],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D3", "property": ["cell", "v"], "value": 6 }],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D4", "property": ["cell", "v"], "value": 2 }],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E2", "property": ["cell", "v"], "value": 216 }],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E3", "property": ["cell", "v"], "value": 81 }],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E4", "property": ["cell", "v"], "value": 42 }]
+    [
+      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D2", "property": ["cell", "v"], "value": 16 },
+      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E2", "property": ["cell", "v"], "value": 216 }
+    ],
+    [
+      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D3", "property": ["cell", "v"], "value": 6 },
+      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E3", "property": ["cell", "v"], "value": 81 }
+    ],
+    [
+      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D4", "property": ["cell", "v"], "value": 2 },
+      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E4", "property": ["cell", "v"], "value": 42 }
+    ]
   ]
 }

@@ -1,6 +1,6 @@
 {
   "instruction": "The total equipment rental duration is recorded as a time value, and the hourly rental fee is entered as a regular number. Directly multiplying the two cells gives the wrong charge because the duration is stored as a fraction of a day. Please calculate the correct total rental charge in the blank result cell.",
-  "empty_state_start": false,
+  "empty_start": false,
   "states": [
     [
       { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "Total Rental" },

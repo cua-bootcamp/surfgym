@@ -61,7 +61,7 @@ class HoareCreator(Protocol):
         self,
         states: list[State],
         end: int,
-        start: Optional[int] = None,
+        start: int,
     ) -> HoareState: ...
 
 
@@ -85,13 +85,9 @@ class HoareState(FrozenBaseModel):
 
             return list(keep_fresh_state.values())
 
-        def aux(states: list[State], end: int, start: Optional[int] = None) -> HoareState:
-            if start is None:
-                start_state = None
-                complexity = end + 1
-            else:
-                start_state = accumulate(states, start)
-                complexity = end - start
+        def aux(states: list[State], end: int, start: int) -> HoareState:
+            start_state = None if start == -1 else accumulate(states, start)
+            complexity = end - start
 
             end_state = accumulate(states, end)
             return HoareState(start_state=start_state, end_state=end_state, complexity=complexity)

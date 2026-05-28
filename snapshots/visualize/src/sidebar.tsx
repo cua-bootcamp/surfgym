@@ -32,6 +32,8 @@ export function Sidebar({
 
     return tasks.filter(
       (task) => task.taskId.toLowerCase().includes(q) || task.instruction.toLowerCase().includes(q)
+    ).sort((a, b) =>
+      a.taskId.localeCompare(b.taskId, undefined, { numeric: true })
     );
   }, [query, tasks]);
 
