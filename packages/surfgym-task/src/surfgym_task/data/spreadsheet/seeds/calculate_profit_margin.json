@@ -46,18 +46,20 @@
       {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A11", "property": ["cell", "v"], "value": "Week 10"},
       {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B11", "property": ["cell", "v"], "value": "82150"},
       {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C11", "property": ["cell", "v"], "value": "48900.75"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D11", "property": ["cell", "v"], "value": "33249.25"}
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D11", "property": ["cell", "v"], "value": "33249.25"},
+
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E1", "property": ["cell", "v"], "value": "profit margin"}
     ],
-    [{"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E1", "property": ["cell", "v"], "value": "profit margin"}],
-    [{"match": "regex", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E2", "property": ["cell", "v"], "value": "^0\\.267440325\\d*$"}],
-    [{"match": "regex", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E3", "property": ["cell", "v"], "value": "^0\\.603552083\\d*$"}],
-    [{"match": "regex", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E4", "property": ["cell", "v"], "value": "^0\\.825618846\\d*$"}],
-    [{"match": "regex", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E5", "property": ["cell", "v"], "value": "^0\\.062098726\\d*$"}],
-    [{"match": "regex", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E6", "property": ["cell", "v"], "value": "^0\\.656465319\\d*$"}],
-    [{"match": "regex", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E7", "property": ["cell", "v"], "value": "^0\\.654390143\\d*$"}],
-    [{"match": "regex", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E8", "property": ["cell", "v"], "value": "^0\\.360349884\\d*$"}],
-    [{"match": "regex", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E9", "property": ["cell", "v"], "value": "^0\\.206028266\\d*$"}],
-    [{"match": "regex", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E10", "property": ["cell", "v"], "value": "^0\\.956733871\\d*$"}],
-    [{"match": "regex", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E11", "property": ["cell", "v"], "value": "^0\\.404738284\\d*$"}]
+        [{"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E1", "property": ["cell", "v"], "value": "profit margin"}],
+    [{"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E2", "property": ["cell", "v"], "value": "0.267440325"}],
+    [{"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E3", "property": ["cell", "v"], "value": "0.6035520833"}],
+    [{"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E4", "property": ["cell", "v"], "value": "0.8256188459"}],
+    [{"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E5", "property": ["cell", "v"], "value": "0.06209872611"}],
+    [{"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E6", "property": ["cell", "v"], "value": "0.6564653195"}],
+    [{"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E7", "property": ["cell", "v"], "value": "0.6543901425"}],
+    [{"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E8", "property": ["cell", "v"], "value": "0.3603498836"}],
+    [{"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E9", "property": ["cell", "v"], "value": "0.2060282663"}],
+    [{"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E10", "property": ["cell", "v"], "value": "0.956733871"}],
+    [{"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E11", "property": ["cell", "v"], "value": "0.4047382836"}]
   ]
 }

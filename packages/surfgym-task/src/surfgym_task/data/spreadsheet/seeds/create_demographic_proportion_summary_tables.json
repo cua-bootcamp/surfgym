@@ -1,0 +1,34 @@
+{
+  "instruction": "We have survey data with respondents' sex in column A and civil status in column B, starting from row 2. In columns D and E, create a 'Sex' summary table with the header 'Sex' in D1 and 'Proportion' in E1, listing each sex with its proportion as a decimal. Leave one blank row after the Sex table, then create a 'Civil Status' summary table in the same format below. Leave everything else unchanged.",
+  "empty_start": false,
+  "states": [
+    [
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Sex"},
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Civil Status"},
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Female"},
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Married"},
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Male"},
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "Single"}
+    ],
+    [
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D1", "property": ["cell", "v"], "value": "Sex"},
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E1", "property": ["cell", "v"], "value": "Proportion"}
+    ],
+    [
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D2", "property": ["cell", "v"], "value": "Female"},
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E2", "property": ["cell", "v"], "value": 0.5},
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D3", "property": ["cell", "v"], "value": "Male"},
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E3", "property": ["cell", "v"], "value": 0.5}
+    ],
+    [
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D5", "property": ["cell", "v"], "value": "Civil Status"},
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E5", "property": ["cell", "v"], "value": "Proportion"}
+    ],
+    [
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D6", "property": ["cell", "v"], "value": "Married"},
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E6", "property": ["cell", "v"], "value": 0.5},
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D7", "property": ["cell", "v"], "value": "Single"},
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E7", "property": ["cell", "v"], "value": 0.5}
+    ]
+  ]
+}

@@ -8,6 +8,7 @@ from openai import OpenAI  # pyright: ignore[reportMissingImports,reportUnknownV
 
 from surfgym_task.augmentation.schema import HoareState, SeedTask, State
 
+load_dotenv(Path(__file__).resolve().parents[5] / ".env")
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 

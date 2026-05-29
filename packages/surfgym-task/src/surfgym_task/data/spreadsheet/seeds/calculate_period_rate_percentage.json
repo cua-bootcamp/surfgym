@@ -1,0 +1,21 @@
+{
+  "instruction": "We have an interest rate table with 'Annual Rate (%)' in column A and 'Periods' in column B. Add a 'Period Rate (%)' column in column C by dividing each annual rate by its corresponding number of periods, and make sure the results are stored as numbers. Leave everything else unchanged.",
+  "empty_start": false,
+  "states": [
+    [
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Annual Rate (%)"},
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Periods"},
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": 12},
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": 12},
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": 24},
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": 12}
+    ],
+    [
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Period Rate (%)"}
+    ],
+    [
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": 1},
+      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": 2}
+    ]
+  ]
+}

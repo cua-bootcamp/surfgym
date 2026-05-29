@@ -8,8 +8,23 @@ python3 -m pip install -U uv
 uv sync --locked --all-packages
 
 uv run playwright install chromium
+playwright install chromium
+
+# Linux only
+playwright install-deps chromium
 
 source .venv/bin/activate
+
+sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl
+
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' \
+  | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' \
+  | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+
+sudo apt update
+sudo apt install caddy
 ```
 
 <!-- 
@@ -73,7 +88,7 @@ Install Playwright's Chromium runtime and any required system dependencies:
 playwright install chromium
 
 # Linux only
-playwright install-deps chromiu
+playwright install-deps chromium
 
 ```
 

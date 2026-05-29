@@ -1,173 +1,413 @@
+{"hash":"004b0db352867eee37816451209cbe74d9c14e53bb6ade583cfff6be8d257a78","instruction":"Format B5 as currency with two decimal places."}
 {"hash":"010a8496980738c91d912587df1cbfea95fb53b3af0bdeb856d7b4288aa5d751","instruction":"Copy the Raw Tag values into D3:D8 as 6-digit asset tags, padding with leading zeros where needed."}
 {"hash":"0137a743d9cda2cd5cd29b10fb42483bd6c322da1beffd423af71898ecf9d146","instruction":"Calculate the Tax Amount and Final Amount in D4 and E4."}
+{"hash":"0202b04ce2012ca41e0fc7b0ef74d0a208b94cfe9ff9b7f3732803ac9378bfa6","instruction":"Calculate the profit margin in E5."}
+{"hash":"02266cfefb4c2d0332dcc639786c6697631cb7f7147a582af4796ddc911ae4f2","instruction":"Calculate the profit margin in E3:E6."}
+{"hash":"024eb403ec559be60d1cefd362e6fe924bb44987e88d30b84a0498b03ff37ae6","instruction":"Split the dates in B3:B4 into Year, Month, and Day in C3:E4, leaving column B unchanged."}
+{"hash":"02b2acd01713ede95098252087b2624daabb5733c266615b581782756e802249","instruction":"Round the values in B5:B6 to two decimal places and place the results in C5:C6, with C5:C6 displayed using exactly two decimal digits."}
+{"hash":"02b4d4b8de44119372519fa40d1d9abfefd1773bf2f3ef352340a265ae8efae3","instruction":"Enter HR, Engineering, and Marketing in D3 through D5."}
+{"hash":"02d8442034bc48393fee6c4037ac1428ee1a605494147b7674921b1b050af619","instruction":"Extract the month from the dates in column B and fill it in column D, starting at D3."}
+{"hash":"02e859a43398f5403fa3a8c69d7d0610b9e9b16eb474f2a3afa45dff3919925d","instruction":"We have survey data with respondents' sex in column A and civil status in column B, starting from row 2. In columns D and E, create a 'Sex' summary table with the header 'Sex' in D1 and 'Proportion' in E1, listing each sex with its proportion as a decimal. Leave one blank row after the Sex table, then create a 'Civil Status' summary table in the same format below. Leave everything else unchanged."}
+{"hash":"03030af68f8ad23921d434c2aa2a008809487a11fc021fb83891b404de8f98da","instruction":"Calculate the profit margin in E7:E10."}
 {"hash":"03838b75fd48c213e30b9619fc48182dbdd46fe7b7f6696ac80981a4e1a3b2d9","instruction":"Calculate the quarterly totals in B7:E7."}
+{"hash":"041eb57fa93757e08c339e7a35ff4032ad4290f2343cc0079c3bf0e45c29d4f7","instruction":"Enter Held in F9 and F10."}
+{"hash":"0436d1fc45a7546c81c2c07686602e4a856ce4325f77c635bdff7dacadc76e8a","instruction":"Copy the cleaned book titles from A3:A7 into B3:B7 using title case and removing extra spaces."}
 {"hash":"0449db603a812ffccd424eaaa21d45cd8e2009a58346eae7f511b90290fbc875","instruction":"Calculate the quarterly total in E7."}
 {"hash":"045d70d869b46b30f2649d9a2b1fed434ef0308bf5af7cce12eb8974056aeac1","instruction":"Calculate the correct revenue values in F5:F7."}
 {"hash":"0492bbee4241e034bc47dbbafc2f6231bf89da2d6a13a5e3914376648792cbbe","instruction":"Calculate the remaining annual totals in F4:F6 and the quarterly totals plus grand total in B7:F7."}
+{"hash":"04d114c3d36c7389ff3a5ace6f0690d9de0df4383088a2c631b082b1e7e5c402","instruction":"Split the dates in B3:B4 into year, month, and day in C3:E4, leaving column B unchanged."}
+{"hash":"0557e7c5cc9ef5e6a25168827f2f45c0c3e1b85ad6b80282493338ca883a0428","instruction":"Calculate the profit margin in E4:E10 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"061b0bc9e04de6bc884518ae72b841a7126d6046af4b2ddea4cdaec20bde5a7f","instruction":"Calculate the final prices in F3 and F4, and create the product label in G4 by combining the product ID with the integer part of the corresponding final price."}
 {"hash":"068e1173aa74a62e035b141b66061cae20bac5cd0cc1a07029ee80b20cdf9db3","instruction":"Calculate the revenue values in F3:F7 using Unit Price × Quantity × (1 - Discount Rate)."}
+{"hash":"075e6a294b860c572ec949397963c4b9628833160048e623230b9001f7a57641","instruction":"Calculate the profit margin in E6 by dividing Gross Profit (USD) by Sales (USD)."}
+{"hash":"0776593f601be77c4e20053a6f7f7d783907af61d6c2112c3755e42a76121c08","instruction":"Calculate the profit margin in E8 and E9 by dividing Gross Profit (USD) by Sales (USD)."}
 {"hash":"0836d8f88a56136c70aa1336af501d8cc1126aa6099735f62b77b1bde7824a20","instruction":"Calculate the revenue values in F4:F10 and complete the product revenue summary in K3:L4."}
 {"hash":"090a414e09593ed83ad68992f4507de21f2f7dcbef3f4f16f2b7e9e48d553121","instruction":"Calculate the correct revenue values in F9 and F10."}
+{"hash":"0938f84620749406ed963c5e68cc1ba30aab2596d702c409fc0235004c2b3062","instruction":"Enter 1003 in B6 and 1004 in B7."}
 {"hash":"09d4170266fd958a97d08cff3a2efe7b2481083dafe7f7ed72f4bb0d73a94242","instruction":"Copy the Raw Tag numbers from B3:B5 into D3:D5 and pad them with leading zeros so each asset tag is exactly 6 digits."}
 {"hash":"0a115f711524c43ab47ea2270db433a0a17f33471d952bd3db3183b78cda0fde","instruction":"Calculate the total revenue for each sales channel in K4:L5."}
+{"hash":"0b3d56a923c50cdf71f4185214b046939f89ff64c66d3ebecdade1dbb24c374e","instruction":"Enter Fail in F6 and Held in F7:F10."}
+{"hash":"0b8038ac552aaa655bdab010665bc6438eb54c40abf02256975525d138f097f0","instruction":"Calculate the final prices in F3, F4, and F5, and enter the product label in G4 based on the Product ID and the integer part of the final price."}
 {"hash":"0b88fb95a1eb8604aeade38ecc9707dff9fdaf7f1cd1abc710d09da77e988d66","instruction":"Enter Alice, Brian, and Chloe in A2 through A4."}
+{"hash":"0bbb0b451da7e2b35985c6c7a456762a8f4c08104c5720e36cb2eb97ca31f1e2","instruction":"Calculate the profit margin in E8."}
+{"hash":"0c46a10847d5d07289634f07b796ff8e64af3f3f767eee1d46aeeacbd40708b2","instruction":"Calculate the profit margin in E3:E11 by dividing Gross Profit (USD) by Sales (USD)."}
 {"hash":"0c7d26ccec5b69a592d3874bf196a868013e82d4af3079db84e5a28a6e298663","instruction":"Format B2:B3 as currency with two decimal places."}
+{"hash":"0c892cdddf0b35178291758c8f7e898db127e180eb3191a4261d7df7c9d908b9","instruction":"We have a physics experiment table with 'Mass Up (kg)' in column A, 'Accel Up' in column B, 'Mass Down (kg)' in column C, and 'Accel Down' in column D. The acceleration formulas are already filled in row 2 for columns B and D. Extend those same formulas to the remaining rows, then add a 'Combined Data' column in E that shows each row's values in the format 'Header: value' with exactly two decimal places, separated by commas. Leave everything else unchanged."}
+{"hash":"0cec1971763ccc84802740cd07ca5268b42937031ee1385d75c1106f1fe51368","instruction":"Enter Held in F7:F10."}
 {"hash":"0d29dfb22f7c54c4461a5ab2d7c7a603b0d182b7b4118b5e542284a6edde9c89","instruction":"Normalize the raw tags in D5 and D6 into 6-digit asset tags."}
+{"hash":"0d4e38ace67507d2d6a980b311dad9509465f5e7c6f3a649b81aa516bc370f80","instruction":"In the employee roster starting from row 3, fill in the 'Emp ID' column (column B) with sequential employee IDs starting from 1000 (i.e., 1000, 1001, 1002, 1003, 1004). Do not alter the names in column C."}
+{"hash":"0d65dd086b4250ae8c66a76278e7634e6ae9fe8e5aeddf5734fbc205c2e717a2","instruction":"Calculate the profit margin in E4:E6 by dividing Gross Profit (USD) by Sales (USD)."}
+{"hash":"0e419ff67d94c1598d0f728f6933e96a45714721d1846650b3a8a16d40e52a55","instruction":"Enter profit margin in E1 and calculate the profit margin in E2:E8 by dividing Gross Profit (USD) by Sales (USD)."}
+{"hash":"0e9ff02e38eb39b190de8407a401a79fca6ca69f88ae362a7fdc91d2374c9e37","instruction":"Fill the remaining Sunday date cells in the March through May 2026 table with a red background."}
 {"hash":"0eb12593337068b7f994c056edb569d8209ddb93c61f00d36a56e54dec4adf9f","instruction":"Calculate the correct total rental charge in D7."}
+{"hash":"0ef55d47992df35427a9ddf9aac3218f7d00b16d8fe653148252786f4eb951cc","instruction":"Calculate the profit margin in E4:E7 by dividing Gross Profit (USD) by Sales (USD) for each week."}
 {"hash":"0f33ede5ecae2414275a772193b497bed6416ee0e9e89693b4231efbce5aceab","instruction":"Make the Marker and Eraser row yellow for the given table"}
+{"hash":"0f5fcfd4f3c5fae7628f8ac389e861409e86ef7379dc9c16e442e8e1b96d497b","instruction":"Based on the BMI classification scale shown in columns F and G, determine and fill in each person's weight status in column D under the 'Classification' header. Keep all other cells and tables untouched."}
+{"hash":"0f851b7ad760e504c6d0bf1e0e98f2a05b08a2e2fcae5cb837ab3f041a76c494","instruction":"Modify the expense table. Format the Amount column values as \"currency\" with exactly two decimal places. Use the formatting feature."}
+{"hash":"10710a74874bdf123fcbb154a4cce966537c0dd045e177a41cac314163176ddc","instruction":"Enter 1001, 1002, 1003, and 1004 in B4 through B7."}
 {"hash":"108c4908de95f674ff1347357d1c3ffbe8cebe20352511866e6226fb0a3ddac2","instruction":"Calculate the correct total rental charge in D6:D7."}
+{"hash":"10d731fc081b4eb119161b8a175b0216ce63e351974e5d71a233158243928c0b","instruction":"Split the dates in B3:B4 into year, month, and day in the adjacent columns C:E."}
 {"hash":"10faa1359a13e2e8872fef07ede748ca8376ca6b1f0bea10e6670aebaab167f1","instruction":"Calculate the total revenue for the product summary in K3 and L3, and calculate the revenue in F10."}
 {"hash":"118dddf1fac8b5c42e2569578ff2e10e6474721a8cdd48704320203266f321f0","instruction":"Calculate the total revenue summary in K3:L6 and the remaining revenue values in F7:F10."}
+{"hash":"12259df532ad6ca6d08e6720dc07cfa521217dae83cc6ef829d7c30dec9c6747","instruction":"Calculate the month component in D3."}
 {"hash":"12aa9855e03b29b6582e176dc3100fa6ffd1def4d66f7e64f38b323658add929","instruction":"Calculate the correct revenue in F9."}
 {"hash":"12bf2f1424d086e807f3abf1b75b097c6c79c6e1145fee047e71d20215ec2a40","instruction":"Normalize the raw tags in D7:D8 into 6-digit asset tags."}
 {"hash":"130a2e5170fb5969a32e100e76f1fcfdca45aa4959ea529b73a4afe33e68a1d3","instruction":"Enter 85, 92, Chloe, and 78 in B2, B3, A4, and B4."}
+{"hash":"134108b2470574f9c561f6cdcdef51d81e00308082119820f33cce4751095155","instruction":"Calculate the profit margin in E6:E8 by dividing Gross Profit (USD) by Sales (USD)."}
 {"hash":"13fe6f9a2d667079c4daabedfda9e4344dd49d7dd6280a62f6ba45a2ba79e8e7","instruction":"Enter Name in A1, Score in B1, and Alice in A2."}
+{"hash":"141263d2dd0ac4601d7b66a3907f4a06bd2b8dbca9de82bd7c43120ff9268351","instruction":"Split the dates in B3:B4 into Year, Month, and Day, filling the remaining outputs in E3 and C4 while leaving column B unchanged."}
+{"hash":"145a5d7cea568a5d04566258a6b1eea259dce57d6e018909355429bb00a05231","instruction":"Calculate the final prices in F3 and F4 and the product label in G4; also enter Average in B5."}
 {"hash":"15369e7e51935059f5cd5d435d374bd64146753761a0c2d896ac54fe3a790de7","instruction":"Calculate the total revenue for each sales channel in K3:L5 and the remaining product totals in H4:I6."}
+{"hash":"15f34e11f732cfc156fe2541f666baf80a728330f8b83938a791c8472a6f2d49","instruction":"Calculate the profit margin in E9 and E10 by dividing Gross Profit (USD) by Sales (USD)."}
+{"hash":"16be60c59557e63516a89a68d6e13c7cf8c2616588481e584c1961a4bd9adeba","instruction":"Enter Held in F8:F11 and Fail in F12."}
+{"hash":"16ee28c518cd5b25b59eca4d3fdafb9e7e6b3eddb80c3cebc8e67e5801c6af4e","instruction":"Calculate the profit margin in E3:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
 {"hash":"16f78dfcded13931ba82c55cdba2dfe84e4dd6230177bc943201b5c9e60ceac0","instruction":"Calculate the correct manager names in D3 and D4 based on each employee’s department using the lookup table in F:G."}
+{"hash":"17647cb727c3184744a214ada4300b7e4737fa9bfc76165a77de9802ac09777d","instruction":"Format B4:B5 as currency with exactly two decimal places."}
+{"hash":"17938937e3a9ec40197d9c40fe4ad00829f8530bcf725b9873421edb22d70ce5","instruction":"Create the Sex summary table in D1:E3, with Sex in D1 and Proportion in E1, then calculate the proportions for each sex in D2:E3."}
+{"hash":"188c6b5914c33cdff2630af1f6608f83a93b4d8f32e274a17a5dd22766d02b91","instruction":"Calculate the period rate values in C2:C3 by dividing each annual rate in column A by the corresponding number of periods in column B, and store the results as numbers."}
+{"hash":"1897753371c8d657565359c42fd8ba2e851e235da1aaba4b62da85db954e66aa","instruction":"Split the dates in B3:B4 into year, month, and day, and fill the results into columns C and D for the pending rows without changing column B."}
+{"hash":"18fd9fba3b6bcc4cfd88d2db54618de94551b53ba8fa1bd6176ac5e6f2de7cdf","instruction":"Convert the values in A6:A7 to Thousands (K) in B6:B7 and Millions (M) in C6:C7, using one decimal place, half-up rounding, and a space before the unit."}
 {"hash":"193d8eb4ba762e3978be07c879ef45be2b4102cfa23c41eff13b9ecf10bcbc50","instruction":"Enter Score in B1, Alice in A2, 85 in B2, Brian in A3, 92 in B3, and Chloe in A4."}
+{"hash":"19f04b86c3a527458fd49039e70cdc07ecb29b5ad9f326348ac4313208bb198a","instruction":"Enter profit margin in E1 and calculate the profit margin for each week in E2:E7 by dividing Gross Profit (USD) by Sales (USD)."}
 {"hash":"1ab1946f5ca28bd5c25885f88707c76c6c75194cef7f6bb3cbc3e432858d16b2","instruction":"Calculate the annual totals in F3:F5."}
 {"hash":"1d2b1de6f64aafd30ac5003fb8e916e1b7453871c8af7467b52271dc26092341","instruction":"Calculate the total revenue for each product in K4:L6."}
+{"hash":"1d68c7701f4e5159c00cede4314904f90aa51b67a6b6a386b5f7489ec2af7d29","instruction":"Enter Sex in D1, Proportion in E1, Civil Status in D5, and Proportion in E5; then calculate the Sex summary table values in D2:E3."}
+{"hash":"1d9cbda85bb05d17a199a565a9416abd4eda1d75c8b2cb444e32708b88062922","instruction":"Enter Fail, Fail, and Held in F3:F5."}
 {"hash":"1de53fbba3238ef867c9f80095dec9fcb192d6b412e11a50ceedf7e290faf3a5","instruction":"Calculate the revenue in F5."}
+{"hash":"1de9742bbf46453d0e6400eff1c89bba41b9025f56e62073a33d92236293f44e","instruction":"Calculate the final price in F3."}
+{"hash":"1e67dcc14822dea51a8c76801071bce38b5387676beed07c8db9fa3421d87a34","instruction":"Calculate the profit margin in E9:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
 {"hash":"1ea73723b9c0a755392591b36c66e755990ecef3ae28b99baa450bc2313c8d86","instruction":"Calculate the annual change rates compared with the previous year for the Cash Reserve, Equipment Value, and Other Investment columns. Enter the results as decimal rates, for example 0.10 for a 10% increase. Put the summary table in cells F2:I6."}
 {"hash":"1fc9dc04d7e3ddf07d5115de3929be96e74fd91a95cc59ca2eb7ae80c42a158a","instruction":"Enter Alice, Brian, and Chloe in A2:A4 and 85, 92, and 78 in B2:B4."}
+{"hash":"20d022b166ce93fdfc245cd3873792b3aa15f90524a76fcc6481f30b337bff1b","instruction":"Calculate the profit margin in E2:E10 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"210f2eb46bbe5660d5aafc8d4e18164a9ba36e7a6ad7718c278095e45add355f","instruction":"Enter Held in F7."}
+{"hash":"2159a64957b0cb3c6cd4709f67cc1f39b81358ced15f2ca3ba2d58afd4073b39","instruction":"Fill the remaining Sunday date cells B6 and A16 with a red background."}
+{"hash":"2163e42e921c0de823f2c551a9bcf7f17147c07a8920c846f91da4fbcbc2e79c","instruction":"Enter Fail in F6, and Held in F7:F11."}
+{"hash":"216d87495e51f1c21afa54be4bf0ddcc90ff0d8244423efb8a72938397cbd6cd","instruction":"Transpose the table in A2:C4 and paste the transposed result starting at E2."}
+{"hash":"21b5dd91837efe8bc098e41ea2a99626c430d858eff67c720c1f5eb7cc8f9143","instruction":"Format the Amount column values in B2:B5 as currency with exactly two decimal places."}
+{"hash":"21c40139b7200b4446aa6299ba38b46c1ae4b8610ad92734e01b6a274668a58a","instruction":"Enter Fail in F4."}
+{"hash":"23007b42b5fc8d02706a0af2d3e125b7e942a68e63b2b98237c4952cb819136d","instruction":"Calculate the profit margin in E6:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"23242f31cb331ffe2c301bd2da834d1074c6fa5727387b347876a4143ca6c63e","instruction":"Enter 1001 in B4, 1002 in B5, and 1003 in B6."}
+{"hash":"2398e39120122b7595828c688525f154cf81a42d8afae66aabe08336d6067566","instruction":"Calculate the profit margin in E2."}
 {"hash":"23cfee0d5e1aee982b8ee3878516a2a986547bee26a075d75133c62cdad5d310","instruction":"The total equipment rental duration is recorded as a time value, and the hourly rental fee is entered as a regular number. Directly multiplying the two cells gives the wrong charge because the duration is stored as a fraction of a day. Please calculate the correct total rental charge in the blank result cell."}
 {"hash":"242dfed4d7c156f20f0f6766d58fc8a805e98cbb6c6ce17e77b1dedf19eeef74","instruction":"Calculate the revenue summary in K3:L6 and the remaining revenue values in F8:F10."}
+{"hash":"243fe4667d0ea94c255e60cd481eb9397e1cfa8e0fa0c3de7a9206304897544d","instruction":"Calculate the remaining converted values in B6:C7, and compute the derived results in E3 and E4 using the converted values."}
+{"hash":"245872c7647962d850df160667c5061fac039f81babd55f69ceb9d649aa6f5dd","instruction":"Calculate the profit margin in E4 and E5 by dividing Gross Profit (USD) by Sales (USD)."}
+{"hash":"24ce04db138625af204dc3fa87eedb6effd7a75a64421d101164b850452afbe3","instruction":"Enter Fail in F4, Held in F5, Fail in F6, and Held in F7."}
+{"hash":"2530c4f304ad8319ee4e5f8a4c57221043b24851f5aa6f0409dae27c8515581f","instruction":"Split the dates in B4 into year and month, and fill them in C4 and D4 while leaving column B unchanged."}
+{"hash":"2557d7307a931d50d114f71bf260019e195838fe91d86335f24fbe510d210985","instruction":"Split the dates in B3:B4 into their components and fill the Month and Day values in D3:E3, keeping column B unchanged."}
+{"hash":"256303d0af838b809e145b0a7a15be75e4aa6de5e9fbff0c5efda4d6e9365c10","instruction":"Calculate the combined data text in E2 and E3."}
+{"hash":"25c146b070883dbdb4933304f3cd9729f69a431931850bde2973b0f67fcd2ecb","instruction":"Split the dates in column B into Year, Month, and Day, and fill the Day values in E3 and below without changing column B."}
+{"hash":"2665f5aa270c851a4a71dcee790e1b3390bb7d922123908e0b4ef0d2d9774e76","instruction":"Calculate the profit margin in E3:E9 by dividing Gross Profit (USD) by Sales (USD) for each week."}
 {"hash":"268c0a304c7c2aa34736caa4b59cbe2bd1059a48078dfa01ec267b8b46d03603","instruction":"Pad the raw tags with leading zeros to make six-digit asset tags in D4:D7."}
+{"hash":"26fa3f94f112c1a6eda5be2cd54523be493e5f0e50319ae2182c7e643391064d","instruction":"Split the date in B4 into its year and month and fill C4 and D4, keeping column B unchanged."}
 {"hash":"2708175bf779d6db55576990f5c8efe9df56e219fc62f98806fb516c7e539666","instruction":"Calculate the correct manager names in D4:D9 using the department lookup table in F:G."}
+{"hash":"274b7b6ea1f67032c3142ba74f2eb457be2934263ee0a9db10b685a4ae573144","instruction":"Add a new column named profit margin next to Gross Profit (USD) and calculate the profit margin for each week in E2:E11."}
+{"hash":"2781e0c3183f8cfd11583ddc037170cff3c3769a189bcca6cb03f19d92abaea1","instruction":"Calculate the profit margin in E5:E9."}
 {"hash":"27e99bc883d73ac7c0a49b2ecfdd94cd4bb01c83fc3188c675fd76ef25c49a22","instruction":"Calculate the remaining receipt code counts in F4:G6."}
+{"hash":"27fbcdca9530e0f52732082caebb6496d81c6633dde92f3e536faf140d61b0fc","instruction":"Enter Fail, Fail, Held, and Fail in F3:F6."}
 {"hash":"2832b823287b36906067b424e67687ff6458d36e19e076565115cead4c9e5044","instruction":"Format the Amount values in B2:B5 as currency with two decimal places."}
-{"hash":"2859c2ae46d784815cb3c10c95fe3ec23a9d52008e19e1c2e480946af4a961eb","instruction":"Copy each number from the \"Raw Tag\" column into the \"6-Digit Asset Tag\" column, padding zeros in front so that every asset tag has exactly six digits. Finish the work and do not touch irrelevant regions, even if they are blank."}
+{"hash":"2855adf04d6cb48d3317f3766d2ede2755bfad9d968bf8338fb6a299a19f14f4","instruction":"Enter 1002, 1003, and 1004 in B5 through B7."}
+{"hash":"28561c61bcb3e35bc9181415c737bab09932d3bf876fee2c6d6418d210d6dd53","instruction":"Extend the formulas in B2 and D2 down to B3 and D3, and create the Combined Data results in E2:E3 using the format Header: value with exactly two decimal places, separated by commas."}
+{"hash":"2859c2ae46d784815cb3c10c95fe3ec23a9d52008e19e1c2e480946af4a961eb","instruction":"Copy the Raw Tag values into the \"6-Digit Asset Tag\" column as text, padding with leading zeros until each tag has six digits. Finish the work and do not touch irrelevant regions, even if they are blank."}
 {"hash":"2875728aa9a4694b451919e86261902352db13bc3fe7c2b436abddccf0ff4215","instruction":"Calculate the correct manager name in D5."}
+{"hash":"2877b79df66d7ee694f636939457ce8297880e197b01e56de1ddb1870be9cc7e","instruction":"Format B3:B5 as currency with exactly two decimal places."}
+{"hash":"28e390d5ef867574ee4e4e7c7f568e7d7fd6e44743ae1eeb31de931d512a7770","instruction":"Calculate the profit margin in E2:E11 by dividing Gross Profit (USD) by Sales (USD)."}
+{"hash":"290eb5f4f9c3462df1df509ae22c51ce0fce3ce5ca1c036880d190b6c4c3c995","instruction":"Read the investment scores in the given table, then enter Fail, Held, or Pass in column F. Scores from 0 to 40 are Fail, scores above 40 through 60 are Held, and scores above 60 are Pass."}
+{"hash":"292e14ada0fe6a345c5abf93d6bd6c3772dd20ff09039b42576ba34539a2cc14","instruction":"Enter Held in F9:F11."}
+{"hash":"295838af1be5f374b6a893d45e97ec02cc45fc38691c4c7c922820b3db1d0b9a","instruction":"Enter Fail in F6, Held in F7, and Held in F8."}
+{"hash":"296b1c384564a9edbfd8592bf95cce01b4454a3dc5f42fa9135e4ebfcc022e02","instruction":"We have a sales table with 'Date' in column A and 'Quantity' in column B. The rows are currently in a random order. Sort all data rows by column A in ascending order. Leave the header row unchanged."}
+{"hash":"2b3692864cc7e47e23bb20d9fc5da30a5394d215f2e14d77d25b9dda5fb6b526","instruction":"Extract the day from the date in B4 and fill E4."}
+{"hash":"2b5175bc37ec4920731c0d09e773127994a25d52c7759c2330e0328f80b6d701","instruction":"Enter Held in F8 and F9."}
+{"hash":"2b854405deedaffd72e552988190c726b181ae1d741b1d6ac966ebc929e0b3a9","instruction":"Format B2:B4 as currency with exactly two decimal places."}
+{"hash":"2b99f3fb6f20fde573076b9a6914b659b863ef48cd4de2eeea2982001c022f91","instruction":"Calculate the Sex proportions in D2:E3 and the Civil Status proportions in D6:E7, with Civil Status in D5 and Proportion in E5."}
+{"hash":"2c029529dafd26051d2793c3542e323f7a0a2cd638ec31abfba4f9cc2864811b","instruction":"Calculate the profit margin in E10 and E11 by dividing Gross Profit (USD) by Sales (USD)."}
 {"hash":"2c2b90fa36a990b2b5044cbea92234f770e3a46302fb94d90dbceec4ec49296e","instruction":"Enter M, T, R, and P in C2:C5."}
+{"hash":"2d779c32ba6b5c0487f85106af7302ced4e4b8669ed1f71e01cf113e683df7df","instruction":"Calculate each employee's age in column C using the reference date in G1."}
+{"hash":"2dab630a54312154102ede4b24c3c23f3aa343ac14eaafc484d15435132fb51b","instruction":"Round the value in B4 to two decimal places and place the result in C4, formatted to display exactly two decimal digits."}
 {"hash":"2e9c382dff3ddd88e91f7b43affb87c9ccf5b8e94cb7c4a7c63701943e369c0a","instruction":"Calculate the grand total in F7."}
+{"hash":"30205ab1167c791b65dadcc77d52d48454123baf89c477639edb31224ca226a9","instruction":"Calculate the rounded two-decimal results in C4 and C5, and ensure the results in column C are displayed with exactly two decimal places."}
+{"hash":"314dfa1925db81e75887328b30e1c6844d47b2233cc6bb829228121c648eb6c0","instruction":"Enter Held in F9:F11 and Fail in F12."}
 {"hash":"315c31b24b43a4123e4e4d52ae49605a0242d404eeca960a648ca10f6f0e3863","instruction":"Format B4 as a date using yyyy-MM-dd."}
+{"hash":"31648d977353030f183c91869aa9fc401e42adf4e5b078de1906f26ef2db0845","instruction":"We have an interest rate table with 'Annual Rate (%)' in column A and 'Periods' in column B. Add a 'Period Rate (%)' column in column C by dividing each annual rate by its corresponding number of periods, and make sure the results are stored as numbers. Leave everything else unchanged."}
+{"hash":"3182bda938bfd4c60d60a0aadc0cdaa91333613738fe861a2a890907f2dc6080","instruction":"Fill the remaining Sunday date cell C11 with a red background."}
 {"hash":"3250bb380c94aded3b8aba9ab2f62ad70c156d6584e85f5d9c086c47eebe0122","instruction":"List the remaining unique receipt codes in ascending order in F5, F6, F7, and complete their counts in G5:G7."}
+{"hash":"32b73c42f36a10ea91264fbde6c0af065b27eb6c065064830c7a94496192b650","instruction":"Calculate the profit margin in E9."}
+{"hash":"3358d059195e520d40c7ab72773c9e10618e384a33a5b41918a3d0b323e45484","instruction":"Calculate the profit margin in E6:E8 by dividing Gross Profit (USD) by Sales (USD) for each week."}
 {"hash":"338720add700e5d9842e4b46abc4fa0124425a4e92f89761dc9e7b6fcb1bb339","instruction":"Calculate the correct manager names in D5:D10 using the department lookup table in F:G."}
 {"hash":"33f874fc5a3f3e761af9fc209a2c18e35d1ed7487279bc9e12496169914feb57","instruction":"Copy and pad the asset tags into D4:D5 so they each have exactly six digits."}
+{"hash":"3403d7062fc1832aa91695297f66fef43501688fa9b3c63ee5f4d7193c7c0f90","instruction":"Continue splitting the dates in column B into year, month, and day for the remaining cells in D4 and E4, leaving column B unchanged."}
 {"hash":"341c8ceff16c9b157d5d1dd268e29aea91e1db7af9e5dbe7967f2890a0885c11","instruction":"Calculate the product revenue summary in K3:L5."}
 {"hash":"3479e59f99aa76afacdf5cb0cc416d045f94a721b84f82211db69c451089fc11","instruction":"Convert the Raw Tag values in B3:B7 to 6-digit asset tags in D3:D7 by padding leading zeros as needed."}
 {"hash":"34e50971d1fc1761d376e1014e77ebcca06c65e44b47c1574d13c42418298897","instruction":"Calculate the correct total in F4."}
+{"hash":"356c779de7bfabcfd9acd6ee0d8a13b0ac49c255ff7e371bd87e783df6e082f1","instruction":"Calculate the profit margin in E2:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"3584a93d05b3c44c76e24cfe51ae3f084883f5c98a9da020bd48d63eef9ee163","instruction":"We have a product list under columns B to E starting from row 3. Under column F named 'Final Price', calculate the final price for each product by subtracting the 'Discount' and adding the 'Tax' to the 'Original Price'. In cell B5, write 'Average', and in cell F5, calculate the average of the final prices. Finally, under column G named 'Product_Label', concatenate the 'Product ID' from column B, an underscore '_', and the integer part of the calculated 'Final Price' from column F (e.g., 'PROD-101_112'). Keep all other cells unchanged."}
 {"hash":"35acf84e48797d497a6091a8f2e7bd88f023de7b9da1d3ab82cf614550f03a71","instruction":"Calculate the line totals in D2:D4 by multiplying Quantity by Unit Price."}
+{"hash":"35b9cec005a4ceb304b7f7f9e5e0882fe2eb7ab6e7a9c8a61bf28ac5f4a6f9a8","instruction":"Calculate the profit margin in E3:E10 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"35e3f6ca6d5f3374731d38ecb69a5c890b7ac20e8ad9e77f1c223f2367717d10","instruction":"Fill A2 with a red background."}
 {"hash":"35e47e51ecae74047ed6ec37aa34c48a9dff2bf607b3e54b28b74b3316d535d5","instruction":"Calculate the revenue in F6."}
 {"hash":"36841928322a2fda698d1ea64add3be55c865e333ec338d14b79f30f44553169","instruction":"Normalize the Raw Tag values into 6-digit asset tags in D6:D8."}
+{"hash":"3689afaef43205d027d92a1d563b9f231d81e6b6742705e29d29b2fa6e093570","instruction":"Enter Fail in F3 and F4, Held in F5, Fail in F6, and Held in F7."}
+{"hash":"369440bf0b64df5111b4015cb2dbf2362ba3ce7047c163a0b1d09609bcbc35f7","instruction":"Enter Civil Status in D5 and Proportion in E5."}
+{"hash":"36bfda3917083ffb2fd625ecb0ab77966d88a6a84d031e707c1a298105a24c47","instruction":"Extract the month and day from the dates in column B and fill D3:E3, leaving column B untouched."}
 {"hash":"36c6eda5eefb6261747364bf684dc1eac5ea596162d35f5b463a51c5df73954c","instruction":"Calculate the total revenue for each product in K3:L4 and F10."}
 {"hash":"36dc70e80a26c82d9ac8e34ed0221ed3b332118f37be1388654025533072ab00","instruction":"Calculate the total revenue for each product in K3:L5."}
+{"hash":"3707cded17344d070456553cb3896b25319cba3871f81087c7aa2eb569a6162a","instruction":"Calculate the profit margin in E2:E9 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"37b16723cb1d5a88bc46879f37fd09f01145c151bc8790276948608a5bc440df","instruction":"Select the full data table and sort the entire table by the Amount ($) column in ascending order."}
+{"hash":"37b49cd37cdbafaee10706e5106d5a4f1eaa18f8a1d8153041f62a0aa86756ec","instruction":"Format B3 as currency with exactly two decimal places."}
 {"hash":"383d432005c3cb2ebcac2be7f9edac3ad94a79045499e72ed62a47b0cfd92294","instruction":"Calculate the product revenue summary in K3:L4 and fill in the remaining revenue values in F9:F10."}
+{"hash":"38e10b93b0c142e5eec05dd28f13108acd5eea1b6491834daf6cce630660e707","instruction":"Enter Overweight in D4 and Underweight in D5."}
 {"hash":"392c57ca4d7ad4d08fb95f700a00ae2be713369977f1900d280c1d250e73ce44","instruction":"Calculate the revenue values in F5:F9."}
 {"hash":"396638bb921682595bf96ef2d048094a8b733bac2c89448311df77fb484bc172","instruction":"Calculate the total revenue summary in K3:L5 and F10."}
+{"hash":"3996ceed1744c647a2422786a086cd956ba69e46071d815e491ac9e06e41fa1d","instruction":"Calculate the total sales for Feb in F4."}
+{"hash":"39e292d2e26386fc5ddd378513c47885f34e122ddfbcacb7df997f6518bd93d9","instruction":"In column B starting from row 3, we have a list of dates formatted as 'YYYY-MM-DD'. Please split these dates into their individual components and fill out the adjacent columns: Year under column C, Month under column D, and Day under column E. Keep column B untouched."}
+{"hash":"3a0b9a1b1296ed626d76e241856c9e078be74c1f067e141f9e926e6974147972","instruction":"Enter 12,5 in B2."}
 {"hash":"3b0fe66f72fd8934b90c8c3c2123a19cf1b341fb5e08884efba7b6cd0f741e1c","instruction":"Calculate the correct totals in F4:F6 and B7:D7."}
 {"hash":"3b38a9cb88180012c926807cf2e7a30bfaea405ac3922e979c23e06914a781f8","instruction":"Enter Brian in A3."}
 {"hash":"3b3cac5d1382645f35a03a2efa22b9b4ccdd0edb2d6613754c05b647022b349e","instruction":"Calculate the correct manager names in D3:D7 based on each employee’s department using the lookup table in F:G."}
 {"hash":"3bd24182c2cc2c5ef9f14bf2b3ea74de03a889cff1eb26a0a09692b8f69a19ff","instruction":"Apply the yyyy-MM-dd date format to B3:B4."}
+{"hash":"3bf8cd49328e0675c2fdebd58b1e9f536c00d950c8351dd8ae17b43f34a3362e","instruction":"Calculate the profit margin in E3:E5 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"3c5c9fcd6959ffe70131dda01d7a19e15e987dedbe9da0a0b22c6ebadb3e4797","instruction":"Round the values in B3:B5 to two decimal places in C3:C5, and format C3 so every result in column C displays exactly two decimal digits."}
 {"hash":"3c947d30a49db88385aefb8197fe581ab06dd0ae9596675b8f1faa35f9c241fe","instruction":"Round each numeric value in column B to two decimal places and place the rounded result in column C. Make sure every result in column C is displayed with exactly two decimal digits, including trailing zeros for whole numbers or one-decimal values."}
+{"hash":"3ce5d843df63dd5aad7d28edcac53298c637ce2945449b77d7cd229cde45f6ac","instruction":"Convert the values in column A so they are shown in Thousands (K) in column B and Millions (M) in column C. Round to one decimal place, use half-up rounding, and include one white space between the number and the unit. Then calculate B3+B4 in E3 and B5-B6 in E4 using the converted numeric values, and show the results with the K unit and one decimal place. Do not modify unrelated cells."}
+{"hash":"3ce77cf3aadc0b0b0e86a0f1475996e77f1c76b7d280021645513de82dd00ee5","instruction":"Enter 100,0 in B4."}
+{"hash":"3cf680abc0e8e2f2bea2733f57447c1e1296b0987d78348c1501bf91dba1953f","instruction":"Calculate the profit margin in E2:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
 {"hash":"3d1ad3a6227acf147e1000fe175930899d70b0ed8ff684d1822df18959a9b0f4","instruction":"Calculate the quarterly totals in B7:D7."}
 {"hash":"3d1be7cf7d88ff44cec34a78463f3fc9e8b1dad4907786b5f8a2a5b653030839","instruction":"Calculate the correct revenue values in F4:F7."}
+{"hash":"3e03bbfb3b3b246f7eceb8a15ccf1765171c70a9805c5fd9bb4acc5c2df062d1","instruction":"Format B2:B4 as currency with two decimal places."}
 {"hash":"3e1ed957eb40d6bc013e0fd1e84982a8cf72c95580f61933a8f237a0ae02d4b3","instruction":"Calculate the correct quarterly totals in C7 and D7."}
+{"hash":"3e50a3f16504de94dbe2d0d5e2a72eaa59bae9141c07b6b3789f5e31863f36c5","instruction":"Calculate the profit margin in E5 and E6 by dividing Gross Profit (USD) by Sales (USD)."}
+{"hash":"3e50d80c1c19a2bd1e41e3bdb0c0a93a032b37b135a7b3b68aedb42755a53e3b","instruction":"Round the values in B4:B6 to two decimal places and place the results in C4:C6, displaying each result with exactly two decimal digits."}
+{"hash":"3f3afad4bd26995a1e72b8abd9a5821b4d39e580874d122bac7a1ddf034710e1","instruction":"Enter Sex in D1 and Proportion in E1."}
 {"hash":"3fb3b3b2942bdbcd34d0107f215f847d0690a0029d39bb9ec36ccfc72aa30f3d","instruction":"Enter Score in B1."}
+{"hash":"3fd27e260bda1ca3b9073a2fb31d5006c6f19d1656fcafbe221db978fe0cd86a","instruction":"Calculate the profit margin in E7:E10."}
+{"hash":"40270aa880300662d04c46f05261b230b39bdd89826399c64f55b639c426f922","instruction":"Convert A3:A6 into Thousands (K) in B3:B6 and Millions (M) in C3:C6, using one decimal place with half-up rounding and a space before the unit."}
 {"hash":"4046a729d8ec42bae1139c7e9846b86a4cfd537883e9064fa5207df578bd6d5f","instruction":"Calculate the revenue values in F6:F10 and the product revenue summary in K3:L4."}
+{"hash":"406e60f9322fa1fa1d25faf026e7fb9202faae7b3fe33bde274a19568df764af","instruction":"Split the dates in B3:B4 into year, month, and day and fill C3:E4 accordingly, keeping column B unchanged."}
 {"hash":"40e73960dc81888cd9e807120c2a37de8a3f352eda9397fe9e389c56a3c9186b","instruction":"Split the full names in A2:A5 into first names in B2:B5 while keeping the given middle initials in C2:C5 and last names in D2:D5."}
+{"hash":"40f5f67eb2364560f48518eb99aa3d601ed348f912e177243ff7682699f72d11","instruction":"Split the date in B4 into year, month, and day, and fill the results into C4, D4, and E4 without changing column B."}
 {"hash":"410e2a50fbc0793969af2902410db98ec7982e776d9edc278280ebf184e90cbb","instruction":"Make each column header bold for the given table"}
+{"hash":"416c5194ba0ed099c6d9a36f8bb7dedd1720dbe4444fdd7251de9fd432ad8b02","instruction":"Format the Amount column as currency with exactly two decimal places."}
+{"hash":"41b3b20ac2757ee4c455c9bfbda66126d674193da5d9f678ebd7aabacb75441f","instruction":"Calculate the profit margin in E2:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
 {"hash":"41f15924fa1141d8f5e34ca1db250c0286886c5c5e4629a91e625c214f6e6aaf","instruction":"Enter Alice, Brian, and Chloe in A2, A3, and A4, and 85 and 92 in B2 and B3."}
+{"hash":"41f3f0793c0911920cf90d6dce4bccaa45812ee88eddaa9220efebf29b18ad27","instruction":"Transpose the table in A2:C4 and paste the transposed result starting at E2."}
+{"hash":"421f5c1663c2cfa859c042f875c44e6fa665977601abe3ba3f91896d32af76b6","instruction":"Calculate monthly total sales in the Total row for Jan, Feb, and Mar, then create a line chart using Months as the x-axis and Total as the series."}
 {"hash":"42369626a3d3cff9f5cc6a98f49239ee77ee080042607f925e768e0281e386d8","instruction":"Calculate the correct manager name in D10 based on Oliver Shin’s department and the lookup table in F:G."}
+{"hash":"42b5e414f1e12f0782095b65e97b2636cf213187b7083329c6f359baa5e7fbcb","instruction":"Calculate the rounded fixed-decimal result in C5 and format C5 to display exactly two decimal places."}
 {"hash":"432b498b20b3de773cc040b566c45e47aa51a2abbe7d04b5b21cc3ab26bf52a5","instruction":"Calculate the correct total rental charge in D5."}
+{"hash":"433a7f84f2fac84bb3aae582004306b944f90715231d1aa095e1085c86fdc35a","instruction":"Enter Underweight in D5."}
+{"hash":"4367e9e402fe64a1711c0b15ab54d5f55498057df79c31632e325391cd726ceb","instruction":"Fill the Sunday date cells in the March through May 2026 table with a red background, including A16."}
+{"hash":"44f0ae33ed0c0e4c24a3670fa911349e3b082d9ebcd34d4082e3cd070087f310","instruction":"Convert the values from A3:A4 into Thousands (K) in B3:B4 and Millions (M) in C3:C4, using one decimal place, half-up rounding, and a space before the unit."}
 {"hash":"4521efb71ecdbd8c2c0446b197e4387a45b9819220c7ffa06a49e9790a99c20b","instruction":"Pad the raw tag values with leading zeros to make six-digit asset tags in D5:D8."}
 {"hash":"465f4f7a73aab74e0f4056137e5d50129df793b3a65ff7821d59b5911c56a063","instruction":"Calculate the correct total rental charges in D4 and D5."}
+{"hash":"46b5fe6065f74ad14973973d9ca62919cd6183244bfdb36395165a951ef177df","instruction":"Calculate the profit margin in E4 and E5 by dividing Gross Profit (USD) by Sales (USD)."}
+{"hash":"46c2954c643cd64b525fe9fc99fdacb49b7afb3b2a2cd52717e78db8b3e20326","instruction":"Round each numeric value in column B to two decimal places and place the rounded result in column C. Make sure every result in column C is displayed with exactly two decimal digits, including trailing zeros for whole numbers or one-decimal values."}
 {"hash":"4741a0ee6c8c1614393675aa00569a1cbb7a330c691ca808d054a95108d6b4b7","instruction":"Calculate the correct totals in F5, F6, and B7."}
 {"hash":"47cffe59a209258aa0ae72ad5ab580f59b46fdb325caeb5232ee0283e9f7fe0e","instruction":"Calculate the correct receipt code counts in F7:G7."}
 {"hash":"4882549b80ecc5fb0dff9f16319bef88b742ef4067856bbbf6de6980240faa1f","instruction":"Calculate the revenue values in F5:F8."}
+{"hash":"4918a99933a112e4b933f66a8cb8b7e5d7d73839fe39d7b3f33820f1d5aa1eaa","instruction":"Calculate the profit margin in E4:E6 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"49c5228a0518d164202c269e2d9c6b39b1633fc3e600865672a8e45c13525a4b","instruction":"Copy the messy book titles from column A into column B. Remove redundant whitespaces, capitalize the first letter of each word, and make all remaining letters lower case. Do not modify unrelated cells."}
+{"hash":"49e6c810d06f08f9890665961a6a458c5dba9c89d4ca601f4f90800ae056a7d3","instruction":"Calculate the profit margin in E2:E10 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"4a3386471eb09696c64f0f5dd2b55ebccb95ef39b1a1e045904ffae11cd08b66","instruction":"Fill the cells containing Sunday dates in A9 and A16 with a red background."}
 {"hash":"4a5c41039ef8b4a4aa7df912d21d264274e19d25f57f9063de9dc5b779e17d5f","instruction":"Calculate the total revenue for the remaining product in K5 and L5."}
 {"hash":"4b5ba7423ca8f9fcb7697cd94f4876a434de850e05055c56e5a5eecf6fd94844","instruction":"Enter 85 in B2, Brian in A3, and Chloe in A4."}
 {"hash":"4b7a0340f8896533fd24fc72af120a17aa4fbc131a05abe2a5d0e9f605ea4e67","instruction":"Calculate the correct manager names in D3:D8 based on each employee’s department using the lookup table in F:G."}
+{"hash":"4bd763321429da0d0f0012cb7244f7e0b3d138094e687c15bd1708657daeb3bd","instruction":"Round the values in B4:B5 to two decimal places in C4:C5, and format C4:C5 to display exactly two decimal digits."}
 {"hash":"4c7c92a2f6a5641ac5fc08ccb7b14ac962f65db7123efb5af6e0b17086781751","instruction":"Enter Total Service Revenue in F3 and calculate the total of the Service Revenue column in G3."}
 {"hash":"4cab40743b1ebd4e9179bd240bc355ee00a8fa58ebbaf99ea3dec9fb04cf72aa","instruction":"Calculate the correct Manager Name in D5:D6 using the department lookup table in F:G."}
+{"hash":"4dc6da26b8dc5cb3e39433fb0fccc9f11b1759cc274731cc5e7b19631b01b20b","instruction":"Split the dates in B3:B4 into Year, Month, and Day in C3:E4 without changing column B."}
 {"hash":"4df8618290aec460e7cc3356888cef7130c7e6f28443c9937bc2e9fd6f4c8053","instruction":"Calculate the correct manager names in D4:D10 using the department lookup table in F:G."}
 {"hash":"4e0cdd02469b9249c31cb814e52c2a11f6d8d43c115797a53f38802de3c65152","instruction":"Fill in the remaining Manager Name cells in D4:D8 by looking up each employee’s department in the table in F:G."}
 {"hash":"4ede6452400e75ee17d70ef48aa4cdd8ed8b775a590323491b008fbe61982a18","instruction":"Calculate the correct manager names in D4:D6 using the department lookup table in F:G."}
+{"hash":"4ede8b92b7970d560dd7a710dbcc98500992f03309a64e21810fcb2b3e329d55","instruction":"Calculate the profit margin in E3:E6 by dividing Gross Profit (USD) by Sales (USD) for each week."}
 {"hash":"4f43d4b3e4d24016e34fa68f89e2e48322609eb00cfd52f8a8692be1eeab096b","instruction":"Calculate the annual total in F6 and the quarterly totals in B7:D7."}
 {"hash":"4f5df6a3b23ce2d672042d8bf57fcd9e4cb0ba9760cc130c1687c58bfb570d64","instruction":"Calculate the total revenue for the sales channels in K3:L3."}
+{"hash":"4f7dfa45c717bc7ba1505c05d44f146116954530a5a72ab90432b05d262523f9","instruction":"Enter Held in F9."}
 {"hash":"4f9e947fc059bfec901d22cc09318a9320fd3b7a747243d9f045b3013888c6d4","instruction":"Calculate the quarterly totals in D7:F7."}
 {"hash":"4fbfaa32ad2133eb1c181821775786aca54454806e92d971b93c1c2739fec274","instruction":"Calculate the correct manager names in D7:D9 using the department lookup table in F:G."}
+{"hash":"5006cc0ce31c80981d398f6bab8e6344b96996f657d2bad967fb07064868237c","instruction":"Round the value in B4 to two decimal places and place the result in C4, with C4 displayed using exactly two decimal digits."}
 {"hash":"50c7fd04285910bff953d4f12a40c3e679a7daf775fce1dd523ef0e440891ba8","instruction":"Calculate the annual totals in F3:F6 and the quarterly total in B7."}
 {"hash":"5113d63b93ff8ff7336570b74e7e1fa396af2bbf875ff7b7391e46ddfc9f342b","instruction":"Calculate the revenue in F4."}
 {"hash":"52b8cca6db47a21bac1ef142d742638e9bfda3944ca64271409402e6586804f7","instruction":"Calculate the correct receipt code and count in F6 and G6."}
 {"hash":"52bc8376aec5d82d073e69503b527f0f024486ea63a63af026bd15889a99e6f1","instruction":"Calculate the revenue values in F4:F10."}
+{"hash":"52dbc9074859b9990cdd3c990b44691e1a39a0779df7d5fbd5e0b3a4f2a61bdb","instruction":"Round the values in B3:B4 to two decimal places in C3:C4, and format C3:C4 to display exactly two decimal digits."}
+{"hash":"53c75b4b86e5fc90bc282bc7944b0fd6b34f3ffc34d637cac8cd000c5d35b135","instruction":"Enter Period Rate (%) in C1 and calculate the period rates in the new C column as numbers."}
+{"hash":"53ddf52b7f560b544c269ff43543fe93af682801761e35289a36e71766bd5b84","instruction":"Split the dates in column B starting at B3 into Year, Month, and Day in columns C:E, leaving column B unchanged."}
 {"hash":"548c94e3aa905302ab2bddfe0ebb945adec9ea72a2ec82d5481e211f496c5b72","instruction":"Calculate the annual totals in F4:F6 and the quarterly total in B7."}
+{"hash":"54dabcc4b7f1a4c72585c51d98f5494a430f1fc0ad7c750ce862bbf15d67fd0c","instruction":"Calculate the profit margin in E3:E8 by dividing Gross Profit (USD) by Sales (USD) for each week."}
 {"hash":"555198ac27a314142b085693b687f13afb810443062bd4572e92a1f0fb412311","instruction":"Calculate the correct grand total in D7."}
 {"hash":"5568a98d1eeace9ce49045d17c88052f3f79da4c19ac3e8ec8df560cc90c2269","instruction":"Calculate the product revenue summary in K3:L6 and the remaining revenue values in F9:F10."}
+{"hash":"556a59b3600cbdd938da4629114b1390f906535d268f661c6f65425d82371893","instruction":"Calculate the profit margin in E3:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
 {"hash":"55db8f41f7acda718a0f56deac11763a7420669641a7172dd02e74f75be7f671","instruction":"Calculate the total revenue for the remaining sales channel in K4 and L4."}
+{"hash":"55f8c72f0c79c2ac0d77930937da57a1949e66bcd3de6963e10529eceabca665","instruction":"Calculate the profit margin in E7."}
 {"hash":"56cade34a8fe85fb869539dc5194e8e2e9dd8dd5a7015c03731e292e106152dc","instruction":"Calculate the annual totals in F4:F5."}
 {"hash":"56e025d1c79e68dadaebd1b356ada40cb76d61a751644f0fbf166ad4f4e57896","instruction":"Calculate the total revenue for each product in H3:I6 and for each sales channel in K3:L5."}
 {"hash":"572cec96fb8680fee33497905e351024add0378aa2293de4398b3435ca60a838","instruction":"Calculate the revenue summary in K3:L6 and the remaining revenues in F9:F10."}
 {"hash":"576bbfb16fcf51d73405ee017bff4ac4272b76d5ab73a9dc24823cebdcd0956a","instruction":"Convert the Raw Tag values in D3:D4 to 6-digit asset tags by padding zeros in front as needed."}
+{"hash":"58346fc513a416cce49fa69d89843c4df58eb896a3fa9e2ce411716838fd2162","instruction":"Enter Q1 and Q2 in E3 and E4, and 120, 90, 150, and 110 in F3:G4."}
 {"hash":"58424c01f60e752cb6671fced7993ec5a042dfe9112c4b69b0dee408161e365c","instruction":"Calculate the line totals in D2:D3 by multiplying Quantity by Unit Price."}
+{"hash":"58bfc8312c8a2b957b0eeca7f41443328d1fdcb0fbc33f4ade3ed6b3fc2d3d2c","instruction":"Enter Fail, Held, or Pass in F4:F12 based on the investment score ranges."}
 {"hash":"5902acfd292eac1cc50af3bf0f0bc2306b677bb6ea002b877d541748ea5eecc9","instruction":"Normalize the raw tags into 6-digit asset tags in D6:D7."}
+{"hash":"596e1405784370e8dd92255057aa54b4bb539348804051b3a540cd2baef0cccc","instruction":"Calculate the final price in F3, enter Average in B5, and set G3 to the product ID with an underscore and the integer part of the final price."}
+{"hash":"597806c5c8ee8977d1c9a9239d9f63b943db6838c4f04020b941d93cccae4326","instruction":"Split the dates in B3:B4 into year, month, and day in C3:E4, leaving column B unchanged."}
+{"hash":"59a488327cf73354e39b14c6d1dd41b811d3f87b0a031850f4985cbba8abd705","instruction":"Enter Held in F10."}
+{"hash":"59e9f45851aff507c89ca58475a7029a1072d40a69eb72e54d8749339be15cc8","instruction":"Calculate the profit margin in E11."}
 {"hash":"5a8ce3955e52b11e4c08228644ba611b9789e9ae89cba836b648ec89a72d3695","instruction":"Calculate the correct line totals in D4 and D5."}
+{"hash":"5a9b86d1ea086e17371e7bcb4d730f170934557cba754f4f3e1aa7e6b3db307f","instruction":"Calculate the profit margin in E6:E10 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"5bb682d2bbc4d9eb74a473dfa2421bafbfea5b1ad16783358f74cfcef0f60714","instruction":"Enter Fail in F4, Held in F5, and Fail in F6."}
 {"hash":"5c2e37b581c316b24e27b3a4fb1aa4ff324a2a3a705cff16165164b22560309f","instruction":"Calculate the annual totals in F3:F4."}
 {"hash":"5cf09483f484019a7a9390ba2de3c3883a055d03eb0d8eb2cf8fe8c26420bc46","instruction":"Calculate the annual change rates in G5, H5, and I6."}
+{"hash":"5cfcee1103a23b2e0c69ade87a42f556269afbdf26060ef7230fffbbc6b1bf20","instruction":"Enter HR in D3."}
+{"hash":"5d19c59fbf6d9a3f7071ea5a30c952b6bee009b8eae6d4d364e35075f2baacd1","instruction":"Calculate the product label in G4 by concatenating the Product ID in B4, an underscore, and the integer part of the Final Price in F4."}
+{"hash":"5d45301784b5aeb87db897ce4d44f08532aaaaa9a8ab57d7a66001259c415c63","instruction":"Calculate the profit margin in E8."}
 {"hash":"5d82e26fee31c1e36ce6855effffedc5fef59d9f9ace10bb6cf7148a9860c109","instruction":"Normalize the raw tags into 6-digit asset tags in D4:D8."}
 {"hash":"5d8a0b7c574c98994fbf2f49e41fc1db33f117047e387a4e8a9fa7477fa10b9d","instruction":"Calculate the annual total in F3."}
 {"hash":"5de445045ad846522ea10f45e6a20fecd651035eeb7d124328d79993e0de0912","instruction":"Normalize the phone numbers in B3:B4 into the ###-###-#### format."}
+{"hash":"5dfa0c682c4a461e77225d1aa82fe5e01d9926af3f0438e236f375e63be4baf1","instruction":"Enter Engineering in D4, Marketing in D5, and Sales in D6."}
+{"hash":"5e4f377705323b09c26a8a8e15c9d8550257ebd01f6c017ff1ae5f278f3e9507","instruction":"Split the date in B4 into its Year, Month, and Day components and fill D4 and E4, leaving column B untouched."}
+{"hash":"5f650ef97e03cdc2a35deb16208d8c18c3254cbc7aa0084fc582498856ea79ea","instruction":"Fill C4 and C11 with a red background."}
+{"hash":"5f6c8a46f72d7d6726145063b5a2fef5884e1dff79e5f749bee290870d9f53e7","instruction":"Split the date in B4 into Year, Month, and Day, and fill the results in C4, D4, and E4 without changing column B."}
 {"hash":"5f98e96b78e6c160224bac595a59cc28d0772e0a63b6f11bf8756b2b47cf3741","instruction":"Format B3 as currency with exactly two decimal places using $#,##0.00"}
+{"hash":"5fe74516b4158a5e409860ccfb81909c74bc7ec63655aef721231221222adb6c","instruction":"Calculate the results in E3 and E4 using the converted values shown in thousands (K), with one decimal place and a K unit."}
 {"hash":"600efcf1995604d82c02074d96cbc8a115438013c807a3df77431e034b86c968","instruction":"Enter Chloe in A4."}
+{"hash":"606fe9e7bbc8a54ac628cc3422c5d41cbeefb27e547c1c6dee5c599764c077a6","instruction":"Enter 1003 in B6."}
+{"hash":"60cc28e2486efb7b02b8fb4115cceda335b3a5c578f68c3cbffdd949aa9c80b1","instruction":"Calculate the profit margin in E3:E11 by dividing Gross Profit (USD) by Sales (USD)."}
 {"hash":"619f30abdb1508efc5967f1ac7a448d024237e6a334a094f5fda639f32fd52db","instruction":"Calculate the revenue in F6:F10."}
 {"hash":"61a5a100e7eab1e261b3503bc68fa5324f9f066bee63cdfc2df950571abc5bca","instruction":"Format B5 as yyyy-MM-dd."}
+{"hash":"620b7dbbff5fcd0610df379ee394a397f82b4c771eb3ccbe2df1a016bb21a183","instruction":"Enter Held in F5 and Fail in F6."}
+{"hash":"62793f410f5c94a6bd179090e3379d853e1bf3bb5e239a93f2e5604b8414cfab","instruction":"Fill the Sunday date cells B6, A9, B13, and A16 with a red background."}
 {"hash":"63268c0876b326212bf03a8f886667a8e9c74491017ed4820450504d156c7394","instruction":"Format D4 as the 6-digit asset tag by padding the Raw Tag value with leading zeros as needed."}
 {"hash":"634af5d829d5f6e5ac8b61e486bd824a180b3497d8d3b8e227063cc9e9259375","instruction":"Make A5:C5 yellow."}
+{"hash":"63713c25d398ad1336653dcb361899dcdd78af883248febf8192809502bf148d","instruction":"Calculate the profit margin in E5."}
 {"hash":"63cf804f8fa0a4d05984d66e0b26dc27419b5cd691377a679fb2d79f5ed45173","instruction":"Calculate the correct manager names in D8:D10 according to each employee’s department using the lookup table in F:G."}
 {"hash":"63ef94c5b17611b416f685b0e077dad1fe6bf817e7d3ee924283e6bb32007866","instruction":"Calculate the product revenue summary in K6 and L6."}
 {"hash":"63f40935d84279435dcdb947503b464206d321a8db66e0e460616bd7ffb5b1bd","instruction":"Calculate the revenue summary in K3:L4 and the remaining revenue values in F7:F10."}
+{"hash":"6431ebff9041586b6f255f3fb54a793a0e3d515373ff2b4065e2b7e99d71153b","instruction":"Calculate the profit margin in E5:E8."}
+{"hash":"64fa689ca6d0159024bbfabbdb67046aa0fc669cdcd1d4403e8282e066edac46","instruction":"Enter Fail in F3."}
+{"hash":"6533472d5f1a91b58e53abe4af4ba2ab2110770d63fd5770db79617348b5f380","instruction":"Split the date in B4 into its year, month, and day components and fill them into C4, D4, and E4 without changing column B."}
 {"hash":"65481eb0a28ae7de228c115d0df5c05a8b5d5e3c0fe64b888f2159fb185d1dda","instruction":"Calculate the remaining revenue values in F6:F10 and complete the product revenue summary in K3:L3."}
+{"hash":"6604ae5a45249a2063478a3c2e37d88297435e42174ad808b4bb1e346c8df44f","instruction":"Fill A2, A9, and A16 with a red background."}
+{"hash":"663a117665cc7999ca59e8fb4fe5793eeaa8f5c64192023bd8119a66f2e85044","instruction":"Split the dates in B3:B4 into Year, Month, and Day, and fill the remaining outputs in E3 and C4 while leaving column B unchanged."}
+{"hash":"6641a7afd39acc8ee8877c0062ab1dd17c79a78abb468f5bb63b8966e0d4ec03","instruction":"Split the date in B4 into Year, Month, and Day in C4:E4."}
 {"hash":"68228429a4ae42edff23c86ce3f7b31f891fc0b7c19191cff28dfbcf568c2b55","instruction":"Calculate the total revenue for the remaining product summary cells H5:I5."}
 {"hash":"683a96ce2961c7f4db3f1b721be5669d3e2e237b665a7c1cf80f9b9076c9776d","instruction":"Fill in all blank total cells in the current sheet. The \"Annual Total\" column should contain the sum of Q1, Q2, Q3, and Q4 for each department. The \"Quarterly Total\" row should contain the sum of each quarter across all departments, and the bottom-right cell should contain the grand total."}
 {"hash":"68f98c2dbbec264efaa5efdd3dab14f9bf598a4adc43173af4611ecab10354c0","instruction":"Calculate the total revenue for each product in H4:I6."}
+{"hash":"6901f963c863bb6e59e9cccc0c1ff7cd4ef78592c7a213d35a210ed12799fdd1","instruction":"Round the values in B3:B4 to two decimal places and put the results in C3:C4, with C3 formatted to display exactly two decimal digits."}
 {"hash":"6929cfeb813bac4f79c7de6ac38d5e2bc3b7cebbe1afefd0909bd5e43080edfd","instruction":"Calculate the correct revenue values in F5 and F6."}
+{"hash":"697b3a41bb5fca5bba421741053ab9eea0d0762f7f72c00d51e035487f479e6b","instruction":"Calculate the profit margin in E7:E9 by dividing Gross Profit (USD) by Sales (USD)."}
+{"hash":"69886256e80b3f25588d26442835d0d9ae735d66bf97a7e2ccc5c6a75b5a94bd","instruction":"Enter Fail, Held, Fail, Held, Held, and Held in F4:F9."}
+{"hash":"699931eae4334409f208e950736d706e041061b02afcd395fba713c5d5fdb560","instruction":"Fill the Sunday date cells B6, B13, and A16 in the March through May 2026 date table with a red background."}
+{"hash":"6a5b86f18ce07b06b7f21b17e113dcc89746211a6648a24002ffa0160ffccef2","instruction":"Calculate each employee's age from their birthday using the reference date shown in G1. Put the results in column C under the header \"Age\". Do not modify unrelated regions."}
 {"hash":"6ad5badc2858ae6e980b7d346120298e0929ed88c58a31711edcee23c67ac0fe","instruction":"Split the full names in A2:A5 into first names in B2:B5, middle initials in C2:C5, and last names in D2:D5."}
+{"hash":"6bdf155931da64516d5149203ef70fcc56cffff1ca26ef077fd97e46087bf59d","instruction":"We have a spending log where column B holds expense amounts under the header 'Spent ($)'. Add a 'Formatted' column in column C and use a formula to display each amount with exactly two decimal places, including trailing zeros for whole numbers. Leave everything else unchanged."}
+{"hash":"6c60c2ff88c521cdc6b6e3be629912aa41cd648b1d89924406473fd13bc4de75","instruction":"Calculate the profit margin in E2:E11 by dividing Gross Profit (USD) by Sales (USD)."}
+{"hash":"6c868251e775d981ddac214636731a7c689fa3cab8ce292a83f89c5deb7c027c","instruction":"Fill B6 and B13 with a red background."}
 {"hash":"6d99790d32c2d5f348e7e7196bbab246014b5fcc3c53d9316478eba3ce466b23","instruction":"Calculate the Tax Amount and Final Amount in D2 and E2."}
 {"hash":"6e1f62c6a6dfaaf7ae01a449518b3078bfa3be37b01a50f3ff82c9499edd695a","instruction":"Calculate the revenue summary in K3:L5 and the remaining revenue values in F7:F10."}
 {"hash":"6e5ccc9093b1618875df35ec8e5e558c369e329e837b36c3d7fb1aba1187df70","instruction":"Calculate the correct manager name in D9."}
 {"hash":"6e8f5c2a1ad60d57b25ae130a33a7d82714741044bd36c5e3deda4a8af73e65f","instruction":"Complete the receipt code summary table in F4:G7, listing the remaining unique receipt codes in ascending order with their counts."}
+{"hash":"6ec2acb7bc07a6711e5756b218a89cd0b5ed44352693f65784808c813d506358","instruction":"No further changes are needed."}
+{"hash":"6f1f768f64ba09796d4862dbd5c76432a2af87b731423ba0601360c9eef426a5","instruction":"Calculate the profit margin in E5:E10 by dividing Gross Profit (USD) by Sales (USD) for each week."}
 {"hash":"6f8358e2d9f7815976073430cb2dc56c3a31bebf153a68bebade45cae3bb561e","instruction":"Format the date for the given table. Convert the Date column values in the format yyyy-MM-dd."}
+{"hash":"6f855f9f8aa32739b6d900ebbd3476a93cf57e11810163681f4b5b32234cb012","instruction":"Enter 1120 in C2 and 1190 in C3."}
+{"hash":"6fa15ce84cda8222545f4be08efb0f0db3e01c59c33faf2a644d7127b4e10448","instruction":"Calculate the final price in F4 and enter the product label in G3."}
+{"hash":"6fb51634a995f488ce25cdf9d5e7426554978ddfb68dc0943515cc3f18db44d3","instruction":"Calculate the correct converted values in B4 and C4."}
+{"hash":"70b31a14a5f43d6736b9ffd872066558d7dcfabd6c2c7051689fa37e4e516650","instruction":"Enter Fail in F4, Held in F5, Fail in F6, Held in F7, Held in F8, Held in F9, and Held in F10."}
 {"hash":"70d6afeba6567fbd01e5ac7d08f2bac4360d8179632fb7da8132a2d4543c8fa3","instruction":"Calculate the revenue totals in F5:F10 and the product revenue summary in K3:L5."}
 {"hash":"70dd8271a6587f5192b2bd98ee861f1d3a9d269615ec1fe6272e248239eb8879","instruction":"Normalize the phone number in B2 into the ###-###-#### format."}
+{"hash":"71dd2e14fd80235294ac825b96e68406b74614057b30656c47a500ee81537120","instruction":"Fill the remaining Sunday date cells in the March through May 2026 date table with a red background."}
+{"hash":"71fd22d850213952daa3673352e7fca9bc1c89c83397bfb539ca172a3e910553","instruction":"Enter 1001 in B4."}
+{"hash":"734ef03732cfc85819a25c101311b724f698c3ab82d34bad424657531afa4aca","instruction":"Enter Fail in F6 and Held in F7."}
 {"hash":"73a95764542e433ef7bc8e197dac59bfb333dd18f458f52fa594653b3d37f7e3","instruction":"Calculate the total revenue for the remaining products in K4:L5."}
 {"hash":"745a197c1b118cf9821f3c5f36feac5f59b38f382abe84aa7f6c4b890ddd11a1","instruction":"Calculate the revenue in F3:F10 and the product revenue summary in K3:L5."}
+{"hash":"74bccbcf288393125004612ba4e96d28eae40333ae22d3d385c9477b4fbeca93","instruction":"Split the dates in column B starting at B3 into Year, Month, and Day in C3:E3, keeping column B unchanged."}
 {"hash":"74ee4280a767e50de89c5e7a18a3a1d18491a32b8aa191d50edd1033da5e4cca","instruction":"Calculate the total revenue for each product in H3:I6 and for each sales channel in K3:L5."}
+{"hash":"751344c21f061493a937dbd1ce7de1bad1113811c889588abfc9e38f025914f8","instruction":"Enter Fail in F6, Held in F7:F11, and Fail in F12."}
+{"hash":"75892431215aa3ea0b0136e2c95d674953b9886549c9712f7b2ff992ce0799cf","instruction":"Enter Fail, Fail, Held, Fail, Held, Held, Held, and Held in F3:F10."}
+{"hash":"75ab45ab418b7640a628682d16bb6d2bbc857619968e88c870014bef969d3082","instruction":"Calculate the converted values for A5:A7 in B5:C7, and calculate the derived results in E3 and E4 using the converted values, showing the results in K with one decimal place."}
 {"hash":"7625d288f990cf4bb71bab22cfa24da6a338e258e7ce446b36864b4c84b1947d","instruction":"Calculate the revenue in F4:F10 and the product revenue summary in K3:L3."}
+{"hash":"769478bce2d208f53992784173ead3674215af2ea559ef5642975845efa44d72","instruction":"Fill the remaining Sunday date cells C4, B6, and B13 with a red background."}
+{"hash":"76bde779390258ce8f505b8ed1459f9d712d977f412a6d314a13e2250508e3b6","instruction":"Calculate the profit margin in E4 by dividing Gross Profit (USD) by Sales (USD)."}
+{"hash":"76cd2336262d34b0a06bf120dbbcbd5d3aa3527dbcbff80b3546c26b88fd534f","instruction":"Enter Held in F5."}
 {"hash":"77019316e40b03e195975546821aa4ecb8efc06ed941f412ab761835efb80476","instruction":"Calculate the correct total rental charges in D5 and D6."}
+{"hash":"7745f6251c592a46199037b4550ac139b56863c9be8b843f4536edb9444b4d7e","instruction":"Enter PROD-101_112 in G3."}
 {"hash":"7883983bb82acb30d4853746363483f0828fdfb219c2dd70e52db7a837d12e00","instruction":"Calculate the total revenue for the remaining product summary in K3:L3."}
+{"hash":"797c4ebd1109b01777024d3e1e48567e309567d9fb877218de360982df10b2b0","instruction":"Add a new profit margin column in E, enter the header in E1, and calculate the profit margin for each week in E2:E11 by dividing Gross Profit (USD) by Sales (USD)."}
+{"hash":"7980effbdf1e391e00a79fe6f96ac20bfa06d807f90abe657b812980be587a69","instruction":"Calculate the profit margin in E7:E8 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"79f2089f55c870fb334f59890ed00becf7d3c3518ac1d4a66ac37033121c10fb","instruction":"Calculate the profit margin in E4:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
 {"hash":"7a2a69a563ffae99ca1dc67f1199b86a9a67e4709c821f53462902a3253670d8","instruction":"Calculate the annual change rates for Cash Reserve, Equipment Value, and Other Investment in G3:I6."}
+{"hash":"7a73f519d4fdfa3d3bed2c3f4c0671c0322efda0b7d2737065fdd5377ab7e2aa","instruction":"Split the dates in B3:B4 into Year, Month, and Day in C3:E4, leaving column B unchanged."}
+{"hash":"7a9d35f0dc9ac3cebb39ce974e6ee5a5d46edacf9da526e2a1189cffbc81f3e9","instruction":"Fill C4 with a red background."}
+{"hash":"7ac2bf7fad4f91916614eaa229d59e57a3150e040342119919cccdddb8a6d588","instruction":"Enter 7,25 in B3."}
 {"hash":"7ac5d805ddf2b1ccc924db718e2fea76f16cd3366278910cb67f89e7267a878a","instruction":"Calculate the total revenue for each product in H3:I5."}
+{"hash":"7b2bdc40263bafd88a20ad5f1793e4dc3ec7837c6a72284209752f7dd71041d6","instruction":"Calculate the final price in F3."}
 {"hash":"7b520893e32ca148e9fcce39885d0d035d22eccbb1958b3feb179bd21c4b9240","instruction":"Enter 92 in B3 and 78 in B4."}
+{"hash":"7bcef66ddc353b8fc4fe15cffe4d2f54e4d972926aea2434f69cadbf78dd6474","instruction":"Calculate the final price in F4 and the corresponding product label in G4."}
+{"hash":"7c2aff277b3a796486ad76c23902ade7bc9e725aba45decfe9e7cc3fcc6dfd5d","instruction":"Calculate the profit margin in E4:E9."}
+{"hash":"7cc80d133ee226d63c82c69ef6ffa70c9c1ebd889f97ad096a893a1e9c8b01f2","instruction":"Split the dates in B3:B4 into Year, Month, and Day and fill the results in C3:E4, leaving column B unchanged."}
 {"hash":"7e913a4b191f501fe3e5d29b9f7ec198777e5e8c9086b20303741d525b9ce878","instruction":"Calculate the revenue in F6 and F7."}
 {"hash":"7fa13866e1f757948251ee3ee2949fd9ba1293d892d2599558875d1101967139","instruction":"Calculate the revenue values in F7 and F8."}
 {"hash":"7fada55705af4b1942ca233d192c934e223cf018d9e5baff8648cfb222dc9ca9","instruction":"Calculate the revenue values in F8 and F9."}
 {"hash":"7fda48c5c25202df39c06ec4473b6625c605b480b433b2d76b31dbe67e9ae98a","instruction":"Calculate the correct totals in F4:F6 and B7:E7."}
+{"hash":"8083e0d552c4e084e3593add9e8b8e519765e837512b5e025e17f4fd8c82fed3","instruction":"Calculate the profit margin in E2:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
 {"hash":"818846c5c315b0075da2ef674d951d728d1b60beaaf9520042e14101c6b3b75e","instruction":"Format B2:B4 as currency with two decimal places."}
+{"hash":"8193338a9dc7f5617fb8c6cd85e3ab0cb33ea927e483dc12e48c37ed1a547527","instruction":"Enter Fail in F3 and F4."}
 {"hash":"81ab90b72998ca62ec679d457b826b96e8b2f2be2c80d14d1740a6a90fcf8524","instruction":"Calculate the correct manager names in D7:D10."}
 {"hash":"8200d1a656d7d29d315bbbbab0820ee748c44c69c0ffe4390ba45dca6c78a401","instruction":"Calculate the total revenue for the remaining products in H4:I6."}
-{"hash":"8212a5b85815945253fc7d9c9aaeca0fffb6bf6a854d5ee4632e83beadbaffc9","instruction":"Calculate the annual change rates for Cash Reserve, Equipment Value, and Other Investment in F3:I6."}
+{"hash":"8212a5b85815945253fc7d9c9aaeca0fffb6bf6a854d5ee4632e83beadbaffc9","instruction":"Calculate and fill in each annual change for 2020 > 2021 and 2021 > 2022."}
+{"hash":"8252525056b85a95a938df48d685456dd5781fd53c1852f41a5782209b33b034","instruction":"Round the values in B3:B5 to two decimal places and place the results in C3:C5, with each result displayed using exactly two decimal digits."}
 {"hash":"826fc325a0899f82612bc99f622d46610bc8f4eec7dd7a929efafc2ac8a8501e","instruction":"Calculate the receipt code count in F4 and G4."}
 {"hash":"82b760d339f2fbb51ac2b863c17b9de7ea1c53ed337c0de12a45d0c600f7f6c9","instruction":"Calculate the annual totals in F3:F6 and the quarterly totals in B7:D7."}
+{"hash":"8405978e95f2f8ae17e58b1ab8a65652c6daf6bed2075c25bddd14670143958d","instruction":"Calculate the profit margin in E8:E10 by dividing Gross Profit (USD) by Sales (USD)."}
+{"hash":"8415a7f7b6974cb751c723b603760472d1dfeaa9d341d7f25a9b504a3cd8e175","instruction":"For each blank cell in column B, fill it with the year extracted from the date in the same row in column A. Do not change unrelated cells."}
 {"hash":"84d9ba24546f58c5e97d9b2f2e199c7e120822e9e15b774fc19bbc680e07e737","instruction":"Enter 85 in B2."}
+{"hash":"85c42777f2da9a7160f7023c098598659e894b16161a6dd1f1eefb4504a2acbb","instruction":"Round each numeric value in column B to two decimal places and place the rounded result in column C. Make sure every result in column C is displayed with exactly two decimal digits, including trailing zeros for whole numbers or one-decimal values."}
+{"hash":"8639e9e3f7b6231a1a5502b0774ed190c58af36b8d8847894115e2708b0a37cd","instruction":"Enter the correct investment result labels in F4:F8."}
 {"hash":"88161765b1954080f2469c666cc4331d187951cfd37fe306c4b99a8283052e8c","instruction":"Calculate the revenue values in F4:F9."}
 {"hash":"8818cbab2b4e6c38e4e681ce8e52c1b2d308241079eabaebcc18172e969415f8","instruction":"Calculate the missing receipt code counts in F6:G7."}
 {"hash":"88b9ec177c842a79a7194a9505d6f86222fd71c154ea0d3a889a9391e933a0df","instruction":"Calculate the correct total in F6."}
+{"hash":"88e3c4383a58b2dc587c730c235eddbc6e9d3754f571614aed5e86f1fdfa5638","instruction":"Calculate the profit margin in E6:E9 by dividing Gross Profit (USD) by Sales (USD)."}
+{"hash":"88eb6f92537899538b1cb804963035d22ef568833bbda56a978d96642fbc1446","instruction":"Make A9 have a red background."}
+{"hash":"898950a95c2018c0fc717dea60e739cb4c07ad7ebda923b5f1cd40943bf63d5d","instruction":"Calculate the profit margin in E2:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
 {"hash":"89c5af24f5c60ba0e9095c77e356a0884c8c080f11ad471334441f8768fe04a6","instruction":"Calculate the rounded fixed-decimal values for the numbers in B3:B4 and place the results in C3:C4, displaying each with exactly two decimal places."}
+{"hash":"8a1da37b5ab4fc3f36f7e010a9e5df53bf076c5a2894481d542f52bc61339660","instruction":"Enter Q2 in E4, 150 in F4, and 110 in G4."}
+{"hash":"8a34d646be8ec263298db636fdc7853071f5f1075b2412475c81bf017413dafb","instruction":"Enter Fail in F4 and Held in F5."}
 {"hash":"8a66e7bb272619cfa50f26fa7461a285ec0605ba747f5b34197f3943eb59ee70","instruction":"Calculate the total revenue for each product in H3:I4."}
+{"hash":"8ad4586ce65ce1a8d9404ec69836f9d8a56d98d74d5990e232da12d1005c30fd","instruction":"Calculate the profit margin in E7 and E8 by dividing Gross Profit (USD) by Sales (USD)."}
 {"hash":"8adf5c1e5b74ef192daf497d66fa54b286946ddd3044aa543c485903021c4276","instruction":"Calculate the revenue in F7:F10."}
+{"hash":"8b1402a54c03b196244da79b2ec595e6c5604ae08c251d510ac0f4048e3f70d5","instruction":"Enter Combined Data in E1 and extend the formulas in B2 and D2 down to B3 and D3."}
 {"hash":"8b445de79d44b9bdbb6b9f5959e3336ef5f29694776e711bb83e6692d92a8832","instruction":"Calculate the correct revenue values in F5:F10 and the product revenue summary in K3:L6."}
 {"hash":"8b5e16470cd1de761d353643932b79608a0bb8a5567f2bf9580ac3e6958c7580","instruction":"Calculate the total revenue for each sales channel in K3:L5 and each product in H4:I6."}
+{"hash":"8bcc324b582a23387c679a566bd91f1ae4743485f8b6f9cd1edfbbf7537249ab","instruction":"Format B4:B5 as currency with exactly two decimal places."}
 {"hash":"8c6c330d383aa5c90e2e4a88608f4d2be3e6e881662805df6edacd4e04df232f","instruction":"Calculate the quarterly totals in B7 and C7."}
+{"hash":"8d2869a39d43c9d73e57bb56af4fb1c93dcf3d6b87d82b00a81463f91761ac37","instruction":"Calculate the profit margin in E5:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
 {"hash":"8d77c367f9b60ce6449fa1caa480d931c870e84e541eb24b419623b4a0d07061","instruction":"Calculate the Tax Amount and Final Amount in D2:E3."}
 {"hash":"8d7da1f529c6033e4623ee055cbb9d5263bc87444cc750433fc856dca8b24896","instruction":"Calculate the correct Manager Name values in D7:D8 using the department lookup table in F:G."}
+{"hash":"8e613638ac9bd361ee01f2cfc9d7e096a8a71cbb5b166c57aa090392223d6fca","instruction":"Calculate the Sex proportions in D2:E3, then enter Civil Status in D5 and Proportion in E5."}
+{"hash":"8f08c43965e72b1c6c7b4442c1cef143a13d93119d6a3b8b5f23df2f080ae2d6","instruction":"We have a loan table where column A holds the Loan Issue Date (as a day number) and column B holds the Length of Loan in Days. Add a new 'Maturity Date' column in column C for each loan by computing the issue date plus the loan length. Leave everything else unchanged."}
+{"hash":"8f0ce4aeee55b3a2272ee22e134e47adca1914c31ec9fbecb45b56537699e734","instruction":"Calculate the profit margin in E4."}
+{"hash":"8f10b84aa9db0ad98c3ac5503e6f6c262a589a2ab718278c8134dfa98bf41234","instruction":"Format B4 as currency with exactly two decimal places."}
+{"hash":"8f5849e18f23fafbebb6875f31bcbbf4b31ccc07f9846bd430476e2ee1447b14","instruction":"Calculate the average of the final prices in F5."}
 {"hash":"8f5e2605cc1b6a05995a0c1f39af62aa3752ecd1513f42ae0a2135b52e0db6c6","instruction":"Calculate the correct totals in F4:F6."}
+{"hash":"90a7d8ba5a436ee6233f1f3f6b4fcb637ff0b6a76c761d23e100340d18b759b7","instruction":"Calculate the profit margin in E4:E8 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"90e3c7e03dd4570101acc26a5809c34a51a3d64fa1b7c8c2ecc0287403a8957b","instruction":"Calculate the profit margin in E5:E10 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"90f0b737de24189e9aadaa4deadc2e1652ad4ee7b045d09e83be655a2ed9a6e0","instruction":"Enter Held in F8:F11."}
 {"hash":"91918ae41db18a469a91c4e4fbbc294a6bd76d4c774f9306f70aa61f363cf161","instruction":"Format B4:B5 as yyyy-MM-dd."}
+{"hash":"91b1ca4d1a675b25fb4940332c64591414845c8c18ae62ad07afa51b022c38de","instruction":"Calculate the profit margin in E11."}
+{"hash":"91e97c3fb044290d58f7b6b808838eea2eaab7e7ed0dd8d6535dc7da8a5261c8","instruction":"Calculate the profit margin in E5:E9 by dividing Gross Profit (USD) by Sales (USD) for each corresponding week."}
+{"hash":"92540afb1d07750c21ad4509035f7e39d64021d74f2b7dbb9e114fe7618f5433","instruction":"Enter Held in F5, Fail in F6, Held in F7, and Held in F8."}
 {"hash":"9255c6e70b900bfc14e14bd3d8c6fec185079138be93e5f8967fa4b331eed0d8","instruction":"Round the values in B3:B5 to two decimal places and place the results in C3:C5, with each value displayed using exactly two decimal digits."}
 {"hash":"92cfa4f82eadd95eabda3790baf122e16d59acc85f4c01f83bcf3ad417e1e8ac","instruction":"Make A1:A4 red."}
+{"hash":"9346229c42e5c74729311bdb69032244fe2d09c4a8515337b2735b85818cd2a3","instruction":"Calculate the profit margin in E5:E7 by dividing Gross Profit (USD) by Sales (USD)."}
 {"hash":"93cba770c68998cbc52c3089499b6ffa27019aa01b6465ca54921d9a9c0a7fea","instruction":"Calculate the quarterly totals in C7:F7."}
+{"hash":"93e5fc61007a04da10580fc0033cbe488586a36458beea295119ce9dec0a46fb","instruction":"Enter 1002 in B5 and 1003 in B6"}
 {"hash":"95341046657eb68a305cd91941962502d0dd109e5aef051b47ae3a4b0bbec2ba","instruction":"Based on the given table calculate each line total by multiplying Quantity by Unit Price."}
+{"hash":"955a67235150fdaf88ffc1cb0bab8a42292bc89422c60bfd923a75f06974db4e","instruction":"Calculate the profit margin in E9 by dividing Gross Profit (USD) by Sales (USD)."}
 {"hash":"962901ccdd7f88a9ecf72ecc6cf7c972ebf43e4587dd45d05ad5333285acf533","instruction":"Enter 78 in B4."}
+{"hash":"963e5f74bf7771d2b2ee5efb7269cdbe9a8431b8ab5ce3d0bfc76aa4e031f8fd","instruction":"Format B2 and B3 as currency with exactly two decimal places."}
+{"hash":"969981b348f4e828a4de8e88804d47dd4c150b175c927f3447f5f59ac774344c","instruction":"Calculate the profit margin in E8:E10 by dividing Gross Profit (USD) by Sales (USD) for each corresponding week."}
 {"hash":"969b16250fc87ea55568d8b1cb03eeb9d1068c5ca0ad7e272bbebc6a61ee6965","instruction":"Calculate the total revenue for each product in H3:I6."}
 {"hash":"96a31075e01d550624fcadb9c873b08f0291130a8a50d2526e59fea4d7ce2867","instruction":"Calculate the correct manager names in D6:D10 using the department lookup table in F:G."}
+{"hash":"96cf61ca6dd394435ed2d7d5189b88e9b1180e2c833ef819a4d36ae0b85ef2c1","instruction":"Enter Held in F5, Fail in F6, Held in F7, Held in F8, Held in F9, Held in F10, Held in F11, and Fail in F12."}
 {"hash":"96d87474f671ada63f9e145fc4102609d6fc496d2880412c4f179f08a337c4d7","instruction":"Calculate the total revenue for each sales channel in K3:L4 and complete the product revenue summary in H6:I6."}
 {"hash":"96ebf80cc08a3ba8f834941d8bd047c78bab83bea726d4fc28f031ace9943740","instruction":"Calculate the annual change rates in G5 and H5, and enter 0.1 in I5."}
 {"hash":"97431e3a0097aea03b7476bb6d84c77812086f32d514634cfe43b1b6b28737ca","instruction":"Normalize the Raw Tag values into 6-digit asset tags in D6."}
@@ -175,65 +415,125 @@
 {"hash":"98a037c483d0df5b07498c5cd9ceaeaed8db76e5cd6dda6d72daa12c8c7b05aa","instruction":"Create a phone list. Then normalize every phone number in column B into the ###-###-#### format for the given table"}
 {"hash":"99187155ba0dbcea33bb27c4dd5630cdbd95625044e6b21df7f1090084d8b771","instruction":"Calculate the revenue values in F4 and F5."}
 {"hash":"9923a58b6fb0795555c021a48cf6ab32f22382c976959ea8d28c728412c9751f","instruction":"Enter 85 in B2, Brian in A3, 92 in B3, Chloe in A4, and 78 in B4."}
+{"hash":"99a1e280cdd1d61a2d1e484ce51ae4b7f804bb3260b4b338e32bb98da149dee9","instruction":"Enter profit margin in E1 and calculate the profit margin for each week in E2:E10 by dividing Gross Profit (USD) by Sales (USD)."}
+{"hash":"99d13f4da9ba40adeb9375ada2975e15c42aa755379586c827420a6db71fa012","instruction":"Enter Held in F7:F11."}
 {"hash":"9a4ba0067ae16e776c4b912f11699b28d78d32d474e25d3aa9694cbc85286e3a","instruction":"Calculate the correct Manager Name values in D8 and D9 using the lookup table in F:G."}
+{"hash":"9a780b993450a99252405e4ad64f6faab914c5a1b089079d897e9f1fe40e02e0","instruction":"Enter Held in F5, Fail in F6, and Held in F7:F10."}
+{"hash":"9a9059c7f282eff931a243147a3a23aa6f554d84b34697f6cc9321341e460a42","instruction":"Calculate the profit margin in E2:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
 {"hash":"9bfe6d5e548dd37384b50a2d0a56f2453291cdc5ae3fb865983416955295e6c4","instruction":"Calculate the correct manager name in D6."}
+{"hash":"9c1ef971bcc690aec7dca2604dce01ee29063323fcf519117b031a627d692bcc","instruction":"Fill the remaining Sunday date cells C4, B6, B13, and A16 with a red background."}
+{"hash":"9c24619a37c5d86913c6ce45c1e6214311de0ba90f47123ee8e4f71da5a6fdf1","instruction":"Enter 1004 in B7."}
+{"hash":"9cc824019c8fab7a37794d1c4fe7e41a7cbb23be188e1ffd5e0a98f0e8308293","instruction":"Round the values in B4:B6 to two decimal places and place the results in C4:C6, formatted to display exactly two decimal digits."}
 {"hash":"9d129328f1fe60d7342fc9a97630d77c9147e07bac4f68db63b243c6e4da6c61","instruction":"Calculate the correct annual total in F6 and the quarterly totals and grand total in B7:F7."}
+{"hash":"9e2408d063a6dceda2c83f14c681082a451c4ec68a26b52b747a36bc0b46596b","instruction":"Enter Held in F7:F9."}
+{"hash":"9e2cb7ce527d8f3a7337dcf9aaf031fd7296a1ecb238d21bb4a156a7d31e31e1","instruction":"Enter Average in B5."}
+{"hash":"9e31ef146d195f2510846db8e0b024097f9445c2b62ee6bb081b50dd59c41e15","instruction":"Calculate the profit margin in E6 and E7 by dividing Gross Profit (USD) by Sales (USD)."}
+{"hash":"9e38ec53d7492f3a412daf1a09cfabb869c69a7fada573af76f4c21b8f190fb4","instruction":"Split the dates in B3:B into Year, Month, and Day values in C3:E, keeping column B unchanged."}
 {"hash":"9e4379fcf9c96c8edd9fc521e5791948246adbb0b384086fdb090e6e3011f191","instruction":"Convert the Raw Tag values into 6-digit asset tags in D4:D6 by padding with leading zeros as needed."}
+{"hash":"9ec05249a6588258cb6313cc69bd1332169b33671dd09fc710a0ff6e1ab4b9da","instruction":"Convert the values in A3:A5 into Thousands (K) in B3:B5 and Millions (M) in C3:C5, using one decimal place, half-up rounding, and a single space before the unit."}
 {"hash":"9f74ea2f3266fe8015e2100f707270e1313daa0cae735ad202af64ca1193407d","instruction":"Calculate the quarterly totals and grand total in B7:F7."}
 {"hash":"9ffb7177e63efa0c1759e9bf7c0c8c7576211de3e4961ddc597051afac704de5","instruction":"Calculate the revenue values in F5:F10 and the product revenue summary in K3:L6."}
+{"hash":"a012df42561bda38a06d21bcb5bf9f5985253b90df00837ddedccb2da5d11449","instruction":"Split the date in B4 into its Year, Month, and Day components and fill them into C4:E4, keeping column B unchanged."}
 {"hash":"a01bfb0e121358fead49623bb0db65d473ebbc033d4c9b56b68c2955e46075fa","instruction":"Calculate the correct manager names in D5:D8 based on each employee’s department using the lookup table in F:G."}
 {"hash":"a08578863bec3a2b43a832d6a26433ea28b8d41674e0d69a73322938e0068957","instruction":"Normalize the phone numbers in B2:B3 into the ###-###-#### format."}
+{"hash":"a08c7ba9536814b919eeac98dc165233784b0b35ee4ff385a9f9b00154c1f259","instruction":"Split the dates in B3:B4 into year, month, and day values in C3:E4, keeping column B unchanged."}
+{"hash":"a09940b9dfceb343460ed9ba43607e1c5ebed0d41bb4ccb7a0def7679849a558","instruction":"Fill the remaining Sunday date cells in the March through May 2026 date table with a red background."}
+{"hash":"a11979e93831919853f31a83db8e71987c1e8da0509c8c402f53f3e8c7c79668","instruction":"Compute Total Sales and Q1-to-Q2 Growth Rate, and write the values at the correct cells."}
 {"hash":"a11ac2536d90f881b5a10ff8ea69817bb8da041558fc107cce58e0fc5e8514a0","instruction":"Format the Date column values in B2:B4 as yyyy-MM-dd."}
 {"hash":"a128b66918d28b2f46b11f77b0819dfeb2b1da2dce53c8530b8f4f7f9722c146","instruction":"Calculate the total revenue for the remaining products in H5:I6 and for the sales channel summary in K3:L3."}
 {"hash":"a159bf1375050f14ef79997eeca6ca22f8ca458cd278519d671ac64a43b9bba5","instruction":"Calculate the correct receipt code in F5."}
 {"hash":"a166e594d1778b3b64df62140a231c8dbfc9bc6fd05989c91f9fe19b7765ad4f","instruction":"Calculate the annual totals in F3:F6 and the quarterly totals in B7:C7."}
+{"hash":"a195132984999564b0cac1ed01b318c9ccdd579b9995ce6b5f959f64236c56b3","instruction":"Fill the cells containing Sunday dates in the March through May 2026 date table with a red background."}
 {"hash":"a1b8527fa6c748d4b7ad5d6486e9ffaf5b6679c3bd910f3c2822618dd436713c","instruction":"For the given table calculate the Tax Amount and Final Amount. \"Tax Amount\" is calculated by multiplying each amount and tax rate. \"Final Amount\" is the sum of Tax amount and the original amount."}
 {"hash":"a1bb44de05c6de52609672e93c539e8301a0f381df99cd1c234e6d1b2125e53b","instruction":"Format B3:B4 as currency with exactly two decimal places."}
 {"hash":"a2041a8f0594a06d3eb03b8ff0abbb8345b3e6827ff97daf9494d0560a4d71fb","instruction":"Enter Name in A1, Score in B1, Alice in A2, 85 in B2, Brian in A3, and Chloe in A4."}
 {"hash":"a223e6aa2a3c3cf3553d775cf68bd02594ec61f78beca00102f2da8bec849ad5","instruction":"Enter Alice in A2, 85 in B2, Brian in A3, and Chloe in A4."}
+{"hash":"a228ee177f367e13b5f78e330705b76f08c9600c1fd5322b92cd151c622b9685","instruction":"Calculate the profit margin in E3:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
 {"hash":"a23efcbc6474d05342bcdb928c7c52e198ca2cc8e45a088d389b856f240f5c78","instruction":"Calculate the correct annual totals in F5 and F6."}
 {"hash":"a2e694c7b9da30df30974a4a672be79259396ebd1eb5c6db0ff0b3152f707181","instruction":"Calculate the correct total rental charge in D4:D6."}
-{"hash":"a34c7dfed7d85c602e5f8164a4e6e19952fae8a8211111d97666758a4d321e28","instruction":"Calculate the annual change rates in G4, H4, and I4."}
+{"hash":"a34c7dfed7d85c602e5f8164a4e6e19952fae8a8211111d97666758a4d321e28","instruction":"Calculate and fill in each annual change for 2021 > 2022."}
+{"hash":"a35d440bae0eea3b1894173a43a7d982cfadadff2c63975cd1742ac7e12b2ee9","instruction":"Calculate the rounded value for B6 and display it in C6 with exactly two decimal places."}
 {"hash":"a3718007c6185ae1165e1912c227aec1f3740e84c00bcd32357933fa78c891a3","instruction":"Fill in the last names in D2:D5 and ensure the middle initials in C2:C5 are M, T, R, and P."}
 {"hash":"a4bb6a595a13403f7812287b9a2e71c8fb2647cf6f85ea5cda973d25991ab103","instruction":"Calculate the receipt code counts for the remaining summary table cells F5:G6."}
+{"hash":"a5199b404de46dac10a1c0cd3811666d029810ccaa34fdbbd90ee019554361fe","instruction":"Add a new column named profit margin next to Gross Profit (USD) and calculate the profit margin in E2:E11 by dividing Gross Profit (USD) by Sales (USD)."}
 {"hash":"a5473a279a38c4b7658449ba6b8dcf2010468b19abf9bc611d49f0d8cce4d5ec","instruction":"Calculate the correct line total in D4."}
 {"hash":"a553dfae9cfa52e91161d4cdee8c841c24c416fe172b17763cd0634fbf8811a3","instruction":"Calculate the total revenue summary in K3:L6."}
+{"hash":"a55565942a0b250f5f2593f92346bcb0868fa4e2f9b209122f13714a74e7213f","instruction":"In column B starting from row 3, we have a list of dates formatted as 'YYYY-MM-DD'. Please split these dates into their individual components and fill out the adjacent columns: Year under column C, Month under column D, and Day under column E. Keep column B untouched."}
+{"hash":"a56b216b2f116c353e7cfabd8ec608d380f12fc37aff1ad01812f80671d9fe42","instruction":"Modify the expense table. Format the Amount column values as \"currency\" with exactly two decimal places. Use the formatting feature."}
 {"hash":"a5dfae9a3e822a86b893c435e38ad7f2acc94bc0df0cd14a418fabef1a3ee67d","instruction":"Calculate the revenue values in F6:F9."}
+{"hash":"a5e0113cef99c790eb18ab5a76ef378c47e1af056e5831dca2085b116c3e3bcb","instruction":"Convert the values in A5:A7 to Thousands (K) in B5:B7 and Millions (M) in C5:C7, using one decimal place, half-up rounding, and a space before the unit."}
 {"hash":"a631e8fab54c7140013353384156a1aa7950a63acb10ecf8f4b402bf7ce69035","instruction":"Format B5 as currency with two decimal places."}
+{"hash":"a63376b3d6c7608cd1fa558d5d56ca0b92935db048a27336456743161f18c236","instruction":"Enter Held in F7 and F8."}
 {"hash":"a666ad9993864a8478f0aa6d3cdb752f7319b69faed17bc10a1a026d559207fc","instruction":"Create two revenue summary tables. First, summarize the total revenue for each product in cells H2:I6. Second, summarize the total revenue for each sales channel in cells K2:L5. Use the existing order data in columns A:E, and do not modify unrelated cells."}
 {"hash":"a7169b20365237f4d152fd5e1c1f9f94e0e1cc9b7ff256dcfbb96c2ae44a8fd9","instruction":"Calculate the correct totals in F4:F6 and B7:C7."}
 {"hash":"a7c15cd09959e25814c158c6c7bad2c21a7d141b4d2bc7c8a0f3e95c483c2d48","instruction":"Calculate the total revenue for the remaining sales channel in K5 and L5."}
+{"hash":"a7de7a8b085dc977847651869d65f8535bb8d4bd219fd344c62cc9a36099ebaf","instruction":"Enter profit margin in E1 and calculate the profit margin in E2:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"a8c5e9642270f823866eba8555bc4e17803d6f0619a62cb6f8764b6a358da5e7","instruction":"Enter Held in F10 and F11, and Fail in F12."}
+{"hash":"a927004be44a24c3bbbdb66b02ae04ca7a988c00346403a2fc123ae50b219710","instruction":"Calculate the profit margin in E4:E7 by dividing Gross Profit (USD) by Sales (USD) for each corresponding week."}
 {"hash":"a987bd2c4a59ce76df460b024d4dfc80d6b4eebf94d773b042ab3af17ecf1d0e","instruction":"Format B2:B5 as yyyy-MM-dd."}
 {"hash":"a9a12065109af3e8f9da0018a79a2bb3d809f377650b4ca193230aaded94d754","instruction":"Enter 85 in B2 and 92 in B3."}
+{"hash":"ab5ad7207ea7fc4f72798871c553cc426ab9c68701047ad01b1217c200bf4230","instruction":"Fill the remaining Sunday dates in C4, B6, C11, and B13 with a red background."}
+{"hash":"ac1365d85fe8ef0147681663efb6a90bb366cc5ab172d88e27c8a32518033ece","instruction":"Convert the values in A3 and A4 to Thousands (K) in B3 and B4, and to Millions (M) in C3 and C4, using one decimal place, half-up rounding, and a space before the unit."}
+{"hash":"ac2dcec2716ae7c43e263abae6c804bd46e34a4ee808b158acfaf15ce4e45554","instruction":"Calculate the profit margin in E5:E7 by dividing Gross Profit (USD) by Sales (USD) for each week."}
 {"hash":"ac85a715db17d7ac507737d3df99ffe8aa498ddf0f7f86f9a835cdf425d102af","instruction":"Calculate the line total in D2 by multiplying Quantity by Unit Price."}
+{"hash":"acbb6d40876772286897e4a1514e23ac3e39ef8a862a6be6939fa64a93a86ab7","instruction":"Calculate the final price in F4, calculate the Product_Label in G4, and calculate the average of the final prices in F5."}
+{"hash":"acce88e55acec2881c00f97005744073dcb1020d3566e5306be9fea0d0076538","instruction":"Format B3:B5 as currency with exactly two decimal places."}
+{"hash":"acfd138374fa8da4f3f1fd85bb083b58e7441d8f4dcc968db3a90428526126a1","instruction":"Calculate the profit margin in E6:E10 by dividing Gross Profit (USD) by Sales (USD)."}
 {"hash":"ad4a70ad056c541054207e88416d76f0d7add38b9a827de882031e854761c8e0","instruction":"Calculate the line total in D3."}
 {"hash":"ad625e45f9d35b7d389a70ff1998a31547cdbe6a3e08a900491e6b668bb3f779","instruction":"In the current sheet, count how many times each \"Receipt Code\" appears. Do not create a new sheet or a Pivot Table. Instead, create a summary table in cells F2:G7 with the headers \"Receipt Code\" and \"Times Appeared\". List each unique receipt code in ascending order in column F, and put its count in column G."}
 {"hash":"ad6df7e19f72e4c7b05108e1c0d00484da8b4041371c0b0e56de173235f1a374","instruction":"Round the value in B5 to two decimal places and place the fixed-decimal result in C5."}
 {"hash":"ada091a982fae62d26c374fbc8cf7fd61797f20aaf5e4d352a957e9c94200a04","instruction":"Enter Name in A1, Score in B1, Alice in A2, Brian in A3, and Chloe in A4."}
 {"hash":"adadfa7ca9a43a96ea54c5f9022af7fc13dcea19c0bedc0cfbb0887542af3756","instruction":"Create a simple student score table in the spreadsheet. In column A, enter the column header \"Name\" and list three student names below it: Alice, Brian, and Chloe. In column B, enter the column header \"Score\" and list their scores below it: 85, 92, and 78."}
 {"hash":"ade39fca09c47ef98750a83b5ae70a767e60ca58e395e18455fd1d1265c0f774","instruction":"Calculate the correct manager names in D3:D9 using the department lookup table in F:G."}
+{"hash":"ade51eed8ea357652c674075777b251f23892cb0f70136eb6ff8db5b5daaf763","instruction":"Enter Q1, 120, and 90 in E3:G3."}
 {"hash":"adeabb88fb7bec21fbed6f3a1b68ca77c7bfbfb29ca131207ca42bbd1434c83c","instruction":"Calculate the revenue values in F3:F5."}
 {"hash":"ae4abad2fb8c2d7862de466d239f978d773ecc06c6d9e35134cc8519b196123f","instruction":"Make C1:C4 red."}
 {"hash":"ae5f3bccf92d399024e280fa1155bbe78f7379cca32cbaae82553c885a3a5a44","instruction":"Normalize the phone number in B4 into the ###-###-#### format."}
+{"hash":"ae7370ebd602cd64a0c5f0f75b01cbceddaeb8b3c01ebcfca99f2f639823a34e","instruction":"Calculate the results in E3 and E4 using the converted values, and convert A7 into Thousands (K) in B7 and Millions (M) in C7 with one decimal place and a space before the unit."}
 {"hash":"aec85cf00ead1ec442ec0d0dba9185875292dcd86ce17ff2a2993448c306aaed","instruction":"Calculate the total revenue for each sales channel in K3:L5."}
+{"hash":"aeced1722c5879e719db0b7323808d3d79411893733f41ad3d88601f0c0e30c6","instruction":"Calculate the profit margin in E3:E9 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"af025a27c51cd84dbf05c0cb834425879155226d82d055f8f53c8357e8b0df17","instruction":"Calculate the rounded result for B6 and display it in C6 with exactly two decimal places."}
 {"hash":"af74b31cf1ec968b1558c25665847cb00a95538e1c262396b459867998eac506","instruction":"Calculate the revenue in F10."}
 {"hash":"af9c2b6835fb9ee5a91565675ccc6eb45d725d7c28fcf0e30311a487bdee297a","instruction":"Enter 92 in B3."}
+{"hash":"b006ed72ccf54e3cf9680f252759b5dbc1f38d37205f23ec6b1d0f453af296d1","instruction":"Enter Combined Data in E1"}
 {"hash":"b03a35b260b08114b22a923e8370a339e06f1aeadc4189617068b969a3a360be","instruction":"Calculate the revenue values in F6:F8."}
 {"hash":"b049713c1fc8f9f279c346ac1d60103e3cc2b0b632173681a962e5d9b9d32405","instruction":"A department lookup table contains the manager assigned to each department. In the employee request table, fill the blank \"Manager Name\" cells according to each employee's department. Use the lookup table in columns F and G."}
 {"hash":"b05b5304cf28770e09e84ee3f466e8691ffe49bb5a0b5e4d5af63dfe11957636","instruction":"Calculate the total revenue for each sales channel in K3:L5."}
 {"hash":"b0af8283104705e2cb684b00a1bc03e29dff2f229bc95c0063bad6b8bab60e69","instruction":"Calculate the correct manager name in D8."}
+{"hash":"b17a0b8e982269267f5c5b98685fed3e6e444060fc2a2fe62434f68ca1e7bdb4","instruction":"Split the dates in column B into Year, Month, and Day, filling the remaining cells in C3:E4 while leaving column B untouched."}
+{"hash":"b1f05c8400f6c6fb1b21c69fbe776ec9571476f2306aed541b4a4d47a9254f03","instruction":"Calculate the profit margin in E3 by dividing Gross Profit (USD) by Sales (USD)."}
 {"hash":"b2246b54c651473d3ea8c9a203618f42ebc41b9fffdc5b9df0880bbe69212656","instruction":"Calculate the receipt code counts in F3:G7, listing each unique receipt code in ascending order in column F and its occurrences in column G."}
+{"hash":"b253d90c1c7988455dacbbdfc203872be54d892a1809855cd8340c6538bdf46e","instruction":"Enter Fail in F6."}
+{"hash":"b2ae949ed27a9fe8cb4abe001e548c76661c5c5bfdb34382c21bbceef0f6b4e7","instruction":"Some project delivery dates are not confirmed yet and are temporarily marked as \"TBD\". Please hide the rows that contain \"TBD\" in the Delivery Date column. Do not delete any cells or rows, and do not use a filter. Leave all other rows visible."}
+{"hash":"b329fc2d1f1d67839c569c7209cf8d391718e98acfb498200ab30d2d265ccfa0","instruction":"Calculate the profit margin in E4:E8 by dividing Gross Profit (USD) by Sales (USD)."}
 {"hash":"b335158d5ebb888ca88180e8e7bf065a1084d160f66ce9bca73732dadbfb5644","instruction":"Format B3 as yyyy-MM-dd."}
 {"hash":"b37c7cb87976e231e9047081b42c1926b1503e64418b657d0c8c3e5647f6021d","instruction":"Calculate the total revenue for each product and sales channel in H6:I6 and K3:L5."}
 {"hash":"b383e7d5fb75606b4a28f56facbf0e1e37490cc342fda8e207df1246718a4d9f","instruction":"Round the value in B6 to two decimal places and place the result in C6, displaying it with exactly two decimal digits."}
+{"hash":"b38511a4055cbd41aaeb1a782545c65dad49cc13bdce7081197f96deead65396","instruction":"Convert the values in A4:A7 to Thousands (K) in B4:B7 and Millions (M) in C4:C7, using one decimal place, half-up rounding, and a space before the unit."}
 {"hash":"b3b1aa20b6489b1248851692bae4e9e1303e844ea156d03466f97c01b4d1165f","instruction":"Calculate the revenue summary in K3:L3 and the remaining revenue values in F7:F10."}
 {"hash":"b3dd20e9f610573701424cb4462f8e7b35656b0c6c1baa4ddb1f6d302d7ea23c","instruction":"Round the numeric value in B3 to two decimal places and place the fixed-decimal result in C3."}
 {"hash":"b433cbfb09ced455911371a418bbeb34db27427b2be946c8a429688776e10e79","instruction":"Calculate the correct annual totals in F5:F6 and the quarterly totals in B7:D7."}
+{"hash":"b479f5f0849a96cdf7ddb9a17edfc9256ff9bfe90bcd48d79e33244d57add8b1","instruction":"Calculate the final price in F4 and generate the product label in G4."}
+{"hash":"b50ce035ab1f4d2add3e8de3f4a8e3c29d0fd636833f5a59662f0ae9fc4170b9","instruction":"Enter Held in F11 and Fail in F12."}
+{"hash":"b6700186801268458bd32a33d2e34667f8701099b21b93a77b8389ced6192385","instruction":"Calculate the profit margin in E5 and E6 by dividing Gross Profit (USD) by Sales (USD)."}
 {"hash":"b680d2a7d382cdc64c883f029febf4aff24eded1defd4cda5a6596079dd6c876","instruction":"Calculate the total revenue for each product in K3:L5."}
+{"hash":"b694eb2fbe238929f844d39528bd8a2bb4f418ffd65cfb8f9ce5c308d6a45522","instruction":"Enter Held in F10 and F11."}
 {"hash":"b6ad9425bed6fac828f717ed6aadcfd8287cd8be45f2546060142559ccf8c596","instruction":"Normalize the phone numbers in column B into the ###-###-#### format."}
+{"hash":"b6c592347078a5ff5786f18dde615548bf98a0301e6beba0b24cb2083a4ef6c6","instruction":"Calculate the profit margin in E6 by dividing Gross Profit (USD) by Sales (USD)."}
+{"hash":"b74e97ebbfe044279e752a611ebc132c3ef75ba90d81fd96e52b37f140c5e9f8","instruction":"Calculate the profit margin in E9:E11."}
 {"hash":"b784b350ab7f1e190c97e6677c8fb0138493f79c7fadefa831195b2687a63075","instruction":"Calculate the correct quarterly total in C7."}
 {"hash":"b7e98b4168ad6305a1d5dc1b9ae87751746a08cfc077b486df819b949f122504","instruction":"Enter Score in B1, Alice in A2, 85 in B2, Brian in A3, 92 in B3, Chloe in A4, and 78 in B4."}
+{"hash":"b865f41386203ca390c1d684c752ddca62131a4660bfc52b0632ebe444943bda","instruction":"Calculate the profit margin in E8:E11 by dividing Gross Profit (USD) by Sales (USD)."}
 {"hash":"b91c9140e95cdc9802b3fb3eb984f8454d81e9ac1d339468b3d90296574bf0e5","instruction":"Calculate the revenue summary in K3:L4 and finish the revenue calculations in F8:F10."}
+{"hash":"b94b0542b5e96d737d781338586edf8591897cce5077274a5a8c8086dd97702c","instruction":"Enter Held, Fail, Held, Held, and Held in F5:F9."}
+{"hash":"b96b3504f0263ff59fd2900196bf831cb8a081d0541a04de2849fc6ef0f3839d","instruction":"Calculate the profit margin in E8:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"b9b6d4b992d88e383b8bf09ea395879c5d6471a55c7fa5702f0b64d8de98123e","instruction":"Enter Engineering in D4 and Marketing in D5"}
+{"hash":"b9d3b906d5bb3565f77c2436eabd1cfaaab972ef48f8b21383ffd016aa6b78de","instruction":"Calculate the correct Sex proportions in D2:E3."}
+{"hash":"b9d87a5c89cd465f28195d3a415c6bd66e4802d0ce43710842dd6982ee47b401","instruction":"Fill the Sunday date cells A2, B6, A9, and A16 with a red background."}
+{"hash":"ba5a661148b39a327b6f2f1ff9dba9fc1657ba32512d229567077fcf1a30429e","instruction":"Enter 7,25 in B3 and 100,0 in B4."}
+{"hash":"bac13aa54f815e126f15bb7e716b8a9ee38172c598924e58c30494c9d8385e42","instruction":"Fill B6 with a red background."}
+{"hash":"baeaa0631594a57cb55c1f171719f974e4e7f20472d47e9fe9a6fd662d097b76","instruction":"Calculate the profit margin in E3:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"bb8c7e874bdd20b59b46180934881bf709c55b3161360c19d576f0455979fb11","instruction":"Calculate the total sales for Jan in F3."}
 {"hash":"bbf62d8347f948daf1a54250170d1ceb1ca6dca4441311a491ef688ebc32f1ee","instruction":"Calculate the rounded fixed-decimal values in C4:C6 and ensure they display with exactly two decimal places."}
 {"hash":"bc24f53b132d7d8bdaa162f9c50ba9b4eb8be11b3f00c24d35cdfcb6f7ad3c26","instruction":"Enter Brian and Chloe in A3 and A4."}
 {"hash":"bcf9b3d8cef0814f63a701eac7da0fbedde3b40ed6cc7ad1fc268e4786d0b35e","instruction":"Calculate the Tax Amount and Final Amount in D3 and E3."}
@@ -241,39 +541,72 @@
 {"hash":"bda04ecc112c0d987ac5f6bf92ff45876c1250a30c754af39ebe35f3ab7fe6d1","instruction":"Create the product revenue summary in K3:L6 and calculate the revenue value in F10."}
 {"hash":"bda4e495c91548a6404b88288aa19f5251eda26f4b89c196e933b235d5059f67","instruction":"Enter Name in A1."}
 {"hash":"bdd13cc4a87623c6887ccffe160524b94304798b373db0c8166f50543e9949a5","instruction":"Calculate the remaining totals in F5:F6 and B7:C7."}
+{"hash":"be09028ee3fcf679aa982d6ba806116942c8b60e8f64f981bac48c56d2e562c5","instruction":"Enter 1000, 1001, 1002, and 1003 in B3 through B6."}
+{"hash":"be86b5b81c404a48a17706d6f33ee6418af2543c6f60d47207348f98b9ee43b4","instruction":"Calculate the final prices in F4 and the average final price in F5, and create the product label in G3 by concatenating the Product ID with an underscore and the integer part of the final price."}
+{"hash":"beb6baf726ec7a5bb9dbd4a77ffcfcc98e15bbed5df03f63c9a58040b11394d4","instruction":"Create the Civil Status summary table in D5:E7 with Civil Status and Proportion headers, and calculate the remaining civil status proportions in D6:E7."}
 {"hash":"bf204a5f59465ce264ae3bf2f2897f592686c72a434b21402a511c269ed52822","instruction":"Calculate the revenue values in F3:F4 using Unit Price × Quantity × (1 - Discount Rate)."}
+{"hash":"bf6f129a3160b80e2135035bb308590c2d3166168729518ea7c6ec9cad25d98b","instruction":"Split the date in B4 into year, month, and day and fill the results in C4, D4, and E4."}
 {"hash":"bf7f4980ddcd70ec1012b73d6f4e64582dd3fe9221205c79aa283a8cc0a9968b","instruction":"Normalize the phone number in B3 into the ###-###-#### format."}
 {"hash":"bf96d8b181fdbc6dec333cbade85194cea3c26e8d93ceab436e06aab201cbc3e","instruction":"Calculate the correct manager names in D5:D9 using the department lookup table in F:G."}
+{"hash":"bfb926e2369826799ead5fd78e5b50760da9b1d8cfea82b768be526e451514d4","instruction":"Format B3 and B4 as currency with exactly two decimal places."}
+{"hash":"bfbf25bc86f273a80f770e0fc1112670c27087e0771419241082d1078d2ae146","instruction":"Calculate the final price in F4."}
+{"hash":"c0a42b9953f8ae6f66f05c14b9bac29844dac823ec86a0a7bc1f177e1d7d9797","instruction":"Enter 1002 in B5."}
+{"hash":"c0b01a66499eaf69e55ebccc1cf46cf1a2d460ce9faed53c5b721e48396c72ab","instruction":"Fill the remaining Sunday date cells in the March through May 2026 table with a red background: C4, B6, A9, B13, and A16."}
 {"hash":"c0f034d87d44a46d801196ed503ad3f0a520c380b9ebb638cad2baf24c8a0f47","instruction":"Calculate the revenue summary in K3:L5 and complete the revenue calculations in F9 and F10."}
+{"hash":"c2538b958359ed5dfead07c84027651b76a5b2d9a7f1a64f92502fdb00ae5f67","instruction":"Extract the day component into E3."}
+{"hash":"c26170e7e83b3f06ffd5d2321d829619cdfcdae780352242fa3b43c472ebac91","instruction":"Enter Maturity Date in C1."}
+{"hash":"c29ae7bdc7915f496e6eb7582b7624637083e5dad6e3e367b8f59aa589769efa","instruction":"Format B3 and B4 as currency with two decimal places."}
 {"hash":"c2dddafd83d29979ce6737cfd323e24ed1d8528e30b00928f2fdeb4cb866a2bf","instruction":"Fill the Manager Name cells in D3:D6 by looking up each employee’s department in the table in F:G."}
+{"hash":"c2e257cc892c2e64c48c0cea0209854aee85815585a89782dd635ebec1236249","instruction":"Calculate the profit margin in E6 and E7 by dividing Gross Profit (USD) by Sales (USD)."}
 {"hash":"c3652a0c769d7bb3e354c6bff3e891c6081bb3e460d55057d6a425564b4b9b08","instruction":"Calculate the correct total rental charge in D5:D7."}
 {"hash":"c4207d938c7045cf92cf5b3f378fca2b85c9e403adc3acb3a967cb6a46647e31","instruction":"Format B4:B5 as currency with two decimal places."}
 {"hash":"c42e3442ebfd6c9f4a7ecccc1b9bd496668910b79db41cb220ab83adb53dd642","instruction":"Calculate the correct annual total in F5."}
 {"hash":"c482f8b2b0bbc0869dddb50168958b332f3f9002f2e2444fdb61bfca1558bcb1","instruction":"Calculate the correct Manager Name values in D6:D9 using the department lookup table in F:G."}
+{"hash":"c492514edbf26929840d5d96ae19f5d137a2ea4aa8a4a6b5d649b9a3023aada7","instruction":"Calculate the profit margin in E2:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"c4d4b29b7e4499f01de42be646d1af6bd301db9a1c1c496471025199bf4a14a9","instruction":"Split the dates in column B into Year and Month in C3:D3, leaving column B unchanged."}
 {"hash":"c5a79a406c94cc77f4d62516c0dc3aa1933fee96288c89d9295be6a8d3fcda59","instruction":"Calculate the Other Investment change rate in I6."}
+{"hash":"c6acd387fdf0e587a7af31947aae71d46fb4c10aabc109c7ce539350ca0ae168","instruction":"Split the dates in B3:B4 into Year, Month, and Day in C3:E4, keeping column B unchanged."}
+{"hash":"c6f7217c8ed9a0dcbc6d28c05d266140a13c068d1b77cc6db2855c61558ef3af","instruction":"Fill A2 and A9 with a red background."}
 {"hash":"c706ff74000d90091ac6f0677be39388f25a2fa981ce615353bf5ae4378eb435","instruction":"Calculate the revenue values in F5:F10 and the product revenue summary in K3:L3."}
 {"hash":"c8428e32d928b0c572ddc2a6c1e770c10851834521891d810a0b98422bdc0b3f","instruction":"Calculate the quarterly total in B7."}
 {"hash":"c856d05dafc63bfd619440b9014d10c3437b8d401f3b3361b588fa409f5bca3d","instruction":"Calculate the revenue in F3:F6 using Unit Price × Quantity × (1 - Discount Rate)."}
+{"hash":"c8d4ec7fee8cfc9f81ca028cbb640b9b80d2d9979e8b47c3c8f4ede3a6ab10ec","instruction":"Convert the values in A3:A7 to Thousands (K) in B3:B7 and Millions (M) in C3:C7, using one decimal place, half-up rounding, and a space before the unit, then calculate the derived results in E3 and E4 using the converted K values and format them with one decimal place and the K unit."}
 {"hash":"c8f19c229f7489ea3f50166e987ac33618b56201ecd07b68d066ff53ecb7aa56","instruction":"Calculate the revenue values in F4:F10 and the total revenue summary in K3:L6."}
 {"hash":"c93c8fd3bdb1f4cf1ba0a6669bf00989d5e244b60e986baefb328ed815070cf7","instruction":"Format B4 as currency with two decimal places."}
+{"hash":"c946698e98e48f798b1dd6d80d43219425a01d98cef989b2a82f9a35264baab6","instruction":"Convert the values in A4:A6 into Thousands (K) in B4:B6 and Millions (M) in C4:C6, using one decimal place, half-up rounding, and a space before the unit."}
+{"hash":"c951510c7fa6c5f3ea91ac3ee9bcea718137def0043a7856e0c4b182be11cdef","instruction":"Split the dates in B3:B4 into Year, Month, and Day in C3:E4, keeping column B unchanged."}
+{"hash":"c95b5deb7357c7922901aa0475497270a12b3775b1ad1f6c76007c5d5c78a5e1","instruction":"Calculate the Thousands (K) and Millions (M) values for A5 in B5 and C5."}
 {"hash":"c9a0a7d6ef3d45badffc66370a66805fb8ac4f26c62b4962fe9ec77275874c70","instruction":"Calculate the annual change rates in G4:I6 for Cash Reserve, Equipment Value, and Other Investment."}
 {"hash":"c9a2109fd843550b959551b009fa9e5e18327dcb484514f10cba86252587c39f","instruction":"Round the values from column B into column C for C4:C5, and display each result with exactly two decimal places."}
+{"hash":"ca621595e7f29b9dde35d9e587921ab1785dc534395d312105cc2addb1c30345","instruction":"Enter 12,5 in B2 and 7,25 in B3."}
+{"hash":"ca6adce439227f5383d69e147ff103d88bbeed870e75d754d476a3f4e87eec9d","instruction":"Calculate the final prices in F3:F4, enter Average in B5, and create the product labels in G3:G4 by combining the Product ID with an underscore and the integer part of each final price."}
+{"hash":"cace3f2e8675dd2691dd89745a025a78cd6451230b9bba5cf038e42dbbdd15d8","instruction":"Enter Fail in F12."}
 {"hash":"caed886f9089721f39471312e977fb8cdf66f091a21d1ba60071a3a6fe5133a7","instruction":"Calculate the correct manager name in D4 using the department lookup table in F:G."}
 {"hash":"cb0e5ea5dc5038e63e879236935ed734bf345294b75896ea273654e81184675e","instruction":"Enter Name in A1, Score in B1, Alice in A2, and Brian in A3."}
 {"hash":"cba4a8bed34fc73cc98fed997070ee609d81be9d545c77e7cdde9a2272488621","instruction":"Calculate the correct total in F5, F6, B7:F7."}
+{"hash":"cbb813e35bfe65f3c36991d0cafaf6234797786d9dcf9c9dbc52a3485ccb0be4","instruction":"Enter Held in F8:F10."}
 {"hash":"cc8e35ec84d59574f2ddff12224ce7027bac1e2459dc36d4faba701de64fe122","instruction":"Pad the Raw Tag numbers with leading zeros to make six-digit asset tags in D3:D6."}
 {"hash":"cd142d0072d217329a1d2f8ce1314fc10622e004341a722901ef0cff5778c5f6","instruction":"Enter 85 in B2 and Chloe in A4."}
 {"hash":"cd4e19df5c512fabc54cc0a1160b1a857f660fd561b1adea6cc7bfca13599524","instruction":"Enter Name in A1 and Score in B1."}
+{"hash":"cd62a88eee55be75d31f996933293f7fbffd4400ffc17ef2a2c8fd9f9a69d99b","instruction":"Calculate the profit margin in E4:E9 by dividing Gross Profit (USD) by Sales (USD) for each corresponding week."}
 {"hash":"cf09718185cfb449842e0db016e5e02210ab15d983509b93500937503179a78f","instruction":"Calculate the Tax Amount and Final Amount in D3:E4."}
 {"hash":"cf9a612fd73d47df927d10e3259911043c8a4e7965ed8a5d421ee302eca58154","instruction":"Calculate the correct manager names in D6:D8 לפי each employee’s department using the lookup table in F:G."}
+{"hash":"cfcbff65d4ecac0c1d2a4e5d7da191aa59baf8e161435cc642bc03c4671b7e09","instruction":"Enter Fail or Held in F4:F11 as indicated by the investment score rules."}
 {"hash":"d0b482cf5185b6c45834d39a08c7709bd158b34c12c4dcce2059993ef262a017","instruction":"Calculate the revenue values in F5:F10."}
 {"hash":"d1321ae17a37b6b8eedd1bf21f42cd84306c13ad21fed394a18468f01842ea36","instruction":"Calculate the remaining receipt code counts in F4:G5."}
+{"hash":"d19fa8c90c1bbadadd4fd642806d081bd0fcdcd9d5894e34ad18485e742b6c78","instruction":"Calculate the profit margin in E2:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"d1e9e70000326d113a22bfaab4f62e5243ea124b203ae0e08f779a36bc75e033","instruction":"Format B3 with currency number format using two decimal places."}
 {"hash":"d28bef63374a5232c8d3fcf079186d17e609ded2f38fe15b7cb85c118417b6d9","instruction":"Calculate the correct manager name in D7."}
 {"hash":"d2e214637a467c1d8a9df9112d71efa243577977f874da5de9563395902e4fbe","instruction":"Calculate the correct total rental charge in D4."}
+{"hash":"d3035d7429ca8a381b4daf65695b10d9eed1f98b4c2857bd94e8f9eadbf8bb1c","instruction":"Enter Held in F11."}
 {"hash":"d31bea8b39d1ea1fffe78a94bca474b67f5e5fb45ee76bbd05ab3b2b922a8761","instruction":"Calculate the correct totals in C7:E7."}
+{"hash":"d320c94f9fc8cca7900f07828162fa8dee405d087b5a4af821b18091d354fbef","instruction":"Enter Fail in F3, F4, and F6; enter Held in F5 and F7:F11."}
 {"hash":"d33eecd4984cd2ff98bee9dea8ad75cd9b3ee1726692ad55e253827299d35bb4","instruction":"Calculate the revenue values in F4:F8."}
 {"hash":"d3554461e6f729eb7916a280946a807bd1d401690fd56cb87f8ccf5c9a607ab4","instruction":"Calculate the total revenue for the remaining product summary row in K4 and L4."}
 {"hash":"d36345d03639fd8d2e7b4712ecef35d59ec0d29e5f4f2e6b4467708674c0084b","instruction":"Calculate the annual totals in F3:F6."}
+{"hash":"d3958a8ea2aabfb4deb0ac0f5fbee2fb8d233f4ce4f545e00a679cb0f7900f40","instruction":"Round the value in B5 to two decimal places and place the result in C5, displayed with exactly two decimal digits."}
+{"hash":"d3c261020e1ccd7181ab5afd3dd839b1b08f878b2807bc861f9bf3690f16c56c","instruction":"Calculate the final price in F3."}
+{"hash":"d43d386316c132961753c677e58aaeb6e17c40aee26fde4fd17e3fe39b8e0a6e","instruction":"Calculate the final prices in F3 and F4, and enter PROD-101_112 in G3."}
 {"hash":"d448f1be1151fd8135006100c4458b8f288bfdca503dadc246806cf4fc357406","instruction":"Calculate the correct total in F6, and calculate the quarterly totals in B7 and C7."}
 {"hash":"d4a84bee1238911dc5632bbd33009b311bdd669847a088299207e6b173a838c5","instruction":"Normalize the raw tags into 6-digit asset tags in D8."}
 {"hash":"d4b7d52b5ca21ec73cf287b74c3778e1f1c9b439db659901c01249a07ea72fa5","instruction":"Calculate the annual change rates for Cash Reserve, Equipment Value, and Other Investment in G3:I6."}
@@ -284,71 +617,148 @@
 {"hash":"d71377417d9e42416e3b8b812c9a0238b16fbb1f66736e1458fdb5110f8c5e6e","instruction":"Calculate the correct total rental charge in D6."}
 {"hash":"d714c366ebb591397deb64a4568b070548b1099a98952208c9119f1ffb368a17","instruction":"Enter Score in B1 and Alice and Brian in A2 and A3."}
 {"hash":"d76c2f5bc4fd5a1ed25487132286a4db824b1f3783d874ff7c32b89430555263","instruction":"Calculate the total revenue for each sales channel in K3:L4 and the remaining product summary values in H5:I6."}
+{"hash":"d79b176a26af76890b10c9a2602d38a8b4cadc4fef8a58c3d7fe6200306ad581","instruction":"Enter Fail in F3, F4, and F6; Held in F5, F7, and F8."}
+{"hash":"d7ceab925841889757b45ff0d0eb5e56d869b0df46a12198756a2ab506038419","instruction":"Format B5 as currency with two decimal places."}
 {"hash":"d7ff64c4c55a7895c15444a8e4d0657f275651623cf1fd830d1146ff6e8a27f1","instruction":"Round the value in B4 to two decimal places and put the result in C4, displayed with exactly two decimal digits."}
 {"hash":"d81fffda2a5cc0f6a7567db4c260a1ee7004049b6d305e2e0dd1383cd615ce22","instruction":"Calculate the correct line total in D5."}
-{"hash":"d846d8f90e196633fae4659418fa8ff4983db3719693a8452f9c1588b0050762","instruction":"Calculate the annual change rate for Equipment Value in H3."}
+{"hash":"d846d8f90e196633fae4659418fa8ff4983db3719693a8452f9c1588b0050762","instruction":"Calculate each annual change from 2020 to 2021 in row 3."}
+{"hash":"d8d396a363a0b5b5f9973fa79afe16d095a28dbfdfe35579e579fd972103b97f","instruction":"Fill B6, A9, and A16 with a red background."}
 {"hash":"d91aa7b74a811bbcc659d13c1b5df17ce54df1016c7ec3b83c2769644f37da76","instruction":"Calculate the annual totals in F5:F6 and the quarterly totals in B7:E7."}
 {"hash":"d93bb4bd616bf7c84891d2203d21ef8c778211dee76689088240fb6779a81b8a","instruction":"Calculate the total revenue for each product in K3:L6."}
+{"hash":"d969731c002b5dcfd553a66943a016b10b502a16dcaf32efd392fc719b6dcfca","instruction":"Calculate the profit margin in E3:E10 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"d9ff9a0b5076a41f5fb132c3804fe8bfce6fe301d36a6c8d05941182a04d33d3","instruction":"Add a new column named \"profit margin\" right next to the 'Gross Profit (USD)' column and calculate the profit margin for each week by dividing \"Gross Profit (USD)\" by \"Sales (USD)\" in that column."}
+{"hash":"da34d9fdbe88b4aaaebaa0bc63e8d1b026221c63e2f26d705ea75ac37cb23bc0","instruction":"Enter Normal in D3"}
 {"hash":"da3c9d6ace926fa7a4454978d1c096f24b7665ee71f5cb10228d5d3cdd6ac16b","instruction":"Calculate the line totals in D3 and D4 by multiplying Quantity by Unit Price."}
 {"hash":"da4e6fe8f3b7fe55a5b58b09a2cccbf91384fb97655691f7f201d962456c8338","instruction":"Calculate the correct line totals in D3:D5."}
+{"hash":"da55ed55ec101fec82657741a92190f42d8d6e4c12447e3f5dbc4140e8dca4be","instruction":"Calculate the profit margin in E10."}
 {"hash":"da962c95752614a8f5c7e045b7daf0664243efb36f368276fbecdbf02d1d947b","instruction":"Calculate the total of the \"Service Revenue\" column and the total of the \"Operating Expenses\" column. Put the labels \"Total Service Revenue\" and \"Total Operating Expenses\" in cells F3 and F4, and put the corresponding totals in cells G3 and G4."}
+{"hash":"daab5b4476743e80a9cf0eec7f877cd30f15a6a99613da00bca1a28d43db83ee","instruction":"Calculate the converted values for A7 in B7 and C7, using Thousands (K) in B7 and Millions (M) in C7 with one decimal place, half-up rounding, and a space between the number and unit."}
 {"hash":"daaf9d0f6370cf28c476692fac6cb5e6bd7c5ece2c5047af1ded13bc5f069f80","instruction":"Calculate the total revenue for each sales channel in K3:L5 and the remaining product total in H6:I6."}
+{"hash":"daf6338230c226000502e9166b86d4a9ff274e9334026b5eab491804923425ba","instruction":"Enter Marketing in D5 and Sales in D6"}
+{"hash":"db02b0971a1e52485c3e05fe118b5aeee60a533941a3a1e2321b29c50c931b67","instruction":"Enter Normal in D3 and Overweight in D4."}
+{"hash":"db9a2b54bd01433d30fc456fdd438674d90a2f33f2917461273b9c57667ce908","instruction":"Enter Overweight in D4."}
 {"hash":"dba13fb43ca057a075f59b4d9b52248fb151654c03491142f6184b8964c8d9c0","instruction":"Make the Marker and Eraser row yellow in A3:C3."}
+{"hash":"dbbc8b3ecbf90cf0f14bbcc760e7cb399cc6c3d6d03ac53ff2373ab9b1c5f03d","instruction":"Convert the values in A3:A7 to Thousands (K) in B3:B7 and Millions (M) in C3:C7, using one decimal place, half-up rounding, and a space before the unit, then calculate E3 as B3+B4 and E4 as B5-B6 using the converted values, shown in K with one decimal place."}
 {"hash":"dc2a53d02f16cedb7577942bd5f29eb22ed4943ae6d6a635d182b8d86629a8ff","instruction":"Calculate the total revenue for the product summary in H3:I3."}
 {"hash":"dc50f23f0b1b55a6e846937da34c0ab0c25f9a752b325e9a1e69c420875798ac","instruction":"Modify the expense table. Format the Amount column values as \"currency\" with exactly two decimal places. Use the formatting feature."}
 {"hash":"dc7c4b0656a296a4d920e835908202f368af8adbd97b96753a8a35f0186fc290","instruction":"Enter Score in B1 and Alice in A2."}
+{"hash":"dcb5dcd0912084ebab4ad6a4572a7211460a643514ab5ff17cdeec438cb8f872","instruction":"Apply a red background to the Sunday date cells A2, B6, A9, B13, and A16."}
 {"hash":"dcbe4f0fb0a14f88695ef0e0b88599cc79de03e4862cda227259b5174549a7de","instruction":"Calculate the remaining total revenue values in H4 and I4."}
+{"hash":"dd700e0627b7fcc939aaf9e5c8899a23b7a9df1534da384f6179f5b6a19790e3","instruction":"Enter 1000, 1001, and 1002 in B3 through B5."}
 {"hash":"ddaa457c6b45331c828760d1d0496695361f6b64c770a801d7f41452a277a8bd","instruction":"Enter Name in A1 and Score in B1, then enter Alice, Brian, and Chloe in A2:A4 and 85, 92, and 78 in B2:B4."}
 {"hash":"ddafc19c29fa3759a4cf3bf541f6d141c165328e971533b48885dd2bb48fd9d2","instruction":"Calculate the revenue values in F4:F10 and the total revenue summary in K3:L5."}
+{"hash":"ddcd349c82a35147f0dd00c65d8aa1710188f1b43085233e9d7725c2a7ce5bbf","instruction":"Calculate the profit margin in E5:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
 {"hash":"ddfe2d09966ab98cdafc20ba4ae96cee5c74372100c5de869a95cd019a4166e0","instruction":"Extract the last names into D2:D5."}
+{"hash":"de1b1669424d50fd1c29dd28b5e799ae0da1886fc25e407269d3a7c823649047","instruction":"Split the dates in B3:B4 into year, month, and day in C3:E4, keeping column B unchanged."}
+{"hash":"dedd749fa0b64ab7bfa9fe88feee7568e8c23daabde6df16c5ac582d794bde84","instruction":"Enter HR in D3 and Engineering in D4"}
+{"hash":"dee5ac0c4061918fd8edc373d0f1b2e1b35872d7142630a59f921fac33af1732","instruction":"Enter Held in F7:F11 and Fail in F12."}
+{"hash":"df3c5a26d914d65b95985523c64c9c15ea3538f9615c777374dd9bb94d0bf538","instruction":"Calculate the profit margin in E4:E10 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"df46db44db9df64977c81119052e05cb0a4386245900aca445b888ff6e74091e","instruction":"Calculate the profit margin in E10 and E11."}
 {"hash":"e00d5e87b28b862297c3280a59518e753f0efbe9251d7ef69689b6b460ec76ea","instruction":"In the current sheet, use the product price table to calculate the revenue for each order. Revenue should be calculated as Unit Price × Quantity × (1 - Discount Rate). Put the revenue values in column F with the header \"Revenue\" in F2. Then create a product revenue summary in cells K2:L6, with product names in column K and the total revenue for each product in column L."}
 {"hash":"e0300dee8609cb72d88ac9f6fa61811c5a7c897f456791e0419764eca9fd51a2","instruction":"Enter Total Operating Expenses in F4 and calculate the total of the Operating Expenses column in G4."}
+{"hash":"e034f6a485a07e80bbd89643a519596f361e777eb73a42a70586c2f51ada4d6a","instruction":"We have raw sales records under columns B and C starting from row 3. In the summary table under columns E and F, calculate the total sales for each month ('Jan' and 'Feb') by summing up the sales from column C. Do not modify the raw data in columns B and C."}
 {"hash":"e0555e8bce1788902982414b4a8f52e3904c51b589b42bb0dc0d0ca66460fb4f","instruction":"Count the unique receipt codes in B3:B14 and fill the summary table in F3:G5 with the codes in ascending order and their times appeared."}
+{"hash":"e063f972cccc4ac3c25423509879c117d2bb5f02186c33106f6a0822d1277dd9","instruction":"We have an employee directory with names in column A and their departments in column B starting from row 3. In column D, list all the unique departments present in this list in the order of their first appearance. Keep all other cells and columns unchanged."}
 {"hash":"e0a0512867fe6ec1a33304446e9191b4d063539b2488bc48899dc76ea8cc2b93","instruction":"Calculate the correct manager name in D3 based on the department lookup table in F:G."}
+{"hash":"e0a5ad70ce0bcaaf6cff2db33351582b5c7671d662599d2876763f0c2e8faf8f","instruction":"No action needed."}
 {"hash":"e2094893e79cb654760135de93e36b3cbda6ce8ae5face7e59f5640989db1fe8","instruction":"Calculate the total revenue by sales channel in K3:L4."}
+{"hash":"e2471cccf60946ec47abc3f24fdc3ef68aedfb396ba442299c5ceda5dd2daa90","instruction":"Calculate the profit margin in E2:E11 by dividing Gross Profit (USD) by Sales (USD)."}
+{"hash":"e247c57dfdc32fe407c35c4ff52640099a4f8420fb04033e595abc737bb8f6f2","instruction":"Enter Held in F8."}
 {"hash":"e2863a041a67fdc41396f2e26dfb1bcc17cc3081ad3ec634138030a7ac328265","instruction":"Enter Alice in A2."}
 {"hash":"e2a11d9f8298889db4f00bda069d60de5465611ef544a61c954812c3ab50c84d","instruction":"Format B3:B5 as currency with exactly two decimal places."}
+{"hash":"e31b62409613c35b4391af1b9499f148f318590eb4ff2db75b2889a130773b4b","instruction":"Calculate the profit margin in E7:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"e33809df18f35c007960a217c5e8d25267bf8d1df897b6325c74f76f37f56da9","instruction":"Fill the Sunday date cells A2, C4, B6, A9, B13, and A16 with a red background."}
+{"hash":"e338a5b0ec82237d77ec7c487478ece7cad620a38a5772f5cd2c68949a0589b7","instruction":"Enter profit margin in E1 and calculate the profit margin for each week in E2:E11 by dividing Gross Profit (USD) by Sales (USD)."}
+{"hash":"e3530fa63d9c610e4db38765bb1138e37618e42465fc5be50c8b15b347cc9faf","instruction":"Add the “profit margin” header in E1 and calculate profit margin for each week in E2:E11 by dividing Gross Profit (USD) by Sales (USD)."}
 {"hash":"e380edc81e19a98b5a8ae13cb6fe4f6e09c178fbd49580a7d3cfb02de68f8e65","instruction":"Calculate the correct quarterly total values in D7 and E7."}
+{"hash":"e463129f8065b1f5bffef744e8e4176d5672de5e421f64c42b6003e5c747b7a9","instruction":"Enter 1001 in B4 and 1002 in B5."}
 {"hash":"e4ac6bf106bc96a7fad3c22ab0705985c16b0b37f5e15a414ff71dd5ea8847e9","instruction":"Calculate the correct annual total in F6 and the quarterly total for the grand total row in B7."}
 {"hash":"e4bc53df4dadba5f6dc24f30c14f884251bd124909ae234e38c39de0ce97dbd5","instruction":"Create a name table in Sheet1. Split each full name into three new columns: column B with the header \"First Name\", column C with the header \"Middle Initial\", and column D with the header \"Last Name\"."}
+{"hash":"e4fbad5fd0459af1ca7094a9acfe2d32669f10ad863a957cfb68de32ae780887","instruction":"Calculate the profit margin in E3."}
 {"hash":"e4fdbe582c47d035040fbb15c8e4e37e8518d1981b0067d8bb929dffc7ed663a","instruction":"Calculate the receipt code summary in F3:G7."}
 {"hash":"e52e265f9f0b04a6969acc6cac2f50059ccf0f1afb9053eda9524317d04da44c","instruction":"Format B2:B3 with the yyyy-MM-dd number format."}
+{"hash":"e58eb1d86378cfb8b85ecbd24ebfc602289734be551d97a13fb90517c9606321","instruction":"Calculate the profit margin in E2:E8 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"e676fab7b517e1d5f056d16991951327cf800ccc0620a178aca0294b9273fc3c","instruction":"I need to set the decimal separator as a comma (,) for localized data representation and clarity in visualization. Please update all numbers in the sheet while keeping the decimal values unchanged."}
 {"hash":"e712ab07c91f3a8cffd5e565338e1a6c6859aa3d1c73c12f63858cfc06f6974d","instruction":"Calculate the correct manager names in D9:D10."}
+{"hash":"e717aa1e36582d1241bfc4ce084bef4aa8ef705412032e811b19d2ab7889f63a","instruction":"Convert the values from A4 and A5 into Thousands (K) in B4:B5 and Millions (M) in C4:C5, using one decimal place, half-up rounding, and a space before the unit."}
 {"hash":"e82a7af1f69d7d793fb0e287d5e4caff2175824f894613651764c7983d4ad309","instruction":"Calculate the correct Manager Name values in D6 and D7 based on each employee’s department using the lookup table in F:G."}
 {"hash":"e87da66d53eadf54c3cbfa44f937acfb2df16503dddd0478de67292f8c50c09a","instruction":"Enter 85 in B2, 92 in B3, and Chloe in A4."}
+{"hash":"e8b07a9d54354e29ee87a45cdcb731da819be85b12d8fd9b96cc54ce9588d4f3","instruction":"Calculate the profit margin in E9 and E10."}
+{"hash":"e8cdcb9a5b4d367ecf495a4ce8d1deabd5e930ea8736df0aadc2d2508f20891c","instruction":"Calculate the profit margin in E7."}
 {"hash":"e9ba8637ffb792591004da6ead64f617af93498fae5f895f49aad222731f6f88","instruction":"Calculate the total revenue for each product in K3:L6."}
 {"hash":"e9d1203f15ad3b1a870ba6dd020ad14488a7fd0bb6120400fd8d8191a995f380","instruction":"Enter Score in B1 and Alice, Brian, and Chloe in A2 through A4."}
 {"hash":"e9e6e85c88cc57e3ba0f0c638408a2cb39b97db8814e64714089af739214deeb","instruction":"Calculate the remaining revenue values in F5:F10 and the product revenue summary in K3:L4."}
+{"hash":"ea312759fcc8e58c9f21da062f10ceda30fc62b88ffc8b4d891b40f09291f263","instruction":"Calculate the profit margin in E7:E11."}
 {"hash":"ea70a61adb40afa8267177397cc3b8f3e34b3f807d77988d0a08be62701b87da","instruction":"Calculate the revenue in F7."}
+{"hash":"ea93df067c73e9726c900d2a81c7111cfb6df40de5eeb3aa5156ed22bae98ef0","instruction":"Calculate the profit margin in E5:E8 by dividing Gross Profit (USD) by Sales (USD) for each corresponding week."}
 {"hash":"eaaba1274316894735b8e2d40b113544bf2261a88a965dd009e80938ee2a3a22","instruction":"Enter 85 in B2, Brian in A3, 92 in B3, and Chloe in A4."}
 {"hash":"eae3b272075be89f9f26294fccec3ec0e3fd20e41c57c173b872e11c40b2a6d0","instruction":"Calculate the correct manager names in D4 and D5 using the department lookup table in F:G."}
+{"hash":"eaff65611056603e5641637e2566de73cc5773e61a53254fd59e50098d73f4e4","instruction":"Calculate the profit margin in E6:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
 {"hash":"eb154cdba2b2ba20d63eb1fdfe10d78151e344aa096925454a26b0319140a78e","instruction":"Calculate the revenue values in F7:F9."}
+{"hash":"eba14e1a02f2abd0482341a8637ad2cda3e846cabae4bc2599a0ba3781bf256f","instruction":"Enter Fail in F3, F4, and F6, and Held in F5, F7, F8, and F9."}
 {"hash":"eca46f3baf47e75450b8697b83a5f7c78e32dd4a131504a100eae3697018c5d1","instruction":"Calculate the correct total revenue values in H5:I6."}
 {"hash":"ed931b1d1999eeb5773027c91af5e3ec646efe91970d7b90caaedb5e5e551786","instruction":"Enter Score in B1, Alice in A2, 85 in B2, Brian in A3, and Chloe in A4."}
 {"hash":"edef1d55ea7c34d9abc1330bdd3a57ae26aaa83b7065d7f0d38850c8a9935bca","instruction":"Calculate the revenue in F3:F10 and create the product revenue summary in K3:L6."}
+{"hash":"ee21cc2d259def2740811b645888aeccb79a3eba347b678f06dcc23620a409ba","instruction":"Split the date in B4 into Year, Month, and Day and fill C4, D4, and E4 accordingly."}
+{"hash":"eeb74319333878b3d2ad73c914959af34855686e037c875d4c42ce047affa4b9","instruction":"Calculate the profit margin in E8:E9 by dividing Gross Profit (USD) by Sales (USD)."}
 {"hash":"efb59f5de29b15725e6ecea5af47894acad9b13a5741da728504dde044505727","instruction":"Calculate the revenue values in F3:F10 and the product revenue summary in K3:L6."}
+{"hash":"f01937d7393d43c1de7832073fb624fe286ff9abab4931b34d2677eb2a698c5b","instruction":"Split the dates in B3:B4 into Year, Month, and Day in C3:E4, keeping column B untouched."}
+{"hash":"f055b83cce2884243ab6428faf1ed337d0266d501af55a5bd4774c0c063ce23d","instruction":"Enter profit margin in E1 and calculate the profit margin for each week in E2:E9 by dividing Gross Profit (USD) by Sales (USD)."}
 {"hash":"f093a4fe75633ee602d10147b21179a915f27e4545bd0d876966a9a4a5c952b1","instruction":"Calculate the manager names in D4:D7 using the department lookup table in F:G."}
 {"hash":"f0c448240c208a65c3883df3ac7be0a14c641d1c623df1c006697cc497576817","instruction":"Normalize the raw tags in D5 so the asset tag has exactly six digits."}
+{"hash":"f113cf953a3ef0b0e73bb5fbd5212378d1f67caabe65082f8407501366fb7bee","instruction":"Convert the values in A5 and A6 into Thousands (K) in B5:B6 and Millions (M) in C5:C6, using one decimal place, half-up rounding, and a space between the number and the unit."}
+{"hash":"f116584954ccc91b42d72d1d52b3e1bcc83c58a357211b88b5f6341322436cce","instruction":"Enter Marketing in D5"}
 {"hash":"f15117261bd1f200667adf067c59ba9ed818756e0aac15f4aed3a12ce061681f","instruction":"Enter Alice in A2 and Brian in A3."}
 {"hash":"f1687b6b74d954a0b6f72848f005f8995a7c05aee13eb2312faec8b0a7942c14","instruction":"Calculate the receipt code counts in F3:G7, listing the unique receipt codes in ascending order in column F and their corresponding times appeared in column G."}
 {"hash":"f21aed30bc101f7f96e659a4a62b348c7d0f089fcb406e1212ce0acff5225bf0","instruction":"Calculate the revenue in F8."}
+{"hash":"f2c914521f978c810c8640342bff77273968b765da45107daadad64912e3b0f0","instruction":"Enter Held in F5, Fail in F6, and Held in F7."}
+{"hash":"f2cdb9cc25dc90e2061a3ff797fc1af519b695db7594a072027b4b1b376723dd","instruction":"Split the dates in B3:B4 into Year, Month, and Day in C3:E4, keeping column B unchanged."}
 {"hash":"f2d6b08ea780e7d47f016a057abd590d2d3b1bd7f9086a5b334948452499a50d","instruction":"Calculate the correct totals in F6, B7:E7, and the bottom-right grand total cell."}
+{"hash":"f392b1635317e827b40659700c63dcbdd4b0fd251d45867b20de1d37b2dc4406","instruction":"Transpose the table in A2:C4 and paste the transposed result starting at E2. The top-left cell of the pasted table must be E2."}
+{"hash":"f3c3c58f9a7141836719178d1c92354bcddeaf990112b8dd04b32d59e14d3df0","instruction":"Calculate the rounded fixed-decimal values in C5:C6 and format them to display exactly two decimal places."}
 {"hash":"f3e946666c9aed1907e834ae55cb8dd774841f3be263bbb7c1cda50b3e9dc622","instruction":"Calculate the correct manager names in D3:D5 using the department lookup table in F:G."}
+{"hash":"f3f6bccf5368273513061f71e7dd623b4f8bc7c9470c057427e33a562f46b4db","instruction":"Enter 1000 in B3 and 1001 in B4."}
+{"hash":"f40061a2f6e929f79fdd8f377330f824c925d38a4b84652e879cbedb445e7200","instruction":"Round the value in B3 and place the result in C3, displaying it with exactly two decimal places."}
 {"hash":"f4111e4859333a86123b9b975f265eb357b58f58e21247bc3fbe83f25ec32051","instruction":"Round the values in B5:B6 to two decimal places and place the results in C5:C6, with each result displayed using exactly two decimal digits."}
 {"hash":"f438006fbb3d36221167f81a408467ecfd838749958de3659a18d9990db72fad","instruction":"Calculate the total revenue for each sales channel in K3:L5 and for each product in H4:I6."}
 {"hash":"f480c9881caf145443073df86c8339449801887ab85b4bcd2e9dcb5373dc7a15","instruction":"Calculate the correct totals in F3:F6 and B7:E7."}
+{"hash":"f4a16ea17a386a90448349e3e7011c82f5fd3eb055685c53ce18d86bf63953d0","instruction":"Calculate the profit margin in E6:E9."}
+{"hash":"f4a2941f2367605640fc1c666281e0e1b1a7939bf6d57e1e5217088ec541f815","instruction":"Enter Fail, Held, Held, and Held in F6:F9."}
+{"hash":"f52f26aa530532bb4a9a0d97230eaf040d09aed572778156776ddb77d970f853","instruction":"Calculate the profit margin in E2:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"f5519b17596089da7dca596baa2c69ebf4e4241f4e05b7af139b7d7aa01bfe36","instruction":"Calculate the profit margin in E2:E9 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"f59818f0fec8d29f76fb43d7f42487fbc33321de44296a537133d9f215037bbf","instruction":"Enter Sales in D6"}
 {"hash":"f5b430eb90ba88770a08c70045191074b4c0e9af23be5dbca59dbb67afd15480","instruction":"Sort the given table by the Date column in ascending order."}
+{"hash":"f5cfeeb43ecb22a6bde4b0222ea288dfac86dace9ef3cab341c1f5bb355b47f9","instruction":"Calculate the converted values for A6 in B6 and C6 using Thousands (K) and Millions (M), rounded to one decimal place with half-up rounding and a space before the unit."}
+{"hash":"f5d18f235079b191a1bd8c4d3f22d724d58907febcb4da92adc11e9b8d2647c4","instruction":"Format B2:B3 as currency with two decimal places."}
 {"hash":"f60a1068e726b290bd946ab2c590cc25e01bca989b0eecd1b1c57bf3a6e5f292","instruction":"Some project delivery dates are not confirmed yet and are temporarily marked as \"TBD\". Please hide the rows that contain \"TBD\" in the Delivery Date column. Do not delete any cells or rows, and do not use a filter. Leave all other rows visible."}
 {"hash":"f656a892caa89759221e982f07076d1339aaa08d167c8a6f56c53e00f1a58ef9","instruction":"Calculate the quarterly totals in E7 and F7."}
+{"hash":"f677031ad0396f23d76773ebee592d0e018c845453d65261fbe4e51d0f887d0a","instruction":"Add a new column named \"profit margin\" right next to the 'Gross Profit (USD)' column and calculate the profit margin for each week by dividing \"Gross Profit (USD)\" by \"Sales (USD)\" in that column."}
+{"hash":"f679452e4afb212846cfec2e94d1c8424238f961c70aef53a34434f96b6abfa7","instruction":"Calculate the profit margin in E7:E9 by dividing Gross Profit (USD) by Sales (USD)."}
 {"hash":"f6b5538041c3faab32f76e914bb92d1b0f4df11ce0edc3a6efeff9a5c40b3232","instruction":"Calculate the revenue in F8:F10."}
 {"hash":"f747c53745db8e76e715f63ccea405e8837232f0df73e2e2aa0f370abb0e7492","instruction":"Calculate the total revenue for the remaining products in K5:L6."}
 {"hash":"f8060bec685de191c9cfb2e5e9014f9b9e15f5bfbcaa66314717a7b7130cdb3e","instruction":"Continue padding the Raw Tag values into 6-digit asset tags in D5:D7."}
+{"hash":"f828258945985e5a98765e82d38325589b18464cc2e4a65e6028a62ce8bad386","instruction":"Calculate the profit margin in E3:E8 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"f83b9ca2077a8e5f0b2f4838ba4aefe6165b98ed42ed51e2ad179737b1d53a96","instruction":"Calculate the profit margin values in E3:E11."}
+{"hash":"f8b96b2e767321e12ee08a41ca853d6e706b6a8ecaf804979603dd81afbccd0b","instruction":"Enter 1000 in B3."}
+{"hash":"f8c92ece40855ff9c18d01579ad919ede10a2ceea5e46a712aaabd4a6f70cfd9","instruction":"Calculate the correct civil status proportions in D6:E7."}
 {"hash":"f8e919d214bee2ff9f43f419f20913e6ebcc44aae2a93f12ea32747e7249bdbc","instruction":"Make B1 bold."}
+{"hash":"f93d385706a4a46dc8c9d3109c4dcf63c3ea33f0ae636750443116d3e7ed9622","instruction":"Fill C4 and B13 with a red background."}
 {"hash":"f952d1afd256254aab84f9c775de4c523fcc219ba45ed4e24e3085e557986556","instruction":"Format B3:B5 as yyyy-MM-dd."}
+{"hash":"f9654a7c6cf47dedff517e815bd34cb4cdc46f083bcddbf2d80728de95b7cc94","instruction":"Enter Engineering in D4"}
 {"hash":"f9be62e474a67a72be9c862e2f7e8375b9e5015e18c9afa897b13d05a47136d5","instruction":"Normalize the Raw Tag values into 6-digit asset tags in D7."}
 {"hash":"fa8888ab449b4697c0420cec60c3ed12b3e0081a2db85e1f9f0fc6091f54cfc5","instruction":"Make the first column and third column red about the given table"}
+{"hash":"faa83a9c97761a0fa1131d3ecb56b084f469e3117272a480ce1610938aa8f26d","instruction":"Calculate the profit margin in E10."}
+{"hash":"fbb92b7b36bd1e6ff75abc2a2db0e8224c5b516d1e690b1f9b77c42c8ca6408e","instruction":"Format B4 as currency with two decimal places."}
+{"hash":"fbe46210d83664072bc5a83d0a6f66bae0f9f3f91c331eca954cfefc52b7ad63","instruction":"Calculate the final price in F5 and the product label in G4."}
 {"hash":"fbfb4e33f38e7c4d69160ddd214bd0994801504d93dfa091d830db96c9c2376f","instruction":"Calculate the correct manager names in D5:D7 based on each employee’s department using the lookup table in columns F:G."}
 {"hash":"fc2034caf40c8d1117997123c8f60a2e33ce9b66b1a7bc3b449eb1067f08f0ae","instruction":"Apply conditional formatting to the Email column so duplicate email values are bolded."}
+{"hash":"fd37d3c424b6812c608e4faffac6f94c631a6418834c19b60927946ddf81d184","instruction":"Extend the formulas in B2 and D2 to B3 and D3."}
+{"hash":"fdc0b183caf3e9167138b042d4b89a4c5d50445dddba29cf790afecd1ee225bc","instruction":"Calculate the profit margin in E2:E4 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"fde59830cf92dcaad22e8afb795ea7386af179da3c65497521885b3c3bf0cc25","instruction":"We have a sales table where the columns are in the wrong order starting from column B. The current order is First Name, Order ID, Last Name, Date, Sales. Rearrange the columns so they read Date, First Name, Last Name, Order ID, Sales. Keep all data intact and leave everything else unchanged."}
+{"hash":"fdef472eeb315b842ad8e050b6234908721fe7d1fd7aeb8152242054d26092b0","instruction":"Calculate the profit margin in E2:E11 by dividing Gross Profit (USD) by Sales (USD)."}
+{"hash":"fe106b3b83195361af03b9ef63312d047892e1bcaab95f2e5864d1188177c3aa","instruction":"Calculate the profit margin in E4:E11 by dividing Gross Profit (USD) by Sales (USD) for each week."}
+{"hash":"fe3de266e5235d5b60720daee3eae56e20e27c2571e2055bfc9545c8c6e088f0","instruction":"Fill B13 with a red background."}
 {"hash":"fe444137715b8039ea1c2865e9918249b29a3d3541d9153affad4b16f07dc682","instruction":"Calculate the revenue in F3 using Unit Price × Quantity × (1 - Discount Rate)."}
 {"hash":"ff3b7c109119f3f8473a4c9f5a5930d5815c6a174a33a8a1e20395fa20534785","instruction":"Calculate the revenue in F3:F9 and create the product revenue summary in K3:L6."}
+{"hash":"ff5af3fbb83518132e66e1d1f6920c807e232003694d599de2f8ee880f3e0b2f","instruction":"Enter Held in F5, Fail in F6, and Held in F7:F11."}
 {"hash":"fff97682f584f39470625254138f01b1ae2357afdeba77aa7c8379239dcb829e","instruction":"Calculate the revenue in F4:F6."}

@@ -46,9 +46,9 @@
       { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E8", "property": ["cell", "v"], "value": "24600" }
     ],
     [
-      { "match": "exact", "applyf": "applyRowMeta", "evalf": "getRowMeta", "param": "D3", "property": ["row", "filtered"], "value": true },
-      { "match": "exact", "applyf": "applyRowMeta", "evalf": "getRowMeta", "param": "D5", "property": ["row", "filtered"], "value": true },
-      { "match": "exact", "applyf": "applyRowMeta", "evalf": "getRowMeta", "param": "D7", "property": ["row", "filtered"], "value": true }
+      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D3", "property": ["row", "filtered"], "value": true },
+      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D5", "property": ["row", "filtered"], "value": true },
+      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D7", "property": ["row", "filtered"], "value": true }
     ]
   ]
 }
