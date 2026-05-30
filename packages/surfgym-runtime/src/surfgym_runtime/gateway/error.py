@@ -26,7 +26,7 @@ class Unexpected(GatewayError):
         super().__init__("UNEXPECTED", message)
 
 
-class Upstream(GatewayError):
+class UpstreamError(GatewayError):
     def __init__(self, message: str) -> None:
         super().__init__("UPSTREAM", message)
 

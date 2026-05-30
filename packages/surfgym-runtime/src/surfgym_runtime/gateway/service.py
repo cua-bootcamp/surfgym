@@ -12,7 +12,7 @@ from surfgym_contracts.command import Command
 from surfgym_contracts.computer13 import TerminalAction
 from surfgym_contracts.protocol.agent_to_gateway import (
     ActionRequest,
-    Request,
+    AgentRequest,
     RewardRequest,
     StartRequest,
 )
@@ -52,7 +52,9 @@ class Service:
         self.process_timeout = wavepool_config.process_timeout
 
         self._session_lock = Lock()
-        self.session_states: dict[int, SessionState | None] = {}
+        self.session_states: dict[
+            int, SessionState | None
+        ] = {}  # None value is used for termination
 
         # release daemon
         self._release_queue: SimpleQueue[SessionState | None] = SimpleQueue()
@@ -72,7 +74,7 @@ class Service:
         if self._release_worker is not None:
             self._release_worker.join(timeout=1.0)
 
-    def handle_request(self, request: Request, deadline_at: float):
+    def handle_request(self, request: AgentRequest, deadline_at: float):
         deadline = deadline_for(deadline_at)
         match request:
             case StartRequest():
@@ -134,13 +136,13 @@ class Service:
         task = self._require_task(request.task_id)
         session_state = self._require_session_state(request.session_id, request.task_id)
 
-        observations = self._observe(
+        response = self._observe(
             deadline=deadline,
             state=session_state,
             evaluation=task.evaluation,
         )
 
-        reward = evaluate_page_rules(task.evaluation, observations)
+        reward = evaluate_page_rules(task.evaluation, response.observation)
 
         self._release_queue.put(session_state)
         self._end_session(request.session_id)
@@ -158,20 +160,23 @@ class Service:
         setup: Optional[list[Action]],
     ) -> tuple[str, int]:
         d = deadline("allocate")
-        return self._run_with_retry(
+        response = self._run_with_retry(
             min_attempt_time=self.process_timeout.allocate,
             deadline=d,
             func=lambda: self.transport.allocate(d, websites, setup),
         )
+        return (response.instance_id, response.instance_port)
 
     def _screenshot(self, deadline: Callable[[str], Deadline], state: SessionState):
         d = deadline("screenshot")
-        (screenshot_b64, media_type, x, y) = self._run_with_retry(
+        response = self._run_with_retry(
             min_attempt_time=self.process_timeout.screenshot,
             deadline=d,
             func=lambda: self.transport.screenshot(d, state.instance_id, state.port),
         )
-        return draw_cursor_on_screenshot(screenshot_b64, int(x), int(y)), media_type
+        return draw_cursor_on_screenshot(
+            response.screenshot_b64, int(response.x), int(response.y)
+        ), response.media_type
 
     def _observe(
         self, *, deadline: Callable[[str], Deadline], state: SessionState, evaluation: Evaluation

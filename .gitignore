@@ -7,7 +7,7 @@ logs/
 
 nohup.out
 
-**/.DS_Store/*
+**/.DS_Store
 **/__snapshots__/*
 **/node_modules/*
 **/.pnpm-store/*

@@ -70,7 +70,7 @@ def create_app(contexts_per_instance: int) -> FastAPI:
         screenshot_b64 = base64.b64encode(screenshot.getvalue()).decode("ascii")
 
         return ScreenshotResponse(
-            snapshot_b64=screenshot_b64,
+            screenshot_b64=screenshot_b64,
             media_type="image/png",
             x=x,
             y=y,

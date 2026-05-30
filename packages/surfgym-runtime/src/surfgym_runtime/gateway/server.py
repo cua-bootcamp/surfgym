@@ -1,18 +1,19 @@
 import asyncio
+import json
 import time
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import asynccontextmanager
-from functools import wraps
-from typing import Annotated, Awaitable, Callable, TypeVar, cast
+from json import JSONDecodeError
+from typing import Awaitable, Callable, TypeVar, cast
 
-from fastapi import Body, FastAPI
+from fastapi import FastAPI, Request
 from pydantic import ValidationError
 from surfgym_contracts.protocol.agent_to_gateway import (
-    RequestAdapter,
+    AgentRequestAdapter,
 )
 from surfgym_contracts.protocol.gateway_to_agent import ErrorResponse, Response
 
-from surfgym_runtime.gateway.error import GatewayError, TimeOutError
+from surfgym_runtime.gateway.error import GatewayError, InvalidRequest, TimeOutError
 from surfgym_runtime.gateway.service import Service
 from surfgym_runtime.support import GatewayConfig, TaskStore, WavepoolConfig, gateway_logger
 
@@ -20,7 +21,6 @@ _T = TypeVar("_T")
 _R = TypeVar("_R")
 
 
-# [TODO] Gateway can still crash due to invalid json request, as FastAPI automatically parses the request due to "Annotated[object, Body()]"
 def create_app(
     *, gateway_config: GatewayConfig, wavepool_config: WavepoolConfig, task_store: TaskStore
 ):
@@ -47,14 +47,16 @@ def create_app(
     async def health():
         return {"status": "ok"}
 
-    @error_boundary
-    async def handle_request(
-        body: Annotated[object, Body()],
-    ) -> Response:
-        request = RequestAdapter.validate_python(body)
+    @gateway_boundary
+    async def handle_request(request_body: object) -> Response:
+        try:
+            agent_request = AgentRequestAdapter.validate_python(request_body)
+        except ValidationError as exc:
+            raise InvalidRequest("Invalid agent request.") from exc
+
         return await run_with_gateway_limit(
             service.handle_request,
-            request,
+            agent_request,
         )
 
     async def run_with_gateway_limit(
@@ -95,35 +97,26 @@ def create_app(
 ######################################
 
 
-def error_boundary(
+def gateway_boundary(
     func: Callable[[object], Awaitable[_R]],
-) -> Callable[[object], Awaitable[_R | ErrorResponse]]:
-    @wraps(func)
-    async def wrapper(body: object = Body()):
-        session_id, task_id, op = _extract_request_metadata(body)
-        try:
-            return await func(body)
-        except ValidationError as exc:
-            message = _format_validation_error(exc)
-            gateway_logger.warning(
-                "[session_id=%s task_id=%s op=%s] Invalid gateway request: %s",
-                session_id,
-                task_id,
-                op,
-                message,
-            )
-            return ErrorResponse(
-                session_id=session_id,
-                task_id=task_id,
-                error_type="INVALID_REQUEST",
-                message=message,
-            )
+) -> Callable[[Request], Awaitable[_R | ErrorResponse]]:
+    async def wrapper(raw_request: Request):
+        session_id, task_id, op = -1, "", ""
 
+        try:
+            try:
+                body = json.loads(await raw_request.body())
+            except JSONDecodeError:
+                raise InvalidRequest("Invalid JSON body.")
+
+            session_id, task_id, op = _extract_request_meta(body)
+            return await func(body)
         except GatewayError as exc:
             gateway_logger.warning(
                 """
-[session_id=%s task_id=%s op=%s]  Gateway failed handling request.
-[Detail] %s : %s
+[session_id=%s task_id=%s op=%s]  Gateway failed handling request for following reason.
+(error_type) %s
+(message) %s
 """.strip(),
                 session_id,
                 task_id,
@@ -139,7 +132,9 @@ def error_boundary(
             )
         except Exception:
             gateway_logger.exception(
-                "[session_id=%s task_id=%s op=%s] Unexpected gateway failure while handling request.",
+                """
+[session_id=%s task_id=%s op=%s] Unexpected gateway failure.
+""".strip(),
                 session_id,
                 task_id,
                 op,
@@ -154,7 +149,7 @@ def error_boundary(
     return wrapper
 
 
-def _extract_request_metadata(body: object) -> tuple[int, str, str]:
+def _extract_request_meta(body: object) -> tuple[int, str, str]:
     if not isinstance(body, dict):
         return -1, "", ""
 
@@ -168,21 +163,3 @@ def _extract_request_metadata(body: object) -> tuple[int, str, str]:
     op = raw_op if isinstance(raw_op, str) else str(raw_op)
 
     return session_id, task_id, op
-
-
-def _format_validation_error(exc: ValidationError) -> str:
-    errors = exc.errors()
-    details: list[str] = []
-
-    for error in errors[:3]:
-        loc = ".".join(str(part) for part in error.get("loc", []) if part != "body")
-        msg = str(error.get("msg", "Invalid request."))
-        msg = msg.removeprefix("Value error, ")
-
-        if loc:
-            details.append(f"{loc}: {msg}")
-        else:
-            details.append(msg)
-
-    suffix = f" (+{len(errors) - 3} more)" if len(errors) > 3 else ""
-    return f"Invalid request. {'; '.join(details)}{suffix}"

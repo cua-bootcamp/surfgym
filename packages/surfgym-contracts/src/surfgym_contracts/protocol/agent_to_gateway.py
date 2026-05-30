@@ -28,9 +28,9 @@ class RewardRequest(_BaseRequest):
     op: Literal["reward"]
 
 
-Request: TypeAlias = Annotated[
+AgentRequest: TypeAlias = Annotated[
     Union[StartRequest, ActionRequest, RewardRequest],
     Field(discriminator="op"),
 ]
 
-RequestAdapter: TypeAdapter[Request] = TypeAdapter(Request)
+AgentRequestAdapter: TypeAdapter[AgentRequest] = TypeAdapter(AgentRequest)
