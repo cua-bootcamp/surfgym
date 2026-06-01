@@ -3,9 +3,11 @@
 ```bash
 cd surfgym
 
-python3 -m pip install -U uv
+conda create -n surfgym python=3.10
+conda activate surfgym
 
-uv sync --locked --all-packages
+pip install uv
+uv sync --active --all-packages
 
 uv run playwright install chromium
 playwright install chromium
