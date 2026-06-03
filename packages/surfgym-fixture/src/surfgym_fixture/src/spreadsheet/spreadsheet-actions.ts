@@ -22,6 +22,8 @@ type SpreadsheetChartBuilder = {
 
 type SpreadsheetRange = {
   sort: (options: { column: number; ascending: boolean }) => unknown;
+  setFontFamily: (fontFamily: string | null) => unknown;
+  setFontSize: (fontSize: number | null) => unknown;
 };
 
 type SpreadsheetSelection = {
@@ -99,7 +101,7 @@ export function createSpreadsheetActions({ univerAPI, workbook, worksheet }: Spr
     return { startRow, endRow, startColumn, endColumn };
   }
 
-  function getSelectionRangeTarget(): SelectionRangeTarget | null {
+  function getSelectionRangeTarget({ allowSingleRow = false } = {}): SelectionRangeTarget | null {
     const activeTarget = univerAPI.getActiveSheet() as
       | { workbook: SpreadsheetWorkbook; worksheet: SpreadsheetWorksheet }
       | null
@@ -112,7 +114,8 @@ export function createSpreadsheetActions({ univerAPI, workbook, worksheet }: Spr
     if (!selectionRange || maxRow < 1 || maxColumn < 0) return null;
 
     const range = normalizeSelectionRange(selectionRange, maxRow, maxColumn);
-    if (range.endRow <= range.startRow || range.endColumn < range.startColumn) return null;
+    const hasInvalidRowRange = allowSingleRow ? range.endRow < range.startRow : range.endRow <= range.startRow;
+    if (hasInvalidRowRange || range.endColumn < range.startColumn) return null;
 
     return {
       range,
@@ -143,6 +146,33 @@ export function createSpreadsheetActions({ univerAPI, workbook, worksheet }: Spr
       columnIndexToName(range.endColumn),
       range.endRow + 1,
     ].join('');
+  }
+
+  function getSelectionFacadeRange(rangeTarget: SelectionRangeTarget) {
+    const { range, worksheet } = rangeTarget;
+
+    return worksheet.getRange(
+      range.startRow,
+      range.startColumn,
+      range.endRow - range.startRow + 1,
+      range.endColumn - range.startColumn + 1,
+    );
+  }
+
+  function applySelectionFontFamily(fontFamily: string) {
+    const fontTarget = getSelectionRangeTarget({ allowSingleRow: true });
+    if (!fontTarget) return;
+
+    getSelectionFacadeRange(fontTarget).setFontFamily(fontFamily);
+  }
+
+  function applySelectionFontSize(fontSize: number) {
+    if (!Number.isFinite(fontSize) || fontSize <= 0) return;
+
+    const fontTarget = getSelectionRangeTarget({ allowSingleRow: true });
+    if (!fontTarget) return;
+
+    getSelectionFacadeRange(fontTarget).setFontSize(fontSize);
   }
 
   async function applySelectionFilter(filterTarget: SelectionRangeTarget | null = getSelectionRangeTarget()) {
@@ -216,6 +246,8 @@ export function createSpreadsheetActions({ univerAPI, workbook, worksheet }: Spr
   return {
     applySelectionBarChart,
     applySelectionFilter,
+    applySelectionFontFamily,
+    applySelectionFontSize,
     applySelectionSort,
     columnIndexToName,
     getSelectionRangeTarget,

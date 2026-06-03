@@ -20,7 +20,7 @@ import { UniverSheetsCorePreset } from '@univerjs/preset-sheets-core';
 import UniverPresetSheetsCoreEnUS from '@univerjs/preset-sheets-core/locales/en-US';
 import { createSpreadsheetActions } from './spreadsheet-actions';
 import { installSpreadsheetEvaluationHelpers } from './spreadsheet-evaluation';
-import { setupSpreadsheetUi } from './spreadsheet-ui';
+import { renderSpreadsheetMockToolbar, setupSpreadsheetUi } from './spreadsheet-ui';
 
 import '@univerjs/preset-sheets-core/lib/index.css';
 import '@univerjs/presets/lib/styles/preset-sheets-advanced.css';
@@ -46,8 +46,8 @@ const { univerAPI } = createUniver({
     UniverSheetsCorePreset({
       container: 'app',
       header: true,
-      toolbar: true,
-      formulaBar: true,
+      toolbar: false,
+      formulaBar: false,
       contextMenu: true,
 
       footer: {
@@ -109,6 +109,12 @@ const actions = createSpreadsheetActions({
   univerAPI,
   workbook,
   worksheet,
+});
+
+renderSpreadsheetMockToolbar({
+  containerId: 'spreadsheet-custom-toolbar',
+  univerAPI,
+  actions,
 });
 
 setupSpreadsheetUi({

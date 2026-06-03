@@ -1,12 +1,15 @@
 import type { SpreadsheetActions } from './spreadsheet-actions';
 
 const fillColorCommandId = 'sheet.command.set-background-color';
+const textColorCommandId = 'sheet.command.set-range-text-color';
 const headerFilterMenuItemId = 'spreadsheet-header-filter-menu-item';
 const startToolbarGroupId = 'spreadsheet-start-toolbar-group';
 const startFilterToolbarButtonId = 'spreadsheet-start-filter-toolbar-button';
 const startSortToolbarButtonId = 'spreadsheet-start-sort-toolbar-button';
 const startBarChartToolbarButtonId = 'spreadsheet-start-bar-chart-toolbar-button';
 const startConditionalFormattingToolbarButtonId = 'spreadsheet-start-conditional-formatting-toolbar-button';
+const mockColorPaletteMenuId = 'spreadsheet-mock-color-palette-menu';
+const mockNativeColorInputClassName = 'spreadsheet-mock-native-color-input';
 const sortDirectionMenuId = 'spreadsheet-sort-direction-menu';
 const createConditionalFormattingRuleOperation = 1;
 const headerMenuButtonClassName = [
@@ -27,14 +30,566 @@ const headerMenuButtonClassName = [
   'hover:univer-bg-gray-50',
   'dark:hover:!univer-bg-gray-600',
 ].join(' ');
-const fillPaletteColors = [
-  { label: 'Red', color: 'rgb(255, 0, 0)' },
-  { label: 'Orange', color: 'rgb(255, 90, 31)' },
-  { label: 'Yellow', color: 'rgb(250, 200, 21)' },
-  { label: 'Green', color: 'rgb(13, 164, 113)' },
-  { label: 'Blue', color: 'rgb(63, 131, 248)' },
-  { label: 'Purple', color: 'rgb(144, 97, 249)' },
+
+type MockToolbarItem = {
+  label: string;
+  icon: string;
+};
+
+type MockFormattingItem = {
+  label: string;
+  title: string;
+  commandId?: string;
+  colorCommandId?: string;
+  icon?: string;
+};
+
+type SpreadsheetMockToolbarApi = {
+  executeCommand: <P extends object = object, R = boolean>(id: string, params?: P) => Promise<R>;
+};
+
+type SpreadsheetMockToolbarOptions = {
+  containerId: string;
+  univerAPI?: SpreadsheetMockToolbarApi;
+  actions?: Pick<SpreadsheetActions, 'applySelectionFontFamily' | 'applySelectionFontSize'>;
+};
+
+const formatCommandIds = {
+  bold: 'sheet.command.set-range-bold',
+  italic: 'sheet.command.set-range-italic',
+  underline: 'sheet.command.set-range-underline',
+} as const;
+
+const mockFontFamilyOptions = ['나눔고딕', 'Arial', 'Calibri', 'Times New Roman', 'Courier New', 'Verdana'] as const;
+const mockFontSizeOptions = [8, 9, 10, 11, 12, 14, 16, 18, 20, 24, 28, 32, 36] as const;
+
+const standardPaletteColors = [
+  '#000000', '#1f1f1f', '#3f3f3f', '#5f5f5f', '#7f7f7f', '#9f9f9f', '#bfbfbf', '#dfdfdf', '#ffffff', '#d9e2f3', '#d9ead3', '#fff2cc',
+  '#ffff00', '#ff9900', '#ff6600', '#ff0000', '#cc0000', '#99004d', '#660099', '#333399', '#006666', '#008000', '#00b050', '#92d050',
+  '#ffff99', '#ffe599', '#f9cb9c', '#f4cccc', '#ead1dc', '#d9d2e9', '#c9daf8', '#cfe2f3', '#d0e0e3', '#d9ead3', '#e2f0cb', '#f4cccc',
+  '#ffff66', '#ffd966', '#f6b26b', '#ea9999', '#d5a6bd', '#b4a7d6', '#a4c2f4', '#9fc5e8', '#a2c4c9', '#b6d7a8', '#d9ead3', '#d9ead3',
+  '#ffff00', '#f1c232', '#e69138', '#e06666', '#c27ba0', '#8e7cc3', '#6d9eeb', '#6fa8dc', '#76a5af', '#93c47d', '#b6d7a8', '#b6d7a8',
+  '#b6d7a8', '#bf9000', '#b45f06', '#cc0000', '#a64d79', '#674ea7', '#3c78d8', '#3d85c6', '#45818e', '#6aa84f', '#38761d', '#38761d',
+  '#7f6000', '#783f04', '#85200c', '#990000', '#741b47', '#351c75', '#1c4587', '#073763', '#134f5c', '#274e13', '#274e13', '#274e13',
+  '#4c3900', '#3d2500', '#5b0f00', '#660000', '#4c1130', '#20124d', '#0b1f3a', '#0c343d', '#0c343d', '#1b3310', '#1b3310', '#1b3310',
 ] as const;
+
+const mockToolbarIcon = {
+  alignLeft: `
+    <svg class="spreadsheet-mock-align-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="currentColor" d="M4 5h16v2H4zm0 4h11v2H4zm0 4h16v2H4zm0 4h11v2H4z" />
+    </svg>
+  `,
+  alignCenter: `
+    <svg class="spreadsheet-mock-align-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="currentColor" d="M4 5h16v2H4zm3 4h10v2H7zm-3 4h16v2H4zm3 4h10v2H7z" />
+    </svg>
+  `,
+  alignRight: `
+    <svg class="spreadsheet-mock-align-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="currentColor" d="M4 5h16v2H4zm5 4h11v2H9zm-5 4h16v2H4zm5 4h11v2H9z" />
+    </svg>
+  `,
+  alignTop: `
+    <svg class="spreadsheet-mock-vertical-align-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="currentColor" d="M5 4h14v2H5zm3 4h8v2H8zm0 4h8v2H8zm0 4h8v2H8z" />
+    </svg>
+  `,
+  alignMiddle: `
+    <svg class="spreadsheet-mock-vertical-align-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="currentColor" d="M5 4h14v2H5zm2 5h10v2H7zm0 4h10v2H7zm-2 5h14v2H5z" />
+    </svg>
+  `,
+  alignBottom: `
+    <svg class="spreadsheet-mock-vertical-align-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="currentColor" d="M8 6h8v2H8zm0 4h8v2H8zm0 4h8v2H8zm-3 4h14v2H5z" />
+    </svg>
+  `,
+  fillBucket: `
+    <svg class="spreadsheet-mock-fill-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none">
+      <path d="m6.5 11.5 6-6 7 7-6 6h-7z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+      <path d="M9 9 16 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+      <path d="M4 20h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+      <path d="M19 14.7c1 1.2 1.6 2.1 1.6 2.9a1.6 1.6 0 0 1-3.2 0c0-.8.6-1.7 1.6-2.9z" fill="currentColor" />
+    </svg>
+  `,
+  spreadsheet: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#eef8ef" stroke="#4b9b56" d="M5 2.5h10.5L20 7v15.5H5z" />
+      <path fill="#d8efe0" d="M15 2.5V7h4.5z" />
+      <path fill="#4b9b56" d="M7 10h10v8H7zm1.5 1.5v1.5h2V11.5zm3.5 0v1.5h2V11.5zm3.5 0v1.5H17V11.5zM8.5 14.5V16h2v-1.5zm3.5 0V16h2v-1.5zm3.5 0V16H17v-1.5z" />
+    </svg>
+  `,
+  folder: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#4b9dda" d="M2.5 6.5h7l2 2h10v11H2.5z" />
+      <path fill="#73b7e7" d="M2.5 8.5h19l-1.6 11H4.1z" />
+    </svg>
+  `,
+  save: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#505b6f" d="M4 3h15l2 2v18H4z" />
+      <path fill="#dce5f3" d="M7 4.5h10v6H7z" />
+      <path fill="#f6f6f6" d="M7 15h11v6H7z" />
+      <circle cx="18.2" cy="18.8" r="2.2" fill="#d73535" />
+    </svg>
+  `,
+  pdf: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#f8f8f8" stroke="#9aa1aa" d="M6 2.5h9l4 4V22H6z" />
+      <path fill="#e9edf5" d="M15 2.5V7h4z" />
+      <path fill="#d33" d="M5 16.5c4.4-.7 7.6-2.4 10.4-6.8 1.3 3 2.6 4.7 4.6 5.8-3.4-.5-6.1-.4-10.4 1.3z" />
+    </svg>
+  `,
+  print: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#d6d9de" d="M7 3h10v5H7z" />
+      <path fill="#586170" d="M5 8h14a2 2 0 0 1 2 2v7H3v-7a2 2 0 0 1 2-2z" />
+      <path fill="#f8f8f8" d="M7 14h10v7H7z" />
+      <path fill="#70a7e8" d="M8 4h8v2H8z" />
+    </svg>
+  `,
+  search: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#f8f8f8" stroke="#9aa1aa" d="M6 2.5h9l4 4V22H6z" />
+      <circle cx="12" cy="12" r="4" fill="none" stroke="#2f70d8" stroke-width="2" />
+      <path stroke="#2f70d8" stroke-linecap="round" stroke-width="2" d="m15 15 4 4" />
+    </svg>
+  `,
+  cut: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="7" cy="18" r="3" fill="none" stroke="#6f7782" stroke-width="2" />
+      <circle cx="17" cy="18" r="3" fill="none" stroke="#6f7782" stroke-width="2" />
+      <path fill="none" stroke="#6f7782" stroke-linecap="round" stroke-width="2" d="M9 16 18 4M15 14 6 4" />
+    </svg>
+  `,
+  copy: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#f5f5f5" stroke="#8c949f" d="M8 3h9l4 4v12H8z" />
+      <path fill="#e9edf5" d="M17 3v5h4z" />
+      <path fill="#fff" stroke="#8c949f" d="M4 7h10l3 3v12H4z" />
+    </svg>
+  `,
+  paste: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#b5b7bb" d="M8 4h8l1 3H7z" />
+      <path fill="#a8aaaf" d="M5 6h14v16H5z" />
+      <path fill="#f4f5f7" d="M8 10h8v9H8z" />
+    </svg>
+  `,
+  brush: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#4e6fb9" d="M15.2 3 21 8.8 10.8 19.1 5 13.2z" />
+      <path fill="#f0b24b" d="m4.2 14.2 5.6 5.6c-2.4 1.3-5.4 1.7-7.5.9 1.3-1.4 1.6-3.8 1.9-6.5z" />
+      <path fill="#f7d28b" d="m13.8 4.5 5.7 5.7-1.7 1.7-5.7-5.7z" />
+    </svg>
+  `,
+  undo: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#2e6eea" d="M10 6V2L3 8l7 6V9h5a5 5 0 0 1 5 5 5.7 5.7 0 0 1-1.8 4.1l2.1 2.1A8.1 8.1 0 0 0 23 14a8 8 0 0 0-8-8z" />
+    </svg>
+  `,
+  redo: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#b6bcc5" d="M14 6V2l7 6-7 6V9H9a5 5 0 0 0-5 5 5.7 5.7 0 0 0 1.8 4.1l-2.1 2.1A8.1 8.1 0 0 1 1 14a8 8 0 0 1 8-8z" />
+    </svg>
+  `,
+  binoculars: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#3c454f" d="M7 5h4v11H4V8a3 3 0 0 1 3-3zm6 0h4a3 3 0 0 1 3 3v8h-7z" />
+      <circle cx="7.5" cy="17" r="3.5" fill="#2f3740" />
+      <circle cx="16.5" cy="17" r="3.5" fill="#2f3740" />
+    </svg>
+  `,
+  spell: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <text x="3" y="12" fill="#222" font-family="Arial" font-size="9" font-weight="700">ABC</text>
+      <path fill="none" stroke="#29a35a" stroke-linecap="round" stroke-width="2" d="m6 17 3 3 8-8" />
+    </svg>
+  `,
+  table: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#eaf2ff" stroke="#6b8ebc" d="M3 4h18v16H3z" />
+      <path stroke="#6b8ebc" d="M3 9h18M3 14h18M9 4v16M15 4v16" />
+      <path fill="#51a7df" d="M3 4h18v5H3z" opacity=".85" />
+    </svg>
+  `,
+  sort: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#2e6eea" d="M7 4h3v12h3l-4.5 5L4 16h3z" />
+      <text x="13" y="10" fill="#333" font-family="Arial" font-size="7" font-weight="700">A</text>
+      <text x="13" y="19" fill="#333" font-family="Arial" font-size="7" font-weight="700">Z</text>
+    </svg>
+  `,
+  filter: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#9ea4ad" d="M3 5h18l-7 8v5l-4 2v-7z" />
+      <path fill="#f4bd3f" d="M14 13h6l-3 5z" />
+    </svg>
+  `,
+  image: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#fbfbfb" stroke="#a4adb7" d="M4 4h17v17H4z" />
+      <circle cx="16" cy="8" r="2" fill="#f4bd3f" />
+      <path fill="#5fb862" d="m5 19 5.5-7 4 5 2-2.5L21 19z" />
+    </svg>
+  `,
+  chart: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#5fb862" d="M4 11h4v10H4z" />
+      <path fill="#f4bd3f" d="M10 7h4v14h-4z" />
+      <path fill="#49a4df" d="M16 3h4v18h-4z" />
+    </svg>
+  `,
+  omega: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <text x="4" y="19" fill="#2f70d8" font-family="Georgia" font-size="21">Ω</text>
+    </svg>
+  `,
+  link: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="none" stroke="#3b78d8" stroke-linecap="round" stroke-width="2" d="M9.5 14.5 14.5 9.5M8.5 10H7a4 4 0 0 0 0 8h4a4 4 0 0 0 3.5-2M15.5 14H17a4 4 0 0 0 0-8h-4a4 4 0 0 0-3.5 2" />
+    </svg>
+  `,
+  comment: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#eceff3" stroke="#9aa1aa" d="M4 5h17v12H9l-5 4z" />
+    </svg>
+  `,
+  page: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#f8f8f8" stroke="#9aa1aa" d="M6 2.5h9l4 4V22H6z" />
+      <path fill="#f0c95a" d="M8 10h9v1.8H8zm0 4h9v1.8H8z" />
+    </svg>
+  `,
+  shapes: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="9" cy="8" r="4" fill="#eef5ff" stroke="#2f70d8" />
+      <path fill="#f1f5ff" stroke="#2f70d8" d="M10 12h9v9h-9z" />
+    </svg>
+  `,
+} as const;
+
+const mockToolbarTopGroups: readonly (readonly MockToolbarItem[])[] = [
+  [
+    { label: 'New Spreadsheet', icon: mockToolbarIcon.spreadsheet },
+    { label: 'Open', icon: mockToolbarIcon.folder },
+    { label: 'Save', icon: mockToolbarIcon.save },
+  ],
+  [
+    { label: 'Export PDF', icon: mockToolbarIcon.pdf },
+    { label: 'Print', icon: mockToolbarIcon.print },
+    { label: 'Find', icon: mockToolbarIcon.search },
+  ],
+  [
+    { label: 'Cut', icon: mockToolbarIcon.cut },
+    { label: 'Copy', icon: mockToolbarIcon.copy },
+    { label: 'Paste', icon: mockToolbarIcon.paste },
+    { label: 'Format Paintbrush', icon: mockToolbarIcon.brush },
+  ],
+  [
+    { label: 'Undo', icon: mockToolbarIcon.undo },
+    { label: 'Redo', icon: mockToolbarIcon.redo },
+    { label: 'Find All', icon: mockToolbarIcon.binoculars },
+    { label: 'Spell Check', icon: mockToolbarIcon.spell },
+  ],
+  [
+    { label: 'Insert Table', icon: mockToolbarIcon.table },
+    { label: 'Sort', icon: mockToolbarIcon.sort },
+    { label: 'Auto Filter', icon: mockToolbarIcon.filter },
+    { label: 'Insert Image', icon: mockToolbarIcon.image },
+    { label: 'Insert Chart', icon: mockToolbarIcon.chart },
+  ],
+  [
+    { label: 'Special Character', icon: mockToolbarIcon.omega },
+    { label: 'Hyperlink', icon: mockToolbarIcon.link },
+    { label: 'Comment', icon: mockToolbarIcon.comment },
+    { label: 'Page Break', icon: mockToolbarIcon.page },
+    { label: 'Shapes', icon: mockToolbarIcon.shapes },
+  ],
+];
+
+const mockFormattingGroups: readonly (readonly MockFormattingItem[])[] = [
+  [
+    { label: 'B', title: 'Bold', commandId: formatCommandIds.bold },
+    { label: 'I', title: 'Italic', commandId: formatCommandIds.italic },
+    { label: 'U', title: 'Underline', commandId: formatCommandIds.underline },
+  ],
+  [
+    { label: 'A', title: 'Text Color', colorCommandId: textColorCommandId },
+    { label: 'Fill', title: 'Fill Color', colorCommandId: fillColorCommandId, icon: mockToolbarIcon.fillBucket },
+    { label: 'L', title: 'Align Left', icon: mockToolbarIcon.alignLeft },
+    { label: 'C', title: 'Align Center', icon: mockToolbarIcon.alignCenter },
+    { label: 'R', title: 'Align Right', icon: mockToolbarIcon.alignRight },
+  ],
+  [
+    { label: 'Top', title: 'Align Top', icon: mockToolbarIcon.alignTop },
+    { label: 'Mid', title: 'Align Middle', icon: mockToolbarIcon.alignMiddle },
+    { label: 'Bot', title: 'Align Bottom', icon: mockToolbarIcon.alignBottom },
+    // { label: 'Merge', title: 'Merge Cells' },
+  ],
+  [
+    { label: '%', title: 'Percent Format' },
+    { label: '0.0', title: 'Number Format' },
+    { label: 'Date', title: 'Date Format' },
+    { label: 'Dec-', title: 'Decrease Decimal' },
+    { label: 'Dec+', title: 'Increase Decimal' },
+  ],
+  [
+    { label: 'Indent-', title: 'Decrease Indent' },
+    { label: 'Indent+', title: 'Increase Indent' },
+    { label: 'Border', title: 'Borders' },
+    { label: 'Wrap', title: 'Text Wrap' },
+    { label: 'Dir', title: 'Text Direction' },
+  ],
+];
+
+export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }: SpreadsheetMockToolbarOptions) {
+  const container = document.getElementById(containerId);
+  if (!container || container.dataset.mockToolbarRendered === 'true') return;
+
+  const disabledFontControls = actions ? '' : 'disabled aria-disabled="true"';
+
+  container.dataset.mockToolbarRendered = 'true';
+  container.innerHTML = `
+    <div class="spreadsheet-mock-toolbar" role="toolbar" aria-label="Spreadsheet toolbar preview">
+      <div class="spreadsheet-mock-toolbar-scroll">
+        <div class="spreadsheet-mock-toolbar-row spreadsheet-mock-toolbar-row-icons">
+          ${mockToolbarTopGroups
+            .map(
+              (group) => `
+                <div class="spreadsheet-mock-toolbar-group">
+                  ${group
+                    .map(
+                      (item) => `
+                        <button class="spreadsheet-mock-icon-button" type="button" tabindex="-1" aria-disabled="true" title="${item.label}" aria-label="${item.label}">
+                          ${item.icon}
+                          <span class="spreadsheet-mock-caret" aria-hidden="true"></span>
+                        </button>
+                      `,
+                    )
+                    .join('')}
+                </div>
+              `,
+            )
+            .join('')}
+        </div>
+        <div class="spreadsheet-mock-toolbar-row spreadsheet-mock-toolbar-row-format">
+          <div class="spreadsheet-mock-toolbar-group">
+            <select class="spreadsheet-mock-select spreadsheet-mock-select-font" data-spreadsheet-font-family aria-label="Font family" ${disabledFontControls}>
+              ${mockFontFamilyOptions.map((fontFamily) => `<option value="${fontFamily}">${fontFamily}</option>`).join('')}
+            </select>
+            <select class="spreadsheet-mock-select spreadsheet-mock-select-size" data-spreadsheet-font-size aria-label="Font size" ${disabledFontControls}>
+              ${mockFontSizeOptions
+                .map((fontSize) => `<option value="${fontSize}" ${fontSize === 10 ? 'selected' : ''}>${fontSize} pt</option>`)
+                .join('')}
+            </select>
+          </div>
+          ${mockFormattingGroups
+            .map(
+              (group) => `
+                <div class="spreadsheet-mock-toolbar-group">
+                  ${group
+                    .map(
+                      (item) => `
+                        <button
+                          class="spreadsheet-mock-format-button"
+                          type="button"
+                          tabindex="${item.commandId || item.colorCommandId ? '0' : '-1'}"
+                          aria-disabled="${item.commandId || item.colorCommandId ? 'false' : 'true'}"
+                          title="${item.title}"
+                          aria-label="${item.title}"
+                          data-format-label="${item.label}"
+                          ${item.commandId ? `data-spreadsheet-command="${item.commandId}"` : ''}
+                          ${item.colorCommandId ? `data-spreadsheet-color-command="${item.colorCommandId}"` : ''}
+                        >
+                          ${item.icon ?? item.label}
+                        </button>
+                      `,
+                    )
+                    .join('')}
+                </div>
+              `,
+            )
+            .join('')}
+        </div>
+        <div class="spreadsheet-mock-formula-row">
+          <button class="spreadsheet-mock-name-box" type="button" tabindex="-1" aria-disabled="true">
+            A23:B23
+            <span class="spreadsheet-mock-select-arrow" aria-hidden="true"></span>
+          </button>
+          <span class="spreadsheet-mock-formula-fx" aria-hidden="true">fx</span>
+          <span class="spreadsheet-mock-formula-sum" aria-hidden="true">Σ</span>
+          <span class="spreadsheet-mock-formula-equals" aria-hidden="true">=</span>
+          <div class="spreadsheet-mock-formula-input" aria-hidden="true"></div>
+          <span class="spreadsheet-mock-formula-drop" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+  `;
+
+  if (actions) {
+    container.querySelector<HTMLSelectElement>('[data-spreadsheet-font-family]')?.addEventListener('change', (event) => {
+      if (!(event.currentTarget instanceof HTMLSelectElement)) return;
+
+      actions.applySelectionFontFamily(event.currentTarget.value);
+    });
+
+    container.querySelector<HTMLSelectElement>('[data-spreadsheet-font-size]')?.addEventListener('change', (event) => {
+      if (!(event.currentTarget instanceof HTMLSelectElement)) return;
+
+      const fontSize = Number(event.currentTarget.value);
+      actions.applySelectionFontSize(fontSize);
+    });
+  }
+
+  if (!univerAPI) return;
+
+  container.querySelectorAll<HTMLButtonElement>('[data-spreadsheet-command]').forEach((button) => {
+    const commandId = button.dataset.spreadsheetCommand;
+    if (!commandId) return;
+
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      void univerAPI.executeCommand(commandId);
+    });
+  });
+
+  function closeMockColorPalette() {
+    document.getElementById(mockColorPaletteMenuId)?.remove();
+    document.removeEventListener('pointerdown', closeMockColorPaletteOnOutsideClick, true);
+    document.removeEventListener('keydown', closeMockColorPaletteOnEscape, true);
+  }
+
+  function closeMockColorPaletteOnOutsideClick(event: PointerEvent) {
+    const menu = document.getElementById(mockColorPaletteMenuId);
+    if (!menu || !(event.target instanceof Node) || menu.contains(event.target)) return;
+
+    closeMockColorPalette();
+  }
+
+  function closeMockColorPaletteOnEscape(event: KeyboardEvent) {
+    if (event.key !== 'Escape') return;
+
+    closeMockColorPalette();
+  }
+
+  function applyMockColor(commandId: string, color: string) {
+    void univerAPI.executeCommand(commandId, { value: color });
+    closeMockColorPalette();
+  }
+
+  function openNativeColorPicker(commandId: string) {
+    const colorInput = document.createElement('input');
+
+    colorInput.type = 'color';
+    colorInput.className = mockNativeColorInputClassName;
+    colorInput.value = commandId === fillColorCommandId ? '#ffffff' : '#000000';
+    colorInput.addEventListener('input', (event) => {
+      if (!(event.currentTarget instanceof HTMLInputElement)) return;
+
+      void univerAPI.executeCommand(commandId, { value: event.currentTarget.value });
+    });
+    colorInput.addEventListener('change', () => {
+      colorInput.remove();
+    });
+
+    document.body.appendChild(colorInput);
+
+    try {
+      if (typeof colorInput.showPicker === 'function') {
+        colorInput.showPicker();
+      } else {
+        colorInput.click();
+      }
+    } catch {
+      colorInput.click();
+    }
+
+    window.setTimeout(() => {
+      colorInput.remove();
+    }, 60_000);
+  }
+
+  function createPaletteColorButton(commandId: string, color: string) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'spreadsheet-mock-color-palette-button';
+    button.title = color;
+    button.setAttribute('aria-label', color);
+    button.style.backgroundColor = color;
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      applyMockColor(commandId, color);
+    });
+
+    return button;
+  }
+
+  function openMockColorPalette(anchor: HTMLElement, commandId: string) {
+    closeMockColorPalette();
+
+    const menu = document.createElement('div');
+    const anchorRect = anchor.getBoundingClientRect();
+    const menuWidth = 218;
+    const left = Math.max(8, Math.min(anchorRect.left, window.innerWidth - menuWidth - 8));
+    const automaticColor = commandId === fillColorCommandId ? '#ffffff' : '#000000';
+    const title = commandId === fillColorCommandId ? 'Fill Color' : 'Font Color';
+
+    menu.id = mockColorPaletteMenuId;
+    menu.className = 'spreadsheet-mock-color-palette-menu';
+    menu.style.left = `${left}px`;
+    menu.style.top = `${anchorRect.bottom + 6}px`;
+    menu.setAttribute('role', 'menu');
+    menu.innerHTML = `
+      <div class="spreadsheet-mock-color-palette-title">${title}</div>
+      <button class="spreadsheet-mock-color-palette-auto" type="button">
+        <span class="spreadsheet-mock-color-palette-auto-swatch" aria-hidden="true"></span>
+        <span>Automatic</span>
+      </button>
+      <div class="spreadsheet-mock-color-palette-section">
+        <span>Standard</span>
+        <span class="spreadsheet-mock-color-palette-section-caret" aria-hidden="true"></span>
+      </div>
+      <div class="spreadsheet-mock-color-palette-grid"></div>
+      <button class="spreadsheet-mock-color-palette-custom" type="button">
+        <span class="spreadsheet-mock-color-palette-wheel" aria-hidden="true"></span>
+        <span>Custom Color...</span>
+      </button>
+    `;
+
+    menu.querySelector<HTMLButtonElement>('.spreadsheet-mock-color-palette-auto')?.addEventListener('click', (event) => {
+      event.preventDefault();
+      applyMockColor(commandId, automaticColor);
+    });
+
+    menu.querySelector<HTMLButtonElement>('.spreadsheet-mock-color-palette-custom')?.addEventListener('click', (event) => {
+      event.preventDefault();
+      closeMockColorPalette();
+      openNativeColorPicker(commandId);
+    });
+
+    menu.querySelector<HTMLElement>('.spreadsheet-mock-color-palette-grid')?.append(
+      ...standardPaletteColors.map((color) => createPaletteColorButton(commandId, color)),
+    );
+
+    document.body.appendChild(menu);
+    window.setTimeout(() => {
+      document.addEventListener('pointerdown', closeMockColorPaletteOnOutsideClick, true);
+      document.addEventListener('keydown', closeMockColorPaletteOnEscape, true);
+    }, 0);
+  }
+
+  container.querySelectorAll<HTMLButtonElement>('[data-spreadsheet-color-command]').forEach((button) => {
+    const commandId = button.dataset.spreadsheetColorCommand;
+    if (!commandId) return;
+
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      openMockColorPalette(button, commandId);
+    });
+  });
+}
 
 type SpreadsheetUiContext = {
   univerAPI: {
@@ -48,74 +603,9 @@ type SpreadsheetUiContext = {
 };
 
 export function setupSpreadsheetUi({
-  univerAPI,
   actions,
   conditionalFormattingCommandId,
 }: SpreadsheetUiContext) {
-  let shouldFilterNextColorPicker = false;
-
-  document.addEventListener(
-    'pointerdown',
-    (event) => {
-      if (!(event.target instanceof Element)) return;
-
-      const commandElement = event.target.closest('[data-u-command]');
-      shouldFilterNextColorPicker =
-        commandElement instanceof HTMLElement &&
-        commandElement.dataset.uCommand === fillColorCommandId;
-    },
-    true,
-  );
-
-  new MutationObserver(() => {
-    if (!shouldFilterNextColorPicker) return;
-
-    let customized = false;
-
-    document.querySelectorAll<HTMLElement>('[data-u-comp="color-picker"]').forEach((picker) => {
-      if (picker.dataset.fillPaletteFiltered === 'true') return;
-
-      const presets = picker.querySelector<HTMLElement>('[data-u-comp="color-picker-presets"]');
-      if (!presets) return;
-
-      picker.dataset.fillPaletteFiltered = 'true';
-      presets.classList.add('spreadsheet-fill-color-palette');
-      presets.replaceChildren(
-        ...fillPaletteColors.map(({ label, color }) => {
-          const button = document.createElement('button');
-          button.type = 'button';
-          button.className = 'spreadsheet-fill-color-palette-button';
-          button.title = label;
-          button.setAttribute('aria-label', label);
-          button.style.backgroundColor = color;
-          button.addEventListener(
-            'click',
-            (event) => {
-              event.preventDefault();
-              event.stopImmediatePropagation();
-
-              void univerAPI.executeCommand(fillColorCommandId, { value: color });
-              document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
-            },
-            true,
-          );
-
-          return button;
-        }),
-      );
-
-      Array.from(picker.children).forEach((child) => {
-        if (child !== presets && child instanceof HTMLElement) {
-          child.style.display = 'none';
-        }
-      });
-
-      customized = true;
-    });
-
-    if (customized) shouldFilterNextColorPicker = false;
-  }).observe(document.body, { childList: true, subtree: true });
-
   function closeSortDirectionMenu() {
     document.getElementById(sortDirectionMenuId)?.remove();
     document.removeEventListener('pointerdown', closeSortDirectionMenuOnOutsideClick, true);

@@ -1,6 +1,6 @@
 html,
 body,
-#app {
+#spreadsheet-shell {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -15,6 +15,277 @@ body {
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
+}
+
+#spreadsheet-shell {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  background: rgb(255, 255, 255);
+}
+
+#app {
+  width: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+}
+
+#spreadsheet-custom-toolbar {
+  flex: 0 0 auto;
+}
+
+.spreadsheet-mock-toolbar {
+  box-sizing: border-box;
+  width: 100%;
+  border-bottom: 1px solid rgb(185, 190, 197);
+  background:
+    linear-gradient(rgb(250, 251, 253), rgb(242, 244, 247));
+  color: rgb(38, 43, 51);
+  font-size: 12px;
+  line-height: 1;
+  user-select: none;
+}
+
+.spreadsheet-mock-toolbar-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.spreadsheet-mock-toolbar-row {
+  box-sizing: border-box;
+  display: flex;
+  min-width: max-content;
+  align-items: center;
+  padding: 2px 8px;
+}
+
+.spreadsheet-mock-toolbar-row-icons {
+  height: 34px;
+  gap: 0;
+}
+
+.spreadsheet-mock-toolbar-row-format {
+  height: 36px;
+  gap: 0;
+  border-top: 1px solid rgb(224, 227, 231);
+}
+
+.spreadsheet-mock-toolbar-group {
+  display: inline-flex;
+  height: 100%;
+  align-items: center;
+  gap: 4px;
+  border-right: 1px solid rgb(203, 208, 215);
+  padding: 0 9px;
+}
+
+.spreadsheet-mock-toolbar-group:first-child {
+  padding-left: 0;
+}
+
+.spreadsheet-mock-toolbar-group:last-child {
+  border-right: 0;
+}
+
+.spreadsheet-mock-icon-button,
+.spreadsheet-mock-format-button,
+.spreadsheet-mock-select,
+.spreadsheet-mock-name-box {
+  box-sizing: border-box;
+  display: inline-flex;
+  height: 28px;
+  cursor: default;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: transparent;
+  color: rgb(35, 39, 47);
+  font: inherit;
+  white-space: nowrap;
+}
+
+.spreadsheet-mock-icon-button {
+  position: relative;
+  width: 31px;
+  padding: 2px;
+}
+
+.spreadsheet-mock-icon-button svg {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+}
+
+.spreadsheet-mock-caret {
+  position: absolute;
+  right: 0;
+  bottom: 4px;
+  width: 0;
+  height: 0;
+  border-top: 4px solid rgb(28, 33, 40);
+  border-right: 3px solid transparent;
+  border-left: 3px solid transparent;
+}
+
+.spreadsheet-mock-format-button {
+  min-width: 30px;
+  padding: 0 7px;
+  font-size: 19px;
+}
+
+.spreadsheet-mock-format-button[data-spreadsheet-command],
+.spreadsheet-mock-format-button[data-spreadsheet-color-command] {
+  cursor: pointer;
+}
+
+.spreadsheet-mock-format-button[data-spreadsheet-command]:hover,
+.spreadsheet-mock-format-button[data-spreadsheet-color-command]:hover {
+  border-color: rgb(176, 186, 199);
+  background: rgb(232, 238, 249);
+}
+
+.spreadsheet-mock-format-button[data-format-label="B"] {
+  font-weight: 700;
+}
+
+.spreadsheet-mock-format-button[data-format-label="I"] {
+  font-style: italic;
+}
+
+.spreadsheet-mock-format-button[data-format-label="U"] {
+  text-decoration: underline;
+}
+
+.spreadsheet-mock-format-button[data-format-label="A"] {
+  border-bottom: 4px solid rgb(187, 48, 48);
+}
+
+.spreadsheet-mock-format-button[data-format-label="Fill"] {
+  min-width: 34px;
+  border-bottom: 4px solid rgb(241, 225, 60);
+  padding: 0 5px;
+}
+
+.spreadsheet-mock-fill-icon {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+
+.spreadsheet-mock-align-icon {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+
+.spreadsheet-mock-vertical-align-icon {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+
+.spreadsheet-mock-format-button[data-format-label="Top"],
+.spreadsheet-mock-format-button[data-format-label="Mid"],
+.spreadsheet-mock-format-button[data-format-label="Bot"],
+.spreadsheet-mock-format-button[data-format-label="Merge"],
+.spreadsheet-mock-format-button[data-format-label="Date"],
+.spreadsheet-mock-format-button[data-format-label="Dec-"],
+.spreadsheet-mock-format-button[data-format-label="Dec+"],
+.spreadsheet-mock-format-button[data-format-label="Indent-"],
+.spreadsheet-mock-format-button[data-format-label="Indent+"],
+.spreadsheet-mock-format-button[data-format-label="Border"],
+.spreadsheet-mock-format-button[data-format-label="Wrap"],
+.spreadsheet-mock-format-button[data-format-label="Dir"] {
+  font-size: 12px;
+}
+
+.spreadsheet-mock-select,
+.spreadsheet-mock-name-box {
+  justify-content: space-between;
+  border-color: rgb(221, 224, 228);
+  background: rgb(255, 255, 255);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.9);
+  padding: 0 8px;
+}
+
+.spreadsheet-mock-select {
+  cursor: pointer;
+}
+
+.spreadsheet-mock-select:hover:not(:disabled),
+.spreadsheet-mock-select:focus-visible {
+  border-color: rgb(176, 186, 199);
+  background: rgb(248, 250, 253);
+}
+
+.spreadsheet-mock-select:disabled {
+  cursor: default;
+  color: rgb(127, 134, 143);
+}
+
+.spreadsheet-mock-select-font {
+  width: 178px;
+}
+
+.spreadsheet-mock-select-size {
+  width: 80px;
+}
+
+.spreadsheet-mock-select-arrow {
+  width: 0;
+  height: 0;
+  margin-left: 10px;
+  border-top: 5px solid rgb(35, 39, 47);
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+}
+
+.spreadsheet-mock-formula-row {
+  box-sizing: border-box;
+  display: flex;
+  height: 34px;
+  min-width: 720px;
+  align-items: center;
+  gap: 7px;
+  border-top: 1px solid rgb(210, 214, 220);
+  padding: 3px 8px;
+}
+
+.spreadsheet-mock-name-box {
+  width: 214px;
+  height: 27px;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.spreadsheet-mock-formula-fx {
+  color: rgb(47, 112, 216);
+  font-size: 20px;
+  font-style: italic;
+}
+
+.spreadsheet-mock-formula-sum,
+.spreadsheet-mock-formula-equals {
+  color: rgb(35, 39, 47);
+  font-size: 21px;
+}
+
+.spreadsheet-mock-formula-input {
+  box-sizing: border-box;
+  height: 28px;
+  min-width: 240px;
+  flex: 1 1 auto;
+  border: 1px solid rgb(156, 160, 166);
+  background: rgb(255, 255, 255);
+}
+
+.spreadsheet-mock-formula-drop {
+  width: 0;
+  height: 0;
+  border-top: 7px solid rgb(0, 0, 0);
+  border-right: 6px solid transparent;
+  border-left: 6px solid transparent;
 }
 
 [data-u-comp="ribbon-toolbar"] {
@@ -46,26 +317,130 @@ div:has(> [data-u-comp="ribbon-toolbar"]) {
   display: none !important;
 }
 
-.spreadsheet-fill-color-palette {
-  display: flex !important;
-  gap: 8px !important;
-  padding: 4px !important;
+.spreadsheet-mock-native-color-input {
+  position: fixed;
+  left: -9999px;
+  top: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
 }
 
-.spreadsheet-fill-color-palette-button {
+.spreadsheet-mock-color-palette-menu {
+  position: fixed;
+  z-index: 10000;
   box-sizing: border-box;
-  width: 28px;
-  height: 28px;
-  min-width: 28px;
-  min-height: 28px;
+  width: 218px;
+  border: 1px solid rgb(166, 166, 166);
+  background: rgb(247, 247, 247);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.18);
+  color: rgb(17, 24, 39);
+  font-size: 14px;
+  line-height: 1;
+  padding: 4px;
+}
+
+.spreadsheet-mock-color-palette-title {
+  height: 22px;
+  display: flex;
+  align-items: center;
+}
+
+.spreadsheet-mock-color-palette-auto,
+.spreadsheet-mock-color-palette-custom {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  height: 27px;
   cursor: pointer;
-  border: 1px solid rgb(209, 213, 219);
-  border-radius: 6px;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  padding: 0 5px;
+  text-align: left;
+}
+
+.spreadsheet-mock-color-palette-auto:hover,
+.spreadsheet-mock-color-palette-custom:hover {
+  background: rgb(226, 239, 255);
+}
+
+.spreadsheet-mock-color-palette-auto-swatch {
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  border: 1px solid rgb(0, 120, 215);
+  background:
+    linear-gradient(135deg, transparent 44%, rgb(0, 120, 215) 46%, rgb(0, 120, 215) 54%, transparent 56%),
+    rgb(255, 255, 255);
+}
+
+.spreadsheet-mock-color-palette-section {
+  box-sizing: border-box;
+  display: flex;
+  height: 26px;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgb(190, 190, 190);
+  border-bottom: 1px solid rgb(210, 210, 210);
+  background: rgb(235, 235, 235);
+  margin: 4px -4px 5px;
+  padding: 0 7px;
+}
+
+.spreadsheet-mock-color-palette-section-caret {
+  width: 6px;
+  height: 6px;
+  border-top: 2px solid rgb(72, 72, 72);
+  border-left: 2px solid rgb(72, 72, 72);
+  transform: rotate(45deg);
+}
+
+.spreadsheet-mock-color-palette-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 13px);
+  gap: 4px;
+  padding: 0 3px 7px;
+}
+
+.spreadsheet-mock-color-palette-button {
+  box-sizing: border-box;
+  width: 13px;
+  height: 13px;
+  cursor: pointer;
+  border: 1px solid rgb(145, 145, 145);
   padding: 0;
 }
 
-.spreadsheet-fill-color-palette-button:hover {
-  border-color: rgb(17, 24, 39);
+.spreadsheet-mock-color-palette-button:hover,
+.spreadsheet-mock-color-palette-button:focus-visible {
+  outline: 1px solid rgb(0, 120, 215);
+  outline-offset: 1px;
+}
+
+.spreadsheet-mock-color-palette-custom {
+  border-top: 1px solid rgb(190, 190, 190);
+  margin-top: 3px;
+}
+
+.spreadsheet-mock-color-palette-wheel {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background:
+    conic-gradient(
+      rgb(255, 0, 0),
+      rgb(255, 200, 0),
+      rgb(0, 180, 0),
+      rgb(0, 180, 255),
+      rgb(80, 80, 255),
+      rgb(255, 0, 180),
+      rgb(255, 0, 0)
+    );
 }
 
 .spreadsheet-start-filter-toolbar-group {
