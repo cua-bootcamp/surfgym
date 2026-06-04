@@ -1,4 +1,5 @@
-import type { SpreadsheetActions } from './spreadsheet-actions';
+import { ChartTypeBits } from '@univerjs/presets/preset-sheets-advanced';
+import type { ChartWizardConfig, SpreadsheetActions } from './spreadsheet-actions';
 
 const fillColorCommandId = 'sheet.command.set-background-color';
 const textColorCommandId = 'sheet.command.set-range-text-color';
@@ -13,6 +14,7 @@ const formattingSidebarButtonId = 'spreadsheet-formatting-sidebar-button';
 const mockColorPaletteMenuId = 'spreadsheet-mock-color-palette-menu';
 const mockNativeColorInputClassName = 'spreadsheet-mock-native-color-input';
 const filterHeaderDialogId = 'spreadsheet-filter-header-dialog';
+const chartWizardDialogId = 'spreadsheet-chart-wizard-dialog';
 const sortDirectionMenuId = 'spreadsheet-sort-direction-menu';
 const createConditionalFormattingRuleOperation = 1;
 const openNumberFormatPanelCommandId = 'sheet.operation.open.numfmt.panel';
@@ -38,6 +40,7 @@ const headerMenuButtonClassName = [
 type MockToolbarItem = {
   label: string;
   icon: string;
+  chart?: boolean;
   filter?: boolean;
   sortAscending?: boolean;
 };
@@ -62,18 +65,22 @@ type SpreadsheetMockToolbarOptions = {
     SpreadsheetActions,
     | 'applySelectionDateFormat'
     | 'applySelectionFilter'
+    | 'applySelectionChart'
     | 'applySelectionFontFamily'
     | 'applySelectionFontSize'
     | 'applySelectionHeaderlessFilter'
+    | 'applySelectionInputValue'
     | 'applySelectionNumberFormat'
     | 'applySelectionPercentFormat'
     | 'applySelectionSort'
+    | 'columnIndexToName'
     | 'getSelectionRangeTarget'
   >;
 };
 
 type FilterHeaderPreference = 'unknown' | 'use-first-line' | 'headerless';
 type FilterActions = Pick<SpreadsheetActions, 'applySelectionFilter' | 'applySelectionHeaderlessFilter' | 'getSelectionRangeTarget'>;
+type ChartWizardActions = Pick<SpreadsheetActions, 'applySelectionChart' | 'columnIndexToName' | 'getSelectionRangeTarget'>;
 
 const formatCommandIds = {
   bold: 'sheet.command.set-range-bold',
@@ -93,6 +100,133 @@ const standardPaletteColors = [
   '#b6d7a8', '#bf9000', '#b45f06', '#cc0000', '#a64d79', '#674ea7', '#3c78d8', '#3d85c6', '#45818e', '#6aa84f', '#38761d', '#38761d',
   '#7f6000', '#783f04', '#85200c', '#990000', '#741b47', '#351c75', '#1c4587', '#073763', '#134f5c', '#274e13', '#274e13', '#274e13',
   '#4c3900', '#3d2500', '#5b0f00', '#660000', '#4c1130', '#20124d', '#0b1f3a', '#0c343d', '#0c343d', '#1b3310', '#1b3310', '#1b3310',
+] as const;
+
+type ChartWizardStep = 0 | 1 | 2 | 3;
+type ChartWizardIconKind =
+  | 'area'
+  | 'bar'
+  | 'bubble'
+  | 'column'
+  | 'combination'
+  | 'funnel'
+  | 'heatmap'
+  | 'line'
+  | 'other'
+  | 'pie'
+  | 'radar'
+  | 'scatter';
+
+type ChartWizardSubtype = {
+  label: string;
+  chartType: ChartTypeBits;
+  icon: ChartWizardIconKind;
+};
+
+type ChartWizardTypeGroup = {
+  key: string;
+  label: string;
+  icon: ChartWizardIconKind;
+  subtypes: readonly ChartWizardSubtype[];
+};
+
+const chartWizardSteps = ['Chart Type', 'Data Range', 'Data Series', 'Chart Elements'] as const;
+
+const chartWizardTypeGroups: readonly ChartWizardTypeGroup[] = [
+  {
+    key: 'column',
+    label: 'Column',
+    icon: 'column',
+    subtypes: [
+      { label: 'Normal Column', chartType: ChartTypeBits.Column, icon: 'column' },
+      { label: 'Stacked Column', chartType: ChartTypeBits.ColumnStacked, icon: 'column' },
+      { label: 'Percent Stacked Column', chartType: ChartTypeBits.ColumnPercentStacked, icon: 'column' },
+    ],
+  },
+  {
+    key: 'bar',
+    label: 'Bar',
+    icon: 'bar',
+    subtypes: [
+      { label: 'Normal Bar', chartType: ChartTypeBits.Bar, icon: 'bar' },
+      { label: 'Stacked Bar', chartType: ChartTypeBits.BarStacked, icon: 'bar' },
+      { label: 'Percent Stacked Bar', chartType: ChartTypeBits.BarPercentStacked, icon: 'bar' },
+    ],
+  },
+  {
+    key: 'pie',
+    label: 'Pie',
+    icon: 'pie',
+    subtypes: [
+      { label: 'Pie', chartType: ChartTypeBits.Pie, icon: 'pie' },
+      { label: 'Doughnut', chartType: ChartTypeBits.Doughnut, icon: 'pie' },
+    ],
+  },
+  {
+    key: 'area',
+    label: 'Area',
+    icon: 'area',
+    subtypes: [
+      { label: 'Area', chartType: ChartTypeBits.Area, icon: 'area' },
+      { label: 'Stacked Area', chartType: ChartTypeBits.AreaStacked, icon: 'area' },
+      { label: 'Percent Stacked Area', chartType: ChartTypeBits.AreaPercentStacked, icon: 'area' },
+    ],
+  },
+  {
+    key: 'line',
+    label: 'Line',
+    icon: 'line',
+    subtypes: [
+      { label: 'Line', chartType: ChartTypeBits.Line, icon: 'line' },
+    ],
+  },
+  {
+    key: 'scatter',
+    label: 'XY (Scatter)',
+    icon: 'scatter',
+    subtypes: [
+      { label: 'Scatter', chartType: ChartTypeBits.Scatter, icon: 'scatter' },
+    ],
+  },
+  {
+    key: 'bubble',
+    label: 'Bubble',
+    icon: 'bubble',
+    subtypes: [
+      { label: 'Bubble', chartType: ChartTypeBits.Bubble, icon: 'bubble' },
+    ],
+  },
+  {
+    key: 'radar',
+    label: 'Net',
+    icon: 'radar',
+    subtypes: [
+      { label: 'Radar', chartType: ChartTypeBits.Radar, icon: 'radar' },
+    ],
+  },
+  {
+    key: 'combination',
+    label: 'Column and Line',
+    icon: 'combination',
+    subtypes: [
+      { label: 'Column and Line', chartType: ChartTypeBits.Combination, icon: 'combination' },
+    ],
+  },
+  {
+    key: 'advanced',
+    label: 'More',
+    icon: 'other',
+    subtypes: [
+      { label: 'Waterfall', chartType: ChartTypeBits.Waterfall, icon: 'column' },
+      { label: 'Pareto', chartType: ChartTypeBits.Pareto, icon: 'combination' },
+      { label: 'Funnel', chartType: ChartTypeBits.Funnel, icon: 'funnel' },
+      { label: 'Heatmap', chartType: ChartTypeBits.Heatmap, icon: 'heatmap' },
+      { label: 'Boxplot', chartType: ChartTypeBits.Boxplot, icon: 'other' },
+      { label: 'Word Cloud', chartType: ChartTypeBits.WordCloud, icon: 'other' },
+      { label: 'Sankey', chartType: ChartTypeBits.Sankey, icon: 'other' },
+      { label: 'Relation', chartType: ChartTypeBits.Relation, icon: 'other' },
+    ],
+  },
 ] as const;
 
 let filterHeaderPreference: FilterHeaderPreference = 'unknown';
@@ -296,15 +430,15 @@ const mockToolbarIcon = {
   sort: `
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path fill="#2e6eea" d="M7 4h3v12h3l-4.5 5L4 16h3z" />
-      <text x="13" y="10" fill="#333" font-family="Arial" font-size="7" font-weight="700">A</text>
-      <text x="13" y="19" fill="#333" font-family="Arial" font-size="7" font-weight="700">Z</text>
+      <text x="13" y="11" fill="#333" font-family="Arial" font-size="9" font-weight="700">A</text>
+      <text x="13" y="20" fill="#333" font-family="Arial" font-size="9" font-weight="700">Z</text>
     </svg>
   `,
   sortDescending: `
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path fill="#2e6eea" d="M7 4h3v12h3l-4.5 5L4 16h3z" />
-      <text x="13" y="10" fill="#333" font-family="Arial" font-size="7" font-weight="700">Z</text>
-      <text x="13" y="19" fill="#333" font-family="Arial" font-size="7" font-weight="700">A</text>
+      <text x="13" y="11" fill="#333" font-family="Arial" font-size="9" font-weight="700">Z</text>
+      <text x="13" y="20" fill="#333" font-family="Arial" font-size="9" font-weight="700">A</text>
     </svg>
   `,
   filter: `
@@ -385,7 +519,7 @@ const mockToolbarTopGroups: readonly (readonly MockToolbarItem[])[] = [
     { label: 'Sort Descending', icon: mockToolbarIcon.sortDescending, sortAscending: false },
     { label: 'Auto Filter', icon: mockToolbarIcon.filter, filter: true },
     { label: 'Insert Image', icon: mockToolbarIcon.image },
-    { label: 'Insert Chart', icon: mockToolbarIcon.chart },
+    { label: 'Insert Chart', icon: mockToolbarIcon.chart, chart: true },
   ],
   [
     { label: 'Special Character', icon: mockToolbarIcon.omega },
@@ -521,12 +655,516 @@ function requestSelectionFilter(actions: FilterActions) {
   });
 }
 
+function closeChartWizardDialog() {
+  document.getElementById(chartWizardDialogId)?.remove();
+  document.removeEventListener('keydown', closeChartWizardDialogOnEscape, true);
+}
+
+function closeChartWizardDialogOnEscape(event: KeyboardEvent) {
+  if (event.key !== 'Escape') return;
+
+  closeChartWizardDialog();
+}
+
+function escapeChartWizardAttribute(value: string) {
+  return value.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function getSelectionRangeA1(actions: ChartWizardActions) {
+  const selectionTarget = actions.getSelectionRangeTarget({ allowSingleRow: true });
+  if (!selectionTarget) return '';
+
+  const { range } = selectionTarget;
+
+  return [
+    actions.columnIndexToName(range.startColumn),
+    range.startRow + 1,
+    ':',
+    actions.columnIndexToName(range.endColumn),
+    range.endRow + 1,
+  ].join('');
+}
+
+function createChartWizardIcon(kind: ChartWizardIconKind) {
+  if (kind === 'bar') {
+    return `
+      <svg viewBox="0 0 42 42" aria-hidden="true">
+        <path d="M8 34V9M8 34h27" stroke="#7b8491" stroke-width="1.6" stroke-linecap="round" />
+        <rect x="11" y="13" width="19" height="6" fill="#ff9900" />
+        <rect x="11" y="21" width="14" height="6" fill="#1a73e8" />
+        <rect x="11" y="29" width="22" height="6" fill="#1db954" />
+      </svg>
+    `;
+  }
+
+  if (kind === 'pie') {
+    return `
+      <svg viewBox="0 0 42 42" aria-hidden="true">
+        <path d="M21 6a15 15 0 1 1-10.6 4.4L21 21z" fill="#1a73e8" />
+        <path d="M21 6a15 15 0 0 1 15 15H21z" fill="#1db954" />
+        <path d="M36 21a15 15 0 0 1-15 15V21z" fill="#ff9900" />
+      </svg>
+    `;
+  }
+
+  if (kind === 'line') {
+    return `
+      <svg viewBox="0 0 42 42" aria-hidden="true">
+        <path d="M8 34V8M8 34h27" stroke="#7b8491" stroke-width="1.6" stroke-linecap="round" />
+        <path d="m10 28 7-8 6 5 9-12" fill="none" stroke="#1a73e8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="m10 20 7 2 6-8 9 6" fill="none" stroke="#1db954" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    `;
+  }
+
+  if (kind === 'area') {
+    return `
+      <svg viewBox="0 0 42 42" aria-hidden="true">
+        <path d="M8 34V8M8 34h27" stroke="#7b8491" stroke-width="1.6" stroke-linecap="round" />
+        <path d="m10 30 7-9 6 4 9-12v17z" fill="#1db954" />
+        <path d="m10 33 7-5 6 2 9-7v10z" fill="#1a73e8" />
+      </svg>
+    `;
+  }
+
+  if (kind === 'scatter' || kind === 'bubble') {
+    const radius = kind === 'bubble' ? '3.2' : '1.9';
+    return `
+      <svg viewBox="0 0 42 42" aria-hidden="true">
+        <path d="M8 34V8M8 34h27" stroke="#7b8491" stroke-width="1.6" stroke-linecap="round" />
+        <circle cx="15" cy="26" r="${radius}" fill="#1a73e8" />
+        <circle cx="22" cy="18" r="${kind === 'bubble' ? '4.4' : '1.9'}" fill="#1db954" />
+        <circle cx="29" cy="24" r="${kind === 'bubble' ? '3.8' : '1.9'}" fill="#ff9900" />
+        <circle cx="32" cy="13" r="${radius}" fill="#1a73e8" />
+      </svg>
+    `;
+  }
+
+  if (kind === 'radar') {
+    return `
+      <svg viewBox="0 0 42 42" aria-hidden="true">
+        <path d="M21 6 35 16 30 33H12L7 16z" fill="none" stroke="#7b8491" stroke-width="1.4" />
+        <path d="M21 11 30 18 27 29H15l-3-11z" fill="#1db954" opacity=".75" />
+        <path d="M21 6v27M7 16l23 17M35 16 12 33" stroke="#7b8491" stroke-width=".9" />
+      </svg>
+    `;
+  }
+
+  if (kind === 'combination') {
+    return `
+      <svg viewBox="0 0 42 42" aria-hidden="true">
+        <path d="M8 34V8M8 34h27" stroke="#7b8491" stroke-width="1.6" stroke-linecap="round" />
+        <rect x="12" y="22" width="5" height="12" fill="#1a73e8" />
+        <rect x="20" y="15" width="5" height="19" fill="#1db954" />
+        <rect x="28" y="19" width="5" height="15" fill="#ff9900" />
+        <path d="m11 18 7 4 7-10 9 5" fill="none" stroke="#e63757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    `;
+  }
+
+  if (kind === 'funnel') {
+    return `
+      <svg viewBox="0 0 42 42" aria-hidden="true">
+        <path d="M8 8h26l-9 11v12l-8 4V19z" fill="#9ca3af" />
+        <path d="M11 11h20l-5 6H16z" fill="#1a73e8" />
+        <path d="M16 20h10l-2 5h-6z" fill="#1db954" />
+      </svg>
+    `;
+  }
+
+  if (kind === 'heatmap') {
+    return `
+      <svg viewBox="0 0 42 42" aria-hidden="true">
+        <rect x="9" y="9" width="8" height="8" fill="#f9c74f" />
+        <rect x="18" y="9" width="8" height="8" fill="#90be6d" />
+        <rect x="27" y="9" width="8" height="8" fill="#43aa8b" />
+        <rect x="9" y="18" width="8" height="8" fill="#f8961e" />
+        <rect x="18" y="18" width="8" height="8" fill="#f94144" />
+        <rect x="27" y="18" width="8" height="8" fill="#577590" />
+        <rect x="9" y="27" width="8" height="8" fill="#277da1" />
+        <rect x="18" y="27" width="8" height="8" fill="#4d908e" />
+        <rect x="27" y="27" width="8" height="8" fill="#f3722c" />
+      </svg>
+    `;
+  }
+
+  return `
+    <svg viewBox="0 0 42 42" aria-hidden="true">
+      <path d="M8 34V9M8 34h27" stroke="#7b8491" stroke-width="1.6" stroke-linecap="round" />
+      <rect x="12" y="20" width="5" height="14" fill="#1a73e8" />
+      <rect x="20" y="11" width="5" height="23" fill="#1db954" />
+      <rect x="28" y="16" width="5" height="18" fill="#ff9900" />
+    </svg>
+  `;
+}
+
+function openChartWizardDialog(actions: ChartWizardActions) {
+  closeChartWizardDialog();
+
+  let stepIndex: ChartWizardStep = 0;
+  let chartGroupKey = chartWizardTypeGroups[0].key;
+  let chartSubtypeIndex = 0;
+  let rangeA1 = getSelectionRangeA1(actions);
+  let dataOrientation: ChartWizardConfig['dataOrientation'] = 'Column';
+  let useFirstRowAsHeader = true;
+  let useFirstColumnAsLabel = true;
+  let title = '';
+  let subtitle = '';
+  let xAxisTitle = '';
+  let yAxisTitle = '';
+  let legendPosition: ChartWizardConfig['legendPosition'] = 'right';
+  let width = 560;
+  let height = 360;
+
+  const dialog = document.createElement('div');
+  dialog.id = chartWizardDialogId;
+  dialog.className = 'spreadsheet-chart-wizard-backdrop';
+  dialog.innerHTML = `
+    <div class="spreadsheet-chart-wizard-dialog" role="dialog" aria-modal="true" aria-labelledby="spreadsheet-chart-wizard-title">
+      <div class="spreadsheet-chart-wizard-titlebar">
+        <span class="spreadsheet-chart-wizard-window-dot spreadsheet-chart-wizard-window-dot-red" aria-hidden="true"></span>
+        <span class="spreadsheet-chart-wizard-window-dot spreadsheet-chart-wizard-window-dot-yellow" aria-hidden="true"></span>
+        <span class="spreadsheet-chart-wizard-window-dot spreadsheet-chart-wizard-window-dot-green" aria-hidden="true"></span>
+        <strong id="spreadsheet-chart-wizard-title">Chart Wizard</strong>
+        <button class="spreadsheet-chart-wizard-close" type="button" aria-label="Close">x</button>
+      </div>
+      <div class="spreadsheet-chart-wizard-content">
+        <aside class="spreadsheet-chart-wizard-steps" data-chart-wizard-steps></aside>
+        <section class="spreadsheet-chart-wizard-panel" data-chart-wizard-panel></section>
+      </div>
+      <div class="spreadsheet-chart-wizard-footer">
+        <button class="spreadsheet-chart-wizard-button spreadsheet-chart-wizard-help" type="button" tabindex="-1" aria-disabled="true">Help</button>
+        <span class="spreadsheet-chart-wizard-footer-spacer"></span>
+        <button class="spreadsheet-chart-wizard-button" type="button" data-chart-wizard-back>&lt; Back</button>
+        <button class="spreadsheet-chart-wizard-button" type="button" data-chart-wizard-next>Next &gt;</button>
+        <button class="spreadsheet-chart-wizard-button spreadsheet-chart-wizard-button-primary" type="button" data-chart-wizard-finish>Finish</button>
+        <button class="spreadsheet-chart-wizard-button" type="button" data-chart-wizard-cancel>Cancel</button>
+      </div>
+    </div>
+  `;
+
+  function getActiveGroup() {
+    return chartWizardTypeGroups.find((group) => group.key === chartGroupKey) ?? chartWizardTypeGroups[0];
+  }
+
+  function getActiveSubtype() {
+    const group = getActiveGroup();
+
+    return group.subtypes[chartSubtypeIndex] ?? group.subtypes[0];
+  }
+
+  function syncChartWizardStateFromPanel() {
+    const rangeInput = dialog.querySelector<HTMLInputElement>('[data-chart-wizard-range]');
+    const orientationInput = dialog.querySelector<HTMLSelectElement>('[data-chart-wizard-orientation]');
+    const firstRowInput = dialog.querySelector<HTMLInputElement>('[data-chart-wizard-first-row]');
+    const firstColumnInput = dialog.querySelector<HTMLInputElement>('[data-chart-wizard-first-column]');
+    const titleInput = dialog.querySelector<HTMLInputElement>('[data-chart-wizard-title-input]');
+    const subtitleInput = dialog.querySelector<HTMLInputElement>('[data-chart-wizard-subtitle]');
+    const xAxisInput = dialog.querySelector<HTMLInputElement>('[data-chart-wizard-x-axis]');
+    const yAxisInput = dialog.querySelector<HTMLInputElement>('[data-chart-wizard-y-axis]');
+    const legendInput = dialog.querySelector<HTMLSelectElement>('[data-chart-wizard-legend]');
+    const widthInput = dialog.querySelector<HTMLInputElement>('[data-chart-wizard-width]');
+    const heightInput = dialog.querySelector<HTMLInputElement>('[data-chart-wizard-height]');
+
+    if (rangeInput) rangeA1 = rangeInput.value.trim();
+    if (orientationInput) dataOrientation = orientationInput.value === 'Row' ? 'Row' : 'Column';
+    if (firstRowInput) useFirstRowAsHeader = firstRowInput.checked;
+    if (firstColumnInput) useFirstColumnAsLabel = firstColumnInput.checked;
+    if (titleInput) title = titleInput.value;
+    if (subtitleInput) subtitle = subtitleInput.value;
+    if (xAxisInput) xAxisTitle = xAxisInput.value;
+    if (yAxisInput) yAxisTitle = yAxisInput.value;
+    if (legendInput) legendPosition = legendInput.value as ChartWizardConfig['legendPosition'];
+    if (widthInput) width = Number(widthInput.value) || 560;
+    if (heightInput) height = Number(heightInput.value) || 360;
+  }
+
+  function renderChartWizardSteps() {
+    const steps = dialog.querySelector<HTMLElement>('[data-chart-wizard-steps]');
+    if (!steps) return;
+
+    steps.innerHTML = `
+      <h2>Steps</h2>
+      ${chartWizardSteps
+        .map(
+          (step, index) => `
+            <button
+              class="spreadsheet-chart-wizard-step ${index === stepIndex ? 'is-active' : ''}"
+              type="button"
+              data-chart-wizard-step="${index}"
+            >
+              ${index + 1}. ${step}
+            </button>
+          `,
+        )
+        .join('')}
+    `;
+
+    steps.querySelectorAll<HTMLButtonElement>('[data-chart-wizard-step]').forEach((button) => {
+      button.addEventListener('click', () => {
+        syncChartWizardStateFromPanel();
+        stepIndex = Number(button.dataset.chartWizardStep) as ChartWizardStep;
+        renderChartWizard();
+      });
+    });
+  }
+
+  function renderChartTypeStep(panel: HTMLElement) {
+    const group = getActiveGroup();
+    const subtype = getActiveSubtype();
+
+    panel.innerHTML = `
+      <h2>Choose a Chart Type</h2>
+      <div class="spreadsheet-chart-wizard-type-grid">
+        <div class="spreadsheet-chart-wizard-type-list">
+          ${chartWizardTypeGroups
+            .map(
+              (chartGroup) => `
+                <button
+                  class="spreadsheet-chart-wizard-type ${chartGroup.key === chartGroupKey ? 'is-active' : ''}"
+                  type="button"
+                  data-chart-wizard-group="${chartGroup.key}"
+                >
+                  <span class="spreadsheet-chart-wizard-type-icon">${createChartWizardIcon(chartGroup.icon)}</span>
+                  <span>${chartGroup.label}</span>
+                </button>
+              `,
+            )
+            .join('')}
+        </div>
+        <div class="spreadsheet-chart-wizard-subtype-area">
+          <div class="spreadsheet-chart-wizard-subtype-cards">
+            ${group.subtypes
+              .map(
+                (chartSubtype, index) => `
+                  <button
+                    class="spreadsheet-chart-wizard-subtype ${index === chartSubtypeIndex ? 'is-active' : ''}"
+                    type="button"
+                    data-chart-wizard-subtype="${index}"
+                    title="${escapeChartWizardAttribute(chartSubtype.label)}"
+                  >
+                    ${createChartWizardIcon(chartSubtype.icon)}
+                  </button>
+                `,
+              )
+              .join('')}
+          </div>
+          <div class="spreadsheet-chart-wizard-subtype-name">${subtype.label}</div>
+          <label class="spreadsheet-chart-wizard-disabled-check">
+            <input type="checkbox" disabled>
+            <span>3D Look</span>
+          </label>
+          <div class="spreadsheet-chart-wizard-shape-list" aria-label="Shape">
+            <div class="is-active">Bar</div>
+            <div>Cylinder</div>
+            <div>Cone</div>
+            <div>Pyramid</div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    panel.querySelectorAll<HTMLButtonElement>('[data-chart-wizard-group]').forEach((button) => {
+      button.addEventListener('click', () => {
+        syncChartWizardStateFromPanel();
+        chartGroupKey = button.dataset.chartWizardGroup || chartWizardTypeGroups[0].key;
+        chartSubtypeIndex = 0;
+        renderChartWizard();
+      });
+    });
+
+    panel.querySelectorAll<HTMLButtonElement>('[data-chart-wizard-subtype]').forEach((button) => {
+      button.addEventListener('click', () => {
+        chartSubtypeIndex = Number(button.dataset.chartWizardSubtype) || 0;
+        renderChartWizard();
+      });
+    });
+  }
+
+  function renderDataRangeStep(panel: HTMLElement) {
+    panel.innerHTML = `
+      <h2>Choose a Data Range</h2>
+      <div class="spreadsheet-chart-wizard-form">
+        <label class="spreadsheet-chart-wizard-field">
+          <span>Data range</span>
+          <input type="text" value="${escapeChartWizardAttribute(rangeA1)}" data-chart-wizard-range>
+        </label>
+        <label class="spreadsheet-chart-wizard-check">
+          <input type="checkbox" data-chart-wizard-first-row ${useFirstRowAsHeader ? 'checked' : ''}>
+          <span>First row as label</span>
+        </label>
+        <label class="spreadsheet-chart-wizard-check">
+          <input type="checkbox" data-chart-wizard-first-column ${useFirstColumnAsLabel ? 'checked' : ''}>
+          <span>First column as label</span>
+        </label>
+        <label class="spreadsheet-chart-wizard-field">
+          <span>Data series in</span>
+          <select data-chart-wizard-orientation>
+            <option value="Column" ${dataOrientation === 'Column' ? 'selected' : ''}>Columns</option>
+            <option value="Row" ${dataOrientation === 'Row' ? 'selected' : ''}>Rows</option>
+          </select>
+        </label>
+      </div>
+    `;
+  }
+
+  function renderDataSeriesStep(panel: HTMLElement) {
+    panel.innerHTML = `
+      <h2>Adjust Data Series</h2>
+      <div class="spreadsheet-chart-wizard-form spreadsheet-chart-wizard-form-two-column">
+        <label class="spreadsheet-chart-wizard-field">
+          <span>Data series in</span>
+          <select data-chart-wizard-orientation>
+            <option value="Column" ${dataOrientation === 'Column' ? 'selected' : ''}>Columns</option>
+            <option value="Row" ${dataOrientation === 'Row' ? 'selected' : ''}>Rows</option>
+          </select>
+        </label>
+        <label class="spreadsheet-chart-wizard-field">
+          <span>Range</span>
+          <input type="text" value="${escapeChartWizardAttribute(rangeA1)}" data-chart-wizard-range>
+        </label>
+        <label class="spreadsheet-chart-wizard-check">
+          <input type="checkbox" data-chart-wizard-first-row ${useFirstRowAsHeader ? 'checked' : ''}>
+          <span>Use first row for series names</span>
+        </label>
+        <label class="spreadsheet-chart-wizard-check">
+          <input type="checkbox" data-chart-wizard-first-column ${useFirstColumnAsLabel ? 'checked' : ''}>
+          <span>Use first column for categories</span>
+        </label>
+      </div>
+      <div class="spreadsheet-chart-wizard-series-preview">
+        <div>Selected type</div>
+        <strong>${getActiveSubtype().label}</strong>
+      </div>
+    `;
+  }
+
+  function renderChartElementsStep(panel: HTMLElement) {
+    panel.innerHTML = `
+      <h2>Set Chart Elements</h2>
+      <div class="spreadsheet-chart-wizard-form spreadsheet-chart-wizard-form-two-column">
+        <label class="spreadsheet-chart-wizard-field">
+          <span>Title</span>
+          <input type="text" value="${escapeChartWizardAttribute(title)}" placeholder="${escapeChartWizardAttribute(getActiveSubtype().label)}" data-chart-wizard-title-input>
+        </label>
+        <label class="spreadsheet-chart-wizard-field">
+          <span>Subtitle</span>
+          <input type="text" value="${escapeChartWizardAttribute(subtitle)}" data-chart-wizard-subtitle>
+        </label>
+        <label class="spreadsheet-chart-wizard-field">
+          <span>X axis</span>
+          <input type="text" value="${escapeChartWizardAttribute(xAxisTitle)}" data-chart-wizard-x-axis>
+        </label>
+        <label class="spreadsheet-chart-wizard-field">
+          <span>Y axis</span>
+          <input type="text" value="${escapeChartWizardAttribute(yAxisTitle)}" data-chart-wizard-y-axis>
+        </label>
+        <label class="spreadsheet-chart-wizard-field">
+          <span>Legend</span>
+          <select data-chart-wizard-legend>
+            <option value="right" ${legendPosition === 'right' ? 'selected' : ''}>Right</option>
+            <option value="bottom" ${legendPosition === 'bottom' ? 'selected' : ''}>Bottom</option>
+            <option value="top" ${legendPosition === 'top' ? 'selected' : ''}>Top</option>
+            <option value="left" ${legendPosition === 'left' ? 'selected' : ''}>Left</option>
+            <option value="hide" ${legendPosition === 'hide' ? 'selected' : ''}>Hide</option>
+          </select>
+        </label>
+        <div class="spreadsheet-chart-wizard-size-fields">
+          <label class="spreadsheet-chart-wizard-field">
+            <span>Width</span>
+            <input type="number" min="240" max="1200" value="${width}" data-chart-wizard-width>
+          </label>
+          <label class="spreadsheet-chart-wizard-field">
+            <span>Height</span>
+            <input type="number" min="180" max="900" value="${height}" data-chart-wizard-height>
+          </label>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderChartWizardPanel() {
+    const panel = dialog.querySelector<HTMLElement>('[data-chart-wizard-panel]');
+    if (!panel) return;
+
+    if (stepIndex === 0) renderChartTypeStep(panel);
+    if (stepIndex === 1) renderDataRangeStep(panel);
+    if (stepIndex === 2) renderDataSeriesStep(panel);
+    if (stepIndex === 3) renderChartElementsStep(panel);
+  }
+
+  function renderChartWizardFooter() {
+    const backButton = dialog.querySelector<HTMLButtonElement>('[data-chart-wizard-back]');
+    const nextButton = dialog.querySelector<HTMLButtonElement>('[data-chart-wizard-next]');
+
+    if (backButton) backButton.disabled = stepIndex === 0;
+    if (nextButton) nextButton.disabled = stepIndex === chartWizardSteps.length - 1;
+  }
+
+  function renderChartWizard() {
+    renderChartWizardSteps();
+    renderChartWizardPanel();
+    renderChartWizardFooter();
+  }
+
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) closeChartWizardDialog();
+  });
+
+  dialog.querySelector<HTMLButtonElement>('.spreadsheet-chart-wizard-close')?.addEventListener('click', closeChartWizardDialog);
+  dialog.querySelector<HTMLButtonElement>('[data-chart-wizard-cancel]')?.addEventListener('click', closeChartWizardDialog);
+  dialog.querySelector<HTMLButtonElement>('[data-chart-wizard-back]')?.addEventListener('click', () => {
+    syncChartWizardStateFromPanel();
+    stepIndex = Math.max(0, stepIndex - 1) as ChartWizardStep;
+    renderChartWizard();
+  });
+  dialog.querySelector<HTMLButtonElement>('[data-chart-wizard-next]')?.addEventListener('click', () => {
+    syncChartWizardStateFromPanel();
+    stepIndex = Math.min(chartWizardSteps.length - 1, stepIndex + 1) as ChartWizardStep;
+    renderChartWizard();
+  });
+  dialog.querySelector<HTMLButtonElement>('[data-chart-wizard-finish]')?.addEventListener('click', async () => {
+    syncChartWizardStateFromPanel();
+
+    const subtype = getActiveSubtype();
+    const config: ChartWizardConfig = {
+      chartType: subtype.chartType,
+      chartLabel: subtype.label,
+      dataOrientation,
+      height,
+      legendPosition,
+      rangeA1,
+      subtitle,
+      title,
+      useFirstColumnAsLabel,
+      useFirstRowAsHeader,
+      width,
+      xAxisTitle,
+      yAxisTitle,
+    };
+    const didInsert = await actions.applySelectionChart(config);
+
+    if (didInsert) {
+      closeChartWizardDialog();
+      return;
+    }
+
+    const panel = dialog.querySelector<HTMLElement>('[data-chart-wizard-panel]');
+    panel?.classList.add('has-error');
+  });
+
+  document.body.appendChild(dialog);
+  document.addEventListener('keydown', closeChartWizardDialogOnEscape, true);
+  renderChartWizard();
+  dialog.querySelector<HTMLButtonElement>('[data-chart-wizard-finish]')?.focus();
+}
+
 export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }: SpreadsheetMockToolbarOptions) {
   const container = document.getElementById(containerId);
   if (!container || container.dataset.mockToolbarRendered === 'true') return;
 
   const disabledFontControls = actions ? '' : 'disabled aria-disabled="true"';
-  const canClickMockButton = (item: MockToolbarItem) => actions && (item.filter || item.sortAscending !== undefined);
+  const canClickMockButton = (item: MockToolbarItem) => actions && (item.chart || item.filter || item.sortAscending !== undefined);
   const canClickFormattingButton = (item: MockFormattingItem) => item.action || item.commandId || item.colorCommandId;
 
   container.dataset.mockToolbarRendered = 'true';
@@ -549,6 +1187,7 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
                           title="${item.label}"
                           aria-label="${item.label}"
                           ${item.filter ? 'data-spreadsheet-filter="true"' : ''}
+                          ${item.chart ? 'data-spreadsheet-chart="true"' : ''}
                           ${item.sortAscending !== undefined ? `data-spreadsheet-sort-direction="${item.sortAscending ? 'ascending' : 'descending'}"` : ''}
                         >
                           ${item.icon}
@@ -610,12 +1249,45 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
           <span class="spreadsheet-mock-formula-fx" aria-hidden="true">fx</span>
           <span class="spreadsheet-mock-formula-sum" aria-hidden="true">Σ</span>
           <span class="spreadsheet-mock-formula-equals" aria-hidden="true">=</span>
-          <div class="spreadsheet-mock-formula-input" aria-hidden="true"></div>
+          <input
+            class="spreadsheet-mock-formula-input"
+            type="text"
+            data-spreadsheet-formula-input
+            aria-label="Formula input"
+            autocomplete="off"
+            spellcheck="false"
+          />
           <span class="spreadsheet-mock-formula-drop" aria-hidden="true"></span>
         </div>
       </div>
     </div>
   `;
+
+  const formulaInput = container.querySelector<HTMLInputElement>('[data-spreadsheet-formula-input]');
+  let formulaInputDirty = false;
+
+  function commitFormulaInputValue() {
+    if (!formulaInput || !formulaInputDirty) return;
+
+    actions?.applySelectionInputValue(formulaInput.value);
+    formulaInputDirty = false;
+  }
+
+  formulaInput?.addEventListener('input', () => {
+    formulaInputDirty = true;
+  });
+
+  formulaInput?.addEventListener('keydown', (event) => {
+    event.stopPropagation();
+
+    if (event.key !== 'Enter') return;
+
+    event.preventDefault();
+    commitFormulaInputValue();
+    formulaInput.blur();
+  });
+
+  formulaInput?.addEventListener('blur', commitFormulaInputValue);
 
   if (actions) {
     container.querySelector<HTMLSelectElement>('[data-spreadsheet-font-family]')?.addEventListener('change', (event) => {
@@ -656,6 +1328,13 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
     if (!actions) return;
 
     requestSelectionFilter(actions);
+  });
+
+  container.querySelector<HTMLButtonElement>('[data-spreadsheet-chart]')?.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (!actions) return;
+
+    openChartWizardDialog(actions);
   });
 
   if (!univerAPI) return;
@@ -812,10 +1491,12 @@ type SpreadsheetUiContext = {
   };
   actions: Pick<
     SpreadsheetActions,
+    | 'applySelectionChart'
     | 'applySelectionBarChart'
     | 'applySelectionFilter'
     | 'applySelectionHeaderlessFilter'
     | 'applySelectionSort'
+    | 'columnIndexToName'
     | 'getSelectionRangeTarget'
   >;
   conditionalFormattingCommandId: string;
@@ -912,9 +1593,9 @@ export function setupSpreadsheetUi({
             openSortDirectionMenu(button);
             document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
           }),
-          createHeaderMenuButton('Bar Chart', () => {
-            void actions.applySelectionBarChart();
+          createHeaderMenuButton('Chart Wizard', () => {
             document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+            window.setTimeout(() => openChartWizardDialog(actions), 0);
           }),
         );
         menuPanel.appendChild(wrapper);
@@ -946,6 +1627,17 @@ export function setupSpreadsheetUi({
     button.addEventListener('click', onClick);
 
     return button;
+  }
+
+  function createNumberFormatSidebarIcon() {
+    return `
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <rect x="4" y="3" width="16" height="18" rx="1.5" fill="#f6f7f8" stroke="#6b7280" stroke-width="1.4" />
+        <rect x="7" y="6" width="10" height="2" rx=".5" fill="#9ca3af" />
+        <rect x="7" y="10" width="4" height="8" rx=".6" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1" />
+        <path d="M14 11h3M14 14h3M14 17h3" stroke="#4b5563" stroke-width="1.4" stroke-linecap="round" />
+      </svg>
+    `;
   }
 
   function createPropertiesSidebarIcon() {
@@ -1041,12 +1733,16 @@ export function setupSpreadsheetUi({
     rail.append(
       createFormattingSidebarButton({
         id: formattingSidebarButtonId,
-        title: 'Formatting Sidebar',
-        icon: createPropertiesSidebarIcon(),
+        title: 'Number Format',
+        icon: createNumberFormatSidebarIcon(),
         onClick: (event) => {
           event.preventDefault();
           void univerAPI.executeCommand(openNumberFormatPanelCommandId);
         },
+      }),
+      createFormattingSidebarButton({
+        title: 'Properties',
+        icon: createPropertiesSidebarIcon(),
       }),
       createFormattingSidebarButton({
         title: 'Gallery',
@@ -1111,14 +1807,14 @@ export function setupSpreadsheetUi({
 
       const barChartButton = createStartToolbarButton(
         startBarChartToolbarButtonId,
-        'Bar Chart',
+        'Chart Wizard',
         `
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M4 19h16v2H4v-2zM7 9h3v8H7V9zm5-5h3v13h-3V4zm5 8h3v5h-3v-5z" />
         </svg>
       `,
         () => {
-          void actions.applySelectionBarChart();
+          openChartWizardDialog(actions);
         },
       );
 

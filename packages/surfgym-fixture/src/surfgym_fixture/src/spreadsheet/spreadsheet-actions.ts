@@ -26,6 +26,7 @@ type SpreadsheetRange = {
   setFontFamily: (fontFamily: string | null) => unknown;
   setFontSize: (fontSize: number | null) => unknown;
   setNumberFormat: (pattern: string) => unknown;
+  setValue: (value: string) => unknown;
 };
 
 type SpreadsheetSelection = {
@@ -66,6 +67,25 @@ export type SelectionRangeTarget = {
 
 type SelectionSortTarget = SelectionRangeTarget & {
   sortRange: SelectionRange;
+};
+
+export type ChartWizardLegendPosition = 'top' | 'right' | 'bottom' | 'left' | 'hide';
+export type ChartWizardDataOrientation = 'Row' | 'Column';
+
+export type ChartWizardConfig = {
+  chartType: ChartTypeBits;
+  chartLabel?: string;
+  rangeA1?: string;
+  title?: string;
+  subtitle?: string;
+  xAxisTitle?: string;
+  yAxisTitle?: string;
+  width?: number;
+  height?: number;
+  legendPosition?: ChartWizardLegendPosition;
+  dataOrientation?: ChartWizardDataOrientation;
+  useFirstRowAsHeader?: boolean;
+  useFirstColumnAsLabel?: boolean;
 };
 
 export function createSpreadsheetActions({ univerAPI, workbook, worksheet }: SpreadsheetActionsContext) {
@@ -198,6 +218,15 @@ export function createSpreadsheetActions({ univerAPI, workbook, worksheet }: Spr
     getSelectionFacadeRange(formatTarget).setNumberFormat('yyyy-mm-dd');
   }
 
+  function applySelectionInputValue(value: string) {
+    const inputTarget = getSelectionRangeTarget({ allowSingleRow: true });
+    if (!inputTarget) return;
+
+    const { range, worksheet } = inputTarget;
+
+    worksheet.getRange(range.startRow, range.startColumn, 1, 1).setValue(value);
+  }
+
   async function applySelectionFilter(filterTarget: SelectionRangeTarget | null = getSelectionRangeTarget()) {
     if (!filterTarget) return;
 
@@ -256,32 +285,70 @@ export function createSpreadsheetActions({ univerAPI, workbook, worksheet }: Spr
       .sort({ column: sortColumn, ascending });
   }
 
-  async function applySelectionBarChart() {
-    const chartTarget = getSelectionRangeTarget();
-    if (!chartTarget || chartTarget.range.endColumn <= chartTarget.range.startColumn) return;
+  function setChartOption(builder: SpreadsheetChartBuilder, path: string, value: unknown) {
+    if (value === undefined || value === null || value === '') return builder;
+
+    return builder.setOptions(path, value);
+  }
+
+  async function applySelectionChart(config: ChartWizardConfig) {
+    const chartTarget = getSelectionRangeTarget({ allowSingleRow: true });
+    if (!chartTarget) return false;
 
     const { range } = chartTarget;
     const maxColumn = chartTarget.worksheet.getMaxColumns() - 1;
     const chartColumn = range.endColumn < maxColumn ? range.endColumn + 1 : range.startColumn;
-    const chartInfo = chartTarget.worksheet.newChart()
-      .setChartType(ChartTypeBits.Bar)
-      .addRange(selectionRangeToA1(range))
+    const title = config.title?.trim() || config.chartLabel || 'Chart';
+    const subtitle = config.subtitle?.trim();
+    const xAxisTitle = config.xAxisTitle?.trim();
+    const yAxisTitle = config.yAxisTitle?.trim();
+    let chartBuilder = chartTarget.worksheet.newChart()
+      .setChartType(config.chartType)
+      .addRange(config.rangeA1?.trim() || selectionRangeToA1(range))
       .setPosition(range.startRow, chartColumn, 20, 20)
-      .setWidth(560)
-      .setHeight(360)
-      .setOptions('title.content', 'Bar Chart')
-      .build();
+      .setWidth(config.width ?? 560)
+      .setHeight(config.height ?? 360);
+
+    chartBuilder = setChartOption(chartBuilder, 'title.content', title);
+    chartBuilder = setChartOption(chartBuilder, 'titles.title.content', title);
+    chartBuilder = setChartOption(chartBuilder, 'titles.subtitle.content', subtitle);
+    chartBuilder = setChartOption(chartBuilder, 'titles.xAxisTitle.content', xAxisTitle);
+    chartBuilder = setChartOption(chartBuilder, 'titles.yAxisTitle.content', yAxisTitle);
+    chartBuilder = setChartOption(chartBuilder, 'legend.position', config.legendPosition ?? 'right');
+    chartBuilder = setChartOption(chartBuilder, 'orient', config.dataOrientation ?? 'Column');
+
+    if (config.useFirstColumnAsLabel) {
+      chartBuilder = setChartOption(chartBuilder, 'context.categoryIndex', 0);
+      chartBuilder = setChartOption(chartBuilder, 'context.transform.categoryIndex', 0);
+    }
+
+    if (config.useFirstRowAsHeader) {
+      chartBuilder = setChartOption(chartBuilder, 'context.useFirstRowAsHeader', true);
+    }
+
+    const chartInfo = chartBuilder.build();
 
     await chartTarget.worksheet.insertChart(chartInfo);
+    return true;
+  }
+
+  async function applySelectionBarChart() {
+    await applySelectionChart({
+      chartType: ChartTypeBits.Bar,
+      chartLabel: 'Bar Chart',
+      title: 'Bar Chart',
+    });
   }
 
   return {
     applySelectionBarChart,
+    applySelectionChart,
     applySelectionDateFormat,
     applySelectionFilter,
     applySelectionHeaderlessFilter,
     applySelectionFontFamily,
     applySelectionFontSize,
+    applySelectionInputValue,
     applySelectionNumberFormat,
     applySelectionPercentFormat,
     applySelectionSort,

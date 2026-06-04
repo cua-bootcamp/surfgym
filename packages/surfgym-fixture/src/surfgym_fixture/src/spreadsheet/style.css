@@ -125,11 +125,13 @@ body {
   flex: 0 0 auto;
 }
 
+.spreadsheet-mock-icon-button[data-spreadsheet-chart],
 .spreadsheet-mock-icon-button[data-spreadsheet-filter],
 .spreadsheet-mock-icon-button[data-spreadsheet-sort-direction] {
   cursor: pointer;
 }
 
+.spreadsheet-mock-icon-button[data-spreadsheet-chart]:hover,
 .spreadsheet-mock-icon-button[data-spreadsheet-filter]:hover,
 .spreadsheet-mock-icon-button[data-spreadsheet-sort-direction]:hover {
   border-color: rgb(176, 186, 199);
@@ -315,6 +317,15 @@ body {
   flex: 1 1 auto;
   border: 1px solid rgb(156, 160, 166);
   background: rgb(255, 255, 255);
+  color: rgb(24, 29, 37);
+  font: inherit;
+  outline: none;
+  padding: 0 8px;
+}
+
+.spreadsheet-mock-formula-input:focus {
+  border-color: rgb(47, 112, 216);
+  box-shadow: inset 0 0 0 1px rgb(47 112 216 / 0.2);
 }
 
 .spreadsheet-mock-formula-drop {
@@ -537,6 +548,447 @@ div:has(> [data-u-comp="ribbon-toolbar"]) {
   border-color: rgb(47, 112, 216);
   background: rgb(232, 240, 255);
   outline: none;
+}
+
+.spreadsheet-chart-wizard-backdrop {
+  position: fixed;
+  z-index: 10002;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(0 0 0 / 0.12);
+}
+
+.spreadsheet-chart-wizard-dialog {
+  box-sizing: border-box;
+  display: flex;
+  width: min(1080px, calc(100vw - 32px));
+  height: min(650px, calc(100vh - 32px));
+  min-height: 520px;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgb(180, 184, 191);
+  border-radius: 10px;
+  background: rgb(248, 248, 248);
+  box-shadow:
+    0 24px 58px rgb(0 0 0 / 0.28),
+    0 4px 12px rgb(0 0 0 / 0.14);
+  color: rgb(0, 0, 0);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+.spreadsheet-chart-wizard-titlebar {
+  box-sizing: border-box;
+  display: flex;
+  height: 38px;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgb(213, 216, 221);
+  background: rgb(245, 245, 245);
+  padding: 0 12px;
+}
+
+.spreadsheet-chart-wizard-titlebar strong {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  color: rgb(74, 74, 74);
+  font-size: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.spreadsheet-chart-wizard-window-dot {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  border-radius: 999px;
+}
+
+.spreadsheet-chart-wizard-window-dot-red {
+  background: rgb(255, 95, 87);
+}
+
+.spreadsheet-chart-wizard-window-dot-yellow {
+  background: rgb(214, 214, 214);
+}
+
+.spreadsheet-chart-wizard-window-dot-green {
+  background: rgb(40, 201, 64);
+}
+
+.spreadsheet-chart-wizard-close {
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: rgb(35, 39, 47);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.spreadsheet-chart-wizard-close:hover,
+.spreadsheet-chart-wizard-close:focus-visible {
+  background: rgb(229, 231, 235);
+  outline: none;
+}
+
+.spreadsheet-chart-wizard-content {
+  display: grid;
+  min-height: 0;
+  flex: 1 1 auto;
+  grid-template-columns: 230px minmax(0, 1fr);
+  overflow: hidden;
+}
+
+.spreadsheet-chart-wizard-steps {
+  box-sizing: border-box;
+  min-height: 0;
+  border-right: 1px solid rgb(196, 199, 205);
+  background: rgb(246, 246, 246);
+  padding: 0 16px 16px;
+}
+
+.spreadsheet-chart-wizard-steps h2 {
+  display: inline-block;
+  margin: 0 0 72px;
+  border-bottom: 2px solid rgb(0, 0, 0);
+  font-size: 17px;
+  line-height: 32px;
+}
+
+.spreadsheet-chart-wizard-step {
+  display: flex;
+  width: 100%;
+  min-height: 34px;
+  cursor: pointer;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  color: rgb(0, 0, 0);
+  font: inherit;
+  font-size: 18px;
+  padding: 0 2px;
+  text-align: left;
+}
+
+.spreadsheet-chart-wizard-step.is-active {
+  background: rgb(181, 213, 249);
+  outline: 1px dotted rgb(0, 0, 0);
+}
+
+.spreadsheet-chart-wizard-panel {
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  background: rgb(255, 255, 255);
+  padding: 18px 24px;
+}
+
+.spreadsheet-chart-wizard-panel.has-error::after {
+  display: block;
+  margin-top: 12px;
+  color: rgb(180, 35, 24);
+  content: "Select a data range first.";
+  font-size: 14px;
+}
+
+.spreadsheet-chart-wizard-panel h2 {
+  margin: 0 0 14px;
+  color: rgb(0, 0, 0);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.spreadsheet-chart-wizard-type-grid {
+  display: grid;
+  min-height: 420px;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 24px;
+}
+
+.spreadsheet-chart-wizard-type-list {
+  overflow: auto;
+  border: 1px solid rgb(188, 188, 188);
+  background: rgb(255, 255, 255);
+}
+
+.spreadsheet-chart-wizard-type {
+  box-sizing: border-box;
+  display: grid;
+  width: 100%;
+  min-height: 36px;
+  cursor: pointer;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: center;
+  border: 0;
+  background: transparent;
+  color: rgb(0, 0, 0);
+  font: inherit;
+  font-size: 18px;
+  padding: 2px 8px;
+  text-align: left;
+}
+
+.spreadsheet-chart-wizard-type.is-active {
+  background: rgb(177, 210, 245);
+}
+
+.spreadsheet-chart-wizard-type:hover,
+.spreadsheet-chart-wizard-type:focus-visible {
+  background: rgb(225, 238, 255);
+  outline: none;
+}
+
+.spreadsheet-chart-wizard-type-icon,
+.spreadsheet-chart-wizard-type-icon svg {
+  display: block;
+  width: 28px;
+  height: 28px;
+}
+
+.spreadsheet-chart-wizard-subtype-area {
+  display: grid;
+  min-width: 0;
+  grid-template-rows: auto auto auto 1fr;
+  gap: 12px;
+}
+
+.spreadsheet-chart-wizard-subtype-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(110px, 1fr));
+  gap: 14px;
+  border: 1px solid rgb(166, 166, 166);
+  border-top: 0;
+  padding: 20px;
+}
+
+.spreadsheet-chart-wizard-subtype {
+  box-sizing: border-box;
+  display: flex;
+  height: 96px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid transparent;
+  background: rgb(255, 255, 255);
+}
+
+.spreadsheet-chart-wizard-subtype svg {
+  width: 82px;
+  height: 82px;
+  border-radius: 3px;
+  background: rgb(244, 244, 248);
+}
+
+.spreadsheet-chart-wizard-subtype.is-active {
+  border-color: rgb(142, 194, 250);
+}
+
+.spreadsheet-chart-wizard-subtype:hover,
+.spreadsheet-chart-wizard-subtype:focus-visible {
+  border-color: rgb(142, 194, 250);
+  outline: none;
+}
+
+.spreadsheet-chart-wizard-subtype-name {
+  min-height: 28px;
+  border-bottom: 1px solid rgb(127, 127, 127);
+  color: rgb(0, 0, 0);
+  font-size: 18px;
+  text-align: center;
+}
+
+.spreadsheet-chart-wizard-disabled-check {
+  display: flex;
+  min-height: 30px;
+  align-items: center;
+  gap: 10px;
+  color: rgb(45, 45, 45);
+  font-size: 18px;
+}
+
+.spreadsheet-chart-wizard-disabled-check input {
+  width: 22px;
+  height: 22px;
+}
+
+.spreadsheet-chart-wizard-shape-list {
+  border: 1px solid rgb(188, 188, 188);
+  color: rgb(120, 120, 120);
+  font-size: 18px;
+}
+
+.spreadsheet-chart-wizard-shape-list div {
+  min-height: 30px;
+  padding: 2px 6px;
+}
+
+.spreadsheet-chart-wizard-shape-list .is-active {
+  background: rgb(177, 210, 245);
+}
+
+.spreadsheet-chart-wizard-form {
+  display: grid;
+  max-width: 720px;
+  gap: 14px;
+}
+
+.spreadsheet-chart-wizard-form-two-column {
+  max-width: 840px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.spreadsheet-chart-wizard-field {
+  display: grid;
+  gap: 6px;
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+}
+
+.spreadsheet-chart-wizard-field input,
+.spreadsheet-chart-wizard-field select {
+  box-sizing: border-box;
+  width: 100%;
+  height: 34px;
+  border: 1px solid rgb(184, 188, 196);
+  border-radius: 4px;
+  background: rgb(255, 255, 255);
+  color: rgb(17, 24, 39);
+  font: inherit;
+  padding: 0 9px;
+}
+
+.spreadsheet-chart-wizard-field input:focus,
+.spreadsheet-chart-wizard-field select:focus {
+  border-color: rgb(47, 112, 216);
+  outline: none;
+  box-shadow: 0 0 0 2px rgb(47 112 216 / 0.16);
+}
+
+.spreadsheet-chart-wizard-check {
+  display: flex;
+  min-height: 32px;
+  align-items: center;
+  gap: 10px;
+  color: rgb(17, 24, 39);
+  font-size: 16px;
+}
+
+.spreadsheet-chart-wizard-check input {
+  width: 20px;
+  height: 20px;
+}
+
+.spreadsheet-chart-wizard-series-preview {
+  box-sizing: border-box;
+  width: min(420px, 100%);
+  margin-top: 18px;
+  border: 1px solid rgb(197, 202, 211);
+  background: rgb(250, 250, 250);
+  padding: 12px;
+  color: rgb(60, 65, 75);
+  font-size: 15px;
+}
+
+.spreadsheet-chart-wizard-series-preview strong {
+  display: block;
+  margin-top: 4px;
+  color: rgb(0, 0, 0);
+  font-size: 18px;
+}
+
+.spreadsheet-chart-wizard-size-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.spreadsheet-chart-wizard-footer {
+  box-sizing: border-box;
+  display: flex;
+  min-height: 70px;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid rgb(213, 216, 221);
+  background: rgb(248, 248, 248);
+  padding: 10px 16px;
+}
+
+.spreadsheet-chart-wizard-footer-spacer {
+  flex: 1 1 auto;
+}
+
+.spreadsheet-chart-wizard-button {
+  box-sizing: border-box;
+  min-width: 128px;
+  height: 42px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: rgb(232, 232, 232);
+  color: rgb(0, 0, 0);
+  font: inherit;
+  font-size: 17px;
+}
+
+.spreadsheet-chart-wizard-button:hover:not(:disabled):not([aria-disabled="true"]),
+.spreadsheet-chart-wizard-button:focus-visible {
+  border-color: rgb(47, 112, 216);
+  outline: none;
+}
+
+.spreadsheet-chart-wizard-button:disabled,
+.spreadsheet-chart-wizard-button[aria-disabled="true"] {
+  cursor: default;
+  color: rgb(128, 128, 128);
+  opacity: 0.78;
+}
+
+.spreadsheet-chart-wizard-button-primary {
+  background: rgb(0, 122, 255);
+  color: rgb(255, 255, 255);
+}
+
+.spreadsheet-chart-wizard-help {
+  min-width: 132px;
+}
+
+@media (max-width: 860px) {
+  .spreadsheet-chart-wizard-dialog {
+    height: calc(100vh - 24px);
+    min-height: 0;
+  }
+
+  .spreadsheet-chart-wizard-content {
+    grid-template-columns: 170px minmax(0, 1fr);
+  }
+
+  .spreadsheet-chart-wizard-type-grid,
+  .spreadsheet-chart-wizard-form-two-column {
+    grid-template-columns: 1fr;
+  }
+
+  .spreadsheet-chart-wizard-subtype-cards {
+    grid-template-columns: repeat(2, minmax(100px, 1fr));
+  }
+
+  .spreadsheet-chart-wizard-button {
+    min-width: 82px;
+    font-size: 14px;
+  }
 }
 
 .spreadsheet-start-filter-toolbar-group {
