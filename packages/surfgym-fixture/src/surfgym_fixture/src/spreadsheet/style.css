@@ -24,8 +24,16 @@ body {
   background: rgb(255, 255, 255);
 }
 
-#app {
+#spreadsheet-body {
+  display: flex;
   width: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+#app {
+  min-width: 0;
   min-height: 0;
   flex: 1 1 auto;
 }
@@ -597,4 +605,51 @@ div:has(> [data-u-comp="ribbon-toolbar"]) {
 
 .spreadsheet-sort-direction-menu-button:hover {
   background: rgb(243, 244, 246);
+}
+
+.spreadsheet-formatting-sidebar-rail {
+  box-sizing: border-box;
+  z-index: 2000;
+  display: flex;
+  width: 52px;
+  min-height: 0;
+  flex: 0 0 52px;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  border-left: 1px solid rgb(202, 208, 216);
+  background: rgb(252, 252, 252);
+  padding: 10px 5px;
+}
+
+.spreadsheet-formatting-sidebar-button {
+  box-sizing: border-box;
+  display: inline-flex;
+  width: 42px;
+  height: 42px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: rgb(31, 41, 55);
+  padding: 0;
+}
+
+.spreadsheet-formatting-sidebar-button:not([aria-disabled="true"]):hover,
+.spreadsheet-formatting-sidebar-button:focus-visible {
+  border-color: rgb(107, 114, 128);
+  background: rgb(255, 255, 255);
+  outline: none;
+}
+
+.spreadsheet-formatting-sidebar-button[aria-disabled="true"] {
+  cursor: default;
+}
+
+.spreadsheet-formatting-sidebar-button svg {
+  width: 36px;
+  height: 36px;
+  display: block;
 }

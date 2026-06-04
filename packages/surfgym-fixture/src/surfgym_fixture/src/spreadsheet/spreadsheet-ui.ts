@@ -8,11 +8,14 @@ const startFilterToolbarButtonId = 'spreadsheet-start-filter-toolbar-button';
 const startSortToolbarButtonId = 'spreadsheet-start-sort-toolbar-button';
 const startBarChartToolbarButtonId = 'spreadsheet-start-bar-chart-toolbar-button';
 const startConditionalFormattingToolbarButtonId = 'spreadsheet-start-conditional-formatting-toolbar-button';
+const formattingSidebarRailId = 'spreadsheet-formatting-sidebar-rail';
+const formattingSidebarButtonId = 'spreadsheet-formatting-sidebar-button';
 const mockColorPaletteMenuId = 'spreadsheet-mock-color-palette-menu';
 const mockNativeColorInputClassName = 'spreadsheet-mock-native-color-input';
 const filterHeaderDialogId = 'spreadsheet-filter-header-dialog';
 const sortDirectionMenuId = 'spreadsheet-sort-direction-menu';
 const createConditionalFormattingRuleOperation = 1;
+const openNumberFormatPanelCommandId = 'sheet.operation.open.numfmt.panel';
 const headerMenuButtonClassName = [
   'univer-relative',
   'univer-flex',
@@ -819,6 +822,7 @@ type SpreadsheetUiContext = {
 };
 
 export function setupSpreadsheetUi({
+  univerAPI,
   actions,
   conditionalFormattingCommandId,
 }: SpreadsheetUiContext) {
@@ -944,6 +948,124 @@ export function setupSpreadsheetUi({
     return button;
   }
 
+  function createPropertiesSidebarIcon() {
+    return `
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M4 19 9.4 4h2.5l5.4 15h-2.6l-1.2-3.5H7.8L6.6 19H4zm4.5-5.5h4.3l-2.1-6.2-2.2 6.2z" fill="#2f343b" />
+        <path d="m13.5 16.8 6.4-6.4 1.9 1.9-6.4 6.4z" fill="#8f98a3" />
+        <path d="m15.1 18.4 5.1-5.1 1.2 1.2-5.1 5.1z" fill="#415a9d" />
+        <path d="M9.5 18.6c2.1-2.3 5.1-2.7 7.8-1.2-1.1 2.5-4.8 3.6-7.8 1.2z" fill="#2e6eea" />
+        <path d="M11.1 18.2c1.7-1.2 3.9-1.2 5.6-.2-1 1.2-3.4 1.6-5.6.2z" fill="#ff8a00" />
+        <path d="M7.2 20.5h9.8" stroke="#f15b2a" stroke-width="1.8" stroke-linecap="round" />
+      </svg>
+    `;
+  }
+
+  function createGallerySidebarIcon() {
+    return `
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="spreadsheet-sidebar-gallery-sky" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="#f1c6df" />
+            <stop offset=".52" stop-color="#f2b16d" />
+            <stop offset="1" stop-color="#f6df9e" />
+          </linearGradient>
+        </defs>
+        <rect x="3.5" y="4" width="17" height="15" fill="#f2f2f2" stroke="#8c8f96" stroke-width="1.2" />
+        <rect x="5.8" y="6.4" width="12.4" height="9.7" fill="url(#spreadsheet-sidebar-gallery-sky)" />
+        <circle cx="15.8" cy="8.7" r="1.4" fill="#f5f1ce" />
+        <path d="M5.9 16.1 9 12.7l2.7 2.5 2.4-2.2 4.1 3.1z" fill="#2d3138" />
+      </svg>
+    `;
+  }
+
+  function createNavigatorSidebarIcon() {
+    return `
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="12" cy="12" r="8.8" fill="#43a0ff" stroke="#1f5fc9" stroke-width="1.4" />
+        <path d="m15.9 7.9-2.2 6.1-5.6 2.1 2.2-6.1z" fill="#f04f4a" stroke="#b62831" stroke-width=".8" stroke-linejoin="round" />
+        <circle cx="12" cy="12" r="1.2" fill="#ffd26a" />
+      </svg>
+    `;
+  }
+
+  function createFunctionSidebarIcon() {
+    return `
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <text x="4" y="18.5" fill="#0068ff" font-family="Georgia, serif" font-size="20" font-style="italic">fx</text>
+      </svg>
+    `;
+  }
+
+  function createFormattingSidebarButton({
+    id,
+    title,
+    icon,
+    onClick,
+  }: {
+    id?: string;
+    title: string;
+    icon: string;
+    onClick?: (event: MouseEvent) => void;
+  }) {
+    const button = document.createElement('button');
+
+    if (id) button.id = id;
+
+    button.type = 'button';
+    button.className = 'spreadsheet-formatting-sidebar-button';
+    button.title = title;
+    button.setAttribute('aria-label', title);
+    button.innerHTML = icon;
+
+    if (onClick) {
+      button.addEventListener('click', onClick);
+    } else {
+      button.tabIndex = -1;
+      button.setAttribute('aria-disabled', 'true');
+    }
+
+    return button;
+  }
+
+  function insertFormattingSidebarRail() {
+    const body = document.getElementById('spreadsheet-body');
+    if (!body) return;
+
+    const rail = document.getElementById(formattingSidebarRailId) ?? document.createElement('div');
+    if (rail.querySelector(`#${formattingSidebarButtonId}`)) return;
+
+    rail.id = formattingSidebarRailId;
+    rail.className = 'spreadsheet-formatting-sidebar-rail';
+
+    rail.append(
+      createFormattingSidebarButton({
+        id: formattingSidebarButtonId,
+        title: 'Formatting Sidebar',
+        icon: createPropertiesSidebarIcon(),
+        onClick: (event) => {
+          event.preventDefault();
+          void univerAPI.executeCommand(openNumberFormatPanelCommandId);
+        },
+      }),
+      createFormattingSidebarButton({
+        title: 'Gallery',
+        icon: createGallerySidebarIcon(),
+      }),
+      createFormattingSidebarButton({
+        title: 'Navigator',
+        icon: createNavigatorSidebarIcon(),
+      }),
+      createFormattingSidebarButton({
+        title: 'Functions',
+        icon: createFunctionSidebarIcon(),
+      }),
+    );
+    if (!rail.parentElement) {
+      body.appendChild(rail);
+    }
+  }
+
   function insertStartToolbarButtons() {
     document.querySelectorAll<HTMLElement>('[data-u-comp="ribbon-toolbar"]').forEach((toolbar) => {
       const existingButtonGroup = toolbar.querySelector(`#${startToolbarGroupId}`);
@@ -1026,4 +1148,5 @@ export function setupSpreadsheetUi({
     subtree: true,
   });
   window.setTimeout(insertStartToolbarButtons, 0);
+  window.setTimeout(insertFormattingSidebarRail, 0);
 }
