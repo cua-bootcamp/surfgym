@@ -25,6 +25,7 @@ type SpreadsheetRange = {
   sort: (options: { column: number; ascending: boolean }) => unknown;
   setFontFamily: (fontFamily: string | null) => unknown;
   setFontSize: (fontSize: number | null) => unknown;
+  setNumberFormat: (pattern: string) => unknown;
 };
 
 type SpreadsheetSelection = {
@@ -176,6 +177,27 @@ export function createSpreadsheetActions({ univerAPI, workbook, worksheet }: Spr
     getSelectionFacadeRange(fontTarget).setFontSize(fontSize);
   }
 
+  function applySelectionPercentFormat() {
+    const formatTarget = getSelectionRangeTarget({ allowSingleRow: true });
+    if (!formatTarget) return;
+
+    getSelectionFacadeRange(formatTarget).setNumberFormat('0%');
+  }
+
+  function applySelectionNumberFormat() {
+    const formatTarget = getSelectionRangeTarget({ allowSingleRow: true });
+    if (!formatTarget) return;
+
+    getSelectionFacadeRange(formatTarget).setNumberFormat('0.00');
+  }
+
+  function applySelectionDateFormat() {
+    const formatTarget = getSelectionRangeTarget({ allowSingleRow: true });
+    if (!formatTarget) return;
+
+    getSelectionFacadeRange(formatTarget).setNumberFormat('yyyy-mm-dd');
+  }
+
   async function applySelectionFilter(filterTarget: SelectionRangeTarget | null = getSelectionRangeTarget()) {
     if (!filterTarget) return;
 
@@ -255,10 +277,13 @@ export function createSpreadsheetActions({ univerAPI, workbook, worksheet }: Spr
 
   return {
     applySelectionBarChart,
+    applySelectionDateFormat,
     applySelectionFilter,
     applySelectionHeaderlessFilter,
     applySelectionFontFamily,
     applySelectionFontSize,
+    applySelectionNumberFormat,
+    applySelectionPercentFormat,
     applySelectionSort,
     columnIndexToName,
     getSelectionRangeTarget,

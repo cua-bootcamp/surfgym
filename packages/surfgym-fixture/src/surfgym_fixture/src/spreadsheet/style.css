@@ -146,11 +146,13 @@ body {
 }
 
 .spreadsheet-mock-format-button[data-spreadsheet-command],
+.spreadsheet-mock-format-button[data-spreadsheet-format-action],
 .spreadsheet-mock-format-button[data-spreadsheet-color-command] {
   cursor: pointer;
 }
 
 .spreadsheet-mock-format-button[data-spreadsheet-command]:hover,
+.spreadsheet-mock-format-button[data-spreadsheet-format-action]:hover,
 .spreadsheet-mock-format-button[data-spreadsheet-color-command]:hover {
   border-color: rgb(176, 186, 199);
   background: rgb(232, 238, 249);
@@ -179,6 +181,22 @@ body {
 }
 
 .spreadsheet-mock-fill-icon {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+
+.spreadsheet-mock-date-icon {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+
+.spreadsheet-mock-decimal-icon,
+.spreadsheet-mock-indent-icon,
+.spreadsheet-mock-border-icon,
+.spreadsheet-mock-wrap-icon,
+.spreadsheet-mock-direction-icon {
   display: block;
   width: 22px;
   height: 22px;

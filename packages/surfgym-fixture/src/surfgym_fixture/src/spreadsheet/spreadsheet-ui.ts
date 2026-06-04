@@ -42,6 +42,7 @@ type MockToolbarItem = {
 type MockFormattingItem = {
   label: string;
   title: string;
+  action?: 'dateFormat' | 'numberFormat' | 'percentFormat';
   commandId?: string;
   colorCommandId?: string;
   icon?: string;
@@ -56,10 +57,13 @@ type SpreadsheetMockToolbarOptions = {
   univerAPI?: SpreadsheetMockToolbarApi;
   actions?: Pick<
     SpreadsheetActions,
+    | 'applySelectionDateFormat'
     | 'applySelectionFilter'
     | 'applySelectionFontFamily'
     | 'applySelectionFontSize'
     | 'applySelectionHeaderlessFilter'
+    | 'applySelectionNumberFormat'
+    | 'applySelectionPercentFormat'
     | 'applySelectionSort'
     | 'getSelectionRangeTarget'
   >;
@@ -127,6 +131,62 @@ const mockToolbarIcon = {
       <path d="M9 9 16 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
       <path d="M4 20h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
       <path d="M19 14.7c1 1.2 1.6 2.1 1.6 2.9a1.6 1.6 0 0 1-3.2 0c0-.8.6-1.7 1.6-2.9z" fill="currentColor" />
+    </svg>
+  `,
+  date: `
+    <svg class="spreadsheet-mock-date-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="5" y="4" width="14" height="16" rx="1.4" fill="#f8f8f8" stroke="#8f98a3" stroke-width="1.4" />
+      <path d="M5 8h14" stroke="#8f98a3" stroke-width="1.4" />
+      <path d="M8.5 3v3M15.5 3v3" stroke="#6f7782" stroke-width="1.5" stroke-linecap="round" />
+      <text x="12" y="17" fill="#333" font-family="Arial, sans-serif" font-size="10" font-weight="700" text-anchor="middle">7</text>
+    </svg>
+  `,
+  decimalDecrease: `
+    <svg class="spreadsheet-mock-decimal-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <text x="3" y="10" fill="currentColor" font-family="Arial, sans-serif" font-size="8" font-weight="700">.00</text>
+      <text x="3" y="19" fill="currentColor" font-family="Arial, sans-serif" font-size="8" font-weight="700">.0</text>
+      <path d="M19 5v14" stroke="#2e6eea" stroke-width="2" stroke-linecap="round" />
+      <path d="m15.5 8.5 3.5-3.5 3.5 3.5" fill="none" stroke="#2e6eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  `,
+  decimalIncrease: `
+    <svg class="spreadsheet-mock-decimal-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <text x="3" y="10" fill="currentColor" font-family="Arial, sans-serif" font-size="8" font-weight="700">.0</text>
+      <text x="3" y="19" fill="currentColor" font-family="Arial, sans-serif" font-size="8" font-weight="700">.00</text>
+      <path d="M19 5v14" stroke="#2e6eea" stroke-width="2" stroke-linecap="round" />
+      <path d="m15.5 15.5 3.5 3.5 3.5-3.5" fill="none" stroke="#2e6eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  `,
+  indentDecrease: `
+    <svg class="spreadsheet-mock-indent-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M11 6h10M11 11h10M11 16h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      <path d="m8 8-4 4 4 4" fill="none" stroke="#2e6eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  `,
+  indentIncrease: `
+    <svg class="spreadsheet-mock-indent-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 6h16M11 11h9M11 16h9" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      <path d="m5 8 4 4-4 4" fill="none" stroke="#2e6eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  `,
+  border: `
+    <svg class="spreadsheet-mock-border-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" />
+      <path d="M12 5v14M5 12h14" stroke="#8f98a3" stroke-width="1.3" />
+      <path d="M5 5h14v14H5z" fill="none" stroke="#2e6eea" stroke-width="1.2" stroke-dasharray="2 1.5" />
+    </svg>
+  `,
+  wrap: `
+    <svg class="spreadsheet-mock-wrap-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 6h16M4 10h11a4 4 0 0 1 0 8h-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      <path d="m13 15-3 3 3 3" fill="none" stroke="#2e6eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  `,
+  textDirection: `
+    <svg class="spreadsheet-mock-direction-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5 5h9M5 10h13M5 15h9" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      <path d="m16 6 4 4-4 4" fill="none" stroke="#2e6eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M5 20h13" stroke="#8f98a3" stroke-width="2" stroke-linecap="round" />
     </svg>
   `,
   spreadsheet: `
@@ -353,18 +413,18 @@ const mockFormattingGroups: readonly (readonly MockFormattingItem[])[] = [
     // { label: 'Merge', title: 'Merge Cells' },
   ],
   [
-    { label: '%', title: 'Percent Format' },
-    { label: '0.0', title: 'Number Format' },
-    { label: 'Date', title: 'Date Format' },
-    { label: 'Dec-', title: 'Decrease Decimal' },
-    { label: 'Dec+', title: 'Increase Decimal' },
+    { label: '%', title: 'Percent Format', action: 'percentFormat' },
+    { label: '0.00', title: 'Number Format', action: 'numberFormat' },
+    { label: 'Date', title: 'Date Format', action: 'dateFormat', icon: mockToolbarIcon.date },
+    { label: 'Dec-', title: 'Decrease Decimal', icon: mockToolbarIcon.decimalDecrease },
+    { label: 'Dec+', title: 'Increase Decimal', icon: mockToolbarIcon.decimalIncrease },
   ],
   [
-    { label: 'Indent-', title: 'Decrease Indent' },
-    { label: 'Indent+', title: 'Increase Indent' },
-    { label: 'Border', title: 'Borders' },
-    { label: 'Wrap', title: 'Text Wrap' },
-    { label: 'Dir', title: 'Text Direction' },
+    { label: 'Indent-', title: 'Decrease Indent', icon: mockToolbarIcon.indentDecrease },
+    { label: 'Indent+', title: 'Increase Indent', icon: mockToolbarIcon.indentIncrease },
+    { label: 'Border', title: 'Borders', icon: mockToolbarIcon.border },
+    { label: 'Wrap', title: 'Text Wrap', icon: mockToolbarIcon.wrap },
+    { label: 'Dir', title: 'Text Direction', icon: mockToolbarIcon.textDirection },
   ],
 ];
 
@@ -464,6 +524,7 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
 
   const disabledFontControls = actions ? '' : 'disabled aria-disabled="true"';
   const canClickMockButton = (item: MockToolbarItem) => actions && (item.filter || item.sortAscending !== undefined);
+  const canClickFormattingButton = (item: MockFormattingItem) => item.action || item.commandId || item.colorCommandId;
 
   container.dataset.mockToolbarRendered = 'true';
   container.innerHTML = `
@@ -519,11 +580,12 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
                         <button
                           class="spreadsheet-mock-format-button"
                           type="button"
-                          tabindex="${item.commandId || item.colorCommandId ? '0' : '-1'}"
-                          aria-disabled="${item.commandId || item.colorCommandId ? 'false' : 'true'}"
+                          tabindex="${canClickFormattingButton(item) ? '0' : '-1'}"
+                          aria-disabled="${canClickFormattingButton(item) ? 'false' : 'true'}"
                           title="${item.title}"
                           aria-label="${item.title}"
                           data-format-label="${item.label}"
+                          ${item.action ? `data-spreadsheet-format-action="${item.action}"` : ''}
                           ${item.commandId ? `data-spreadsheet-command="${item.commandId}"` : ''}
                           ${item.colorCommandId ? `data-spreadsheet-color-command="${item.colorCommandId}"` : ''}
                         >
@@ -566,6 +628,18 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
       actions.applySelectionFontSize(fontSize);
     });
   }
+
+  container.querySelectorAll<HTMLButtonElement>('[data-spreadsheet-format-action]').forEach((button) => {
+    const action = button.dataset.spreadsheetFormatAction;
+
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      if (action === 'dateFormat') actions?.applySelectionDateFormat();
+      if (action === 'numberFormat') actions?.applySelectionNumberFormat();
+      if (action === 'percentFormat') actions?.applySelectionPercentFormat();
+    });
+  });
 
   container.querySelectorAll<HTMLButtonElement>('[data-spreadsheet-sort-direction]').forEach((button) => {
     button.addEventListener('click', (event) => {
