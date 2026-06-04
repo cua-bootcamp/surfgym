@@ -1,6 +1,7 @@
-import { copyFile, mkdir, readdir, rename, rm } from "node:fs/promises";
+import { copyFile, mkdir, readFile, readdir, rename, rm } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import type { Plugin as EsbuildPlugin } from "esbuild";
 import { defineConfig, type Plugin } from "vite";
 
 const rootDir = dirname(fileURLToPath(import.meta.url));
@@ -58,9 +59,77 @@ function fixtureRoutesPlugin(): Plugin {
   };
 }
 
+function getCleanModuleId(id: string) {
+  return (id.split("?")[0] ?? id).replaceAll("\\", "/");
+}
+
+function isUniverFilterUiIndex(id: string) {
+  const cleanId = getCleanModuleId(id);
+
+  return cleanId.includes("@univerjs/sheets-filter-ui") && cleanId.endsWith("/lib/es/index.js");
+}
+
+function isUniverFilterCoreIndex(id: string) {
+  const cleanId = getCleanModuleId(id);
+
+  return cleanId.includes("@univerjs/sheets-filter/lib/es/index.js");
+}
+
+function patchHeaderlessUniverFilterCode(code: string, id: string) {
+  if (isUniverFilterUiIndex(id)) {
+    return code.replaceAll(
+      "startRow: range.startRow + 1,",
+      "startRow: range.__surfgymHeaderless ? range.startRow : range.startRow + 1,",
+    );
+  }
+
+  if (isUniverFilterCoreIndex(id)) {
+    return code.replace(
+      "startRow: this._range.startRow + 1,",
+      "startRow: this._range.__surfgymHeaderless ? this._range.startRow : this._range.startRow + 1,",
+    );
+  }
+
+  return code;
+}
+
+function headerlessUniverFilterEsbuildPlugin(): EsbuildPlugin {
+  return {
+    name: "headerless-univer-filter-esbuild",
+    setup(build) {
+      build.onLoad(
+        { filter: /@univerjs[\\/]sheets-filter(?:-ui)?[\\/]lib[\\/]es[\\/]index\.js$/ },
+        async (args) => {
+          const code = await readFile(args.path, "utf8");
+          const patchedCode = patchHeaderlessUniverFilterCode(code, args.path);
+
+          return patchedCode === code ? undefined : { contents: patchedCode, loader: "js" };
+        },
+      );
+    },
+  };
+}
+
+function headerlessUniverFilterPlugin(): Plugin {
+  return {
+    name: "headerless-univer-filter",
+    enforce: "pre",
+    transform(code, id) {
+      const patchedCode = patchHeaderlessUniverFilterCode(code, id);
+
+      return patchedCode === code ? null : { code: patchedCode, map: null };
+    },
+  };
+}
+
 export default defineConfig({
   appType: "mpa",
-  plugins: [fixtureRoutesPlugin()],
+  plugins: [headerlessUniverFilterPlugin(), fixtureRoutesPlugin()],
+  optimizeDeps: {
+    esbuildOptions: {
+      plugins: [headerlessUniverFilterEsbuildPlugin()],
+    },
+  },
   build: {
     emptyOutDir: true,
     rollupOptions: {

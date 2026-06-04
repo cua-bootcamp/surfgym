@@ -10,6 +10,7 @@ const startBarChartToolbarButtonId = 'spreadsheet-start-bar-chart-toolbar-button
 const startConditionalFormattingToolbarButtonId = 'spreadsheet-start-conditional-formatting-toolbar-button';
 const mockColorPaletteMenuId = 'spreadsheet-mock-color-palette-menu';
 const mockNativeColorInputClassName = 'spreadsheet-mock-native-color-input';
+const filterHeaderDialogId = 'spreadsheet-filter-header-dialog';
 const sortDirectionMenuId = 'spreadsheet-sort-direction-menu';
 const createConditionalFormattingRuleOperation = 1;
 const headerMenuButtonClassName = [
@@ -34,6 +35,8 @@ const headerMenuButtonClassName = [
 type MockToolbarItem = {
   label: string;
   icon: string;
+  filter?: boolean;
+  sortAscending?: boolean;
 };
 
 type MockFormattingItem = {
@@ -51,8 +54,19 @@ type SpreadsheetMockToolbarApi = {
 type SpreadsheetMockToolbarOptions = {
   containerId: string;
   univerAPI?: SpreadsheetMockToolbarApi;
-  actions?: Pick<SpreadsheetActions, 'applySelectionFontFamily' | 'applySelectionFontSize'>;
+  actions?: Pick<
+    SpreadsheetActions,
+    | 'applySelectionFilter'
+    | 'applySelectionFontFamily'
+    | 'applySelectionFontSize'
+    | 'applySelectionHeaderlessFilter'
+    | 'applySelectionSort'
+    | 'getSelectionRangeTarget'
+  >;
 };
+
+type FilterHeaderPreference = 'unknown' | 'use-first-line' | 'headerless';
+type FilterActions = Pick<SpreadsheetActions, 'applySelectionFilter' | 'applySelectionHeaderlessFilter' | 'getSelectionRangeTarget'>;
 
 const formatCommandIds = {
   bold: 'sheet.command.set-range-bold',
@@ -73,6 +87,8 @@ const standardPaletteColors = [
   '#7f6000', '#783f04', '#85200c', '#990000', '#741b47', '#351c75', '#1c4587', '#073763', '#134f5c', '#274e13', '#274e13', '#274e13',
   '#4c3900', '#3d2500', '#5b0f00', '#660000', '#4c1130', '#20124d', '#0b1f3a', '#0c343d', '#0c343d', '#1b3310', '#1b3310', '#1b3310',
 ] as const;
+
+let filterHeaderPreference: FilterHeaderPreference = 'unknown';
 
 const mockToolbarIcon = {
   alignLeft: `
@@ -221,6 +237,13 @@ const mockToolbarIcon = {
       <text x="13" y="19" fill="#333" font-family="Arial" font-size="7" font-weight="700">Z</text>
     </svg>
   `,
+  sortDescending: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#2e6eea" d="M7 4h3v12h3l-4.5 5L4 16h3z" />
+      <text x="13" y="10" fill="#333" font-family="Arial" font-size="7" font-weight="700">Z</text>
+      <text x="13" y="19" fill="#333" font-family="Arial" font-size="7" font-weight="700">A</text>
+    </svg>
+  `,
   filter: `
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path fill="#9ea4ad" d="M3 5h18l-7 8v5l-4 2v-7z" />
@@ -295,8 +318,9 @@ const mockToolbarTopGroups: readonly (readonly MockToolbarItem[])[] = [
   ],
   [
     { label: 'Insert Table', icon: mockToolbarIcon.table },
-    { label: 'Sort', icon: mockToolbarIcon.sort },
-    { label: 'Auto Filter', icon: mockToolbarIcon.filter },
+    { label: 'Sort Ascending', icon: mockToolbarIcon.sort, sortAscending: true },
+    { label: 'Sort Descending', icon: mockToolbarIcon.sortDescending, sortAscending: false },
+    { label: 'Auto Filter', icon: mockToolbarIcon.filter, filter: true },
     { label: 'Insert Image', icon: mockToolbarIcon.image },
     { label: 'Insert Chart', icon: mockToolbarIcon.chart },
   ],
@@ -344,11 +368,102 @@ const mockFormattingGroups: readonly (readonly MockFormattingItem[])[] = [
   ],
 ];
 
+function closeFilterHeaderDialog() {
+  document.getElementById(filterHeaderDialogId)?.remove();
+  document.removeEventListener('keydown', closeFilterHeaderDialogOnEscape, true);
+}
+
+function closeFilterHeaderDialogOnEscape(event: KeyboardEvent) {
+  if (event.key !== 'Escape') return;
+
+  closeFilterHeaderDialog();
+}
+
+function openFilterHeaderDialog({
+  onHeaderless,
+  onUseFirstLineAsHeader,
+}: {
+  onHeaderless: () => void;
+  onUseFirstLineAsHeader: () => void;
+}) {
+  closeFilterHeaderDialog();
+
+  const dialog = document.createElement('div');
+  dialog.id = filterHeaderDialogId;
+  dialog.className = 'spreadsheet-filter-header-dialog-backdrop';
+  dialog.innerHTML = `
+    <div class="spreadsheet-filter-header-dialog" role="dialog" aria-modal="true" aria-labelledby="spreadsheet-filter-header-dialog-title">
+      <div class="spreadsheet-filter-header-dialog-title" id="spreadsheet-filter-header-dialog-title">Filter</div>
+      <div class="spreadsheet-filter-header-dialog-message">
+        The range does not contain column headers.<br>
+        Do you want the first line to be used as column header?
+      </div>
+      <div class="spreadsheet-filter-header-dialog-actions">
+        <button class="spreadsheet-filter-header-dialog-button" type="button" data-filter-header-yes>Yes</button>
+        <button class="spreadsheet-filter-header-dialog-button" type="button" data-filter-header-no>No</button>
+        <button class="spreadsheet-filter-header-dialog-button" type="button" data-filter-header-cancel>Cancel</button>
+      </div>
+    </div>
+  `;
+
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) closeFilterHeaderDialog();
+  });
+
+  dialog.querySelector<HTMLButtonElement>('[data-filter-header-yes]')?.addEventListener('click', () => {
+    onUseFirstLineAsHeader();
+    closeFilterHeaderDialog();
+  });
+
+  dialog.querySelector<HTMLButtonElement>('[data-filter-header-no]')?.addEventListener('click', () => {
+    onHeaderless();
+    closeFilterHeaderDialog();
+  });
+
+  dialog.querySelector<HTMLButtonElement>('[data-filter-header-cancel]')?.addEventListener('click', () => {
+    closeFilterHeaderDialog();
+  });
+
+  document.body.appendChild(dialog);
+  document.addEventListener('keydown', closeFilterHeaderDialogOnEscape, true);
+  dialog.querySelector<HTMLButtonElement>('[data-filter-header-yes]')?.focus();
+}
+
+function applyHeaderlessSelectionFilter(actions: FilterActions) {
+  void actions.applySelectionHeaderlessFilter();
+}
+
+function requestSelectionFilter(actions: FilterActions) {
+  if (!actions.getSelectionRangeTarget()) return;
+
+  if (filterHeaderPreference === 'use-first-line') {
+    void actions.applySelectionFilter();
+    return;
+  }
+
+  if (filterHeaderPreference === 'headerless') {
+    applyHeaderlessSelectionFilter(actions);
+    return;
+  }
+
+  openFilterHeaderDialog({
+    onHeaderless: () => {
+      filterHeaderPreference = 'headerless';
+      applyHeaderlessSelectionFilter(actions);
+    },
+    onUseFirstLineAsHeader: () => {
+      filterHeaderPreference = 'use-first-line';
+      void actions.applySelectionFilter();
+    },
+  });
+}
+
 export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }: SpreadsheetMockToolbarOptions) {
   const container = document.getElementById(containerId);
   if (!container || container.dataset.mockToolbarRendered === 'true') return;
 
   const disabledFontControls = actions ? '' : 'disabled aria-disabled="true"';
+  const canClickMockButton = (item: MockToolbarItem) => actions && (item.filter || item.sortAscending !== undefined);
 
   container.dataset.mockToolbarRendered = 'true';
   container.innerHTML = `
@@ -362,9 +477,18 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
                   ${group
                     .map(
                       (item) => `
-                        <button class="spreadsheet-mock-icon-button" type="button" tabindex="-1" aria-disabled="true" title="${item.label}" aria-label="${item.label}">
+                        <button
+                          class="spreadsheet-mock-icon-button"
+                          type="button"
+                          tabindex="${canClickMockButton(item) ? '0' : '-1'}"
+                          aria-disabled="${canClickMockButton(item) ? 'false' : 'true'}"
+                          title="${item.label}"
+                          aria-label="${item.label}"
+                          ${item.filter ? 'data-spreadsheet-filter="true"' : ''}
+                          ${item.sortAscending !== undefined ? `data-spreadsheet-sort-direction="${item.sortAscending ? 'ascending' : 'descending'}"` : ''}
+                        >
                           ${item.icon}
-                          <span class="spreadsheet-mock-caret" aria-hidden="true"></span>
+                          ${item.sortAscending === undefined ? '<span class="spreadsheet-mock-caret" aria-hidden="true"></span>' : ''}
                         </button>
                       `,
                     )
@@ -442,6 +566,20 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
       actions.applySelectionFontSize(fontSize);
     });
   }
+
+  container.querySelectorAll<HTMLButtonElement>('[data-spreadsheet-sort-direction]').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      actions?.applySelectionSort(button.dataset.spreadsheetSortDirection === 'ascending');
+    });
+  });
+
+  container.querySelector<HTMLButtonElement>('[data-spreadsheet-filter]')?.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (!actions) return;
+
+    requestSelectionFilter(actions);
+  });
 
   if (!univerAPI) return;
 
@@ -597,7 +735,11 @@ type SpreadsheetUiContext = {
   };
   actions: Pick<
     SpreadsheetActions,
-    'applySelectionBarChart' | 'applySelectionFilter' | 'applySelectionSort' | 'getSelectionRangeTarget'
+    | 'applySelectionBarChart'
+    | 'applySelectionFilter'
+    | 'applySelectionHeaderlessFilter'
+    | 'applySelectionSort'
+    | 'getSelectionRangeTarget'
   >;
   conditionalFormattingCommandId: string;
 };
@@ -685,8 +827,8 @@ export function setupSpreadsheetUi({
 
         wrapper.append(
           createHeaderMenuButton('Filter', () => {
-            void actions.applySelectionFilter();
             document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+            window.setTimeout(() => requestSelectionFilter(actions), 0);
           }),
           createHeaderMenuButton('Sort', (button) => {
             openSortDirectionMenu(button);
@@ -752,7 +894,7 @@ export function setupSpreadsheetUi({
         </svg>
       `,
         () => {
-          void actions.applySelectionFilter();
+          requestSelectionFilter(actions);
         },
       );
 

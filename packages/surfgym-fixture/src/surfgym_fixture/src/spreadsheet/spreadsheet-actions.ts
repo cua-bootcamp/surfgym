@@ -8,6 +8,7 @@ export type SelectionRange = {
   endRow: number;
   startColumn: number;
   endColumn: number;
+  __surfgymHeaderless?: boolean;
 };
 
 type SpreadsheetChartBuilder = {
@@ -190,21 +191,30 @@ export function createSpreadsheetActions({ univerAPI, workbook, worksheet }: Spr
     });
   }
 
+  async function applySelectionHeaderlessFilter() {
+    const filterTarget = getSelectionRangeTarget();
+    if (!filterTarget) return false;
+
+    const { range } = filterTarget;
+
+    await applySelectionFilter({
+      ...filterTarget,
+      range: {
+        ...range,
+        __surfgymHeaderless: true,
+      },
+    });
+
+    return true;
+  }
+
   function getSelectionSortTarget(): SelectionSortTarget | null {
     const filterTarget = getSelectionRangeTarget();
     if (!filterTarget) return null;
 
-    const dataStartRow = filterTarget.range.startRow + 1;
-    if (dataStartRow > filterTarget.range.endRow) return null;
-
     return {
       ...filterTarget,
-      sortRange: {
-        startRow: dataStartRow,
-        endRow: filterTarget.range.endRow,
-        startColumn: filterTarget.range.startColumn,
-        endColumn: filterTarget.range.endColumn,
-      },
+      sortRange: filterTarget.range,
     };
   }
 
@@ -246,6 +256,7 @@ export function createSpreadsheetActions({ univerAPI, workbook, worksheet }: Spr
   return {
     applySelectionBarChart,
     applySelectionFilter,
+    applySelectionHeaderlessFilter,
     applySelectionFontFamily,
     applySelectionFontSize,
     applySelectionSort,
