@@ -1,5 +1,5 @@
 {
-  "instruction": "We have a spending log where column B holds expense amounts under the header 'Spent ($)'. Add a 'Formatted' column in column C and use a formula to display each amount with exactly two decimal places, including trailing zeros for whole numbers. Leave everything else unchanged.",
+  "instruction": "We have a spending log where column B holds expense amounts under the header 'Spent ($)'. Add a 'Formatted' column in column C and use a formula to display each amount with exactly two decimal places, including trailing zeros for whole numbers.",
   "empty_start": false,
   "states": [
     [

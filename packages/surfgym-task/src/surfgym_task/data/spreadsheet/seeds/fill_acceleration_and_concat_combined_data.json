@@ -1,5 +1,5 @@
 {
-  "instruction": "We have a physics experiment table with 'Mass Up (kg)' in column A, 'Accel Up' in column B, 'Mass Down (kg)' in column C, and 'Accel Down' in column D. The acceleration formulas are already filled in row 2 for columns B and D. Extend those same formulas to the remaining rows, then add a 'Combined Data' column in E that shows each row's values in the format 'Header: value' with exactly two decimal places, separated by commas. Leave everything else unchanged.",
+  "instruction": "We have a physics experiment table with 'Mass Up (kg)' in column A, 'Accel Up' in column B, 'Mass Down (kg)' in column C, and 'Accel Down' in column D. The acceleration formulas are already filled in row 2 for columns B and D. Extend those same formulas to the remaining rows, then add a 'Combined Data' column in E that shows each row's values in the format 'Header: value' with exactly two decimal places, separated by commas.",
   "empty_start": false,
   "states": [
     [

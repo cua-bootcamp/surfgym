@@ -1,5 +1,5 @@
 {
-  "instruction": "We have a loan table where column A holds the Loan Issue Date (as a day number) and column B holds the Length of Loan in Days. Add a new 'Maturity Date' column in column C for each loan by computing the issue date plus the loan length. Leave everything else unchanged.",
+  "instruction": "We have a loan table where column A holds the Loan Issue Date (as a day number) and column B holds the Length of Loan in Days. Add a new 'Maturity Date' column in column C for each loan by computing the issue date plus the loan length.",
   "empty_start": false,
   "states": [
     [

@@ -1,5 +1,5 @@
 {
-  "instruction": "Fill the cells containing Sunday dates in the March through May 2026 date table with rgb(255,255,0) background.",
+  "instruction": "Fill the cells containing Sunday dates in the March through May 2026 date table with a red background.",
   "empty_start": false,
   "states": [
     [

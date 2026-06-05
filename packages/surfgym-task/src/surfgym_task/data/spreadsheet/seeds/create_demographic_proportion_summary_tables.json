@@ -1,5 +1,5 @@
 {
-  "instruction": "We have survey data with respondents' sex in column A and civil status in column B, starting from row 2. In columns D and E, create a 'Sex' summary table with the header 'Sex' in D1 and 'Proportion' in E1, listing each sex with its proportion as a decimal. Leave one blank row after the Sex table, then create a 'Civil Status' summary table in the same format below. Leave everything else unchanged.",
+  "instruction": "We have survey data with respondents' sex in column A and civil status in column B, starting from row 2. In columns D and E, create a 'Sex' summary table with the header 'Sex' in D1 and 'Proportion' in E1, listing each sex with its proportion as a decimal. Leave one blank row after the Sex table, then create a 'Civil Status' summary table in the same format below.",
   "empty_start": false,
   "states": [
     [

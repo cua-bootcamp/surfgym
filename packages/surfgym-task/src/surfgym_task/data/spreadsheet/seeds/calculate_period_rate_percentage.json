@@ -1,5 +1,5 @@
 {
-  "instruction": "We have an interest rate table with 'Annual Rate (%)' in column A and 'Periods' in column B. Add a 'Period Rate (%)' column in column C by dividing each annual rate by its corresponding number of periods, and make sure the results are stored as numbers. Leave everything else unchanged.",
+  "instruction": "We have an interest rate table with 'Annual Rate (%)' in column A and 'Periods' in column B. Add a 'Period Rate (%)' column in column C by dividing each annual rate by its corresponding number of periods, and make sure the results are stored as numbers.",
   "empty_start": false,
   "states": [
     [

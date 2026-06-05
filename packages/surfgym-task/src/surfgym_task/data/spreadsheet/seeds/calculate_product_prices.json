@@ -1,5 +1,5 @@
 {
-  "instruction": "We have a product list under columns B to E starting from row 3. Under column F named 'Final Price', calculate the final price for each product by subtracting the 'Discount' and adding the 'Tax' to the 'Original Price'. In cell B5, write 'Average', and in cell F5, calculate the average of the final prices. Finally, under column G named 'Product_Label', concatenate the 'Product ID' from column B, an underscore '_', and the integer part of the calculated 'Final Price' from column F (e.g., 'PROD-101_112'). Keep all other cells unchanged.",
+  "instruction": "We have a product list under columns B to E starting from row 3. Under column F named 'Final Price', calculate the final price for each product by subtracting the 'Discount' and adding the 'Tax' to the 'Original Price'. In cell B5, write 'Average', and in cell F5, calculate the average of the final prices. Finally, under column G named 'Product_Label', concatenate the 'Product ID' from column B, an underscore '_', and the integer part of the calculated 'Final Price' from column F (e.g., 'PROD-101_112').",
   "empty_start": false,
   "states": [
     [
