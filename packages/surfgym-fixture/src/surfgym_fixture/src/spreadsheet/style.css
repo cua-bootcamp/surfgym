@@ -127,12 +127,14 @@ body {
 
 .spreadsheet-mock-icon-button[data-spreadsheet-chart],
 .spreadsheet-mock-icon-button[data-spreadsheet-filter],
+.spreadsheet-mock-icon-button[data-spreadsheet-pivot-table],
 .spreadsheet-mock-icon-button[data-spreadsheet-sort-direction] {
   cursor: pointer;
 }
 
 .spreadsheet-mock-icon-button[data-spreadsheet-chart]:hover,
 .spreadsheet-mock-icon-button[data-spreadsheet-filter]:hover,
+.spreadsheet-mock-icon-button[data-spreadsheet-pivot-table]:hover,
 .spreadsheet-mock-icon-button[data-spreadsheet-sort-direction]:hover {
   border-color: rgb(176, 186, 199);
   background: rgb(232, 238, 249);
@@ -699,7 +701,7 @@ div:has(> [data-u-comp="ribbon-toolbar"]) {
   display: block;
   margin-top: 12px;
   color: rgb(180, 35, 24);
-  content: "Select a data range first.";
+  content: "Select a chart data range with at least two columns.";
   font-size: 14px;
 }
 
@@ -988,6 +990,342 @@ div:has(> [data-u-comp="ribbon-toolbar"]) {
   .spreadsheet-chart-wizard-button {
     min-width: 82px;
     font-size: 14px;
+  }
+}
+
+.spreadsheet-pivot-source-backdrop,
+.spreadsheet-pivot-layout-backdrop,
+.spreadsheet-pivot-data-field-backdrop {
+  position: fixed;
+  z-index: 10003;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(0 0 0 / 0.12);
+}
+
+.spreadsheet-pivot-data-field-backdrop {
+  z-index: 10004;
+}
+
+.spreadsheet-pivot-window {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgb(190, 190, 190);
+  border-radius: 14px;
+  background: rgb(246, 246, 246);
+  box-shadow:
+    0 24px 52px rgb(0 0 0 / 0.24),
+    0 4px 12px rgb(0 0 0 / 0.12);
+  color: rgb(0, 0, 0);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.spreadsheet-pivot-titlebar {
+  box-sizing: border-box;
+  display: flex;
+  height: 32px;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 9px;
+  border-bottom: 1px solid rgb(218, 218, 218);
+  background: rgb(248, 248, 248);
+  padding: 0 10px;
+}
+
+.spreadsheet-pivot-titlebar strong {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  color: rgb(82, 82, 82);
+  font-size: 13px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.spreadsheet-pivot-window-dot {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+  border: 1px solid rgb(205, 205, 205);
+  border-radius: 999px;
+}
+
+.spreadsheet-pivot-window-dot-red {
+  border-color: rgb(255, 65, 65);
+  background: rgb(255, 95, 87);
+}
+
+.spreadsheet-pivot-window-dot-yellow,
+.spreadsheet-pivot-window-dot-disabled {
+  background: rgb(214, 214, 214);
+}
+
+.spreadsheet-pivot-window-dot-green {
+  border-color: rgb(32, 174, 70);
+  background: rgb(40, 190, 86);
+}
+
+.spreadsheet-pivot-source-dialog {
+  width: min(300px, calc(100vw - 24px));
+}
+
+.spreadsheet-pivot-source-content {
+  display: grid;
+  gap: 10px;
+  padding: 9px 10px 12px;
+}
+
+.spreadsheet-pivot-radio,
+.spreadsheet-pivot-check {
+  display: flex;
+  min-height: 24px;
+  align-items: center;
+  gap: 8px;
+  color: rgb(0, 0, 0);
+}
+
+.spreadsheet-pivot-radio input,
+.spreadsheet-pivot-check input {
+  width: 17px;
+  height: 17px;
+  accent-color: rgb(0, 122, 255);
+}
+
+.spreadsheet-pivot-radio select {
+  box-sizing: border-box;
+  width: 126px;
+  height: 24px;
+  margin-left: auto;
+  border: 0;
+  border-radius: 6px;
+  background: rgb(238, 238, 238);
+}
+
+.spreadsheet-pivot-radio-disabled,
+.spreadsheet-pivot-check-disabled {
+  color: rgb(122, 122, 122);
+}
+
+.spreadsheet-pivot-source-range {
+  min-height: 18px;
+  color: rgb(88, 88, 88);
+  font-size: 12px;
+}
+
+.spreadsheet-pivot-layout-dialog {
+  width: min(658px, calc(100vw - 16px));
+  min-height: 446px;
+}
+
+.spreadsheet-pivot-layout-content {
+  box-sizing: border-box;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: auto;
+  padding: 8px 8px 12px;
+}
+
+.spreadsheet-pivot-layout-grid {
+  display: grid;
+  grid-template-columns: minmax(150px, 1.08fr) minmax(180px, 1.3fr) minmax(150px, 0.98fr);
+  gap: 8px;
+}
+
+.spreadsheet-pivot-layout-grid section {
+  min-width: 0;
+}
+
+.spreadsheet-pivot-available-section {
+  grid-row: span 2;
+}
+
+.spreadsheet-pivot-drop-zone,
+.spreadsheet-pivot-available-list,
+.spreadsheet-pivot-function-list {
+  box-sizing: border-box;
+  overflow: auto;
+  border: 1px solid rgb(190, 190, 190);
+  background: rgb(255, 255, 255);
+}
+
+.spreadsheet-pivot-drop-zone {
+  height: 97px;
+  margin-top: 4px;
+}
+
+.spreadsheet-pivot-available-list {
+  height: 247px;
+  margin-top: 4px;
+}
+
+.spreadsheet-pivot-drop-zone.is-dragging {
+  outline: 1px dotted rgb(0, 0, 0);
+  outline-offset: -3px;
+}
+
+.spreadsheet-pivot-layout-placeholder,
+.spreadsheet-pivot-layout-item,
+.spreadsheet-pivot-available-item,
+.spreadsheet-pivot-function-item {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  min-height: 20px;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  color: rgb(0, 0, 0);
+  font: inherit;
+  padding: 1px 4px;
+  text-align: left;
+}
+
+.spreadsheet-pivot-layout-item,
+.spreadsheet-pivot-available-item,
+.spreadsheet-pivot-function-item {
+  cursor: pointer;
+}
+
+.spreadsheet-pivot-layout-item:hover,
+.spreadsheet-pivot-available-item:hover,
+.spreadsheet-pivot-function-item:hover,
+.spreadsheet-pivot-function-item.is-active {
+  background: rgb(177, 210, 245);
+}
+
+.spreadsheet-pivot-layout-item span:first-child {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.spreadsheet-pivot-layout-remove {
+  flex: 0 0 auto;
+  padding: 0 4px;
+  color: rgb(95, 95, 95);
+}
+
+.spreadsheet-pivot-layout-hint {
+  margin: 5px 0 6px;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.spreadsheet-pivot-details {
+  margin-top: 6px;
+}
+
+.spreadsheet-pivot-details summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.spreadsheet-pivot-source-destination {
+  display: grid;
+  gap: 6px;
+  padding: 6px 0 0 18px;
+}
+
+.spreadsheet-pivot-error {
+  margin-top: 8px;
+  color: rgb(180, 35, 24);
+  font-size: 13px;
+}
+
+.spreadsheet-pivot-data-field-dialog {
+  width: min(296px, calc(100vw - 24px));
+}
+
+.spreadsheet-pivot-data-field-content {
+  display: grid;
+  gap: 8px;
+  padding: 8px 14px 12px;
+}
+
+.spreadsheet-pivot-function-list {
+  height: 155px;
+}
+
+.spreadsheet-pivot-data-field-name {
+  display: flex;
+  min-height: 24px;
+  align-items: center;
+  gap: 14px;
+}
+
+.spreadsheet-pivot-data-field-name strong {
+  font-weight: 400;
+}
+
+.spreadsheet-pivot-footer {
+  box-sizing: border-box;
+  display: flex;
+  min-height: 48px;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px 12px;
+}
+
+.spreadsheet-pivot-footer-spacer {
+  flex: 1 1 auto;
+}
+
+.spreadsheet-pivot-button {
+  box-sizing: border-box;
+  min-width: 82px;
+  height: 25px;
+  cursor: pointer;
+  border: 0;
+  border-radius: 6px;
+  background: rgb(232, 232, 232);
+  color: rgb(0, 0, 0);
+  font: inherit;
+}
+
+.spreadsheet-pivot-button:hover:not(:disabled):not([aria-disabled="true"]),
+.spreadsheet-pivot-button:focus-visible {
+  outline: 2px solid rgb(126, 181, 255);
+  outline-offset: 1px;
+}
+
+.spreadsheet-pivot-button:disabled,
+.spreadsheet-pivot-button[aria-disabled="true"] {
+  cursor: default;
+  color: rgb(123, 123, 123);
+}
+
+.spreadsheet-pivot-button-primary {
+  background: rgb(0, 122, 255);
+  color: rgb(255, 255, 255);
+}
+
+@media (max-width: 720px) {
+  .spreadsheet-pivot-layout-dialog {
+    height: calc(100vh - 16px);
+    min-height: 0;
+  }
+
+  .spreadsheet-pivot-layout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .spreadsheet-pivot-available-section {
+    grid-row: auto;
   }
 }
 

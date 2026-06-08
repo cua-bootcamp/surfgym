@@ -1,5 +1,13 @@
 import { ChartTypeBits } from '@univerjs/presets/preset-sheets-advanced';
-import type { ChartWizardConfig, SpreadsheetActions } from './spreadsheet-actions';
+import type {
+  ChartWizardConfig,
+  PivotTableDataFieldConfig,
+  PivotTableDataFunction,
+  PivotTableFieldInfo,
+  PivotTableLayoutConfig,
+  PivotTableSourceInfo,
+  SpreadsheetActions,
+} from './spreadsheet-actions';
 
 const fillColorCommandId = 'sheet.command.set-background-color';
 const textColorCommandId = 'sheet.command.set-range-text-color';
@@ -8,6 +16,7 @@ const startToolbarGroupId = 'spreadsheet-start-toolbar-group';
 const startFilterToolbarButtonId = 'spreadsheet-start-filter-toolbar-button';
 const startSortToolbarButtonId = 'spreadsheet-start-sort-toolbar-button';
 const startBarChartToolbarButtonId = 'spreadsheet-start-bar-chart-toolbar-button';
+const startPivotTableToolbarButtonId = 'spreadsheet-start-pivot-table-toolbar-button';
 const startConditionalFormattingToolbarButtonId = 'spreadsheet-start-conditional-formatting-toolbar-button';
 const formattingSidebarRailId = 'spreadsheet-formatting-sidebar-rail';
 const formattingSidebarButtonId = 'spreadsheet-formatting-sidebar-button';
@@ -15,6 +24,9 @@ const mockColorPaletteMenuId = 'spreadsheet-mock-color-palette-menu';
 const mockNativeColorInputClassName = 'spreadsheet-mock-native-color-input';
 const filterHeaderDialogId = 'spreadsheet-filter-header-dialog';
 const chartWizardDialogId = 'spreadsheet-chart-wizard-dialog';
+const pivotSourceDialogId = 'spreadsheet-pivot-source-dialog';
+const pivotLayoutDialogId = 'spreadsheet-pivot-layout-dialog';
+const pivotDataFieldDialogId = 'spreadsheet-pivot-data-field-dialog';
 const sortDirectionMenuId = 'spreadsheet-sort-direction-menu';
 const createConditionalFormattingRuleOperation = 1;
 const openNumberFormatPanelCommandId = 'sheet.operation.open.numfmt.panel';
@@ -42,6 +54,7 @@ type MockToolbarItem = {
   icon: string;
   chart?: boolean;
   filter?: boolean;
+  pivotTable?: boolean;
   sortAscending?: boolean;
 };
 
@@ -72,8 +85,10 @@ type SpreadsheetMockToolbarOptions = {
     | 'applySelectionInputValue'
     | 'applySelectionNumberFormat'
     | 'applySelectionPercentFormat'
+    | 'applySelectionPivotTable'
     | 'applySelectionSort'
     | 'columnIndexToName'
+    | 'getSelectionPivotSource'
     | 'getSelectionRangeTarget'
   >;
 };
@@ -81,6 +96,7 @@ type SpreadsheetMockToolbarOptions = {
 type FilterHeaderPreference = 'unknown' | 'use-first-line' | 'headerless';
 type FilterActions = Pick<SpreadsheetActions, 'applySelectionFilter' | 'applySelectionHeaderlessFilter' | 'getSelectionRangeTarget'>;
 type ChartWizardActions = Pick<SpreadsheetActions, 'applySelectionChart' | 'columnIndexToName' | 'getSelectionRangeTarget'>;
+type PivotTableActions = Pick<SpreadsheetActions, 'applySelectionPivotTable' | 'getSelectionPivotSource'>;
 
 const formatCommandIds = {
   bold: 'sheet.command.set-range-bold',
@@ -103,6 +119,8 @@ const standardPaletteColors = [
 ] as const;
 
 type ChartWizardStep = 0 | 1 | 2 | 3;
+type ChartWizardDataOrientation = NonNullable<ChartWizardConfig['dataOrientation']>;
+type ChartWizardLegendPosition = NonNullable<ChartWizardConfig['legendPosition']>;
 type ChartWizardIconKind =
   | 'area'
   | 'bar'
@@ -461,6 +479,16 @@ const mockToolbarIcon = {
       <path fill="#49a4df" d="M16 3h4v18h-4z" />
     </svg>
   `,
+  pivotTable: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="3.5" y="3.5" width="17" height="17" fill="#f8f8f8" stroke="#8f98a3" stroke-width="1.4" />
+      <path d="M3.5 9h17M9 3.5v17M14.5 3.5v8.5" stroke="#9aa1aa" stroke-width="1.1" />
+      <rect x="5.2" y="5.2" width="2.3" height="2.3" fill="#cfd4dc" />
+      <rect x="10.4" y="5.2" width="2.3" height="2.3" fill="#cfd4dc" />
+      <path d="M8.2 16.6c4.8 0 7.8-3 7.8-7.8V6.8" fill="none" stroke="#0b66e4" stroke-width="2.2" stroke-linecap="round" />
+      <path d="m12.7 10.1 3.3-3.3 3.3 3.3" fill="none" stroke="#0b66e4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  `,
   omega: `
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <text x="4" y="19" fill="#2f70d8" font-family="Georgia" font-size="21">Ω</text>
@@ -520,6 +548,7 @@ const mockToolbarTopGroups: readonly (readonly MockToolbarItem[])[] = [
     { label: 'Auto Filter', icon: mockToolbarIcon.filter, filter: true },
     { label: 'Insert Image', icon: mockToolbarIcon.image },
     { label: 'Insert Chart', icon: mockToolbarIcon.chart, chart: true },
+    { label: 'Pivot Table', icon: mockToolbarIcon.pivotTable, pivotTable: true },
   ],
   [
     { label: 'Special Character', icon: mockToolbarIcon.omega },
@@ -801,18 +830,21 @@ function createChartWizardIcon(kind: ChartWizardIconKind) {
 function openChartWizardDialog(actions: ChartWizardActions) {
   closeChartWizardDialog();
 
+  const defaultChartGroup = chartWizardTypeGroups[0]!;
+  const defaultChartSubtype = defaultChartGroup.subtypes[0]!;
+
   let stepIndex: ChartWizardStep = 0;
-  let chartGroupKey = chartWizardTypeGroups[0].key;
+  let chartGroupKey = defaultChartGroup.key;
   let chartSubtypeIndex = 0;
   let rangeA1 = getSelectionRangeA1(actions);
-  let dataOrientation: ChartWizardConfig['dataOrientation'] = 'Column';
+  let dataOrientation: ChartWizardDataOrientation = 'Column';
   let useFirstRowAsHeader = true;
   let useFirstColumnAsLabel = true;
   let title = '';
   let subtitle = '';
   let xAxisTitle = '';
   let yAxisTitle = '';
-  let legendPosition: ChartWizardConfig['legendPosition'] = 'right';
+  let legendPosition: ChartWizardLegendPosition = 'right';
   let width = 560;
   let height = 360;
 
@@ -843,14 +875,14 @@ function openChartWizardDialog(actions: ChartWizardActions) {
     </div>
   `;
 
-  function getActiveGroup() {
-    return chartWizardTypeGroups.find((group) => group.key === chartGroupKey) ?? chartWizardTypeGroups[0];
+  function getActiveGroup(): ChartWizardTypeGroup {
+    return chartWizardTypeGroups.find((group) => group.key === chartGroupKey) ?? defaultChartGroup;
   }
 
-  function getActiveSubtype() {
+  function getActiveSubtype(): ChartWizardSubtype {
     const group = getActiveGroup();
 
-    return group.subtypes[chartSubtypeIndex] ?? group.subtypes[0];
+    return group.subtypes[chartSubtypeIndex] ?? group.subtypes[0] ?? defaultChartSubtype;
   }
 
   function syncChartWizardStateFromPanel() {
@@ -874,7 +906,7 @@ function openChartWizardDialog(actions: ChartWizardActions) {
     if (subtitleInput) subtitle = subtitleInput.value;
     if (xAxisInput) xAxisTitle = xAxisInput.value;
     if (yAxisInput) yAxisTitle = yAxisInput.value;
-    if (legendInput) legendPosition = legendInput.value as ChartWizardConfig['legendPosition'];
+    if (legendInput) legendPosition = legendInput.value as ChartWizardLegendPosition;
     if (widthInput) width = Number(widthInput.value) || 560;
     if (heightInput) height = Number(heightInput.value) || 360;
   }
@@ -967,7 +999,7 @@ function openChartWizardDialog(actions: ChartWizardActions) {
     panel.querySelectorAll<HTMLButtonElement>('[data-chart-wizard-group]').forEach((button) => {
       button.addEventListener('click', () => {
         syncChartWizardStateFromPanel();
-        chartGroupKey = button.dataset.chartWizardGroup || chartWizardTypeGroups[0].key;
+        chartGroupKey = button.dataset.chartWizardGroup || defaultChartGroup.key;
         chartSubtypeIndex = 0;
         renderChartWizard();
       });
@@ -1159,12 +1191,446 @@ function openChartWizardDialog(actions: ChartWizardActions) {
   dialog.querySelector<HTMLButtonElement>('[data-chart-wizard-finish]')?.focus();
 }
 
+type PivotTableArea = 'filter' | 'column' | 'row' | 'data';
+
+const pivotTableDataFunctionOptions: readonly { label: string; value: PivotTableDataFunction }[] = [
+  { label: 'Sum', value: 'sum' },
+  { label: 'Count', value: 'count' },
+  { label: 'Average', value: 'average' },
+  { label: 'Median', value: 'median' },
+  { label: 'Max', value: 'max' },
+  { label: 'Min', value: 'min' },
+  { label: 'Product', value: 'product' },
+  { label: 'Count (Numbers only)', value: 'countNumbers' },
+] as const;
+
+function closePivotSourceDialog() {
+  document.getElementById(pivotSourceDialogId)?.remove();
+  document.removeEventListener('keydown', closePivotSourceDialogOnEscape, true);
+}
+
+function closePivotSourceDialogOnEscape(event: KeyboardEvent) {
+  if (event.key !== 'Escape') return;
+
+  closePivotSourceDialog();
+}
+
+function closePivotLayoutDialog() {
+  document.getElementById(pivotLayoutDialogId)?.remove();
+  closePivotDataFieldDialog();
+  document.removeEventListener('keydown', closePivotLayoutDialogOnEscape, true);
+}
+
+function closePivotLayoutDialogOnEscape(event: KeyboardEvent) {
+  if (event.key !== 'Escape') return;
+
+  closePivotLayoutDialog();
+}
+
+function closePivotDataFieldDialog() {
+  document.getElementById(pivotDataFieldDialogId)?.remove();
+}
+
+function getPivotTableFunctionLabel(dataFunction: PivotTableDataFunction) {
+  return pivotTableDataFunctionOptions.find((option) => option.value === dataFunction)?.label ?? 'Sum';
+}
+
+function getPivotTableField(source: PivotTableSourceInfo, fieldIndex: number): PivotTableFieldInfo {
+  return source.fields[fieldIndex] ?? {
+    index: fieldIndex,
+    isNumeric: false,
+    name: `Field ${fieldIndex + 1}`,
+  };
+}
+
+function getDefaultPivotDataFunction(field: PivotTableFieldInfo): PivotTableDataFunction {
+  return field.isNumeric ? 'sum' : 'count';
+}
+
+function renderPivotAssignedField(source: PivotTableSourceInfo, area: PivotTableArea, fieldIndex: number, dataField?: PivotTableDataFieldConfig) {
+  const field = getPivotTableField(source, fieldIndex);
+  const label = dataField ? `${getPivotTableFunctionLabel(dataField.function)} - ${field.name}` : field.name;
+
+  return `
+    <button
+      class="spreadsheet-pivot-layout-item"
+      type="button"
+      draggable="true"
+      data-pivot-assigned-area="${area}"
+      data-pivot-assigned-field="${fieldIndex}"
+      ${dataField ? `data-pivot-data-index="${fieldIndex}"` : ''}
+      title="${escapeChartWizardAttribute(label)}"
+    >
+      <span>${escapeChartWizardAttribute(label)}</span>
+      <span class="spreadsheet-pivot-layout-remove" data-pivot-remove="true" aria-hidden="true">x</span>
+    </button>
+  `;
+}
+
+function openPivotDataFieldDialog({
+  dataField,
+  field,
+  onSave,
+}: {
+  dataField: PivotTableDataFieldConfig;
+  field: PivotTableFieldInfo;
+  onSave: (dataFunction: PivotTableDataFunction) => void;
+}) {
+  closePivotDataFieldDialog();
+
+  let selectedFunction = dataField.function;
+  const dialog = document.createElement('div');
+  dialog.id = pivotDataFieldDialogId;
+  dialog.className = 'spreadsheet-pivot-data-field-backdrop';
+  dialog.innerHTML = `
+    <div class="spreadsheet-pivot-window spreadsheet-pivot-data-field-dialog" role="dialog" aria-modal="true" aria-labelledby="spreadsheet-pivot-data-field-title">
+      <div class="spreadsheet-pivot-titlebar">
+        <span class="spreadsheet-pivot-window-dot spreadsheet-pivot-window-dot-red" aria-hidden="true"></span>
+        <span class="spreadsheet-pivot-window-dot spreadsheet-pivot-window-dot-yellow" aria-hidden="true"></span>
+        <span class="spreadsheet-pivot-window-dot spreadsheet-pivot-window-dot-disabled" aria-hidden="true"></span>
+        <strong id="spreadsheet-pivot-data-field-title">Data Field</strong>
+      </div>
+      <div class="spreadsheet-pivot-data-field-content">
+        <strong>Function</strong>
+        <div class="spreadsheet-pivot-function-list" role="listbox" aria-label="Function">
+          ${pivotTableDataFunctionOptions
+            .map((option) => `
+              <button
+                class="spreadsheet-pivot-function-item ${option.value === selectedFunction ? 'is-active' : ''}"
+                type="button"
+                role="option"
+                aria-selected="${option.value === selectedFunction ? 'true' : 'false'}"
+                data-pivot-function="${option.value}"
+              >
+                ${option.label}
+              </button>
+            `)
+            .join('')}
+        </div>
+        <label class="spreadsheet-pivot-check spreadsheet-pivot-check-disabled">
+          <input type="checkbox" disabled>
+          <span>Show items without data</span>
+        </label>
+        <div class="spreadsheet-pivot-data-field-name">
+          <span>Name:</span>
+          <strong>${escapeChartWizardAttribute(field.name)}</strong>
+        </div>
+        <details class="spreadsheet-pivot-details">
+          <summary>Displayed Value</summary>
+        </details>
+      </div>
+      <div class="spreadsheet-pivot-footer">
+        <button class="spreadsheet-pivot-button" type="button" tabindex="-1" aria-disabled="true">Help</button>
+        <span class="spreadsheet-pivot-footer-spacer"></span>
+        <button class="spreadsheet-pivot-button" type="button" data-pivot-data-cancel>Cancel</button>
+        <button class="spreadsheet-pivot-button spreadsheet-pivot-button-primary" type="button" data-pivot-data-ok>OK</button>
+      </div>
+    </div>
+  `;
+
+  dialog.querySelectorAll<HTMLButtonElement>('[data-pivot-function]').forEach((button) => {
+    button.addEventListener('click', () => {
+      selectedFunction = (button.dataset.pivotFunction as PivotTableDataFunction | undefined) ?? 'sum';
+      dialog.querySelectorAll<HTMLElement>('[data-pivot-function]').forEach((item) => item.classList.remove('is-active'));
+      button.classList.add('is-active');
+    });
+  });
+
+  dialog.querySelector<HTMLButtonElement>('[data-pivot-data-cancel]')?.addEventListener('click', closePivotDataFieldDialog);
+  dialog.querySelector<HTMLButtonElement>('[data-pivot-data-ok]')?.addEventListener('click', () => {
+    onSave(selectedFunction);
+    closePivotDataFieldDialog();
+  });
+
+  document.body.appendChild(dialog);
+  dialog.querySelector<HTMLButtonElement>('[data-pivot-data-ok]')?.focus();
+}
+
+function openPivotLayoutDialog(actions: PivotTableActions, source: PivotTableSourceInfo) {
+  closePivotLayoutDialog();
+
+  const config: PivotTableLayoutConfig = {
+    columnFields: [],
+    dataFields: [],
+    destination: 'new-sheet',
+    filterFields: [],
+    rowFields: [],
+  };
+  let errorMessage = '';
+  const dialog = document.createElement('div');
+  dialog.id = pivotLayoutDialogId;
+  dialog.className = 'spreadsheet-pivot-layout-backdrop';
+
+  function assignedFieldsForArea(area: PivotTableArea) {
+    if (area === 'filter') return config.filterFields.map((fieldIndex) => renderPivotAssignedField(source, area, fieldIndex));
+    if (area === 'column') {
+      const assignedFields = config.columnFields.map((fieldIndex) => renderPivotAssignedField(source, area, fieldIndex));
+      return assignedFields.length > 0
+        ? assignedFields
+        : ['<div class="spreadsheet-pivot-layout-placeholder">Data</div>'];
+    }
+    if (area === 'row') return config.rowFields.map((fieldIndex) => renderPivotAssignedField(source, area, fieldIndex));
+
+    return config.dataFields.map((dataField) => renderPivotAssignedField(source, area, dataField.fieldIndex, dataField));
+  }
+
+  function removeFieldFromArea(area: PivotTableArea, fieldIndex: number) {
+    if (area === 'filter') config.filterFields = config.filterFields.filter((index) => index !== fieldIndex);
+    if (area === 'column') config.columnFields = config.columnFields.filter((index) => index !== fieldIndex);
+    if (area === 'row') config.rowFields = config.rowFields.filter((index) => index !== fieldIndex);
+    if (area === 'data') config.dataFields = config.dataFields.filter((field) => field.fieldIndex !== fieldIndex);
+  }
+
+  function addFieldToArea(fieldIndex: number, area: PivotTableArea) {
+    if (area !== 'data') {
+      config.filterFields = config.filterFields.filter((index) => index !== fieldIndex);
+      config.columnFields = config.columnFields.filter((index) => index !== fieldIndex);
+      config.rowFields = config.rowFields.filter((index) => index !== fieldIndex);
+    }
+
+    if (area === 'filter' && !config.filterFields.includes(fieldIndex)) config.filterFields.push(fieldIndex);
+    if (area === 'column' && !config.columnFields.includes(fieldIndex)) config.columnFields.push(fieldIndex);
+    if (area === 'row' && !config.rowFields.includes(fieldIndex)) config.rowFields.push(fieldIndex);
+    if (area === 'data' && !config.dataFields.some((field) => field.fieldIndex === fieldIndex)) {
+      config.dataFields.push({
+        fieldIndex,
+        function: getDefaultPivotDataFunction(getPivotTableField(source, fieldIndex)),
+      });
+    }
+
+    errorMessage = '';
+    render();
+  }
+
+  function render() {
+    dialog.innerHTML = `
+      <div class="spreadsheet-pivot-window spreadsheet-pivot-layout-dialog" role="dialog" aria-modal="true" aria-labelledby="spreadsheet-pivot-layout-title">
+        <div class="spreadsheet-pivot-titlebar">
+          <span class="spreadsheet-pivot-window-dot spreadsheet-pivot-window-dot-red" aria-hidden="true"></span>
+          <span class="spreadsheet-pivot-window-dot spreadsheet-pivot-window-dot-yellow" aria-hidden="true"></span>
+          <span class="spreadsheet-pivot-window-dot spreadsheet-pivot-window-dot-green" aria-hidden="true"></span>
+          <strong id="spreadsheet-pivot-layout-title">Pivot Table Layout</strong>
+        </div>
+        <div class="spreadsheet-pivot-layout-content">
+          <div class="spreadsheet-pivot-layout-grid">
+            <section>
+              <strong>Filters:</strong>
+              <div class="spreadsheet-pivot-drop-zone" data-pivot-drop-area="filter">${assignedFieldsForArea('filter').join('')}</div>
+            </section>
+            <section>
+              <strong>Column Fields:</strong>
+              <div class="spreadsheet-pivot-drop-zone" data-pivot-drop-area="column">${assignedFieldsForArea('column').join('')}</div>
+            </section>
+            <section class="spreadsheet-pivot-available-section">
+              <strong>Available Fields:</strong>
+              <div class="spreadsheet-pivot-available-list" role="listbox">
+                ${source.fields
+                  .map((field) => `
+                    <button
+                      class="spreadsheet-pivot-available-item"
+                      type="button"
+                      draggable="true"
+                      data-pivot-available-field="${field.index}"
+                    >
+                      ${escapeChartWizardAttribute(field.name)}
+                    </button>
+                  `)
+                  .join('')}
+              </div>
+            </section>
+            <section>
+              <strong>Row Fields:</strong>
+              <div class="spreadsheet-pivot-drop-zone" data-pivot-drop-area="row">${assignedFieldsForArea('row').join('')}</div>
+            </section>
+            <section>
+              <strong>Data Fields:</strong>
+              <div class="spreadsheet-pivot-drop-zone" data-pivot-drop-area="data">${assignedFieldsForArea('data').join('')}</div>
+            </section>
+          </div>
+          <div class="spreadsheet-pivot-layout-hint">Drag the Items into the Desired Position</div>
+          <details class="spreadsheet-pivot-details">
+            <summary>Options</summary>
+            <label class="spreadsheet-pivot-check spreadsheet-pivot-check-disabled">
+              <input type="checkbox" disabled>
+              <span>Show totals and subtotals</span>
+            </label>
+          </details>
+          <details class="spreadsheet-pivot-details">
+            <summary>Source and Destination</summary>
+            <div class="spreadsheet-pivot-source-destination">
+              <div>Source: ${escapeChartWizardAttribute(source.rangeA1)}</div>
+              <label class="spreadsheet-pivot-radio">
+                <input type="radio" name="spreadsheet-pivot-destination" value="new-sheet" ${config.destination === 'new-sheet' ? 'checked' : ''}>
+                <span>New sheet</span>
+              </label>
+              <label class="spreadsheet-pivot-radio">
+                <input type="radio" name="spreadsheet-pivot-destination" value="existing-sheet" ${config.destination === 'existing-sheet' ? 'checked' : ''}>
+                <span>Current sheet</span>
+              </label>
+            </div>
+          </details>
+          ${errorMessage ? `<div class="spreadsheet-pivot-error">${escapeChartWizardAttribute(errorMessage)}</div>` : ''}
+        </div>
+        <div class="spreadsheet-pivot-footer">
+          <button class="spreadsheet-pivot-button" type="button" tabindex="-1" aria-disabled="true">Help</button>
+          <span class="spreadsheet-pivot-footer-spacer"></span>
+          <button class="spreadsheet-pivot-button" type="button" data-pivot-layout-cancel>Cancel</button>
+          <button class="spreadsheet-pivot-button spreadsheet-pivot-button-primary" type="button" data-pivot-layout-ok>OK</button>
+        </div>
+      </div>
+    `;
+
+    dialog.querySelectorAll<HTMLInputElement>('input[name="spreadsheet-pivot-destination"]').forEach((input) => {
+      input.addEventListener('change', () => {
+        config.destination = input.value === 'existing-sheet' ? 'existing-sheet' : 'new-sheet';
+      });
+    });
+
+    dialog.querySelectorAll<HTMLElement>('[data-pivot-drop-area]').forEach((zone) => {
+      zone.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        zone.classList.add('is-dragging');
+      });
+      zone.addEventListener('dragleave', () => {
+        zone.classList.remove('is-dragging');
+      });
+      zone.addEventListener('drop', (event) => {
+        event.preventDefault();
+        zone.classList.remove('is-dragging');
+        const fieldIndex = Number(event.dataTransfer?.getData('text/plain'));
+        const area = zone.dataset.pivotDropArea as PivotTableArea | undefined;
+        if (!Number.isInteger(fieldIndex) || !area) return;
+
+        addFieldToArea(fieldIndex, area);
+      });
+    });
+
+    dialog.querySelectorAll<HTMLButtonElement>('[data-pivot-available-field]').forEach((button) => {
+      const fieldIndex = Number(button.dataset.pivotAvailableField);
+      button.addEventListener('dragstart', (event) => {
+        event.dataTransfer?.setData('text/plain', String(fieldIndex));
+      });
+      button.addEventListener('dblclick', () => {
+        addFieldToArea(fieldIndex, getPivotTableField(source, fieldIndex).isNumeric ? 'data' : 'row');
+      });
+    });
+
+    dialog.querySelectorAll<HTMLButtonElement>('[data-pivot-assigned-field]').forEach((button) => {
+      const area = button.dataset.pivotAssignedArea as PivotTableArea | undefined;
+      const fieldIndex = Number(button.dataset.pivotAssignedField);
+      button.addEventListener('dragstart', (event) => {
+        event.dataTransfer?.setData('text/plain', String(fieldIndex));
+      });
+      button.addEventListener('click', (event) => {
+        if (!(event.target instanceof HTMLElement) || !event.target.closest('[data-pivot-remove]') || !area) return;
+
+        removeFieldFromArea(area, fieldIndex);
+        render();
+      });
+      button.addEventListener('dblclick', () => {
+        if (area !== 'data') return;
+
+        const dataField = config.dataFields.find((field) => field.fieldIndex === fieldIndex);
+        if (!dataField) return;
+
+        openPivotDataFieldDialog({
+          dataField,
+          field: getPivotTableField(source, fieldIndex),
+          onSave: (dataFunction) => {
+            dataField.function = dataFunction;
+            render();
+          },
+        });
+      });
+    });
+
+    dialog.querySelector<HTMLButtonElement>('[data-pivot-layout-cancel]')?.addEventListener('click', closePivotLayoutDialog);
+    dialog.querySelector<HTMLButtonElement>('[data-pivot-layout-ok]')?.addEventListener('click', async () => {
+      const result = await actions.applySelectionPivotTable(config);
+      if (result.ok) {
+        closePivotLayoutDialog();
+        return;
+      }
+
+      errorMessage = result.message ?? 'Could not create a pivot table.';
+      render();
+    });
+  }
+
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) closePivotLayoutDialog();
+  });
+
+  document.body.appendChild(dialog);
+  document.addEventListener('keydown', closePivotLayoutDialogOnEscape, true);
+  render();
+  dialog.querySelector<HTMLButtonElement>('[data-pivot-layout-ok]')?.focus();
+}
+
+function openPivotSourceDialog(actions: PivotTableActions) {
+  closePivotSourceDialog();
+
+  const source = actions.getSelectionPivotSource();
+  const dialog = document.createElement('div');
+  dialog.id = pivotSourceDialogId;
+  dialog.className = 'spreadsheet-pivot-source-backdrop';
+  dialog.innerHTML = `
+    <div class="spreadsheet-pivot-window spreadsheet-pivot-source-dialog" role="dialog" aria-modal="true" aria-labelledby="spreadsheet-pivot-source-title">
+      <div class="spreadsheet-pivot-titlebar">
+        <span class="spreadsheet-pivot-window-dot spreadsheet-pivot-window-dot-red" aria-hidden="true"></span>
+        <span class="spreadsheet-pivot-window-dot spreadsheet-pivot-window-dot-yellow" aria-hidden="true"></span>
+        <span class="spreadsheet-pivot-window-dot spreadsheet-pivot-window-dot-disabled" aria-hidden="true"></span>
+        <strong id="spreadsheet-pivot-source-title">Select Source</strong>
+      </div>
+      <div class="spreadsheet-pivot-source-content">
+        <strong>Selection</strong>
+        <label class="spreadsheet-pivot-radio spreadsheet-pivot-radio-disabled">
+          <input type="radio" name="spreadsheet-pivot-source" disabled>
+          <span>Named range:</span>
+          <select disabled aria-label="Named range"></select>
+        </label>
+        <label class="spreadsheet-pivot-radio">
+          <input type="radio" name="spreadsheet-pivot-source" checked>
+          <span>Current selection</span>
+        </label>
+        <label class="spreadsheet-pivot-radio spreadsheet-pivot-radio-disabled">
+          <input type="radio" name="spreadsheet-pivot-source" disabled>
+          <span>Data source registered in Calc</span>
+        </label>
+        <div class="spreadsheet-pivot-source-range">${source ? `Range: ${escapeChartWizardAttribute(source.rangeA1)}` : 'Select a range with headers first.'}</div>
+      </div>
+      <div class="spreadsheet-pivot-footer">
+        <button class="spreadsheet-pivot-button" type="button" tabindex="-1" aria-disabled="true">Help</button>
+        <span class="spreadsheet-pivot-footer-spacer"></span>
+        <button class="spreadsheet-pivot-button" type="button" data-pivot-source-cancel>Cancel</button>
+        <button class="spreadsheet-pivot-button spreadsheet-pivot-button-primary" type="button" data-pivot-source-ok ${source ? '' : 'disabled'}>OK</button>
+      </div>
+    </div>
+  `;
+
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) closePivotSourceDialog();
+  });
+
+  dialog.querySelector<HTMLButtonElement>('[data-pivot-source-cancel]')?.addEventListener('click', closePivotSourceDialog);
+  dialog.querySelector<HTMLButtonElement>('[data-pivot-source-ok]')?.addEventListener('click', () => {
+    if (!source) return;
+
+    closePivotSourceDialog();
+    openPivotLayoutDialog(actions, source);
+  });
+
+  document.body.appendChild(dialog);
+  document.addEventListener('keydown', closePivotSourceDialogOnEscape, true);
+  dialog.querySelector<HTMLButtonElement>('[data-pivot-source-ok]')?.focus();
+}
+
 export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }: SpreadsheetMockToolbarOptions) {
   const container = document.getElementById(containerId);
   if (!container || container.dataset.mockToolbarRendered === 'true') return;
 
   const disabledFontControls = actions ? '' : 'disabled aria-disabled="true"';
-  const canClickMockButton = (item: MockToolbarItem) => actions && (item.chart || item.filter || item.sortAscending !== undefined);
+  const canClickMockButton = (item: MockToolbarItem) => actions && (item.chart || item.filter || item.pivotTable || item.sortAscending !== undefined);
   const canClickFormattingButton = (item: MockFormattingItem) => item.action || item.commandId || item.colorCommandId;
 
   container.dataset.mockToolbarRendered = 'true';
@@ -1188,6 +1654,7 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
                           aria-label="${item.label}"
                           ${item.filter ? 'data-spreadsheet-filter="true"' : ''}
                           ${item.chart ? 'data-spreadsheet-chart="true"' : ''}
+                          ${item.pivotTable ? 'data-spreadsheet-pivot-table="true"' : ''}
                           ${item.sortAscending !== undefined ? `data-spreadsheet-sort-direction="${item.sortAscending ? 'ascending' : 'descending'}"` : ''}
                         >
                           ${item.icon}
@@ -1337,7 +1804,15 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
     openChartWizardDialog(actions);
   });
 
+  container.querySelector<HTMLButtonElement>('[data-spreadsheet-pivot-table]')?.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (!actions) return;
+
+    openPivotSourceDialog(actions);
+  });
+
   if (!univerAPI) return;
+  const toolbarAPI = univerAPI;
 
   container.querySelectorAll<HTMLButtonElement>('[data-spreadsheet-command]').forEach((button) => {
     const commandId = button.dataset.spreadsheetCommand;
@@ -1345,7 +1820,7 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
 
     button.addEventListener('click', (event) => {
       event.preventDefault();
-      void univerAPI.executeCommand(commandId);
+      void toolbarAPI.executeCommand(commandId);
     });
   });
 
@@ -1369,7 +1844,7 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
   }
 
   function applyMockColor(commandId: string, color: string) {
-    void univerAPI.executeCommand(commandId, { value: color });
+    void toolbarAPI.executeCommand(commandId, { value: color });
     closeMockColorPalette();
   }
 
@@ -1382,7 +1857,7 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
     colorInput.addEventListener('input', (event) => {
       if (!(event.currentTarget instanceof HTMLInputElement)) return;
 
-      void univerAPI.executeCommand(commandId, { value: event.currentTarget.value });
+      void toolbarAPI.executeCommand(commandId, { value: event.currentTarget.value });
     });
     colorInput.addEventListener('change', () => {
       colorInput.remove();
@@ -1495,8 +1970,10 @@ type SpreadsheetUiContext = {
     | 'applySelectionBarChart'
     | 'applySelectionFilter'
     | 'applySelectionHeaderlessFilter'
+    | 'applySelectionPivotTable'
     | 'applySelectionSort'
     | 'columnIndexToName'
+    | 'getSelectionPivotSource'
     | 'getSelectionRangeTarget'
   >;
   conditionalFormattingCommandId: string;
@@ -1596,6 +2073,10 @@ export function setupSpreadsheetUi({
           createHeaderMenuButton('Chart Wizard', () => {
             document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
             window.setTimeout(() => openChartWizardDialog(actions), 0);
+          }),
+          createHeaderMenuButton('Pivot Table', () => {
+            document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+            window.setTimeout(() => openPivotSourceDialog(actions), 0);
           }),
         );
         menuPanel.appendChild(wrapper);
@@ -1818,6 +2299,16 @@ export function setupSpreadsheetUi({
         },
       );
 
+      const pivotTableButton = createStartToolbarButton(
+        startPivotTableToolbarButtonId,
+        'Pivot Table',
+        mockToolbarIcon.pivotTable,
+        (event) => {
+          event.preventDefault();
+          openPivotSourceDialog(actions);
+        },
+      );
+
       const conditionalFormattingButton = createStartToolbarButton(
         startConditionalFormattingToolbarButtonId,
         'Conditional Formatting',
@@ -1834,7 +2325,7 @@ export function setupSpreadsheetUi({
         },
       );
 
-      buttonGroup.append(filterButton, sortButton, barChartButton, conditionalFormattingButton);
+      buttonGroup.append(filterButton, sortButton, barChartButton, pivotTableButton, conditionalFormattingButton);
       toolbar.appendChild(buttonGroup);
     });
   }
