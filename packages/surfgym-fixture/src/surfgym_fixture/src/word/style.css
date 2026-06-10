@@ -1,7 +1,7 @@
 /* src/word/style.css 예시 */
 html,
 body,
-#app {
+#word-shell {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -16,4 +16,375 @@ body {
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
+}
+
+#word-shell {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  background: rgb(255, 255, 255);
+}
+
+#word-body {
+  display: flex;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+#app {
+  min-width: 0;
+  min-height: 0;
+  flex: 1 1 auto;
+}
+
+#word-custom-toolbar {
+  flex: 0 0 auto;
+}
+
+.word-mock-toolbar {
+  box-sizing: border-box;
+  width: 100%;
+  border-bottom: 1px solid rgb(181, 187, 196);
+  background: linear-gradient(rgb(250, 251, 253), rgb(241, 244, 248));
+  color: rgb(31, 36, 45);
+  font-size: 12px;
+  line-height: 1;
+  user-select: none;
+}
+
+.word-mock-toolbar-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.word-mock-toolbar-row {
+  box-sizing: border-box;
+  display: flex;
+  min-width: max-content;
+  align-items: center;
+  gap: 0;
+  padding: 2px 8px;
+}
+
+.word-mock-toolbar-row-icons {
+  height: 33px;
+}
+
+.word-mock-toolbar-row-format {
+  height: 36px;
+  border-top: 1px solid rgb(224, 227, 232);
+}
+
+.word-mock-toolbar-group {
+  display: inline-flex;
+  height: 100%;
+  align-items: center;
+  gap: 3px;
+  border-right: 1px solid rgb(202, 207, 215);
+  padding: 0 8px;
+}
+
+.word-mock-toolbar-group:first-child {
+  padding-left: 0;
+}
+
+.word-mock-toolbar-group:last-child {
+  border-right: 0;
+}
+
+.word-mock-icon-button,
+.word-mock-format-button,
+.word-mock-select {
+  box-sizing: border-box;
+  display: inline-flex;
+  height: 28px;
+  cursor: default;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: transparent;
+  color: rgb(31, 36, 45);
+  font: inherit;
+  white-space: nowrap;
+}
+
+.word-mock-icon-button {
+  position: relative;
+  width: 30px;
+  padding: 2px;
+}
+
+.word-mock-icon-button svg,
+.word-mock-format-button svg {
+  width: 23px;
+  height: 23px;
+  flex: 0 0 auto;
+}
+
+.word-mock-icon-button[aria-disabled="false"],
+.word-mock-format-button[aria-disabled="false"],
+.word-mock-format-button[data-word-command],
+.word-mock-format-button[data-word-action] {
+  cursor: pointer;
+}
+
+.word-mock-icon-button[aria-disabled="false"]:hover,
+.word-mock-format-button[aria-disabled="false"]:hover,
+.word-mock-format-button[data-word-command]:hover,
+.word-mock-format-button[data-word-action]:hover {
+  border-color: rgb(174, 184, 199);
+  background: rgb(231, 238, 249);
+}
+
+.word-mock-caret {
+  position: absolute;
+  right: 0;
+  bottom: 4px;
+  width: 0;
+  height: 0;
+  border-top: 4px solid rgb(35, 40, 49);
+  border-right: 3px solid transparent;
+  border-left: 3px solid transparent;
+}
+
+.word-mock-format-button {
+  min-width: 29px;
+  padding: 0 6px;
+  font-size: 18px;
+}
+
+.word-mock-format-button[data-format-label="B"] {
+  font-weight: 700;
+}
+
+.word-mock-format-button[data-format-label="I"] {
+  font-style: italic;
+}
+
+.word-mock-format-button[data-format-label="U"] {
+  text-decoration: underline;
+}
+
+.word-mock-format-button[data-format-label="abc"] {
+  font-size: 12px;
+  text-decoration: line-through;
+}
+
+.word-mock-format-button[data-format-label="x²"],
+.word-mock-format-button[data-format-label="x₂"],
+.word-mock-format-button[data-format-label="Bullets"],
+.word-mock-format-button[data-format-label="Numbering"],
+.word-mock-format-button[data-format-label="Checklist"],
+.word-mock-format-button[data-format-label="Indent-"],
+.word-mock-format-button[data-format-label="Indent+"],
+.word-mock-format-button[data-format-label="Line"],
+.word-mock-format-button[data-format-label="Marks"] {
+  font-size: 12px;
+}
+
+.word-mock-format-button[data-format-label="A"][title="Font Color"] {
+  border-bottom: 4px solid rgb(36, 91, 201);
+}
+
+.word-mock-format-button[data-format-label="A"][title="Highlight Color"] {
+  border-bottom: 4px solid rgb(250, 204, 21);
+}
+
+.word-mock-select {
+  justify-content: space-between;
+  border-color: rgb(218, 222, 228);
+  background: rgb(255, 255, 255);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.9);
+  cursor: pointer;
+  padding: 0 24px 0 8px;
+}
+
+.word-mock-select:hover,
+.word-mock-select:focus-visible {
+  border-color: rgb(174, 184, 199);
+  background: rgb(248, 250, 253);
+}
+
+.word-mock-select-style {
+  width: 203px;
+}
+
+.word-mock-select-font {
+  width: 154px;
+}
+
+.word-mock-select-size {
+  width: 82px;
+}
+
+.word-mock-style-button {
+  width: 31px;
+}
+
+.word-mock-style-icon {
+  color: rgb(35, 90, 200);
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 700;
+}
+
+.word-mock-style-plus {
+  color: rgb(34, 139, 67);
+  font-size: 15px;
+}
+
+.word-mock-color-palette-menu {
+  position: fixed;
+  z-index: 2000;
+  box-sizing: border-box;
+  width: 198px;
+  border: 1px solid rgb(190, 198, 209);
+  border-radius: 4px;
+  background: rgb(255, 255, 255);
+  box-shadow: 0 10px 24px rgb(15 23 42 / 0.18);
+  padding: 8px;
+  color: rgb(31, 36, 45);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-size: 12px;
+}
+
+.word-mock-color-palette-title {
+  margin-bottom: 7px;
+  font-weight: 600;
+}
+
+.word-mock-color-palette-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 4px;
+}
+
+.word-mock-color-palette-button {
+  box-sizing: border-box;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  border: 1px solid rgb(164, 172, 184);
+  border-radius: 2px;
+  padding: 0;
+}
+
+.word-mock-color-palette-button:hover,
+.word-mock-color-palette-button:focus-visible {
+  outline: 2px solid rgb(37, 99, 235);
+  outline-offset: 1px;
+}
+
+.word-mock-line-spacing-menu {
+  position: fixed;
+  z-index: 2000;
+  box-sizing: border-box;
+  width: 300px;
+  border: 1px solid rgb(154, 160, 169);
+  background: rgb(248, 248, 248);
+  box-shadow: 0 4px 12px rgb(15 23 42 / 0.22);
+  padding: 10px 12px 14px;
+  color: rgb(0, 0, 0);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+.word-mock-line-spacing-options {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.word-mock-line-spacing-option {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  min-height: 42px;
+  cursor: pointer;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgb(0, 0, 0);
+  font: inherit;
+  font-size: 15px;
+  line-height: 1.1;
+  padding: 4px 6px;
+  text-align: left;
+}
+
+.word-mock-line-spacing-option:hover,
+.word-mock-line-spacing-option:focus-visible,
+.word-mock-line-spacing-option[aria-current="true"] {
+  border-color: rgb(58, 58, 58);
+  outline: 1px dotted rgb(58, 58, 58);
+  outline-offset: -4px;
+  background: rgb(255, 255, 255);
+}
+
+.word-mock-line-spacing-option svg {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+}
+
+.word-mock-line-spacing-custom-title {
+  margin: 6px 0 10px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.word-mock-line-spacing-control {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 7px;
+  margin-left: 26px;
+  font-size: 15px;
+}
+
+.word-mock-line-spacing-control + .word-mock-line-spacing-control {
+  margin-top: 12px;
+}
+
+.word-mock-line-spacing-control span {
+  color: rgb(0, 0, 0);
+}
+
+.word-mock-line-spacing-value-row span {
+  color: rgb(118, 118, 118);
+}
+
+.word-mock-line-spacing-control select,
+.word-mock-line-spacing-control input {
+  box-sizing: border-box;
+  width: 244px;
+  height: 34px;
+  border: 1px solid rgb(226, 226, 226);
+  border-radius: 10px;
+  background: rgb(232, 232, 232);
+  color: rgb(0, 0, 0);
+  font: inherit;
+  font-size: 15px;
+  padding: 4px 12px;
+}
+
+.word-mock-line-spacing-control input {
+  width: 178px;
+  background: rgb(255, 255, 255);
+}
+
+.word-mock-line-spacing-control input:disabled {
+  color: rgb(160, 160, 160);
+  background: rgb(255, 255, 255);
 }

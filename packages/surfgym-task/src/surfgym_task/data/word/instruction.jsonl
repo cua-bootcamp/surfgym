@@ -1,0 +1,10 @@
+{"hash":"23ab1bd9b7e9af1456e387d04312bca2378a86e967f2638f518709746ac95702","instruction":"Center-align the second paragraph."}
+{"hash":"52c80facaf6602d1296c9a10d277be295472ef1184250fdaa568a4ec71002d0a","instruction":"Center-align the second paragraph and right-align the third paragraph."}
+{"hash":"5d740334c21a5fbfce5981951963b83af0f3cd70c7df74c32fd91c1c3339606a","instruction":"Enter balanced report note on a single line, then justify-align that paragraph."}
+{"hash":"65383efb64c4672856d809c57a8bfed5055d861e1c95e988513fea727af0132b","instruction":"Set the line spacing of the first two paragraphs to double while keeping the third paragraph single-spaced."}
+{"hash":"71f1239f8020f19d647a6950322fc4192ea1d9a3e5becbc527686a5d7f12b02f","instruction":"Align each line in the given paragraph. Leave the first line left-aligned, center-align the second line, right-align the third paragraph, and justify-align the fourth paragraph."}
+{"hash":"80b3ddc209784ee5752ca2148db269f91d83121a2051d8c48b95fa29e7fd27ac","instruction":"Make only the number 2 in the existing text a subscript."}
+{"hash":"c21efde191caf1619b1df5cce04ee2c275827f470e5c3a18140a792abab704de","instruction":"Format the 2 in CO2 and the 2 in H2O as subscript, and format the 2 in x2 as superscript."}
+{"hash":"ca1be2f7148e74cc898fe6446d85e5857770233c6f464ab0e362bd4453129dbf","instruction":"Format the existing formulas so the 2 in CO2 and the 2 in H2O are subscripts, while the 2 in x2 is superscript."}
+{"hash":"d2017298824a2653b2a93006f08952587d24c196a847dd9287c10e60d2d8b7fd","instruction":"Format the 2 in CO2 and the 2 in H2O as subscript, and format the 2 in x2 as superscript."}
+{"hash":"ecd43466cd64804f28d5a8dc2aa93d7290004d48ef9c23f3ecdc924edc5d0939","instruction":"Type \"balanced report note\" on a single line, then justify-align that paragraph."}

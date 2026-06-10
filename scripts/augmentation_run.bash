@@ -3,10 +3,10 @@ set -euo pipefail
 
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 
-SEED_DIR_PATH="${1:-$ROOT_DIR/packages/surfgym-task/src/surfgym_task/data/spreadsheet}"
-GRANULARITY="${GRANULARITY:-FINE}"
+SEED_DIR_PATH="${1:-$ROOT_DIR/packages/surfgym-task/src/surfgym_task/data/word}"
+GRANULARITY="${GRANULARITY:-COARSE}"
 ACCUMULATION="${ACCUMULATION:-CUMULATIVE}"
-WEBSITE="${WEBSITE:-http://localhost:3000/spreadsheet}"
+WEBSITE="${WEBSITE:-http://localhost:3000/word}"
 
 cd "$ROOT_DIR"
 

@@ -17,10 +17,12 @@ import {
 } from '@univerjs/presets';
 import {
   DocSkeletonManagerService,
+  DocSelectionManagerService,
   IRenderManagerService,
   UniverDocsCorePreset,
 } from '@univerjs/preset-docs-core';
 import UniverPresetDocsCoreEnUS from '@univerjs/preset-docs-core/locales/en-US';
+import { renderWordMockToolbar } from './word-ui';
 
 import '@univerjs/preset-docs-core/lib/index.css';
 import './style.css';
@@ -33,8 +35,8 @@ const { univer, univerAPI } = createUniver({
   presets: [
     UniverDocsCorePreset({
       container: 'app',
-      header: true,
-      toolbar: true,
+      header: false,
+      toolbar: false,
       footer: true,
       contextMenu: true,
     }),
@@ -53,11 +55,18 @@ type WordStateAtom = {
 
 type AnyRecord = Record<string, any>;
 
+type WordMetaEntry = AnyRecord & {
+  address?: string;
+  f?: string;
+};
+
 declare global {
   interface Window {
     univerAPI?: unknown;
     __getWordStateAtom?: (atom: WordStateAtom) => string;
     __applyWordState?: (atoms: WordStateAtom[]) => void;
+    getWordMeta?: (target?: string) => AnyRecord;
+    applyWordMeta?: (entries: WordMetaEntry[]) => string[];
   }
 }
 
@@ -174,13 +183,13 @@ const findTargetRange = (
 };
 
 const styleRunForIndex = (textRuns: AnyRecord[], index: number): AnyRecord => {
-  const run = textRuns.find((candidate) => {
+  return textRuns.reduce<AnyRecord>((style, candidate) => {
     const start = Number(candidate.st ?? -1);
     const end = Number(candidate.ed ?? -1);
-    return start <= index && index < end;
-  });
+    if (start <= index && index < end) return { ...style, ...(candidate.ts ?? {}) };
 
-  return run?.ts ?? {};
+    return style;
+  }, {});
 };
 
 const colorNameByValue: Record<string, string> = {
@@ -264,6 +273,31 @@ const getTextStyleAtom = (target: string, property: string, expectedValue: strin
   })
     ? expectedValue
     : '';
+};
+
+const getTextStylePropertyValue = (target: string, property: string): string => {
+  const body = getBody();
+  const dataStream = String(body.dataStream ?? '');
+  const range = findTargetRange(dataStream, target);
+  if (!range) return '';
+
+  const textRuns = (body.textRuns ?? []) as AnyRecord[];
+  const positiveProperty = property.endsWith('Not') ? property.slice(0, -3) : property;
+  let firstValue: string | null = null;
+
+  for (let index = range.start; index <= range.end; index += 1) {
+    const char = dataStream[index] ?? '';
+    if (char === '\r' || char === '\n' || TABLE_TAGS.includes(char)) continue;
+
+    const actualValue = getTextStyleProperty(styleRunForIndex(textRuns, index), positiveProperty);
+    if (firstValue === null) {
+      firstValue = actualValue;
+    } else if (firstValue !== actualValue) {
+      return '';
+    }
+  }
+
+  return firstValue ?? '';
 };
 
 const horizontalAlignByValue: Record<string, number> = {
@@ -404,6 +438,29 @@ const getDocumentFontSizeOnly = (expectedValue: string): string => {
   return expectedValue;
 };
 
+const getDocumentUniformFontSize = (): string => {
+  const body = getBody();
+  const dataStream = String(body.dataStream ?? '');
+  const textRuns = (body.textRuns ?? []) as AnyRecord[];
+  let firstValue: string | null = null;
+
+  for (let index = 0; index < dataStream.length; index += 1) {
+    const char = dataStream[index] ?? '';
+    if (char === '\r' || char === '\n' || char === '\f' || TABLE_TAGS.includes(char)) continue;
+
+    const actualValue = getTextStyleProperty(styleRunForIndex(textRuns, index), 'fontSize');
+    if (!actualValue) return '';
+
+    if (firstValue === null) {
+      firstValue = actualValue;
+    } else if (firstValue !== actualValue) {
+      return '';
+    }
+  }
+
+  return firstValue ?? '';
+};
+
 const getWordStateAtom = (atom: WordStateAtom): string => {
   const property = atom.property ?? [];
   const expectedValue = valueToString(atom.value);
@@ -443,6 +500,88 @@ const getWordStateAtom = (atom: WordStateAtom): string => {
   }
 
   return '';
+};
+
+const getWordBodyMeta = (): AnyRecord => ({
+  text: getBodyText(),
+  textWithPageBreak: getBodyTextWithPageBreak(),
+});
+
+const getWordTextStyleMeta = (): AnyRecord => ({
+  targets: new Proxy(
+    {},
+    {
+      get(_targetMap, target) {
+        if (typeof target !== 'string' || target === 'toJSON') return undefined;
+
+        return new Proxy(
+          {},
+          {
+            get(_styleMap, property) {
+              if (typeof property !== 'string' || property === 'toJSON') return undefined;
+
+              return getTextStylePropertyValue(target, property);
+            },
+          },
+        );
+      },
+    },
+  ),
+});
+
+const getWordParagraphMeta = (): AnyRecord => {
+  const paragraphs = (getBody().paragraphs ?? []) as AnyRecord[];
+
+  return {
+    paragraphs: Object.fromEntries(
+      paragraphs.map((paragraph, index) => [
+        String(index),
+        {
+          horizontalAlign: getParagraphProperty(paragraph, 'horizontalAlign'),
+          lineSpacing: getParagraphProperty(paragraph, 'lineSpacing'),
+          namedStyleType: getParagraphProperty(paragraph, 'namedStyleType'),
+          border: getParagraphProperty(paragraph, 'border'),
+        },
+      ]),
+    ),
+  };
+};
+
+const getWordTableMeta = (): AnyRecord => ({
+  tables: {
+    0: {
+      shape: getTableAtom('shape'),
+      cellsText: getTableAtom('cellsText'),
+    },
+  },
+});
+
+const getWordFooterMeta = (): AnyRecord => ({
+  text: getFooterText(),
+});
+
+const getWordDocumentMeta = (): AnyRecord => ({
+  style: {
+    fontSizeOnly: getDocumentUniformFontSize(),
+  },
+});
+
+const getWordMeta = (target = ''): AnyRecord => {
+  if (target === 'word-body') return getWordBodyMeta();
+  if (target === 'word-text-style') return getWordTextStyleMeta();
+  if (target === 'word-paragraph') return getWordParagraphMeta();
+  if (target === 'word-table') return getWordTableMeta();
+  if (target === 'word-footer') return getWordFooterMeta();
+  if (target === 'word-document') return getWordDocumentMeta();
+
+  return {
+    ...getWordBodyMeta(),
+    ...getWordTextStyleMeta(),
+    ...getWordParagraphMeta(),
+    ...getWordTableMeta(),
+    footer: getWordFooterMeta(),
+    document: getWordDocumentMeta(),
+  };
 };
 
 const makeDecoration = (): AnyRecord => ({
@@ -729,7 +868,7 @@ const refreshWordDocumentViewSoon = (doc: AnyRecord): void => {
   });
 };
 
-window.__applyWordState = (atoms: WordStateAtom[]): void => {
+const applyWordState = (atoms: WordStateAtom[]): void => {
   const doc = getDocumentModel();
   if (!doc) return;
 
@@ -737,4 +876,175 @@ window.__applyWordState = (atoms: WordStateAtom[]): void => {
   refreshWordDocumentViewSoon(doc);
 };
 
+const isWordAtomValue = (value: unknown): value is WordAtomValue =>
+  typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean';
+
+const collectWordMetaAtoms = (
+  f: string,
+  property: string[],
+  value: unknown,
+  atoms: WordStateAtom[],
+): void => {
+  if (isWordAtomValue(value)) {
+    atoms.push({ f, property, value });
+    return;
+  }
+
+  if (value && typeof value === 'object' && !Array.isArray(value)) {
+    Object.entries(value as AnyRecord).forEach(([key, childValue]) => {
+      collectWordMetaAtoms(f, [...property, key], childValue, atoms);
+    });
+  }
+};
+
+const wordMetaEntryToAtoms = (entry: WordMetaEntry): WordStateAtom[] => {
+  const f = typeof entry.address === 'string'
+    ? entry.address
+    : typeof entry.f === 'string'
+      ? entry.f
+      : '';
+
+  if (!f) {
+    throw new Error('Each word meta entry must include an address or f field.');
+  }
+
+  const atoms: WordStateAtom[] = [];
+  Object.entries(entry).forEach(([key, value]) => {
+    if (key === 'address' || key === 'f') return;
+
+    collectWordMetaAtoms(f, [key], value, atoms);
+  });
+
+  return atoms;
+};
+
+const applyWordMeta = (entries: WordMetaEntry[]): string[] => {
+  if (!Array.isArray(entries)) {
+    throw new Error('Word meta entries must be an array.');
+  }
+
+  const atoms = entries.flatMap(wordMetaEntryToAtoms);
+  applyWordState(atoms);
+
+  return atoms.map((atom) => getWordStateAtom(atom));
+};
+
+const getDocSelectionManager = (): AnyRecord | null => {
+  try {
+    return univer.__getInjector().get(DocSelectionManagerService) as AnyRecord;
+  } catch {
+    return null;
+  }
+};
+
+const getCurrentBodyDocRanges = (): AnyRecord[] => {
+  const doc = getDocumentModel();
+  const unitId = doc?.getUnitId?.();
+  const selectionManager = getDocSelectionManager();
+  if (!selectionManager || !unitId) return [];
+
+  const activeTextRange = selectionManager.getActiveTextRange?.();
+  const activeRectRange = selectionManager.getActiveRectRange?.();
+  const isBodyRange = (range: AnyRecord) => !range.segmentId || range.segmentId === unitId;
+  const isUsableRange = (range: AnyRecord) =>
+    isBodyRange(range) &&
+    Number.isFinite(Number(range.startOffset)) &&
+    Number.isFinite(Number(range.endOffset));
+  const activeRange = [activeTextRange, activeRectRange].find(
+    (range): range is AnyRecord => Boolean(range && isUsableRange(range)),
+  );
+
+  if (activeRange) {
+    return [activeRange];
+  }
+
+  const docRanges = selectionManager.getDocRanges?.();
+  const textRanges = selectionManager.getTextRanges?.({ unitId, subUnitId: unitId });
+  const ranges = (Array.isArray(textRanges) && textRanges.length
+    ? textRanges
+    : Array.isArray(docRanges) && docRanges.length
+      ? docRanges
+      : []);
+
+  return (ranges as AnyRecord[]).filter(isUsableRange);
+};
+
+const getParagraphIndexAtOffset = (paragraphs: AnyRecord[], offset: number): number | null => {
+  if (paragraphs.length === 0) return null;
+
+  const normalizedOffset = Math.max(0, offset);
+  const index = paragraphs.findIndex((paragraph) => Number(paragraph.startIndex) >= normalizedOffset);
+
+  return index >= 0 ? index : paragraphs.length - 1;
+};
+
+const getParagraphIndexesInRange = (paragraphs: AnyRecord[], range: AnyRecord): number[] => {
+  const rawStart = Number(range.startOffset);
+  const rawEnd = Number(range.endOffset);
+  if (!Number.isFinite(rawStart) || !Number.isFinite(rawEnd)) return [];
+
+  const startOffset = Math.min(rawStart, rawEnd);
+  const endOffset = Math.max(rawStart, rawEnd);
+  const isCollapsed = range.collapsed === true || startOffset === endOffset;
+  const startIndex = getParagraphIndexAtOffset(paragraphs, startOffset);
+  if (startIndex === null) return [];
+  if (isCollapsed) return [startIndex];
+
+  const endIndex = getParagraphIndexAtOffset(paragraphs, Math.max(startOffset, endOffset - 1));
+  if (endIndex === null) return [startIndex];
+
+  const firstIndex = Math.min(startIndex, endIndex);
+  const lastIndex = Math.max(startIndex, endIndex);
+  return Array.from({ length: lastIndex - firstIndex + 1 }, (_unused, index) => firstIndex + index);
+};
+
+const getSelectedParagraphIndexes = (): number[] => {
+  const body = getBody();
+  const paragraphs = (body.paragraphs ?? []) as AnyRecord[];
+  if (paragraphs.length === 0) return [];
+
+  const ranges = getCurrentBodyDocRanges();
+  if (ranges.length === 0) return [];
+
+  return Array.from(
+    new Set(
+      ranges.flatMap((range) => getParagraphIndexesInRange(paragraphs, range)),
+    ),
+  );
+};
+
+const getDocumentLineSpacing = (): number => {
+  const paragraphs = (getBody().paragraphs ?? []) as AnyRecord[];
+  const paragraphIndex = getSelectedParagraphIndexes()[0] ?? 0;
+  const firstLineSpacing = Number(getParagraphProperty(paragraphs[paragraphIndex], 'lineSpacing') || 1);
+
+  return Number.isFinite(firstLineSpacing) && firstLineSpacing > 0 ? firstLineSpacing : 1;
+};
+
+const applyDocumentLineSpacing = (lineSpacing: number): void => {
+  const normalizedLineSpacing = Number(lineSpacing);
+  if (!Number.isFinite(normalizedLineSpacing) || normalizedLineSpacing <= 0) return;
+
+  const targetParagraphIndexes = getSelectedParagraphIndexes();
+  if (targetParagraphIndexes.length === 0) return;
+
+  applyWordState(
+    targetParagraphIndexes.map((index) => ({
+      f: 'word-paragraph',
+      property: ['paragraphs', String(index), 'lineSpacing'],
+      value: Math.round(normalizedLineSpacing * 100) / 100,
+    })),
+  );
+};
+
+window.__applyWordState = applyWordState;
 window.__getWordStateAtom = getWordStateAtom;
+window.getWordMeta = getWordMeta;
+window.applyWordMeta = applyWordMeta;
+
+renderWordMockToolbar({
+  containerId: 'word-custom-toolbar',
+  getLineSpacing: getDocumentLineSpacing,
+  setLineSpacing: applyDocumentLineSpacing,
+  univerAPI,
+});
