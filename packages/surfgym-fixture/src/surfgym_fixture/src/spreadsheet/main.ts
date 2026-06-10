@@ -107,7 +107,7 @@ if (univerAPI.getCurrentLifecycleStage() >= univerAPI.Enum.LifecycleStages.Rende
 
 const actions = createSpreadsheetActions({
   univerAPI,
-  workbook,
+  workbook: workbook as Parameters<typeof createSpreadsheetActions>[0]['workbook'],
   worksheet,
 });
 
@@ -125,7 +125,7 @@ setupSpreadsheetUi({
 
 installSpreadsheetEvaluationHelpers({
   univerAPI,
-  workbook,
+  workbook: workbook as Parameters<typeof installSpreadsheetEvaluationHelpers>[0]['workbook'],
   worksheet,
   actions,
 });
