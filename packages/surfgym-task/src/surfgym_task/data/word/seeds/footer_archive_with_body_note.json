@@ -1,0 +1,30 @@
+{
+  "instruction": "Keep the existing body note and add the footer text \"Archive note\".",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "Quarterly files are ready for archive."
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-footer",
+        "property": [
+          "text"
+        ],
+        "value": "Archive note"
+      }
+    ]
+  ]
+}

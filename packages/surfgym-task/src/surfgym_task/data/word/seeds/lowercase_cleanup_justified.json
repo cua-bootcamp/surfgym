@@ -1,0 +1,68 @@
+{
+  "instruction": "Clean up the existing uppercase line so it is lowercase, then justify-align it and use font size 16.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "REGIONAL STATUS SHOULD STAY QUIET"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-paragraph",
+        "property": [
+          "paragraphs",
+          "0",
+          "horizontalAlign"
+        ],
+        "value": "left"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "regional status should stay quiet"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-paragraph",
+        "property": [
+          "paragraphs",
+          "0",
+          "horizontalAlign"
+        ],
+        "value": "justify"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "regional status should stay quiet",
+          "fontSize"
+        ],
+        "value": "16"
+      }
+    ]
+  ]
+}

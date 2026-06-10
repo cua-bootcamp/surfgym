@@ -1,0 +1,134 @@
+{
+  "instruction": "Format the existing alert so \"ALERT\" is bold, \"required\" is underlined, \"update\" stays plain, and the paragraph is centered.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "ALERT update required"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-paragraph",
+        "property": [
+          "paragraphs",
+          "0",
+          "horizontalAlign"
+        ],
+        "value": "left"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "ALERT update required",
+          "fontSize"
+        ],
+        "value": "18"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "ALERT",
+          "bold"
+        ],
+        "value": "true"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "ALERT",
+          "underline"
+        ],
+        "value": "false"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "required",
+          "underline"
+        ],
+        "value": "true"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "required",
+          "bold"
+        ],
+        "value": "false"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "update",
+          "bold"
+        ],
+        "value": "false"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "update",
+          "underline"
+        ],
+        "value": "false"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-paragraph",
+        "property": [
+          "paragraphs",
+          "0",
+          "horizontalAlign"
+        ],
+        "value": "center"
+      }
+    ]
+  ]
+}

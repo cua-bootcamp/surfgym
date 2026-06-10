@@ -1,0 +1,94 @@
+{
+  "instruction": "Format the existing three-line note by bolding the title, italicizing the middle line, and right-aligning the final line.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "Weekly Plan\nediting in progress\nready tomorrow"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-paragraph",
+        "property": [
+          "paragraphs",
+          "0",
+          "horizontalAlign"
+        ],
+        "value": "left"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-paragraph",
+        "property": [
+          "paragraphs",
+          "1",
+          "horizontalAlign"
+        ],
+        "value": "left"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-paragraph",
+        "property": [
+          "paragraphs",
+          "2",
+          "horizontalAlign"
+        ],
+        "value": "left"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "Weekly Plan",
+          "bold"
+        ],
+        "value": "true"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "editing in progress",
+          "italic"
+        ],
+        "value": "true"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-paragraph",
+        "property": [
+          "paragraphs",
+          "2",
+          "horizontalAlign"
+        ],
+        "value": "right"
+      }
+    ]
+  ]
+}

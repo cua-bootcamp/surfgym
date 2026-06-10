@@ -1,0 +1,122 @@
+{
+  "instruction": "Format the existing note so both paragraphs use Calibri at font size 18. Justify the first paragraph, right-align the second paragraph, make \"Design memo\" bold, underline \"final action\", and format the 2 in \"phase2\" as superscript.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": ["text"],
+        "value": "Design memo needs review.\nfinal action phase2"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-paragraph",
+        "property": ["paragraphs", "0", "horizontalAlign"],
+        "value": "left"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-paragraph",
+        "property": ["paragraphs", "1", "horizontalAlign"],
+        "value": "left"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": ["targets", "Design memo needs review.\nfinal action phase2", "fontFamily"],
+        "value": "Calibri"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": ["targets", "Design memo needs review.\nfinal action phase2", "fontSize"],
+        "value": "18"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-paragraph",
+        "property": ["paragraphs", "0", "horizontalAlign"],
+        "value": "justify"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-paragraph",
+        "property": ["paragraphs", "1", "horizontalAlign"],
+        "value": "right"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": ["targets", "Design memo", "bold"],
+        "value": "true"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": ["targets", "needs review.", "bold"],
+        "value": "false"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": ["targets", "final action", "underline"],
+        "value": "true"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": ["targets", "phase", "underline"],
+        "value": "false"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": ["targets", "2", "verticalAlign"],
+        "value": "superscript"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": ["targets", "phase", "verticalAlign"],
+        "value": "normal"
+      }
+    ]
+  ]
+}

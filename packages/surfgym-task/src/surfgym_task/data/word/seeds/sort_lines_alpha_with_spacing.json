@@ -1,0 +1,44 @@
+{
+  "instruction": "Sort the existing four lines alphabetically, then double-space the final line.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "delta\nalpha\ncharlie\nbravo"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "alpha\nbravo\ncharlie\ndelta"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-paragraph",
+        "property": [
+          "paragraphs",
+          "3",
+          "lineSpacing"
+        ],
+        "value": "2"
+      }
+    ]
+  ]
+}

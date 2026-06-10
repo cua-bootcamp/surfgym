@@ -1,0 +1,42 @@
+{
+  "instruction": "Replace the unavailable password-protection request with a supported security notice: add the body warning and matching footer.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "Security review pending."
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "Security notice: password protection is unavailable in this fixture."
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-footer",
+        "property": [
+          "text"
+        ],
+        "value": "Security notice"
+      }
+    ]
+  ]
+}

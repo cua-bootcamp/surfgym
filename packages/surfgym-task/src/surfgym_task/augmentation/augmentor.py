@@ -112,8 +112,12 @@ class Augmentor:
         ]
 
     def _atom_to_script(self, state_atom: StateAtom) -> str:
-        param = "()" if state_atom.param is None else f'("{state_atom.param}")'
-        property = "".join(f'["{x}"]' for x in state_atom.property)
+        param = (
+            "()"
+            if state_atom.param is None
+            else f"({json.dumps(state_atom.param, ensure_ascii=False)})"
+        )
+        property = "".join(f"[{json.dumps(x, ensure_ascii=False)}]" for x in state_atom.property)
         expected = json.dumps(state_atom.value, ensure_ascii=False)
 
         if state_atom.return_type == "list":

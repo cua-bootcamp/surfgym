@@ -1,0 +1,42 @@
+{
+  "instruction": "Update the existing [REF] marker to [1], add the reference entry, and add a footer labeled \"References updated\".",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "Source queue\nPark, Ji. \"Harbor Sampling Log.\" Field Archive Review, 2021.\nNolan, Avery. \"Bridge Sensor Memo.\" Urban Systems Notes, 2022.\nAdd the latest calibration note [REF]"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "Source queue\nPark, Ji. \"Harbor Sampling Log.\" Field Archive Review, 2021.\nNolan, Avery. \"Bridge Sensor Memo.\" Urban Systems Notes, 2022.\nAdd the latest calibration note [1]\n[1] Rao, Lina. \"Calibration Trace.\" Applied Sensor Letters, 2025."
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-footer",
+        "property": [
+          "text"
+        ],
+        "value": "References updated"
+      }
+    ]
+  ]
+}

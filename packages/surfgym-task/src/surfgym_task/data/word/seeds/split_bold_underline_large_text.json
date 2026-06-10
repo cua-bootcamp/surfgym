@@ -1,0 +1,19 @@
+{
+  "instruction": "Write \"Review draft complete check\" on a single line. Make the whole line font size 20 and italic. Then make only \"Review draft\" bold and only \"complete check\" underlined.",
+  "empty_start": true,
+  "states": [
+    [{ "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-body", "property": ["text"], "value": "Review draft complete check" }],
+    [
+      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "Review draft complete check", "fontSize"], "value": "20" },
+      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "Review draft complete check", "italic"], "value": "true" }
+    ],
+    [
+      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "Review draft", "bold"], "value": "true" },
+      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "Review draft", "underline"], "value": "false" }
+    ],
+    [
+      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "complete check", "bold"], "value": "false" },
+      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "complete check", "underline"], "value": "true" }
+    ]
+  ]
+}
