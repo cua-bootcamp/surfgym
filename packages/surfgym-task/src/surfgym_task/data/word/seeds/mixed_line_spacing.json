@@ -1,0 +1,56 @@
+{
+  "instruction": "Create three paragraphs in this order: \"alpha note\", \"beta note\", and \"gamma note\". Set their line spacing to 1.15, 1.5, and 2 respectively.",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "alpha note\nbeta note\ngamma note"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-paragraph",
+        "property": [
+          "paragraphs",
+          "0",
+          "lineSpacing"
+        ],
+        "value": "1.15"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-paragraph",
+        "property": [
+          "paragraphs",
+          "1",
+          "lineSpacing"
+        ],
+        "value": "1.5"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-paragraph",
+        "property": [
+          "paragraphs",
+          "2",
+          "lineSpacing"
+        ],
+        "value": "2"
+      }
+    ]
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "instruction": "Create two lines with \"carry forward\" on the first line and \"retire this entry\" on the second line. Apply strikethrough only to the second line.",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "carry forward\nretire this entry"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "retire this entry",
+          "strikethrough"
+        ],
+        "value": "true"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "carry forward",
+          "strikethrough"
+        ],
+        "value": "false"
+      }
+    ]
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "instruction": "Enter this line and make sure it ends up fully lowercase: \"REGIONAL STATUS SHOULD STAY QUIET\".",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "regional status should stay quiet"
+      }
+    ]
+  ]
+}

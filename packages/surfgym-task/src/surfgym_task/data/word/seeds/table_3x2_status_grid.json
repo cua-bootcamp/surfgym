@@ -8,9 +8,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-body",
-        "property": [
-          "text"
-        ],
+        "property": ["text"],
         "value": "Status grid: Owner Mina, Stage Review, Flag Active"
       }
     ],
@@ -20,11 +18,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-table",
-        "property": [
-          "tables",
-          "0",
-          "shape"
-        ],
+        "property": ["tables", "0", "shape"],
         "value": "3x2"
       },
       {
@@ -32,11 +26,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-table",
-        "property": [
-          "tables",
-          "0",
-          "cellsText"
-        ],
+        "property": ["tables", "0", "cellsText"],
         "value": "Owner|Mina|Stage|Review|Flag|Active"
       }
     ]

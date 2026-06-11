@@ -1,0 +1,18 @@
+{
+  "instruction": "Create the comma-separated text \"redwood, cedar, maple\". Then split it into three separate lines without commas.",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "redwood\ncedar\nmaple"
+      }
+    ]
+  ]
+}

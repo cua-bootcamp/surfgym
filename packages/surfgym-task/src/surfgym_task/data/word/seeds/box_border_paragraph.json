@@ -1,0 +1,32 @@
+{
+  "instruction": "Please type \"boxed paragraph\" and give that paragraph a simple box border on all four sides.",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "boxed paragraph"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-paragraph",
+        "property": [
+          "paragraphs",
+          "0",
+          "border"
+        ],
+        "value": "box"
+      }
+    ]
+  ]
+}

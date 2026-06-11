@@ -1,0 +1,18 @@
+{
+  "instruction": "Please write the phrase \"river audit memo\" so that every word starts with a capital letter.",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "River Audit Memo"
+      }
+    ]
+  ]
+}

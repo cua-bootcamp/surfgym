@@ -8,9 +8,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-body",
-        "property": [
-          "text"
-        ],
+        "property": ["text"],
         "value": "carry forward\nretire this entry"
       },
       {
@@ -18,11 +16,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-paragraph",
-        "property": [
-          "paragraphs",
-          "0",
-          "lineSpacing"
-        ],
+        "property": ["paragraphs", "0", "lineSpacing"],
         "value": "1"
       },
       {
@@ -30,11 +24,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-paragraph",
-        "property": [
-          "paragraphs",
-          "1",
-          "lineSpacing"
-        ],
+        "property": ["paragraphs", "1", "lineSpacing"],
         "value": "1"
       }
     ],
@@ -44,11 +34,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-text-style",
-        "property": [
-          "targets",
-          "retire this entry",
-          "strikethrough"
-        ],
+        "property": ["targets", "retire this entry", "strikethrough"],
         "value": "true"
       },
       {
@@ -56,11 +42,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-text-style",
-        "property": [
-          "targets",
-          "carry forward",
-          "strikethrough"
-        ],
+        "property": ["targets", "carry forward", "strikethrough"],
         "value": "false"
       }
     ],
@@ -70,11 +52,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-paragraph",
-        "property": [
-          "paragraphs",
-          "1",
-          "lineSpacing"
-        ],
+        "property": ["paragraphs", "1", "lineSpacing"],
         "value": "2"
       }
     ]

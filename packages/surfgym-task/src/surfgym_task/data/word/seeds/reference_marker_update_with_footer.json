@@ -8,9 +8,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-body",
-        "property": [
-          "text"
-        ],
+        "property": ["text"],
         "value": "Source queue\nPark, Ji. \"Harbor Sampling Log.\" Field Archive Review, 2021.\nNolan, Avery. \"Bridge Sensor Memo.\" Urban Systems Notes, 2022.\nAdd the latest calibration note [REF]"
       }
     ],
@@ -20,9 +18,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-body",
-        "property": [
-          "text"
-        ],
+        "property": ["text"],
         "value": "Source queue\nPark, Ji. \"Harbor Sampling Log.\" Field Archive Review, 2021.\nNolan, Avery. \"Bridge Sensor Memo.\" Urban Systems Notes, 2022.\nAdd the latest calibration note [1]\n[1] Rao, Lina. \"Calibration Trace.\" Applied Sensor Letters, 2025."
       }
     ],
@@ -32,9 +28,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-footer",
-        "property": [
-          "text"
-        ],
+        "property": ["text"],
         "value": "References updated"
       }
     ]

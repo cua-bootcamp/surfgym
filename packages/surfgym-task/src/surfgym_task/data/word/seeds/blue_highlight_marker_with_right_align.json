@@ -8,9 +8,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-body",
-        "property": [
-          "text"
-        ],
+        "property": ["text"],
         "value": "marker active"
       },
       {
@@ -18,11 +16,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-paragraph",
-        "property": [
-          "paragraphs",
-          "0",
-          "horizontalAlign"
-        ],
+        "property": ["paragraphs", "0", "horizontalAlign"],
         "value": "left"
       }
     ],
@@ -32,11 +26,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-text-style",
-        "property": [
-          "targets",
-          "marker",
-          "backgroundColor"
-        ],
+        "property": ["targets", "marker", "backgroundColor"],
         "value": "blue"
       },
       {
@@ -44,11 +34,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-text-style",
-        "property": [
-          "targets",
-          "active",
-          "backgroundColor"
-        ],
+        "property": ["targets", "active", "backgroundColor"],
         "value": "normal"
       }
     ],
@@ -58,11 +44,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-paragraph",
-        "property": [
-          "paragraphs",
-          "0",
-          "horizontalAlign"
-        ],
+        "property": ["paragraphs", "0", "horizontalAlign"],
         "value": "right"
       }
     ]

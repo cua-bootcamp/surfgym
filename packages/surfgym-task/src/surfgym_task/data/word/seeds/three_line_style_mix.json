@@ -1,0 +1,44 @@
+{
+  "instruction": "Create a three-line note with \"Weekly Plan\", \"editing in progress\", and \"ready tomorrow\". Make the first line bold and the second line italic.",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "Weekly Plan\nediting in progress\nready tomorrow"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "Weekly Plan",
+          "bold"
+        ],
+        "value": "true"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "editing in progress",
+          "italic"
+        ],
+        "value": "true"
+      }
+    ]
+  ]
+}

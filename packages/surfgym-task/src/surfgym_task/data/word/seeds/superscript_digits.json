@@ -1,0 +1,44 @@
+{
+  "instruction": "Please type \"a2 + b2\" and make both number 2 characters superscript.",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "a2 + b2"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "2#0",
+          "verticalAlign"
+        ],
+        "value": "superscript"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "2#1",
+          "verticalAlign"
+        ],
+        "value": "superscript"
+      }
+    ]
+  ]
+}
