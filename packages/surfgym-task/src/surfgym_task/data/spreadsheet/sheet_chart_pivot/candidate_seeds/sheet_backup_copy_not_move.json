@@ -1,0 +1,25 @@
+{
+  "instruction": "Create a copy of the current sheet named \"Operations Backup\". Do not move or rename the original sheet, and make sure the backup contains the same resource table.",
+  "empty_start": false,
+  "states": [
+    [
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A1","property":["cell","v"],"value":"Resource"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B1","property":["cell","v"],"value":"Owner"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A2","property":["cell","v"],"value":"Drone Kit"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B2","property":["cell","v"],"value":"Mina"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A3","property":["cell","v"],"value":"Battery Pack"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B3","property":["cell","v"],"value":"Jules"}
+    ],
+    [
+      {"match":"exact","applyf":"applySheetMeta","evalf":"getSheetMeta","param":{"sheetName":"Operations Backup"},"property":["sheet","name"],"value":"Operations Backup"}
+    ],
+    [
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Operations Backup","address":"A1"},"property":["cell","v"],"value":"Resource"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Operations Backup","address":"A2"},"property":["cell","v"],"value":"Drone Kit"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Operations Backup","address":"B3"},"property":["cell","v"],"value":"Jules"}
+    ],
+    [
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A2","property":["cell","v"],"value":"Drone Kit"}
+    ]
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "instruction": "Create two pivot tables from the current sheet's channel and product sales table, and place both on Sheet2. Put a Channel revenue pivot at A1 and a Product units pivot at A7, with labels sorted alphabetically in each pivot.",
+  "empty_start": false,
+  "states": [
+    [
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A1","property":["cell","v"],"value":"Channel"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B1","property":["cell","v"],"value":"Product"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"D1","property":["cell","v"],"value":"Units"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"E1","property":["cell","v"],"value":"Revenue"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A2","property":["cell","v"],"value":"Online"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B2","property":["cell","v"],"value":"Alpha Kite"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"D2","property":["cell","v"],"value":8},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"E2","property":["cell","v"],"value":1600},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A3","property":["cell","v"],"value":"Retail"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B3","property":["cell","v"],"value":"Mini Drone"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"D3","property":["cell","v"],"value":5},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"E3","property":["cell","v"],"value":2100}
+    ],
+    [
+      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"channel-revenue-pivot"},"property":["sourceRange"],"value":"A1:E3"},
+      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"channel-revenue-pivot"},"property":["destinationSheetName"],"value":"Sheet2"},
+      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"channel-revenue-pivot"},"property":["destinationAddress"],"value":"A1"},
+      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"channel-revenue-pivot"},"property":["rowFieldsCsv"],"value":"Channel"}
+    ],
+    [
+      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"product-units-pivot"},"property":["destinationSheetName"],"value":"Sheet2"},
+      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"product-units-pivot"},"property":["destinationAddress"],"value":"A7"},
+      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"product-units-pivot"},"property":["rowFieldsCsv"],"value":"Product"},
+      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"product-units-pivot"},"property":["valueFieldsCsv"],"value":"Units:sum"}
+    ]
+  ]
+}

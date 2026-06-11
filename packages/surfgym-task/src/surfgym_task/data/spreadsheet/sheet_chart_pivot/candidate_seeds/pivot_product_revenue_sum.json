@@ -1,0 +1,29 @@
+{
+  "instruction": "Create a pivot table named \"Product Revenue Pivot\" from the current sheet's product revenue table. Use Product as the row field and sum Revenue as the value field. Place it on Sheet2 starting at A1, with product labels sorted alphabetically.",
+  "empty_start": false,
+  "states": [
+    [
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B1","property":["cell","v"],"value":"Product"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"F1","property":["cell","v"],"value":"Revenue"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B2","property":["cell","v"],"value":"Alpha Kite"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"F2","property":["cell","v"],"value":100},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B3","property":["cell","v"],"value":"Mini Drone"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"F3","property":["cell","v"],"value":225},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B4","property":["cell","v"],"value":"Alpha Kite"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"F4","property":["cell","v"],"value":120},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B5","property":["cell","v"],"value":"Mini Drone"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"F5","property":["cell","v"],"value":150}
+    ],
+    [
+      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"product-revenue-pivot"},"property":["name"],"value":"Product Revenue Pivot"},
+      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"product-revenue-pivot"},"property":["sourceRange"],"value":"A1:F5"},
+      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"product-revenue-pivot"},"property":["destinationSheetName"],"value":"Sheet2"},
+      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"product-revenue-pivot"},"property":["rowFieldsCsv"],"value":"Product"},
+      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"product-revenue-pivot"},"property":["valueFieldsCsv"],"value":"Revenue:sum"}
+    ],
+    [
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Sheet2","address":"A2"},"property":["cell","v"],"value":"Alpha Kite"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Sheet2","address":"B2"},"property":["cell","v"],"value":220}
+    ]
+  ]
+}

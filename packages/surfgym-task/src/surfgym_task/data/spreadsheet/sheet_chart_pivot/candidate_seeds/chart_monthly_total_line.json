@@ -1,0 +1,37 @@
+{
+  "instruction": "Calculate monthly totals into G1:H4 for the visible months, then create a line chart titled \"Monthly Total Trend\" from that summary table on the current sheet.",
+  "empty_start": false,
+  "states": [
+    [
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A1","property":["cell","v"],"value":"Month"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B1","property":["cell","v"],"value":"North"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"C1","property":["cell","v"],"value":"South"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A2","property":["cell","v"],"value":"Jan"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B2","property":["cell","v"],"value":120},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"C2","property":["cell","v"],"value":90},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A3","property":["cell","v"],"value":"Feb"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B3","property":["cell","v"],"value":140},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"C3","property":["cell","v"],"value":110},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A4","property":["cell","v"],"value":"Mar"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B4","property":["cell","v"],"value":160},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"C4","property":["cell","v"],"value":125}
+    ],
+    [
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"G1","property":["cell","v"],"value":"Month"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"H1","property":["cell","v"],"value":"Total"}
+    ],
+    [
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"G2","property":["cell","v"],"value":"Jan"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"H2","property":["cell","v"],"value":210},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"G3","property":["cell","v"],"value":"Feb"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"H3","property":["cell","v"],"value":250},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"G4","property":["cell","v"],"value":"Mar"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"H4","property":["cell","v"],"value":285}
+    ],
+    [
+      {"match":"exact","applyf":"applyChartMeta","evalf":"getChartMeta","param":{"sheetName":"Sheet1"},"property":["sourceRange"],"value":"G1:H4","return_type":"list"},
+      {"match":"exact","applyf":"applyChartMeta","evalf":"getChartMeta","param":{"sheetName":"Sheet1"},"property":["chartType"],"value":"line","return_type":"list"},
+      {"match":"exact","applyf":"applyChartMeta","evalf":"getChartMeta","param":{"sheetName":"Sheet1"},"property":["title"],"value":"Monthly Total Trend","return_type":"list"}
+    ]
+  ]
+}
