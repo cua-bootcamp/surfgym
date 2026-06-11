@@ -1,0 +1,44 @@
+{
+  "instruction": "Please type \"marker active\" and apply a blue text background only to the word \"marker\".",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "marker active"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "marker",
+          "backgroundColor"
+        ],
+        "value": "blue"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "active",
+          "backgroundColor"
+        ],
+        "value": "normal"
+      }
+    ]
+  ]
+}

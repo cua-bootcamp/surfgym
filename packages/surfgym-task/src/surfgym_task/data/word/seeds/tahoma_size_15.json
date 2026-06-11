@@ -1,0 +1,44 @@
+{
+  "instruction": "Please type \"schedule ready\" and format the whole line in Tahoma with font size 15.",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "schedule ready"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "schedule ready",
+          "fontFamily"
+        ],
+        "value": "Tahoma"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "schedule ready",
+          "fontSize"
+        ],
+        "value": "15"
+      }
+    ]
+  ]
+}

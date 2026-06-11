@@ -1,0 +1,18 @@
+{
+  "instruction": "Write these short notes on separate lines in the same order: \"Log sample.\" \"Flag anomaly.\" \"Close review.\"",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "Log sample.\nFlag anomaly.\nClose review."
+      }
+    ]
+  ]
+}

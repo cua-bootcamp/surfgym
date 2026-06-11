@@ -8,9 +8,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-body",
-        "property": [
-          "text"
-        ],
+        "property": ["text"],
         "value": "a2 + b2"
       }
     ],
@@ -20,11 +18,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-text-style",
-        "property": [
-          "targets",
-          "a2 + b2",
-          "fontFamily"
-        ],
+        "property": ["targets", "a2 + b2", "fontFamily"],
         "value": "Calibri"
       }
     ],
@@ -34,11 +28,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-text-style",
-        "property": [
-          "targets",
-          "2#0",
-          "verticalAlign"
-        ],
+        "property": ["targets", "2#0", "verticalAlign"],
         "value": "superscript"
       },
       {
@@ -46,11 +36,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-text-style",
-        "property": [
-          "targets",
-          "2#1",
-          "verticalAlign"
-        ],
+        "property": ["targets", "2#1", "verticalAlign"],
         "value": "superscript"
       }
     ],
@@ -60,11 +46,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-text-style",
-        "property": [
-          "targets",
-          "a",
-          "verticalAlign"
-        ],
+        "property": ["targets", "a", "verticalAlign"],
         "value": "normal"
       },
       {
@@ -72,11 +54,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-text-style",
-        "property": [
-          "targets",
-          "b",
-          "verticalAlign"
-        ],
+        "property": ["targets", "b", "verticalAlign"],
         "value": "normal"
       }
     ]

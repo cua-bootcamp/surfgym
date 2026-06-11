@@ -1,0 +1,44 @@
+{
+  "instruction": "Please write \"moss amber\" and make \"moss\" green while making \"amber\" orange.",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "moss amber"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "moss",
+          "color"
+        ],
+        "value": "green"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "amber",
+          "color"
+        ],
+        "value": "orange"
+      }
+    ]
+  ]
+}

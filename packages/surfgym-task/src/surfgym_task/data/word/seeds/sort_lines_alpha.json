@@ -1,0 +1,18 @@
+{
+  "instruction": "Create four separate lines with \"delta\", \"alpha\", \"charlie\", and \"bravo\". Then reorder the lines alphabetically.",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "alpha\nbravo\ncharlie\ndelta"
+      }
+    ]
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "instruction": "Please write \"Deadline confirmed\" and underline only the word \"Deadline\".",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "Deadline confirmed"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "Deadline",
+          "underline"
+        ],
+        "value": "true"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "confirmed",
+          "underline"
+        ],
+        "value": "false"
+      }
+    ]
+  ]
+}

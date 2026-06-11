@@ -8,9 +8,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-body",
-        "property": [
-          "text"
-        ],
+        "property": ["text"],
         "value": "Quarterly files are ready for archive."
       }
     ],
@@ -20,9 +18,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-footer",
-        "property": [
-          "text"
-        ],
+        "property": ["text"],
         "value": "Archive note"
       }
     ]

@@ -8,9 +8,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-body",
-        "property": [
-          "text"
-        ],
+        "property": ["text"],
         "value": "moss amber"
       },
       {
@@ -18,11 +16,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-paragraph",
-        "property": [
-          "paragraphs",
-          "0",
-          "horizontalAlign"
-        ],
+        "property": ["paragraphs", "0", "horizontalAlign"],
         "value": "left"
       }
     ],
@@ -32,11 +26,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-text-style",
-        "property": [
-          "targets",
-          "moss amber",
-          "fontFamily"
-        ],
+        "property": ["targets", "moss amber", "fontFamily"],
         "value": "Calibri"
       }
     ],
@@ -46,11 +36,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-text-style",
-        "property": [
-          "targets",
-          "moss",
-          "color"
-        ],
+        "property": ["targets", "moss", "color"],
         "value": "green"
       },
       {
@@ -58,11 +44,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-text-style",
-        "property": [
-          "targets",
-          "amber",
-          "color"
-        ],
+        "property": ["targets", "amber", "color"],
         "value": "orange"
       }
     ],
@@ -72,11 +54,7 @@
         "applyf": "applyWordMeta",
         "evalf": "getWordMeta",
         "param": "word-paragraph",
-        "property": [
-          "paragraphs",
-          "0",
-          "horizontalAlign"
-        ],
+        "property": ["paragraphs", "0", "horizontalAlign"],
         "value": "center"
       }
     ]

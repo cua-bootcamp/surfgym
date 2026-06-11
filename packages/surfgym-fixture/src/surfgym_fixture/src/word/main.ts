@@ -3,6 +3,7 @@ import {
   BaselineOffset,
   BooleanNumber,
   HorizontalAlign,
+  ICommandService,
   IUniverInstanceService,
   LocaleType,
   NamedStyleType,
@@ -19,6 +20,7 @@ import {
   DocSkeletonManagerService,
   DocSelectionManagerService,
   IRenderManagerService,
+  ReplaceTextRunsCommand,
   UniverDocsCorePreset,
 } from '@univerjs/preset-docs-core';
 import UniverPresetDocsCoreEnUS from '@univerjs/preset-docs-core/locales/en-US';
@@ -639,6 +641,82 @@ const ensureParagraph = (body: AnyRecord, paragraphIndex: number): AnyRecord => 
   return paragraphs[paragraphIndex] ?? {};
 };
 
+const upsertTextRunStyle = (
+  body: AnyRecord,
+  range: { start: number; end: number },
+  style: AnyRecord,
+): void => {
+  const textRuns = (body.textRuns ?? []) as AnyRecord[];
+  body.textRuns = textRuns;
+
+  const start = range.start;
+  const end = range.end + 1;
+  const existingRun = textRuns.find(
+    (run) => Number(run.st) === start && Number(run.ed) === end,
+  );
+
+  if (existingRun) {
+    existingRun.ts = { ...(existingRun.ts ?? {}), ...style };
+    return;
+  }
+
+  textRuns.push({
+    st: start,
+    ed: end,
+    ts: style,
+  });
+};
+
+const normalizeTextRuns = (body: AnyRecord): void => {
+  const textRuns = (body.textRuns ?? []) as AnyRecord[];
+  if (textRuns.length <= 1) return;
+
+  const dataLength = String(body.dataStream ?? '').length;
+  const boundaries = new Set<number>();
+  const runBounds = textRuns
+    .map((run) => ({
+      run,
+      start: Math.max(0, Math.min(dataLength, Number(run.st))),
+      end: Math.max(0, Math.min(dataLength, Number(run.ed))),
+    }))
+    .filter(({ start, end }) => Number.isFinite(start) && Number.isFinite(end) && start < end);
+
+  runBounds.forEach(({ start, end }) => {
+    boundaries.add(start);
+    boundaries.add(end);
+  });
+
+  const sortedBoundaries = Array.from(boundaries).sort((left, right) => left - right);
+  const normalizedRuns: AnyRecord[] = [];
+
+  for (let index = 0; index < sortedBoundaries.length - 1; index += 1) {
+    const start = sortedBoundaries[index];
+    const end = sortedBoundaries[index + 1];
+    if (start === undefined || end === undefined || start >= end) continue;
+
+    const style = runBounds.reduce<AnyRecord>((mergedStyle, { run, start: runStart, end: runEnd }) => {
+      if (runStart <= start && end <= runEnd) return { ...mergedStyle, ...(run.ts ?? {}) };
+
+      return mergedStyle;
+    }, {});
+    if (Object.keys(style).length === 0) continue;
+
+    const previousRun = normalizedRuns[normalizedRuns.length - 1];
+    if (
+      previousRun &&
+      Number(previousRun.ed) === start &&
+      JSON.stringify(previousRun.ts ?? {}) === JSON.stringify(style)
+    ) {
+      previousRun.ed = end;
+      continue;
+    }
+
+    normalizedRuns.push({ st: start, ed: end, ts: style });
+  }
+
+  body.textRuns = normalizedRuns;
+};
+
 const applyTextStyleAtomToBody = (body: AnyRecord, atom: WordStateAtom): void => {
   const property = atom.property ?? [];
   const target = property[1];
@@ -652,14 +730,7 @@ const applyTextStyleAtomToBody = (body: AnyRecord, atom: WordStateAtom): void =>
   const style: AnyRecord = {};
   applyTextStyleProperty(style, styleProperty, valueToString(atom.value));
 
-  body.textRuns = [
-    ...((body.textRuns ?? []) as AnyRecord[]),
-    {
-      st: range.start,
-      ed: range.end + 1,
-      ts: style,
-    },
-  ];
+  upsertTextRunStyle(body, range, style);
 };
 
 const makeNumberUnit = (value: number): AnyRecord => ({ v: value });
@@ -798,17 +869,16 @@ const buildSnapshotFromAtoms = (atoms: WordStateAtom[]): AnyRecord => {
     if (atom.f === 'word-document' && property[0] === 'style' && property[1] === 'fontSizeOnly') {
       const textLength = String(body.dataStream ?? '').replace(/\r\n$/, '').length;
       if (textLength > 0) {
-        body.textRuns = [
-          ...((body.textRuns ?? []) as AnyRecord[]),
-          {
-            st: 0,
-            ed: textLength,
-            ts: { fs: Number(valueToString(atom.value)) },
-          },
-        ];
+        upsertTextRunStyle(
+          body,
+          { start: 0, end: textLength - 1 },
+          { fs: Number(valueToString(atom.value)) },
+        );
       }
     }
   }
+
+  normalizeTextRuns(body);
 
   const documentStyle = currentSnapshot.documentStyle ?? {};
   const footerAtom = atoms.find((atom) => atom.f === 'word-footer' && atom.property?.[0] === 'text');
@@ -831,6 +901,38 @@ const buildSnapshotFromAtoms = (atoms: WordStateAtom[]): AnyRecord => {
   };
 };
 
+const isTextRunOnlyAtom = (atom: WordStateAtom): boolean => {
+  const property = atom.property ?? [];
+
+  return (
+    atom.f === 'word-text-style' ||
+    (
+      atom.f === 'word-document' &&
+      property[0] === 'style' &&
+      property[1] === 'fontSizeOnly'
+    )
+  );
+};
+
+const applyTextRunsThroughCommand = (doc: AnyRecord, body: AnyRecord): boolean => {
+  const unitId = doc.getUnitId?.();
+  if (!unitId) return false;
+
+  try {
+    const injector = univer.__getInjector();
+    const commandService = injector.get(ICommandService) as AnyRecord;
+
+    return Boolean(commandService.syncExecuteCommand?.(ReplaceTextRunsCommand.id, {
+      unitId,
+      body,
+      textRanges: [],
+      options: {},
+    }));
+  } catch {
+    return false;
+  }
+};
+
 const refreshWordDocumentView = (doc: AnyRecord): boolean => {
   const unitId = doc.getUnitId?.();
   if (!unitId) return false;
@@ -844,6 +946,7 @@ const refreshWordDocumentView = (doc: AnyRecord): boolean => {
   if (!skeletonManager || !viewModel || !skeleton) return false;
 
   viewModel.reset(doc);
+  skeleton.makeDirty?.(true);
   skeleton.calculate();
   skeletonManager._currentSkeletonBefore$.next?.(skeleton);
   skeletonManager._currentSkeleton$.next?.(skeleton);
@@ -872,7 +975,17 @@ const applyWordState = (atoms: WordStateAtom[]): void => {
   const doc = getDocumentModel();
   if (!doc) return;
 
-  doc.reset(buildSnapshotFromAtoms(atoms));
+  const nextSnapshot = buildSnapshotFromAtoms(atoms);
+  if (
+    atoms.length > 0 &&
+    atoms.every(isTextRunOnlyAtom) &&
+    nextSnapshot.body &&
+    applyTextRunsThroughCommand(doc, nextSnapshot.body)
+  ) {
+    return;
+  }
+
+  doc.reset(nextSnapshot);
   refreshWordDocumentViewSoon(doc);
 };
 

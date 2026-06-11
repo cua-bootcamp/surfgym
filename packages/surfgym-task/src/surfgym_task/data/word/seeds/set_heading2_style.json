@@ -1,0 +1,32 @@
+{
+  "instruction": "Type \"Internal Memo\" on a single line and set that line to Heading 2 style.",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "Internal Memo"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-paragraph",
+        "property": [
+          "paragraphs",
+          "0",
+          "namedStyleType"
+        ],
+        "value": "heading2"
+      }
+    ]
+  ]
+}

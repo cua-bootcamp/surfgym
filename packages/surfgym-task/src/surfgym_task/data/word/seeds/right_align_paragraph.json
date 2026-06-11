@@ -1,0 +1,32 @@
+{
+  "instruction": "Please type \"shift this memo\" on a single line and right-align that paragraph.",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "shift this memo"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-paragraph",
+        "property": [
+          "paragraphs",
+          "0",
+          "horizontalAlign"
+        ],
+        "value": "right"
+      }
+    ]
+  ]
+}

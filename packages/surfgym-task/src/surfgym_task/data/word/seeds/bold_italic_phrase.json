@@ -1,0 +1,44 @@
+{
+  "instruction": "Please write \"Status is nearly complete\" and make the phrase \"nearly complete\" both bold and italic.",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "Status is nearly complete"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "nearly complete",
+          "bold"
+        ],
+        "value": "true"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "nearly complete",
+          "italic"
+        ],
+        "value": "true"
+      }
+    ]
+  ]
+}

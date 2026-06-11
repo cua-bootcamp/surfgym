@@ -1,0 +1,44 @@
+{
+  "instruction": "Write \"Check budget and timeline\" and underline the words \"budget\" and \"timeline\".",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "Check budget and timeline"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "budget",
+          "underline"
+        ],
+        "value": "true"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": [
+          "targets",
+          "timeline",
+          "underline"
+        ],
+        "value": "true"
+      }
+    ]
+  ]
+}

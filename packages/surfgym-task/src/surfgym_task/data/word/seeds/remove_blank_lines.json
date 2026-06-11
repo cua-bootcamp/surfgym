@@ -1,0 +1,18 @@
+{
+  "instruction": "Create this draft with extra blank lines between the entries: \"north\", \"south\", and \"east\". Then remove the blank lines so only one line break remains between entries.",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": [
+          "text"
+        ],
+        "value": "north\nsouth\neast"
+      }
+    ]
+  ]
+}
