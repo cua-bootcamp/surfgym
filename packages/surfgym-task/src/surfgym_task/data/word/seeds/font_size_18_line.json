@@ -1,0 +1,26 @@
+{
+  "instruction": "Please type \"priority marker\" and change the whole line to font size 18.",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": ["text"],
+        "value": "priority marker"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": ["targets", "priority marker", "fontSize"],
+        "value": "18"
+      }
+    ]
+  ]
+}

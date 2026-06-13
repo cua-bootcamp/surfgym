@@ -1,0 +1,26 @@
+{
+  "instruction": "Please type \"status memo\" and apply Verdana to the whole line.",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": ["text"],
+        "value": "status memo"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": ["targets", "status memo", "fontFamily"],
+        "value": "Verdana"
+      }
+    ]
+  ]
+}

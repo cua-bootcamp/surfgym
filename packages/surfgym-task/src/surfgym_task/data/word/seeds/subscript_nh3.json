@@ -1,0 +1,42 @@
+{
+  "instruction": "Please type \"NH3\" and make only the number 3 a subscript.",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": ["text"],
+        "value": "NH3"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": ["targets", "3", "verticalAlign"],
+        "value": "subscript"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": ["targets", "N", "verticalAlign"],
+        "value": "normal"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-text-style",
+        "property": ["targets", "H", "verticalAlign"],
+        "value": "normal"
+      }
+    ]
+  ]
+}

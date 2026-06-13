@@ -3,7 +3,6 @@ import {
   BaselineOffset,
   BooleanNumber,
   HorizontalAlign,
-  ICommandService,
   IUniverInstanceService,
   LocaleType,
   NamedStyleType,
@@ -20,7 +19,6 @@ import {
   DocSkeletonManagerService,
   DocSelectionManagerService,
   IRenderManagerService,
-  ReplaceTextRunsCommand,
   UniverDocsCorePreset,
 } from '@univerjs/preset-docs-core';
 import UniverPresetDocsCoreEnUS from '@univerjs/preset-docs-core/locales/en-US';
@@ -901,38 +899,6 @@ const buildSnapshotFromAtoms = (atoms: WordStateAtom[]): AnyRecord => {
   };
 };
 
-const isTextRunOnlyAtom = (atom: WordStateAtom): boolean => {
-  const property = atom.property ?? [];
-
-  return (
-    atom.f === 'word-text-style' ||
-    (
-      atom.f === 'word-document' &&
-      property[0] === 'style' &&
-      property[1] === 'fontSizeOnly'
-    )
-  );
-};
-
-const applyTextRunsThroughCommand = (doc: AnyRecord, body: AnyRecord): boolean => {
-  const unitId = doc.getUnitId?.();
-  if (!unitId) return false;
-
-  try {
-    const injector = univer.__getInjector();
-    const commandService = injector.get(ICommandService) as AnyRecord;
-
-    return Boolean(commandService.syncExecuteCommand?.(ReplaceTextRunsCommand.id, {
-      unitId,
-      body,
-      textRanges: [],
-      options: {},
-    }));
-  } catch {
-    return false;
-  }
-};
-
 const refreshWordDocumentView = (doc: AnyRecord): boolean => {
   const unitId = doc.getUnitId?.();
   if (!unitId) return false;
@@ -976,15 +942,6 @@ const applyWordState = (atoms: WordStateAtom[]): void => {
   if (!doc) return;
 
   const nextSnapshot = buildSnapshotFromAtoms(atoms);
-  if (
-    atoms.length > 0 &&
-    atoms.every(isTextRunOnlyAtom) &&
-    nextSnapshot.body &&
-    applyTextRunsThroughCommand(doc, nextSnapshot.body)
-  ) {
-    return;
-  }
-
   doc.reset(nextSnapshot);
   refreshWordDocumentViewSoon(doc);
 };

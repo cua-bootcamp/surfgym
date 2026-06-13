@@ -1,0 +1,26 @@
+{
+  "instruction": "Please type \"balanced report note\" on a single line and justify-align that paragraph.",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": ["text"],
+        "value": "balanced report note"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-paragraph",
+        "property": ["paragraphs", "0", "horizontalAlign"],
+        "value": "justify"
+      }
+    ]
+  ]
+}
