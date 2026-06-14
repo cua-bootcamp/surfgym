@@ -1,8 +1,8 @@
-import { ChartTypeBits } from '@univerjs/presets/preset-sheets-advanced';
-import type { SelectionRange, SpreadsheetActions } from './spreadsheet-actions';
+import { ChartTypeBits } from "@univerjs/presets/preset-sheets-advanced";
+import type { SelectionRange, SpreadsheetActions } from "./spreadsheet-actions";
 
-const markDirtyFilterChangeMutationId = 'sheet.mutation.mark-dirty-filter-change';
-const chartUpdateConfigCommandId = 'sheet.command.chart-update-config';
+const markDirtyFilterChangeMutationId = "sheet.mutation.mark-dirty-filter-change";
+const chartUpdateConfigCommandId = "sheet.command.chart-update-config";
 
 type RowMeta = {
   filtered: boolean;
@@ -135,7 +135,12 @@ type SpreadsheetEvaluationSheet = {
 type SpreadsheetChartBuilder = {
   setChartType: (chartType: unknown) => SpreadsheetChartBuilder;
   addRange: (range: string) => SpreadsheetChartBuilder;
-  setPosition: (row: number, column: number, offsetX: number, offsetY: number) => SpreadsheetChartBuilder;
+  setPosition: (
+    row: number,
+    column: number,
+    offsetX: number,
+    offsetY: number
+  ) => SpreadsheetChartBuilder;
   setWidth: (width: number) => SpreadsheetChartBuilder;
   setHeight: (height: number) => SpreadsheetChartBuilder;
   setOptions: (path: string, value: unknown) => SpreadsheetChartBuilder;
@@ -179,7 +184,9 @@ type SpreadsheetEvaluationWorksheet = {
   setFreeze?: (freeze: unknown) => unknown;
   cancelFreeze?: () => unknown;
   newChart?: () => SpreadsheetChartBuilder;
-  insertChart?: (chartInfo: unknown) => Promise<SpreadsheetChart | unknown> | SpreadsheetChart | unknown;
+  insertChart?: (
+    chartInfo: unknown
+  ) => Promise<SpreadsheetChart | unknown> | SpreadsheetChart | unknown;
   getCharts?: () => SpreadsheetChart[];
 };
 
@@ -189,7 +196,7 @@ type SpreadsheetEvaluationContext = {
   };
   workbook: SpreadsheetWorkbook;
   worksheet: unknown;
-  actions: Pick<SpreadsheetActions, 'columnIndexToName'>;
+  actions: Pick<SpreadsheetActions, "columnIndexToName">;
 };
 
 type PlainObject = Record<string, unknown>;
@@ -198,7 +205,10 @@ type FilterModelLike = {
 };
 type FilterLike = {
   _filterModel?: FilterModelLike;
-  getRange?: () => { getA1Notation: (withSheet?: boolean) => string; getRange: () => SelectionRange };
+  getRange?: () => {
+    getA1Notation: (withSheet?: boolean) => string;
+    getRange: () => SelectionRange;
+  };
 };
 
 declare global {
@@ -216,16 +226,18 @@ export function installSpreadsheetEvaluationHelpers({
   univerAPI,
   workbook,
   worksheet,
-  actions,
+  actions
 }: SpreadsheetEvaluationContext) {
   const targetWorksheet = worksheet as SpreadsheetEvaluationWorksheet;
   const chartMetaRegistry: ChartMeta[] = [];
 
   function columnNameToIndex(columnName: string) {
-    return columnName
-      .toUpperCase()
-      .split('')
-      .reduce((sum, char) => sum * 26 + char.charCodeAt(0) - 64, 0) - 1;
+    return (
+      columnName
+        .toUpperCase()
+        .split("")
+        .reduce((sum, char) => sum * 26 + char.charCodeAt(0) - 64, 0) - 1
+    );
   }
 
   function cellNameToPosition(address: string) {
@@ -247,7 +259,7 @@ export function installSpreadsheetEvaluationHelpers({
   }
 
   function isPlainObject(value: unknown): value is PlainObject {
-    return value != null && typeof value === 'object' && !Array.isArray(value);
+    return value != null && typeof value === "object" && !Array.isArray(value);
   }
 
   function clonePlainValue<T>(value: T): T {
@@ -283,17 +295,19 @@ export function installSpreadsheetEvaluationHelpers({
   function describeSheetTarget(target: SheetTarget) {
     if (target.sheetId) return `sheetId=${target.sheetId}`;
     if (target.sheetName) return `sheetName=${target.sheetName}`;
-    if (typeof target.sheetIndex === 'number') return `sheetIndex=${target.sheetIndex}`;
+    if (typeof target.sheetIndex === "number") return `sheetIndex=${target.sheetIndex}`;
 
-    return 'default sheet';
+    return "default sheet";
   }
 
   function resolveWorksheet(target: SheetTarget = {}) {
     if (!isPlainObject(target)) {
-      throw new Error('Sheet target must be an object.');
+      throw new Error("Sheet target must be an object.");
     }
 
-    const hasExplicitTarget = Boolean(target.sheetId || target.sheetName || typeof target.sheetIndex === 'number');
+    const hasExplicitTarget = Boolean(
+      target.sheetId || target.sheetName || typeof target.sheetIndex === "number"
+    );
 
     if (target.sheetId) {
       const sheet = workbook.getSheetBySheetId?.(target.sheetId);
@@ -301,11 +315,13 @@ export function installSpreadsheetEvaluationHelpers({
     }
 
     if (target.sheetName) {
-      const sheet = workbook.getSheetByName?.(target.sheetName) ?? workbook.getSheetBySheetName?.(target.sheetName);
+      const sheet =
+        workbook.getSheetByName?.(target.sheetName) ??
+        workbook.getSheetBySheetName?.(target.sheetName);
       if (sheet) return sheet;
     }
 
-    if (typeof target.sheetIndex === 'number') {
+    if (typeof target.sheetIndex === "number") {
       if (!Number.isInteger(target.sheetIndex) || target.sheetIndex < 0) {
         throw new Error(`Invalid sheet index: ${target.sheetIndex}`);
       }
@@ -342,35 +358,39 @@ export function installSpreadsheetEvaluationHelpers({
   function getOrCreateFilterForRowMeta(
     worksheet: SpreadsheetEvaluationWorksheet,
     row: number,
-    rowMeta: Partial<RowMeta>,
+    rowMeta: Partial<RowMeta>
   ): FilterLike | null {
     const currentFilter = worksheet.getFilter();
     if (currentFilter) return currentFilter as unknown as FilterLike;
 
-    const filterRange = typeof rowMeta.filterRange === 'string' && rowMeta.filterRange.trim()
-      ? rowMeta.filterRange
-      : createFallbackFilterRangeA1(worksheet, row);
+    const filterRange =
+      typeof rowMeta.filterRange === "string" && rowMeta.filterRange.trim()
+        ? rowMeta.filterRange
+        : createFallbackFilterRangeA1(worksheet, row);
 
     return worksheet.getRange(filterRange).createFilter() as unknown as FilterLike | null;
   }
 
-  function markFilterRangeDirty(worksheet: SpreadsheetEvaluationWorksheet, filter: FilterLike | null) {
+  function markFilterRangeDirty(
+    worksheet: SpreadsheetEvaluationWorksheet,
+    filter: FilterLike | null
+  ) {
     const filterRange = filter?.getRange?.().getRange();
     if (!filterRange) return;
 
     void univerAPI.executeCommand(markDirtyFilterChangeMutationId, {
       unitId: workbook.getId(),
       subUnitId: worksheet.getSheetId(),
-      filterRange,
+      filterRange
     });
   }
 
   function applyFilteredRowMeta(
     worksheet: SpreadsheetEvaluationWorksheet,
     row: number,
-    rowMeta: Partial<RowMeta>,
+    rowMeta: Partial<RowMeta>
   ) {
-    if (typeof rowMeta.filtered !== 'boolean') return;
+    if (typeof rowMeta.filtered !== "boolean") return;
 
     const filter = getOrCreateFilterForRowMeta(worksheet, row, rowMeta);
     const filterModel = getFilterModel(filter);
@@ -388,13 +408,17 @@ export function installSpreadsheetEvaluationHelpers({
     markFilterRangeDirty(worksheet, filter);
   }
 
-  function applyRowMeta(worksheet: SpreadsheetEvaluationWorksheet, row: number, rowMeta: Partial<RowMeta>) {
+  function applyRowMeta(
+    worksheet: SpreadsheetEvaluationWorksheet,
+    row: number,
+    rowMeta: Partial<RowMeta>
+  ) {
     const sheet = worksheet.getSheet();
     const rowData = sheet.getRowManager().getRowOrCreate(row);
 
-    if (typeof rowMeta.rawVisible === 'boolean') {
+    if (typeof rowMeta.rawVisible === "boolean") {
       rowData.hd = rowMeta.rawVisible ? 0 : 1;
-    } else if (typeof rowMeta.visible === 'boolean' && typeof rowMeta.filtered !== 'boolean') {
+    } else if (typeof rowMeta.visible === "boolean" && typeof rowMeta.filtered !== "boolean") {
       rowData.hd = rowMeta.visible ? 0 : 1;
     }
 
@@ -402,16 +426,19 @@ export function installSpreadsheetEvaluationHelpers({
   }
 
   function resolveCellMetaTarget(target: string | CellMetaTarget): CellMetaTarget {
-    if (typeof target === 'string') return { address: target };
+    if (typeof target === "string") return { address: target };
 
-    if (!isPlainObject(target) || typeof target.address !== 'string') {
-      throw new Error('Cell target must be a cell address string or an object with an address.');
+    if (!isPlainObject(target) || typeof target.address !== "string") {
+      throw new Error("Cell target must be a cell address string or an object with an address.");
     }
 
     return target;
   }
 
-  function getCellMetaForWorksheet(worksheet: SpreadsheetEvaluationWorksheet, address: string): CellMeta {
+  function getCellMetaForWorksheet(
+    worksheet: SpreadsheetEvaluationWorksheet,
+    address: string
+  ): CellMeta {
     const { row, column } = cellNameToPosition(address);
     const range = worksheet.getRange(row, column);
     const sheet = worksheet.getSheet();
@@ -419,13 +446,13 @@ export function installSpreadsheetEvaluationHelpers({
 
     return {
       cell: clonePlainValue(range.getCellData()),
-      style: clonePlainValue(range.getCellStyleData('cell')),
+      style: clonePlainValue(range.getCellStyleData("cell")),
       row: {
         filtered: sheet.isRowFiltered(row),
         visible: sheet.getRowVisible(row),
         rawVisible: sheet.getRowRawVisible(row),
-        filterRange: getFilterRangeA1(filter),
-      },
+        filterRange: getFilterRangeA1(filter)
+      }
     };
   }
 
@@ -446,15 +473,15 @@ export function installSpreadsheetEvaluationHelpers({
         index: getSheetIndex(worksheet),
         rowCount: worksheet.getMaxRows(),
         columnCount: worksheet.getMaxColumns(),
-        hidden: worksheet.isSheetHidden?.() ?? (
-          typeof sheet.isSheetHidden === 'function' ? Boolean(sheet.isSheetHidden()) : null
-        ),
+        hidden:
+          worksheet.isSheetHidden?.() ??
+          (typeof sheet.isSheetHidden === "function" ? Boolean(sheet.isSheetHidden()) : null),
         gridlinesHidden: worksheet.hasHiddenGridLines?.() ?? sheet.hasHiddenGridlines?.() ?? null,
         gridlinesColor: worksheet.getGridLinesColor?.() ?? sheet.getGridlinesColor?.() ?? null,
         tabColor: worksheet.getTabColor?.() ?? sheet.getTabColor?.() ?? null,
         freeze: clonePlainValue(worksheet.getFreeze?.() ?? sheet.getFreeze?.() ?? null),
-        filterRange: getFilterRangeA1(filter),
-      },
+        filterRange: getFilterRangeA1(filter)
+      }
     };
   }
 
@@ -463,39 +490,39 @@ export function installSpreadsheetEvaluationHelpers({
   }
 
   function assertPositiveInteger(value: unknown, label: string): asserts value is number {
-    if (typeof value !== 'number' || !Number.isInteger(value) || value <= 0) {
+    if (typeof value !== "number" || !Number.isInteger(value) || value <= 0) {
       throw new Error(`${label} must be a positive integer.`);
     }
   }
 
   function applySheetMeta(entry: SpreadsheetSheetMetaEntry): SheetMeta {
     if (!isPlainObject(entry)) {
-      throw new Error('Sheet meta entry must be an object.');
+      throw new Error("Sheet meta entry must be an object.");
     }
 
     const worksheet = resolveWorksheet(entry);
 
-    if (hasOwn(entry, 'name')) {
-      if (typeof entry.name !== 'string' || entry.name.trim() === '') {
-        throw new Error('Sheet name must be a non-empty string.');
+    if (hasOwn(entry, "name")) {
+      if (typeof entry.name !== "string" || entry.name.trim() === "") {
+        throw new Error("Sheet name must be a non-empty string.");
       }
       worksheet.setName?.(entry.name);
     }
 
-    if (hasOwn(entry, 'rowCount')) {
+    if (hasOwn(entry, "rowCount")) {
       const rowCount = entry.rowCount;
-      assertPositiveInteger(rowCount, 'rowCount');
+      assertPositiveInteger(rowCount, "rowCount");
       worksheet.setRowCount?.(rowCount);
     }
 
-    if (hasOwn(entry, 'columnCount')) {
+    if (hasOwn(entry, "columnCount")) {
       const columnCount = entry.columnCount;
-      assertPositiveInteger(columnCount, 'columnCount');
+      assertPositiveInteger(columnCount, "columnCount");
       worksheet.setColumnCount?.(columnCount);
     }
 
-    if (hasOwn(entry, 'hidden')) {
-      if (typeof entry.hidden !== 'boolean') throw new Error('hidden must be a boolean.');
+    if (hasOwn(entry, "hidden")) {
+      if (typeof entry.hidden !== "boolean") throw new Error("hidden must be a boolean.");
       if (entry.hidden) {
         worksheet.hideSheet?.();
       } else {
@@ -503,30 +530,32 @@ export function installSpreadsheetEvaluationHelpers({
       }
     }
 
-    if (hasOwn(entry, 'gridlinesHidden')) {
-      if (typeof entry.gridlinesHidden !== 'boolean') throw new Error('gridlinesHidden must be a boolean.');
+    if (hasOwn(entry, "gridlinesHidden")) {
+      if (typeof entry.gridlinesHidden !== "boolean")
+        throw new Error("gridlinesHidden must be a boolean.");
       worksheet.setHiddenGridlines?.(entry.gridlinesHidden);
     }
 
-    if (hasOwn(entry, 'gridlinesColor')) {
-      if (entry.gridlinesColor != null && typeof entry.gridlinesColor !== 'string') {
-        throw new Error('gridlinesColor must be a string, null, or undefined.');
+    if (hasOwn(entry, "gridlinesColor")) {
+      if (entry.gridlinesColor != null && typeof entry.gridlinesColor !== "string") {
+        throw new Error("gridlinesColor must be a string, null, or undefined.");
       }
       worksheet.setGridLinesColor?.(entry.gridlinesColor ?? undefined);
     }
 
-    if (hasOwn(entry, 'tabColor')) {
-      if (entry.tabColor != null && typeof entry.tabColor !== 'string') {
-        throw new Error('tabColor must be a string, null, or undefined.');
+    if (hasOwn(entry, "tabColor")) {
+      if (entry.tabColor != null && typeof entry.tabColor !== "string") {
+        throw new Error("tabColor must be a string, null, or undefined.");
       }
       worksheet.setTabColor?.(entry.tabColor);
     }
 
-    if (hasOwn(entry, 'freeze')) {
+    if (hasOwn(entry, "freeze")) {
       if (entry.freeze == null) {
         worksheet.cancelFreeze?.();
       } else {
-        if (!isPlainObject(entry.freeze)) throw new Error('freeze must be an object, null, or undefined.');
+        if (!isPlainObject(entry.freeze))
+          throw new Error("freeze must be an object, null, or undefined.");
         worksheet.setFreeze?.(clonePlainValue(entry.freeze));
       }
     }
@@ -535,7 +564,7 @@ export function installSpreadsheetEvaluationHelpers({
   }
 
   function normalizeChartType(chartType: unknown) {
-    if (typeof chartType !== 'string') return chartType ?? ChartTypeBits.Column;
+    if (typeof chartType !== "string") return chartType ?? ChartTypeBits.Column;
 
     const normalizedChartType = chartType.trim().toLowerCase();
     const chartTypes: Record<string, ChartTypeBits> = {
@@ -547,7 +576,7 @@ export function installSpreadsheetEvaluationHelpers({
       line: ChartTypeBits.Line,
       pie: ChartTypeBits.Pie,
       radar: ChartTypeBits.Radar,
-      scatter: ChartTypeBits.Scatter,
+      scatter: ChartTypeBits.Scatter
     };
 
     const resolvedChartType = chartTypes[normalizedChartType];
@@ -557,13 +586,13 @@ export function installSpreadsheetEvaluationHelpers({
   }
 
   function setChartOption(builder: SpreadsheetChartBuilder, path: string, value: unknown) {
-    if (value === undefined || value === null || value === '') return builder;
+    if (value === undefined || value === null || value === "") return builder;
 
     return builder.setOptions(path, value);
   }
 
   function getChartId(chart: SpreadsheetChart | unknown) {
-    if (!chart || typeof chart !== 'object') return null;
+    if (!chart || typeof chart !== "object") return null;
 
     const getChartIdMethod = (chart as SpreadsheetChart).getChartId;
     if (!getChartIdMethod) return null;
@@ -575,20 +604,20 @@ export function installSpreadsheetEvaluationHelpers({
     return [
       actions.columnIndexToName(range.startColumn),
       range.startRow + 1,
-      ':',
+      ":",
       actions.columnIndexToName(range.endColumn),
-      range.endRow + 1,
-    ].join('');
+      range.endRow + 1
+    ].join("");
   }
 
   function getSelectionRangeFromUnknown(value: unknown): SelectionRange | null {
     if (!isPlainObject(value)) return null;
 
     if (
-      typeof value.startRow === 'number' &&
-      typeof value.endRow === 'number' &&
-      typeof value.startColumn === 'number' &&
-      typeof value.endColumn === 'number'
+      typeof value.startRow === "number" &&
+      typeof value.endRow === "number" &&
+      typeof value.startColumn === "number" &&
+      typeof value.endColumn === "number"
     ) {
       return value as SelectionRange;
     }
@@ -624,7 +653,7 @@ export function installSpreadsheetEvaluationHelpers({
     const registeredById = new Map(
       chartMetaRegistry
         .filter((item) => item.sheetId === sheetId && item.id)
-        .map((item) => [item.id, item]),
+        .map((item) => [item.id, item])
     );
     const charts = worksheet.getCharts?.() ?? [];
     const chartMetas = charts.map((chart, index) => {
@@ -648,11 +677,13 @@ export function installSpreadsheetEvaluationHelpers({
         position: registered?.position ?? null,
         context: registered?.context ?? null,
         seriesData: clonePlainValue(chart.getSeriesData?.() ?? null),
-        categoryData: clonePlainValue(chart.getCategoryData?.() ?? null),
+        categoryData: clonePlainValue(chart.getCategoryData?.() ?? null)
       };
     });
     const chartMetaIds = new Set(chartMetas.map((item) => item.id).filter(Boolean));
-    const registeredOnly = chartMetaRegistry.filter((item) => item.sheetId === sheetId && (!item.id || !chartMetaIds.has(item.id)));
+    const registeredOnly = chartMetaRegistry.filter(
+      (item) => item.sheetId === sheetId && (!item.id || !chartMetaIds.has(item.id))
+    );
 
     return [...chartMetas, ...registeredOnly].map(clonePlainValue);
   }
@@ -661,20 +692,26 @@ export function installSpreadsheetEvaluationHelpers({
     return getChartMetaForWorksheet(resolveWorksheet(target));
   }
 
-  function getChartPositionMeta(entry: SpreadsheetChartMetaEntry, worksheet: SpreadsheetEvaluationWorksheet): ChartPositionMeta {
+  function getChartPositionMeta(
+    entry: SpreadsheetChartMetaEntry,
+    worksheet: SpreadsheetEvaluationWorksheet
+  ): ChartPositionMeta {
     const position = isPlainObject(entry.position) ? entry.position : {};
 
     return {
-      row: typeof position.row === 'number' ? position.row : 0,
-      column: typeof position.column === 'number' ? position.column : Math.min(1, Math.max(0, worksheet.getMaxColumns() - 1)),
-      offsetX: typeof position.offsetX === 'number' ? position.offsetX : 20,
-      offsetY: typeof position.offsetY === 'number' ? position.offsetY : 20,
+      row: typeof position.row === "number" ? position.row : 0,
+      column:
+        typeof position.column === "number"
+          ? position.column
+          : Math.min(1, Math.max(0, worksheet.getMaxColumns() - 1)),
+      offsetX: typeof position.offsetX === "number" ? position.offsetX : 20,
+      offsetY: typeof position.offsetY === "number" ? position.offsetY : 20
     };
   }
 
   function getPositiveNumber(value: unknown, fallback: number, label: string) {
     if (value == null) return fallback;
-    if (typeof value !== 'number' || !Number.isFinite(value) || value <= 0) {
+    if (typeof value !== "number" || !Number.isFinite(value) || value <= 0) {
       throw new Error(`${label} must be a positive number.`);
     }
 
@@ -683,42 +720,54 @@ export function installSpreadsheetEvaluationHelpers({
 
   async function applyChartMeta(entry: SpreadsheetChartMetaEntry): Promise<ChartMeta> {
     if (!isPlainObject(entry)) {
-      throw new Error('Chart meta entry must be an object.');
+      throw new Error("Chart meta entry must be an object.");
     }
 
     const worksheet = resolveWorksheet(entry);
     if (!worksheet.newChart || !worksheet.insertChart) {
-      throw new Error('Charts are not available for this worksheet.');
+      throw new Error("Charts are not available for this worksheet.");
     }
 
     const sourceRange = (entry.sourceRange ?? entry.rangeA1)?.trim();
-    if (!sourceRange) throw new Error('Chart sourceRange is required.');
+    if (!sourceRange) throw new Error("Chart sourceRange is required.");
 
     const chartType = normalizeChartType(entry.chartType);
-    const title = typeof entry.title === 'string' && entry.title.trim() ? entry.title.trim() : null;
-    const width = getPositiveNumber(entry.width, 560, 'width');
-    const height = getPositiveNumber(entry.height, 360, 'height');
+    const title = typeof entry.title === "string" && entry.title.trim() ? entry.title.trim() : null;
+    const width = getPositiveNumber(entry.width, 560, "width");
+    const height = getPositiveNumber(entry.height, 360, "height");
     const position = getChartPositionMeta(entry, worksheet);
-    let chartBuilder = worksheet.newChart()
+    let chartBuilder = worksheet
+      .newChart()
       .setChartType(chartType)
       .addRange(sourceRange)
       .setPosition(position.row, position.column, position.offsetX, position.offsetY)
       .setWidth(width)
       .setHeight(height);
 
-    chartBuilder = setChartOption(chartBuilder, 'title.content', title);
-    chartBuilder = setChartOption(chartBuilder, 'legend.position', entry.legendPosition);
-    chartBuilder = setChartOption(chartBuilder, 'orient', entry.dataOrientation);
+    chartBuilder = setChartOption(chartBuilder, "title.content", title);
+    chartBuilder = setChartOption(chartBuilder, "legend.position", entry.legendPosition);
+    chartBuilder = setChartOption(chartBuilder, "orient", entry.dataOrientation);
 
-    if (typeof entry.transposeRowsAndColumns === 'boolean' && chartBuilder.setTransposeRowsAndColumns) {
+    if (
+      typeof entry.transposeRowsAndColumns === "boolean" &&
+      chartBuilder.setTransposeRowsAndColumns
+    ) {
       chartBuilder = chartBuilder.setTransposeRowsAndColumns(entry.transposeRowsAndColumns);
     }
 
-    if (typeof entry.xAxisTitle === 'string' && entry.xAxisTitle.trim() && chartBuilder.setXAxisTitle) {
+    if (
+      typeof entry.xAxisTitle === "string" &&
+      entry.xAxisTitle.trim() &&
+      chartBuilder.setXAxisTitle
+    ) {
       chartBuilder = chartBuilder.setXAxisTitle(entry.xAxisTitle.trim());
     }
 
-    if (typeof entry.yAxisTitle === 'string' && entry.yAxisTitle.trim() && chartBuilder.setYAxisTitle) {
+    if (
+      typeof entry.yAxisTitle === "string" &&
+      entry.yAxisTitle.trim() &&
+      chartBuilder.setYAxisTitle
+    ) {
       chartBuilder = chartBuilder.setYAxisTitle(entry.yAxisTitle.trim());
     }
 
@@ -729,7 +778,7 @@ export function installSpreadsheetEvaluationHelpers({
       await univerAPI.executeCommand(chartUpdateConfigCommandId, {
         unitId: workbook.getId(),
         chartModelId: id,
-        context: entry.context,
+        context: entry.context
       });
     }
 
@@ -749,25 +798,29 @@ export function installSpreadsheetEvaluationHelpers({
       height,
       position,
       context: clonePlainValue(entry.context ?? null),
-      seriesData: clonePlainValue((insertedChart as SpreadsheetChart | undefined)?.getSeriesData?.() ?? null),
-      categoryData: clonePlainValue((insertedChart as SpreadsheetChart | undefined)?.getCategoryData?.() ?? null),
+      seriesData: clonePlainValue(
+        (insertedChart as SpreadsheetChart | undefined)?.getSeriesData?.() ?? null
+      ),
+      categoryData: clonePlainValue(
+        (insertedChart as SpreadsheetChart | undefined)?.getCategoryData?.() ?? null
+      )
     };
 
     upsertChartMeta(meta);
 
     return clonePlainValue(
-      id ? getChartMetaForWorksheet(worksheet).find((chart) => chart.id === id) ?? meta : meta,
+      id ? (getChartMetaForWorksheet(worksheet).find((chart) => chart.id === id) ?? meta) : meta
     );
   }
 
   function applyCellMeta(entries: SpreadsheetCellMetaEntry[]): CellMeta[] {
     if (!Array.isArray(entries)) {
-      throw new Error('Cell meta entries must be an array.');
+      throw new Error("Cell meta entries must be an array.");
     }
 
     for (const entry of entries) {
-      if (!isPlainObject(entry) || typeof entry.address !== 'string') {
-        throw new Error('Each cell meta entry must be an object with an address.');
+      if (!isPlainObject(entry) || typeof entry.address !== "string") {
+        throw new Error("Each cell meta entry must be an object with an address.");
       }
 
       const worksheet = resolveWorksheet(entry);
@@ -782,8 +835,8 @@ export function installSpreadsheetEvaluationHelpers({
         throw new Error(`Invalid row object for ${entry.address}`);
       }
 
-      const hasCell = hasOwn(entry, 'cell');
-      const hasStyle = hasOwn(entry, 'style');
+      const hasCell = hasOwn(entry, "cell");
+      const hasStyle = hasOwn(entry, "style");
 
       if (hasCell || hasStyle) {
         const nextCellData = isPlainObject(entry.cell)

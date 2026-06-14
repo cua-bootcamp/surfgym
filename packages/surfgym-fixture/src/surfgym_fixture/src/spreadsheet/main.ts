@@ -1,34 +1,34 @@
-import { createUniver, LocaleType, mergeLocales } from '@univerjs/presets';
+import { createUniver, LocaleType, mergeLocales } from "@univerjs/presets";
 import {
   OpenConditionalFormattingOperator,
-  UniverSheetsConditionalFormattingPreset,
-} from '@univerjs/presets/preset-sheets-conditional-formatting';
-import UniverPresetSheetsConditionalFormattingEnUS from '@univerjs/presets/preset-sheets-conditional-formatting/locales/en-US';
+  UniverSheetsConditionalFormattingPreset
+} from "@univerjs/presets/preset-sheets-conditional-formatting";
+import UniverPresetSheetsConditionalFormattingEnUS from "@univerjs/presets/preset-sheets-conditional-formatting/locales/en-US";
 import {
   UniverLicensePlugin,
   UniverSheetsChartPlugin,
-  UniverSheetsChartUIPlugin,
-} from '@univerjs/presets/preset-sheets-advanced';
-import UniverPresetSheetsAdvancedEnUS from '@univerjs/presets/preset-sheets-advanced/locales/en-US';
-import { UniverSheetsDrawingPreset } from '@univerjs/presets/preset-sheets-drawing';
-import UniverPresetSheetsDrawingEnUS from '@univerjs/presets/preset-sheets-drawing/locales/en-US';
-import { UniverSheetsFilterPreset } from '@univerjs/presets/preset-sheets-filter';
-import UniverPresetSheetsFilterEnUS from '@univerjs/presets/preset-sheets-filter/locales/en-US';
-import { UniverSheetsSortPreset } from '@univerjs/presets/preset-sheets-sort';
-import UniverPresetSheetsSortEnUS from '@univerjs/presets/preset-sheets-sort/locales/en-US';
-import { UniverSheetsCorePreset } from '@univerjs/preset-sheets-core';
-import UniverPresetSheetsCoreEnUS from '@univerjs/preset-sheets-core/locales/en-US';
-import { createSpreadsheetActions } from './spreadsheet-actions';
-import { installSpreadsheetEvaluationHelpers } from './spreadsheet-evaluation';
-import { renderSpreadsheetMockToolbar, setupSpreadsheetUi } from './spreadsheet-ui';
+  UniverSheetsChartUIPlugin
+} from "@univerjs/presets/preset-sheets-advanced";
+import UniverPresetSheetsAdvancedEnUS from "@univerjs/presets/preset-sheets-advanced/locales/en-US";
+import { UniverSheetsDrawingPreset } from "@univerjs/presets/preset-sheets-drawing";
+import UniverPresetSheetsDrawingEnUS from "@univerjs/presets/preset-sheets-drawing/locales/en-US";
+import { UniverSheetsFilterPreset } from "@univerjs/presets/preset-sheets-filter";
+import UniverPresetSheetsFilterEnUS from "@univerjs/presets/preset-sheets-filter/locales/en-US";
+import { UniverSheetsSortPreset } from "@univerjs/presets/preset-sheets-sort";
+import UniverPresetSheetsSortEnUS from "@univerjs/presets/preset-sheets-sort/locales/en-US";
+import { UniverSheetsCorePreset } from "@univerjs/preset-sheets-core";
+import UniverPresetSheetsCoreEnUS from "@univerjs/preset-sheets-core/locales/en-US";
+import { createSpreadsheetActions } from "./spreadsheet-actions";
+import { installSpreadsheetEvaluationHelpers } from "./spreadsheet-evaluation";
+import { renderSpreadsheetMockToolbar, setupSpreadsheetUi } from "./spreadsheet-ui";
 
-import '@univerjs/preset-sheets-core/lib/index.css';
-import '@univerjs/presets/lib/styles/preset-sheets-advanced.css';
-import '@univerjs/presets/lib/styles/preset-sheets-conditional-formatting.css';
-import '@univerjs/presets/lib/styles/preset-sheets-drawing.css';
-import '@univerjs/presets/lib/styles/preset-sheets-filter.css';
-import '@univerjs/presets/lib/styles/preset-sheets-sort.css';
-import './style.css';
+import "@univerjs/preset-sheets-core/lib/index.css";
+import "@univerjs/presets/lib/styles/preset-sheets-advanced.css";
+import "@univerjs/presets/lib/styles/preset-sheets-conditional-formatting.css";
+import "@univerjs/presets/lib/styles/preset-sheets-drawing.css";
+import "@univerjs/presets/lib/styles/preset-sheets-filter.css";
+import "@univerjs/presets/lib/styles/preset-sheets-sort.css";
+import "./style.css";
 
 const { univerAPI } = createUniver({
   locale: LocaleType.EN_US,
@@ -39,12 +39,12 @@ const { univerAPI } = createUniver({
       UniverPresetSheetsDrawingEnUS,
       UniverPresetSheetsFilterEnUS,
       UniverPresetSheetsSortEnUS,
-      UniverPresetSheetsConditionalFormattingEnUS,
-    ),
+      UniverPresetSheetsConditionalFormattingEnUS
+    )
   },
   presets: [
     UniverSheetsCorePreset({
-      container: 'app',
+      container: "app",
       header: true,
       toolbar: false,
       formulaBar: false,
@@ -54,36 +54,34 @@ const { univerAPI } = createUniver({
         sheetBar: true,
         statisticBar: true,
         menus: true,
-        zoomSlider: true,
-      },
+        zoomSlider: true
+      }
     }),
     UniverSheetsDrawingPreset(),
     UniverSheetsFilterPreset(),
     UniverSheetsSortPreset(),
-    UniverSheetsConditionalFormattingPreset(),
+    UniverSheetsConditionalFormattingPreset()
   ],
   plugins: [
-    [UniverLicensePlugin, { license: '' }],
+    [UniverLicensePlugin, { license: "" }],
     UniverSheetsChartPlugin,
-    UniverSheetsChartUIPlugin,
-  ],
+    UniverSheetsChartUIPlugin
+  ]
 });
 
 const workbook = univerAPI.createWorkbook({
-  id: 'workbook-01',
-  name: 'Spreadsheet Fixture',
+  id: "workbook-01",
+  name: "Spreadsheet Fixture"
 });
 const worksheet = workbook.getActiveSheet();
 
-worksheet.setGridLinesColor('rgb(204, 204, 204)');
+worksheet.setGridLinesColor("rgb(204, 204, 204)");
 worksheet.setColumnWidths(0, worksheet.getMaxColumns(), 136); // 전체 컬럼 폭: 136px
 worksheet.setRowHeights(0, worksheet.getMaxRows(), 24); // 전체 행 높이: 32px
 
-
 const headerStyle = {
-  borderColor: 'rgb(204, 204, 204)',
-  backgroundColor: 'rgb(230, 230, 230)',
-
+  borderColor: "rgb(204, 204, 204)",
+  backgroundColor: "rgb(230, 230, 230)"
 };
 
 function customizeSpreadsheetHeaders() {
@@ -107,25 +105,25 @@ if (univerAPI.getCurrentLifecycleStage() >= univerAPI.Enum.LifecycleStages.Rende
 
 const actions = createSpreadsheetActions({
   univerAPI,
-  workbook: workbook as Parameters<typeof createSpreadsheetActions>[0]['workbook'],
-  worksheet,
+  workbook: workbook as Parameters<typeof createSpreadsheetActions>[0]["workbook"],
+  worksheet
 });
 
 renderSpreadsheetMockToolbar({
-  containerId: 'spreadsheet-custom-toolbar',
+  containerId: "spreadsheet-custom-toolbar",
   univerAPI,
-  actions,
+  actions
 });
 
 setupSpreadsheetUi({
   univerAPI,
   actions,
-  conditionalFormattingCommandId: OpenConditionalFormattingOperator.id,
+  conditionalFormattingCommandId: OpenConditionalFormattingOperator.id
 });
 
 installSpreadsheetEvaluationHelpers({
   univerAPI,
-  workbook: workbook as Parameters<typeof installSpreadsheetEvaluationHelpers>[0]['workbook'],
+  workbook: workbook as Parameters<typeof installSpreadsheetEvaluationHelpers>[0]["workbook"],
   worksheet,
-  actions,
+  actions
 });
