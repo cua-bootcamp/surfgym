@@ -1,0 +1,38 @@
+{
+  "instruction": "Create two separate 3D column charts from the yearly comparison table. The first chart should use Quarter, 2019 Sales, and 2019 COGS. The second chart should use Quarter, 2020 Sales, and 2020 COGS.",
+  "empty_start": false,
+  "states": [
+    [
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A1","property":["cell","v"],"value":"Quarter"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B1","property":["cell","v"],"value":"2019 Sales"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"C1","property":["cell","v"],"value":"2019 COGS"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"D1","property":["cell","v"],"value":"2020 Sales"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"E1","property":["cell","v"],"value":"2020 COGS"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A2","property":["cell","v"],"value":"Q1"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B2","property":["cell","v"],"value":220},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"C2","property":["cell","v"],"value":130},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"D2","property":["cell","v"],"value":250},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"E2","property":["cell","v"],"value":148},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A3","property":["cell","v"],"value":"Q2"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B3","property":["cell","v"],"value":240},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"C3","property":["cell","v"],"value":142},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"D3","property":["cell","v"],"value":265},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"E3","property":["cell","v"],"value":155},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A4","property":["cell","v"],"value":"Q3"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B4","property":["cell","v"],"value":260},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"C4","property":["cell","v"],"value":151},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"D4","property":["cell","v"],"value":282},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"E4","property":["cell","v"],"value":166}
+    ],
+    [
+      {"match":"exact","applyf":"applyChartMeta","evalf":"getChartMeta","param":{"sheetName":"Sheet1","chartKey":"comparison-2019"},"property":["sourceRange"],"value":"A1:C4","return_type":"list"},
+      {"match":"exact","applyf":"applyChartMeta","evalf":"getChartMeta","param":{"sheetName":"Sheet1","chartKey":"comparison-2019"},"property":["chartType"],"value":"column3d","return_type":"list"},
+      {"match":"exact","applyf":"applyChartMeta","evalf":"getChartMeta","param":{"sheetName":"Sheet1","chartKey":"comparison-2019"},"property":["title"],"value":"2019 Sales and COGS","return_type":"list"}
+    ],
+    [
+      {"match":"exact","applyf":"applyChartMeta","evalf":"getChartMeta","param":{"sheetName":"Sheet1","chartKey":"comparison-2020"},"property":["sourceRange"],"value":"A1:A4,D1:E4","return_type":"list"},
+      {"match":"exact","applyf":"applyChartMeta","evalf":"getChartMeta","param":{"sheetName":"Sheet1","chartKey":"comparison-2020"},"property":["chartType"],"value":"column3d","return_type":"list"},
+      {"match":"exact","applyf":"applyChartMeta","evalf":"getChartMeta","param":{"sheetName":"Sheet1","chartKey":"comparison-2020"},"property":["title"],"value":"2020 Sales and COGS","return_type":"list"}
+    ]
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "instruction": "Sort the time series by Date Time ascending, then create a line chart titled \"Quantity Over Time\" from the sorted Date Time and Quantity table, using Date Time as the x-axis and Quantity as the y-axis.",
+  "empty_start": false,
+  "states": [
+    [
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A1","property":["cell","v"],"value":"Date Time"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B1","property":["cell","v"],"value":"Quantity"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A2","property":["cell","v"],"value":"2024-03-05 14:00"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B2","property":["cell","v"],"value":18},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A3","property":["cell","v"],"value":"2024-03-05 09:00"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B3","property":["cell","v"],"value":11},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A4","property":["cell","v"],"value":"2024-03-05 12:00"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B4","property":["cell","v"],"value":15}
+    ],
+    [
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A2","property":["cell","v"],"value":"2024-03-05 09:00"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B2","property":["cell","v"],"value":11},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A3","property":["cell","v"],"value":"2024-03-05 12:00"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B3","property":["cell","v"],"value":15},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A4","property":["cell","v"],"value":"2024-03-05 14:00"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B4","property":["cell","v"],"value":18}
+    ],
+    [
+      {"match":"exact","applyf":"applyChartMeta","evalf":"getChartMeta","param":{"sheetName":"Sheet1"},"property":["sourceRange"],"value":"A1:B4","return_type":"list"},
+      {"match":"exact","applyf":"applyChartMeta","evalf":"getChartMeta","param":{"sheetName":"Sheet1"},"property":["chartType"],"value":"line","return_type":"list"},
+      {"match":"exact","applyf":"applyChartMeta","evalf":"getChartMeta","param":{"sheetName":"Sheet1"},"property":["title"],"value":"Quantity Over Time","return_type":"list"},
+      {"match":"exact","applyf":"applyChartMeta","evalf":"getChartMeta","param":{"sheetName":"Sheet1"},"property":["xAxisTitle"],"value":"Date Time","return_type":"list"},
+      {"match":"exact","applyf":"applyChartMeta","evalf":"getChartMeta","param":{"sheetName":"Sheet1"},"property":["yAxisTitle"],"value":"Quantity","return_type":"list"}
+    ]
+  ]
+}

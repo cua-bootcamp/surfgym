@@ -1,0 +1,40 @@
+{
+  "instruction": "Create a new sheet named \"Monthly Summary\". Build A1:B4 with Jan, Feb, and Mar totals calculated from the sales records on the current sheet by filling the same SUMIF formula pattern down the Total Sales column.",
+  "empty_start": false,
+  "states": [
+    [
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B1","property":["cell","v"],"value":"Month"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"C1","property":["cell","v"],"value":"Sales"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B2","property":["cell","v"],"value":"Jan"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"C2","property":["cell","v"],"value":1200},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B3","property":["cell","v"],"value":"Jan"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"C3","property":["cell","v"],"value":800},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B4","property":["cell","v"],"value":"Feb"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"C4","property":["cell","v"],"value":1500},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B5","property":["cell","v"],"value":"Mar"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"C5","property":["cell","v"],"value":2100}
+    ],
+    [
+      {"match":"exact","applyf":"applySheetMeta","evalf":"getSheetMeta","param":{"sheetName":"Monthly Summary"},"property":["sheet","name"],"value":"Monthly Summary"}
+    ],
+    [
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Monthly Summary","address":"A1"},"property":["cell","v"],"value":"Month"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Monthly Summary","address":"B1"},"property":["cell","v"],"value":"Total Sales"}
+    ],
+    [
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Monthly Summary","address":"A2"},"property":["cell","v"],"value":"Jan"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Monthly Summary","address":"A3"},"property":["cell","v"],"value":"Feb"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Monthly Summary","address":"A4"},"property":["cell","v"],"value":"Mar"}
+    ],
+    [
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Monthly Summary","address":"B2"},"property":["cell","f"],"value":"=SUMIF(Sheet1!B2:B5,A2,Sheet1!C2:C5)"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Monthly Summary","address":"B3"},"property":["cell","f"],"value":"=SUMIF(Sheet1!B2:B5,A3,Sheet1!C2:C5)"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Monthly Summary","address":"B4"},"property":["cell","f"],"value":"=SUMIF(Sheet1!B2:B5,A4,Sheet1!C2:C5)"}
+    ],
+    [
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Monthly Summary","address":"B2"},"property":["cell","v"],"value":2000},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Monthly Summary","address":"B3"},"property":["cell","v"],"value":1500},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Monthly Summary","address":"B4"},"property":["cell","v"],"value":2100}
+    ]
+  ]
+}

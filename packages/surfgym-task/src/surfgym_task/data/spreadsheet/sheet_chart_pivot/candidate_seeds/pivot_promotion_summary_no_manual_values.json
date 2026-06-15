@@ -1,0 +1,29 @@
+{
+  "instruction": "Create a pivot table named \"Promotion Summary Pivot\" on Sheet2 from the current sheet's promotion table. Use Promotion as the row field and summarize Orders and Revenue with sums. Sort promotion labels alphabetically and do not manually type the summary values.",
+  "empty_start": false,
+  "states": [
+    [
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A1","property":["cell","v"],"value":"Promotion"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"D1","property":["cell","v"],"value":"Orders"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"E1","property":["cell","v"],"value":"Revenue"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A2","property":["cell","v"],"value":"Coupon"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"D2","property":["cell","v"],"value":18},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"E2","property":["cell","v"],"value":3600},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A3","property":["cell","v"],"value":"Coupon"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"D3","property":["cell","v"],"value":24},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"E3","property":["cell","v"],"value":4800}
+    ],
+    [
+      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"promotion-summary-pivot"},"property":["name"],"value":"Promotion Summary Pivot"},
+      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"promotion-summary-pivot"},"property":["sourceRange"],"value":"A1:E3"},
+      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"promotion-summary-pivot"},"property":["destinationSheetName"],"value":"Sheet2"},
+      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"promotion-summary-pivot"},"property":["rowFieldsCsv"],"value":"Promotion"},
+      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"promotion-summary-pivot"},"property":["valueFieldsCsv"],"value":"Orders:sum,Revenue:sum"}
+    ],
+    [
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Sheet2","address":"A2"},"property":["cell","v"],"value":"Coupon"},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Sheet2","address":"B2"},"property":["cell","v"],"value":42},
+      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Sheet2","address":"C2"},"property":["cell","v"],"value":8400}
+    ]
+  ]
+}
