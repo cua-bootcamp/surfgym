@@ -1,0 +1,71 @@
+{
+  "instruction": "Convert the existing comma-separated contact list into a 3-row, 3-column table. Use the first row as the headers Name, Role, and Email.",
+  "empty_start": false,
+  "accumulation": "DELTA",
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": ["text"],
+        "value": "Name, Role, Email, Mina, Editor, mina@example.com, Noor, Reviewer, noor@example.com"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "shape"],
+        "value": "3x3"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "cellsText"],
+        "value": "Name|Role|Email||||||"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "shape"],
+        "value": "3x3"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "cellsText"],
+        "value": "Name|Role|Email|Mina|Editor|mina@example.com|||"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "shape"],
+        "value": "3x3"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "cellsText"],
+        "value": "Name|Role|Email|Mina|Editor|mina@example.com|Noor|Reviewer|noor@example.com"
+      }
+    ]
+  ]
+}

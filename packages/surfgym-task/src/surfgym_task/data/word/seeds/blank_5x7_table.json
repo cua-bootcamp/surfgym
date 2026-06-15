@@ -1,0 +1,17 @@
+{
+  "instruction": "Insert a blank table with 5 rows and 7 columns into the document.",
+  "empty_start": true,
+  "accumulation": "DELTA",
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "shape"],
+        "value": "5x7"
+      }
+    ]
+  ]
+}

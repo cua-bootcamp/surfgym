@@ -1,0 +1,89 @@
+{
+  "instruction": "Convert the existing workflow status note into a 4-row, 4-column table. Use Owner, Draft, Review, and Publish as the header row, and leave cells blank where the owner has no status for that column.",
+  "empty_start": false,
+  "accumulation": "DELTA",
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": ["text"],
+        "value": "Mina draft done; Noor review pending; Ilya publish"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "shape"],
+        "value": "4x4"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "cellsText"],
+        "value": "Owner|Draft|Review|Publish||||||||||||"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "shape"],
+        "value": "4x4"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "cellsText"],
+        "value": "Owner|Draft|Review|Publish|Mina|done||||||||||"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "shape"],
+        "value": "4x4"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "cellsText"],
+        "value": "Owner|Draft|Review|Publish|Mina|done|||Noor||pending|||||"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "shape"],
+        "value": "4x4"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "cellsText"],
+        "value": "Owner|Draft|Review|Publish|Mina|done|||Noor||pending||Ilya|||publish"
+      }
+    ]
+  ]
+}

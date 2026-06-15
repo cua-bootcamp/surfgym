@@ -10,6 +10,7 @@ from surfgym_task.augmentation.instruction_generator import InstructionGenerator
 from surfgym_task.augmentation.schema import (
     Accumulation,
     Granularity,
+    HoareCreator,
     HoareState,
     SeedTask,
     SeedTaskAdapter,
@@ -37,6 +38,7 @@ class Augmentor:
 
         self.website = website
         self.granularity: Granularity = granularity
+        self.default_accumulation: Accumulation = accumulation
         self.instruction_generator = InstructionGenerator()
 
         legacy_instruction_path = seed_dir / "instruction.jsonc"
@@ -54,11 +56,10 @@ class Augmentor:
 
         self.hash_to_state: dict[str, HoareState] = {}
 
-        self.hoare_creator = HoareState.creator(accumulation)
-
         # update the initial hoare_state_instruction with seed instructions
         for seed, _ in self.seeds_with_ids:
-            seed_hoare = self.hoare_creator(
+            hoare_creator = self._hoare_creator_for(seed)
+            seed_hoare = hoare_creator(
                 seed.states, len(seed.states) - 1, -1 if seed.empty_start else 0
             )
             seed_hoare_key = seed_hoare.to_key()
@@ -70,7 +71,11 @@ class Augmentor:
 
         with (self.output_dir / "augmented.jsonl").open("w", encoding="utf-8") as fp:
             for seed, id in self.seeds_with_ids:
-                state_pair_gen = self._hoare_state_generator(seed.states, seed.empty_start)
+                state_pair_gen = self._hoare_state_generator(
+                    seed.states,
+                    seed.empty_start,
+                    self._hoare_creator_for(seed),
+                )
 
                 for hoare, start, end in state_pair_gen:
                     hash = hoare.to_key()
@@ -188,13 +193,13 @@ class Augmentor:
 """.strip()
 
     def _hoare_state_generator(
-        self, states: list[State], empty_start: bool
+        self, states: list[State], empty_start: bool, hoare_creator: HoareCreator
     ) -> Iterator[tuple[HoareState, int, int]]:
         for end_idx in range(0 if empty_start else 1, len(states)):
             if self.granularity == "COARSE":
                 start_idx = -1 if empty_start else 0
                 yield (
-                    self.hoare_creator(states, end_idx, start_idx),
+                    hoare_creator(states, end_idx, start_idx),
                     start_idx + 1,
                     end_idx + 1,
                 )
@@ -202,10 +207,13 @@ class Augmentor:
             elif self.granularity == "FINE":
                 for start_idx in range(-1 if empty_start else 0, end_idx):
                     yield (
-                        self.hoare_creator(states, end_idx, start_idx),
+                        hoare_creator(states, end_idx, start_idx),
                         start_idx + 1,
                         end_idx + 1,
                     )
+
+    def _hoare_creator_for(self, seed: SeedTask) -> HoareCreator:
+        return HoareState.creator(seed.accumulation or self.default_accumulation)
 
     def _dump(self, generated_task_count: int) -> None:
         write_instruction_rows(self.instruction_path, self.hash_to_inst)

@@ -40,6 +40,7 @@ class SeedTask(FrozenBaseModel):
     instruction: str
     empty_start: bool
     states: States
+    accumulation: Optional[Accumulation] = None
 
 
 def _canonical_json(value: Any) -> str:

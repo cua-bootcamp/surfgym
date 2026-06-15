@@ -1,0 +1,89 @@
+{
+  "instruction": "Convert the existing weekly phrase into a 4-row, 2-column table. Use Day and Task as the header row.",
+  "empty_start": false,
+  "accumulation": "DELTA",
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": ["text"],
+        "value": "Monday design, Tuesday review, Wednesday ship"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "shape"],
+        "value": "4x2"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "cellsText"],
+        "value": "Day|Task||||||"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "shape"],
+        "value": "4x2"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "cellsText"],
+        "value": "Day|Task|Monday|design||||"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "shape"],
+        "value": "4x2"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "cellsText"],
+        "value": "Day|Task|Monday|design|Tuesday|review||"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "shape"],
+        "value": "4x2"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "cellsText"],
+        "value": "Day|Task|Monday|design|Tuesday|review|Wednesday|ship"
+      }
+    ]
+  ]
+}

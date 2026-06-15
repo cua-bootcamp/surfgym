@@ -28,17 +28,9 @@ export type ChartRef =
 // #                Meta                #
 // ######################################
 
-type RowMeta = {
-  filtered: boolean;
-  visible: boolean;
-  rawVisible: boolean;
-  filterRange: string | null;
-};
-
 export type CellMeta = {
   cell: unknown;
   style: unknown;
-  //   row: RowMeta;
 };
 
 export type ChartMeta = {

@@ -1,0 +1,89 @@
+{
+  "instruction": "Convert the existing dash-separated region lines into a 4-row, 3-column table. Add the header row Region, Quarter, and Score.",
+  "empty_start": false,
+  "accumulation": "DELTA",
+  "states": [
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-body",
+        "property": ["text"],
+        "value": "North - Q1 - 120\nSouth - Q1 - 98\nWest - Q1 - 143"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "shape"],
+        "value": "4x3"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "cellsText"],
+        "value": "Region|Quarter|Score|||||||||"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "shape"],
+        "value": "4x3"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "cellsText"],
+        "value": "Region|Quarter|Score|North|Q1|120||||||"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "shape"],
+        "value": "4x3"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "cellsText"],
+        "value": "Region|Quarter|Score|North|Q1|120|South|Q1|98|||"
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "shape"],
+        "value": "4x3"
+      },
+      {
+        "match": "exact",
+        "applyf": "applyWordMeta",
+        "evalf": "getWordMeta",
+        "param": "word-table",
+        "property": ["tables", "0", "cellsText"],
+        "value": "Region|Quarter|Score|North|Q1|120|South|Q1|98|West|Q1|143"
+      }
+    ]
+  ]
+}

@@ -1066,7 +1066,10 @@ export function renderWordMockToolbar({
         openWordLineSpacingMenu(button, setLineSpacing, getLineSpacing);
       }
       if (action === 'table') {
-        openWordTablePickerMenu({ insertTable, univerAPI }, button);
+        const tableOptions: Pick<WordToolbarOptions, 'insertTable' | 'univerAPI'> = {};
+        if (insertTable) tableOptions.insertTable = insertTable;
+        if (univerAPI) tableOptions.univerAPI = univerAPI;
+        openWordTablePickerMenu(tableOptions, button);
       }
     });
   });

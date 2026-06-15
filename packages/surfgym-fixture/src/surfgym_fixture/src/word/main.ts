@@ -843,6 +843,16 @@ const buildSnapshotFromAtoms = (atoms: WordStateAtom[]): AnyRecord => {
     );
     body = tableSnapshot.body;
     currentSnapshot.tableSource = tableSnapshot.tableSource;
+  } else if (tableCellsTextAtom && !baseTextAtom) {
+    const currentShape = getTableAtom('shape');
+    if (currentShape) {
+      const tableSnapshot = makeTableSnapshot(
+        currentShape,
+        valueToString(tableCellsTextAtom.value),
+      );
+      body = tableSnapshot.body;
+      currentSnapshot.tableSource = tableSnapshot.tableSource;
+    }
   } else if (baseTextAtom) {
     currentSnapshot.tableSource = {};
   }
