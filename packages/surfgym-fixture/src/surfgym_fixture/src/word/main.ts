@@ -1107,6 +1107,16 @@ const applyDocumentLineSpacing = (lineSpacing: number): void => {
   );
 };
 
+const insertWordTableFromToolbar = (rows: number, columns: number): void => {
+  applyWordState([
+    {
+      f: 'word-table',
+      property: ['tables', '0', 'shape'],
+      value: `${rows}x${columns}`,
+    },
+  ]);
+};
+
 window.__applyWordState = applyWordState;
 window.__getWordStateAtom = getWordStateAtom;
 window.getWordMeta = getWordMeta;
@@ -1116,5 +1126,6 @@ renderWordMockToolbar({
   containerId: 'word-custom-toolbar',
   getLineSpacing: getDocumentLineSpacing,
   setLineSpacing: applyDocumentLineSpacing,
+  insertTable: insertWordTableFromToolbar,
   univerAPI,
 });

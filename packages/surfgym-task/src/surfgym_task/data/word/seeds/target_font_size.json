@@ -2,55 +2,11 @@
   "instruction": "Write \"small note big note plain note\" on one line. Then change only \"big note\" to font size 18.",
   "empty_start": true,
   "states": [
+    [{ "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-body", "property": ["text"], "value": "small note big note plain note" }],
     [
-      {
-        "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
-        ],
-        "value": "small note big note plain note"
-      }
-    ],
-    [
-      {
-        "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "big note",
-          "fontSize"
-        ],
-        "value": "18"
-      },
-      {
-        "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "small note",
-          "fontSizeNot"
-        ],
-        "value": "18"
-      },
-      {
-        "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "plain note",
-          "fontSizeNot"
-        ],
-        "value": "18"
-      }
+      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "big note", "fontSize"], "value": "18" },
+      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "small note", "fontSize"], "value": "10" },
+      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "plain note", "fontSize"], "value": "10" }
     ]
   ]
 }

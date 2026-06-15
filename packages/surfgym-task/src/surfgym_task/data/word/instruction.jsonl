@@ -13,6 +13,7 @@
 {"hash":"0d6d20c98b82b2b1219cef7b027962f9ffb07e267c0f753db6c9fad71b6470c3","instruction":"Enter Checkpoint Log on the first line and notes pending on the second line, and make the first line bold."}
 {"hash":"0dee8b9203ebe541eaa217cea9db88c75b4f16cbb3ffe584cbf1daeffd34d703","instruction":"Write \"Review draft complete check\" on a single line. Make the whole line font size 20 and italic. Then make only \"Review draft\" bold and only \"complete check\" underlined."}
 {"hash":"0e1390d5c41435fdbb8999f26722b38fadf7001e0cac4c20cfee7a22fee78428","instruction":"Keep the existing body note and add the footer text \"Archive note\"."}
+{"hash":"0f1514301b3ccd6e18abd028569ff6b991fbca1e9af6aab69a38219c80c92897","instruction":"Please type \"status memo\" and apply Verdana to the whole line."}
 {"hash":"10182266ea13439c221dafb558c09cc0e4904ba2362fa755265a9f79fcf0da85","instruction":"Replace the uppercase text in word-body with regional status should stay quiet, then justify-align it and set the font size to 16."}
 {"hash":"123f4d1039373991ad69e996db9391a2ba799ad16a18c20f92e384f0ba4e0de8","instruction":"Format the existing line by highlighting only \"marker\" in blue, keeping \"active\" unhighlighted, and right-aligning the paragraph."}
 {"hash":"16292de4f066073efb03aeda2942c239754a6454b6ea81584e9dedc788957f21","instruction":"Please password-protect this document so it cannot be opened without a password, using only the word fixture's built-in controls."}
@@ -32,6 +33,8 @@
 {"hash":"262f2ebcaab7331c51ce36da757aacae54a411995b81c49cbe25b26022a7a693","instruction":"Right-align the existing memo, set it in Calibri, and make memo bold."}
 {"hash":"265346fb1c977170ee1437e914d9190a16d4a9d71a20cd63af21d9a5116ea042","instruction":"Split the existing page note into two paragraphs and add the footer text \"Page split prepared\"."}
 {"hash":"276e52034e92fd900eb1d5c9fdc5ef217c420ef76bea0a05019c0979074c055f","instruction":"Center-align the second paragraph."}
+{"hash":"2af797830728f734bd1fee3b4f32c718332194d5d1f874cfe270921a6893f3a5","instruction":"Enter overview line and follow-up line as two paragraphs, then change only the first paragraph to 1.5 line spacing."}
+{"hash":"2f3cabd530473b60965873ea6282ea38d04dfb079705fa36d1adf14ca316f529","instruction":"Enter priority marker and change the whole line to font size 18."}
 {"hash":"304d5678945cd6f13e0c60045f7224ad6b100576370bcd230d6fb7d9201711e2","instruction":"Enter small note big note plain note on one line."}
 {"hash":"360d89ef92b504c21f50fabf7e3d4a356a9d8aad099679cdee12da47e6e9f99f","instruction":"Please type \"Signal Ledger\" on a single line and make that text bold."}
 {"hash":"36b0ef9e384f1dcc5eda653546a589cef30aa225f98eb55d0d7bb5aff0213125","instruction":"Write \"Check budget and timeline\" and underline the words \"budget\" and \"timeline\"."}
@@ -66,6 +69,7 @@
 {"hash":"5ae008790dcb26f7654e7d99bb7822d8b7d8868c7bc654b180d6ea682dacda1d","instruction":"Set the deadline line to font size 16, underline only the date, and right-align it."}
 {"hash":"5aff9edef8c27348dc29908aa90937f1bea6dd8ce301dbf4fc5b1756567e072e","instruction":"Set the formula text in Calibri and make both 2s superscript while leaving the letters on the baseline."}
 {"hash":"5c792718774e9f9370da3ec9c40d2ac75c172eab8611f3684f69ccc066bce40b","instruction":"Write these short notes on separate lines in the same order: \"Log sample.\" \"Flag anomaly.\" \"Close review.\""}
+{"hash":"5d22dca21261320990342d493582062b15d857da1b28340b98c3f038a0acab4a","instruction":"Type two paragraphs exactly as follows: \"overview line\" and \"follow-up line\". Then change only the first paragraph to 1.5 line spacing."}
 {"hash":"5d740334c21a5fbfce5981951963b83af0f3cd70c7df74c32fd91c1c3339606a","instruction":"Enter balanced report note on a single line, then justify-align that paragraph."}
 {"hash":"5e5c335aaf9b3c30172c6e3ee7927285cbc51b2c76d6212b0ba9bdea39d6abff","instruction":"Create the table in word-table with 2 columns and 3 rows so it contains Name, Score in the first row, Ilya, 87 in the second row, and Noor, 91 in the third row."}
 {"hash":"5f25f205051a6019aef27f31ccb3e0fddc06124ddd8ee05c4fd856b7720bf7d2","instruction":"Sort the existing four lines alphabetically, then double-space the final line."}
@@ -77,12 +81,14 @@
 {"hash":"62f2b56ded57048dedff6dfb767ca8001910c94cd69d4f6a586ffebb3d8ae595","instruction":"Enter Weekly Plan, editing in progress, and ready tomorrow as a three-line note, and make the first line bold and the second line italic."}
 {"hash":"65383efb64c4672856d809c57a8bfed5055d861e1c95e988513fea727af0132b","instruction":"Set the line spacing of the first two lines to double while keeping the third line single-spaced."}
 {"hash":"65d81e48fbcf1114589f310cec4406273a8d14ebbd93efabc3e85918aec67f68","instruction":"Make nearly complete bold and italic in the existing line, then set the line in Calibri."}
+{"hash":"66c7e7ebf0a4c37fc44b3fdb1539817f39b340c30fc07b13db4c46b390ba0f28","instruction":"Create two paragraphs: \"plain note remains left\" and \"focus line moves inward\". Then center-align only the second paragraph."}
 {"hash":"6a4ac0da866212a8c2a1021c24ea4952fc767df439be06ee8e2d442c81d58be4","instruction":"Set the second paragraph to double spacing and right-align it."}
 {"hash":"6c92e522efba7c0d0ffcf05b4752ca1e6e4ff8e41a1a5e28119a3fd9f98e8ca5","instruction":"Create four paragraphs in this order: \"Source queue\", \"Park, Ji. \"Harbor Sampling Log.\" Field Archive Review, 2021.\", \"Nolan, Avery. \"Bridge Sensor Memo.\" Urban Systems Notes, 2022.\", and \"Add the latest calibration note [REF]\". Then change only the [REF] marker in the fourth paragraph to [1], and add a reference list entry: [1] Rao, Lina. \"Calibration Trace.\" Applied Sensor Letters, 2025."}
 {"hash":"6e50abc429727f55bfeb2d547d14a8fedc521c8aef8f8422a7f7f6ddfafb4a2d","instruction":"Create four separate lines with \"delta\", \"alpha\", \"charlie\", and \"bravo\". Then reorder the lines alphabetically."}
 {"hash":"6e67abb4c96287944b9d71a76e3c4711dd9b3bcf6e53f146cb819726d53fc045","instruction":"Enter CO2 + H2O = x2 and format the 2s in CO2 and H2O as subscript, and the 2 in x2 as superscript."}
 {"hash":"6f157c02dbc435349243b8896e77b4c61827703611284bfaea7d92324c232ee6","instruction":"Clean up the existing uppercase line so it is lowercase, then justify-align it and use font size 16."}
 {"hash":"706081ae76b9052abf86e1d9733fbb851a2970f5abf5c38e778b88f8eee5745f","instruction":"Format the existing formula text in Calibri."}
+{"hash":"7077c876417d74224241b230ce77ba2547528231d074bcc876322c048c4b839c","instruction":"Enter NH3 and make only the 3 a subscript."}
 {"hash":"714e788499cfaf9180969e0dddcdc59bb5e3071dabbb2387a47f0098999e7fab","instruction":"Enter please review the green section, and make only the word green green."}
 {"hash":"71f1239f8020f19d647a6950322fc4192ea1d9a3e5becbc527686a5d7f12b02f","instruction":"Align each line in the given paragraph. Leave the first line left-aligned, center-align the second line, right-align the third paragraph, and justify-align the fourth paragraph."}
 {"hash":"71f2d55fed32a734dd0ad6b75244579b03245a90d41c073f0f48a037e9077c7c","instruction":"Italicize only summary, set it to font size 18, and right-align the sentence."}
@@ -95,6 +101,7 @@
 {"hash":"7e09bb5f76ac5eadf31e6d844394b69598d48c54e5f20e2b8c5b1f89bd7425e2","instruction":"Format the text so there is one blank line between North entry, West entry, and South entry, then set the first entry to 1.5 line spacing and the last entry to double spacing."}
 {"hash":"7fbb54af84b3bc2041c2db8522ad3711f0ee0d336140deb5a1e129d259e88354","instruction":"Create the line \"temp report temp checklist\". Then replace every occurrence of \"temp\" with \"final\"."}
 {"hash":"80b3ddc209784ee5752ca2148db269f91d83121a2051d8c48b95fa29e7fd27ac","instruction":"Make only the number 2 in the existing text a subscript."}
+{"hash":"8142681d1687f12c8d4c3e35658e3fdb2af37f5530b94f9b6e4de9787eaf567e","instruction":"Please type \"priority marker\" and change the whole line to font size 18."}
 {"hash":"840d7ea6b7f86b85f9e7e6a2ab671e83f4e23b1714ac3254278d894a1b537085","instruction":"Please type \"boxed paragraph\" and give that paragraph a simple box border on all four sides."}
 {"hash":"8480b25098db60564376e492923855d58fbb746b5ae17f4162da18a1958aeba4","instruction":"Write the sentence \"check the summary now\". Make only the word \"summary\" italic and change that same word to font size 16."}
 {"hash":"85f91f3b092aa8f4daf8f24e9991febb182734fe96ffa576b396d35bdcb4b963","instruction":"Format the existing two-line note so only \"retire this entry\" is struck through and the second paragraph uses double spacing."}
@@ -107,6 +114,7 @@
 {"hash":"8e7219d0f887a6c4fc241be3a743f147c15a94aa21d99ceec1dd42e3fda4b1c3","instruction":"Please write \"Deadline confirmed\" and underline only the word \"Deadline\"."}
 {"hash":"8eda7ccd9c6a2a6e37893f0140cd5d4256bc24a611a88af1b52cf9f4b3589525","instruction":"Replace every \"temp\" in the existing line with \"final\", then bold both \"final\" words."}
 {"hash":"8f23c553af3508ad7998b330731d64fbcc11a8bd299aebc26ff10f76c6634349","instruction":"Underline only 2026-08-14 in Submit by 2026-08-14, set the line to font size 16, and right-align it."}
+{"hash":"8fa7fa1919f5fac8fe03e41455400d47f3d45628a0052f881195950236a0c785","instruction":"Type two paragraphs exactly as follows: \"overview line\" and \"follow-up line\". Then change only the first paragraph to 1.5 line spacing."}
 {"hash":"91b11110f2092ed5a3b7d9d6de7df17f362d116c388fdef9d2ec6f9331dcb16b","instruction":"Set the existing line to Heading 2, use Calibri, and center-align the paragraph."}
 {"hash":"929a7ab1b306b96647c963a36e3d8b6738bb357001cdb77fe0edd82b49f8e25b","instruction":"Set the existing line to Heading 2."}
 {"hash":"92f0f89bdb3ddc826c5428c484aa2763aa8d8688ee27e8e6550c5c48c18842e9","instruction":"Deduplicate the lab sample codes into first-appearance order as R18, M02, K77, and P31, then right-align each resulting code line."}
@@ -116,6 +124,7 @@
 {"hash":"9b1555ef800c265adb639b4fe73f328365d5a6cb0b3c4a6947f1e7eb8e968b9f","instruction":"Format the existing note so both paragraphs use Calibri at font size 18. Justify the first paragraph, right-align the second paragraph, make \"Design memo\" bold, underline \"final action\", and format the 2 in \"phase2\" as superscript."}
 {"hash":"9b21da79b4bdc52e8dc071b1aef7c31cdb631f8d66ee6415e5dea633c132b8c8","instruction":"Bold only the labels before each colon in the existing report and set the full report in Calibri."}
 {"hash":"9b8c687f261d31fbbb8dfe248ee1a114d7b6411ec1fb9b5ec7ec91d4329362eb","instruction":"Set the existing three sections to single, double, and 1.5 spacing, make every character font size 12, and justify-align the evidence paragraph."}
+{"hash":"9fcf801ccffca9d241cdff2063678fa1e1b33e1d54395508dea8b01a589e532e","instruction":"Enter status memo in the cell text."}
 {"hash":"a0201b64598642e54ac644c591b832d0c41c39d15912840497e53c8a3e7e7f63","instruction":"Enter Review draft complete check on a single line in the sheet, set the whole line to font size 20 and italic, make Review draft bold, and underline only complete check."}
 {"hash":"a13dd36fc1cccc1ca7b20d944781cdb9fd31f087c1ff8ce3c737f299864434c7","instruction":"Enter Signal Ledger and make it bold."}
 {"hash":"a38d59fc2a88b19c46ccae9fd65e427b7cdc0a2acdac35c38d9344a21ac9cf5c","instruction":"Bold the first note and underline the final note."}
@@ -142,6 +151,7 @@
 {"hash":"be2602e0691e4ed89642164026cfd7b5a010d0db9acfc299b0eca4eb2a6b2d65","instruction":"Enter Status is nearly complete and make nearly complete bold and italic."}
 {"hash":"bf34ccfe427833ae0dbf92ffcac479c61c6f05e9ab7aa1927c4347baee2e2536","instruction":"Enter reference note, archive this note, and closing note as three paragraphs, and apply strikethrough only to the entire middle paragraph."}
 {"hash":"c031d93a9e18871723dee9467c660dbb475a7873ec0a18ca3a544bec34acee6c","instruction":"Format the existing heading by making it bold, setting font size 20, and centering the paragraph."}
+{"hash":"c094355e4ed75d6076a914e4d61eea50aacdb2e0d4301086c149314e78b7b4e4","instruction":"Please type \"NH3\" and make only the number 3 a subscript."}
 {"hash":"c15ccbe4bca994fd399802e238f646574ab39bc7d675e1d2779b913622f72a90","instruction":"Format the existing line in Tahoma at font size 15, underline \"ready\", and justify-align the paragraph."}
 {"hash":"c21efde191caf1619b1df5cce04ee2c275827f470e5c3a18140a792abab704de","instruction":"Format the 2 in CO2 and the 2 in H2O as subscript, and format the 2 in x2 as superscript."}
 {"hash":"c428d0a3aa0cf8859334907780e926404bb1cb57c52983697ea5575758d2438e","instruction":"Please write \"Submit by 2026-08-14\" and underline only the date."}
@@ -169,6 +179,7 @@
 {"hash":"e140620463764ac573d2cc74be70a4438371d8943f82106ce6f0b92df1bb2283","instruction":"Write the sentence \"please review the green section\" and make only the word \"green\" green."}
 {"hash":"e22b3d6b60f22d68232b510da96b395b867318eb49b5be1998c087b8a4b62438","instruction":"Center-align only the second paragraph, keep the first paragraph left-aligned, and underline \"focus line\"."}
 {"hash":"e45a4ae1ac4e8aa653c1d6bd59f65c0bb15007fa5a6c5a0fd45812d5bddc9ffb","instruction":"Format the existing formula in Calibri and make both 2 digits superscript while leaving the letters on the baseline."}
+{"hash":"e4bef4133284458a8507bb3a03aa864b71c45d8cc95c3d1789e48f36ec543799","instruction":"Write the sentence \"check the summary now\". Make only the word \"summary\" italic and change the font size to 16."}
 {"hash":"e5363f445d9f5271098fb9f3c170e7a1b775c108d743e5b27f21c81bcfad3c16","instruction":"Enter ALERT update required, make ALERT bold, and underline required."}
 {"hash":"e6141f0711c369953524010619c55d82dc57e4ce673cf121c4f941063529fb89","instruction":"Create two paragraphs: \"plain note remains left\" and \"focus line moves inward\". Then center-align only the second paragraph."}
 {"hash":"e84ae3f2f9b53bee3ae87b9582c286e43980c479044d8898fff772aefbbc1d6b","instruction":"Write the sentence \"The draft needs revision.\" and italicize only the words \"needs revision\"."}
@@ -177,7 +188,7 @@
 {"hash":"ea8e70ac75f4b185f99c1348fdbfbc111ba8baadecc7dd07451e09834dfb6b3a","instruction":"Enter alpha note, beta note, and gamma note as three paragraphs in the word-body."}
 {"hash":"eadbd1c424ceb1e484ecdc6124e93b5e650a18ee9103575a194074784235541d","instruction":"Give the existing paragraph a box border, set it to Heading 2, and center-align it."}
 {"hash":"ecb0bfd93ed08cb96dd5460ce936f1ca9bfdf0914b8ae447caf4b8a14d8a6897","instruction":"Strike through only the middle paragraph in the existing three-paragraph note and set the full note in Calibri."}
-{"hash":"ecd43466cd64804f28d5a8dc2aa93d7290004d48ef9c23f3ecdc924edc5d0939","instruction":"Type \"balanced report note\" on a single line, then justify-align that paragraph."}
+{"hash":"ecd43466cd64804f28d5a8dc2aa93d7290004d48ef9c23f3ecdc924edc5d0939","instruction":"Please type \"balanced report note\" on a single line and justify-align that paragraph."}
 {"hash":"ed28788b1268540caf11c8266e4e0bb65cf814b5092d6daf8c35f2ba25be115b","instruction":"Enter this line and make sure it ends up fully lowercase: \"REGIONAL STATUS SHOULD STAY QUIET\"."}
 {"hash":"ed7622a133668657589000e6ccec36614ec017dd0451f4bf05b66f0172878f3b","instruction":"Enter carry forward on the first line and retire this entry on the second line, with strikethrough only on the second line."}
 {"hash":"ee472836e61e313c4762292d1b4b82a8ad75009547ce84fedad03fbd9c734dbb","instruction":"Set the second and third paragraphs to double and 1.5 line spacing, respectively."}

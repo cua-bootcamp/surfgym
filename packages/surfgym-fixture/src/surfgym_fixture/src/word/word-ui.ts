@@ -4,12 +4,13 @@ type WordToolbarApi = {
   executeCommand: <P extends object = object, R = boolean>(id: string, params?: P) => Promise<R>;
 };
 
-type WordToolbarAction = 'print' | 'textColor' | 'highlightColor' | 'lineSpacing';
+type WordToolbarAction = 'print' | 'textColor' | 'highlightColor' | 'lineSpacing' | 'table';
 
 type WordToolbarOptions = {
   containerId: string;
   getLineSpacing?: () => number;
   setLineSpacing?: (lineSpacing: number) => void;
+  insertTable?: (rows: number, columns: number) => void;
   univerAPI?: WordToolbarApi;
 };
 
@@ -77,6 +78,21 @@ const wordPaletteColors = [
 ] as const;
 
 const wordLineSpacingOptions = [1, 1.15, 1.5, 2] as const;
+const wordTablePickerRows = 16;
+const wordTablePickerColumns = 10;
+const wordTablePickerCellSize = 30;
+const wordTablePickerGridTop = 49;
+const wordTablePickerGridLeft = 14;
+const wordTableStyleOptions = [
+  'None',
+  'Default Table Style',
+  'Academic',
+  'Box List Blue',
+  'Box List Green',
+  'Box List Red',
+  'Box List Yellow',
+  'Elegant',
+] as const;
 
 const icon = {
   blankPage: `
@@ -321,7 +337,7 @@ const wordTopGroups: readonly (readonly WordToolbarItem[])[] = [
     { label: 'Formatting Marks', icon: icon.paragraph },
   ],
   [
-    { label: 'Insert Table', icon: icon.table, commandId: wordCommandIds.table, params: { rowCount: 3, colCount: 3 } },
+    { label: 'Insert Table', icon: icon.table, action: 'table' },
     { label: 'Insert Image', icon: icon.image },
     { label: 'Insert Chart', icon: icon.chart },
     { label: 'Text Box', icon: icon.paragraph },
@@ -392,6 +408,17 @@ const closeWordLineSpacingMenu = () => {
   document.removeEventListener('keydown', closeWordLineSpacingOnEscape, true);
 };
 
+const closeWordTablePickerMenu = () => {
+  document.getElementById('word-mock-table-picker-menu')?.remove();
+  document.removeEventListener('pointerdown', closeWordTablePickerOnOutsideClick, true);
+  document.removeEventListener('keydown', closeWordTablePickerOnEscape, true);
+};
+
+const closeWordTableOptionsDialog = () => {
+  document.getElementById('word-mock-table-options-dialog')?.remove();
+  document.removeEventListener('keydown', closeWordTableOptionsOnEscape, true);
+};
+
 function closeWordColorPaletteOnOutsideClick(event: PointerEvent) {
   const menu = document.getElementById('word-mock-color-palette-menu');
   if (!menu || !(event.target instanceof Node) || menu.contains(event.target)) return;
@@ -431,6 +458,7 @@ const openWordColorPalette = (
   action: 'textColor' | 'highlightColor',
 ) => {
   closeWordLineSpacingMenu();
+  closeWordTablePickerMenu();
   closeWordColorPalette();
 
   const commandId = action === 'textColor' ? wordCommandIds.textColor : wordCommandIds.highlightColor;
@@ -517,6 +545,7 @@ const openWordLineSpacingMenu = (
   getLineSpacing?: () => number,
 ) => {
   closeWordColorPalette();
+  closeWordTablePickerMenu();
   closeWordLineSpacingMenu();
 
   const currentValue = normalizeLineSpacingValue(getLineSpacing?.() ?? 1) ?? 1;
@@ -595,10 +624,290 @@ const openWordLineSpacingMenu = (
   }, 0);
 };
 
+function closeWordTablePickerOnOutsideClick(event: PointerEvent) {
+  const menu = document.getElementById('word-mock-table-picker-menu');
+  if (!menu || !(event.target instanceof Node)) return;
+  if (menu.contains(event.target)) return;
+  if (event.target instanceof Element && event.target.closest('[data-word-action="table"]')) return;
+
+  closeWordTablePickerMenu();
+}
+
+function closeWordTablePickerOnEscape(event: KeyboardEvent) {
+  if (event.key !== 'Escape') return;
+
+  closeWordTablePickerMenu();
+}
+
+function closeWordTableOptionsOnEscape(event: KeyboardEvent) {
+  if (event.key !== 'Escape') return;
+
+  closeWordTableOptionsDialog();
+}
+
+const normalizeTableDimension = (value: number): number => {
+  if (!Number.isFinite(value)) return 1;
+
+  return Math.max(1, Math.min(99, Math.floor(value)));
+};
+
+const executeCreateTableCommand = (
+  options: Pick<WordToolbarOptions, 'insertTable' | 'univerAPI'>,
+  rows: number,
+  columns: number,
+) => {
+  const normalizedRows = normalizeTableDimension(rows);
+  const normalizedColumns = normalizeTableDimension(columns);
+
+  if (options.insertTable) {
+    options.insertTable(normalizedRows, normalizedColumns);
+    return;
+  }
+
+  executeToolbarCommand(options.univerAPI, wordCommandIds.table, {
+    rowCount: normalizedRows,
+    colCount: normalizedColumns,
+  });
+};
+
+const updateWordTablePickerSelection = (
+  menu: HTMLElement,
+  rows: number,
+  columns: number,
+) => {
+  const normalizedRows = normalizeTableDimension(rows);
+  const normalizedColumns = normalizeTableDimension(columns);
+  const sizeLabel = menu.querySelector<HTMLElement>('[data-word-table-picker-size]');
+  const labelLeft = Math.max(
+    55,
+    Math.min(270, wordTablePickerGridLeft + (normalizedColumns * wordTablePickerCellSize) / 2),
+  );
+  const labelTop = Math.max(
+    70,
+    Math.min(505, wordTablePickerGridTop + (normalizedRows * wordTablePickerCellSize) / 2),
+  );
+
+  if (sizeLabel) {
+    sizeLabel.hidden = false;
+    sizeLabel.textContent = `${normalizedColumns} x ${normalizedRows}`;
+    sizeLabel.style.left = `${labelLeft}px`;
+    sizeLabel.style.top = `${labelTop}px`;
+  }
+
+  menu.querySelectorAll<HTMLButtonElement>('[data-word-table-picker-cell]').forEach((cell) => {
+    const cellRow = Number(cell.dataset.tableRows);
+    const cellColumn = Number(cell.dataset.tableColumns);
+    const isSelected = cellRow <= normalizedRows && cellColumn <= normalizedColumns;
+    cell.classList.toggle('is-selected', isSelected);
+    cell.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+  });
+};
+
+const clearWordTablePickerSelection = (menu: HTMLElement) => {
+  const sizeLabel = menu.querySelector<HTMLElement>('[data-word-table-picker-size]');
+  if (sizeLabel) sizeLabel.hidden = true;
+
+  menu.querySelectorAll<HTMLButtonElement>('[data-word-table-picker-cell]').forEach((cell) => {
+    cell.classList.remove('is-selected');
+    cell.setAttribute('aria-pressed', 'false');
+  });
+};
+
+const createTablePickerCell = (
+  menu: HTMLElement,
+  tableOptions: Pick<WordToolbarOptions, 'insertTable' | 'univerAPI'>,
+  rows: number,
+  columns: number,
+) => {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'word-mock-table-picker-cell';
+  button.dataset.wordTablePickerCell = 'true';
+  button.dataset.tableRows = String(rows);
+  button.dataset.tableColumns = String(columns);
+  button.setAttribute('aria-label', `Insert ${columns} x ${rows} table`);
+  button.setAttribute('aria-pressed', 'false');
+  button.addEventListener('mouseenter', () => {
+    updateWordTablePickerSelection(menu, rows, columns);
+  });
+  button.addEventListener('focus', () => {
+    updateWordTablePickerSelection(menu, rows, columns);
+  });
+  button.addEventListener('click', (event) => {
+    event.preventDefault();
+    executeCreateTableCommand(tableOptions, rows, columns);
+    closeWordTablePickerMenu();
+  });
+
+  return button;
+};
+
+const openWordTableOptionsDialog = (
+  tableOptions: Pick<WordToolbarOptions, 'insertTable' | 'univerAPI'>,
+) => {
+  closeWordColorPalette();
+  closeWordLineSpacingMenu();
+  closeWordTablePickerMenu();
+  closeWordTableOptionsDialog();
+
+  const dialog = document.createElement('div');
+  dialog.id = 'word-mock-table-options-dialog';
+  dialog.className = 'word-mock-table-options-backdrop';
+  dialog.innerHTML = `
+    <div class="word-mock-table-options-window" role="dialog" aria-modal="true" aria-labelledby="word-mock-table-options-title">
+      <div class="word-mock-table-options-titlebar">
+        <span class="word-mock-table-options-traffic" aria-hidden="true"></span>
+        <span class="word-mock-table-options-traffic" aria-hidden="true"></span>
+        <span class="word-mock-table-options-traffic" aria-hidden="true"></span>
+        <div class="word-mock-table-options-window-title" id="word-mock-table-options-title">Insert Table</div>
+      </div>
+      <div class="word-mock-table-options-body">
+        <section class="word-mock-table-options-section">
+          <h2>General</h2>
+          <label class="word-mock-table-options-field word-mock-table-options-name">
+            <span>Name:</span>
+            <input type="text" value="Table1" aria-label="Table name" />
+          </label>
+          <div class="word-mock-table-options-dimensions">
+            <label class="word-mock-table-options-field">
+              <span>Columns:</span>
+              <input data-word-table-options-columns type="number" min="1" max="99" step="1" value="2" />
+            </label>
+            <label class="word-mock-table-options-field">
+              <span>Rows:</span>
+              <input data-word-table-options-rows type="number" min="1" max="99" step="1" value="2" />
+            </label>
+          </div>
+        </section>
+        <section class="word-mock-table-options-section">
+          <h2>Options</h2>
+          <label class="word-mock-table-options-check">
+            <input type="checkbox" disabled />
+            <span>Heading</span>
+          </label>
+          <label class="word-mock-table-options-check word-mock-table-options-subcheck is-disabled">
+            <input type="checkbox" checked disabled />
+            <span>Repeat heading rows on new pages</span>
+          </label>
+          <label class="word-mock-table-options-field word-mock-table-options-heading-rows is-disabled">
+            <span>Heading rows:</span>
+            <input type="number" value="1" disabled />
+          </label>
+          <label class="word-mock-table-options-check">
+            <input type="checkbox" disabled />
+            <span>Don't split table over pages</span>
+          </label>
+        </section>
+        <section class="word-mock-table-options-section">
+          <h2>Styles</h2>
+          <div class="word-mock-table-options-styles-row">
+            <select class="word-mock-table-options-styles" size="8" aria-label="Table style">
+              ${wordTableStyleOptions
+                .map((styleName, index) => `<option ${index === 0 ? 'selected' : ''}>${styleName}</option>`)
+                .join('')}
+            </select>
+            <div class="word-mock-table-options-preview" aria-hidden="true">
+              <div></div><div>Jan</div><div>Feb</div><div>Mar</div><div>Sum</div>
+              <div>North</div><div>6</div><div>7</div><div>8</div><div>21</div>
+              <div>Mid</div><div>11</div><div>12</div><div>13</div><div>36</div>
+              <div>South</div><div>16</div><div>17</div><div>18</div><div>51</div>
+              <div>Sum</div><div>33</div><div>36</div><div>39</div><div>108</div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="word-mock-table-options-actions">
+        <button class="word-mock-table-options-button" type="button" data-word-table-options-help>Help</button>
+        <span></span>
+        <button class="word-mock-table-options-button" type="button" data-word-table-options-cancel>Cancel</button>
+        <button class="word-mock-table-options-button" type="button" data-word-table-options-insert>Insert</button>
+      </div>
+    </div>
+  `;
+
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) closeWordTableOptionsDialog();
+  });
+
+  dialog.querySelector<HTMLButtonElement>('[data-word-table-options-cancel]')?.addEventListener('click', closeWordTableOptionsDialog);
+  dialog.querySelector<HTMLButtonElement>('[data-word-table-options-insert]')?.addEventListener('click', () => {
+    const rowsInput = dialog.querySelector<HTMLInputElement>('[data-word-table-options-rows]');
+    const columnsInput = dialog.querySelector<HTMLInputElement>('[data-word-table-options-columns]');
+    executeCreateTableCommand(
+      tableOptions,
+      normalizeTableDimension(Number(rowsInput?.value ?? 2)),
+      normalizeTableDimension(Number(columnsInput?.value ?? 2)),
+    );
+    closeWordTableOptionsDialog();
+  });
+
+  document.body.appendChild(dialog);
+  document.addEventListener('keydown', closeWordTableOptionsOnEscape, true);
+  dialog.querySelector<HTMLInputElement>('[data-word-table-options-columns]')?.focus();
+};
+
+const openWordTablePickerMenu = (
+  tableOptions: Pick<WordToolbarOptions, 'insertTable' | 'univerAPI'>,
+  anchor: HTMLElement,
+) => {
+  if (document.getElementById('word-mock-table-picker-menu')) {
+    closeWordTablePickerMenu();
+    return;
+  }
+
+  closeWordColorPalette();
+  closeWordLineSpacingMenu();
+  closeWordTableOptionsDialog();
+
+  const menu = document.createElement('div');
+  const anchorRect = anchor.getBoundingClientRect();
+  const menuWidth = 330;
+  const left = Math.max(6, Math.min(anchorRect.left, window.innerWidth - menuWidth - 6));
+
+  menu.id = 'word-mock-table-picker-menu';
+  menu.className = 'word-mock-table-picker-menu';
+  menu.style.left = `${left}px`;
+  menu.style.top = `${anchorRect.bottom + 6}px`;
+  menu.setAttribute('role', 'menu');
+  menu.innerHTML = `
+    <div class="word-mock-table-picker-title">Table</div>
+    <div class="word-mock-table-picker-grid" role="grid" aria-label="Table size"></div>
+    <div class="word-mock-table-picker-size" data-word-table-picker-size hidden>1 x 1</div>
+    <button class="word-mock-table-picker-more" type="button">More Options...</button>
+  `;
+
+  const grid = menu.querySelector<HTMLElement>('.word-mock-table-picker-grid');
+  if (grid) {
+    grid.addEventListener('mouseleave', () => {
+      clearWordTablePickerSelection(menu);
+    });
+
+    for (let row = 1; row <= wordTablePickerRows; row += 1) {
+      for (let column = 1; column <= wordTablePickerColumns; column += 1) {
+        grid.appendChild(createTablePickerCell(menu, tableOptions, row, column));
+      }
+    }
+  }
+
+  menu.querySelector<HTMLButtonElement>('.word-mock-table-picker-more')?.addEventListener('click', (event) => {
+    event.preventDefault();
+    openWordTableOptionsDialog(tableOptions);
+  });
+
+  document.body.appendChild(menu);
+  clearWordTablePickerSelection(menu);
+
+  window.setTimeout(() => {
+    document.addEventListener('pointerdown', closeWordTablePickerOnOutsideClick, true);
+    document.addEventListener('keydown', closeWordTablePickerOnEscape, true);
+  }, 0);
+};
+
 export function renderWordMockToolbar({
   containerId,
   getLineSpacing,
   setLineSpacing,
+  insertTable,
   univerAPI,
 }: WordToolbarOptions) {
   const container = document.getElementById(containerId);
@@ -755,6 +1064,9 @@ export function renderWordMockToolbar({
       }
       if (action === 'lineSpacing' && setLineSpacing) {
         openWordLineSpacingMenu(button, setLineSpacing, getLineSpacing);
+      }
+      if (action === 'table') {
+        openWordTablePickerMenu({ insertTable, univerAPI }, button);
       }
     });
   });

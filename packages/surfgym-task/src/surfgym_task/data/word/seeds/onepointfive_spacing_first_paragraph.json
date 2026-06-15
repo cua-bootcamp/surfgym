@@ -2,33 +2,10 @@
   "instruction": "Type two paragraphs exactly as follows: \"overview line\" and \"follow-up line\". Then change only the first paragraph to 1.5 line spacing.",
   "empty_start": true,
   "states": [
+    [{ "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-body", "property": ["text"], "value": "overview line\nfollow-up line" }],
     [
-      {
-        "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": ["text"],
-        "value": "overview line\nfollow-up line"
-      }
-    ],
-    [
-      {
-        "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": ["paragraphs", "0", "lineSpacing"],
-        "value": "1.5"
-      },
-      {
-        "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": ["paragraphs", "1", "lineSpacingNot"],
-        "value": "1.5"
-      }
+      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-paragraph", "property": ["paragraphs", "0", "lineSpacing"], "value": "1.5" },
+      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-paragraph", "property": ["paragraphs", "1", "lineSpacing"], "value": "1" }
     ]
   ]
 }

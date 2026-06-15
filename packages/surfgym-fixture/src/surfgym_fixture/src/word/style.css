@@ -388,3 +388,450 @@ body {
   color: rgb(160, 160, 160);
   background: rgb(255, 255, 255);
 }
+
+.word-mock-table-picker-menu {
+  position: fixed;
+  z-index: 2000;
+  box-sizing: border-box;
+  width: 330px;
+  border: 2px solid rgb(184, 184, 184);
+  background: rgb(250, 250, 250);
+  box-shadow: 0 3px 10px rgb(15 23 42 / 0.22);
+  color: rgb(0, 0, 0);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  padding: 8px 14px 24px;
+}
+
+.word-mock-table-picker-title {
+  height: 32px;
+  font-size: 27px;
+  line-height: 32px;
+}
+
+.word-mock-table-picker-grid {
+  display: grid;
+  width: 300px;
+  border-top: 1px solid rgb(142, 145, 151);
+  border-left: 1px solid rgb(142, 145, 151);
+  grid-template-columns: repeat(10, 30px);
+  grid-template-rows: repeat(16, 30px);
+}
+
+.word-mock-table-picker-cell {
+  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  border: 0;
+  border-right: 1px solid rgb(142, 145, 151);
+  border-bottom: 1px solid rgb(142, 145, 151);
+  background: rgb(255, 255, 255);
+  padding: 0;
+}
+
+.word-mock-table-picker-cell.is-selected {
+  background: rgb(179, 214, 247);
+}
+
+.word-mock-table-picker-cell:focus-visible {
+  outline: 2px solid rgb(37, 99, 235);
+  outline-offset: -2px;
+}
+
+.word-mock-table-picker-size {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  border: 2px solid rgb(132, 132, 132);
+  background: rgb(255, 255, 255);
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.12);
+  font-size: 27px;
+  line-height: 1;
+  padding: 7px 8px 8px;
+  white-space: nowrap;
+}
+
+.word-mock-table-picker-more {
+  display: block;
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+  color: rgb(0, 0, 0);
+  font: inherit;
+  font-size: 27px;
+  margin: 28px auto 0;
+  padding: 0;
+}
+
+.word-mock-table-picker-more:hover,
+.word-mock-table-picker-more:focus-visible {
+  text-decoration: underline;
+}
+
+.word-mock-table-options-backdrop {
+  position: fixed;
+  z-index: 2100;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(255 255 255 / 0.12);
+  color: rgb(0, 0, 0);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+.word-mock-table-options-window {
+  box-sizing: border-box;
+  display: flex;
+  width: min(1096px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgb(207, 207, 207);
+  border-radius: 26px;
+  background: rgb(255, 255, 255);
+  box-shadow: 0 16px 42px rgb(15 23 42 / 0.22);
+}
+
+.word-mock-table-options-titlebar {
+  box-sizing: border-box;
+  display: flex;
+  height: 61px;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 1px solid rgb(229, 229, 229);
+  background: rgb(250, 250, 250);
+  padding: 0 27px;
+}
+
+.word-mock-table-options-traffic {
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: rgb(218, 218, 218);
+}
+
+.word-mock-table-options-window-title {
+  margin-left: 9px;
+  color: rgb(177, 177, 177);
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.word-mock-table-options-body {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  overflow: auto;
+  min-height: 0;
+  padding: 17px 23px 18px;
+}
+
+.word-mock-table-options-section h2 {
+  margin: 0 0 21px;
+  font-size: 29px;
+  line-height: 1;
+}
+
+.word-mock-table-options-section + .word-mock-table-options-section {
+  margin-top: 28px;
+}
+
+.word-mock-table-options-field {
+  display: grid;
+  align-items: center;
+  gap: 12px;
+  grid-template-columns: 142px 1fr;
+  font-size: 29px;
+}
+
+.word-mock-table-options-name input {
+  width: 100%;
+}
+
+.word-mock-table-options-dimensions {
+  display: grid;
+  gap: 42px;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 28px;
+}
+
+.word-mock-table-options-dimensions .word-mock-table-options-field {
+  grid-template-columns: 142px 1fr;
+}
+
+.word-mock-table-options-field input,
+.word-mock-table-options-styles {
+  box-sizing: border-box;
+  border: 1px solid rgb(235, 235, 235);
+  border-radius: 11px;
+  background: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  font: inherit;
+  font-size: 29px;
+}
+
+.word-mock-table-options-field input {
+  height: 45px;
+  padding: 3px 10px;
+}
+
+.word-mock-table-options-field input:disabled,
+.word-mock-table-options-check.is-disabled,
+.word-mock-table-options-field.is-disabled {
+  color: rgb(126, 126, 126);
+}
+
+.word-mock-table-options-check {
+  display: flex;
+  min-height: 36px;
+  align-items: center;
+  gap: 18px;
+  margin-left: 31px;
+  font-size: 29px;
+}
+
+.word-mock-table-options-check + .word-mock-table-options-check,
+.word-mock-table-options-heading-rows {
+  margin-top: 20px;
+}
+
+.word-mock-table-options-subcheck {
+  margin-left: 55px;
+}
+
+.word-mock-table-options-check input {
+  width: 32px;
+  height: 32px;
+  accent-color: rgb(189, 218, 247);
+}
+
+.word-mock-table-options-heading-rows {
+  width: 430px;
+  margin-left: 86px;
+  grid-template-columns: 205px 1fr;
+}
+
+.word-mock-table-options-heading-rows input {
+  width: 106px;
+}
+
+.word-mock-table-options-styles-row {
+  display: grid;
+  align-items: center;
+  gap: 32px;
+  grid-template-columns: 508px 1fr;
+  margin-left: 26px;
+}
+
+.word-mock-table-options-styles {
+  width: 508px;
+  height: 307px;
+  border-radius: 0;
+}
+
+.word-mock-table-options-styles option {
+  padding: 2px 6px;
+}
+
+.word-mock-table-options-styles option:checked {
+  background: rgb(178, 213, 247);
+}
+
+.word-mock-table-options-preview {
+  display: grid;
+  width: 480px;
+  max-width: 100%;
+  align-items: center;
+  grid-template-columns: 115px repeat(4, 1fr);
+  row-gap: 20px;
+  column-gap: 18px;
+  font-size: 29px;
+  text-align: right;
+}
+
+.word-mock-table-options-preview div:nth-child(5n + 1) {
+  text-align: left;
+}
+
+.word-mock-table-options-actions {
+  display: grid;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 20px;
+  grid-template-columns: 162px 1fr 162px 162px;
+  border-top: 1px solid rgb(245, 245, 245);
+  background: rgb(255, 255, 255);
+  padding: 16px 30px 30px;
+}
+
+.word-mock-table-options-button {
+  box-sizing: border-box;
+  height: 48px;
+  cursor: pointer;
+  border: 0;
+  border-radius: 11px;
+  background: rgb(246, 246, 246);
+  color: rgb(0, 0, 0);
+  font: inherit;
+  font-size: 29px;
+  line-height: 1;
+}
+
+.word-mock-table-options-button:hover,
+.word-mock-table-options-button:focus-visible {
+  background: rgb(232, 238, 249);
+  outline: 1px solid rgb(174, 184, 199);
+}
+
+@media (max-width: 900px) {
+  .word-mock-table-options-dimensions,
+  .word-mock-table-options-styles-row {
+    grid-template-columns: 1fr;
+  }
+
+  .word-mock-table-options-preview {
+    width: 100%;
+  }
+
+  .word-mock-table-options-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .word-mock-table-options-actions span {
+    display: none;
+  }
+}
+
+.word-mock-table-picker-menu {
+  transform: scale(0.58);
+  transform-origin: top left;
+}
+
+.word-mock-table-options-window {
+  width: min(620px, calc(100vw - 20px));
+  border-radius: 12px;
+}
+
+.word-mock-table-options-titlebar {
+  height: 32px;
+  gap: 7px;
+  padding: 0 12px;
+}
+
+.word-mock-table-options-traffic {
+  width: 13px;
+  height: 13px;
+}
+
+.word-mock-table-options-window-title {
+  font-size: 15px;
+}
+
+.word-mock-table-options-body {
+  padding: 8px 12px;
+}
+
+.word-mock-table-options-section h2 {
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+.word-mock-table-options-section + .word-mock-table-options-section {
+  margin-top: 9px;
+}
+
+.word-mock-table-options-field,
+.word-mock-table-options-check,
+.word-mock-table-options-field input,
+.word-mock-table-options-styles,
+.word-mock-table-options-preview,
+.word-mock-table-options-button {
+  font-size: 15px;
+}
+
+.word-mock-table-options-field {
+  gap: 8px;
+  grid-template-columns: 82px 1fr;
+}
+
+.word-mock-table-options-dimensions {
+  gap: 18px;
+  margin-top: 12px;
+}
+
+.word-mock-table-options-dimensions .word-mock-table-options-field {
+  grid-template-columns: 82px 1fr;
+}
+
+.word-mock-table-options-field input {
+  height: 26px;
+}
+
+.word-mock-table-options-check input {
+  width: 16px;
+  height: 16px;
+}
+
+.word-mock-table-options-check {
+  min-height: 24px;
+  gap: 10px;
+  margin-left: 18px;
+}
+
+.word-mock-table-options-check + .word-mock-table-options-check,
+.word-mock-table-options-heading-rows {
+  margin-top: 8px;
+}
+
+.word-mock-table-options-subcheck {
+  margin-left: 34px;
+}
+
+.word-mock-table-options-heading-rows {
+  width: 270px;
+  margin-left: 52px;
+  grid-template-columns: 118px 1fr;
+}
+
+.word-mock-table-options-heading-rows input {
+  width: 68px;
+}
+
+.word-mock-table-options-styles-row {
+  gap: 12px;
+  grid-template-columns: 260px 1fr;
+  margin-left: 12px;
+}
+
+.word-mock-table-options-styles {
+  width: 260px;
+  height: 126px;
+}
+
+.word-mock-table-options-preview {
+  width: 260px;
+  grid-template-columns: 58px repeat(4, 1fr);
+  row-gap: 8px;
+  column-gap: 8px;
+}
+
+.word-mock-table-options-actions {
+  gap: 8px;
+  grid-template-columns: 78px 1fr 78px 78px;
+  padding: 7px 14px 10px;
+}
+
+.word-mock-table-options-button {
+  height: 26px;
+}

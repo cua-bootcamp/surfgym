@@ -1,92 +1,15 @@
 {
-  "instruction": "Write the sentence \"check the summary now\". Make only the word \"summary\" italic and change that same word to font size 16.",
+  "instruction": "Write the sentence \"check the summary now\". Make only the word \"summary\" italic and change the font size to 16.",
   "empty_start": true,
   "states": [
+    [{ "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-body", "property": ["text"], "value": "check the summary now" }],
     [
-      {
-        "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
-        ],
-        "value": "check the summary now"
-      }
-    ],
-    [
-      {
-        "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "summary",
-          "italic"
-        ],
-        "value": "true"
-      },
-      {
-        "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "summary",
-          "fontSize"
-        ],
-        "value": "16"
-      },
-      {
-        "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "check the",
-          "italic"
-        ],
-        "value": "false"
-      },
-      {
-        "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "check the",
-          "fontSizeNot"
-        ],
-        "value": "16"
-      },
-      {
-        "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "now",
-          "italic"
-        ],
-        "value": "false"
-      },
-      {
-        "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "now",
-          "fontSizeNot"
-        ],
-        "value": "16"
-      }
+      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "summary", "italic"], "value": "true" },
+      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": " ", "property": ["targets", "summary", "fontSize"], "value": "16" },
+      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "check the", "italic"], "value": "false" },
+      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "check the", "fontSize"], "value": "10" },
+      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "now", "italic"], "value": "false" },
+      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "now", "fontSizeNot"], "value": "10" }
     ]
   ]
 }

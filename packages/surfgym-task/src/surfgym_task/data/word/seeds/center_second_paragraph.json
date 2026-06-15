@@ -2,43 +2,10 @@
   "instruction": "Create two paragraphs: \"plain note remains left\" and \"focus line moves inward\". Then center-align only the second paragraph.",
   "empty_start": true,
   "states": [
+    [{ "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-body", "property": ["text"], "value": "plain note remains left\nfocus line moves inward" }],
     [
-      {
-        "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
-        ],
-        "value": "plain note remains left\nfocus line moves inward"
-      }
-    ],
-    [
-      {
-        "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": [
-          "paragraphs",
-          "1",
-          "horizontalAlign"
-        ],
-        "value": "center"
-      },
-      {
-        "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": [
-          "paragraphs",
-          "0",
-          "horizontalAlignNot"
-        ],
-        "value": "center"
-      }
+      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-paragraph", "property": ["paragraphs", "1", "horizontalAlign"], "value": "center" },
+      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-paragraph", "property": ["paragraphs", "0", "horizontalAlign"], "value": "left" }
     ]
   ]
 }
