@@ -1,15 +1,28 @@
 import asyncio
+import json
 import math
+import shutil
+import tempfile
 from collections import defaultdict
 from dataclasses import dataclass, field
 from io import BytesIO
+from pathlib import Path
+from typing import Any
 from typing import DefaultDict, Optional
 
 from PIL import Image
 from playwright.async_api import Browser, BrowserContext, Page, Playwright, async_playwright
 from surfgym_contracts.command import Command
 from surfgym_contracts.protocol.upstream_to_gateway import ObservationResponse
-from surfgym_contracts.task import Action, ConsoleRule, DomRule, Evaluation, Observation, Website
+from surfgym_contracts.task import (
+    Action,
+    ChromiumRule,
+    ConsoleRule,
+    DomRule,
+    Evaluation,
+    Observation,
+    Website,
+)
 from typing_extensions import assert_never
 
 from surfgym_runtime.support import instance_logger
@@ -33,12 +46,14 @@ from surfgym_runtime.wavepool.instance.transport import (
 class ContextState:
     instance_id: str
     context: BrowserContext
+    profile_dir: Path | None
     pages: dict[str, Page]
     page_layouts: dict[str, PageLayout]
     active_page_id: str | None
     controller: PlaywrightController
     lock: asyncio.Lock = field(default_factory=asyncio.Lock)
     closing: bool = False
+    context_closed: bool = False
 
 
 class PlaywrightBrowserWorker:
@@ -113,15 +128,24 @@ class PlaywrightBrowserWorker:
             self._starting_sessions.add(instance_id)
 
         context: BrowserContext | None = None
+        profile_dir: Path | None = None
         committed = False
 
         try:
-            context = await browser.new_context(
-                viewport={"width": self.viewport_width, "height": self.viewport_height}
-            )
+            if _requires_persistent_profile(websites):
+                profile_dir = Path(tempfile.mkdtemp(prefix=f"surfgym-{instance_id}-"))
+                context = await self._require_playwright().chromium.launch_persistent_context(
+                    profile_dir,
+                    viewport={"width": self.viewport_width, "height": self.viewport_height},
+                )
+            else:
+                context = await browser.new_context(
+                    viewport={"width": self.viewport_width, "height": self.viewport_height}
+                )
             state = ContextState(
                 instance_id=instance_id,
                 context=context,
+                profile_dir=profile_dir,
                 pages={},
                 page_layouts={},
                 active_page_id=None,
@@ -152,19 +176,20 @@ class PlaywrightBrowserWorker:
                         instance_logger.exception(
                             "Failed to clean up partially created Playwright context"
                         )
+                if profile_dir is not None:
+                    shutil.rmtree(profile_dir, ignore_errors=True)
 
     async def delete(self, instance_id: str) -> None:
         state = await self._mark_closing(instance_id)
 
         try:
             async with state.lock:
-                for page in state.pages.values():
-                    if not page.is_closed():
-                        await page.close()
-                await state.context.close()
+                await self._close_context_state(state)
         finally:
             async with self._sessions_lock:
                 self.sessions.pop(instance_id, None)
+            if state.profile_dir is not None:
+                shutil.rmtree(state.profile_dir, ignore_errors=True)
 
     async def delete_all(self) -> None:
         async with self._sessions_lock:
@@ -331,6 +356,7 @@ class PlaywrightBrowserWorker:
 
         dom_groups: DefaultDict[str, list[tuple[int, DomRule]]] = defaultdict(list)
         console_groups: DefaultDict[str, list[tuple[int, ConsoleRule]]] = defaultdict(list)
+        chromium_rules: list[tuple[int, ChromiumRule]] = []
 
         for idx, rule in enumerate(rules):
             match rule:
@@ -338,6 +364,8 @@ class PlaywrightBrowserWorker:
                     dom_groups[rule.website_id].append((idx, rule))
                 case ConsoleRule():
                     console_groups[rule.website_id].append((idx, rule))
+                case ChromiumRule():
+                    chromium_rules.append((idx, rule))
 
         for website_id, idx_rules in dom_groups.items():
             page = self._page_for_website(state, website_id, context="DOM observation")
@@ -365,6 +393,16 @@ class PlaywrightBrowserWorker:
             for original_idx, obs in zip(idx_arr, obs_arr):
                 observations[original_idx] = _coerce_playwright_observation(obs)
 
+        if chromium_rules:
+            await self._close_context_state(state)
+
+            for original_idx, rule in chromium_rules:
+                observations[original_idx] = _read_profile_json_value(
+                    profile_dir=state.profile_dir,
+                    relative_file=rule.file,
+                    dotted_path=rule.path,
+                )
+
         return ObservationResponse(observation=observations)
 
     async def _get_state(self, instance_id: str) -> ContextState:
@@ -390,6 +428,21 @@ class PlaywrightBrowserWorker:
         if self.browser is None:
             raise CreateFailed("Playwright browser is not open")
         return self.browser
+
+    def _require_playwright(self) -> Playwright:
+        if self.p is None:
+            raise CreateFailed("Playwright is not open")
+        return self.p
+
+    async def _close_context_state(self, state: ContextState) -> None:
+        if state.context_closed:
+            return
+
+        for page in state.pages.values():
+            if not page.is_closed():
+                await page.close()
+        await state.context.close()
+        state.context_closed = True
 
     def _allocated_count(self) -> int:
         return len(self.sessions) + len(self._starting_sessions)
@@ -491,6 +544,47 @@ def _build_page_layouts(
             height=half_height,
         ),
     ]
+
+
+def _requires_persistent_profile(websites: list[Website]) -> bool:
+    return any(website.url.startswith("chrome://") for website in websites)
+
+
+def _read_profile_json_value(
+    *,
+    profile_dir: Path | None,
+    relative_file: str,
+    dotted_path: str,
+) -> Observation:
+    if profile_dir is None:
+        return None
+
+    path = _safe_profile_path(profile_dir, relative_file)
+    if path is None or not path.exists():
+        return None
+
+    try:
+        data: Any = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+
+    current: Any = data
+    for key in dotted_path.split("."):
+        if not isinstance(current, dict) or key not in current:
+            return None
+        current = current[key]
+
+    return _coerce_playwright_observation(current)
+
+
+def _safe_profile_path(profile_dir: Path, relative_file: str) -> Path | None:
+    profile_root = profile_dir.resolve()
+    path = (profile_root / relative_file).resolve()
+
+    if not path.is_relative_to(profile_root):
+        return None
+
+    return path
 
 
 def _coerce_playwright_observation(value: object) -> Observation:

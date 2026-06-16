@@ -19,7 +19,10 @@ import UniverPresetSheetsSortEnUS from "@univerjs/presets/preset-sheets-sort/loc
 import { UniverSheetsCorePreset } from "@univerjs/preset-sheets-core";
 import UniverPresetSheetsCoreEnUS from "@univerjs/preset-sheets-core/locales/en-US";
 import { createSpreadsheetActions } from "./spreadsheet-actions";
-import { installSpreadsheetEvaluationHelpers } from "./spreadsheet-evaluation";
+import { get, set } from "./external";
+import { SpreadsheetRuntimeStore } from "./internal";
+import type { SpreadsheetRuntime } from "./type";
+// import { installSpreadsheetEvaluationHelpers } from "./spreadsheet-evaluation";
 import { renderSpreadsheetMockToolbar, setupSpreadsheetUi } from "./spreadsheet-ui";
 
 import "@univerjs/preset-sheets-core/lib/index.css";
@@ -75,6 +78,16 @@ const workbook = univerAPI.createWorkbook({
 });
 const worksheet = workbook.getActiveSheet();
 
+SpreadsheetRuntimeStore.runtime = {
+  workbook,
+  defaultWorksheet: worksheet
+} as SpreadsheetRuntime;
+
+window.surfgym = {
+  get,
+  set
+};
+
 worksheet.setGridLinesColor("rgb(204, 204, 204)");
 worksheet.setColumnWidths(0, worksheet.getMaxColumns(), 136); // 전체 컬럼 폭: 136px
 worksheet.setRowHeights(0, worksheet.getMaxRows(), 24); // 전체 행 높이: 32px
@@ -121,9 +134,9 @@ setupSpreadsheetUi({
   conditionalFormattingCommandId: OpenConditionalFormattingOperator.id
 });
 
-installSpreadsheetEvaluationHelpers({
-  univerAPI,
-  workbook: workbook as Parameters<typeof installSpreadsheetEvaluationHelpers>[0]["workbook"],
-  worksheet,
-  actions
-});
+// installSpreadsheetEvaluationHelpers({
+//   univerAPI,
+//   workbook: workbook as Parameters<typeof installSpreadsheetEvaluationHelpers>[0]["workbook"],
+//   worksheet,
+//   actions
+// });

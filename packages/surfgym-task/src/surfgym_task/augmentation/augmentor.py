@@ -4,7 +4,7 @@ from typing import Any, Iterator, Optional, TextIO, TypeVar, cast
 
 import json5
 from pydantic import TypeAdapter
-from surfgym_contracts import Action, ConsoleRule, Evaluation, Task, Website
+from surfgym_contracts import Action, Evaluation, Task, Website
 
 from surfgym_task.augmentation.instruction_generator import InstructionGenerator
 from surfgym_task.augmentation.schema import (
@@ -15,7 +15,6 @@ from surfgym_task.augmentation.schema import (
     SeedTask,
     SeedTaskAdapter,
     State,
-    StateAtom,
 )
 
 T = TypeVar("T")
@@ -91,7 +90,7 @@ class Augmentor:
                         instruction=self.hash_to_inst[hash],
                         website=[Website(url=self.website)],
                         complexity=hoare.complexity,
-                        evaluation=Evaluation(rules=self._state_to_rules(hoare.end_state)),
+                        evaluation=Evaluation(rules=[atom.to_rule() for atom in hoare.end_state]),
                         setup=(
                             None
                             if hoare.start_state is None
@@ -104,93 +103,8 @@ class Augmentor:
 
         self._dump(generated_task_count)
 
-    def _state_to_rules(self, state: State) -> list[ConsoleRule]:
-        return [
-            ConsoleRule(
-                script=self._atom_to_script(atom),
-                value=atom.value,
-                match=atom.match,
-                normalize_space=atom.normalize_space,
-                case_sensitive=atom.case_sensitive,
-            )
-            for atom in state
-        ]
-
-    def _atom_to_script(self, state_atom: StateAtom) -> str:
-        param = (
-            "()"
-            if state_atom.param is None
-            else f"({json.dumps(state_atom.param, ensure_ascii=False)})"
-        )
-        property = "".join(f"[{json.dumps(x, ensure_ascii=False)}]" for x in state_atom.property)
-        expected = json.dumps(state_atom.value, ensure_ascii=False)
-
-        if state_atom.return_type == "list":
-            return f"""
-(() => {{
-    const objs = window[{json.dumps(state_atom.evalf)}]{param};
-    const obj = objs.find(el => el?.{property} === {expected});
-    return obj{property}
-}})();
-""".strip()
-
-        if state_atom.return_type == "obj":
-            return f"""
-(() => {{
-    const obj = window[{json.dumps(state_atom.evalf)}]{param};
-    return obj{property}
-}})();
-""".strip()
-
-        raise ValueError(f"Unsupported return type: {state_atom.return_type}")
-
     def _state_to_actions(self, state: State) -> list[Action]:
-        return [Action(mode="console", script=self._atom_to_action_script(atom)) for atom in state]
-
-    def _atom_to_action_script(self, atom: StateAtom) -> str:
-        payload = {
-            "param": atom.param,
-            "property": atom.property,
-            "value": atom.value,
-        }
-
-        return f"""
-(() => {{
-    const atom = {json.dumps(payload, ensure_ascii=False)};
-
-    const isRecord = (value) =>
-        value !== null && typeof value === "object" && !Array.isArray(value);
-
-    const setNested = (target, path, value) => {{
-        if (path.length === 0) return value;
-
-        let cur = target;
-        for (const key of path.slice(0, -1)) {{
-            if (!isRecord(cur[key])) {{
-                cur[key] = {{}};
-            }}
-            cur = cur[key];
-        }}
-
-        cur[path[path.length - 1]] = value;
-        return target;
-    }};
-
-    const entry = {{}};
-    if (atom.param !== null && atom.param !== undefined) {{
-        entry.address = atom.param;
-    }}
-
-    setNested(entry, atom.property ?? [], atom.value);
-
-    const apply = window[{json.dumps(atom.applyf)}];
-    if (typeof apply !== "function") {{
-        throw new Error(`Missing setup apply function: {atom.applyf}`);
-    }}
-
-    apply([entry]);
-}})();
-""".strip()
+        return [atom.to_action() for atom in state]
 
     def _hoare_state_generator(
         self, states: list[State], empty_start: bool, hoare_creator: HoareCreator
@@ -219,13 +133,10 @@ class Augmentor:
         write_instruction_rows(self.instruction_path, self.hash_to_inst)
 
         (self.output_dir / "summary.txt").write_text(
-            "\n".join(
-                [
-                    f"seed task count: {len(self.seeds_with_ids)}",
-                    f"generated task count: {generated_task_count}",
-                ]
-            )
-            + "\n",
+            f"""
+seed task count: {len(self.seeds_with_ids)}
+generated task count: {generated_task_count}
+""".strip(),
             encoding="utf-8",
         )
 

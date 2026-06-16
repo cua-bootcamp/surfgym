@@ -1,13 +1,28 @@
 {
-  "task_file_path": "packages/surfgym-task/src/surfgym_task/data/word/out/augmented.jsonl",
+  "task_file_path": "packages/surfgym-task/src/surfgym_task/data/spreadsheet/out/augmented.jsonl",
   "log_path": "logs/",
-  "gateway": { "host": "127.0.0.1", "port": 18000, "gateway_workers": 64, "gateway_in_flight": 64, "verl_timeout": 30.0, "in_flight_timeout": 5.0, "deadline_margin": 3.0 },
+  "gateway": {
+    "host": "127.0.0.1",
+    "port": 18000,
+    "gateway_workers": 64,
+    "gateway_in_flight": 64,
+    "verl_timeout": 30.0,
+    "in_flight_timeout": 5.0,
+    "deadline_margin": 3.0
+  },
   "wavepool": {
     "host": "127.0.0.1",
     "master_port": 5500,
     "instance_start_port": 9000,
     "instances": 2,
     "contexts_per_instance": 4,
-    "process_timeout": { "allocate": 15.0, "release": 5.0, "screenshot": 5.0, "observe": 5.0, "execute": 5.0, "layer_gap": 1.0 }
+    "process_timeout": {
+      "allocate": 15.0,
+      "release": 5.0,
+      "screenshot": 5.0,
+      "observe": 5.0,
+      "execute": 5.0,
+      "layer_gap": 1.0
+    }
   }
 }

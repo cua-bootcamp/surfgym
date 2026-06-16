@@ -27,6 +27,7 @@
 {"hash":"09d4170266fd958a97d08cff3a2efe7b2481083dafe7f7ed72f4bb0d73a94242","instruction":"Copy the Raw Tag numbers from B3:B5 into D3:D5 and pad them with leading zeros so each asset tag is exactly 6 digits."}
 {"hash":"0a115f711524c43ab47ea2270db433a0a17f33471d952bd3db3183b78cda0fde","instruction":"Calculate the total revenue for each sales channel in K4:L5."}
 {"hash":"0b3d56a923c50cdf71f4185214b046939f89ff64c66d3ebecdade1dbb24c374e","instruction":"Use the Investment Score values in the rows corresponding to F6, F7:F10 and fill the Result cells using the score ranges: 0 to 40 = Fail, above 40 through 60 = Held, and above 60 = Pass."}
+{"hash":"0b74e4e3c497c2fbba6be1585b99406b16aa9f54f7282f94916daec4ce2a5690","instruction":"Enter the unique departments from column B in the order they first appear in column D."}
 {"hash":"0b8038ac552aaa655bdab010665bc6438eb54c40abf02256975525d138f097f0","instruction":"Calculate the final prices in F3, F4, and F5, and enter the product label in G4 based on the Product ID and the integer part of the final price."}
 {"hash":"0b88fb95a1eb8604aeade38ecc9707dff9fdaf7f1cd1abc710d09da77e988d66","instruction":"Enter Alice, Brian, and Chloe in A2 through A4."}
 {"hash":"0bbb0b451da7e2b35985c6c7a456762a8f4c08104c5720e36cb2eb97ca31f1e2","instruction":"Calculate the profit margin in E8."}
@@ -275,6 +276,7 @@
 {"hash":"61a5a100e7eab1e261b3503bc68fa5324f9f066bee63cdfc2df950571abc5bca","instruction":"Format B5 as yyyy-MM-dd."}
 {"hash":"620b7dbbff5fcd0610df379ee394a397f82b4c771eb3ccbe2df1a016bb21a183","instruction":"Use the Investment Score values in the rows corresponding to F5, F6 and fill the Result cells using the score ranges: 0 to 40 = Fail, above 40 through 60 = Held, and above 60 = Pass."}
 {"hash":"62793f410f5c94a6bd179090e3379d853e1bf3bb5e239a93f2e5604b8414cfab","instruction":"Fill the cells containing Sunday dates in the March through May 2026 date table with a red background."}
+{"hash":"62de7d49810f3cec94232ecbaae9ca2a2db3ab2e0b431572595e77f1ae77d042","instruction":"List the unique departments from column B in column D in order of first appearance."}
 {"hash":"63268c0876b326212bf03a8f886667a8e9c74491017ed4820450504d156c7394","instruction":"Format D4 as the 6-digit asset tag by padding the Raw Tag value with leading zeros as needed."}
 {"hash":"634af5d829d5f6e5ac8b61e486bd824a180b3497d8d3b8e227063cc9e9259375","instruction":"Make A5:C5 yellow."}
 {"hash":"63713c25d398ad1336653dcb361899dcdd78af883248febf8192809502bf148d","instruction":"Calculate the profit margin in E5."}
@@ -331,6 +333,7 @@
 {"hash":"77019316e40b03e195975546821aa4ecb8efc06ed941f412ab761835efb80476","instruction":"Calculate the correct total rental charges in D5 and D6."}
 {"hash":"7745f6251c592a46199037b4550ac139b56863c9be8b843f4536edb9444b4d7e","instruction":"Create the Product_Label value in G3 by combining the Product ID, an underscore, and the integer part of the corresponding Final Price."}
 {"hash":"7883983bb82acb30d4853746363483f0828fdfb219c2dd70e52db7a837d12e00","instruction":"Calculate the total revenue for the remaining product summary in K3:L3."}
+{"hash":"7936474c856eb218547e530684a3b0c62248d2ddc87898a1bdc5db3d47e7575a","instruction":"Enter the unique departments from column B in their order of first appearance in column D."}
 {"hash":"797c4ebd1109b01777024d3e1e48567e309567d9fb877218de360982df10b2b0","instruction":"Calculate the profit margin values in E2:E11 as decimal ratios."}
 {"hash":"7980effbdf1e391e00a79fe6f96ac20bfa06d807f90abe657b812980be587a69","instruction":"Calculate the profit margin values in E7:E8 as decimal ratios."}
 {"hash":"79f2089f55c870fb334f59890ed00becf7d3c3518ac1d4a66ac37033121c10fb","instruction":"Calculate the profit margin values in E4:E11 as decimal ratios."}
@@ -362,6 +365,7 @@
 {"hash":"84d9ba24546f58c5e97d9b2f2e199c7e120822e9e15b774fc19bbc680e07e737","instruction":"Enter 85 in B2."}
 {"hash":"85c42777f2da9a7160f7023c098598659e894b16161a6dd1f1eefb4504a2acbb","instruction":"Round each numeric value in column B to two decimal places and place the rounded result in column C. Make sure every result in column C is displayed with exactly two decimal digits, including trailing zeros for whole numbers or one-decimal values."}
 {"hash":"8639e9e3f7b6231a1a5502b0774ed190c58af36b8d8847894115e2708b0a37cd","instruction":"Use the Investment Score values in the rows corresponding to F4:F8 and fill the Result cells using the score ranges: 0 to 40 = Fail, above 40 through 60 = Held, and above 60 = Pass."}
+{"hash":"86bd9268bed7c37a62ae5f06afe131a803dc45d24c99e9a79dce2756b078f3af","instruction":"We have an employee directory with names in column A and their departments in column B starting from row 3. In column D, list all the unique departments present in this list in the order of their first appearance. Keep all other cells and columns unchanged."}
 {"hash":"88161765b1954080f2469c666cc4331d187951cfd37fe306c4b99a8283052e8c","instruction":"Calculate the revenue values in F4:F9."}
 {"hash":"8818cbab2b4e6c38e4e681ce8e52c1b2d308241079eabaebcc18172e969415f8","instruction":"Calculate the missing receipt code counts in F6:G7."}
 {"hash":"88b9ec177c842a79a7194a9505d6f86222fd71c154ea0d3a889a9391e933a0df","instruction":"Calculate the correct total in F6."}

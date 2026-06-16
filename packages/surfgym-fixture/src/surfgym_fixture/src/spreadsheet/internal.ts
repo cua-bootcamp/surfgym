@@ -1,6 +1,5 @@
-import type { CellMeta, SheetRef, SpreadsheetRuntime, ChartMeta, ChartRef } from "./type";
+import type { SheetRef, ChartRef, SpreadsheetRuntime, PathPart, JsonValue } from "./type";
 import type { FChart } from "@univerjs/presets/lib/types/preset-sheets-advanced/index.js";
-
 export class SpreadsheetRuntimeStore {
   private static _runtime: SpreadsheetRuntime | null = null;
 
@@ -73,48 +72,46 @@ function resolveCell(address: string) {
   };
 }
 
-export function _getCellMeta(sheetRef: SheetRef, cellRefStr: string): CellMeta {
+export function _getCellMeta(sheetRef: SheetRef, cellRefStr: string) {
   const worksheet = resolveSheet(sheetRef);
   const cellRef = resolveCell(cellRefStr);
   const range = worksheet.getRange(cellRef.row, cellRef.column);
 
-  return {
-    cell: clonePlainValue(range.getCellData()),
-    style: clonePlainValue(range.getCellStyleData("cell"))
-  };
+  return range.getCellData() ?? {};
 }
 
-export function _getChartMeta(sheetRef: SheetRef, chartRef?: ChartRef): ChartMeta {
+export function _setCellMeta(
+  sheetRef: SheetRef,
+  cellRefStr: string,
+  path: PathPart[],
+  value: JsonValue
+) {
+  const worksheet = resolveSheet(sheetRef);
+  const cellRef = resolveCell(cellRefStr);
+  const range = worksheet.getRange(cellRef.row, cellRef.column);
+
+  const data = range.getCellData() ?? {};
+  let target = data as Record<PropertyKey, unknown>;
+
+  for (const key of path.slice(0, -1)) {
+    if (target[key] == null || typeof target[key] !== "object") target[key] = {};
+    target = target[key] as Record<PropertyKey, unknown>;
+  }
+
+  const last = path[path.length - 1] as PathPart;
+  target[last] = value;
+  range.setValueForCell(data);
+}
+
+export function _getChartMeta(sheetRef: SheetRef, chartRef?: ChartRef): unknown {
   const worksheet = resolveSheet(sheetRef);
   const charts = worksheet.getCharts() ?? [];
   const chart = resolveChart(charts, chartRef);
-  const range = chart.getRange?.() ?? null;
 
-  return clonePlainValue({
+  return {
     id: chart.getChartId?.() ?? null,
     sheetId: worksheet.getSheetId?.() ?? null,
     sheetName: worksheet.getSheetName?.() ?? worksheet.getSheet?.().getName?.() ?? null,
-    index: charts.indexOf(chart),
-    chartType: null,
-    // sourceRange: getChartSourceRangeA1(range),
-    range: clonePlainValue(range),
-    title: null,
-    legendPosition: null,
-    dataOrientation: null,
-    width: null,
-    height: null,
-    position: null,
-    context: null,
-    seriesData: clonePlainValue(chart.getSeriesData?.() ?? null),
-    categoryData: clonePlainValue(chart.getCategoryData?.() ?? null)
-  });
-}
-
-function clonePlainValue<T>(value: T): T {
-  if (value == null) return value;
-
-  const json = JSON.stringify(value);
-  if (json === undefined) return value;
-
-  return JSON.parse(json) as T;
+    index: charts.indexOf(chart)
+  };
 }

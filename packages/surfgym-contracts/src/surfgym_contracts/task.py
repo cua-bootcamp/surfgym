@@ -30,7 +30,7 @@ Value: TypeAlias = Union[str, int, float, bool]
 
 
 class RuleCore(_WebsiteDependent):
-    match: Literal["contains", "exact", "regex"] = "contains"
+    match: Literal["contains", "exact", "regex"] = "exact"
     normalize_space: bool = False
     case_sensitive: bool = True
     value: Value
@@ -48,17 +48,25 @@ class DomRule(RuleCore):
     attr: Optional[str] = None
 
 
+class ChromiumRule(RuleCore):
+    mode: Literal["chromium"] = "chromium"
+    file: str
+    path: str
+
+
 def fill_rule_mode(value: object) -> object:
     if not isinstance(value, dict) or "mode" in value:
         return value  # pyright: ignore[reportUnknownVariableType]
 
     if "script" in value:
         return {**value, "mode": "console"}  # pyright: ignore[reportUnknownVariableType]
+    if "file" in value and "path" in value:
+        return {**value, "mode": "chromium"}  # pyright: ignore[reportUnknownVariableType]
     return {**value, "mode": "dom"}  # pyright: ignore[reportUnknownVariableType]
 
 
 Rule = Annotated[
-    Union[DomRule, ConsoleRule],
+    Union[DomRule, ConsoleRule, ChromiumRule],
     Field(discriminator="mode"),
     BeforeValidator(fill_rule_mode),
 ]
@@ -94,6 +102,16 @@ class TaskCore(FrozenBaseModel):
         return value
 
 
+class ProfileJsonValue(FrozenBaseModel):
+    file: str
+    path: str
+    value: Value
+
+
+class ProfileSetup(FrozenBaseModel):
+    json_values: list[ProfileJsonValue] = []
+
+
 class Task(TaskCore):
     hash: str
     evaluation: Evaluation
@@ -101,6 +119,8 @@ class Task(TaskCore):
 
     setup: Optional[list[Action]] = None
     transition: Optional[list[Action]] = None
+
+    profile_setup: Optional[ProfileSetup] = None
 
     @field_validator("setup", "transition", mode="before")
     @classmethod

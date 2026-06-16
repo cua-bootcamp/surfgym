@@ -1,9 +1,27 @@
 import type { FWorkbook, FWorksheet } from "@univerjs/preset-sheets-core";
 
+declare global {
+  interface Window {
+    surfgym: {
+      get: (payload: SurfgymGetPayload) => unknown;
+      set: (payload: SurfgymSetPayload) => unknown;
+    };
+  }
+}
+
 export type SpreadsheetRuntime = {
   workbook: FWorkbook;
   defaultWorksheet: FWorksheet;
 };
+
+export const SET = Symbol("surfgym.set");
+export type Settable = {
+  [SET]: (path: PathPart[], value: JsonValue) => void;
+};
+
+export function isSettable(value: unknown): value is Settable {
+  return isRecord(value) && typeof value[SET] === "function";
+}
 
 // #######################################
 // #              Reference              #
@@ -28,11 +46,6 @@ export type ChartRef =
 // #                Meta                #
 // ######################################
 
-export type CellMeta = {
-  cell: unknown;
-  style: unknown;
-};
-
 export type ChartMeta = {
   id: string | null;
   sheetId: string | null;
@@ -51,3 +64,31 @@ export type ChartMeta = {
   seriesData: unknown;
   categoryData: unknown;
 };
+
+// #####################################
+// #                ETC                #
+// #####################################
+
+export type JsonValue =
+  | null
+  | string
+  | number
+  | boolean
+  | JsonValue[]
+  | { [key: string]: JsonValue };
+
+export type QueryStep = [string, JsonValue];
+export type PathPart = string | number;
+
+export type SurfgymGetPayload = {
+  query: QueryStep[];
+  path: PathPart[];
+};
+
+export type SurfgymSetPayload = SurfgymGetPayload & {
+  value: JsonValue;
+};
+
+export function isRecord(value: unknown): value is Record<PropertyKey, unknown> {
+  return value !== null && typeof value === "object";
+}

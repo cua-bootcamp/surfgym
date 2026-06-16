@@ -1,0 +1,9 @@
+{
+  "task_id": "chromium_enable_bookmarks_bar",
+  "instruction": "Turn on the setting that always shows the bookmarks bar.",
+  "website": "chrome://settings/appearance",
+  "hash": "example",
+  "complexity": 1,
+  "profile_setup": { "json_values": [{ "file": "Default/Preferences", "path": "bookmark_bar.show_on_all_tabs", "value": false }] },
+  "evaluation": { "operator": "and", "rules": [{ "mode": "profile_json", "file": "Default/Preferences", "path": "bookmark_bar.show_on_all_tabs", "value": true, "match": "exact" }] }
+}

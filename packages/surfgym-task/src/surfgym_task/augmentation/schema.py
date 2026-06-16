@@ -5,8 +5,8 @@ import json
 from functools import cached_property
 from typing import Annotated, Any, Literal, Optional, Protocol, TypeAlias, cast
 
-from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, TypeAdapter
-from surfgym_contracts import RuleCore
+from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, JsonValue, TypeAdapter
+from surfgym_contracts import Action, ConsoleRule, RuleCore
 
 
 class FrozenBaseModel(BaseModel):
@@ -14,12 +14,32 @@ class FrozenBaseModel(BaseModel):
 
 
 class StateAtom(RuleCore):
-    evalf: str
-    applyf: str
+    query: list[tuple[str, JsonValue]]
+    path: list[str | int]
 
-    param: Optional[str] = None
-    property: list[str] = []
-    return_type: Literal["list", "obj"] = "obj"
+    def _to_script(self, type: Literal["eval", "action"]) -> str:
+        payload = {"query": self.query, "path": self.path, "value": self.value}
+        f = "get" if type == "eval" else "set"
+        return f"""
+(() => {{
+    return window.surfgym.{f}({json.dumps(payload, ensure_ascii=False)})
+}})()
+""".strip()
+
+    def to_rule(self) -> ConsoleRule:
+        return ConsoleRule(
+            value=self.value,
+            match=self.match,
+            normalize_space=self.normalize_space,
+            case_sensitive=self.case_sensitive,
+            script=self._to_script(type="eval"),
+        )
+
+    def to_action(self) -> Action:
+        return Action(
+            mode="console",
+            script=self._to_script(type="action"),
+        )
 
 
 def listify(value: object) -> list[object]:
@@ -28,11 +48,9 @@ def listify(value: object) -> list[object]:
     return [value]
 
 
-# StateAtom converts to a rule
+# State converts to an evaluation
 State: TypeAlias = Annotated[list[StateAtom], BeforeValidator(listify)]
 
-
-# State converts to an evaluation
 States: TypeAlias = Annotated[list[State], BeforeValidator(listify), Field(min_length=1)]
 
 
@@ -82,7 +100,14 @@ class HoareState(FrozenBaseModel):
             keep_fresh_state: dict[Any, StateAtom] = {}
             for state in states[: idx + 1]:
                 for atom in state:
-                    keep_fresh_state[(atom.evalf, atom.param, tuple(atom.property))] = atom
+                    keep_fresh_state[
+                        _canonical_json(
+                            {
+                                "query": atom.query,
+                                "path": atom.path,
+                            }
+                        )
+                    ] = atom
 
             return list(keep_fresh_state.values())
 
