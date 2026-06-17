@@ -3,31 +3,178 @@
   "empty_start": false,
   "states": [
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Product"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Q1"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": "Q2"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Alpha"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "120"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": "150"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Beta"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "90"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": "110"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E2", "property": ["cell", "v"], "value": "Q1"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F2", "property": ["cell", "v"], "value": "Product"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "G2", "property": ["cell", "v"], "value": "Alpha"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A2"]
+        ],
+        "path": ["v"],
+        "value": "Product"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
+        "path": ["v"],
+        "value": "Q1"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C2"]
+        ],
+        "path": ["v"],
+        "value": "Q2"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A3"]
+        ],
+        "path": ["v"],
+        "value": "Alpha"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["v"],
+        "value": "120"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C3"]
+        ],
+        "path": ["v"],
+        "value": "150"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A4"]
+        ],
+        "path": ["v"],
+        "value": "Beta"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
+        "path": ["v"],
+        "value": "90"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C4"]
+        ],
+        "path": ["v"],
+        "value": "110"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E2"]
+        ],
+        "path": ["v"],
+        "value": "Q1"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F2"]
+        ],
+        "path": ["v"],
+        "value": "Product"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "G2"]
+        ],
+        "path": ["v"],
+        "value": "Alpha"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E2", "property": ["cell", "v"], "value": "Product"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F2", "property": ["cell", "v"], "value": "Alpha"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "G2", "property": ["cell", "v"], "value": "Beta"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E2"]
+        ],
+        "path": ["v"],
+        "value": "Product"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F2"]
+        ],
+        "path": ["v"],
+        "value": "Alpha"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "G2"]
+        ],
+        "path": ["v"],
+        "value": "Beta"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E3", "property": ["cell", "v"], "value": "Q1"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F3", "property": ["cell", "v"], "value": "120"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "G3", "property": ["cell", "v"], "value": "90"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E4", "property": ["cell", "v"], "value": "Q2"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F4", "property": ["cell", "v"], "value": "150"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "G4", "property": ["cell", "v"], "value": "110"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E3"]
+        ],
+        "path": ["v"],
+        "value": "Q1"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F3"]
+        ],
+        "path": ["v"],
+        "value": "120"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "G3"]
+        ],
+        "path": ["v"],
+        "value": "90"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E4"]
+        ],
+        "path": ["v"],
+        "value": "Q2"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F4"]
+        ],
+        "path": ["v"],
+        "value": "150"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "G4"]
+        ],
+        "path": ["v"],
+        "value": "110"
+      }
     ]
   ]
 }

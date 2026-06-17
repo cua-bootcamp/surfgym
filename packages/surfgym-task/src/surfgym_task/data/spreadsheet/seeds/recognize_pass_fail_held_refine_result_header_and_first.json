@@ -3,54 +3,362 @@
   "empty_start": false,
   "states": [
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D2", "property": ["cell", "v"], "value": "Startup Name"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E2", "property": ["cell", "v"], "value": "Investment Score"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F2", "property": ["cell", "v"], "value": "Status"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D3", "property": ["cell", "v"], "value": "Quantum AI"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E3", "property": ["cell", "v"], "value": "9"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F3", "property": ["cell", "v"], "value": "Held"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D4", "property": ["cell", "v"], "value": "Green Roots"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E4", "property": ["cell", "v"], "value": "25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F4", "property": ["cell", "v"], "value": ""},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D5", "property": ["cell", "v"], "value": "Solar Flow"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E5", "property": ["cell", "v"], "value": "54"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F5", "property": ["cell", "v"], "value": ""},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D6", "property": ["cell", "v"], "value": "Cyber Shield"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E6", "property": ["cell", "v"], "value": "10"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F6", "property": ["cell", "v"], "value": ""},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D7", "property": ["cell", "v"], "value": "BioSynth"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E7", "property": ["cell", "v"], "value": "47"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F7", "property": ["cell", "v"], "value": ""},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D8", "property": ["cell", "v"], "value": "NanoTech"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E8", "property": ["cell", "v"], "value": "43"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F8", "property": ["cell", "v"], "value": ""},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D9", "property": ["cell", "v"], "value": "Edge Computing"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E9", "property": ["cell", "v"], "value": "57"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F9", "property": ["cell", "v"], "value": ""},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D10", "property": ["cell", "v"], "value": "Cloud Drift"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E10", "property": ["cell", "v"], "value": "56"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F10", "property": ["cell", "v"], "value": ""},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D11", "property": ["cell", "v"], "value": "Swift Pay"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E11", "property": ["cell", "v"], "value": "52"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F11", "property": ["cell", "v"], "value": ""},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D12", "property": ["cell", "v"], "value": "Data Pulse"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E12", "property": ["cell", "v"], "value": "1"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F12", "property": ["cell", "v"], "value": ""}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D2"]
+        ],
+        "path": ["v"],
+        "value": "Startup Name"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E2"]
+        ],
+        "path": ["v"],
+        "value": "Investment Score"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F2"]
+        ],
+        "path": ["v"],
+        "value": "Status"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D3"]
+        ],
+        "path": ["v"],
+        "value": "Quantum AI"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E3"]
+        ],
+        "path": ["v"],
+        "value": "9"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F3"]
+        ],
+        "path": ["v"],
+        "value": "Held"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D4"]
+        ],
+        "path": ["v"],
+        "value": "Green Roots"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E4"]
+        ],
+        "path": ["v"],
+        "value": "25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F4"]
+        ],
+        "path": ["v"],
+        "value": ""
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D5"]
+        ],
+        "path": ["v"],
+        "value": "Solar Flow"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E5"]
+        ],
+        "path": ["v"],
+        "value": "54"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F5"]
+        ],
+        "path": ["v"],
+        "value": ""
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D6"]
+        ],
+        "path": ["v"],
+        "value": "Cyber Shield"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E6"]
+        ],
+        "path": ["v"],
+        "value": "10"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F6"]
+        ],
+        "path": ["v"],
+        "value": ""
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D7"]
+        ],
+        "path": ["v"],
+        "value": "BioSynth"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E7"]
+        ],
+        "path": ["v"],
+        "value": "47"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F7"]
+        ],
+        "path": ["v"],
+        "value": ""
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D8"]
+        ],
+        "path": ["v"],
+        "value": "NanoTech"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E8"]
+        ],
+        "path": ["v"],
+        "value": "43"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F8"]
+        ],
+        "path": ["v"],
+        "value": ""
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D9"]
+        ],
+        "path": ["v"],
+        "value": "Edge Computing"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E9"]
+        ],
+        "path": ["v"],
+        "value": "57"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F9"]
+        ],
+        "path": ["v"],
+        "value": ""
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D10"]
+        ],
+        "path": ["v"],
+        "value": "Cloud Drift"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E10"]
+        ],
+        "path": ["v"],
+        "value": "56"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F10"]
+        ],
+        "path": ["v"],
+        "value": ""
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D11"]
+        ],
+        "path": ["v"],
+        "value": "Swift Pay"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E11"]
+        ],
+        "path": ["v"],
+        "value": "52"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F11"]
+        ],
+        "path": ["v"],
+        "value": ""
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D12"]
+        ],
+        "path": ["v"],
+        "value": "Data Pulse"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E12"]
+        ],
+        "path": ["v"],
+        "value": "1"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F12"]
+        ],
+        "path": ["v"],
+        "value": ""
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F2", "property": ["cell", "v"], "value": "Result"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F3", "property": ["cell", "v"], "value": "Fail"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F2"]
+        ],
+        "path": ["v"],
+        "value": "Result"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F3"]
+        ],
+        "path": ["v"],
+        "value": "Fail"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F4", "property": ["cell", "v"], "value": "Fail"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F5", "property": ["cell", "v"], "value": "Held"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F6", "property": ["cell", "v"], "value": "Fail"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F7", "property": ["cell", "v"], "value": "Held"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F8", "property": ["cell", "v"], "value": "Held"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F9", "property": ["cell", "v"], "value": "Held"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F10", "property": ["cell", "v"], "value": "Held"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F11", "property": ["cell", "v"], "value": "Held"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F12", "property": ["cell", "v"], "value": "Fail"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F4"]
+        ],
+        "path": ["v"],
+        "value": "Fail"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F5"]
+        ],
+        "path": ["v"],
+        "value": "Held"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F6"]
+        ],
+        "path": ["v"],
+        "value": "Fail"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F7"]
+        ],
+        "path": ["v"],
+        "value": "Held"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F8"]
+        ],
+        "path": ["v"],
+        "value": "Held"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F9"]
+        ],
+        "path": ["v"],
+        "value": "Held"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F10"]
+        ],
+        "path": ["v"],
+        "value": "Held"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F11"]
+        ],
+        "path": ["v"],
+        "value": "Held"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F12"]
+        ],
+        "path": ["v"],
+        "value": "Fail"
+      }
     ]
   ]
 }

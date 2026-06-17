@@ -3,70 +3,476 @@
   "empty_start": false,
   "states": [
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Week"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Sales (USD)"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "COGS (USD)"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D1", "property": ["cell", "v"], "value": "Gross Profit (USD)"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Week 1"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "98450"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": "72120.5"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D2", "property": ["cell", "v"], "value": "26329.5"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Week 2"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "115200"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": "45670.8"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D3", "property": ["cell", "v"], "value": "69529.2"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Week 3"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "87340"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": "15230.45"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D4", "property": ["cell", "v"], "value": "72109.55"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Week 4"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "62800"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": "58900.2"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D5", "property": ["cell", "v"], "value": "3899.8"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A6", "property": ["cell", "v"], "value": "Week 5"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B6", "property": ["cell", "v"], "value": "91550"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C6", "property": ["cell", "v"], "value": "31450.6"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D6", "property": ["cell", "v"], "value": "60099.4"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A7", "property": ["cell", "v"], "value": "Week 6"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B7", "property": ["cell", "v"], "value": "84200"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C7", "property": ["cell", "v"], "value": "29100.35"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D7", "property": ["cell", "v"], "value": "55099.65"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A8", "property": ["cell", "v"], "value": "Week 7"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B8", "property": ["cell", "v"], "value": "128900"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C8", "property": ["cell", "v"], "value": "82450.9"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D8", "property": ["cell", "v"], "value": "46449.1"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A9", "property": ["cell", "v"], "value": "Week 8"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B9", "property": ["cell", "v"], "value": "79600"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C9", "property": ["cell", "v"], "value": "63200.15"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D9", "property": ["cell", "v"], "value": "16399.85"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A10", "property": ["cell", "v"], "value": "Week 9"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B10", "property": ["cell", "v"], "value": "105400"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C10", "property": ["cell", "v"], "value": "4560.25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D10", "property": ["cell", "v"], "value": "100839.75"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A11", "property": ["cell", "v"], "value": "Week 10"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B11", "property": ["cell", "v"], "value": "82150"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C11", "property": ["cell", "v"], "value": "48900.75"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D11", "property": ["cell", "v"], "value": "33249.25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E1", "property": ["cell", "v"], "value": "profit margin"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E2", "property": ["cell", "v"], "value": "0.25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E3", "property": ["cell", "v"], "value": "0.60"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A1"]
+        ],
+        "path": ["v"],
+        "value": "Week"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B1"]
+        ],
+        "path": ["v"],
+        "value": "Sales (USD)"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C1"]
+        ],
+        "path": ["v"],
+        "value": "COGS (USD)"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D1"]
+        ],
+        "path": ["v"],
+        "value": "Gross Profit (USD)"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A2"]
+        ],
+        "path": ["v"],
+        "value": "Week 1"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
+        "path": ["v"],
+        "value": "98450"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C2"]
+        ],
+        "path": ["v"],
+        "value": "72120.5"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D2"]
+        ],
+        "path": ["v"],
+        "value": "26329.5"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A3"]
+        ],
+        "path": ["v"],
+        "value": "Week 2"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["v"],
+        "value": "115200"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C3"]
+        ],
+        "path": ["v"],
+        "value": "45670.8"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D3"]
+        ],
+        "path": ["v"],
+        "value": "69529.2"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A4"]
+        ],
+        "path": ["v"],
+        "value": "Week 3"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
+        "path": ["v"],
+        "value": "87340"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C4"]
+        ],
+        "path": ["v"],
+        "value": "15230.45"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D4"]
+        ],
+        "path": ["v"],
+        "value": "72109.55"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A5"]
+        ],
+        "path": ["v"],
+        "value": "Week 4"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B5"]
+        ],
+        "path": ["v"],
+        "value": "62800"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C5"]
+        ],
+        "path": ["v"],
+        "value": "58900.2"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D5"]
+        ],
+        "path": ["v"],
+        "value": "3899.8"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A6"]
+        ],
+        "path": ["v"],
+        "value": "Week 5"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B6"]
+        ],
+        "path": ["v"],
+        "value": "91550"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C6"]
+        ],
+        "path": ["v"],
+        "value": "31450.6"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D6"]
+        ],
+        "path": ["v"],
+        "value": "60099.4"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A7"]
+        ],
+        "path": ["v"],
+        "value": "Week 6"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B7"]
+        ],
+        "path": ["v"],
+        "value": "84200"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C7"]
+        ],
+        "path": ["v"],
+        "value": "29100.35"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D7"]
+        ],
+        "path": ["v"],
+        "value": "55099.65"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A8"]
+        ],
+        "path": ["v"],
+        "value": "Week 7"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B8"]
+        ],
+        "path": ["v"],
+        "value": "128900"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C8"]
+        ],
+        "path": ["v"],
+        "value": "82450.9"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D8"]
+        ],
+        "path": ["v"],
+        "value": "46449.1"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A9"]
+        ],
+        "path": ["v"],
+        "value": "Week 8"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B9"]
+        ],
+        "path": ["v"],
+        "value": "79600"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C9"]
+        ],
+        "path": ["v"],
+        "value": "63200.15"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D9"]
+        ],
+        "path": ["v"],
+        "value": "16399.85"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A10"]
+        ],
+        "path": ["v"],
+        "value": "Week 9"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B10"]
+        ],
+        "path": ["v"],
+        "value": "105400"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C10"]
+        ],
+        "path": ["v"],
+        "value": "4560.25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D10"]
+        ],
+        "path": ["v"],
+        "value": "100839.75"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A11"]
+        ],
+        "path": ["v"],
+        "value": "Week 10"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B11"]
+        ],
+        "path": ["v"],
+        "value": "82150"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C11"]
+        ],
+        "path": ["v"],
+        "value": "48900.75"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D11"]
+        ],
+        "path": ["v"],
+        "value": "33249.25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E1"]
+        ],
+        "path": ["v"],
+        "value": "profit margin"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E2"]
+        ],
+        "path": ["v"],
+        "value": "0.25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E3"]
+        ],
+        "path": ["v"],
+        "value": "0.60"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E2", "property": ["cell", "v"], "value": "0.267440325"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E3", "property": ["cell", "v"], "value": "0.6035520833"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E2"]
+        ],
+        "path": ["v"],
+        "value": "0.267440325"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E3"]
+        ],
+        "path": ["v"],
+        "value": "0.6035520833"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E1", "property": ["cell", "v"], "value": "profit margin"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E1"]
+        ],
+        "path": ["v"],
+        "value": "profit margin"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E4", "property": ["cell", "v"], "value": "0.8256188459"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E5", "property": ["cell", "v"], "value": "0.06209872611"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E6", "property": ["cell", "v"], "value": "0.6564653195"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E7", "property": ["cell", "v"], "value": "0.6543901425"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E8", "property": ["cell", "v"], "value": "0.3603498836"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E9", "property": ["cell", "v"], "value": "0.2060282663"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E10", "property": ["cell", "v"], "value": "0.956733871"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E11", "property": ["cell", "v"], "value": "0.4047382836"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E4"]
+        ],
+        "path": ["v"],
+        "value": "0.8256188459"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E5"]
+        ],
+        "path": ["v"],
+        "value": "0.06209872611"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E6"]
+        ],
+        "path": ["v"],
+        "value": "0.6564653195"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E7"]
+        ],
+        "path": ["v"],
+        "value": "0.6543901425"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E8"]
+        ],
+        "path": ["v"],
+        "value": "0.3603498836"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E9"]
+        ],
+        "path": ["v"],
+        "value": "0.2060282663"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E10"]
+        ],
+        "path": ["v"],
+        "value": "0.956733871"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E11"]
+        ],
+        "path": ["v"],
+        "value": "0.4047382836"
+      }
     ]
   ]
 }

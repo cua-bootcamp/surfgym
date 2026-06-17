@@ -3,30 +3,170 @@
   "empty_start": false,
   "states": [
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Date"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "2026-06-08"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "2026-06-03"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "2026-06-14"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "2026-06-21"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Delivery Item"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Monitor Cables"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "Laptop Stands"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "Office Chairs"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "Printer Paper"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A1"]
+        ],
+        "path": ["v"],
+        "value": "Date"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A2"]
+        ],
+        "path": ["v"],
+        "value": "2026-06-08"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A3"]
+        ],
+        "path": ["v"],
+        "value": "2026-06-03"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A4"]
+        ],
+        "path": ["v"],
+        "value": "2026-06-14"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A5"]
+        ],
+        "path": ["v"],
+        "value": "2026-06-21"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B1"]
+        ],
+        "path": ["v"],
+        "value": "Delivery Item"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
+        "path": ["v"],
+        "value": "Monitor Cables"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["v"],
+        "value": "Laptop Stands"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
+        "path": ["v"],
+        "value": "Office Chairs"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B5"]
+        ],
+        "path": ["v"],
+        "value": "Printer Paper"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "2026-06-03"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Laptop Stands"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "2026-06-08"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "Monitor Cables"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A2"]
+        ],
+        "path": ["v"],
+        "value": "2026-06-03"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
+        "path": ["v"],
+        "value": "Laptop Stands"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A3"]
+        ],
+        "path": ["v"],
+        "value": "2026-06-08"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["v"],
+        "value": "Monitor Cables"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Date"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "2026-06-14"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "2026-06-21"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Delivery Item"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "Office Chairs"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "Printer Paper"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A1"]
+        ],
+        "path": ["v"],
+        "value": "Date"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A4"]
+        ],
+        "path": ["v"],
+        "value": "2026-06-14"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A5"]
+        ],
+        "path": ["v"],
+        "value": "2026-06-21"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B1"]
+        ],
+        "path": ["v"],
+        "value": "Delivery Item"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
+        "path": ["v"],
+        "value": "Office Chairs"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B5"]
+        ],
+        "path": ["v"],
+        "value": "Printer Paper"
+      }
     ]
   ]
 }

@@ -3,21 +3,98 @@
   "empty_start": false,
   "states": [
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Loan Issue Date"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Length of Loan in Days"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": 1000},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": 120},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": 1100},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": 90},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": 1090},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": 1200}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A1"]
+        ],
+        "path": ["v"],
+        "value": "Loan Issue Date"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B1"]
+        ],
+        "path": ["v"],
+        "value": "Length of Loan in Days"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A2"]
+        ],
+        "path": ["v"],
+        "value": 1000
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
+        "path": ["v"],
+        "value": 120
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A3"]
+        ],
+        "path": ["v"],
+        "value": 1100
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["v"],
+        "value": 90
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C2"]
+        ],
+        "path": ["v"],
+        "value": 1090
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C3"]
+        ],
+        "path": ["v"],
+        "value": 1200
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": 1120},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": 1190}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C2"]
+        ],
+        "path": ["v"],
+        "value": 1120
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C3"]
+        ],
+        "path": ["v"],
+        "value": 1190
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Maturity Date"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C1"]
+        ],
+        "path": ["v"],
+        "value": "Maturity Date"
+      }
     ]
   ]
 }

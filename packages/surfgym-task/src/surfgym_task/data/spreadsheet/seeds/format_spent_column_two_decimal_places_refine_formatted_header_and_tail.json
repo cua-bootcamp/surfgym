@@ -3,20 +3,90 @@
   "empty_start": false,
   "states": [
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Spent ($)"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Text"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": 40},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": 50.5},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": 30.75},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": "30.750"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B1"]
+        ],
+        "path": ["v"],
+        "value": "Spent ($)"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C1"]
+        ],
+        "path": ["v"],
+        "value": "Text"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
+        "path": ["v"],
+        "value": 40
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["v"],
+        "value": 50.5
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
+        "path": ["v"],
+        "value": 30.75
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C4"]
+        ],
+        "path": ["v"],
+        "value": "30.750"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Formatted"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": "30.75"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C1"]
+        ],
+        "path": ["v"],
+        "value": "Formatted"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C4"]
+        ],
+        "path": ["v"],
+        "value": "30.75"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": "40.00"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": "50.50"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C2"]
+        ],
+        "path": ["v"],
+        "value": "40.00"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C3"]
+        ],
+        "path": ["v"],
+        "value": "50.50"
+      }
     ]
   ]
 }

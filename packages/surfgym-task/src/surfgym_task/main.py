@@ -2,22 +2,76 @@ import argparse
 from pathlib import Path
 from typing import get_args
 
-from surfgym_task.augmentation import Accumulation, Augmentor, Granularity
+from surfgym_contracts import Evaluation, Task, Website
+
+from surfgym_task.hoare import HoareStateGenerator
+from surfgym_task.io import (
+    AugmentationWriter,
+    InstructionLoader,
+    RunStats,
+    iterate_seed,
+    resolve_datapaths,
+)
+from surfgym_task.seed import Granularity
+
+
+class Augmentor:
+    def __init__(self, target_dir: Path, granularity: Granularity) -> None:
+        self.paths = resolve_datapaths(target_dir)
+        self.granularity: Granularity = granularity
+        self.instruction_loader = InstructionLoader(self.paths.instruction)
+        self.hoare_state_generator = HoareStateGenerator(granularity=granularity)
+
+    def run(self) -> None:
+        stats = RunStats()
+
+        try:
+            with AugmentationWriter(self.paths.out_dir) as augment_writer:
+                for seed, seed_id in iterate_seed(self.paths.seeds_dir):
+                    stats.seed_count += 1
+
+                    with augment_writer.open_seed(seed_id) as task_writer:
+                        for hoare_state in self.hoare_state_generator.generate(seed):
+                            task_hash = hoare_state.to_key()
+                            f = hoare_state.origin_start_idx
+                            t = hoare_state.origin_end_idx
+                            task_id = f"{seed_id}_{f}_{t}"
+
+                            instruction, payload = self.instruction_loader.get(
+                                task_hash, seed, hoare_state
+                            )
+
+                            task = Task(
+                                hash=task_hash,
+                                task_id=task_id,
+                                instruction=instruction,
+                                website=[Website(url=seed.website)],
+                                complexity=hoare_state.complexity,
+                                evaluation=Evaluation(
+                                    rules=[atom.to_rule() for atom in hoare_state.end_state]
+                                ),
+                                setup=[atom.to_action() for atom in hoare_state.start_state],
+                                transition=[atom.to_action() for atom in hoare_state.end_state],
+                            )
+                            stats.task_count += 1
+
+                            augment_writer.write_task(task)
+                            task_writer.write_task(f, t, task)
+                            task_writer.write_payload(f, t, payload)
+                augment_writer.write_summary(stats)
+        finally:
+            self.instruction_loader.flush()
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--seed-dir-path")
-    parser.add_argument("--granularity", default="COARSE", choices=get_args(Granularity))
-    parser.add_argument("--accumulation", default="DELTA", choices=get_args(Accumulation))
-    parser.add_argument("--website", type=str)
+    parser.add_argument("--target-dir", required=True)
+    parser.add_argument("--granularity", required=True, choices=get_args(Granularity))
     args = parser.parse_args()
 
     augmentor = Augmentor(
-        seed_dir=Path(args.seed_dir_path),
+        target_dir=Path(args.target_dir),
         granularity=args.granularity,
-        accumulation=args.accumulation,
-        website=args.website,
     )
     augmentor.run()
 

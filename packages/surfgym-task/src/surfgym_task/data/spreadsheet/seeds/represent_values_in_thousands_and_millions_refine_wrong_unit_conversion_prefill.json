@@ -3,41 +3,230 @@
   "empty_start": false,
   "states": [
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Parameter"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Thousands (K)"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": "Millions (M)"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "12500"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "2500000"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "1499500"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A6", "property": ["cell", "v"], "value": "999500"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A7", "property": ["cell", "v"], "value": "350"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E2", "property": ["cell", "v"], "value": "Derived Result"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F2", "property": ["cell", "v"], "value": "Notes"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F3", "property": ["cell", "v"], "value": "Leave unchanged"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "12 K"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": "2.50 M"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A2"]
+        ],
+        "path": ["v"],
+        "value": "Parameter"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
+        "path": ["v"],
+        "value": "Thousands (K)"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C2"]
+        ],
+        "path": ["v"],
+        "value": "Millions (M)"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A3"]
+        ],
+        "path": ["v"],
+        "value": "12500"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A4"]
+        ],
+        "path": ["v"],
+        "value": "2500000"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A5"]
+        ],
+        "path": ["v"],
+        "value": "1499500"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A6"]
+        ],
+        "path": ["v"],
+        "value": "999500"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A7"]
+        ],
+        "path": ["v"],
+        "value": "350"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E2"]
+        ],
+        "path": ["v"],
+        "value": "Derived Result"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F2"]
+        ],
+        "path": ["v"],
+        "value": "Notes"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F3"]
+        ],
+        "path": ["v"],
+        "value": "Leave unchanged"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["v"],
+        "value": "12 K"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C4"]
+        ],
+        "path": ["v"],
+        "value": "2.50 M"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "12.5 K"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": "2.5 M"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["v"],
+        "value": "12.5 K"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C4"]
+        ],
+        "path": ["v"],
+        "value": "2.5 M"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": "0.0 M"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "2500.0 K"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "1499.5 K"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": "1.5 M"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B6", "property": ["cell", "v"], "value": "999.5 K"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C6", "property": ["cell", "v"], "value": "1.0 M"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B7", "property": ["cell", "v"], "value": "0.4 K"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C7", "property": ["cell", "v"], "value": "0.0 M"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C3"]
+        ],
+        "path": ["v"],
+        "value": "0.0 M"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
+        "path": ["v"],
+        "value": "2500.0 K"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B5"]
+        ],
+        "path": ["v"],
+        "value": "1499.5 K"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C5"]
+        ],
+        "path": ["v"],
+        "value": "1.5 M"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B6"]
+        ],
+        "path": ["v"],
+        "value": "999.5 K"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C6"]
+        ],
+        "path": ["v"],
+        "value": "1.0 M"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B7"]
+        ],
+        "path": ["v"],
+        "value": "0.4 K"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C7"]
+        ],
+        "path": ["v"],
+        "value": "0.0 M"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E3", "property": ["cell", "v"], "value": "2512.5 K"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E4", "property": ["cell", "v"], "value": "500.0 K"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E3"]
+        ],
+        "path": ["v"],
+        "value": "2512.5 K"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E4"]
+        ],
+        "path": ["v"],
+        "value": "500.0 K"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F2", "property": ["cell", "v"], "value": "Notes"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F3", "property": ["cell", "v"], "value": "Leave unchanged"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F2"]
+        ],
+        "path": ["v"],
+        "value": "Notes"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F3"]
+        ],
+        "path": ["v"],
+        "value": "Leave unchanged"
+      }
     ]
   ]
 }

@@ -3,24 +3,122 @@
   "empty_start": false,
   "states": [
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Emp ID"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": "Name"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": "Alice Smith"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": "Bob Jones"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": "Charlie Brown"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C6", "property": ["cell", "v"], "value": "Diana Prince"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C7", "property": ["cell", "v"], "value": "Evan Wright"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": 1005},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B6", "property": ["cell", "v"], "value": 1006}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
+        "path": ["v"],
+        "value": "Emp ID"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C2"]
+        ],
+        "path": ["v"],
+        "value": "Name"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C3"]
+        ],
+        "path": ["v"],
+        "value": "Alice Smith"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C4"]
+        ],
+        "path": ["v"],
+        "value": "Bob Jones"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C5"]
+        ],
+        "path": ["v"],
+        "value": "Charlie Brown"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C6"]
+        ],
+        "path": ["v"],
+        "value": "Diana Prince"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C7"]
+        ],
+        "path": ["v"],
+        "value": "Evan Wright"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B5"]
+        ],
+        "path": ["v"],
+        "value": 1005
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B6"]
+        ],
+        "path": ["v"],
+        "value": 1006
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": 1002},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B6", "property": ["cell", "v"], "value": 1003}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B5"]
+        ],
+        "path": ["v"],
+        "value": 1002
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B6"]
+        ],
+        "path": ["v"],
+        "value": 1003
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": 1000},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": 1001},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B7", "property": ["cell", "v"], "value": 1004}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["v"],
+        "value": 1000
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
+        "path": ["v"],
+        "value": 1001
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B7"]
+        ],
+        "path": ["v"],
+        "value": 1004
+      }
     ]
   ]
 }

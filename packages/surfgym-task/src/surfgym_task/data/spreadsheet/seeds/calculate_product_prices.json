@@ -3,26 +3,178 @@
   "empty_start": false,
   "states": [
     [
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Product ID" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": "Original Price" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D2", "property": ["cell", "v"], "value": "Discount" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E2", "property": ["cell", "v"], "value": "Tax" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F2", "property": ["cell", "v"], "value": "Final Price" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "G2", "property": ["cell", "v"], "value": "Product_Label" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "PROD-101" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": 120 },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D3", "property": ["cell", "v"], "value": 15.5 },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E3", "property": ["cell", "v"], "value": 8.2 },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "PROD-102" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": 250 },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D4", "property": ["cell", "v"], "value": 30.2 },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E4", "property": ["cell", "v"], "value": 18.5 }
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
+        "path": ["v"],
+        "value": "Product ID"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C2"]
+        ],
+        "path": ["v"],
+        "value": "Original Price"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D2"]
+        ],
+        "path": ["v"],
+        "value": "Discount"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E2"]
+        ],
+        "path": ["v"],
+        "value": "Tax"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F2"]
+        ],
+        "path": ["v"],
+        "value": "Final Price"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "G2"]
+        ],
+        "path": ["v"],
+        "value": "Product_Label"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["v"],
+        "value": "PROD-101"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C3"]
+        ],
+        "path": ["v"],
+        "value": 120
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D3"]
+        ],
+        "path": ["v"],
+        "value": 15.5
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E3"]
+        ],
+        "path": ["v"],
+        "value": 8.2
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
+        "path": ["v"],
+        "value": "PROD-102"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C4"]
+        ],
+        "path": ["v"],
+        "value": 250
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D4"]
+        ],
+        "path": ["v"],
+        "value": 30.2
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E4"]
+        ],
+        "path": ["v"],
+        "value": 18.5
+      }
     ],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "Average" }],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F3", "property": ["cell", "v"], "value": 112.7 }],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "G3", "property": ["cell", "v"], "value": "PROD-101_112" }],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F4", "property": ["cell", "v"], "value": 238.3 }],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "G4", "property": ["cell", "v"], "value": "PROD-102_238" }],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F5", "property": ["cell", "v"], "value": 175.5 }]
+    [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B5"]
+        ],
+        "path": ["v"],
+        "value": "Average"
+      }
+    ],
+    [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F3"]
+        ],
+        "path": ["v"],
+        "value": 112.7
+      }
+    ],
+    [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "G3"]
+        ],
+        "path": ["v"],
+        "value": "PROD-101_112"
+      }
+    ],
+    [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F4"]
+        ],
+        "path": ["v"],
+        "value": 238.3
+      }
+    ],
+    [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "G4"]
+        ],
+        "path": ["v"],
+        "value": "PROD-102_238"
+      }
+    ],
+    [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F5"]
+        ],
+        "path": ["v"],
+        "value": 175.5
+      }
+    ]
   ]
 }

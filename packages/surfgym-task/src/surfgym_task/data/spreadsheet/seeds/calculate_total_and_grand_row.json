@@ -3,47 +3,312 @@
   "empty_start": false,
   "states": [
     [
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Department" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Q1" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": "Q2" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D2", "property": ["cell", "v"], "value": "Q3" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E2", "property": ["cell", "v"], "value": "Q4" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F2", "property": ["cell", "v"], "value": "Annual Total" },
-
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Cafe" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "12400" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": "13950" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D3", "property": ["cell", "v"], "value": "11800" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E3", "property": ["cell", "v"], "value": "15250" },
-
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Bookstore" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "8600" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": "9100" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D4", "property": ["cell", "v"], "value": "9450" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E4", "property": ["cell", "v"], "value": "10200" },
-
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Parking" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "5200" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": "5800" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D5", "property": ["cell", "v"], "value": "6100" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E5", "property": ["cell", "v"], "value": "6400" },
-
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A6", "property": ["cell", "v"], "value": "Events" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B6", "property": ["cell", "v"], "value": "7300" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C6", "property": ["cell", "v"], "value": "6900" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D6", "property": ["cell", "v"], "value": "8200" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E6", "property": ["cell", "v"], "value": "8800" },
-
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A7", "property": ["cell", "v"], "value": "Quarterly Total" }
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A2"]
+        ],
+        "path": ["v"],
+        "value": "Department"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
+        "path": ["v"],
+        "value": "Q1"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C2"]
+        ],
+        "path": ["v"],
+        "value": "Q2"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D2"]
+        ],
+        "path": ["v"],
+        "value": "Q3"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E2"]
+        ],
+        "path": ["v"],
+        "value": "Q4"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F2"]
+        ],
+        "path": ["v"],
+        "value": "Annual Total"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A3"]
+        ],
+        "path": ["v"],
+        "value": "Cafe"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["v"],
+        "value": "12400"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C3"]
+        ],
+        "path": ["v"],
+        "value": "13950"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D3"]
+        ],
+        "path": ["v"],
+        "value": "11800"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E3"]
+        ],
+        "path": ["v"],
+        "value": "15250"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A4"]
+        ],
+        "path": ["v"],
+        "value": "Bookstore"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
+        "path": ["v"],
+        "value": "8600"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C4"]
+        ],
+        "path": ["v"],
+        "value": "9100"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D4"]
+        ],
+        "path": ["v"],
+        "value": "9450"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E4"]
+        ],
+        "path": ["v"],
+        "value": "10200"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A5"]
+        ],
+        "path": ["v"],
+        "value": "Parking"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B5"]
+        ],
+        "path": ["v"],
+        "value": "5200"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C5"]
+        ],
+        "path": ["v"],
+        "value": "5800"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D5"]
+        ],
+        "path": ["v"],
+        "value": "6100"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E5"]
+        ],
+        "path": ["v"],
+        "value": "6400"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A6"]
+        ],
+        "path": ["v"],
+        "value": "Events"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B6"]
+        ],
+        "path": ["v"],
+        "value": "7300"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C6"]
+        ],
+        "path": ["v"],
+        "value": "6900"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D6"]
+        ],
+        "path": ["v"],
+        "value": "8200"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E6"]
+        ],
+        "path": ["v"],
+        "value": "8800"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A7"]
+        ],
+        "path": ["v"],
+        "value": "Quarterly Total"
+      }
     ],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F3", "property": ["cell", "v"], "value": "53400" }],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F4", "property": ["cell", "v"], "value": "37350" }],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F5", "property": ["cell", "v"], "value": "23500" }],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F6", "property": ["cell", "v"], "value": "31200" }],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B7", "property": ["cell", "v"], "value": "33500" }],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C7", "property": ["cell", "v"], "value": "35750" }],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D7", "property": ["cell", "v"], "value": "35550" }],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E7", "property": ["cell", "v"], "value": "40650" }],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F7", "property": ["cell", "v"], "value": "145450" }]
+    [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F3"]
+        ],
+        "path": ["v"],
+        "value": "53400"
+      }
+    ],
+    [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F4"]
+        ],
+        "path": ["v"],
+        "value": "37350"
+      }
+    ],
+    [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F5"]
+        ],
+        "path": ["v"],
+        "value": "23500"
+      }
+    ],
+    [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F6"]
+        ],
+        "path": ["v"],
+        "value": "31200"
+      }
+    ],
+    [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B7"]
+        ],
+        "path": ["v"],
+        "value": "33500"
+      }
+    ],
+    [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C7"]
+        ],
+        "path": ["v"],
+        "value": "35750"
+      }
+    ],
+    [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D7"]
+        ],
+        "path": ["v"],
+        "value": "35550"
+      }
+    ],
+    [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E7"]
+        ],
+        "path": ["v"],
+        "value": "40650"
+      }
+    ],
+    [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F7"]
+        ],
+        "path": ["v"],
+        "value": "145450"
+      }
+    ]
   ]
 }

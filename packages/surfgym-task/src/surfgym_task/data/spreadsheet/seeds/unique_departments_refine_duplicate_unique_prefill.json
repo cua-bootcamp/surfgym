@@ -3,33 +3,194 @@
   "empty_start": false,
   "states": [
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Employee"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Department"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D2", "property": ["cell", "v"], "value": "Unique Departments"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "Alice"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "HR"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "Bob"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "Engineering"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "Charlie"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "HR"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A6", "property": ["cell", "v"], "value": "David"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B6", "property": ["cell", "v"], "value": "Marketing"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A7", "property": ["cell", "v"], "value": "Emma"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B7", "property": ["cell", "v"], "value": "Engineering"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A8", "property": ["cell", "v"], "value": "Frank"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B8", "property": ["cell", "v"], "value": "Marketing"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A9", "property": ["cell", "v"], "value": "Grace"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B9", "property": ["cell", "v"], "value": "Sales"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D4", "property": ["cell", "v"], "value": "HR"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D5", "property": ["cell", "v"], "value": "Engineering"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A2"]
+        ],
+        "path": ["v"],
+        "value": "Employee"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
+        "path": ["v"],
+        "value": "Department"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D2"]
+        ],
+        "path": ["v"],
+        "value": "Unique Departments"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A3"]
+        ],
+        "path": ["v"],
+        "value": "Alice"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["v"],
+        "value": "HR"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A4"]
+        ],
+        "path": ["v"],
+        "value": "Bob"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
+        "path": ["v"],
+        "value": "Engineering"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A5"]
+        ],
+        "path": ["v"],
+        "value": "Charlie"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B5"]
+        ],
+        "path": ["v"],
+        "value": "HR"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A6"]
+        ],
+        "path": ["v"],
+        "value": "David"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B6"]
+        ],
+        "path": ["v"],
+        "value": "Marketing"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A7"]
+        ],
+        "path": ["v"],
+        "value": "Emma"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B7"]
+        ],
+        "path": ["v"],
+        "value": "Engineering"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A8"]
+        ],
+        "path": ["v"],
+        "value": "Frank"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B8"]
+        ],
+        "path": ["v"],
+        "value": "Marketing"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A9"]
+        ],
+        "path": ["v"],
+        "value": "Grace"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B9"]
+        ],
+        "path": ["v"],
+        "value": "Sales"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D4"]
+        ],
+        "path": ["v"],
+        "value": "HR"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D5"]
+        ],
+        "path": ["v"],
+        "value": "Engineering"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D4", "property": ["cell", "v"], "value": "Engineering"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D5", "property": ["cell", "v"], "value": "Marketing"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D4"]
+        ],
+        "path": ["v"],
+        "value": "Engineering"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D5"]
+        ],
+        "path": ["v"],
+        "value": "Marketing"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D3", "property": ["cell", "v"], "value": "HR"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D6", "property": ["cell", "v"], "value": "Sales"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D3"]
+        ],
+        "path": ["v"],
+        "value": "HR"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D6"]
+        ],
+        "path": ["v"],
+        "value": "Sales"
+      }
     ]
   ]
 }

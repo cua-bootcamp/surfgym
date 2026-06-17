@@ -3,21 +3,98 @@
   "empty_start": false,
   "states": [
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "First Name"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Order ID"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D1", "property": ["cell", "v"], "value": "Date"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E1", "property": ["cell", "v"], "value": "Last Name"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F1", "property": ["cell", "v"], "value": "Sales"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B1"]
+        ],
+        "path": ["v"],
+        "value": "First Name"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C1"]
+        ],
+        "path": ["v"],
+        "value": "Order ID"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D1"]
+        ],
+        "path": ["v"],
+        "value": "Date"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E1"]
+        ],
+        "path": ["v"],
+        "value": "Last Name"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F1"]
+        ],
+        "path": ["v"],
+        "value": "Sales"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D1", "property": ["cell", "v"], "value": "Last Name"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E1", "property": ["cell", "v"], "value": "Date"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D1"]
+        ],
+        "path": ["v"],
+        "value": "Last Name"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E1"]
+        ],
+        "path": ["v"],
+        "value": "Date"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Date"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "First Name"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E1", "property": ["cell", "v"], "value": "Order ID"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F1", "property": ["cell", "v"], "value": "Sales"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B1"]
+        ],
+        "path": ["v"],
+        "value": "Date"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C1"]
+        ],
+        "path": ["v"],
+        "value": "First Name"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E1"]
+        ],
+        "path": ["v"],
+        "value": "Order ID"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F1"]
+        ],
+        "path": ["v"],
+        "value": "Sales"
+      }
     ]
   ]
 }

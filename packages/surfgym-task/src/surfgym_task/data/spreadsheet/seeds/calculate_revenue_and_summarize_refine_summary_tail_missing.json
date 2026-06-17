@@ -3,79 +3,548 @@
   "empty_start": false,
   "states": [
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Order Date"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Product"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": "Quantity"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D2", "property": ["cell", "v"], "value": "Discount Rate"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "2024-01-05"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "Alpha Kite"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": "6"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D3", "property": ["cell", "v"], "value": "0.1"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "2024-01-06"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "Mini Drone"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": "2"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D4", "property": ["cell", "v"], "value": "0.05"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "2024-01-07"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "Foam Glider"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": "8"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D5", "property": ["cell", "v"], "value": "0"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A6", "property": ["cell", "v"], "value": "2024-01-08"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B6", "property": ["cell", "v"], "value": "Stunt Yo-Yo"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C6", "property": ["cell", "v"], "value": "10"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D6", "property": ["cell", "v"], "value": "0.15"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A7", "property": ["cell", "v"], "value": "2024-01-09"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B7", "property": ["cell", "v"], "value": "Alpha Kite"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C7", "property": ["cell", "v"], "value": "4"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D7", "property": ["cell", "v"], "value": "0"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A8", "property": ["cell", "v"], "value": "2024-01-10"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B8", "property": ["cell", "v"], "value": "Mini Drone"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C8", "property": ["cell", "v"], "value": "3"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D8", "property": ["cell", "v"], "value": "0.1"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A9", "property": ["cell", "v"], "value": "2024-01-11"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B9", "property": ["cell", "v"], "value": "Foam Glider"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C9", "property": ["cell", "v"], "value": "5"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D9", "property": ["cell", "v"], "value": "0.2"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A10", "property": ["cell", "v"], "value": "2024-01-12"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B10", "property": ["cell", "v"], "value": "Stunt Yo-Yo"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C10", "property": ["cell", "v"], "value": "12"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D10", "property": ["cell", "v"], "value": "0"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "G2", "property": ["cell", "v"], "value": "Product"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "H2", "property": ["cell", "v"], "value": "Unit Price"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "G3", "property": ["cell", "v"], "value": "Alpha Kite"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "H3", "property": ["cell", "v"], "value": "18.5"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "G4", "property": ["cell", "v"], "value": "Mini Drone"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "H4", "property": ["cell", "v"], "value": "42"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "G5", "property": ["cell", "v"], "value": "Foam Glider"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "H5", "property": ["cell", "v"], "value": "12.75"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "G6", "property": ["cell", "v"], "value": "Stunt Yo-Yo"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "H6", "property": ["cell", "v"], "value": "9.5"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F2", "property": ["cell", "v"], "value": "Revenue"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "K2", "property": ["cell", "v"], "value": "Product"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "L2", "property": ["cell", "v"], "value": "Total Revenue"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F10", "property": ["cell", "v"], "value": "0"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "L6", "property": ["cell", "v"], "value": "0"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A2"]
+        ],
+        "path": ["v"],
+        "value": "Order Date"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
+        "path": ["v"],
+        "value": "Product"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C2"]
+        ],
+        "path": ["v"],
+        "value": "Quantity"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D2"]
+        ],
+        "path": ["v"],
+        "value": "Discount Rate"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A3"]
+        ],
+        "path": ["v"],
+        "value": "2024-01-05"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["v"],
+        "value": "Alpha Kite"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C3"]
+        ],
+        "path": ["v"],
+        "value": "6"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D3"]
+        ],
+        "path": ["v"],
+        "value": "0.1"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A4"]
+        ],
+        "path": ["v"],
+        "value": "2024-01-06"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
+        "path": ["v"],
+        "value": "Mini Drone"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C4"]
+        ],
+        "path": ["v"],
+        "value": "2"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D4"]
+        ],
+        "path": ["v"],
+        "value": "0.05"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A5"]
+        ],
+        "path": ["v"],
+        "value": "2024-01-07"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B5"]
+        ],
+        "path": ["v"],
+        "value": "Foam Glider"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C5"]
+        ],
+        "path": ["v"],
+        "value": "8"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D5"]
+        ],
+        "path": ["v"],
+        "value": "0"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A6"]
+        ],
+        "path": ["v"],
+        "value": "2024-01-08"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B6"]
+        ],
+        "path": ["v"],
+        "value": "Stunt Yo-Yo"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C6"]
+        ],
+        "path": ["v"],
+        "value": "10"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D6"]
+        ],
+        "path": ["v"],
+        "value": "0.15"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A7"]
+        ],
+        "path": ["v"],
+        "value": "2024-01-09"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B7"]
+        ],
+        "path": ["v"],
+        "value": "Alpha Kite"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C7"]
+        ],
+        "path": ["v"],
+        "value": "4"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D7"]
+        ],
+        "path": ["v"],
+        "value": "0"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A8"]
+        ],
+        "path": ["v"],
+        "value": "2024-01-10"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B8"]
+        ],
+        "path": ["v"],
+        "value": "Mini Drone"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C8"]
+        ],
+        "path": ["v"],
+        "value": "3"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D8"]
+        ],
+        "path": ["v"],
+        "value": "0.1"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A9"]
+        ],
+        "path": ["v"],
+        "value": "2024-01-11"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B9"]
+        ],
+        "path": ["v"],
+        "value": "Foam Glider"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C9"]
+        ],
+        "path": ["v"],
+        "value": "5"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D9"]
+        ],
+        "path": ["v"],
+        "value": "0.2"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A10"]
+        ],
+        "path": ["v"],
+        "value": "2024-01-12"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B10"]
+        ],
+        "path": ["v"],
+        "value": "Stunt Yo-Yo"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C10"]
+        ],
+        "path": ["v"],
+        "value": "12"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D10"]
+        ],
+        "path": ["v"],
+        "value": "0"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "G2"]
+        ],
+        "path": ["v"],
+        "value": "Product"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "H2"]
+        ],
+        "path": ["v"],
+        "value": "Unit Price"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "G3"]
+        ],
+        "path": ["v"],
+        "value": "Alpha Kite"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "H3"]
+        ],
+        "path": ["v"],
+        "value": "18.5"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "G4"]
+        ],
+        "path": ["v"],
+        "value": "Mini Drone"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "H4"]
+        ],
+        "path": ["v"],
+        "value": "42"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "G5"]
+        ],
+        "path": ["v"],
+        "value": "Foam Glider"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "H5"]
+        ],
+        "path": ["v"],
+        "value": "12.75"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "G6"]
+        ],
+        "path": ["v"],
+        "value": "Stunt Yo-Yo"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "H6"]
+        ],
+        "path": ["v"],
+        "value": "9.5"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F2"]
+        ],
+        "path": ["v"],
+        "value": "Revenue"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "K2"]
+        ],
+        "path": ["v"],
+        "value": "Product"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "L2"]
+        ],
+        "path": ["v"],
+        "value": "Total Revenue"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F10"]
+        ],
+        "path": ["v"],
+        "value": "0"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "L6"]
+        ],
+        "path": ["v"],
+        "value": "0"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F10", "property": ["cell", "v"], "value": "114"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "L6", "property": ["cell", "v"], "value": "194.75"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F10"]
+        ],
+        "path": ["v"],
+        "value": "114"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "L6"]
+        ],
+        "path": ["v"],
+        "value": "194.75"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F3", "property": ["cell", "v"], "value": "99.9"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F4", "property": ["cell", "v"], "value": "79.8"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F5", "property": ["cell", "v"], "value": "102"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F6", "property": ["cell", "v"], "value": "80.75"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F7", "property": ["cell", "v"], "value": "74"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F8", "property": ["cell", "v"], "value": "113.4"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F9", "property": ["cell", "v"], "value": "51"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F3"]
+        ],
+        "path": ["v"],
+        "value": "99.9"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F4"]
+        ],
+        "path": ["v"],
+        "value": "79.8"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F5"]
+        ],
+        "path": ["v"],
+        "value": "102"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F6"]
+        ],
+        "path": ["v"],
+        "value": "80.75"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F7"]
+        ],
+        "path": ["v"],
+        "value": "74"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F8"]
+        ],
+        "path": ["v"],
+        "value": "113.4"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F9"]
+        ],
+        "path": ["v"],
+        "value": "51"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "K3", "property": ["cell", "v"], "value": "Alpha Kite"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "L3", "property": ["cell", "v"], "value": "173.9"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "K4", "property": ["cell", "v"], "value": "Mini Drone"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "L4", "property": ["cell", "v"], "value": "193.2"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "K5", "property": ["cell", "v"], "value": "Foam Glider"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "L5", "property": ["cell", "v"], "value": "153"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "K6", "property": ["cell", "v"], "value": "Stunt Yo-Yo"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "K3"]
+        ],
+        "path": ["v"],
+        "value": "Alpha Kite"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "L3"]
+        ],
+        "path": ["v"],
+        "value": "173.9"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "K4"]
+        ],
+        "path": ["v"],
+        "value": "Mini Drone"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "L4"]
+        ],
+        "path": ["v"],
+        "value": "193.2"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "K5"]
+        ],
+        "path": ["v"],
+        "value": "Foam Glider"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "L5"]
+        ],
+        "path": ["v"],
+        "value": "153"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "K6"]
+        ],
+        "path": ["v"],
+        "value": "Stunt Yo-Yo"
+      }
     ]
   ]
 }

@@ -3,87 +3,612 @@
   "empty_start": false,
   "states": [
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "Order ID"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Product"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": "Sales Channel"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D2", "property": ["cell", "v"], "value": "Units"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E2", "property": ["cell", "v"], "value": "Revenue"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "1001"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "Sunscreen"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": "Online"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D3", "property": ["cell", "v"], "value": "12"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E3", "property": ["cell", "v"], "value": "180"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "1002"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "Beach Towel"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": "Store"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D4", "property": ["cell", "v"], "value": "8"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E4", "property": ["cell", "v"], "value": "200"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "1003"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "Flip Flops"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": "Online"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D5", "property": ["cell", "v"], "value": "15"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E5", "property": ["cell", "v"], "value": "225"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A6", "property": ["cell", "v"], "value": "1004"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B6", "property": ["cell", "v"], "value": "Sunglasses"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C6", "property": ["cell", "v"], "value": "Distributor"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D6", "property": ["cell", "v"], "value": "5"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E6", "property": ["cell", "v"], "value": "375"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A7", "property": ["cell", "v"], "value": "1005"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B7", "property": ["cell", "v"], "value": "Sunscreen"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C7", "property": ["cell", "v"], "value": "Store"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D7", "property": ["cell", "v"], "value": "10"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E7", "property": ["cell", "v"], "value": "150"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A8", "property": ["cell", "v"], "value": "1006"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B8", "property": ["cell", "v"], "value": "Beach Towel"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C8", "property": ["cell", "v"], "value": "Online"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D8", "property": ["cell", "v"], "value": "6"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E8", "property": ["cell", "v"], "value": "150"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A9", "property": ["cell", "v"], "value": "1007"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B9", "property": ["cell", "v"], "value": "Sunglasses"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C9", "property": ["cell", "v"], "value": "Online"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D9", "property": ["cell", "v"], "value": "4"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E9", "property": ["cell", "v"], "value": "300"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A10", "property": ["cell", "v"], "value": "1008"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B10", "property": ["cell", "v"], "value": "Flip Flops"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C10", "property": ["cell", "v"], "value": "Store"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D10", "property": ["cell", "v"], "value": "9"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E10", "property": ["cell", "v"], "value": "135"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A11", "property": ["cell", "v"], "value": "1009"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B11", "property": ["cell", "v"], "value": "Sunscreen"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C11", "property": ["cell", "v"], "value": "Distributor"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D11", "property": ["cell", "v"], "value": "7"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E11", "property": ["cell", "v"], "value": "105"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A12", "property": ["cell", "v"], "value": "1010"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B12", "property": ["cell", "v"], "value": "Beach Towel"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C12", "property": ["cell", "v"], "value": "Distributor"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D12", "property": ["cell", "v"], "value": "11"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "E12", "property": ["cell", "v"], "value": "275"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "H2", "property": ["cell", "v"], "value": "Product"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "I2", "property": ["cell", "v"], "value": "Total Revenue"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "K2", "property": ["cell", "v"], "value": "Sales Channel"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "L2", "property": ["cell", "v"], "value": "Total Revenue"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "I3", "property": ["cell", "v"], "value": "400"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "I4", "property": ["cell", "v"], "value": "600"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A2"]
+        ],
+        "path": ["v"],
+        "value": "Order ID"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
+        "path": ["v"],
+        "value": "Product"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C2"]
+        ],
+        "path": ["v"],
+        "value": "Sales Channel"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D2"]
+        ],
+        "path": ["v"],
+        "value": "Units"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E2"]
+        ],
+        "path": ["v"],
+        "value": "Revenue"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A3"]
+        ],
+        "path": ["v"],
+        "value": "1001"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["v"],
+        "value": "Sunscreen"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C3"]
+        ],
+        "path": ["v"],
+        "value": "Online"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D3"]
+        ],
+        "path": ["v"],
+        "value": "12"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E3"]
+        ],
+        "path": ["v"],
+        "value": "180"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A4"]
+        ],
+        "path": ["v"],
+        "value": "1002"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
+        "path": ["v"],
+        "value": "Beach Towel"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C4"]
+        ],
+        "path": ["v"],
+        "value": "Store"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D4"]
+        ],
+        "path": ["v"],
+        "value": "8"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E4"]
+        ],
+        "path": ["v"],
+        "value": "200"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A5"]
+        ],
+        "path": ["v"],
+        "value": "1003"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B5"]
+        ],
+        "path": ["v"],
+        "value": "Flip Flops"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C5"]
+        ],
+        "path": ["v"],
+        "value": "Online"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D5"]
+        ],
+        "path": ["v"],
+        "value": "15"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E5"]
+        ],
+        "path": ["v"],
+        "value": "225"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A6"]
+        ],
+        "path": ["v"],
+        "value": "1004"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B6"]
+        ],
+        "path": ["v"],
+        "value": "Sunglasses"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C6"]
+        ],
+        "path": ["v"],
+        "value": "Distributor"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D6"]
+        ],
+        "path": ["v"],
+        "value": "5"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E6"]
+        ],
+        "path": ["v"],
+        "value": "375"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A7"]
+        ],
+        "path": ["v"],
+        "value": "1005"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B7"]
+        ],
+        "path": ["v"],
+        "value": "Sunscreen"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C7"]
+        ],
+        "path": ["v"],
+        "value": "Store"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D7"]
+        ],
+        "path": ["v"],
+        "value": "10"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E7"]
+        ],
+        "path": ["v"],
+        "value": "150"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A8"]
+        ],
+        "path": ["v"],
+        "value": "1006"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B8"]
+        ],
+        "path": ["v"],
+        "value": "Beach Towel"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C8"]
+        ],
+        "path": ["v"],
+        "value": "Online"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D8"]
+        ],
+        "path": ["v"],
+        "value": "6"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E8"]
+        ],
+        "path": ["v"],
+        "value": "150"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A9"]
+        ],
+        "path": ["v"],
+        "value": "1007"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B9"]
+        ],
+        "path": ["v"],
+        "value": "Sunglasses"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C9"]
+        ],
+        "path": ["v"],
+        "value": "Online"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D9"]
+        ],
+        "path": ["v"],
+        "value": "4"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E9"]
+        ],
+        "path": ["v"],
+        "value": "300"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A10"]
+        ],
+        "path": ["v"],
+        "value": "1008"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B10"]
+        ],
+        "path": ["v"],
+        "value": "Flip Flops"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C10"]
+        ],
+        "path": ["v"],
+        "value": "Store"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D10"]
+        ],
+        "path": ["v"],
+        "value": "9"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E10"]
+        ],
+        "path": ["v"],
+        "value": "135"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A11"]
+        ],
+        "path": ["v"],
+        "value": "1009"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B11"]
+        ],
+        "path": ["v"],
+        "value": "Sunscreen"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C11"]
+        ],
+        "path": ["v"],
+        "value": "Distributor"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D11"]
+        ],
+        "path": ["v"],
+        "value": "7"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E11"]
+        ],
+        "path": ["v"],
+        "value": "105"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A12"]
+        ],
+        "path": ["v"],
+        "value": "1010"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B12"]
+        ],
+        "path": ["v"],
+        "value": "Beach Towel"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C12"]
+        ],
+        "path": ["v"],
+        "value": "Distributor"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D12"]
+        ],
+        "path": ["v"],
+        "value": "11"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E12"]
+        ],
+        "path": ["v"],
+        "value": "275"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "H2"]
+        ],
+        "path": ["v"],
+        "value": "Product"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "I2"]
+        ],
+        "path": ["v"],
+        "value": "Total Revenue"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "K2"]
+        ],
+        "path": ["v"],
+        "value": "Sales Channel"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "L2"]
+        ],
+        "path": ["v"],
+        "value": "Total Revenue"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "I3"]
+        ],
+        "path": ["v"],
+        "value": "400"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "I4"]
+        ],
+        "path": ["v"],
+        "value": "600"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "I3", "property": ["cell", "v"], "value": "435"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "I4", "property": ["cell", "v"], "value": "625"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "I3"]
+        ],
+        "path": ["v"],
+        "value": "435"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "I4"]
+        ],
+        "path": ["v"],
+        "value": "625"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "H3", "property": ["cell", "v"], "value": "Sunscreen"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "H4", "property": ["cell", "v"], "value": "Beach Towel"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "H5", "property": ["cell", "v"], "value": "Flip Flops"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "I5", "property": ["cell", "v"], "value": "360"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "H6", "property": ["cell", "v"], "value": "Sunglasses"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "I6", "property": ["cell", "v"], "value": "675"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "H3"]
+        ],
+        "path": ["v"],
+        "value": "Sunscreen"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "H4"]
+        ],
+        "path": ["v"],
+        "value": "Beach Towel"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "H5"]
+        ],
+        "path": ["v"],
+        "value": "Flip Flops"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "I5"]
+        ],
+        "path": ["v"],
+        "value": "360"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "H6"]
+        ],
+        "path": ["v"],
+        "value": "Sunglasses"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "I6"]
+        ],
+        "path": ["v"],
+        "value": "675"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "K3", "property": ["cell", "v"], "value": "Online"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "L3", "property": ["cell", "v"], "value": "855"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "K4", "property": ["cell", "v"], "value": "Store"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "L4", "property": ["cell", "v"], "value": "485"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "K5", "property": ["cell", "v"], "value": "Distributor"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "L5", "property": ["cell", "v"], "value": "755"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "K3"]
+        ],
+        "path": ["v"],
+        "value": "Online"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "L3"]
+        ],
+        "path": ["v"],
+        "value": "855"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "K4"]
+        ],
+        "path": ["v"],
+        "value": "Store"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "L4"]
+        ],
+        "path": ["v"],
+        "value": "485"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "K5"]
+        ],
+        "path": ["v"],
+        "value": "Distributor"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "L5"]
+        ],
+        "path": ["v"],
+        "value": "755"
+      }
     ]
   ]
 }

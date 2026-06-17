@@ -3,160 +3,1210 @@
   "empty_start": false,
   "states": [
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Date"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Product Name"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Amount ($)"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "12-24-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Desk Pad"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": "15"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "01-04-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "USB-C Cable"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": "12"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "12-22-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "USB-C Cable"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": "12"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "01-06-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "Desk Pad"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": "15"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A6", "property": ["cell", "v"], "value": "12-30-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B6", "property": ["cell", "v"], "value": "Desk Mat"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C6", "property": ["cell", "v"], "value": "22"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A7", "property": ["cell", "v"], "value": "12-19-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B7", "property": ["cell", "v"], "value": "Wireless Mouse"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C7", "property": ["cell", "v"], "value": "25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A8", "property": ["cell", "v"], "value": "12-27-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B8", "property": ["cell", "v"], "value": "Laptop Sleeve"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C8", "property": ["cell", "v"], "value": "29"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A9", "property": ["cell", "v"], "value": "01-09-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B9", "property": ["cell", "v"], "value": "Laptop Sleeve"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C9", "property": ["cell", "v"], "value": "29"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A10", "property": ["cell", "v"], "value": "12-21-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B10", "property": ["cell", "v"], "value": "Monitor Stand"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C10", "property": ["cell", "v"], "value": "32"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A11", "property": ["cell", "v"], "value": "01-03-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B11", "property": ["cell", "v"], "value": "Monitor Stand"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C11", "property": ["cell", "v"], "value": "32"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A12", "property": ["cell", "v"], "value": "12-29-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B12", "property": ["cell", "v"], "value": "USB Hub"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C12", "property": ["cell", "v"], "value": "35"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A13", "property": ["cell", "v"], "value": "01-11-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B13", "property": ["cell", "v"], "value": "USB Hub"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C13", "property": ["cell", "v"], "value": "35"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A14", "property": ["cell", "v"], "value": "12-31-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B14", "property": ["cell", "v"], "value": "Wireless Charger"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C14", "property": ["cell", "v"], "value": "38"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A15", "property": ["cell", "v"], "value": "12-28-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B15", "property": ["cell", "v"], "value": "Power Bank"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C15", "property": ["cell", "v"], "value": "45"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A16", "property": ["cell", "v"], "value": "01-10-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B16", "property": ["cell", "v"], "value": "Power Bank"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C16", "property": ["cell", "v"], "value": "45"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A17", "property": ["cell", "v"], "value": "12-26-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B17", "property": ["cell", "v"], "value": "Webcam"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C17", "property": ["cell", "v"], "value": "48"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A18", "property": ["cell", "v"], "value": "01-08-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B18", "property": ["cell", "v"], "value": "Webcam"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C18", "property": ["cell", "v"], "value": "48"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A19", "property": ["cell", "v"], "value": "12-23-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B19", "property": ["cell", "v"], "value": "Office Headset"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C19", "property": ["cell", "v"], "value": "55"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A20", "property": ["cell", "v"], "value": "01-05-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B20", "property": ["cell", "v"], "value": "Office Headset"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C20", "property": ["cell", "v"], "value": "55"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A21", "property": ["cell", "v"], "value": "01-01-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B21", "property": ["cell", "v"], "value": "Gaming Mouse"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C21", "property": ["cell", "v"], "value": "65"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A22", "property": ["cell", "v"], "value": "12-25-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B22", "property": ["cell", "v"], "value": "Bluetooth Speaker"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C22", "property": ["cell", "v"], "value": "72"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A23", "property": ["cell", "v"], "value": "01-07-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B23", "property": ["cell", "v"], "value": "Bluetooth Speaker"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C23", "property": ["cell", "v"], "value": "72"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A24", "property": ["cell", "v"], "value": "12-20-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B24", "property": ["cell", "v"], "value": "Mechanical Keyboard"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C24", "property": ["cell", "v"], "value": "89"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A25", "property": ["cell", "v"], "value": "01-02-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B25", "property": ["cell", "v"], "value": "Mechanical Keyboard"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C25", "property": ["cell", "v"], "value": "95"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A1"]
+        ],
+        "path": ["v"],
+        "value": "Date"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B1"]
+        ],
+        "path": ["v"],
+        "value": "Product Name"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C1"]
+        ],
+        "path": ["v"],
+        "value": "Amount ($)"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A2"]
+        ],
+        "path": ["v"],
+        "value": "12-24-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
+        "path": ["v"],
+        "value": "Desk Pad"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C2"]
+        ],
+        "path": ["v"],
+        "value": "15"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A3"]
+        ],
+        "path": ["v"],
+        "value": "01-04-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["v"],
+        "value": "USB-C Cable"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C3"]
+        ],
+        "path": ["v"],
+        "value": "12"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A4"]
+        ],
+        "path": ["v"],
+        "value": "12-22-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
+        "path": ["v"],
+        "value": "USB-C Cable"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C4"]
+        ],
+        "path": ["v"],
+        "value": "12"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A5"]
+        ],
+        "path": ["v"],
+        "value": "01-06-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B5"]
+        ],
+        "path": ["v"],
+        "value": "Desk Pad"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C5"]
+        ],
+        "path": ["v"],
+        "value": "15"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A6"]
+        ],
+        "path": ["v"],
+        "value": "12-30-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B6"]
+        ],
+        "path": ["v"],
+        "value": "Desk Mat"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C6"]
+        ],
+        "path": ["v"],
+        "value": "22"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A7"]
+        ],
+        "path": ["v"],
+        "value": "12-19-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B7"]
+        ],
+        "path": ["v"],
+        "value": "Wireless Mouse"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C7"]
+        ],
+        "path": ["v"],
+        "value": "25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A8"]
+        ],
+        "path": ["v"],
+        "value": "12-27-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B8"]
+        ],
+        "path": ["v"],
+        "value": "Laptop Sleeve"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C8"]
+        ],
+        "path": ["v"],
+        "value": "29"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A9"]
+        ],
+        "path": ["v"],
+        "value": "01-09-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B9"]
+        ],
+        "path": ["v"],
+        "value": "Laptop Sleeve"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C9"]
+        ],
+        "path": ["v"],
+        "value": "29"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A10"]
+        ],
+        "path": ["v"],
+        "value": "12-21-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B10"]
+        ],
+        "path": ["v"],
+        "value": "Monitor Stand"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C10"]
+        ],
+        "path": ["v"],
+        "value": "32"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A11"]
+        ],
+        "path": ["v"],
+        "value": "01-03-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B11"]
+        ],
+        "path": ["v"],
+        "value": "Monitor Stand"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C11"]
+        ],
+        "path": ["v"],
+        "value": "32"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A12"]
+        ],
+        "path": ["v"],
+        "value": "12-29-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B12"]
+        ],
+        "path": ["v"],
+        "value": "USB Hub"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C12"]
+        ],
+        "path": ["v"],
+        "value": "35"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A13"]
+        ],
+        "path": ["v"],
+        "value": "01-11-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B13"]
+        ],
+        "path": ["v"],
+        "value": "USB Hub"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C13"]
+        ],
+        "path": ["v"],
+        "value": "35"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A14"]
+        ],
+        "path": ["v"],
+        "value": "12-31-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B14"]
+        ],
+        "path": ["v"],
+        "value": "Wireless Charger"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C14"]
+        ],
+        "path": ["v"],
+        "value": "38"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A15"]
+        ],
+        "path": ["v"],
+        "value": "12-28-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B15"]
+        ],
+        "path": ["v"],
+        "value": "Power Bank"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C15"]
+        ],
+        "path": ["v"],
+        "value": "45"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A16"]
+        ],
+        "path": ["v"],
+        "value": "01-10-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B16"]
+        ],
+        "path": ["v"],
+        "value": "Power Bank"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C16"]
+        ],
+        "path": ["v"],
+        "value": "45"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A17"]
+        ],
+        "path": ["v"],
+        "value": "12-26-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B17"]
+        ],
+        "path": ["v"],
+        "value": "Webcam"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C17"]
+        ],
+        "path": ["v"],
+        "value": "48"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A18"]
+        ],
+        "path": ["v"],
+        "value": "01-08-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B18"]
+        ],
+        "path": ["v"],
+        "value": "Webcam"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C18"]
+        ],
+        "path": ["v"],
+        "value": "48"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A19"]
+        ],
+        "path": ["v"],
+        "value": "12-23-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B19"]
+        ],
+        "path": ["v"],
+        "value": "Office Headset"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C19"]
+        ],
+        "path": ["v"],
+        "value": "55"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A20"]
+        ],
+        "path": ["v"],
+        "value": "01-05-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B20"]
+        ],
+        "path": ["v"],
+        "value": "Office Headset"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C20"]
+        ],
+        "path": ["v"],
+        "value": "55"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A21"]
+        ],
+        "path": ["v"],
+        "value": "01-01-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B21"]
+        ],
+        "path": ["v"],
+        "value": "Gaming Mouse"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C21"]
+        ],
+        "path": ["v"],
+        "value": "65"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A22"]
+        ],
+        "path": ["v"],
+        "value": "12-25-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B22"]
+        ],
+        "path": ["v"],
+        "value": "Bluetooth Speaker"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C22"]
+        ],
+        "path": ["v"],
+        "value": "72"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A23"]
+        ],
+        "path": ["v"],
+        "value": "01-07-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B23"]
+        ],
+        "path": ["v"],
+        "value": "Bluetooth Speaker"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C23"]
+        ],
+        "path": ["v"],
+        "value": "72"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A24"]
+        ],
+        "path": ["v"],
+        "value": "12-20-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B24"]
+        ],
+        "path": ["v"],
+        "value": "Mechanical Keyboard"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C24"]
+        ],
+        "path": ["v"],
+        "value": "89"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A25"]
+        ],
+        "path": ["v"],
+        "value": "01-02-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B25"]
+        ],
+        "path": ["v"],
+        "value": "Mechanical Keyboard"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C25"]
+        ],
+        "path": ["v"],
+        "value": "95"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A2", "property": ["cell", "v"], "value": "12-22-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "USB-C Cable"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": "12"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A4", "property": ["cell", "v"], "value": "12-24-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "Desk Pad"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": "15"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A2"]
+        ],
+        "path": ["v"],
+        "value": "12-22-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
+        "path": ["v"],
+        "value": "USB-C Cable"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C2"]
+        ],
+        "path": ["v"],
+        "value": "12"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A4"]
+        ],
+        "path": ["v"],
+        "value": "12-24-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
+        "path": ["v"],
+        "value": "Desk Pad"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C4"]
+        ],
+        "path": ["v"],
+        "value": "15"
+      }
     ],
     [
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A1", "property": ["cell", "v"], "value": "Date"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B1", "property": ["cell", "v"], "value": "Product Name"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C1", "property": ["cell", "v"], "value": "Amount ($)"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A3", "property": ["cell", "v"], "value": "01-04-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "USB-C Cable"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": "12"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A5", "property": ["cell", "v"], "value": "01-06-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "Desk Pad"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": "15"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A6", "property": ["cell", "v"], "value": "12-30-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B6", "property": ["cell", "v"], "value": "Desk Mat"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C6", "property": ["cell", "v"], "value": "22"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A7", "property": ["cell", "v"], "value": "12-19-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B7", "property": ["cell", "v"], "value": "Wireless Mouse"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C7", "property": ["cell", "v"], "value": "25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A8", "property": ["cell", "v"], "value": "12-27-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B8", "property": ["cell", "v"], "value": "Laptop Sleeve"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C8", "property": ["cell", "v"], "value": "29"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A9", "property": ["cell", "v"], "value": "01-09-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B9", "property": ["cell", "v"], "value": "Laptop Sleeve"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C9", "property": ["cell", "v"], "value": "29"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A10", "property": ["cell", "v"], "value": "12-21-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B10", "property": ["cell", "v"], "value": "Monitor Stand"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C10", "property": ["cell", "v"], "value": "32"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A11", "property": ["cell", "v"], "value": "01-03-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B11", "property": ["cell", "v"], "value": "Monitor Stand"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C11", "property": ["cell", "v"], "value": "32"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A12", "property": ["cell", "v"], "value": "12-29-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B12", "property": ["cell", "v"], "value": "USB Hub"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C12", "property": ["cell", "v"], "value": "35"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A13", "property": ["cell", "v"], "value": "01-11-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B13", "property": ["cell", "v"], "value": "USB Hub"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C13", "property": ["cell", "v"], "value": "35"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A14", "property": ["cell", "v"], "value": "12-31-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B14", "property": ["cell", "v"], "value": "Wireless Charger"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C14", "property": ["cell", "v"], "value": "38"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A15", "property": ["cell", "v"], "value": "12-28-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B15", "property": ["cell", "v"], "value": "Power Bank"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C15", "property": ["cell", "v"], "value": "45"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A16", "property": ["cell", "v"], "value": "01-10-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B16", "property": ["cell", "v"], "value": "Power Bank"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C16", "property": ["cell", "v"], "value": "45"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A17", "property": ["cell", "v"], "value": "12-26-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B17", "property": ["cell", "v"], "value": "Webcam"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C17", "property": ["cell", "v"], "value": "48"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A18", "property": ["cell", "v"], "value": "01-08-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B18", "property": ["cell", "v"], "value": "Webcam"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C18", "property": ["cell", "v"], "value": "48"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A19", "property": ["cell", "v"], "value": "12-23-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B19", "property": ["cell", "v"], "value": "Office Headset"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C19", "property": ["cell", "v"], "value": "55"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A20", "property": ["cell", "v"], "value": "01-05-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B20", "property": ["cell", "v"], "value": "Office Headset"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C20", "property": ["cell", "v"], "value": "55"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A21", "property": ["cell", "v"], "value": "01-01-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B21", "property": ["cell", "v"], "value": "Gaming Mouse"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C21", "property": ["cell", "v"], "value": "65"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A22", "property": ["cell", "v"], "value": "12-25-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B22", "property": ["cell", "v"], "value": "Bluetooth Speaker"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C22", "property": ["cell", "v"], "value": "72"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A23", "property": ["cell", "v"], "value": "01-07-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B23", "property": ["cell", "v"], "value": "Bluetooth Speaker"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C23", "property": ["cell", "v"], "value": "72"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A24", "property": ["cell", "v"], "value": "12-20-24"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B24", "property": ["cell", "v"], "value": "Mechanical Keyboard"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C24", "property": ["cell", "v"], "value": "89"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "A25", "property": ["cell", "v"], "value": "01-02-25"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B25", "property": ["cell", "v"], "value": "Mechanical Keyboard"},
-      {"match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C25", "property": ["cell", "v"], "value": "95"}
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A1"]
+        ],
+        "path": ["v"],
+        "value": "Date"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B1"]
+        ],
+        "path": ["v"],
+        "value": "Product Name"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C1"]
+        ],
+        "path": ["v"],
+        "value": "Amount ($)"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A3"]
+        ],
+        "path": ["v"],
+        "value": "01-04-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["v"],
+        "value": "USB-C Cable"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C3"]
+        ],
+        "path": ["v"],
+        "value": "12"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A5"]
+        ],
+        "path": ["v"],
+        "value": "01-06-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B5"]
+        ],
+        "path": ["v"],
+        "value": "Desk Pad"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C5"]
+        ],
+        "path": ["v"],
+        "value": "15"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A6"]
+        ],
+        "path": ["v"],
+        "value": "12-30-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B6"]
+        ],
+        "path": ["v"],
+        "value": "Desk Mat"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C6"]
+        ],
+        "path": ["v"],
+        "value": "22"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A7"]
+        ],
+        "path": ["v"],
+        "value": "12-19-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B7"]
+        ],
+        "path": ["v"],
+        "value": "Wireless Mouse"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C7"]
+        ],
+        "path": ["v"],
+        "value": "25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A8"]
+        ],
+        "path": ["v"],
+        "value": "12-27-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B8"]
+        ],
+        "path": ["v"],
+        "value": "Laptop Sleeve"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C8"]
+        ],
+        "path": ["v"],
+        "value": "29"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A9"]
+        ],
+        "path": ["v"],
+        "value": "01-09-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B9"]
+        ],
+        "path": ["v"],
+        "value": "Laptop Sleeve"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C9"]
+        ],
+        "path": ["v"],
+        "value": "29"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A10"]
+        ],
+        "path": ["v"],
+        "value": "12-21-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B10"]
+        ],
+        "path": ["v"],
+        "value": "Monitor Stand"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C10"]
+        ],
+        "path": ["v"],
+        "value": "32"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A11"]
+        ],
+        "path": ["v"],
+        "value": "01-03-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B11"]
+        ],
+        "path": ["v"],
+        "value": "Monitor Stand"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C11"]
+        ],
+        "path": ["v"],
+        "value": "32"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A12"]
+        ],
+        "path": ["v"],
+        "value": "12-29-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B12"]
+        ],
+        "path": ["v"],
+        "value": "USB Hub"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C12"]
+        ],
+        "path": ["v"],
+        "value": "35"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A13"]
+        ],
+        "path": ["v"],
+        "value": "01-11-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B13"]
+        ],
+        "path": ["v"],
+        "value": "USB Hub"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C13"]
+        ],
+        "path": ["v"],
+        "value": "35"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A14"]
+        ],
+        "path": ["v"],
+        "value": "12-31-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B14"]
+        ],
+        "path": ["v"],
+        "value": "Wireless Charger"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C14"]
+        ],
+        "path": ["v"],
+        "value": "38"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A15"]
+        ],
+        "path": ["v"],
+        "value": "12-28-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B15"]
+        ],
+        "path": ["v"],
+        "value": "Power Bank"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C15"]
+        ],
+        "path": ["v"],
+        "value": "45"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A16"]
+        ],
+        "path": ["v"],
+        "value": "01-10-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B16"]
+        ],
+        "path": ["v"],
+        "value": "Power Bank"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C16"]
+        ],
+        "path": ["v"],
+        "value": "45"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A17"]
+        ],
+        "path": ["v"],
+        "value": "12-26-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B17"]
+        ],
+        "path": ["v"],
+        "value": "Webcam"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C17"]
+        ],
+        "path": ["v"],
+        "value": "48"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A18"]
+        ],
+        "path": ["v"],
+        "value": "01-08-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B18"]
+        ],
+        "path": ["v"],
+        "value": "Webcam"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C18"]
+        ],
+        "path": ["v"],
+        "value": "48"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A19"]
+        ],
+        "path": ["v"],
+        "value": "12-23-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B19"]
+        ],
+        "path": ["v"],
+        "value": "Office Headset"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C19"]
+        ],
+        "path": ["v"],
+        "value": "55"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A20"]
+        ],
+        "path": ["v"],
+        "value": "01-05-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B20"]
+        ],
+        "path": ["v"],
+        "value": "Office Headset"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C20"]
+        ],
+        "path": ["v"],
+        "value": "55"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A21"]
+        ],
+        "path": ["v"],
+        "value": "01-01-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B21"]
+        ],
+        "path": ["v"],
+        "value": "Gaming Mouse"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C21"]
+        ],
+        "path": ["v"],
+        "value": "65"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A22"]
+        ],
+        "path": ["v"],
+        "value": "12-25-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B22"]
+        ],
+        "path": ["v"],
+        "value": "Bluetooth Speaker"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C22"]
+        ],
+        "path": ["v"],
+        "value": "72"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A23"]
+        ],
+        "path": ["v"],
+        "value": "01-07-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B23"]
+        ],
+        "path": ["v"],
+        "value": "Bluetooth Speaker"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C23"]
+        ],
+        "path": ["v"],
+        "value": "72"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A24"]
+        ],
+        "path": ["v"],
+        "value": "12-20-24"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B24"]
+        ],
+        "path": ["v"],
+        "value": "Mechanical Keyboard"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C24"]
+        ],
+        "path": ["v"],
+        "value": "89"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "A25"]
+        ],
+        "path": ["v"],
+        "value": "01-02-25"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B25"]
+        ],
+        "path": ["v"],
+        "value": "Mechanical Keyboard"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C25"]
+        ],
+        "path": ["v"],
+        "value": "95"
+      }
     ]
   ]
 }

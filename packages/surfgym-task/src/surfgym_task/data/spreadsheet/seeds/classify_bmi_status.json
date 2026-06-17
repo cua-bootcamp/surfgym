@@ -3,28 +3,188 @@
   "empty_start": false,
   "states": [
     [
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B2", "property": ["cell", "v"], "value": "Name" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C2", "property": ["cell", "v"], "value": "BMI" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D2", "property": ["cell", "v"], "value": "Classification" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F2", "property": ["cell", "v"], "value": "Min BMI" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "G2", "property": ["cell", "v"], "value": "Status" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F3", "property": ["cell", "v"], "value": 0 },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "G3", "property": ["cell", "v"], "value": "Underweight" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F4", "property": ["cell", "v"], "value": 18.5 },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "G4", "property": ["cell", "v"], "value": "Normal" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F5", "property": ["cell", "v"], "value": 25 },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "G5", "property": ["cell", "v"], "value": "Overweight" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "F6", "property": ["cell", "v"], "value": 30 },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "G6", "property": ["cell", "v"], "value": "Obese" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B3", "property": ["cell", "v"], "value": "Alice" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C3", "property": ["cell", "v"], "value": 22.4 },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B4", "property": ["cell", "v"], "value": "Bob" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C4", "property": ["cell", "v"], "value": 28.1 },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "B5", "property": ["cell", "v"], "value": "Charlie" },
-      { "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "C5", "property": ["cell", "v"], "value": 17.2 }
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
+        "path": ["v"],
+        "value": "Name"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C2"]
+        ],
+        "path": ["v"],
+        "value": "BMI"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D2"]
+        ],
+        "path": ["v"],
+        "value": "Classification"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F2"]
+        ],
+        "path": ["v"],
+        "value": "Min BMI"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "G2"]
+        ],
+        "path": ["v"],
+        "value": "Status"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F3"]
+        ],
+        "path": ["v"],
+        "value": 0
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "G3"]
+        ],
+        "path": ["v"],
+        "value": "Underweight"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F4"]
+        ],
+        "path": ["v"],
+        "value": 18.5
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "G4"]
+        ],
+        "path": ["v"],
+        "value": "Normal"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F5"]
+        ],
+        "path": ["v"],
+        "value": 25
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "G5"]
+        ],
+        "path": ["v"],
+        "value": "Overweight"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F6"]
+        ],
+        "path": ["v"],
+        "value": 30
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "G6"]
+        ],
+        "path": ["v"],
+        "value": "Obese"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["v"],
+        "value": "Alice"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C3"]
+        ],
+        "path": ["v"],
+        "value": 22.4
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
+        "path": ["v"],
+        "value": "Bob"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C4"]
+        ],
+        "path": ["v"],
+        "value": 28.1
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B5"]
+        ],
+        "path": ["v"],
+        "value": "Charlie"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C5"]
+        ],
+        "path": ["v"],
+        "value": 17.2
+      }
     ],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D3", "property": ["cell", "v"], "value": "Normal" }],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D4", "property": ["cell", "v"], "value": "Overweight" }],
-    [{ "match": "exact", "applyf": "applyCellMeta", "evalf": "getCellMeta", "param": "D5", "property": ["cell", "v"], "value": "Underweight" }]
+    [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D3"]
+        ],
+        "path": ["v"],
+        "value": "Normal"
+      }
+    ],
+    [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D4"]
+        ],
+        "path": ["v"],
+        "value": "Overweight"
+      }
+    ],
+    [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D5"]
+        ],
+        "path": ["v"],
+        "value": "Underweight"
+      }
     ]
+  ]
 }
