@@ -1,0 +1,42 @@
+{
+  "task_id": "chromium_delete_amazon_site_data",
+  "instruction": "Delete the Amazon cookies and site data without deleting the Wikipedia site data.",
+  "website": "chrome://settings",
+  "hash": "7b6c7e24-c58a-49fc-a5bb-d57b80e5b4c3",
+  "complexity": 2,
+  "profile_setup": {
+    "cookies": [
+      {
+        "url": "https://www.amazon.com/",
+        "domain": ".amazon.com",
+        "path": "/",
+        "name": "surfgym_amazon_cookie",
+        "value": "amazon-fixture"
+      },
+      {
+        "url": "https://www.wikipedia.org/",
+        "domain": ".wikipedia.org",
+        "path": "/",
+        "name": "surfgym_wikipedia_cookie",
+        "value": "wikipedia-fixture"
+      }
+    ]
+  },
+  "evaluation": {
+    "operator": "and",
+    "rules": [
+      {
+        "mode": "chromium",
+        "type": "cookie_domain_absent",
+        "domain": "amazon.com",
+        "value": true
+      },
+      {
+        "mode": "chromium",
+        "type": "cookie_domain_absent",
+        "domain": "wikipedia.org",
+        "value": false
+      }
+    ]
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "instruction": "Create a phone list. Then normalize every phone number in column B into the ###-###-#### format for the given table",
+  "instruction": "Create the phone list, then rewrite every phone number in column B as text in the ###-###-#### pattern.",
   "empty_start": false,
   "states": [
     [
@@ -56,8 +56,24 @@
           ["sheet", null],
           ["cell", "B2"]
         ],
+        "path": ["t"],
+        "value": 4
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
         "path": ["v"],
         "value": "(415) 555 0182"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["t"],
+        "value": 4
       },
       {
         "query": [
@@ -72,8 +88,24 @@
           ["sheet", null],
           ["cell", "B4"]
         ],
+        "path": ["t"],
+        "value": 4
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
         "path": ["v"],
         "value": "6175550134"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B5"]
+        ],
+        "path": ["t"],
+        "value": 4
       },
       {
         "query": [
@@ -90,11 +122,27 @@
           ["sheet", null],
           ["cell", "B2"]
         ],
+        "path": ["t"],
+        "value": 4
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
         "path": ["v"],
         "value": "415-555-0182"
       }
     ],
     [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["t"],
+        "value": 4
+      },
       {
         "query": [
           ["sheet", null],
@@ -110,11 +158,27 @@
           ["sheet", null],
           ["cell", "B4"]
         ],
+        "path": ["t"],
+        "value": 4
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
         "path": ["v"],
         "value": "617-555-0134"
       }
     ],
     [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B5"]
+        ],
+        "path": ["t"],
+        "value": 4
+      },
       {
         "query": [
           ["sheet", null],

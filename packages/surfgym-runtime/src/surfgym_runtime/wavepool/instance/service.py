@@ -1,14 +1,14 @@
 import asyncio
 import json
 import math
+import re
 import shutil
 import tempfile
 from collections import defaultdict
 from dataclasses import dataclass, field
 from io import BytesIO
 from pathlib import Path
-from typing import Any
-from typing import DefaultDict, Optional
+from typing import Any, DefaultDict, Optional
 
 from PIL import Image
 from playwright.async_api import Browser, BrowserContext, Page, Playwright, async_playwright
@@ -21,11 +21,18 @@ from surfgym_contracts.task import (
     DomRule,
     Evaluation,
     Observation,
+    ProfileSetup,
     Website,
 )
 from typing_extensions import assert_never
 
 from surfgym_runtime.support import instance_logger
+from surfgym_runtime.support.chromium_profile import (
+    apply_chromium_profile_file_setup,
+    apply_chromium_runtime_profile_setup,
+    evaluate_chromium_profile_rule,
+    profile_setup_requires_persistent_context,
+)
 from surfgym_runtime.wavepool.instance.error import (
     CreateFailed,
     InstanceError,
@@ -115,6 +122,7 @@ class PlaywrightBrowserWorker:
         instance_id: str,
         websites: list[Website],
         setup: Optional[list[Action]],
+        profile_setup: Optional[ProfileSetup],
     ) -> None:
         browser = self._require_browser()
 
@@ -132,8 +140,9 @@ class PlaywrightBrowserWorker:
         committed = False
 
         try:
-            if _requires_persistent_profile(websites):
+            if _requires_persistent_profile(websites, profile_setup):
                 profile_dir = Path(tempfile.mkdtemp(prefix=f"surfgym-{instance_id}-"))
+                apply_chromium_profile_file_setup(profile_dir, profile_setup)
                 context = await self._require_playwright().chromium.launch_persistent_context(
                     profile_dir,
                     viewport={"width": self.viewport_width, "height": self.viewport_height},
@@ -142,6 +151,8 @@ class PlaywrightBrowserWorker:
                 context = await browser.new_context(
                     viewport={"width": self.viewport_width, "height": self.viewport_height}
                 )
+
+            await apply_chromium_runtime_profile_setup(context, profile_setup)
             state = ContextState(
                 instance_id=instance_id,
                 context=context,
@@ -239,8 +250,37 @@ class PlaywrightBrowserWorker:
 
         if setup:
             for action in setup:
+                if action.mode == "playwright":
+                    await self._run_playwright_setup_action(state, action.script)
+                    continue
+
                 page = self._page_for_website(state, action.website_id, context="setup action")
                 await page.evaluate(action.script)
+
+    async def _run_playwright_setup_action(self, state: ContextState, script: str) -> None:
+        if script == "close_last_tab":
+            pages = list(state.context.pages)
+            if not pages:
+                return
+
+            page = pages[-1]
+            await page.close()
+
+            for website_id, tracked_page in list(state.pages.items()):
+                if tracked_page == page:
+                    state.pages.pop(website_id, None)
+                    state.page_layouts.pop(website_id, None)
+                    if state.active_page_id == website_id:
+                        state.active_page_id = next(iter(state.pages), None)
+
+            remaining_pages = [
+                remaining for remaining in state.context.pages if not remaining.is_closed()
+            ]
+            if remaining_pages:
+                await remaining_pages[-1].bring_to_front()
+            return
+
+        raise InvalidCommand(f"Unsupported Playwright setup action: {script}")
 
     async def _screenshot_state(self, state: ContextState) -> tuple[BytesIO, float, float]:
         try:
@@ -393,14 +433,25 @@ class PlaywrightBrowserWorker:
             for original_idx, obs in zip(idx_arr, obs_arr):
                 observations[original_idx] = _coerce_playwright_observation(obs)
 
-        if chromium_rules:
+        profile_chromium_rules: list[tuple[int, ChromiumRule]] = []
+        for original_idx, rule in chromium_rules:
+            if rule.type == "active_url":
+                observations[original_idx] = await _active_url_observation(state.context, rule)
+                continue
+
+            if rule.type == "open_tabs":
+                observations[original_idx] = [page.url for page in state.context.pages]
+                continue
+
+            profile_chromium_rules.append((original_idx, rule))
+
+        if profile_chromium_rules:
             await self._close_context_state(state)
 
-            for original_idx, rule in chromium_rules:
-                observations[original_idx] = _read_profile_json_value(
+            for original_idx, rule in profile_chromium_rules:
+                observations[original_idx] = evaluate_chromium_profile_rule(
                     profile_dir=state.profile_dir,
-                    relative_file=rule.file,
-                    dotted_path=rule.path,
+                    rule=rule,
                 )
 
         return ObservationResponse(observation=observations)
@@ -546,8 +597,85 @@ def _build_page_layouts(
     ]
 
 
-def _requires_persistent_profile(websites: list[Website]) -> bool:
-    return any(website.url.startswith("chrome://") for website in websites)
+async def _active_url_observation(context: BrowserContext, rule: ChromiumRule) -> Observation:
+    pages = list(context.pages)
+    visible_page = await _visible_page(pages)
+    if visible_page is not None:
+        return visible_page.url
+
+    matching_page = _matching_page(pages, rule)
+    if matching_page is not None:
+        return matching_page.url
+
+    last_page = pages[-1] if pages else None
+    return last_page.url if last_page is not None else None
+
+
+async def _visible_page(pages: list[Page]) -> Page | None:
+    for page in reversed(pages):
+        try:
+            visibility_state = await page.evaluate("document.visibilityState")
+        except Exception:
+            continue
+        if visibility_state == "visible":
+            return page
+    return None
+
+
+def _matching_page(pages: list[Page], rule: ChromiumRule) -> Page | None:
+    for page in reversed(pages):
+        if _value_matches(
+            page.url,
+            rule.value,
+            match=rule.match,
+            normalize_space=rule.normalize_space,
+            case_sensitive=rule.case_sensitive,
+        ):
+            return page
+    return None
+
+
+def _requires_persistent_profile(
+    websites: list[Website],
+    profile_setup: ProfileSetup | None,
+) -> bool:
+    return any(website.url.startswith("chrome://") for website in websites) or (
+        profile_setup_requires_persistent_context(profile_setup)
+    )
+
+
+def _value_matches(
+    actual: Observation,
+    expected: object,
+    *,
+    match: str,
+    normalize_space: bool,
+    case_sensitive: bool,
+) -> bool:
+    actual_text = "" if actual is None else str(actual)
+    expected_text = str(expected)
+
+    if normalize_space:
+        actual_text = " ".join(actual_text.split())
+        expected_text = " ".join(expected_text.split())
+
+    if match == "exact":
+        if not case_sensitive:
+            actual_text = actual_text.casefold()
+            expected_text = expected_text.casefold()
+        return actual_text == expected_text
+
+    if match == "contains":
+        if not case_sensitive:
+            actual_text = actual_text.casefold()
+            expected_text = expected_text.casefold()
+        return expected_text in actual_text
+
+    if match == "regex":
+        flags = 0 if case_sensitive else re.IGNORECASE
+        return re.search(expected_text, actual_text, flags=flags) is not None
+
+    return False
 
 
 def _read_profile_json_value(

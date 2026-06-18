@@ -56,8 +56,24 @@
           ["sheet", null],
           ["cell", "B2"]
         ],
+        "path": ["t"],
+        "value": 4
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
         "path": ["v"],
         "value": "$1200.12"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["t"],
+        "value": 4
       },
       {
         "query": [
@@ -91,7 +107,7 @@
           ["cell", "B2"]
         ],
         "path": ["v"],
-        "value": "$1,200.12"
+        "value": 1200.12
       },
       {
         "query": [
@@ -99,7 +115,7 @@
           ["cell", "B3"]
         ],
         "path": ["v"],
-        "value": "$45.79"
+        "value": 45.79
       }
     ],
     [
@@ -125,7 +141,7 @@
           ["cell", "B4"]
         ],
         "path": ["v"],
-        "value": "$32.32"
+        "value": 32.32
       },
       {
         "query": [
@@ -141,7 +157,7 @@
           ["cell", "B5"]
         ],
         "path": ["v"],
-        "value": "$90.00"
+        "value": 90
       },
       {
         "query": [

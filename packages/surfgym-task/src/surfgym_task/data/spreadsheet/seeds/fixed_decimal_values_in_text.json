@@ -1,5 +1,5 @@
 {
-  "instruction": "Round each numeric value in column B to two decimal places and place the rounded result in column C. Make sure every result in column C is displayed with exactly two decimal digits, including trailing zeros for whole numbers or one-decimal values.",
+  "instruction": "Round each Original Value to two decimal places, enter the rounded numeric results in column C, then apply the Number Format (0.00) to C3:C6 so every result displays exactly two decimal places.",
   "empty_start": false,
   "states": [
     [
@@ -33,7 +33,7 @@
           ["cell", "B3"]
         ],
         "path": ["v"],
-        "value": "4.5"
+        "value": 4.5
       },
       {
         "query": [
@@ -49,7 +49,7 @@
           ["cell", "B4"]
         ],
         "path": ["v"],
-        "value": "12"
+        "value": 12
       },
       {
         "query": [
@@ -65,7 +65,7 @@
           ["cell", "B5"]
         ],
         "path": ["v"],
-        "value": "3.456"
+        "value": 3.456
       },
       {
         "query": [
@@ -81,7 +81,7 @@
           ["cell", "B6"]
         ],
         "path": ["v"],
-        "value": "0.8"
+        "value": 0.8
       },
       {
         "query": [
@@ -99,7 +99,7 @@
           ["cell", "C3"]
         ],
         "path": ["v"],
-        "value": "4.50"
+        "value": 4.5
       },
       {
         "query": [
@@ -107,7 +107,7 @@
           ["cell", "C3"]
         ],
         "path": ["s", "n", "pattern"],
-        "value": "#,##0.00"
+        "value": "0.00"
       }
     ],
     [
@@ -117,7 +117,7 @@
           ["cell", "C4"]
         ],
         "path": ["v"],
-        "value": "12.00"
+        "value": 12
       },
       {
         "query": [
@@ -125,7 +125,7 @@
           ["cell", "C4"]
         ],
         "path": ["s", "n", "pattern"],
-        "value": "#,##0.00"
+        "value": "0.00"
       }
     ],
     [
@@ -135,7 +135,7 @@
           ["cell", "C5"]
         ],
         "path": ["v"],
-        "value": "3.46"
+        "value": 3.46
       },
       {
         "query": [
@@ -143,7 +143,7 @@
           ["cell", "C5"]
         ],
         "path": ["s", "n", "pattern"],
-        "value": "#,##0.00"
+        "value": "0.00"
       }
     ],
     [
@@ -153,7 +153,7 @@
           ["cell", "C6"]
         ],
         "path": ["v"],
-        "value": "0.80"
+        "value": 0.8
       },
       {
         "query": [
@@ -161,7 +161,7 @@
           ["cell", "C6"]
         ],
         "path": ["s", "n", "pattern"],
-        "value": "#,##0.00"
+        "value": "0.00"
       }
     ]
   ]

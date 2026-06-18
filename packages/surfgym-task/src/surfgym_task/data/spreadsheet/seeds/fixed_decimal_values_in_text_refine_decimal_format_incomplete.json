@@ -1,5 +1,5 @@
 {
-  "instruction": "Correct the fixed-decimal values that do not preserve two displayed digits, then round each Original Value into the Fixed Decimal Value column with exactly two decimal digits including trailing zeros.",
+  "instruction": "Correct the incorrect rounded values, then enter the rounded numeric results in the Fixed Decimal Value column and apply the Number Format (0.00) so every result displays exactly two decimal places.",
   "empty_start": false,
   "states": [
     [
@@ -33,7 +33,7 @@
           ["cell", "B3"]
         ],
         "path": ["v"],
-        "value": "4.5"
+        "value": 4.5
       },
       {
         "query": [
@@ -49,7 +49,7 @@
           ["cell", "B4"]
         ],
         "path": ["v"],
-        "value": "12"
+        "value": 12
       },
       {
         "query": [
@@ -65,7 +65,7 @@
           ["cell", "B5"]
         ],
         "path": ["v"],
-        "value": "3.456"
+        "value": 3.456
       },
       {
         "query": [
@@ -81,7 +81,7 @@
           ["cell", "B6"]
         ],
         "path": ["v"],
-        "value": "0.8"
+        "value": 0.8
       },
       {
         "query": [
@@ -97,7 +97,7 @@
           ["cell", "C5"]
         ],
         "path": ["v"],
-        "value": "3.45"
+        "value": 3.45
       },
       {
         "query": [
@@ -105,7 +105,7 @@
           ["cell", "C6"]
         ],
         "path": ["v"],
-        "value": "0.8"
+        "value": 0.8
       }
     ],
     [
@@ -115,7 +115,7 @@
           ["cell", "C5"]
         ],
         "path": ["v"],
-        "value": "3.46"
+        "value": 3.46
       },
       {
         "query": [
@@ -123,7 +123,7 @@
           ["cell", "C6"]
         ],
         "path": ["v"],
-        "value": "0.80"
+        "value": 0.8
       }
     ],
     [
@@ -133,7 +133,7 @@
           ["cell", "C3"]
         ],
         "path": ["v"],
-        "value": "4.50"
+        "value": 4.5
       },
       {
         "query": [
@@ -141,7 +141,7 @@
           ["cell", "C3"]
         ],
         "path": ["s", "n", "pattern"],
-        "value": "#,##0.00"
+        "value": "0.00"
       },
       {
         "query": [
@@ -149,7 +149,7 @@
           ["cell", "C4"]
         ],
         "path": ["v"],
-        "value": "12.00"
+        "value": 12
       },
       {
         "query": [
@@ -157,7 +157,7 @@
           ["cell", "C4"]
         ],
         "path": ["s", "n", "pattern"],
-        "value": "#,##0.00"
+        "value": "0.00"
       },
       {
         "query": [
@@ -165,7 +165,7 @@
           ["cell", "C5"]
         ],
         "path": ["s", "n", "pattern"],
-        "value": "#,##0.00"
+        "value": "0.00"
       },
       {
         "query": [
@@ -173,7 +173,7 @@
           ["cell", "C6"]
         ],
         "path": ["s", "n", "pattern"],
-        "value": "#,##0.00"
+        "value": "0.00"
       }
     ]
   ]

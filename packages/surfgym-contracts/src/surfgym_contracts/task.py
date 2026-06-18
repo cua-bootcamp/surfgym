@@ -8,6 +8,7 @@ from pydantic import (
     Field,
     TypeAdapter,
     field_validator,
+    model_validator,
 )
 
 
@@ -26,7 +27,8 @@ class Website(_WebsiteDependent):
     url: str
 
 
-Value: TypeAlias = Union[str, int, float, bool]
+ScalarValue: TypeAlias = Union[str, int, float, bool]
+Value: TypeAlias = Union[ScalarValue, list[str]]
 
 
 class RuleCore(_WebsiteDependent):
@@ -50,8 +52,62 @@ class DomRule(RuleCore):
 
 class ChromiumRule(RuleCore):
     mode: Literal["chromium"] = "chromium"
-    file: str
-    path: str
+    type: Literal[
+        "json_value",
+        "active_url",
+        "open_tabs",
+        "bookmark_bar_folder",
+        "bookmark_bar_url",
+        "history_keyword_absent",
+        "cookie_domain_absent",
+    ] = "json_value"
+    file: Optional[str] = None
+    path: Optional[str] = None
+    query: Optional[str] = None
+    domain: Optional[str] = None
+
+    @model_validator(mode="after")
+    def validate_chromium_rule(self):
+        if self.type == "json_value":
+            if self.file is None or self.path is None:
+                raise ValueError("Chromium json_value rules require file and path.")
+            if self.query is not None or self.domain is not None:
+                raise ValueError("Chromium json_value rules do not accept query or domain.")
+            if isinstance(self.value, list):
+                raise ValueError("Chromium json_value rules require a scalar value.")
+            return self
+
+        if self.file is not None or self.path is not None:
+            raise ValueError("Only Chromium json_value rules accept file and path.")
+
+        if self.type == "history_keyword_absent":
+            if not self.query:
+                raise ValueError("Chromium history_keyword_absent rules require query.")
+            if not isinstance(self.value, bool):
+                raise ValueError("Chromium history_keyword_absent rules require a boolean value.")
+            return self
+
+        if self.type == "cookie_domain_absent":
+            if not self.domain:
+                raise ValueError("Chromium cookie_domain_absent rules require domain.")
+            if not isinstance(self.value, bool):
+                raise ValueError("Chromium cookie_domain_absent rules require a boolean value.")
+            return self
+
+        if self.query is not None or self.domain is not None:
+            raise ValueError(
+                "Only Chromium history_keyword_absent and cookie_domain_absent rules accept "
+                "query or domain."
+            )
+
+        if self.type == "open_tabs":
+            if not isinstance(self.value, list):
+                raise ValueError("Chromium open_tabs rules require a list value.")
+            return self
+
+        if isinstance(self.value, list):
+            raise ValueError(f"Chromium {self.type} rules require a scalar value.")
+        return self
 
 
 def fill_rule_mode(value: object) -> object:
@@ -61,6 +117,15 @@ def fill_rule_mode(value: object) -> object:
     if "script" in value:
         return {**value, "mode": "console"}  # pyright: ignore[reportUnknownVariableType]
     if "file" in value and "path" in value:
+        return {**value, "mode": "chromium"}  # pyright: ignore[reportUnknownVariableType]
+    if value.get("type") in {
+        "active_url",
+        "open_tabs",
+        "bookmark_bar_folder",
+        "bookmark_bar_url",
+        "history_keyword_absent",
+        "cookie_domain_absent",
+    }:
         return {**value, "mode": "chromium"}  # pyright: ignore[reportUnknownVariableType]
     return {**value, "mode": "dom"}  # pyright: ignore[reportUnknownVariableType]
 
@@ -105,11 +170,30 @@ class TaskCore(FrozenBaseModel):
 class ProfileJsonValue(FrozenBaseModel):
     file: str
     path: str
-    value: Value
+    value: ScalarValue
+
+
+class ProfileHistoryEntry(FrozenBaseModel):
+    url: str
+    title: str = ""
+
+
+class ProfileCookie(FrozenBaseModel):
+    url: str
+    name: str
+    value: str
+    domain: Optional[str] = None
+    path: str = "/"
+    expires: Optional[float] = None
+    http_only: bool = False
+    secure: bool = False
+    same_site: Optional[Literal["Strict", "Lax", "None"]] = None
 
 
 class ProfileSetup(FrozenBaseModel):
     json_values: list[ProfileJsonValue] = []
+    history_entries: list[ProfileHistoryEntry] = []
+    cookies: list[ProfileCookie] = []
 
 
 class Task(TaskCore):

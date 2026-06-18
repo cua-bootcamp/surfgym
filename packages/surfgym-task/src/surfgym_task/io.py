@@ -113,7 +113,7 @@ class RunStats:
 
 
 class JsonWriter:
-    def __init__(self, path: Path, flush_every: int = 100):
+    def __init__(self, path: Path, flush_every: int = 10):
         self.path = path
         self.flush_every = flush_every
         self.count = 0
@@ -184,7 +184,7 @@ class TaskWriter:
 
 
 class AugmentationWriter:
-    def __init__(self, out_dir: Path, flush_every: int = 50):
+    def __init__(self, out_dir: Path, flush_every: int = 10):
         self.out_dir = out_dir
         self.detail_dir = out_dir / "detail"
         self.flush_every = flush_every
@@ -218,7 +218,7 @@ class AugmentationWriter:
 
 
 class InstructionLoader:
-    def __init__(self, path: Path, flush_every: int = 50):
+    def __init__(self, path: Path, flush_every: int = 10):
         self.path = path
         self.count = 0
         self.flush_every = flush_every

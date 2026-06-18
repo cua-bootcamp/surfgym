@@ -1,5 +1,5 @@
 {
-  "instruction": "Correct the phone-number scaffold and inconsistent middle entry, then normalize every Phone Number into ###-###-#### format.",
+  "instruction": "Correct the Phone Number header and inconsistent middle entry, then rewrite every Phone Number value as text in the ###-###-#### pattern.",
   "empty_start": false,
   "states": [
     [
@@ -56,8 +56,24 @@
           ["sheet", null],
           ["cell", "B2"]
         ],
+        "path": ["t"],
+        "value": 4
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
         "path": ["v"],
         "value": "(415) 555 0182"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
+        "path": ["t"],
+        "value": 4
       },
       {
         "query": [
@@ -72,8 +88,24 @@
           ["sheet", null],
           ["cell", "B4"]
         ],
+        "path": ["t"],
+        "value": 4
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
         "path": ["v"],
         "value": "617.555.0134"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B5"]
+        ],
+        "path": ["t"],
+        "value": 4
       },
       {
         "query": [
@@ -98,11 +130,27 @@
           ["sheet", null],
           ["cell", "B4"]
         ],
+        "path": ["t"],
+        "value": 4
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
         "path": ["v"],
         "value": "617-555-0134"
       }
     ],
     [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
+        "path": ["t"],
+        "value": 4
+      },
       {
         "query": [
           ["sheet", null],
@@ -116,8 +164,24 @@
           ["sheet", null],
           ["cell", "B3"]
         ],
+        "path": ["t"],
+        "value": 4
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
         "path": ["v"],
         "value": "212-555-0198"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B5"]
+        ],
+        "path": ["t"],
+        "value": 4
       },
       {
         "query": [

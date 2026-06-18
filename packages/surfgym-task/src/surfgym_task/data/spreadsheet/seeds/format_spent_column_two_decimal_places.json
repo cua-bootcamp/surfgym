@@ -1,5 +1,5 @@
 {
-  "instruction": "We have a spending log where column B holds expense amounts under the header 'Spent ($)'. Add a 'Formatted' column in column C and use a formula to display each amount with exactly two decimal places, including trailing zeros for whole numbers.",
+  "instruction": "We have a spending log where column B holds expense amounts under the header 'Spent ($)'. Add a 'Formatted' column in column C, copy the amounts into C2:C4, and apply the 0.00 number format so each value displays exactly two decimal places.",
   "empty_start": false,
   "states": [
     [
@@ -51,7 +51,15 @@
           ["cell", "C2"]
         ],
         "path": ["v"],
-        "value": "40.00"
+        "value": 40
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C2"]
+        ],
+        "path": ["s", "n", "pattern"],
+        "value": "0.00"
       },
       {
         "query": [
@@ -59,7 +67,15 @@
           ["cell", "C3"]
         ],
         "path": ["v"],
-        "value": "50.50"
+        "value": 50.5
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C3"]
+        ],
+        "path": ["s", "n", "pattern"],
+        "value": "0.00"
       },
       {
         "query": [
@@ -67,7 +83,15 @@
           ["cell", "C4"]
         ],
         "path": ["v"],
-        "value": "30.75"
+        "value": 30.75
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C4"]
+        ],
+        "path": ["s", "n", "pattern"],
+        "value": "0.00"
       }
     ]
   ]

@@ -1,0 +1,27 @@
+{
+  "task_id": "chromium_enable_do_not_track",
+  "instruction": "Turn on the Do Not Track request setting in Chrome.",
+  "website": "chrome://settings",
+  "hash": "030eeff7-b492-4218-b312-701ec99ee0cc",
+  "complexity": 1,
+  "profile_setup": {
+    "json_values": [
+      {
+        "file": "Default/Preferences",
+        "path": "enable_do_not_track",
+        "value": false
+      }
+    ]
+  },
+  "evaluation": {
+    "operator": "and",
+    "rules": [
+      {
+        "file": "Default/Preferences",
+        "path": "enable_do_not_track",
+        "value": true,
+        "match": "exact"
+      }
+    ]
+  }
+}

@@ -1,5 +1,6 @@
 import type { SheetRef, ChartRef, SpreadsheetRuntime, PathPart, JsonValue } from "./type";
 import type { FChart } from "@univerjs/presets/lib/types/preset-sheets-advanced/index.js";
+
 export class SpreadsheetRuntimeStore {
   private static _runtime: SpreadsheetRuntime | null = null;
 
@@ -76,8 +77,10 @@ export function _getCellMeta(sheetRef: SheetRef, cellRefStr: string) {
   const worksheet = resolveSheet(sheetRef);
   const cellRef = resolveCell(cellRefStr);
   const range = worksheet.getRange(cellRef.row, cellRef.column);
+  const data = worksheet.getSheet().getCellRaw(cellRef.row, cellRef.column) ?? {};
+  const style = range.getCellStyleData("cell") ?? {};
 
-  return range.getCellData() ?? {};
+  return { ...data, s: style };
 }
 
 export function _setCellMeta(

@@ -51,7 +51,7 @@ def create_app(contexts_per_instance: int) -> FastAPI:
             raise InstanceNotIdle("No available context slot on this instance.")
 
         new_instance_id = str(uuid.uuid4())
-        await worker.create(new_instance_id, request.websites, request.setup)
+        await worker.create(new_instance_id, request.websites, request.setup, request.profile_setup)
         return GetInstanceResponse(instance_id=new_instance_id)
 
     @handle_instance_errors

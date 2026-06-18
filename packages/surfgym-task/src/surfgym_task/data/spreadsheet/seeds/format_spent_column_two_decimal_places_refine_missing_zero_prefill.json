@@ -1,5 +1,5 @@
 {
-  "instruction": "Correct the formatted values that are missing required decimal places, then fill the Formatted column with each spent amount displayed to exactly two decimal places including trailing zeros.",
+  "instruction": "Apply the 0.00 number format to the existing values in C2:C3, then fill C4 with the remaining spent amount and apply the same 0.00 number format so C2:C4 display exactly two decimal places.",
   "empty_start": false,
   "states": [
     [
@@ -49,7 +49,7 @@
           ["cell", "C2"]
         ],
         "path": ["v"],
-        "value": "40"
+        "value": 40
       },
       {
         "query": [
@@ -57,7 +57,7 @@
           ["cell", "C3"]
         ],
         "path": ["v"],
-        "value": "50.5"
+        "value": 50.5
       }
     ],
     [
@@ -66,16 +66,16 @@
           ["sheet", null],
           ["cell", "C2"]
         ],
-        "path": ["v"],
-        "value": "40.00"
+        "path": ["s", "n", "pattern"],
+        "value": "0.00"
       },
       {
         "query": [
           ["sheet", null],
           ["cell", "C3"]
         ],
-        "path": ["v"],
-        "value": "50.50"
+        "path": ["s", "n", "pattern"],
+        "value": "0.00"
       }
     ],
     [
@@ -85,7 +85,15 @@
           ["cell", "C4"]
         ],
         "path": ["v"],
-        "value": "30.75"
+        "value": 30.75
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C4"]
+        ],
+        "path": ["s", "n", "pattern"],
+        "value": "0.00"
       }
     ]
   ]

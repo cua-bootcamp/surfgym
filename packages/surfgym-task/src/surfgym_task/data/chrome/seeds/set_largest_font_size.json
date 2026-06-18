@@ -1,0 +1,27 @@
+{
+  "task_id": "chromium_set_largest_font_size",
+  "instruction": "Set Chrome's default font size to the largest option.",
+  "website": "chrome://settings",
+  "hash": "af630914-714e-4a24-a7bb-f9af687d3b91",
+  "complexity": 1,
+  "profile_setup": {
+    "json_values": [
+      {
+        "file": "Default/Preferences",
+        "path": "webkit.webprefs.default_font_size",
+        "value": 16
+      }
+    ]
+  },
+  "evaluation": {
+    "operator": "and",
+    "rules": [
+      {
+        "file": "Default/Preferences",
+        "path": "webkit.webprefs.default_font_size",
+        "value": 24,
+        "match": "exact"
+      }
+    ]
+  }
+}

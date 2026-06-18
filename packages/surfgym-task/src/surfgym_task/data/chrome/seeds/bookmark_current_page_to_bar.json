@@ -1,0 +1,27 @@
+{
+  "task_id": "chromium_bookmark_current_page_to_bar",
+  "instruction": "Save the current page to the bookmarks bar.",
+  "website": "https://jalammar.github.io/illustrated-transformer/",
+  "hash": "7a5a7856-f1b6-42a4-ade9-1ca81ca0f263",
+  "complexity": 1,
+  "profile_setup": {
+    "json_values": [
+      {
+        "file": "Default/Preferences",
+        "path": "bookmark_bar.show_on_all_tabs",
+        "value": true
+      }
+    ]
+  },
+  "evaluation": {
+    "operator": "and",
+    "rules": [
+      {
+        "mode": "chromium",
+        "type": "bookmark_bar_url",
+        "value": "https://jalammar.github.io/illustrated-transformer/",
+        "match": "exact"
+      }
+    ]
+  }
+}

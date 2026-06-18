@@ -15,7 +15,7 @@ from surfgym_contracts.protocol.upstream_to_gateway import (
     ReleaseResponse,
     ScreenshotResponse,
 )
-from surfgym_contracts.task import Action, Evaluation, Website
+from surfgym_contracts.task import Action, Evaluation, ProfileSetup, Website
 
 from surfgym_runtime.gateway.error import Deadline, RetryableError, UpstreamError
 from surfgym_runtime.support.config import WavepoolConfig
@@ -40,10 +40,14 @@ class GatewayTransport:
         return InstanceClient(host=self.host, port=port)
 
     def allocate(
-        self, deadline: Deadline, websites: list[Website], setup: Optional[list[Action]]
+        self,
+        deadline: Deadline,
+        websites: list[Website],
+        setup: Optional[list[Action]],
+        profile_setup: Optional[ProfileSetup],
     ) -> AllocateResponse:
         timeout = deadline.timeout_for(self._timeouts.allocate)
-        return self._master_client.allocate(websites, setup, timeout)
+        return self._master_client.allocate(websites, setup, profile_setup, timeout)
 
     def release(self, deadline: Deadline, instance_id: str, instance_port: int) -> ReleaseResponse:
         timeout = deadline.timeout_for(self._timeouts.release)
@@ -87,8 +91,14 @@ class MasterClient:
     def _get_base_url(self):
         return f"http://{self.host}:{self.port}"
 
-    def allocate(self, websites: list[Website], setup: Optional[list[Action]], timeout: float):
-        request = AllocateRequest(websites=websites, setup=setup)
+    def allocate(
+        self,
+        websites: list[Website],
+        setup: Optional[list[Action]],
+        profile_setup: Optional[ProfileSetup],
+        timeout: float,
+    ):
+        request = AllocateRequest(websites=websites, setup=setup, profile_setup=profile_setup)
         return _request_model(
             "POST",
             f"{self._get_base_url()}/allocate",

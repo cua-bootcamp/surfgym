@@ -1,0 +1,27 @@
+{
+  "task_id": "chromium_change_profile_name_thomas",
+  "instruction": "Change the Chrome profile name to Thomas.",
+  "website": "chrome://settings",
+  "hash": "2ae9ba84-3a0d-4d4c-8338-3a1478dc5fe3",
+  "complexity": 1,
+  "profile_setup": {
+    "json_values": [
+      {
+        "file": "Default/Preferences",
+        "path": "profile.name",
+        "value": "Person 1"
+      }
+    ]
+  },
+  "evaluation": {
+    "operator": "and",
+    "rules": [
+      {
+        "file": "Default/Preferences",
+        "path": "profile.name",
+        "value": "Thomas",
+        "match": "exact"
+      }
+    ]
+  }
+}

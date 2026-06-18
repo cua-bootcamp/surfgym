@@ -4,16 +4,17 @@ set -euo pipefail
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 
 TASK_PATH="${1:-$ROOT_DIR/packages/surfgym-task/src/surfgym_task/data/spreadsheet/out/augmented.jsonl}"
-GATEWAY_URL="${GATEWAY_URL:-http://127.0.0.1:18000}"
+GATEWAY_URL="${2:-http://127.0.0.1:18000}"
+MAX_PARALLEL="${3:-4}"
 
 cd "$ROOT_DIR"
 
 printf 'Generating snapshots\n'
 printf '  gateway: %s\n' "$GATEWAY_URL"
 printf '  task path: %s\n' "$TASK_PATH"
-printf '  max parallel: %s\n\n' "16"
+printf '  max parallel: %s\n\n' "$MAX_PARALLEL"
 
 exec uv run python -m snapshots.generate.run \
   --gateway-url "$GATEWAY_URL" \
   --task-path "$TASK_PATH" \
-  --max-parallel 4
+  --max-parallel "$MAX_PARALLEL"

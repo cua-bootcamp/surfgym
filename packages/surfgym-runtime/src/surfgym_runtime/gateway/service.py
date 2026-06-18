@@ -17,7 +17,7 @@ from surfgym_contracts.protocol.agent_to_gateway import (
     StartRequest,
 )
 from surfgym_contracts.protocol.gateway_to_agent import ActionResponse, ImagePayload, RewardResponse
-from surfgym_contracts.task import Action, Evaluation, Website
+from surfgym_contracts.task import Action, Evaluation, ProfileSetup, Website
 from typing_extensions import Optional
 
 from surfgym_runtime.gateway.error import (
@@ -91,7 +91,12 @@ class Service:
         session_state = None
         try:
             task = self._require_task(request.task_id)
-            instance_id, port = self._allocate(deadline, task.website, task.setup)
+            instance_id, port = self._allocate(
+                deadline,
+                task.website,
+                task.setup,
+                task.profile_setup,
+            )
             session_state = SessionState(
                 task_id=request.task_id, instance_id=instance_id, port=port
             )
@@ -158,12 +163,13 @@ class Service:
         deadline: Callable[[str], Deadline],
         websites: list[Website],
         setup: Optional[list[Action]],
+        profile_setup: Optional[ProfileSetup],
     ) -> tuple[str, int]:
         d = deadline("allocate")
         response = self._run_with_retry(
             min_attempt_time=self.process_timeout.allocate,
             deadline=d,
-            func=lambda: self.transport.allocate(d, websites, setup),
+            func=lambda: self.transport.allocate(d, websites, setup, profile_setup),
         )
         return (response.instance_id, response.instance_port)
 

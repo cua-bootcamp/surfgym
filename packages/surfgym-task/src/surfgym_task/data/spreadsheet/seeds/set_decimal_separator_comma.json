@@ -1,5 +1,5 @@
 {
-  "instruction": "I need to set the decimal separator as a comma (,) for localized data representation and clarity in visualization. Please update all numbers in the sheet while keeping the decimal values unchanged.",
+  "instruction": "Replace the decimal point in the text values in B2:B4 with a comma.",
   "empty_start": false,
   "states": [
     [
@@ -32,6 +32,14 @@
           ["sheet", null],
           ["cell", "B2"]
         ],
+        "path": ["t"],
+        "value": 4
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
         "path": ["v"],
         "value": "12.5"
       },
@@ -48,6 +56,14 @@
           ["sheet", null],
           ["cell", "B3"]
         ],
+        "path": ["t"],
+        "value": 4
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
         "path": ["v"],
         "value": "7.25"
       },
@@ -56,27 +72,27 @@
           ["sheet", null],
           ["cell", "B4"]
         ],
+        "path": ["t"],
+        "value": 4
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
         "path": ["v"],
         "value": "100.0"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B4"]
-        ],
-        "path": ["t"],
-        "value": 1
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B4"]
-        ],
-        "path": ["s", "n", "pattern"],
-        "value": "@"
       }
     ],
     [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B2"]
+        ],
+        "path": ["t"],
+        "value": 4
+      },
       {
         "query": [
           ["sheet", null],
@@ -92,6 +108,14 @@
           ["sheet", null],
           ["cell", "B3"]
         ],
+        "path": ["t"],
+        "value": 4
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B3"]
+        ],
         "path": ["v"],
         "value": "7,25"
       }
@@ -102,24 +126,16 @@
           ["sheet", null],
           ["cell", "B4"]
         ],
+        "path": ["t"],
+        "value": 4
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B4"]
+        ],
         "path": ["v"],
         "value": "100,0"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B4"]
-        ],
-        "path": ["t"],
-        "value": 1
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B4"]
-        ],
-        "path": ["s", "n", "pattern"],
-        "value": "@"
       }
     ]
   ]
