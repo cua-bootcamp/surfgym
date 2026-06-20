@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 
 TARGET_DIR="${1:-$ROOT_DIR/packages/surfgym-task/src/surfgym_task/data/spreadsheet}"
-GRANULARITY="${2:-COARSE}"
+GRANULARITY="${2:-FINE}"
 
 cd "$ROOT_DIR"
 

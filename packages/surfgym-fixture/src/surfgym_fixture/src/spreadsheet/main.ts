@@ -22,7 +22,6 @@ import { createSpreadsheetActions } from "./spreadsheet-actions";
 import { get, set } from "./external";
 import { SpreadsheetRuntimeStore } from "./internal";
 import type { SpreadsheetRuntime } from "./type";
-// import { installSpreadsheetEvaluationHelpers } from "./spreadsheet-evaluation";
 import { renderSpreadsheetMockToolbar, setupSpreadsheetUi } from "./spreadsheet-ui";
 
 import "@univerjs/preset-sheets-core/lib/index.css";
@@ -133,10 +132,3 @@ setupSpreadsheetUi({
   actions,
   conditionalFormattingCommandId: OpenConditionalFormattingOperator.id
 });
-
-// installSpreadsheetEvaluationHelpers({
-//   univerAPI,
-//   workbook: workbook as Parameters<typeof installSpreadsheetEvaluationHelpers>[0]["workbook"],
-//   worksheet,
-//   actions
-// });
