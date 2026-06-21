@@ -1,5 +1,6 @@
 import os
 from collections.abc import Sequence
+from typing import Any, cast
 from urllib.parse import urlparse
 
 import requests
@@ -14,6 +15,7 @@ def post_reset_daemon(
     websites: Sequence[Website],
     payload: dict[str, object],
     timeout_env: str | None = None,
+    app_name: str = "App",
 ) -> None:
     reset_url = derive_reset_url(websites)
     timeout = _reset_timeout(timeout_env)
@@ -21,7 +23,7 @@ def post_reset_daemon(
     try:
         response = requests.post(
             reset_url,
-            json=payload,
+            json=cast(Any, payload),
             timeout=timeout,
         )
     except requests.exceptions.Timeout as exc:
@@ -40,13 +42,13 @@ def post_reset_daemon(
         )
 
     try:
-        body = response.json()
+        body: object = response.json()
     except ValueError as exc:
         raise RuntimeError(
             f"{app_name} reset daemon returned invalid JSON: {_response_text(response)}"
         ) from exc
 
-    if not isinstance(body, dict) or body.get("ok") is not True:
+    if not isinstance(body, dict) or cast(dict[str, object], body).get("ok") is not True:
         raise RuntimeError(f"{app_name} reset daemon failed: response={body!r}")
 
 

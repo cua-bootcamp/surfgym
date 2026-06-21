@@ -32,17 +32,11 @@ from surfgym_runtime.gateway.error import (
     RetryableError,
     deadline_for,
 )
+from surfgym_runtime.gateway.external_app import ExternalAppGatewayClient, ExternalAppSession
 from surfgym_runtime.gateway.transport import GatewayTransport
 from surfgym_runtime.support import Evaluator, Frame, TaskStore, WavepoolConfig, gateway_logger
 
 _T = TypeVar("_T")
-
-# External app serving endpoint:
-# GET https://127.0.0.1:53001/impress/sessions/{session_id}/
-# Reset endpoint:
-# POST http://127.0.0.1:53002/impress/sessions/{session_id}/reset
-# Release endpoint:
-# POST http://127.0.0.1:53002/impress/sessions/{session_id}/release
 
 
 @dataclass(frozen=True)
@@ -51,6 +45,7 @@ class SessionState:
     instance_id: str
     port: int
     trace: list[Frame]
+    external_app: ExternalAppSession | None = None
 
     def append_frame(
         self,
@@ -96,6 +91,7 @@ class Service:
         self.task_store = task_store
         self.evaluator = Evaluator()
         self.transport = GatewayTransport(wavepool_config)
+        self.external_apps = ExternalAppGatewayClient()
         self.process_timeout = wavepool_config.process_timeout
 
         self._session_lock = Lock()
@@ -134,17 +130,33 @@ class Service:
     ) -> ActionResponse:
         self._reserve_session(request.session_id)
         session_state = None
+        external_app_session = None
+        external_app_started = False
         try:
             task = self._require_task(request.task_id)
 
-            website = (
-                _patch_websites(task.website, request.session_id)
-                if task.evaluation.mode == "llm"
-                else task.website
-            )
-            instance_id, port = self._allocate(deadline, website, task.setup)
+            websites = task.website
+            if isinstance(task.evaluation, LLMJudgeEvaluation):
+                external_app_session, websites = self.external_apps.prepare_websites(
+                    task.website,
+                    app=task.evaluation.external_app,
+                    session_id=request.session_id,
+                )
+                self.external_apps.reset(
+                    external_app_session,
+                    timeout=deadline("external_app_reset").timeout_for(
+                        self.process_timeout.allocate
+                    ),
+                )
+                external_app_started = True
+
+            instance_id, port = self._allocate(deadline, websites, task.setup)
             session_state = SessionState(
-                task_id=request.task_id, instance_id=instance_id, port=port, trace=[]
+                task_id=request.task_id,
+                instance_id=instance_id,
+                port=port,
+                trace=[],
+                external_app=external_app_session,
             )
             screenshot_b64, media_type = self._screenshot(deadline, session_state)
             session_state.append_frame(
@@ -161,6 +173,8 @@ class Service:
             self._end_session(request.session_id)
             if session_state is not None:
                 self._release_queue.put(session_state)
+            elif external_app_started and external_app_session is not None:
+                self._try_release_external_app(external_app_session, context="start_rollback")
             raise
 
     def _handle_action(
@@ -289,6 +303,9 @@ class Service:
             if state is None:
                 return
 
+            if state.external_app is not None:
+                self._try_release_external_app(state.external_app, context="release_worker")
+
             try:
                 release_deadline = Deadline(time.monotonic() + self._release_timeout, "release")
                 self.transport.release(release_deadline, state.instance_id, state.port)
@@ -309,6 +326,32 @@ Error Detail: error_type=%s message=%s
                     state.instance_id,
                     state.port,
                 )
+
+    def _release_external_app(self, session: ExternalAppSession) -> None:
+        self.external_apps.release(session, timeout=self._release_timeout)
+
+    def _try_release_external_app(self, session: ExternalAppSession, *, context: str) -> None:
+        try:
+            self._release_external_app(session)
+        except GatewayError as exc:
+            gateway_logger.warning(
+                """
+Failed to release external app: context=%s app=%s session_id=%s
+Error Detail: error_type=%s message=%s
+""".strip(),
+                context,
+                session.app,
+                session.session_id,
+                exc.error_type,
+                exc.message,
+            )
+        except Exception:
+            gateway_logger.exception(
+                "Unexpected external app release failure: context=%s app=%s session_id=%s",
+                context,
+                session.app,
+                session.session_id,
+            )
 
     def _reserve_session(self, session_id: int) -> None:
         with self._session_lock:
@@ -347,11 +390,6 @@ Error Detail: error_type=%s message=%s
 ################################################
 #               Helper Functions               #
 ################################################
-
-
-# [TODO] Need To Be Removed After Refactoring
-def _patch_websites(websites: list[Website], session_id: int) -> list[Website]:
-    return [Website(url=f"{w}/sessions/{session_id}") for w in websites]
 
 
 def jittered_backoff():
