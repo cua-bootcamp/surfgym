@@ -1,15 +1,23 @@
 import asyncio
 import math
+import os
 from collections import defaultdict
 from dataclasses import dataclass, field
 from io import BytesIO
-from typing import DefaultDict, Optional
+from typing import Any, DefaultDict, Optional
 
 from PIL import Image
 from playwright.async_api import Browser, BrowserContext, Page, Playwright, async_playwright
 from surfgym_contracts.command import Command
 from surfgym_contracts.protocol.upstream_to_gateway import ObservationResponse
-from surfgym_contracts.task import Action, ConsoleRule, DomRule, Evaluation, Observation, Website
+from surfgym_contracts.task import (
+    Action,
+    ConsoleRule,
+    DomRule,
+    Observation,
+    RuleBasedEvaluation,
+    Website,
+)
 from typing_extensions import assert_never
 
 from surfgym_runtime.support import instance_logger
@@ -116,9 +124,25 @@ class PlaywrightBrowserWorker:
         committed = False
 
         try:
-            context = await browser.new_context(
-                viewport={"width": self.viewport_width, "height": self.viewport_height}
-            )
+            context_options: dict[str, Any] = {
+                "viewport": {"width": self.viewport_width, "height": self.viewport_height},
+                "ignore_https_errors": True,
+            }
+
+            username = os.getenv("SURFGYM_HTTP_AUTH_USERNAME")
+            password = os.getenv("SURFGYM_HTTP_AUTH_PASSWORD")
+            if username and password:
+                context_options["http_credentials"] = {
+                    "username": username,
+                    "password": password,
+                }
+            elif username or password:
+                instance_logger.warning(
+                    "Ignoring incomplete HTTP Basic Auth credentials; set both "
+                    "SURFGYM_HTTP_AUTH_USERNAME and SURFGYM_HTTP_AUTH_PASSWORD."
+                )
+
+            context = await browser.new_context(**context_options)
             state = ContextState(
                 instance_id=instance_id,
                 context=context,
@@ -324,7 +348,7 @@ class PlaywrightBrowserWorker:
     async def _get_observation(
         self,
         state: ContextState,
-        evaluation: Evaluation,
+        evaluation: RuleBasedEvaluation,
     ) -> ObservationResponse:
         rules = evaluation.rules
         observations: list[Observation] = [None] * len(rules)

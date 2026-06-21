@@ -15,6 +15,13 @@ readonly ROOT_DIR="$(surfgym_root_dir)"
 readonly SURFGYM_CONFIG="$ROOT_DIR/scripts/config.json"
 readonly FIXTURE_DIR="$ROOT_DIR/tests/fixtures"
 
+if [[ -f "$ROOT_DIR/.env" ]]; then
+    set -a
+    # shellcheck source=/dev/null
+    source "$ROOT_DIR/.env"
+    set +a
+fi
+
 json_get() {
     python - "$SURFGYM_CONFIG" "$1" <<'PY'
 import json

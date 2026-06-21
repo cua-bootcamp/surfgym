@@ -15,7 +15,7 @@ from surfgym_contracts.protocol.upstream_to_gateway import (
     ReleaseResponse,
     ScreenshotResponse,
 )
-from surfgym_contracts.task import Action, Evaluation, Website
+from surfgym_contracts.task import Action, RuleBasedEvaluation, Website
 
 from surfgym_runtime.gateway.error import Deadline, RetryableError, UpstreamError
 from surfgym_runtime.support.config import WavepoolConfig
@@ -66,7 +66,7 @@ class GatewayTransport:
         deadline: Deadline,
         instance_id: str,
         instance_port: int,
-        evaluation: Evaluation,
+        evaluation: RuleBasedEvaluation,
     ) -> ObservationResponse:
         timeout = deadline.timeout_for(self._timeouts.observe)
         return self._instance_client(port=instance_port).observe(

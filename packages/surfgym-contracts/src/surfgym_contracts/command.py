@@ -4,7 +4,7 @@ from typing import Annotated, Any, Literal, Optional, TypeAlias, Union
 from pydantic import BaseModel, ConfigDict, Field, GetCoreSchemaHandler, TypeAdapter
 from pydantic_core import core_schema
 
-from surfgym_contracts.task import Action, Evaluation
+from surfgym_contracts.task import Action, RuleBasedEvaluation
 
 ###################
 # Action Commands #
@@ -159,7 +159,7 @@ class HotKeyCommand(_BaseCommand):
 
 class ObserveCommand(_BaseCommand):
     command: Literal["observe"] = "observe"
-    evaluation: Evaluation
+    evaluation: RuleBasedEvaluation
 
 
 # class InteractiveTreeCommand(_BaseCommand):

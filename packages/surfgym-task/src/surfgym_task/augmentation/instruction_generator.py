@@ -4,12 +4,11 @@ from pathlib import Path
 from typing import Any, cast
 
 from dotenv import load_dotenv
-from openai import OpenAI  # pyright: ignore[reportMissingImports,reportUnknownVariableType]
+from openai import OpenAI
 
 from surfgym_task.augmentation.schema import HoareState, SeedTask, State
 
 load_dotenv(Path(__file__).resolve().parents[5] / ".env")
-load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 
 def _dump_state(state: State) -> list[dict[str, Any]]:
@@ -195,7 +194,9 @@ def _value_is_named_in_source(value: Any, source_instruction: str) -> bool:
     return bool(normalized) and normalized in source_instruction.lower()
 
 
-def _include_value_in_prompt(atom: dict[str, Any], operation_kind: str, source_instruction: str) -> bool:
+def _include_value_in_prompt(
+    atom: dict[str, Any], operation_kind: str, source_instruction: str
+) -> bool:
     if not _hides_evaluator_values(operation_kind):
         return True
     return _value_is_named_in_source(atom.get("value"), source_instruction)
@@ -272,7 +273,9 @@ def _public_context(
 
     for atom in _dump_state(start_state):
         is_output = _atom_identity(atom) in output_identities
-        show_value = not is_output or _include_value_in_prompt(atom, operation_kind, source_instruction)
+        show_value = not is_output or _include_value_in_prompt(
+            atom, operation_kind, source_instruction
+        )
 
         if show_value:
             visible_context.append(_public_context_atom(atom))
@@ -298,7 +301,9 @@ def _build_instruction_payload(seed_task: SeedTask, hoare_state: HoareState) -> 
     pending_requirements = [
         _public_requirement(atom, operation_kind, seed_task.instruction) for atom in required_state
     ]
-    pending_requirements.sort(key=lambda item: (_cell_sort_key(item.get("address")), item["property"]))
+    pending_requirements.sort(
+        key=lambda item: (_cell_sort_key(item.get("address")), item["property"])
+    )
 
     return {
         "source_instruction": seed_task.instruction,

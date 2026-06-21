@@ -4,7 +4,7 @@ from typing import Any, Iterator, Optional, TextIO, TypeVar, cast
 
 import json5
 from pydantic import TypeAdapter
-from surfgym_contracts import Action, ConsoleRule, Evaluation, Task, Website
+from surfgym_contracts import Action, ConsoleRule, RuleBasedEvaluation, Task, Website
 
 from surfgym_task.augmentation.instruction_generator import InstructionGenerator
 from surfgym_task.augmentation.schema import (
@@ -91,7 +91,7 @@ class Augmentor:
                         instruction=self.hash_to_inst[hash],
                         website=[Website(url=self.website)],
                         complexity=hoare.complexity,
-                        evaluation=Evaluation(rules=self._state_to_rules(hoare.end_state)),
+                        evaluation=RuleBasedEvaluation(rules=self._state_to_rules(hoare.end_state)),
                         setup=(
                             None
                             if hoare.start_state is None
