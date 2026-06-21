@@ -1,10 +1,12 @@
 import { ChartTypeBits, SheetsChartService } from "@univerjs/presets/preset-sheets-advanced";
+import type { FWorksheet } from "@univerjs/preset-sheets-core";
 import type { FChart } from "@univerjs/presets/lib/types/preset-sheets-advanced/index.js";
 import type { Path, Value } from "../external";
 import { SpreadsheetRuntimeStore } from "./runtime";
 
-type WorksheetLike = ReturnType<typeof resolveSheet>;
-type ChartMetaGetter = (chart: FChart, index: number) => ChartMeta;
+type WorksheetLike = FWorksheet;
+const chartUpdateConfigCommandId = "sheet.command.chart-update-config";
+
 type InjectorLike = {
   get: <T>(token: unknown) => T;
 };
@@ -23,66 +25,75 @@ type RangeLike = {
   startColumn: number;
   endColumn: number;
 };
+type ResolveSheetOptions = {
+  create?: boolean;
+};
+type WorkbookWithSheetMutation = {
+  getSheets?: () => WorksheetLike[];
+  getSheetByName?: (sheetName: string) => WorksheetLike | null | undefined;
+  getSheetBySheetId?: (sheetId: string) => WorksheetLike | null | undefined;
+  insertSheet?: (name?: string) => WorksheetLike;
+};
+type ChartBuilderLike = {
+  setChartType: (chartType: ChartTypeBits) => ChartBuilderLike;
+  addRange: (range: string) => ChartBuilderLike;
+  setPosition: (row: number, column: number, offsetX: number, offsetY: number) => ChartBuilderLike;
+  setWidth: (width: number) => ChartBuilderLike;
+  setHeight: (height: number) => ChartBuilderLike;
+  setOptions: (path: string, value: unknown) => ChartBuilderLike;
+  setTransposeRowsAndColumns?: (transposeRowsAndColumns: boolean) => ChartBuilderLike;
+  setXAxisTitle?: (title: string) => ChartBuilderLike;
+  setYAxisTitle?: (title: string) => ChartBuilderLike;
+  build: () => unknown;
+};
+type WorksheetWithCharts = WorksheetLike & {
+  getCharts?: () => FChart[];
+  newChart?: () => ChartBuilderLike;
+  insertChart?: (chartInfo: unknown) => Promise<unknown> | unknown;
+  setName?: (name: string) => unknown;
+  getMaxColumns?: () => number;
+};
+type ChartRuntimeConfig = {
+  unitId: string;
+  chartModelId: string;
+  chartType?: ChartTypeBits;
+  style?: Record<string, unknown>;
+  context?: unknown;
+};
 
-function resolveSheet(sheetRef?: SheetRef) {
+const chartMetaRegistry: ChartMeta[] = [];
+
+function resolveSheet(sheetRef?: SheetRef, options: ResolveSheetOptions = {}) {
   const { workbook, defaultWorksheet } = SpreadsheetRuntimeStore.runtime;
+  const workbookWithSheets = workbook as unknown as WorkbookWithSheetMutation;
+  const workbookSheets = workbookWithSheets.getSheets?.() ?? [];
+  const sheets = workbookSheets.includes(defaultWorksheet)
+    ? workbookSheets
+    : [defaultWorksheet, ...workbookSheets];
 
   if (sheetRef === undefined) return defaultWorksheet;
 
   if (typeof sheetRef === "string") {
-    const sheet = workbook.getSheetByName?.(sheetRef) ?? workbook.getSheetBySheetId?.(sheetRef);
+    const sheet =
+      sheets.find((item) => getSheetName(item) === sheetRef || item.getSheetId?.() === sheetRef) ??
+      workbookWithSheets.getSheetByName?.(sheetRef) ??
+      workbookWithSheets.getSheetBySheetId?.(sheetRef);
+
+    if (!sheet && options.create && typeof workbookWithSheets.insertSheet === "function") {
+      return workbookWithSheets.insertSheet(sheetRef);
+    }
+
     if (!sheet) throw new Error(`Sheet not found: ${sheetRef}`);
     return sheet;
   }
 
-  const sheet = workbook.getSheets?.()[sheetRef];
+  const sheet = sheets[sheetRef];
   if (!sheet) throw new Error(`Sheet not found: index=${sheetRef}`);
   return sheet;
 }
 
 function isRecord(value: unknown): value is Record<PropertyKey, unknown> {
   return value !== null && typeof value === "object";
-}
-
-function resolveChart(charts: FChart[], chartRef?: ChartRef, getMeta?: ChartMetaGetter): FChart {
-  if (chartRef === undefined) {
-    if (charts.length !== 1) throw new Error(`Expected exactly one chart, found ${charts.length}.`);
-    return charts[0]!;
-  }
-
-  if (typeof chartRef === "number") {
-    const chart = charts[chartRef];
-    if (!chart) throw new Error(`Chart not found: index=${chartRef}`);
-    return chart;
-  }
-
-  const matched = charts.filter((chart, index) => {
-    if (chartRef.index !== undefined && chartRef.index !== index) return false;
-    if (chartRef.id !== undefined && chart.getChartId?.() !== chartRef.id) return false;
-    if (
-      chartRef.title !== undefined ||
-      chartRef.sourceRange !== undefined ||
-      chartRef.chartType !== undefined
-    ) {
-      if (!getMeta) return false;
-
-      const meta = getMeta(chart, index);
-      if (chartRef.title !== undefined && meta.title !== chartRef.title) return false;
-      if (chartRef.sourceRange !== undefined && meta.sourceRange !== chartRef.sourceRange)
-        return false;
-      if (
-        chartRef.chartType !== undefined &&
-        meta.chartType !== normalizeChartType(chartRef.chartType)
-      ) {
-        return false;
-      }
-    }
-    return true;
-  });
-
-  if (matched.length !== 1)
-    throw new Error(`Expected exactly one matching chart, found ${matched.length}.`);
-  return matched[0]!;
 }
 
 function resolveCell(address: string) {
@@ -209,6 +220,15 @@ function readNumber(value: unknown) {
   return typeof value === "number" && Number.isFinite(value) ? value : null;
 }
 
+function readFirstString(value: unknown, paths: PropertyKey[][]) {
+  for (const path of paths) {
+    const pathValue = readString(readPath(value, path));
+    if (pathValue !== null) return pathValue;
+  }
+
+  return null;
+}
+
 function normalizeChartType(chartType: unknown) {
   if (typeof chartType === "string") return chartType.trim().toLowerCase();
 
@@ -233,6 +253,34 @@ function normalizeChartType(chartType: unknown) {
       return "radar";
     default:
       return chartType ?? null;
+  }
+}
+
+function resolveChartTypeBits(chartType: unknown, fallback = ChartTypeBits.Column): ChartTypeBits {
+  if (chartType == null) return fallback;
+  if (typeof chartType === "number") return chartType as ChartTypeBits;
+
+  switch (normalizeChartType(chartType)) {
+    case "line":
+      return ChartTypeBits.Line;
+    case "column":
+      return ChartTypeBits.Column;
+    case "bar":
+      return ChartTypeBits.Bar;
+    case "area":
+      return ChartTypeBits.Area;
+    case "pie":
+      return ChartTypeBits.Pie;
+    case "doughnut":
+      return ChartTypeBits.Doughnut;
+    case "scatter":
+      return ChartTypeBits.Scatter;
+    case "bubble":
+      return ChartTypeBits.Bubble;
+    case "radar":
+      return ChartTypeBits.Radar;
+    default:
+      throw new Error(`Unsupported chart type: ${String(chartType)}`);
   }
 }
 
@@ -263,6 +311,342 @@ function getDataOrientation(range: unknown, style: unknown) {
 
   const orient = readPath(style, ["orient"]);
   return typeof orient === "string" ? orient : null;
+}
+
+function writePath(target: Record<PropertyKey, unknown>, path: Path[], value: unknown) {
+  if (path.length === 0) throw new Error("Path must not be empty.");
+
+  let current = target;
+  for (const key of path.slice(0, -1)) {
+    if (!isRecord(current[key])) current[key] = {};
+    current = current[key] as Record<PropertyKey, unknown>;
+  }
+
+  current[path[path.length - 1]!] = value;
+}
+
+function writeStringPath(target: Record<string, unknown>, path: string[], value: unknown) {
+  if (value === undefined || value === null || value === "") return;
+
+  let current = target;
+  for (const key of path.slice(0, -1)) {
+    if (!isRecord(current[key])) current[key] = {};
+    current = current[key] as Record<string, unknown>;
+  }
+
+  current[path[path.length - 1]!] = value;
+}
+
+function normalizeChartSetValue(path: Path[], value: Value) {
+  const last = path[path.length - 1];
+
+  if (last === "chartType") return normalizeChartType(value);
+  if (last === "sourceRange" && typeof value === "string") return value.trim();
+  if (
+    (last === "title" || last === "xAxisTitle" || last === "yAxisTitle") &&
+    typeof value === "string"
+  ) {
+    return value.trim();
+  }
+
+  return value;
+}
+
+function getChartId(chart: unknown) {
+  if (!isRecord(chart)) return null;
+
+  const getChartIdMethod = chart.getChartId;
+  if (typeof getChartIdMethod !== "function") return null;
+
+  const id = getChartIdMethod.call(chart);
+  return typeof id === "string" ? id : null;
+}
+
+function getWorksheetCharts(worksheet: WorksheetLike): FChart[] {
+  const getCharts = (worksheet as WorksheetWithCharts).getCharts;
+  if (typeof getCharts !== "function") return [];
+
+  try {
+    const charts = getCharts.call(worksheet);
+    return Array.isArray(charts) ? charts : [];
+  } catch {
+    return [];
+  }
+}
+
+function mergeChartMeta(base: ChartMeta, registered?: ChartMeta): ChartMeta {
+  if (!registered) return base;
+
+  return {
+    ...base,
+    chartType: registered.chartType ?? base.chartType,
+    sourceRange: registered.sourceRange ?? base.sourceRange,
+    range: registered.range ?? base.range,
+    title: registered.title ?? base.title,
+    xAxisTitle: registered.xAxisTitle ?? base.xAxisTitle,
+    yAxisTitle: registered.yAxisTitle ?? base.yAxisTitle,
+    legendPosition: registered.legendPosition ?? base.legendPosition,
+    dataOrientation: registered.dataOrientation ?? base.dataOrientation,
+    width: registered.width ?? base.width,
+    height: registered.height ?? base.height,
+    position: registered.position ?? base.position,
+    context: registered.context ?? base.context,
+    seriesData: registered.seriesData ?? base.seriesData,
+    categoryData: registered.categoryData ?? base.categoryData
+  };
+}
+
+function getChartMetasForWorksheet(worksheet: WorksheetLike) {
+  const sheetId = worksheet.getSheetId?.() ?? null;
+  const charts = getWorksheetCharts(worksheet);
+  const registeredForSheet = chartMetaRegistry.filter((item) => item.sheetId === sheetId);
+  const registeredById = new Map(
+    registeredForSheet
+      .filter((item) => item.id)
+      .map((item) => [item.id, item] as [string, ChartMeta])
+  );
+  const actualMetas = charts.map((chart) =>
+    mergeChartMeta(buildChartMeta(worksheet, charts, chart), registeredById.get(chart.getChartId?.() ?? ""))
+  );
+  const actualIds = new Set(actualMetas.map((item) => item.id).filter(Boolean));
+  const registeredOnly = registeredForSheet.filter((item) => !item.id || !actualIds.has(item.id));
+
+  return [...actualMetas, ...registeredOnly].map((item, index) => ({ ...item, index }));
+}
+
+function chartMetaMatches(meta: ChartMeta, index: number, chartRef: ChartRef) {
+  if (typeof chartRef === "number") return index === chartRef || meta.index === chartRef;
+
+  if (chartRef.index !== undefined && chartRef.index !== index && chartRef.index !== meta.index)
+    return false;
+  if (chartRef.id !== undefined && meta.id !== chartRef.id) return false;
+  if (chartRef.title !== undefined && meta.title !== chartRef.title) return false;
+  if (chartRef.sourceRange !== undefined && meta.sourceRange !== chartRef.sourceRange) return false;
+  if (
+    chartRef.chartType !== undefined &&
+    meta.chartType !== normalizeChartType(chartRef.chartType)
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
+function findMatchingChartMetas(chartMetas: ChartMeta[], chartRef?: ChartRef) {
+  if (chartRef === undefined) return chartMetas;
+
+  return chartMetas.filter((meta, index) => chartMetaMatches(meta, index, chartRef));
+}
+
+function resolveChartMeta(chartMetas: ChartMeta[], chartRef?: ChartRef) {
+  const matched = findMatchingChartMetas(chartMetas, chartRef);
+
+  if (matched.length !== 1)
+    throw new Error(`Expected exactly one matching chart, found ${matched.length}.`);
+
+  return matched[0]!;
+}
+
+function createChartMeta(worksheet: WorksheetLike, chartRef?: ChartRef): ChartMeta {
+  const sheetId = worksheet.getSheetId?.() ?? null;
+  const chartRefRecord = isRecord(chartRef) ? chartRef : {};
+  const index = typeof chartRef === "number" ? chartRef : getChartMetasForWorksheet(worksheet).length;
+  const chartType =
+    chartRefRecord.chartType !== undefined ? normalizeChartType(chartRefRecord.chartType) : null;
+
+  return {
+    id: typeof chartRefRecord.id === "string" ? chartRefRecord.id : null,
+    sheetId,
+    sheetName: getSheetName(worksheet),
+    index,
+    chartType,
+    sourceRange:
+      typeof chartRefRecord.sourceRange === "string" ? chartRefRecord.sourceRange.trim() : null,
+    range: null,
+    title: typeof chartRefRecord.title === "string" ? chartRefRecord.title.trim() : null,
+    xAxisTitle: null,
+    yAxisTitle: null,
+    legendPosition: null,
+    dataOrientation: null,
+    width: null,
+    height: null,
+    position: null,
+    context: null,
+    seriesData: null,
+    categoryData: null
+  };
+}
+
+function upsertChartMeta(meta: ChartMeta) {
+  let existingIndex = -1;
+
+  if (meta.id) {
+    existingIndex = chartMetaRegistry.findIndex(
+      (item) => item.sheetId === meta.sheetId && item.id === meta.id
+    );
+  }
+
+  if (existingIndex < 0 && meta.sourceRange) {
+    existingIndex = chartMetaRegistry.findIndex(
+      (item) => item.sheetId === meta.sheetId && item.sourceRange === meta.sourceRange
+    );
+  }
+
+  if (existingIndex < 0 && meta.title) {
+    existingIndex = chartMetaRegistry.findIndex(
+      (item) => item.sheetId === meta.sheetId && item.title === meta.title
+    );
+  }
+
+  if (existingIndex >= 0) {
+    Object.assign(chartMetaRegistry[existingIndex]!, meta);
+  } else {
+    chartMetaRegistry.push(meta);
+  }
+}
+
+function getMutableChartMeta(worksheet: WorksheetLike, chartRef?: ChartRef) {
+  const sheetId = worksheet.getSheetId?.() ?? null;
+  const registeredMatches = findMatchingChartMetas(
+    chartMetaRegistry.filter((item) => item.sheetId === sheetId),
+    chartRef
+  );
+
+  if (registeredMatches.length === 1) return registeredMatches[0]!;
+  if (registeredMatches.length > 1)
+    throw new Error(`Expected exactly one matching registered chart, found ${registeredMatches.length}.`);
+
+  const existingMatches = findMatchingChartMetas(getChartMetasForWorksheet(worksheet), chartRef);
+  if (existingMatches.length > 1)
+    throw new Error(`Expected exactly one matching chart, found ${existingMatches.length}.`);
+
+  const meta = existingMatches[0] ? { ...existingMatches[0] } : createChartMeta(worksheet, chartRef);
+  upsertChartMeta(meta);
+
+  return meta;
+}
+
+function readPositiveNumber(value: unknown, fallback: number) {
+  return typeof value === "number" && Number.isFinite(value) && value > 0 ? value : fallback;
+}
+
+function getChartPosition(meta: ChartMeta, worksheet: WorksheetWithCharts) {
+  const position = isRecord(meta.position) ? meta.position : {};
+  const maxColumns =
+    typeof worksheet.getMaxColumns === "function" ? Math.max(1, worksheet.getMaxColumns()) : 2;
+
+  return {
+    row: readNumber(position.row) ?? 0,
+    column: readNumber(position.column) ?? Math.min(1, maxColumns - 1),
+    offsetX: readNumber(position.offsetX) ?? 20,
+    offsetY: readNumber(position.offsetY) ?? 20
+  };
+}
+
+function setChartOption(builder: ChartBuilderLike, path: string, value: unknown) {
+  if (value === undefined || value === null || value === "") return builder;
+
+  return builder.setOptions(path, value);
+}
+
+function applyChartBuilderOptions(builder: ChartBuilderLike, meta: ChartMeta) {
+  let nextBuilder = setChartOption(builder, "title.content", meta.title);
+  nextBuilder = setChartOption(nextBuilder, "legend.position", meta.legendPosition);
+  nextBuilder = setChartOption(nextBuilder, "orient", meta.dataOrientation);
+
+  if (typeof meta.xAxisTitle === "string" && meta.xAxisTitle && nextBuilder.setXAxisTitle) {
+    nextBuilder = nextBuilder.setXAxisTitle(meta.xAxisTitle);
+  }
+
+  if (typeof meta.yAxisTitle === "string" && meta.yAxisTitle && nextBuilder.setYAxisTitle) {
+    nextBuilder = nextBuilder.setYAxisTitle(meta.yAxisTitle);
+  }
+
+  return nextBuilder;
+}
+
+function buildChartStyle(meta: ChartMeta) {
+  const style: Record<string, unknown> = {};
+
+  writeStringPath(style, ["title", "content"], meta.title);
+  writeStringPath(style, ["titles", "title", "content"], meta.title);
+  writeStringPath(style, ["xAxisTitle", "content"], meta.xAxisTitle);
+  writeStringPath(style, ["titles", "xAxisTitle", "content"], meta.xAxisTitle);
+  writeStringPath(style, ["yAxisTitle", "content"], meta.yAxisTitle);
+  writeStringPath(style, ["titles", "yAxisTitle", "content"], meta.yAxisTitle);
+  writeStringPath(style, ["legend", "position"], meta.legendPosition);
+  writeStringPath(style, ["orient"], meta.dataOrientation);
+
+  return style;
+}
+
+async function updateChartRuntimeConfig(meta: ChartMeta) {
+  if (!meta.id) return;
+
+  const { workbook, univerAPI } = SpreadsheetRuntimeStore.runtime;
+  const style = buildChartStyle(meta);
+  const params: ChartRuntimeConfig = {
+    unitId: workbook.getId(),
+    chartModelId: meta.id
+  };
+
+  if (meta.chartType != null) params.chartType = resolveChartTypeBits(meta.chartType);
+  if (Object.keys(style).length > 0) params.style = style;
+  if (meta.context !== null) params.context = meta.context;
+
+  await univerAPI.executeCommand(chartUpdateConfigCommandId, params);
+}
+
+async function syncChartMetaToWorksheet(worksheet: WorksheetLike, meta: ChartMeta) {
+  const worksheetWithCharts = worksheet as WorksheetWithCharts;
+
+  if (meta.id) {
+    try {
+      await updateChartRuntimeConfig(meta);
+    } catch {
+      // Registry-backed evaluation should still work if visual chart update is unavailable.
+    }
+    return;
+  }
+
+  if (
+    !meta.sourceRange ||
+    meta.chartType == null ||
+    typeof worksheetWithCharts.newChart !== "function" ||
+    typeof worksheetWithCharts.insertChart !== "function"
+  ) {
+    return;
+  }
+
+  try {
+    const position = getChartPosition(meta, worksheetWithCharts);
+    const width = readPositiveNumber(meta.width, 560);
+    const height = readPositiveNumber(meta.height, 360);
+    let builder: ChartBuilderLike = worksheetWithCharts
+      .newChart()
+      .setChartType(resolveChartTypeBits(meta.chartType))
+      .addRange(meta.sourceRange)
+      .setPosition(position.row, position.column, position.offsetX, position.offsetY)
+      .setWidth(width)
+      .setHeight(height);
+
+    builder = applyChartBuilderOptions(builder, meta);
+
+    const insertedChart = await worksheetWithCharts.insertChart(builder.build());
+    const id = getChartId(insertedChart);
+
+    if (id) {
+      meta.id = id;
+      meta.range = (insertedChart as FChart | undefined)?.getRange?.() ?? meta.range;
+      meta.seriesData = (insertedChart as FChart | undefined)?.getSeriesData?.() ?? meta.seriesData;
+      meta.categoryData =
+        (insertedChart as FChart | undefined)?.getCategoryData?.() ?? meta.categoryData;
+      upsertChartMeta(meta);
+      await updateChartRuntimeConfig(meta);
+    }
+  } catch {
+    // Some chart APIs are unavailable on headless/older worksheet facades; keep meta for evaluation.
+  }
 }
 
 export function _getCellMeta(sheetRef: SheetRef | undefined, cellRefStr: string) {
@@ -298,8 +682,7 @@ export function _setCellMeta(
   range.setValueForCell(data);
 }
 
-export function _getSheetMeta(sheetRef?: SheetRef) {
-  const worksheet = resolveSheet(sheetRef);
+function getSheetMetaForWorksheet(worksheet: WorksheetLike) {
   const { workbook } = SpreadsheetRuntimeStore.runtime;
   const sheets = workbook.getSheets?.() ?? [];
 
@@ -308,6 +691,29 @@ export function _getSheetMeta(sheetRef?: SheetRef) {
     name: getSheetName(worksheet),
     index: sheets.indexOf(worksheet)
   };
+}
+
+export function _getSheetMeta(sheetRef?: SheetRef) {
+  return getSheetMetaForWorksheet(resolveSheet(sheetRef));
+}
+
+export function _setSheetMeta(sheetRef: SheetRef | undefined, path: Path[], value: Value) {
+  if (path.length !== 1 || path[0] !== "name") {
+    throw new Error(`Unsupported sheet path: ${path.map(String).join(".")}`);
+  }
+
+  if (typeof value !== "string" || value.trim() === "") {
+    throw new Error("Sheet name must be a non-empty string.");
+  }
+
+  const worksheet = resolveSheet(sheetRef, { create: true });
+  const setName = (worksheet as WorksheetWithCharts).setName;
+
+  if (typeof setName === "function" && getSheetName(worksheet) !== value) {
+    setName.call(worksheet, value);
+  }
+
+  return getSheetMetaForWorksheet(worksheet);
 }
 
 function buildChartMeta(worksheet: WorksheetLike, charts: FChart[], chart: FChart): ChartMeta {
@@ -324,9 +730,18 @@ function buildChartMeta(worksheet: WorksheetLike, charts: FChart[], chart: FChar
     chartType: normalizeChartType(model?.chartType),
     sourceRange: getChartSourceRangeA1(range, sheetId),
     range,
-    title: readString(readPath(style, ["titles", "title", "content"])),
-    xAxisTitle: readString(readPath(style, ["titles", "xAxisTitle", "content"])),
-    yAxisTitle: readString(readPath(style, ["titles", "yAxisTitle", "content"])),
+    title: readFirstString(style, [
+      ["titles", "title", "content"],
+      ["title", "content"]
+    ]),
+    xAxisTitle: readFirstString(style, [
+      ["titles", "xAxisTitle", "content"],
+      ["xAxisTitle", "content"]
+    ]),
+    yAxisTitle: readFirstString(style, [
+      ["titles", "yAxisTitle", "content"],
+      ["yAxisTitle", "content"]
+    ]),
     legendPosition: readPath(style, ["legend", "position"]) ?? null,
     dataOrientation: getDataOrientation(range, style),
     width: readNumber(readPath(style, ["width"])),
@@ -340,10 +755,27 @@ function buildChartMeta(worksheet: WorksheetLike, charts: FChart[], chart: FChar
 
 export function _getChartMeta(sheetRef?: SheetRef, chartRef?: ChartRef) {
   const worksheet = resolveSheet(sheetRef);
-  const charts = worksheet.getCharts() ?? [];
-  const chart = resolveChart(charts, chartRef, (item) => buildChartMeta(worksheet, charts, item));
 
-  return buildChartMeta(worksheet, charts, chart);
+  return resolveChartMeta(getChartMetasForWorksheet(worksheet), chartRef);
+}
+
+export async function _setChartMeta(
+  sheetRef: SheetRef | undefined,
+  chartRef: ChartRef | undefined,
+  path: Path[],
+  value: Value
+) {
+  const worksheet = resolveSheet(sheetRef, { create: true });
+  const meta = getMutableChartMeta(worksheet, chartRef);
+
+  writePath(meta as unknown as Record<PropertyKey, unknown>, path, normalizeChartSetValue(path, value));
+  meta.sheetId = worksheet.getSheetId?.() ?? meta.sheetId;
+  meta.sheetName = getSheetName(worksheet);
+  upsertChartMeta(meta);
+
+  await syncChartMetaToWorksheet(worksheet, meta);
+
+  return meta;
 }
 
 export type SheetRef = string | number;

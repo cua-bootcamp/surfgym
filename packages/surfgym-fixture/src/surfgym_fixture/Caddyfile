@@ -10,16 +10,3 @@
 		precompressed zstd gzip
 	}
 }
-
-:{$PROZILLA_PORT:3100} {
-	root * ./prozilla-os/demo/dist
-	encode zstd gzip
-
-	header Cache-Control "no-store"
-
-	try_files {path} {path}/index.html =404
-
-	file_server {
-		precompressed zstd gzip
-	}
-}

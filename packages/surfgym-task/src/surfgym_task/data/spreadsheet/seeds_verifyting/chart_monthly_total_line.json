@@ -1,0 +1,47 @@
+{
+  "instruction": "Calculate monthly totals into G1:H4 for the visible months, then create a line chart titled \"Monthly Total Trend\" from that summary table on the current sheet.",
+  "empty_start": false,
+  "states": [
+    [
+      { "query": [["sheet", null], ["cell", "A1"]], "path": ["v"], "value": "Month" },
+      { "query": [["sheet", null], ["cell", "B1"]], "path": ["v"], "value": "North" },
+      { "query": [["sheet", null], ["cell", "C1"]], "path": ["v"], "value": "South" },
+      { "query": [["sheet", null], ["cell", "A2"]], "path": ["v"], "value": "Jan" },
+      { "query": [["sheet", null], ["cell", "B2"]], "path": ["v"], "value": 120 },
+      { "query": [["sheet", null], ["cell", "C2"]], "path": ["v"], "value": 90 },
+      { "query": [["sheet", null], ["cell", "A3"]], "path": ["v"], "value": "Feb" },
+      { "query": [["sheet", null], ["cell", "B3"]], "path": ["v"], "value": 140 },
+      { "query": [["sheet", null], ["cell", "C3"]], "path": ["v"], "value": 110 },
+      { "query": [["sheet", null], ["cell", "A4"]], "path": ["v"], "value": "Mar" },
+      { "query": [["sheet", null], ["cell", "B4"]], "path": ["v"], "value": 160 },
+      { "query": [["sheet", null], ["cell", "C4"]], "path": ["v"], "value": 125 }
+    ],
+    [
+      { "query": [["sheet", null], ["cell", "G1"]], "path": ["v"], "value": "Month" },
+      { "query": [["sheet", null], ["cell", "H1"]], "path": ["v"], "value": "Total" },
+      { "query": [["sheet", null], ["cell", "G2"]], "path": ["v"], "value": "Jan" },
+      { "query": [["sheet", null], ["cell", "H2"]], "path": ["v"], "value": 210 },
+      { "query": [["sheet", null], ["cell", "G3"]], "path": ["v"], "value": "Feb" },
+      { "query": [["sheet", null], ["cell", "H3"]], "path": ["v"], "value": 250 },
+      { "query": [["sheet", null], ["cell", "G4"]], "path": ["v"], "value": "Mar" },
+      { "query": [["sheet", null], ["cell", "H4"]], "path": ["v"], "value": 285 }
+    ],
+    [
+      {
+        "query": [["sheet", "Sheet1"], ["chart", { "title": "Monthly Total Trend" }]],
+        "path": ["sourceRange"],
+        "value": "G1:H4"
+      },
+      {
+        "query": [["sheet", "Sheet1"], ["chart", { "sourceRange": "G1:H4" }]],
+        "path": ["chartType"],
+        "value": "line"
+      },
+      {
+        "query": [["sheet", "Sheet1"], ["chart", { "sourceRange": "G1:H4" }]],
+        "path": ["title"],
+        "value": "Monthly Total Trend"
+      }
+    ]
+  ]
+}

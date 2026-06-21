@@ -144,6 +144,7 @@
 {"hash":"25eb1b78ff38de9dda9458676cc6f9a8d8985dcee9017836469db5a9d395d7c1","instruction":"Continue the task by entering the correct result in F11:F12 based on the investment score rules."}
 {"hash":"2606da42865efd6a24cd33e3dd1633fa3efc119f21dda08feb4ed278b59af1a6","instruction":"Continue calculating the remaining revenue values in F7:F10."}
 {"hash":"26512adea012f32d38c5e8dd09a4ab675d8e9ec31fb0ef0c39f91f658fea1078","instruction":"Continue correcting the remaining book titles in B5:B7 by removing extra whitespace and capitalizing each word."}
+{"hash":"26595e88fba1a9af40fd25a42f773cf63e158b0ee936abf00a045958f17a99d0","instruction":"Enter the 6-digit asset tags in D3:D5 by copying the raw tags from B3:B5 and padding with leading zeros as needed."}
 {"hash":"267cab0ae7265df3d7ace88dbd76477adc79769ad7551db4d41d1d9d4e2ef11d","instruction":"Calculate the Annual Total in F3:F6 and the Quarterly Total in B7:E7."}
 {"hash":"2708b7bb92f25dad572a11b13141d4ee0e98c2a6dcb2e4dc86fb1f19c77e1734","instruction":"Calculate the total Service Revenue in G3 and the total Operating Expenses in G4."}
 {"hash":"274f6c151dde73fd75e7ed3a0d7680301519a486301ed8f88fcb7f4b12153d5a","instruction":"Continue calculating the remaining revenue values in F4:F5."}
@@ -198,6 +199,7 @@
 {"hash":"324b0cd3a387dce75e6c8fe5f744b13d75a52a8774777f1eb24a04d425608482","instruction":"Correct the fixed decimal values in C3:C6 by rounding each Original Value to exactly two decimal digits, and ensure the cells are formatted to display two decimal places with trailing zeros."}
 {"hash":"32b6a8e31e5cb34c81a690088369e686bc28c12a268f5db71b497060ad839369","instruction":"Fill in the remaining product revenue summary values in K3:L4."}
 {"hash":"333925b2b2d9dad87079b500503d92388976a7c811441581209aea181be3328f","instruction":"Continue correcting the split-name entries by filling the remaining Middle Initial and Last Name cells in C3:D5."}
+{"hash":"3371937979167e7122e937eae5ce6eab2809de4593dc26e26ddeee86d9d1c0bd","instruction":"Create a new sheet named Dashboard."}
 {"hash":"3374582c8114c550c8bc374c9748d4f3fe240e40439456b29cae023788036270","instruction":"Continue the summary table in F3:G6 by listing the remaining unique receipt codes in ascending order and entering their appearance counts."}
 {"hash":"33954049392a73cae4b0a7cb18efdf2455b154dd33cbc9d34df2f54bb8bd2ab2","instruction":"Correct the date-column scaffold in A1, then sort the table by Date in ascending order."}
 {"hash":"33f0fe3b153b3f3ca178f1634171f26c773230d07f587490269684f771a8a7c2","instruction":"Correct the final prices and product labels in F3:G4, then fill in the Average row in B5 and F5."}
@@ -284,6 +286,7 @@
 {"hash":"49982a5a3ecfb951ded41c9da862472294f32a488fc0ffd88206efc8375a163e","instruction":"Correct the acceleration results in B3 and D3, then fill E1:E3 with comma-separated Header: value entries formatted to two decimal places."}
 {"hash":"49bfa9ffde859030c2f8c3ab6cea7769ebb67dc954d61162a5fe915d42cf9fa9","instruction":"Continue the summary table in F6:G7 by listing the remaining receipt codes in ascending order and their counts."}
 {"hash":"4a3a108f4354086cc3c0b8381782bf546f7ecb924ec72609d1cbc251bf1d766d","instruction":"Continue the task by filling in the remaining unique departments in D4:D6 in order of their first appearance."}
+{"hash":"4a466d492b2040a1bce976baf92293827e3dc7fcf20c421ca0359e25363b3ebc","instruction":"Copy the Raw Tag numbers into D3:D4 as 6-digit asset tags with leading zeros added as needed."}
 {"hash":"4a477165de00ba54eb5a83b8d4fcc2399d69aa5a167e139fb6ad3ac19c1bd2e2","instruction":"Continue filling the Manager Name cells in D4:D5 based on each employee’s department using the lookup table in F:G."}
 {"hash":"4a76c526f8eeaf77d98f5a75fc60a9504e454a10ff5c137b2e9564bcaab4b5df","instruction":"Make the Marker row yellow in A3:C3."}
 {"hash":"4a98ca3083c486af6885b2364b5f3dd6d4e4e15c94ce72307d0241ae8a773493","instruction":"Enter the correct Product_Label in G4 following the existing Product_Label format."}
@@ -320,6 +323,7 @@
 {"hash":"5214098428300eca206dbb4ccdb6e5df2908a3b71707af599cea533bb3591828","instruction":"Update the stale totals in L3:L4, then calculate the product revenue summary in H3:I6."}
 {"hash":"5236e95da0541feef5621601aeb6c7898c114f90bf20e1ee92cdb6aedf16c610","instruction":"Continue filling the Emp ID column by entering the next sequential employee ID in B5."}
 {"hash":"524d77ae10022db06e044ffffc7636702071e8c76a25d1c1883f4e4a6a270126","instruction":"Continue filling the Emp ID column by entering the remaining sequential employee IDs in B5:B7."}
+{"hash":"52a7c54800654a8675fe2d851d5fafa5b0e8c76f913ec79a2812866560e005fa","instruction":"Hide the rows with confirmed delivery dates in D3, D5, and D7?"}
 {"hash":"52ba22c635e3ae007108ba65cb2e7d74661ffd7107ea40096838339f432c7560","instruction":"Correct the bottom Result entries in F11:F12 according to the Investment Score classifications."}
 {"hash":"52ce2912dced307ae7eaac6263d37b00d0ad7f7a7fd3403f90c454e0ab5949a3","instruction":"Replace the decimal point with a comma in B2:B3."}
 {"hash":"52fc2bee67b7db8812ae53de20d17e24fafbc93bffa04749f00f4abf19c62871","instruction":"Fill in the product revenue summary in H3:I6."}
@@ -328,6 +332,7 @@
 {"hash":"5360df232c4cab25f46b89e03076072e8c05d059af189bdd7f8b4301d900d580","instruction":"Continue the task by filling the Manager Name in D6 based on the employee’s department."}
 {"hash":"536dc399bce124a82f4815d10b48cd37c9e452ddeb584e6a1bc4c31f3c6502a2","instruction":"Continue filling in the remaining totals: calculate the annual totals in F4:F6 and the Q1 total in B7."}
 {"hash":"543c6d15005b02c4a9a20230a2a7c36ecb1c50c2eb56b8fd5d741058ae681439","instruction":"Finish calculating the remaining revenue in F10, then fill in the product revenue summary in K3:L6."}
+{"hash":"54421ff07c6d9bd7bd1c64c6045a4628a80e19840a942169fea8d94fed6f65c5","instruction":"Create the first column chart from A1:C4."}
 {"hash":"54a9b2108bb0a3bebf97e27492e89829966471bebccbcc4df0caf590278b79f6","instruction":"Correct North’s Q2 sales in C2 to 150."}
 {"hash":"54ff73bfdbbc68567eac5804682c75e29879d70b85d9ef3a60571bd80a6d6d3c","instruction":"Continue filling the annual change-rate summary by calculating the remaining change rates in I4, G5, and H5 as decimals based on the 2020–2024 asset table, leaving all other cells unchanged."}
 {"hash":"55617b330b3f671c13957d50a29208c56a4930bb2a7e88062b8ca18e062c28fa","instruction":"Enter the three student scores in B2:B4."}
@@ -422,6 +427,7 @@
 {"hash":"6d495061baefcc9dc3a877277116d4feef2f50ffa6abdd302270abd4327c33f7","instruction":"Complete the Combined Data entry in E1 following the existing row format."}
 {"hash":"6d7e05646a193349c741de5dbc72272800abdac0ae40db092c7481abbadd054f","instruction":"Correct the Result column in F2:F12 and classify each Investment Score: 0 to 40 as Fail, above 40 through 60 as Held, and above 60 as Pass."}
 {"hash":"6d81f873bf02d8d709640fd7e247f18e6b83db19694cf3eb6944f579e6ce6d3a","instruction":"Continue the sales channel revenue summary in K4:L5."}
+{"hash":"6db0fe830c0d9f524f831e830a39e35304e80154655e473a6d6904d30f4f1862","instruction":"Calculate the monthly totals in G1:H4 for the visible months."}
 {"hash":"6dd03c208e392b05a1117fb8191556bd2659746f395df5c381d0bd64d1811a4d","instruction":"Continue filling the annual change-rate summary by calculating the remaining blank change rates in I4, G5, H5, and I6 as decimals using the year-over-year formula."}
 {"hash":"6e25c414510511095261f09d600110c7243311f0b7d6fe7c5f17688c5e84a91c","instruction":"Continue calculating the profit margin in E9:E11."}
 {"hash":"6f4463f44cdf5515304c628d2990bfa09e6f875f4cc60e2bebca44921c6fa8c0","instruction":"Continue the task by completing the product revenue summary in H3:I3."}
@@ -503,6 +509,7 @@
 {"hash":"806669dce4a08c947d036ae9d240e9450da7f555f23557a949545b1363ad72d9","instruction":"Calculate the revenue values in F3:F7."}
 {"hash":"80be3d87129233afcec1a94cffac4b31aecf68629fada5a85fbba4a4dd975511","instruction":"Correct the 2024 Equipment Value in C7 and Other Investment in D7 to match the intended figures."}
 {"hash":"811533a0356fc7d1f4232604342e7f995165fcf79af0a456e5e1cba5991204f1","instruction":"Correct the year range in F5, then calculate the annual change rates in G3:I3."}
+{"hash":"81ae8ac1b3869fde7935371409d9c497a68087ea48fa829d5ae16d7dfdb9fef5","instruction":"Calculate the monthly totals in G1:H4 from the visible months, then create a line chart from G1:H4 on the current sheet with the title Monthly Total Trend."}
 {"hash":"81c8dd30741bfdfba10aa5f0a8f19b72acfaae6a63b31e8732bb219e3503f184","instruction":"Finish the product revenue summary in H3:I6 by filling in the remaining product names and their total revenues."}
 {"hash":"81ed07fbbe1a8a78c573866dbaa7ca1e0c66a2f63747ba337c36ef0512d5d7c8","instruction":"Modify the expense table. Format the Amount column values as \"currency\" with exactly two decimal places. Use the formatting feature."}
 {"hash":"827b778318b884f01a5358c99d5265f31c558ae717d460565d3735e4d98e9dbb","instruction":"Continue calculating the remaining revenue values in F8:F10 and complete the product revenue summary by entering the remaining product name and its total revenue in K3:L3."}
@@ -537,6 +544,7 @@
 {"hash":"869fdc0298d1c17ecc2768db5e2dbc2521a1282344c196f237506669f72615b7","instruction":"Fill in the Emp ID column in B3:B6 with sequential employee IDs starting from 1000, while leaving the names in column C unchanged."}
 {"hash":"86bd9268bed7c37a62ae5f06afe131a803dc45d24c99e9a79dce2756b078f3af","instruction":"List the unique departments in D3:D6 in the order they first appear in column B."}
 {"hash":"86f5da8cc6a0135f9c1def36f8d97c43b88e1ae4839ed163a1e7b1f2d95e11b9","instruction":"Add a Maturity Date column in C1 and calculate the maturity dates in C2:C3 by adding each loan’s length to its issue date."}
+{"hash":"8708f559eae05c82281f6b1e39665f9c49457865b73c192f5a09b80629466fad","instruction":"Create a new sheet named Dashboard and insert a column chart on it using the data in Sheet1!A1:C4, with the title Sales vs COGS and the legend on the right."}
 {"hash":"87539244a6169b28e526845703f01695c382d00dd2d51ea617c973a099244ee2","instruction":"Correct the Department entry in B3 to Science, then make the first and third columns red in the table."}
 {"hash":"8762a8d565814c54854786d4e4481c68b1f0c5df4876af1afa8124458ad6566a","instruction":"Complete the product revenue summary in K3:L3."}
 {"hash":"877889b4a4343de8e1317e584cd20ca423c4a9e7611fc12f28b398876f543b59","instruction":"Create the product revenue summary in K3:L5 by listing each product in column K and its total revenue in column L."}
@@ -606,6 +614,7 @@
 {"hash":"931538b33aca4fa5f3adc9f9048a720a324ae953b3addd4efeab455344627a31","instruction":"Enter the next unique department in D4."}
 {"hash":"9360a4646c2901cb2db68ce08c858e99b40f3ed4fe0aa1d84a10f3ea460d0ba9","instruction":"Enter Chloe’s score in B4."}
 {"hash":"937339775c415452f047b3a57cd9fcad7b20cc6cc3246fbe17ce0ab05f2dbb3d","instruction":"Continue the task by filling in the remaining product and sales channel revenue summary tables in H5:I6 and K3:L5."}
+{"hash":"93a7b1d965143c76a89f6672fd99e87f2120bfef8a063be64eb562d5ed76c2fd","instruction":"Correct the unconfirmed delivery markers in D4 and D6, then hide the rows for the TBD delivery dates while leaving all other rows visible."}
 {"hash":"93d069535ad10ad7056a5c58a134b784f42a15898ac58687fbed2bdddec2c8e4","instruction":"Round the value in C3 to two decimal places and format C3 to display exactly two decimal digits."}
 {"hash":"93e6ad18eeacded75315a67570a9f3c1b24d468bec6895e29d0c7066e073a37b","instruction":"Continue calculating the remaining revenue values in F4:F7."}
 {"hash":"940ffa2cf3881efa0a5b0528d7f0ebe2c804e3723455fa0cc287811bdcfaffae","instruction":"Continue splitting the date in row 4 into Year in C4, Month in D4, and Day in E4."}
@@ -636,6 +645,7 @@
 {"hash":"992850dba2a010b3a172bf50960bd58f30348652d62473d283ff67227a41aa6f","instruction":"Correct the visibly incomplete currency values, then format the full Amount column as currency with two decimal places."}
 {"hash":"992d5e95d676e16b10bfbb43d9614fdc5bcfae7e129d7158b07fc2b4dfe108d5","instruction":"Enter the remaining student names in A2:A3."}
 {"hash":"99383c3d9421e4f6d9acf8cf30b5a5194fab0c9526390e2523c65f6d68251bb7","instruction":"Round each Original Value to two decimal places, enter the rounded numeric results in column C, then apply the Number Format (0.00) to C3:C6 so every result displays exactly two decimal places."}
+{"hash":"99905eafcffce739cc321f51d60d45fa767cd386620755b1f406bd37a99d19ea","instruction":"Fill in the 6-Digit Asset Tag column in D3:D7 by copying each Raw Tag value and padding with leading zeros so each tag has exactly six digits."}
 {"hash":"99bb914cba3e51f59c622141354a605f054e6b308f436398951489ccb8f886bd","instruction":"Calculate the Tax Amount and Final Amount for the first item in D2 and E2."}
 {"hash":"99bc91f978f89c6244875092e1cfb59c9a9b91b845d20204be68d59a9dd0ce52","instruction":"Correct the Year-column header in B2, fix the inconsistent year in B5, and fill in the missing years in B3, B4, and B6."}
 {"hash":"99e095cc89fdfa5bd1c895abd89e6eb70fce2c8a4e34ce78f00e09147bed04f7","instruction":"Correct the output-column scaffold in B2 and copy the cleaned title-case versions into B3:B7 with extra spaces removed and each word capitalized."}
@@ -653,6 +663,7 @@
 {"hash":"9d3e3fcfe370892d6af9f35773e125622a0a89229dca2502296b7426d295fe38","instruction":"Enter the remaining student names and scores in A2:A4 and B2:B3."}
 {"hash":"9d7977bb0b06c80fc82ced3df032e34791ebfc9fb884ea272767629c3e9f2735","instruction":"Continue the revenue summary tables by filling in the remaining product totals in H3:I6 and the first sales channel total in K3:L3."}
 {"hash":"9da9db976ecc70979bbbdb55b6a4ad32b2ec09278d7b6946e231623cccf047ee","instruction":"Enter formulas in C2:C4 to display the amounts from B2:B4 with exactly two decimal places, including trailing zeros."}
+{"hash":"9e34f4c78622c9b1dc705fad9f057785f9d3a98edb77eceb0c61f7d8253f5b67","instruction":"Sort the Date Time and Quantity table in A2:B4 by Date Time ascending, then create a line chart from A1:B4 titled Quantity Over Time with Date Time on the x-axis and Quantity on the y-axis."}
 {"hash":"9eb3d1cd5d874cee30bd7d0b6c3034818567c59afe66e68d27f91c420baa77b0","instruction":"Correct the monthly totals in F3:F4."}
 {"hash":"9ef0e569926841afca11891decda11e5b4a55f37524da8eea8304866927c861f","instruction":"Continue the task by entering the correct results in F7:F11 based on the investment score rules."}
 {"hash":"9ef856295d2232c84271928d63c2327bc80706f1a3b92ed74d2175e484107151","instruction":"Calculate the line totals in D2:D5 by multiplying Quantity by Unit Price for each product."}
@@ -713,6 +724,7 @@
 {"hash":"af2a008767fbd1878c139b781ddf94c215cf2462a66c7ede4c21610e399432cf","instruction":"Format the Amount values in B2:B5 as currency with exactly two decimal places."}
 {"hash":"afa8b18fe1c5a4bb0fdeca787ff0caf4bac672149f174ccb935e1b81a3c736e2","instruction":"Correct the year range in F5, then calculate the annual change rates in G3:I5."}
 {"hash":"afc4e125c803d805bc80a39adbc9006381172b4fc7947e6c3a7e1fb6379b6779","instruction":"Continue filling the Sunday date cells in A9, A16, and B6 with a red background."}
+{"hash":"afdd8b7b28361add010daf58a0cbfdc8e512f68ae6cb03a1a991ee15e8a70395","instruction":"Sort the Date Time and Quantity data in A2:B4 by Date Time ascending."}
 {"hash":"afe08f9813081604272eb25990f9c379c25978a15c49e3e0bd6bb79a92b66ff4","instruction":"Continue the task by calculating the missing acceleration values in B3 and D3."}
 {"hash":"b08c5be84dee8a9b1d045a12ab163c4c961778c2bb3ba00b99a646ba8fbdb66e","instruction":"Format B3 in the Amount column as currency with exactly two decimal places."}
 {"hash":"b09f72b43d53d840c397eb47fcd7f3cd34a57577fe8faec36ef23d322eca8b83","instruction":"Calculate and enter the maturity dates in C2:C3."}
@@ -775,6 +787,7 @@
 {"hash":"be413e1f30f366385173d325838ca13e9cafb70ab19fa1763979b90db85f6bf1","instruction":"Correct the inconsistent rows in A2:C2 and A4:C4 so the table can then be sorted by Amount in ascending order."}
 {"hash":"be7a84b2bc5bf05a3f9e338a50d3725edb5e1718ccba858008a47dc6d11ef63f","instruction":"Correct the derived results in E3 and E4 using the converted K values."}
 {"hash":"becb9c5b239777664aaa9dca1fea97806372d71a9ca748266b9c1301291c0f54","instruction":"Continue the product revenue summary in H5:I5."}
+{"hash":"bf04c2b097897321d14eb9efe2a0d5f21d31de34aea9a70fd24cc541273945e6","instruction":"Create two column charts on Sheet1: one from A1:C4 for the 2019 data, and another from A1:A4 and D1:E4 for the 2020 data."}
 {"hash":"bf3f7b07349c53d6f0a588ef0c1f28e1bfca9f0b7ccb31f8cbc6b77974319eda","instruction":"Normalize the phone numbers in B2:B3 into ###-###-#### format."}
 {"hash":"bf926e7c304c1e5b6d1580013ac360a1a86280079188aa2427bb4b42fabe3d92","instruction":"Continue normalizing the remaining phone number in B5 into the ###-###-#### format."}
 {"hash":"bf9796498a1127e1af21af773ce289173157b76f78417d48cf5a2098ceb21940","instruction":"Correct the phone numbers that contain all digits without separators, then rewrite every Phone Number value as text in the ###-###-#### pattern."}
@@ -830,6 +843,7 @@
 {"hash":"ca062f73fa4a47395cc2aa63e9ae509ace810b6d62be72f627a6dddb76c63178","instruction":"Fill in the Manager Name cells in D3:D5 using the department lookup table in F:G."}
 {"hash":"ca53cb0628ce865d733d6711f0abf6075b38385757362c007c79edf958deb610","instruction":"Calculate the results in E3 and E4 using the converted K values, and show them with one decimal place and the K unit."}
 {"hash":"caac2a2c53249c707cb4c963357d5439ca49718b7bee3be17fba977f51657589","instruction":"Correct the summary month scaffold in E3:E4."}
+{"hash":"cac203df7496781895b923e5c10f11ed7a05ba1da73c4f7032638558509e89e9","instruction":"Copy the raw tag numbers into D3:D8 as 6-digit asset tags, padding with leading zeros as needed."}
 {"hash":"cac620cb8bed9488bbebfc19361a576aa2a3f280bfe4cf85e814f7a80db574bb","instruction":"Correct Seoul’s Q1 sales in B2."}
 {"hash":"cadaa1f5d1e36609683070b52de09f9a3c82bb997ae040128eccf79e64007bed","instruction":"Correct the result-column scaffold in D3 and replace the stale charge entry in D6 with the correct total rental charge."}
 {"hash":"cb28526a705160fc043221c486883f4cf0fec2ee217cb0a5890eaa82b4cf3969","instruction":"Continue the task by calculating the final prices in F3:F5 and the product labels in G3:G4, and finish by entering the average of the final prices in F5."}
@@ -879,6 +893,7 @@
 {"hash":"d57a145d31952b4afe83aaebde7113ca51f9b22caf409d5928f6dcb4ec2761e3","instruction":"Continue formatting the Date column by applying the yyyy-MM-dd date format to B4."}
 {"hash":"d5964614f7e9212128d5d9fb851a4547fbfa35df7738e1d7677aa7897d6eba94","instruction":"Format the dates in B2:B5 to display as yyyy-MM-dd."}
 {"hash":"d6ed304f7ab69096ee2431874d9bc8ae23e3b6dd11b15711a62da32241aa42ca","instruction":"Continue the task by calculating the annual change rates for 2021 > 2022 in G4:I4."}
+{"hash":"d740eec0b4d630704addb1b4dcce139b62333db5e42a3206f21b4e59d3b439d7","instruction":"Enter the 6-digit asset tag for the Projector in D3 by padding the Raw Tag with leading zeros."}
 {"hash":"d78ecec634cb0efd42ff5b23d4057a035923ff0d3366122b86bf38a9aad7077f","instruction":"Continue the task by calculating the remaining revenue in F10 and completing the product revenue summary in K3:L3."}
 {"hash":"d7a92c79252aa0a9ce447211a41cbc09f3ee58dcc7bc8efdb90cc43fb8c18ce5","instruction":"Correct the Combined Data entries in E2:E3."}
 {"hash":"d7c7e0b6b3d0e7007e41d4af3aa9015e52bbdc9c148c80b5e4a69b5694913ef6","instruction":"Enter the profit margin column header in E1."}
@@ -981,6 +996,7 @@
 {"hash":"f16782249f7241ee26798ec6634e7803fb68c14ff441404c37a3cbf42e52b2f7","instruction":"Continue calculating the profit margin in E6:E8."}
 {"hash":"f183635cc549bdf8f8e89ed8bc5868806263ecc4356e7b518a777b75e30561dc","instruction":"Calculate the correct total rental charges in D5:D6."}
 {"hash":"f215ecfec3d4142bbe35cd786197c4b6019395191a00f7a9147c98394012f1d4","instruction":"Correct the result-column header and the three-decimal format on C4, then fill C2:C3 by copying the spent amounts and apply the 0.00 number format to C2:C4."}
+{"hash":"f22d52007231e4a6ff8301e3c75e5b47dc18a3550c6189a22366e34aaf0d549f","instruction":"Fill in the 6-Digit Asset Tag values in D3:D6 by copying the Raw Tag numbers from B3:B6 and padding with leading zeros so each tag has exactly six digits."}
 {"hash":"f248a3b83761cd5676d8dc4ce30236c1c425ed12ad85ae316cc0c6ab9ae43791","instruction":"Convert the values in A3:A6 to Thousands (K) in B3:B6 and Millions (M) in C3:C6, using one decimal place, half-up rounding, and a space before the unit."}
 {"hash":"f255f25be58d8cdc5f7e834a1ba07074d4a025a7470cf6cfd0c38275d6ace1b3","instruction":"Finish the revenue summaries by filling in the remaining product totals in H3:I6 and the sales channel totals in K3:L5."}
 {"hash":"f26b0364197ae16877b962fed68430e7d847c6bff4b7e5149a7e90b637c13c1f","instruction":"Correct the classification labels in D2 and D5, then classify Alice and Bob in D3:D4 using the BMI scale shown in the sheet."}
@@ -995,6 +1011,7 @@
 {"hash":"f410b17cd500ba07f163f03eecb37a7578c6c66a528baa6fc5259bb63260c987","instruction":"Fill A2 with a red background."}
 {"hash":"f43f946bcb67a508aa14ddec41d6aad990fac85886abb26fe8bf2bbbf94a45c0","instruction":"Continue classifying the investment scores in F4:F9 as Fail, Held, or Pass based on the score ranges."}
 {"hash":"f446e36294dbfcb18a2fd7bb38f8eb6007f1908be6a1b5e3ca0311115d77667e","instruction":"Make the first and third columns red in the table."}
+{"hash":"f4537b49cc29189dcd5f3ebf674fee575ed1b7215c97991814016317e136f3ad","instruction":"Correct the unconfirmed delivery markers in D4 and D6."}
 {"hash":"f4a54fb6edbf75b1987b37c67e7578b4311f463470d20f834a00629d76d8b6bd","instruction":"Finish correcting the Revenue values in F3:F10, then complete the product revenue summary in K3:L6."}
 {"hash":"f4b7e857b8f0e01a6d72249fee915f23d5e47c5e82da5f1e82e43b27fb30add5","instruction":"Enter Alice in A2."}
 {"hash":"f4d33b96f25d0fb50d2b860c2c27ebb96c9a452f2189fd245f56b43793c994e0","instruction":"Finish transposing A2:C4 by entering the remaining transposed values in E2:G4."}

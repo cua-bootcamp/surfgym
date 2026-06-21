@@ -1,9 +1,14 @@
 import type { FWorkbook, FWorksheet } from "@univerjs/preset-sheets-core";
 import type { Get, Set } from "../external";
 
+type SpreadsheetUniverAPI = {
+  executeCommand: <P extends object = object, R = boolean>(id: string, params?: P) => Promise<R>;
+};
+
 type SpreadsheetRuntime = {
   workbook: FWorkbook;
   defaultWorksheet: FWorksheet;
+  univerAPI: SpreadsheetUniverAPI;
 };
 
 export class SpreadsheetRuntimeStore {

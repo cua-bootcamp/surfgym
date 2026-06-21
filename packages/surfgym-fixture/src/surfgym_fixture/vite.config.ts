@@ -14,11 +14,8 @@ function createViteInputs() {
   return {
     index: resolve(rootDir, "index.html"),
     ...Object.fromEntries(
-      VITE_ENTRY_DIRECTORIES.map((route) => [
-        route,
-        resolve(srcDir, route, "index.html"),
-      ]),
-    ),
+      VITE_ENTRY_DIRECTORIES.map((route) => [route, resolve(srcDir, route, "index.html")])
+    )
   };
 }
 
@@ -55,7 +52,7 @@ function fixtureRoutesPlugin(): Plugin {
       await Promise.all(VITE_ENTRY_DIRECTORIES.map(moveViteEntryHtml));
 
       await rm(resolve(distDir, "src"), { recursive: true, force: true });
-    },
+    }
   };
 }
 
@@ -79,14 +76,14 @@ function patchHeaderlessUniverFilterCode(code: string, id: string) {
   if (isUniverFilterUiIndex(id)) {
     return code.replaceAll(
       "startRow: range.startRow + 1,",
-      "startRow: range.__surfgymHeaderless ? range.startRow : range.startRow + 1,",
+      "startRow: range.__surfgymHeaderless ? range.startRow : range.startRow + 1,"
     );
   }
 
   if (isUniverFilterCoreIndex(id)) {
     return code.replace(
       "startRow: this._range.startRow + 1,",
-      "startRow: this._range.__surfgymHeaderless ? this._range.startRow : this._range.startRow + 1,",
+      "startRow: this._range.__surfgymHeaderless ? this._range.startRow : this._range.startRow + 1,"
     );
   }
 
@@ -104,9 +101,9 @@ function headerlessUniverFilterEsbuildPlugin(): EsbuildPlugin {
           const patchedCode = patchHeaderlessUniverFilterCode(code, args.path);
 
           return patchedCode === code ? undefined : { contents: patchedCode, loader: "js" };
-        },
+        }
       );
-    },
+    }
   };
 }
 
@@ -118,7 +115,7 @@ function headerlessUniverFilterPlugin(): Plugin {
       const patchedCode = patchHeaderlessUniverFilterCode(code, id);
 
       return patchedCode === code ? null : { code: patchedCode, map: null };
-    },
+    }
   };
 }
 
@@ -127,13 +124,13 @@ export default defineConfig({
   plugins: [headerlessUniverFilterPlugin(), fixtureRoutesPlugin()],
   optimizeDeps: {
     esbuildOptions: {
-      plugins: [headerlessUniverFilterEsbuildPlugin()],
-    },
+      plugins: [headerlessUniverFilterEsbuildPlugin()]
+    }
   },
   build: {
     emptyOutDir: true,
     rollupOptions: {
-      input: createViteInputs(),
-    },
-  },
+      input: createViteInputs()
+    }
+  }
 });

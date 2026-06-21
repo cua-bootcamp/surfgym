@@ -1,0 +1,51 @@
+{
+  "instruction": "Sort the time series by Date Time ascending, then create a line chart titled \"Quantity Over Time\" from the sorted Date Time and Quantity table, using Date Time as the x-axis and Quantity as the y-axis.",
+  "empty_start": false,
+  "states": [
+    [
+      { "query": [["sheet", null], ["cell", "A1"]], "path": ["v"], "value": "Date Time" },
+      { "query": [["sheet", null], ["cell", "B1"]], "path": ["v"], "value": "Quantity" },
+      { "query": [["sheet", null], ["cell", "A2"]], "path": ["v"], "value": "2024-03-05 14:00" },
+      { "query": [["sheet", null], ["cell", "B2"]], "path": ["v"], "value": 18 },
+      { "query": [["sheet", null], ["cell", "A3"]], "path": ["v"], "value": "2024-03-05 09:00" },
+      { "query": [["sheet", null], ["cell", "B3"]], "path": ["v"], "value": 11 },
+      { "query": [["sheet", null], ["cell", "A4"]], "path": ["v"], "value": "2024-03-05 12:00" },
+      { "query": [["sheet", null], ["cell", "B4"]], "path": ["v"], "value": 15 }
+    ],
+    [
+      { "query": [["sheet", null], ["cell", "A2"]], "path": ["v"], "value": "2024-03-05 09:00" },
+      { "query": [["sheet", null], ["cell", "B2"]], "path": ["v"], "value": 11 },
+      { "query": [["sheet", null], ["cell", "A3"]], "path": ["v"], "value": "2024-03-05 12:00" },
+      { "query": [["sheet", null], ["cell", "B3"]], "path": ["v"], "value": 15 },
+      { "query": [["sheet", null], ["cell", "A4"]], "path": ["v"], "value": "2024-03-05 14:00" },
+      { "query": [["sheet", null], ["cell", "B4"]], "path": ["v"], "value": 18 }
+    ],
+    [
+      {
+        "query": [["sheet", "Sheet1"], ["chart", { "title": "Quantity Over Time" }]],
+        "path": ["sourceRange"],
+        "value": "A1:B4"
+      },
+      {
+        "query": [["sheet", "Sheet1"], ["chart", { "sourceRange": "A1:B4" }]],
+        "path": ["chartType"],
+        "value": "line"
+      },
+      {
+        "query": [["sheet", "Sheet1"], ["chart", { "sourceRange": "A1:B4" }]],
+        "path": ["title"],
+        "value": "Quantity Over Time"
+      },
+      {
+        "query": [["sheet", "Sheet1"], ["chart", { "sourceRange": "A1:B4" }]],
+        "path": ["xAxisTitle"],
+        "value": "Date Time"
+      },
+      {
+        "query": [["sheet", "Sheet1"], ["chart", { "sourceRange": "A1:B4" }]],
+        "path": ["yAxisTitle"],
+        "value": "Quantity"
+      }
+    ]
+  ]
+}

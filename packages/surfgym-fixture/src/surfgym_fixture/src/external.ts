@@ -1,4 +1,4 @@
-export type ChainFunc = Value | Record<string, (arg?: Value) => ChainFunc>;
+export type ChainFunc = unknown;
 
 function runQueryFactory(chainFn: ChainFunc): (query: Query[]) => unknown {
   function runQuery(query: Query[]) {

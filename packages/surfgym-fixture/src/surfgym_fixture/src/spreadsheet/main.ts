@@ -19,7 +19,7 @@ import UniverPresetSheetsSortEnUS from "@univerjs/presets/preset-sheets-sort/loc
 import { UniverSheetsCorePreset } from "@univerjs/preset-sheets-core";
 import UniverPresetSheetsCoreEnUS from "@univerjs/preset-sheets-core/locales/en-US";
 import { createSpreadsheetActions } from "./spreadsheet-actions";
-import { get, set } from "./external";
+import { cell, chart, get, set, sheet } from "./external";
 import { SpreadsheetRuntimeStore } from "./runtime";
 import { renderSpreadsheetMockToolbar, setupSpreadsheetUi } from "./spreadsheet-ui";
 
@@ -78,13 +78,43 @@ const worksheet = workbook.getActiveSheet();
 
 SpreadsheetRuntimeStore.runtime = {
   workbook,
-  defaultWorksheet: worksheet
+  defaultWorksheet: worksheet,
+  univerAPI
 };
 
-window.surfgym = {
-  get,
-  set
+type SpreadsheetSurfgymGlobal = Window["surfgym"] & {
+  sheet: typeof sheet;
+  cell: typeof cell;
+  chart: typeof chart;
 };
+
+type SpreadsheetDebugGlobal = Window & {
+  surfgym: SpreadsheetSurfgymGlobal;
+  getSheetMeta: (
+    sheetRef?: Parameters<typeof sheet>[0]
+  ) => ReturnType<ReturnType<typeof sheet>["getMeta"]>;
+  getCellMeta: (
+    cellRefStr: Parameters<typeof cell>[1],
+    sheetRef?: Parameters<typeof cell>[0]
+  ) => ReturnType<typeof cell>;
+  getChartMeta: (
+    sheetRef?: Parameters<typeof chart>[0],
+    chartRef?: Parameters<typeof chart>[1]
+  ) => ReturnType<ReturnType<typeof chart>["getMeta"]>;
+};
+
+const spreadsheetGlobal = (window as unknown) as SpreadsheetDebugGlobal;
+
+spreadsheetGlobal.surfgym = {
+  get,
+  set,
+  sheet,
+  cell,
+  chart
+};
+spreadsheetGlobal.getSheetMeta = (sheetRef) => sheet(sheetRef).getMeta();
+spreadsheetGlobal.getCellMeta = (cellRefStr, sheetRef) => cell(sheetRef, cellRefStr);
+spreadsheetGlobal.getChartMeta = (sheetRef, chartRef) => chart(sheetRef, chartRef).getMeta();
 
 worksheet.setGridLinesColor("rgb(204, 204, 204)");
 worksheet.setColumnWidths(0, worksheet.getMaxColumns(), 136); // 전체 컬럼 폭: 136px

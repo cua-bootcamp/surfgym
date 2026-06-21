@@ -6,10 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build:vite": "tsc && vite build",
-    "build:main": "bash build-main.sh",
-    "build:prozilla": "bash build-prozilla.sh",
-    "build": "pnpm run build:main && pnpm run build:prozilla",
-    "build:all": "pnpm run build:main && pnpm run build:prozilla",
+    "build": "bash build-main.sh",
     "serve": "caddy run --config Caddyfile --adapter caddyfile",
     "build-serve": "pnpm run build:all && pnpm run serve "
   },

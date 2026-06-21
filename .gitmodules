@@ -1,3 +1,0 @@
-[submodule "packages/surfgym-fixture/src/surfgym_fixture/prozilla-os"]
-	path = packages/surfgym-fixture/src/surfgym_fixture/prozilla-os
-	url = https://github.com/cua-bootcamp/ProzillaOS

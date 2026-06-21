@@ -1,0 +1,45 @@
+{
+  "instruction": "Create a new sheet named \"Dashboard\" and place a column chart there. Use the Month, Sales, and COGS table on the current sheet as the chart data. The chart should compare Sales and COGS by month, include a right-side legend, and be titled \"Sales vs COGS\".",
+  "empty_start": false,
+  "states": [
+    [
+      { "query": [["sheet", null], ["cell", "A1"]], "path": ["v"], "value": "Month" },
+      { "query": [["sheet", null], ["cell", "B1"]], "path": ["v"], "value": "Sales" },
+      { "query": [["sheet", null], ["cell", "C1"]], "path": ["v"], "value": "COGS" },
+      { "query": [["sheet", null], ["cell", "A2"]], "path": ["v"], "value": "Jan" },
+      { "query": [["sheet", null], ["cell", "B2"]], "path": ["v"], "value": 42000 },
+      { "query": [["sheet", null], ["cell", "C2"]], "path": ["v"], "value": 25000 },
+      { "query": [["sheet", null], ["cell", "A3"]], "path": ["v"], "value": "Feb" },
+      { "query": [["sheet", null], ["cell", "B3"]], "path": ["v"], "value": 39000 },
+      { "query": [["sheet", null], ["cell", "C3"]], "path": ["v"], "value": 24100 },
+      { "query": [["sheet", null], ["cell", "A4"]], "path": ["v"], "value": "Mar" },
+      { "query": [["sheet", null], ["cell", "B4"]], "path": ["v"], "value": 45500 },
+      { "query": [["sheet", null], ["cell", "C4"]], "path": ["v"], "value": 27600 }
+    ],
+    [
+      { "query": [["sheet", "Dashboard"]], "path": ["name"], "value": "Dashboard" }
+    ],
+    [
+      {
+        "query": [["sheet", "Dashboard"], ["chart", { "title": "Sales vs COGS" }]],
+        "path": ["sourceRange"],
+        "value": "Sheet1!A1:C4"
+      },
+      {
+        "query": [["sheet", "Dashboard"], ["chart", { "sourceRange": "Sheet1!A1:C4" }]],
+        "path": ["chartType"],
+        "value": "column"
+      },
+      {
+        "query": [["sheet", "Dashboard"], ["chart", { "sourceRange": "Sheet1!A1:C4" }]],
+        "path": ["title"],
+        "value": "Sales vs COGS"
+      },
+      {
+        "query": [["sheet", "Dashboard"], ["chart", { "sourceRange": "Sheet1!A1:C4" }]],
+        "path": ["legendPosition"],
+        "value": "right"
+      }
+    ]
+  ]
+}
