@@ -1,29 +1,33 @@
-import {
-  type AnyRecord,
-  applyWordState,
-  getBody,
-  getBodyText,
-  getBodyTextWithPageBreak,
-  getDocumentUniformFontSize,
-  getFooterText,
-  getParagraphProperty,
-  getTableAtom,
-  getTextStylePropertyValue,
-  toWordAtomValue
-} from "./internal";
-import { setFactory, getFactory, type Path, type Value, SET } from "../external";
+import { _getBodyMeta, _getTextMeta } from "./internal";
+import { setFactory, getFactory, type Path, type Value, SET, type ChainFunc } from "../external";
 
-const external = {
-  body,
-  text,
-  paragraph,
-  table,
-  footer,
-  style
+const external: ChainFunc = {
+  body
+  // footer
 };
 
 export const set = setFactory(external);
 export const get = getFactory(external);
+
+function body() {
+  return {
+    ..._getBodyMeta(),
+    text
+    // [SET]: (path: Path[], value: Value) => {
+    //   const property = firstPathPart(path);
+    //   if (property !== "text" && property !== "textWithPageBreak") {
+    //     throw new Error(`Unsupported word body set path: ${property}`);
+    //   }
+    //   setWordAtom("word-body", [property], value);
+    // }
+  };
+}
+
+function text(target: Value): ChainFunc {
+  const targetStr = target == null ? "" : String(target);
+
+  return _getTextMeta(targetStr);
+}
 
 function setWordAtom(f: string, property: string[], value: Value): void {
   applyWordState([{ f, property, value: toWordAtomValue(value) }]);
@@ -34,51 +38,6 @@ function firstPathPart(path: Path[]): string {
   if (typeof property !== "string") throw new Error("Word meta path must start with a string key.");
 
   return property;
-}
-
-function body() {
-  return {
-    text: getBodyText(),
-    textWithPageBreak: getBodyTextWithPageBreak(),
-    notContains: (target: Value) => {
-      const expected = target == null ? "" : String(target);
-      return getBodyTextWithPageBreak().includes(expected) ? "" : expected;
-    },
-    [SET]: (path: Path[], value: Value) => {
-      const property = firstPathPart(path);
-      if (property !== "text" && property !== "textWithPageBreak") {
-        throw new Error(`Unsupported word body set path: ${property}`);
-      }
-
-      setWordAtom("word-body", [property], value);
-    }
-  };
-}
-
-const textStyleProperties = [
-  "bold",
-  "italic",
-  "underline",
-  "strikethrough",
-  "fontSize",
-  "fontFamily",
-  "color",
-  "backgroundColor",
-  "verticalAlign"
-];
-
-function text(targetValue: Value) {
-  const target = targetValue == null ? "" : String(targetValue);
-
-  return {
-    ...Object.fromEntries(
-      textStyleProperties.map((property) => [property, getTextStylePropertyValue(target, property)])
-    ),
-    [SET]: (path: Path[], value: Value) => {
-      const property = firstPathPart(path);
-      setWordAtom("word-text-style", ["targets", target, property], value);
-    }
-  };
 }
 
 const paragraphProperties = ["horizontalAlign", "lineSpacing", "namedStyleType", "border"];

@@ -13,42 +13,61 @@ import {
 } from "@univerjs/presets";
 import { DocSkeletonManagerService, IRenderManagerService } from "@univerjs/preset-docs-core";
 import { type Value } from "../external";
+import { WordRuntimeStore } from "./runtime";
 
-export type WordAtomValue = string | number | boolean;
+function resolveBody() {
+  return WordRuntimeStore.runtime.document.getSnapshot().body;
+}
 
-export type WordStateAtom = {
+export function _getBodyMeta() {
+  const rawText = (): string => String(resolveBody()?.dataStream ?? "\r\n");
+
+  return {
+    rawText
+  };
+}
+
+export function _getTextMeta(target: string) {}
+
+const getTextStylePropertyValue = (target: string, property: string): string => {
+  const body = resolveBody();
+  const dataStream = String(body.dataStream ?? "");
+  const range = findTargetRange(dataStream, target);
+  if (!range) return "";
+
+  const textRuns = (body.textRuns ?? []) as AnyRecord[];
+  const positiveProperty = property.endsWith("Not") ? property.slice(0, -3) : property;
+  let firstValue: string | null = null;
+
+  for (let index = range.start; index <= range.end; index += 1) {
+    const char = dataStream[index] ?? "";
+    if (char === "\r" || char === "\n" || TABLE_TAGS.includes(char)) continue;
+
+    const actualValue = getTextStyleProperty(styleRunForIndex(textRuns, index), positiveProperty);
+    if (firstValue === null) {
+      firstValue = actualValue;
+    } else if (firstValue !== actualValue) {
+      return "";
+    }
+  }
+
+  return firstValue ?? "";
+};
+
+type WordAtomValue = string | number | boolean;
+
+type WordStateAtom = {
   f: string;
   property?: string[];
   value?: WordAtomValue;
 };
 
-export type AnyRecord = Record<string, any>;
+type AnyRecord = Record<string, any>;
 
-export type WordMetaEntry = AnyRecord & {
+type WordMetaEntry = AnyRecord & {
   address?: string;
   f?: string;
 };
-
-export type WordRuntime = {
-  univer: AnyRecord;
-  univerAPI: AnyRecord;
-};
-
-export class WordRuntimeStore {
-  private static _runtime: WordRuntime | null = null;
-
-  static set runtime(runtime: WordRuntime) {
-    WordRuntimeStore._runtime = runtime;
-  }
-
-  static get runtime(): WordRuntime {
-    if (!WordRuntimeStore._runtime) {
-      throw new Error("Word runtime is not installed.");
-    }
-
-    return WordRuntimeStore._runtime;
-  }
-}
 
 const TABLE_START = "\x1A";
 const TABLE_ROW_START = "\x1B";
@@ -67,10 +86,10 @@ const TABLE_TAGS = [
 
 const truthyValues = new Set<WordAtomValue>(["true", true, 1]);
 
-export const valueToString = (value: WordAtomValue | undefined): string =>
+const valueToString = (value: WordAtomValue | undefined): string =>
   value === undefined ? "" : String(value);
 
-export const toWordAtomValue = (value: Value): WordAtomValue => {
+const toWordAtomValue = (value: Value): WordAtomValue => {
   if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
     return value;
   }
@@ -80,7 +99,7 @@ export const toWordAtomValue = (value: Value): WordAtomValue => {
 
 const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 
-export const getDocumentModel = (): AnyRecord | null => {
+const getDocumentModel = (): AnyRecord | null => {
   const injector = WordRuntimeStore.runtime.univer.__getInjector();
   const instanceService = injector.get(IUniverInstanceService);
   return instanceService.getCurrentUnitOfType(UniverInstanceType.UNIVER_DOC) as AnyRecord | null;
@@ -92,16 +111,7 @@ const localPlainText = (dataStream: string): string => {
   return TABLE_TAGS.reduce((text, tag) => text.replaceAll(tag, ""), withoutFinalBreak);
 };
 
-export const getSnapshot = (): AnyRecord | null => getDocumentModel()?.getSnapshot() ?? null;
-
-export const getBody = (): AnyRecord => getSnapshot()?.body ?? { dataStream: "\r\n" };
-
-export const getBodyDataStream = (): string => String(getBody().dataStream ?? "\r\n");
-
-export const getBodyTextWithPageBreak = (): string =>
-  localPlainText(getBodyDataStream()).replaceAll("\r", "\n");
-
-export const getBodyText = (): string => getBodyTextWithPageBreak().replaceAll("\f", "\n");
+const getSnapshot = (): AnyRecord | null => getDocumentModel()?.getSnapshot() ?? null;
 
 const makeDocumentBody = (text: string, textRuns: AnyRecord[] = []): AnyRecord => {
   const dataStream = `${text.replaceAll("\n", "\r")}\r\n`;
@@ -229,7 +239,7 @@ const rangeEvery = (
 };
 
 const getTextStyleAtom = (target: string, property: string, expectedValue: string): string => {
-  const body = getBody();
+  const body = resolveBody();
   const dataStream = String(body.dataStream ?? "");
   const range = findTargetRange(dataStream, target);
   if (!range) return "";
@@ -252,31 +262,6 @@ const getTextStyleAtom = (target: string, property: string, expectedValue: strin
   })
     ? expectedValue
     : "";
-};
-
-export const getTextStylePropertyValue = (target: string, property: string): string => {
-  const body = getBody();
-  const dataStream = String(body.dataStream ?? "");
-  const range = findTargetRange(dataStream, target);
-  if (!range) return "";
-
-  const textRuns = (body.textRuns ?? []) as AnyRecord[];
-  const positiveProperty = property.endsWith("Not") ? property.slice(0, -3) : property;
-  let firstValue: string | null = null;
-
-  for (let index = range.start; index <= range.end; index += 1) {
-    const char = dataStream[index] ?? "";
-    if (char === "\r" || char === "\n" || TABLE_TAGS.includes(char)) continue;
-
-    const actualValue = getTextStyleProperty(styleRunForIndex(textRuns, index), positiveProperty);
-    if (firstValue === null) {
-      firstValue = actualValue;
-    } else if (firstValue !== actualValue) {
-      return "";
-    }
-  }
-
-  return firstValue ?? "";
 };
 
 const horizontalAlignByValue: Record<string, number> = {
@@ -309,10 +294,7 @@ const namedStyleName = (value: unknown): string => {
   return entry?.[0] ?? "";
 };
 
-export const getParagraphProperty = (
-  paragraph: AnyRecord | undefined,
-  property: string
-): string => {
+const getParagraphProperty = (paragraph: AnyRecord | undefined, property: string): string => {
   const style = paragraph?.paragraphStyle ?? {};
   if (property === "horizontalAlign") return horizontalAlignName(style.horizontalAlign);
   if (property === "lineSpacing") return style.lineSpacing == null ? "" : String(style.lineSpacing);
@@ -331,7 +313,7 @@ const getParagraphAtom = (
   property: string,
   expectedValue: string
 ): string => {
-  const paragraphs = (getBody().paragraphs ?? []) as AnyRecord[];
+  const paragraphs = (resolveBody().paragraphs ?? []) as AnyRecord[];
   const paragraph = paragraphs[Number(paragraphIndex)];
   const positiveProperty = property.endsWith("Not") ? property.slice(0, -3) : property;
   const actualValue = getParagraphProperty(paragraph, positiveProperty);
@@ -385,7 +367,7 @@ const extractFirstTableCellsText = (): string => {
   return cells.join("|");
 };
 
-export const getTableAtom = (property: string): string => {
+const getTableAtom = (property: string): string => {
   const table = getFirstTable();
   if (!table) return "";
 
@@ -400,7 +382,7 @@ export const getTableAtom = (property: string): string => {
   return "";
 };
 
-export const getFooterText = (): string => {
+const getFooterText = (): string => {
   const snapshot = getSnapshot();
   const footerId =
     snapshot?.documentStyle?.defaultFooterId || Object.keys(snapshot?.footers ?? {})[0];
@@ -409,7 +391,7 @@ export const getFooterText = (): string => {
 };
 
 const getDocumentFontSizeOnly = (expectedValue: string): string => {
-  const body = getBody();
+  const body = resolveBody();
   const dataStream = String(body.dataStream ?? "");
   const textRuns = (body.textRuns ?? []) as AnyRecord[];
 
@@ -424,8 +406,8 @@ const getDocumentFontSizeOnly = (expectedValue: string): string => {
   return expectedValue;
 };
 
-export const getDocumentUniformFontSize = (): string => {
-  const body = getBody();
+const getDocumentUniformFontSize = (): string => {
+  const body = resolveBody();
   const dataStream = String(body.dataStream ?? "");
   const textRuns = (body.textRuns ?? []) as AnyRecord[];
   let firstValue: string | null = null;
@@ -447,7 +429,7 @@ export const getDocumentUniformFontSize = (): string => {
   return firstValue ?? "";
 };
 
-export const getWordStateAtom = (atom: WordStateAtom): string => {
+const getWordStateAtom = (atom: WordStateAtom): string => {
   const property = atom.property ?? [];
   const expectedValue = valueToString(atom.value);
 
@@ -516,7 +498,7 @@ const getWordTextStyleMeta = (): AnyRecord => ({
 });
 
 const getWordParagraphMeta = (): AnyRecord => {
-  const paragraphs = (getBody().paragraphs ?? []) as AnyRecord[];
+  const paragraphs = (resolveBody().paragraphs ?? []) as AnyRecord[];
 
   return {
     paragraphs: Object.fromEntries(
@@ -552,7 +534,7 @@ const getWordDocumentMeta = (): AnyRecord => ({
   }
 });
 
-export const getWordMeta = (target = ""): AnyRecord => {
+const getWordMeta = (target = ""): AnyRecord => {
   if (target === "word-body") return getWordBodyMeta();
   if (target === "word-text-style") return getWordTextStyleMeta();
   if (target === "word-paragraph") return getWordParagraphMeta();
@@ -939,7 +921,7 @@ const refreshWordDocumentViewSoon = (doc: AnyRecord): void => {
   });
 };
 
-export const applyWordState = (atoms: WordStateAtom[]): void => {
+const applyWordState = (atoms: WordStateAtom[]): void => {
   const doc = getDocumentModel();
   if (!doc) return;
 
@@ -987,7 +969,7 @@ const wordMetaEntryToAtoms = (entry: WordMetaEntry): WordStateAtom[] => {
   return atoms;
 };
 
-export const applyWordMeta = (entries: WordMetaEntry[]): string[] => {
+const applyWordMeta = (entries: WordMetaEntry[]): string[] => {
   if (!Array.isArray(entries)) {
     throw new Error("Word meta entries must be an array.");
   }

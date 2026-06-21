@@ -1,8 +1,8 @@
-type External = Record<string, (...args: any[]) => unknown>;
+export type ChainFunc = Value | Record<string, (arg?: Value) => ChainFunc>;
 
-function runQueryFactory(external: External): (query: Query[]) => unknown {
+function runQueryFactory(chainFn: ChainFunc): (query: Query[]) => unknown {
   function runQuery(query: Query[]) {
-    let iter: unknown = external;
+    let iter: unknown = chainFn;
 
     for (const [name, param] of query) {
       if (!isRecord(iter)) throw new Error(`Cannot call ${name} on non-object query result.`);
@@ -19,8 +19,8 @@ function runQueryFactory(external: External): (query: Query[]) => unknown {
 }
 
 export type Set = ReturnType<typeof setFactory>;
-export function setFactory(external: External): (payload: SetPayload) => void {
-  const runQuery = runQueryFactory(external);
+export function setFactory(chainFn: ChainFunc): (payload: SetPayload) => void {
+  const runQuery = runQueryFactory(chainFn);
 
   function set(payload: SetPayload) {
     const { query, path, value } = payload;
@@ -34,8 +34,8 @@ export function setFactory(external: External): (payload: SetPayload) => void {
 }
 
 export type Get = ReturnType<typeof getFactory>;
-export function getFactory(external: External): (payload: GetPayload) => unknown {
-  const runQuery = runQueryFactory(external);
+export function getFactory(chainFn: ChainFunc): (payload: GetPayload) => unknown {
+  const runQuery = runQueryFactory(chainFn);
 
   function get(payload: GetPayload) {
     const { query, path } = payload;

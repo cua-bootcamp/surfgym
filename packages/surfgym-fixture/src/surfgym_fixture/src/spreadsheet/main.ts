@@ -20,8 +20,7 @@ import { UniverSheetsCorePreset } from "@univerjs/preset-sheets-core";
 import UniverPresetSheetsCoreEnUS from "@univerjs/preset-sheets-core/locales/en-US";
 import { createSpreadsheetActions } from "./spreadsheet-actions";
 import { get, set } from "./external";
-import { SpreadsheetRuntimeStore } from "./internal";
-import type { SpreadsheetRuntime } from "./type";
+import { SpreadsheetRuntimeStore } from "./runtime";
 import { renderSpreadsheetMockToolbar, setupSpreadsheetUi } from "./spreadsheet-ui";
 
 import "@univerjs/preset-sheets-core/lib/index.css";
@@ -80,7 +79,7 @@ const worksheet = workbook.getActiveSheet();
 SpreadsheetRuntimeStore.runtime = {
   workbook,
   defaultWorksheet: worksheet
-} as SpreadsheetRuntime;
+};
 
 window.surfgym = {
   get,

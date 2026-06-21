@@ -1,7 +1,7 @@
 import { ChartTypeBits, SheetsChartService } from "@univerjs/presets/preset-sheets-advanced";
-import type { SheetRef, ChartRef, SpreadsheetRuntime, ChartMeta } from "./type";
 import type { FChart } from "@univerjs/presets/lib/types/preset-sheets-advanced/index.js";
 import type { Path, Value } from "../external";
+import { SpreadsheetRuntimeStore } from "./runtime";
 
 type WorksheetLike = ReturnType<typeof resolveSheet>;
 type ChartMetaGetter = (chart: FChart, index: number) => ChartMeta;
@@ -23,22 +23,6 @@ type RangeLike = {
   startColumn: number;
   endColumn: number;
 };
-
-export class SpreadsheetRuntimeStore {
-  private static _runtime: SpreadsheetRuntime | null = null;
-
-  static set runtime(runtime: SpreadsheetRuntime) {
-    SpreadsheetRuntimeStore._runtime = runtime;
-  }
-
-  static get runtime(): SpreadsheetRuntime {
-    if (!SpreadsheetRuntimeStore._runtime) {
-      throw new Error("Spreadsheet get runtime is not installed.");
-    }
-
-    return SpreadsheetRuntimeStore._runtime;
-  }
-}
 
 function resolveSheet(sheetRef?: SheetRef) {
   const { workbook, defaultWorksheet } = SpreadsheetRuntimeStore.runtime;
@@ -361,3 +345,43 @@ export function _getChartMeta(sheetRef?: SheetRef, chartRef?: ChartRef) {
 
   return buildChartMeta(worksheet, charts, chart);
 }
+
+export type SheetRef = string | number;
+export type CellRef = {
+  row: number;
+  column: number;
+};
+export type ChartRef =
+  | number
+  | {
+      index?: number;
+      id?: string;
+      title?: string;
+      sourceRange?: string;
+      chartType?: unknown;
+    };
+
+// ######################################
+// #                Meta                #
+// ######################################
+
+export type ChartMeta = {
+  id: string | null;
+  sheetId: string | null;
+  sheetName: string | null;
+  index: number;
+  chartType: unknown;
+  sourceRange: string | null;
+  range: unknown;
+  title: string | null;
+  xAxisTitle: string | null;
+  yAxisTitle: string | null;
+  legendPosition: unknown;
+  dataOrientation: unknown;
+  width: number | null;
+  height: number | null;
+  position: unknown;
+  context: unknown;
+  seriesData: unknown;
+  categoryData: unknown;
+};
