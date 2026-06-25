@@ -31,6 +31,7 @@
 {"hash":"0f7eb6c4644f0d00ceab8926e7a46f11b24a3f42a809e130e39bc78ca2e3ee16","instruction":"Convert the existing semicolon-separated status note into a 4-row, 2-column table with each label in the left column and each value in the right column."}
 {"hash":"100967f02e8addb1728c633e7d98cb2202958be10e202f5fe9bc933a097bc104","instruction":"Convert the existing weekly phrase into a 4-row, 2-column table with Day and Task as the header row."}
 {"hash":"10182266ea13439c221dafb558c09cc0e4904ba2362fa755265a9f79fcf0da85","instruction":"Replace the uppercase text in word-body with regional status should stay quiet, then justify-align it and set the font size to 16."}
+{"hash":"119ee227e985a4485c2e33e5ca3e3511ac9b7786a66256bd47612b6b18b61666","instruction":"Create the two paragraphs compact note and spaced note, then set only the second paragraph to double line spacing."}
 {"hash":"123f4d1039373991ad69e996db9391a2ba799ad16a18c20f92e384f0ba4e0de8","instruction":"Format the existing line by highlighting only \"marker\" in blue, keeping \"active\" unhighlighted, and right-aligning the paragraph."}
 {"hash":"1308c0e9c1b81bba7ea7ef31ee10f30753431487b29e9dd7c5ecb6304ac2f10d","instruction":"Write “Submit by 2026-08-14” and underline only the date."}
 {"hash":"13f16b688b0936d74526079f6d1d10bcf39fab0d2f93aaafe69dbe050e64d443","instruction":"Create the three paragraphs reference note, archive this note, and closing note, and apply strikethrough only to the middle paragraph."}

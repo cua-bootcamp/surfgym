@@ -1,15 +1,34 @@
 from collections.abc import Sequence
-from typing import Annotated, Literal, Optional, TypeAlias, Union
+from typing import Annotated, Literal, Mapping, Optional, TypeAlias, Union
 
 from pydantic import (
     BaseModel,
-    BeforeValidator,
     ConfigDict,
+    Discriminator,
     Field,
+    Tag,
     TypeAdapter,
     field_validator,
     model_validator,
 )
+
+################################
+#          Auto Infer          #
+################################
+
+
+def infer_rule_mode(value: object) -> Optional[str]:
+    if isinstance(value, Mapping):
+        if "mode" in value and isinstance(value["mode"], str):
+            return value["mode"]
+        return "console" if "script" in value else "dom"
+
+
+def infer_evaluation_mode(value: object) -> Optional[str]:
+    if isinstance(value, Mapping):
+        if "mode" in value and isinstance(value["mode"], str):
+            return value["mode"]
+        return "llm" if "model" in value else "rule"
 
 
 class FrozenBaseModel(BaseModel):
@@ -17,6 +36,11 @@ class FrozenBaseModel(BaseModel):
         frozen=True,
         extra="forbid",
     )
+
+
+################################
+#             Rule             #
+################################
 
 
 class _WebsiteDependent(FrozenBaseModel):
@@ -134,10 +158,22 @@ Rule = Annotated[
     Union[DomRule, ConsoleRule, ChromiumRule],
     Field(discriminator="mode"),
     BeforeValidator(fill_rule_mode),
+Rule = Annotated[
+    Union[
+        Annotated[DomRule, Tag("dom")],
+        Annotated[ConsoleRule, Tag("console")],
+    ],
+    Discriminator(infer_rule_mode),
 ]
 
 
-class Evaluation(FrozenBaseModel):
+################################
+#          Evaluation          #
+################################
+
+
+class RuleBasedEvaluation(FrozenBaseModel):
+    mode: Literal["rule"] = "rule"
     operator: Literal["or", "and"] = "and"
     rules: Sequence[Rule]
 
@@ -145,6 +181,35 @@ class Evaluation(FrozenBaseModel):
     @classmethod
     def listify_rule(cls, value: Rule | list[Rule]) -> list[Rule]:
         return value if isinstance(value, list) else [value]
+
+
+ExternalApp: TypeAlias = Literal["impress", "gimp", "vlc"]
+
+
+class LLMJudgeEvaluation(FrozenBaseModel):
+    mode: Literal["llm"] = "llm"
+    external_app: ExternalApp
+    model: str = "gpt-5.4-mini"
+    image_detail: Literal["low", "high", "auto"] = "high"
+    max_frames: int = Field(default=12, ge=2)
+
+
+Evaluation = Annotated[
+    Union[
+        Annotated[RuleBasedEvaluation, Tag("rule")],
+        Annotated[LLMJudgeEvaluation, Tag("llm")],
+    ],
+    Discriminator(infer_evaluation_mode),
+]
+
+
+################################
+#             Task             #
+################################
+
+
+class Website(_WebsiteDependent):
+    url: str
 
 
 class Action(_WebsiteDependent):
@@ -217,5 +282,3 @@ class Task(TaskCore):
 
 
 TaskRowsAdapter: TypeAdapter[list[Task]] = TypeAdapter(list[Task])
-
-Observation: TypeAlias = Optional[Value]

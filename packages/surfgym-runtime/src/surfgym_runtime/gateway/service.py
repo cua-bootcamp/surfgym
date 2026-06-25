@@ -17,7 +17,7 @@ from surfgym_contracts.protocol.agent_to_gateway import (
     StartRequest,
 )
 from surfgym_contracts.protocol.gateway_to_agent import ActionResponse, ImagePayload, RewardResponse
-from surfgym_contracts.task import Action, Evaluation, ProfileSetup, Website
+from surfgym_contracts.task import Action, ProfileSetup, Website
 from typing_extensions import Optional
 
 from surfgym_runtime.gateway.error import (
@@ -27,8 +27,9 @@ from surfgym_runtime.gateway.error import (
     RetryableError,
     deadline_for,
 )
+from surfgym_runtime.gateway.external_app import ExternalAppGatewayClient, ExternalAppSession
 from surfgym_runtime.gateway.transport import GatewayTransport
-from surfgym_runtime.support import TaskStore, WavepoolConfig, evaluate_page_rules, gateway_logger
+from surfgym_runtime.support import Evaluator, Frame, TaskStore, WavepoolConfig, gateway_logger
 
 _T = TypeVar("_T")
 
@@ -38,6 +39,41 @@ class SessionState:
     task_id: str
     instance_id: str
     port: int
+    trace: list[Frame]
+    external_app: ExternalAppSession | None = None
+
+    def append_frame(
+        self,
+        *,
+        kind: Literal["start", "action", "reward"],
+        image_b64: str,
+        media_type: str,
+    ) -> Frame:
+        frame = Frame(
+            step=self._next_trace_step(),
+            kind=kind,
+            image_b64=image_b64,
+            media_type=media_type,
+        )
+        self.trace.append(frame)
+        self._trim_trace()
+
+        return frame
+
+    def _next_trace_step(self) -> int:
+        if not self.trace:
+            return 0
+        return self.trace[-1].step + 1
+
+    def _trim_trace(self) -> None:
+        _TRACE_BUFFER_LIMIT = 50
+        while len(self.trace) > _TRACE_BUFFER_LIMIT:
+            for index, frame in enumerate(self.trace):
+                if frame.kind == "action":
+                    del self.trace[index]
+                    break
+            else:
+                return
 
 
 class Service:
@@ -48,13 +84,13 @@ class Service:
         wavepool_config: WavepoolConfig,
     ) -> None:
         self.task_store = task_store
+        self.evaluator = Evaluator()
         self.transport = GatewayTransport(wavepool_config)
+        self.external_apps = ExternalAppGatewayClient()
         self.process_timeout = wavepool_config.process_timeout
 
         self._session_lock = Lock()
-        self.session_states: dict[
-            int, SessionState | None
-        ] = {}  # None value is used for termination
+        self.session_states: dict[int, SessionState | None] = {}
 
         # release daemon
         self._release_queue: SimpleQueue[SessionState | None] = SimpleQueue()
@@ -89,6 +125,8 @@ class Service:
     ) -> ActionResponse:
         self._reserve_session(request.session_id)
         session_state = None
+        external_app_session = None
+        external_app_started = False
         try:
             task = self._require_task(request.task_id)
             instance_id, port = self._allocate(
@@ -98,9 +136,16 @@ class Service:
                 task.profile_setup,
             )
             session_state = SessionState(
-                task_id=request.task_id, instance_id=instance_id, port=port
+                task_id=request.task_id,
+                instance_id=instance_id,
+                port=port,
+                trace=[],
+                external_app=external_app_session,
             )
             screenshot_b64, media_type = self._screenshot(deadline, session_state)
+            session_state.append_frame(
+                kind="start", image_b64=screenshot_b64, media_type=media_type
+            )
             self._start_session(request.session_id, session_state)
 
             return ActionResponse(
@@ -112,6 +157,8 @@ class Service:
             self._end_session(request.session_id)
             if session_state is not None:
                 self._release_queue.put(session_state)
+            elif external_app_started and external_app_session is not None:
+                self._try_release_external_app(external_app_session, context="start_rollback")
             raise
 
     def _handle_action(
@@ -126,12 +173,11 @@ class Service:
                 self._execute(deadline, session_state, action.to_commands())
 
         (screenshot_b64, media_type) = self._screenshot(deadline, session_state)
-        # text = self._interactive_tree(deadline, lease) if request.include_a11y else None
+        session_state.append_frame(kind="action", image_b64=screenshot_b64, media_type=media_type)
 
         return ActionResponse(
             session_id=request.session_id,
             task_id=request.task_id,
-            # text=text,
             image=ImagePayload(data=screenshot_b64, mimeType=media_type),
         )
 
@@ -141,13 +187,26 @@ class Service:
         task = self._require_task(request.task_id)
         session_state = self._require_session_state(request.session_id, request.task_id)
 
-        response = self._observe(
-            deadline=deadline,
-            state=session_state,
-            evaluation=task.evaluation,
-        )
-
-        reward = evaluate_page_rules(task.evaluation, response.observation)
+        match task.evaluation:
+            case RuleBasedEvaluation():
+                response = self._observe(
+                    deadline=deadline,
+                    state=session_state,
+                    evaluation=task.evaluation,
+                )
+                reward = self.evaluator.rule_based_eval(task.evaluation, response.observation)
+            case LLMJudgeEvaluation():
+                (screenshot_b64, media_type) = self._screenshot(deadline, session_state)
+                session_state.append_frame(
+                    kind="reward", image_b64=screenshot_b64, media_type=media_type
+                )
+                judge_deadline = deadline("llm_judge")
+                reward = self.evaluator.llm_judge_eval(
+                    task.instruction,
+                    session_state.trace,
+                    task.evaluation,
+                    judge_deadline.timeout_for(60.0),
+                )
 
         self._release_queue.put(session_state)
         self._end_session(request.session_id)
@@ -185,7 +244,11 @@ class Service:
         ), response.media_type
 
     def _observe(
-        self, *, deadline: Callable[[str], Deadline], state: SessionState, evaluation: Evaluation
+        self,
+        *,
+        deadline: Callable[[str], Deadline],
+        state: SessionState,
+        evaluation: RuleBasedEvaluation,
     ):
         d = deadline("observe")
         return self._run_with_retry(
@@ -225,6 +288,9 @@ class Service:
             if state is None:
                 return
 
+            if state.external_app is not None:
+                self._try_release_external_app(state.external_app, context="release_worker")
+
             try:
                 release_deadline = Deadline(time.monotonic() + self._release_timeout, "release")
                 self.transport.release(release_deadline, state.instance_id, state.port)
@@ -245,6 +311,32 @@ Error Detail: error_type=%s message=%s
                     state.instance_id,
                     state.port,
                 )
+
+    def _release_external_app(self, session: ExternalAppSession) -> None:
+        self.external_apps.release(session, timeout=self._release_timeout)
+
+    def _try_release_external_app(self, session: ExternalAppSession, *, context: str) -> None:
+        try:
+            self._release_external_app(session)
+        except GatewayError as exc:
+            gateway_logger.warning(
+                """
+Failed to release external app: context=%s app=%s session_id=%s
+Error Detail: error_type=%s message=%s
+""".strip(),
+                context,
+                session.app,
+                session.session_id,
+                exc.error_type,
+                exc.message,
+            )
+        except Exception:
+            gateway_logger.exception(
+                "Unexpected external app release failure: context=%s app=%s session_id=%s",
+                context,
+                session.app,
+                session.session_id,
+            )
 
     def _reserve_session(self, session_id: int) -> None:
         with self._session_lock:
@@ -278,16 +370,6 @@ Error Detail: error_type=%s message=%s
         if task is None:
             raise InvalidRequest(f"Unknown task_id: {task_id}")
         return task
-
-    # def _interactive_tree(self, deadline: Deadline, lease: Lease):
-    #     response = self._run_with_retry(
-    #         context="_interactive_tree",
-    #         deadline=deadline,
-    #         func=lambda: self.pool.get_interactive_tree(deadline, lease.instance_id, lease.port),
-    #     )
-    #     return parse_interactive_tree_text(
-    #         response, viewport_width=self.viewport_width, viewport_height=self.viewport_height
-    #     )
 
 
 ################################################
@@ -330,59 +412,3 @@ def draw_cursor_on_screenshot(
         image.save(output, format="PNG")
 
     return base64.b64encode(output.getvalue()).decode("ascii")
-
-
-# NORMALIZED_COORD_SPACE = 1000
-
-# def _normalize_value(value: float, *, source_size: int) -> int:
-#     if source_size <= 0:
-#         raise ValueError(f"source_size must be positive, got {source_size}")
-
-#     normalized = round((float(value) / float(source_size)) * NORMALIZED_COORD_SPACE)
-#     return max(0, min(NORMALIZED_COORD_SPACE, normalized))
-
-
-# def _normalize_point(
-#     x: float,
-#     y: float,
-#     *,
-#     viewport_width: int,
-#     viewport_height: int,
-# ) -> tuple[int, int]:
-#     return (
-#         _normalize_value(x, source_size=viewport_width),
-#         _normalize_value(y, source_size=viewport_height),
-#     )
-
-
-# def parse_interactive_tree_text(
-#     response: InteractiveTreeResponse,
-#     *,
-#     viewport_width: int,
-#     viewport_height: int,
-# ) -> str:
-#     lines: list[str] = []
-
-#     mouse_position = response.mouse_position
-#     mouse_x, mouse_y = _normalize_point(
-#         mouse_position.x,
-#         mouse_position.y,
-#         viewport_width=viewport_width,
-#         viewport_height=viewport_height,
-#     )
-#     lines.append(f"mouse_position: ({mouse_x}, {mouse_y})")
-
-#     for region in response.regions:
-#         (left, top, width, height) = region.bbox
-
-#         (left, top) = _normalize_point(
-#             left, top, viewport_width=viewport_width, viewport_height=viewport_height
-#         )
-#         (width, height) = _normalize_point(
-#             width, height, viewport_width=viewport_width, viewport_height=viewport_height
-#         )
-
-#         lines.append(
-#             f"role: {region.role}, text: {region.visible_text}, bbox: [{left}, {top}, {width}, {height}]"
-#         )
-#     return "\n".join(lines)

@@ -5,7 +5,7 @@ from surfgym_runtime.support.config import (
     WavepoolConfig,
     load_config,
 )
-from surfgym_runtime.support.evaluator import evaluate_page_rules
+from surfgym_runtime.support.evaluator import Evaluator, Frame
 from surfgym_runtime.support.logger import (
     deploy_logger,
     gateway_logger,
@@ -22,7 +22,8 @@ __all__ = [
     "ProcessTimeout",
     "load_config",
     "TaskStore",
-    "evaluate_page_rules",
+    "Evaluator",
+    "Frame",
     "gateway_logger",
     "master_logger",
     "instance_logger",
