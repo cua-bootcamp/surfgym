@@ -5,117 +5,182 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": ["text"],
-        "value": "Design memo needs review.\nfinal action phase2"
+        "value": "Design memo needs review.\nfinal action phase2",
+        "query": [
+          [
+            "body",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": ["paragraphs", "0", "horizontalAlign"],
-        "value": "left"
+        "value": "left",
+        "query": [
+          [
+            "paragraph",
+            0
+          ]
+        ],
+        "path": [
+          "horizontalAlign"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": ["paragraphs", "1", "horizontalAlign"],
-        "value": "left"
+        "value": "left",
+        "query": [
+          [
+            "paragraph",
+            1
+          ]
+        ],
+        "path": [
+          "horizontalAlign"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "Design memo needs review.\nfinal action phase2", "fontFamily"],
-        "value": "Calibri"
+        "value": "Calibri",
+        "query": [
+          [
+            "text",
+            "Design memo needs review.\nfinal action phase2"
+          ]
+        ],
+        "path": [
+          "fontFamily"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "Design memo needs review.\nfinal action phase2", "fontSize"],
-        "value": "18"
+        "value": 18,
+        "query": [
+          [
+            "text",
+            "Design memo needs review.\nfinal action phase2"
+          ]
+        ],
+        "path": [
+          "fontSize"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": ["paragraphs", "0", "horizontalAlign"],
-        "value": "justify"
+        "value": "justify",
+        "query": [
+          [
+            "paragraph",
+            0
+          ]
+        ],
+        "path": [
+          "horizontalAlign"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": ["paragraphs", "1", "horizontalAlign"],
-        "value": "right"
+        "value": "right",
+        "query": [
+          [
+            "paragraph",
+            1
+          ]
+        ],
+        "path": [
+          "horizontalAlign"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "Design memo", "bold"],
-        "value": "true"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "Design memo"
+          ]
+        ],
+        "path": [
+          "bold"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "needs review.", "bold"],
-        "value": "false"
+        "value": false,
+        "query": [
+          [
+            "text",
+            "needs review."
+          ]
+        ],
+        "path": [
+          "bold"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "final action", "underline"],
-        "value": "true"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "final action"
+          ]
+        ],
+        "path": [
+          "underline"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "phase", "underline"],
-        "value": "false"
+        "value": false,
+        "query": [
+          [
+            "text",
+            "phase"
+          ]
+        ],
+        "path": [
+          "underline"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "2", "verticalAlign"],
-        "value": "superscript"
+        "value": "superscript",
+        "query": [
+          [
+            "text",
+            "2"
+          ]
+        ],
+        "path": [
+          "verticalAlign"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "phase", "verticalAlign"],
-        "value": "normal"
+        "value": "normal",
+        "query": [
+          [
+            "text",
+            "phase"
+          ]
+        ],
+        "path": [
+          "verticalAlign"
+        ]
       }
     ]
   ]

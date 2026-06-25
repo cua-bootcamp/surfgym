@@ -5,15 +5,16 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": [
-          "tables",
-          "0",
-          "shape"
+        "value": "2x4",
+        "query": [
+          [
+            "table",
+            0
+          ]
         ],
-        "value": "4x2"
+        "path": [
+          "shape"
+        ]
       }
     ]
   ]

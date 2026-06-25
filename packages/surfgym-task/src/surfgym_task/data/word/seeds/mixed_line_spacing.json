@@ -5,51 +5,57 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "alpha note\nbeta note\ngamma note",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "alpha note\nbeta note\ngamma note"
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": [
-          "paragraphs",
-          "0",
-          "lineSpacing"
+        "value": 1.15,
+        "query": [
+          [
+            "paragraph",
+            0
+          ]
         ],
-        "value": "1.15"
+        "path": [
+          "lineSpacing"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": [
-          "paragraphs",
-          "1",
-          "lineSpacing"
+        "value": 1.5,
+        "query": [
+          [
+            "paragraph",
+            1
+          ]
         ],
-        "value": "1.5"
+        "path": [
+          "lineSpacing"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": [
-          "paragraphs",
-          "2",
-          "lineSpacing"
+        "value": 2,
+        "query": [
+          [
+            "paragraph",
+            2
+          ]
         ],
-        "value": "2"
+        "path": [
+          "lineSpacing"
+        ]
       }
     ]
   ]

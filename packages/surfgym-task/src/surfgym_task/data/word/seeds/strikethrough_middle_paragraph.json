@@ -5,51 +5,57 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "reference note\narchive this note\nclosing note",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "reference note\narchive this note\nclosing note"
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "archive this note",
-          "strikethrough"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "archive this note"
+          ]
         ],
-        "value": "true"
+        "path": [
+          "strikethrough"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "reference note",
-          "strikethrough"
+        "value": false,
+        "query": [
+          [
+            "text",
+            "reference note"
+          ]
         ],
-        "value": "false"
+        "path": [
+          "strikethrough"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "closing note",
-          "strikethrough"
+        "value": false,
+        "query": [
+          [
+            "text",
+            "closing note"
+          ]
         ],
-        "value": "false"
+        "path": [
+          "strikethrough"
+        ]
       }
     ]
   ]

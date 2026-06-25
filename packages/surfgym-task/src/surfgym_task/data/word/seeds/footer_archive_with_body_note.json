@@ -5,21 +5,31 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": ["text"],
-        "value": "Quarterly files are ready for archive."
+        "value": "Quarterly files are ready for archive.",
+        "query": [
+          [
+            "body",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-footer",
-        "property": ["text"],
-        "value": "Archive note"
+        "value": "Archive note",
+        "query": [
+          [
+            "footer",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
       }
     ]
   ]

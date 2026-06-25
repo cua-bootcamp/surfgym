@@ -2,18 +2,104 @@
   "instruction": "Write \"Review draft complete check\" on a single line. Make the whole line font size 20 and italic. Then make only \"Review draft\" bold and only \"complete check\" underlined.",
   "empty_start": true,
   "states": [
-    [{ "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-body", "property": ["text"], "value": "Review draft complete check" }],
     [
-      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "Review draft complete check", "fontSize"], "value": "20" },
-      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "Review draft complete check", "italic"], "value": "true" }
+      {
+        "match": "exact",
+        "value": "Review draft complete check",
+        "query": [
+          [
+            "body",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
+      }
     ],
     [
-      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "Review draft", "bold"], "value": "true" },
-      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "Review draft", "underline"], "value": "false" }
+      {
+        "match": "exact",
+        "value": 20,
+        "query": [
+          [
+            "text",
+            "Review draft complete check"
+          ]
+        ],
+        "path": [
+          "fontSize"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": true,
+        "query": [
+          [
+            "text",
+            "Review draft complete check"
+          ]
+        ],
+        "path": [
+          "italic"
+        ]
+      }
     ],
     [
-      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "complete check", "bold"], "value": "false" },
-      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "complete check", "underline"], "value": "true" }
+      {
+        "match": "exact",
+        "value": true,
+        "query": [
+          [
+            "text",
+            "Review draft"
+          ]
+        ],
+        "path": [
+          "bold"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": false,
+        "query": [
+          [
+            "text",
+            "Review draft"
+          ]
+        ],
+        "path": [
+          "underline"
+        ]
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "value": false,
+        "query": [
+          [
+            "text",
+            "complete check"
+          ]
+        ],
+        "path": [
+          "bold"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": true,
+        "query": [
+          [
+            "text",
+            "complete check"
+          ]
+        ],
+        "path": [
+          "underline"
+        ]
+      }
     ]
   ]
 }

@@ -5,13 +5,16 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "north\nsouth\neast",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "north\nsouth\neast"
+        "path": [
+          "text"
+        ]
       }
     ]
   ]

@@ -5,13 +5,16 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "R18\nM02\nK77\nP31",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "R18\nM02\nK77\nP31"
+        "path": [
+          "text"
+        ]
       }
     ]
   ]

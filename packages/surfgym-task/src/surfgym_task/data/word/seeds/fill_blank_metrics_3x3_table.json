@@ -6,65 +6,100 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "shape"],
-        "value": "3x3"
+        "value": "3x3",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "shape"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "shape"],
-        "value": "3x3"
+        "value": "3x3",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "shape"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "cellsText"],
-        "value": "Metric|Target|Actual||||||"
+        "value": "Metric|Target|Actual||||||",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "cellsText"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "shape"],
-        "value": "3x3"
+        "value": "3x3",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "shape"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "cellsText"],
-        "value": "Metric|Target|Actual|Accuracy|90|87|||"
+        "value": "Metric|Target|Actual|Accuracy|90|87|||",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "cellsText"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "shape"],
-        "value": "3x3"
+        "value": "3x3",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "shape"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "cellsText"],
-        "value": "Metric|Target|Actual|Accuracy|90|87|Latency|200ms|240ms"
+        "value": "Metric|Target|Actual|Accuracy|90|87|Latency|200ms|240ms",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "cellsText"
+        ]
       }
     ]
   ]

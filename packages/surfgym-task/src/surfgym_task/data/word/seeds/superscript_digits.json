@@ -5,39 +5,50 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "a2 + b2",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "a2 + b2"
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "2#0",
-          "verticalAlign"
+        "value": "superscript",
+        "query": [
+          [
+            "text",
+            {
+              "value": "2",
+              "occurrence": 0
+            }
+          ]
         ],
-        "value": "superscript"
+        "path": [
+          "verticalAlign"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "2#1",
-          "verticalAlign"
+        "value": "superscript",
+        "query": [
+          [
+            "text",
+            {
+              "value": "2",
+              "occurrence": 1
+            }
+          ]
         ],
-        "value": "superscript"
+        "path": [
+          "verticalAlign"
+        ]
       }
     ]
   ]

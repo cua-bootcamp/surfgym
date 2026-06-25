@@ -5,13 +5,16 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "textWithPageBreak"
+        "value": "Page one text\fPage two text",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "Page one text\fPage two text"
+        "path": [
+          "textWithPageBreak"
+        ]
       }
     ]
   ]

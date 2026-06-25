@@ -5,39 +5,44 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "Checkpoint Log\nnotes pending",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "Checkpoint Log\nnotes pending"
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "Checkpoint Log",
-          "bold"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "Checkpoint Log"
+          ]
         ],
-        "value": "true"
+        "path": [
+          "bold"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "notes pending",
-          "bold"
+        "value": false,
+        "query": [
+          [
+            "text",
+            "notes pending"
+          ]
         ],
-        "value": "false"
+        "path": [
+          "bold"
+        ]
       }
     ]
   ]

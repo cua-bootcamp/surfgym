@@ -5,87 +5,96 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "Owner: Mina\nStage: Review\nFlag: Active",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "Owner: Mina\nStage: Review\nFlag: Active"
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "Owner",
-          "bold"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "Owner"
+          ]
         ],
-        "value": "true"
+        "path": [
+          "bold"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "Stage",
-          "bold"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "Stage"
+          ]
         ],
-        "value": "true"
+        "path": [
+          "bold"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "Flag",
-          "bold"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "Flag"
+          ]
         ],
-        "value": "true"
+        "path": [
+          "bold"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "Mina",
-          "bold"
+        "value": false,
+        "query": [
+          [
+            "text",
+            "Mina"
+          ]
         ],
-        "value": "false"
+        "path": [
+          "bold"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "Review",
-          "bold"
+        "value": false,
+        "query": [
+          [
+            "text",
+            "Review"
+          ]
         ],
-        "value": "false"
+        "path": [
+          "bold"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "Active",
-          "bold"
+        "value": false,
+        "query": [
+          [
+            "text",
+            "Active"
+          ]
         ],
-        "value": "false"
+        "path": [
+          "bold"
+        ]
       }
     ]
   ]

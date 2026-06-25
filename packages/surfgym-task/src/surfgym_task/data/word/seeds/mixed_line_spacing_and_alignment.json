@@ -5,87 +5,137 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": ["text"],
-        "value": "alpha note\nbeta note\ngamma note"
+        "value": "alpha note\nbeta note\ngamma note",
+        "query": [
+          [
+            "body",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": ["paragraphs", "0", "lineSpacing"],
-        "value": "1"
+        "value": 1,
+        "query": [
+          [
+            "paragraph",
+            0
+          ]
+        ],
+        "path": [
+          "lineSpacing"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": ["paragraphs", "1", "lineSpacing"],
-        "value": "1"
+        "value": 1,
+        "query": [
+          [
+            "paragraph",
+            1
+          ]
+        ],
+        "path": [
+          "lineSpacing"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": ["paragraphs", "2", "lineSpacing"],
-        "value": "1"
+        "value": 1,
+        "query": [
+          [
+            "paragraph",
+            2
+          ]
+        ],
+        "path": [
+          "lineSpacing"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": ["paragraphs", "0", "lineSpacing"],
-        "value": "1.15"
+        "value": 1.15,
+        "query": [
+          [
+            "paragraph",
+            0
+          ]
+        ],
+        "path": [
+          "lineSpacing"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": ["paragraphs", "1", "lineSpacing"],
-        "value": "1.5"
+        "value": 1.5,
+        "query": [
+          [
+            "paragraph",
+            1
+          ]
+        ],
+        "path": [
+          "lineSpacing"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": ["paragraphs", "2", "lineSpacing"],
-        "value": "2"
+        "value": 2,
+        "query": [
+          [
+            "paragraph",
+            2
+          ]
+        ],
+        "path": [
+          "lineSpacing"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": ["paragraphs", "0", "horizontalAlign"],
-        "value": "left"
+        "value": "left",
+        "query": [
+          [
+            "paragraph",
+            0
+          ]
+        ],
+        "path": [
+          "horizontalAlign"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": ["paragraphs", "1", "horizontalAlign"],
-        "value": "center"
+        "value": "center",
+        "query": [
+          [
+            "paragraph",
+            1
+          ]
+        ],
+        "path": [
+          "horizontalAlign"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": ["paragraphs", "2", "horizontalAlign"],
-        "value": "right"
+        "value": "right",
+        "query": [
+          [
+            "paragraph",
+            2
+          ]
+        ],
+        "path": [
+          "horizontalAlign"
+        ]
       }
     ]
   ]

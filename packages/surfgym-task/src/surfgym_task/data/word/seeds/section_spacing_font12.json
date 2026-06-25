@@ -5,62 +5,71 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "Opening frame: scope and context\nEvidence block: signals and details\nDecision note: action and owner",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "Opening frame: scope and context\nEvidence block: signals and details\nDecision note: action and owner"
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": [
-          "paragraphs",
-          "0",
-          "lineSpacing"
+        "value": 1,
+        "query": [
+          [
+            "paragraph",
+            0
+          ]
         ],
-        "value": "1"
+        "path": [
+          "lineSpacing"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": [
-          "paragraphs",
-          "1",
-          "lineSpacing"
+        "value": 2,
+        "query": [
+          [
+            "paragraph",
+            1
+          ]
         ],
-        "value": "2"
+        "path": [
+          "lineSpacing"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": [
-          "paragraphs",
-          "2",
-          "lineSpacing"
+        "value": 1.5,
+        "query": [
+          [
+            "paragraph",
+            2
+          ]
         ],
-        "value": "1.5"
+        "path": [
+          "lineSpacing"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-document",
-        "property": [
+        "value": 12,
+        "query": [
+          [
+            "document",
+            null
+          ]
+        ],
+        "path": [
           "style",
           "fontSizeOnly"
-        ],
-        "value": "12"
+        ]
       }
     ]
   ]

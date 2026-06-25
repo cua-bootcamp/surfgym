@@ -1,5 +1,5 @@
 {
-  "task_file_path": "packages/surfgym-task/src/surfgym_task/data/spreadsheet/out/augmented.jsonl",
+  "task_file_path": "packages/surfgym-task/src/surfgym_task/data/word/out/augmented.jsonl",
   "log_path": "logs/",
   "gateway": {
     "host": "127.0.0.1",

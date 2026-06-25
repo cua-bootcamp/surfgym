@@ -6,65 +6,100 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": ["text"],
-        "value": "Name, Role, Email, Mina, Editor, mina@example.com, Noor, Reviewer, noor@example.com"
+        "value": "Name, Role, Email, Mina, Editor, mina@example.com, Noor, Reviewer, noor@example.com",
+        "query": [
+          [
+            "body",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "shape"],
-        "value": "3x3"
+        "value": "3x3",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "shape"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "cellsText"],
-        "value": "Name|Role|Email||||||"
+        "value": "Name|Role|Email||||||",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "cellsText"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "shape"],
-        "value": "3x3"
+        "value": "3x3",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "shape"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "cellsText"],
-        "value": "Name|Role|Email|Mina|Editor|mina@example.com|||"
+        "value": "Name|Role|Email|Mina|Editor|mina@example.com|||",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "cellsText"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "shape"],
-        "value": "3x3"
+        "value": "3x3",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "shape"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "cellsText"],
-        "value": "Name|Role|Email|Mina|Editor|mina@example.com|Noor|Reviewer|noor@example.com"
+        "value": "Name|Role|Email|Mina|Editor|mina@example.com|Noor|Reviewer|noor@example.com",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "cellsText"
+        ]
       }
     ]
   ]

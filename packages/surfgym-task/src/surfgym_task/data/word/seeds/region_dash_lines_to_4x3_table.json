@@ -6,83 +6,128 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": ["text"],
-        "value": "North - Q1 - 120\nSouth - Q1 - 98\nWest - Q1 - 143"
+        "value": "North - Q1 - 120\nSouth - Q1 - 98\nWest - Q1 - 143",
+        "query": [
+          [
+            "body",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "shape"],
-        "value": "4x3"
+        "value": "4x3",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "shape"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "cellsText"],
-        "value": "Region|Quarter|Score|||||||||"
+        "value": "Region|Quarter|Score|||||||||",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "cellsText"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "shape"],
-        "value": "4x3"
+        "value": "4x3",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "shape"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "cellsText"],
-        "value": "Region|Quarter|Score|North|Q1|120||||||"
+        "value": "Region|Quarter|Score|North|Q1|120||||||",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "cellsText"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "shape"],
-        "value": "4x3"
+        "value": "4x3",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "shape"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "cellsText"],
-        "value": "Region|Quarter|Score|North|Q1|120|South|Q1|98|||"
+        "value": "Region|Quarter|Score|North|Q1|120|South|Q1|98|||",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "cellsText"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "shape"],
-        "value": "4x3"
+        "value": "4x3",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "shape"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "cellsText"],
-        "value": "Region|Quarter|Score|North|Q1|120|South|Q1|98|West|Q1|143"
+        "value": "Region|Quarter|Score|North|Q1|120|South|Q1|98|West|Q1|143",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "cellsText"
+        ]
       }
     ]
   ]

@@ -5,27 +5,31 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "Signal Ledger",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "Signal Ledger"
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "Signal Ledger",
-          "bold"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "Signal Ledger"
+          ]
         ],
-        "value": "true"
+        "path": [
+          "bold"
+        ]
       }
     ]
   ]

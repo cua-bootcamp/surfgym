@@ -2,19 +2,126 @@
   "instruction": "Write \"CO2 + H2O = x2\". Format the existing formulas so the 2 in CO2 and the 2 in H2O are subscripts, while the 2 in x2 is superscript.",
   "empty_start": true,
   "states": [
-    [{ "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-body", "property": ["text"], "value": "CO2 + H2O = x2" }],
     [
-      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "CO", "verticalAlign"], "value": "normal" },
-      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "2", "verticalAlign"], "value": "subscript" }
+      {
+        "match": "exact",
+        "value": "CO2 + H2O = x2",
+        "query": [
+          [
+            "body",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
+      }
     ],
     [
-      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "H", "verticalAlign"], "value": "normal" },
-      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "2#1", "verticalAlign"], "value": "subscript" },
-      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "O#1", "verticalAlign"], "value": "normal" }
+      {
+        "match": "exact",
+        "value": "normal",
+        "query": [
+          [
+            "text",
+            "CO"
+          ]
+        ],
+        "path": [
+          "verticalAlign"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "subscript",
+        "query": [
+          [
+            "text",
+            "2"
+          ]
+        ],
+        "path": [
+          "verticalAlign"
+        ]
+      }
     ],
     [
-      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "2#2", "verticalAlign"], "value": "superscript" },
-      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-text-style", "property": ["targets", "x", "verticalAlign"], "value": "normal" }
+      {
+        "match": "exact",
+        "value": "normal",
+        "query": [
+          [
+            "text",
+            "H"
+          ]
+        ],
+        "path": [
+          "verticalAlign"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "subscript",
+        "query": [
+          [
+            "text",
+            {
+              "value": "2",
+              "occurrence": 1
+            }
+          ]
+        ],
+        "path": [
+          "verticalAlign"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "normal",
+        "query": [
+          [
+            "text",
+            {
+              "value": "O",
+              "occurrence": 1
+            }
+          ]
+        ],
+        "path": [
+          "verticalAlign"
+        ]
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "value": "superscript",
+        "query": [
+          [
+            "text",
+            {
+              "value": "2",
+              "occurrence": 2
+            }
+          ]
+        ],
+        "path": [
+          "verticalAlign"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "normal",
+        "query": [
+          [
+            "text",
+            "x"
+          ]
+        ],
+        "path": [
+          "verticalAlign"
+        ]
+      }
     ]
   ]
 }

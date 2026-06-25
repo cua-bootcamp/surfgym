@@ -5,13 +5,16 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "River Audit Memo",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "River Audit Memo"
+        "path": [
+          "text"
+        ]
       }
     ]
   ]

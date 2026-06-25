@@ -5,51 +5,57 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "please review the green section",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "please review the green section"
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "green",
-          "color"
+        "value": "green",
+        "query": [
+          [
+            "text",
+            "green"
+          ]
         ],
-        "value": "green"
+        "path": [
+          "color"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "please review the",
-          "color"
+        "value": "normal",
+        "query": [
+          [
+            "text",
+            "please review the"
+          ]
         ],
-        "value": "normal"
+        "path": [
+          "color"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "section",
-          "color"
+        "value": "normal",
+        "query": [
+          [
+            "text",
+            "section"
+          ]
         ],
-        "value": "normal"
+        "path": [
+          "color"
+        ]
       }
     ]
   ]

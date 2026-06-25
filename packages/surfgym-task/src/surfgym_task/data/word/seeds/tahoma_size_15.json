@@ -5,39 +5,44 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "schedule ready",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "schedule ready"
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "schedule ready",
-          "fontFamily"
+        "value": "Tahoma",
+        "query": [
+          [
+            "text",
+            "schedule ready"
+          ]
         ],
-        "value": "Tahoma"
+        "path": [
+          "fontFamily"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "schedule ready",
-          "fontSize"
+        "value": 15,
+        "query": [
+          [
+            "text",
+            "schedule ready"
+          ]
         ],
-        "value": "15"
+        "path": [
+          "fontSize"
+        ]
       }
     ]
   ]

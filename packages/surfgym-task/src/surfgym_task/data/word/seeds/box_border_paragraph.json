@@ -5,27 +5,31 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "boxed paragraph",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "boxed paragraph"
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": [
-          "paragraphs",
-          "0",
-          "border"
+        "value": "box",
+        "query": [
+          [
+            "paragraph",
+            0
+          ]
         ],
-        "value": "box"
+        "path": [
+          "border"
+        ]
       }
     ]
   ]

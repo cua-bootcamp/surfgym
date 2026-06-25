@@ -5,27 +5,31 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "Internal Memo",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "Internal Memo"
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": [
-          "paragraphs",
-          "0",
-          "namedStyleType"
+        "value": "heading2",
+        "query": [
+          [
+            "paragraph",
+            0
+          ]
         ],
-        "value": "heading2"
+        "path": [
+          "namedStyleType"
+        ]
       }
     ]
   ]

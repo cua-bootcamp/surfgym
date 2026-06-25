@@ -5,13 +5,16 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "redwood\ncedar\nmaple",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "redwood\ncedar\nmaple"
+        "path": [
+          "text"
+        ]
       }
     ]
   ]

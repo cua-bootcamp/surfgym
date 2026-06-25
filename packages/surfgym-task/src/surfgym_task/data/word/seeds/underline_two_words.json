@@ -5,39 +5,44 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "Check budget and timeline",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "Check budget and timeline"
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "budget",
-          "underline"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "budget"
+          ]
         ],
-        "value": "true"
+        "path": [
+          "underline"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "timeline",
-          "underline"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "timeline"
+          ]
         ],
-        "value": "true"
+        "path": [
+          "underline"
+        ]
       }
     ]
   ]

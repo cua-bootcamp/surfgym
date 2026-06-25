@@ -5,39 +5,44 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "marker active",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "marker active"
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "marker",
-          "backgroundColor"
+        "value": "blue",
+        "query": [
+          [
+            "text",
+            "marker"
+          ]
         ],
-        "value": "blue"
+        "path": [
+          "backgroundColor"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "active",
-          "backgroundColor"
+        "value": "normal",
+        "query": [
+          [
+            "text",
+            "active"
+          ]
         ],
-        "value": "normal"
+        "path": [
+          "backgroundColor"
+        ]
       }
     ]
   ]

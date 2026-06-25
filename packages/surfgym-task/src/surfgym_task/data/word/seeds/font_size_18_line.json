@@ -5,21 +5,31 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": ["text"],
-        "value": "priority marker"
+        "value": "priority marker",
+        "query": [
+          [
+            "body",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "priority marker", "fontSize"],
-        "value": "18"
+        "value": 18,
+        "query": [
+          [
+            "text",
+            "priority marker"
+          ]
+        ],
+        "path": [
+          "fontSize"
+        ]
       }
     ]
   ]

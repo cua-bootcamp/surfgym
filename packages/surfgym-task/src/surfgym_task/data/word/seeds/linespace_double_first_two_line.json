@@ -5,18 +5,86 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": ["text"],
-        "value": "The packet opens with a short note about how stories begin.\nThe next paragraph introduces the narrator and the setting.\nThe final paragraph should keep its original spacing."
+        "value": "The packet opens with a short note about how stories begin.\nThe next paragraph introduces the narrator and the setting.\nThe final paragraph should keep its original spacing.",
+        "query": [
+          [
+            "body",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
       },
-      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-paragraph", "property": ["paragraphs", "0", "lineSpacing"], "value": "1" },
-      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-paragraph", "property": ["paragraphs", "1", "lineSpacing"], "value": "1" },
-      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-paragraph", "property": ["paragraphs", "2", "lineSpacing"], "value": "1" }
+      {
+        "match": "exact",
+        "value": 1,
+        "query": [
+          [
+            "paragraph",
+            0
+          ]
+        ],
+        "path": [
+          "lineSpacing"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 1,
+        "query": [
+          [
+            "paragraph",
+            1
+          ]
+        ],
+        "path": [
+          "lineSpacing"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 1,
+        "query": [
+          [
+            "paragraph",
+            2
+          ]
+        ],
+        "path": [
+          "lineSpacing"
+        ]
+      }
     ],
-
-    [{ "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-paragraph", "property": ["paragraphs", "0", "lineSpacing"], "value": "2" }],
-    [{ "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-paragraph", "property": ["paragraphs", "1", "lineSpacing"], "value": "2" }]
+    [
+      {
+        "match": "exact",
+        "value": 2,
+        "query": [
+          [
+            "paragraph",
+            0
+          ]
+        ],
+        "path": [
+          "lineSpacing"
+        ]
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "value": 2,
+        "query": [
+          [
+            "paragraph",
+            1
+          ]
+        ],
+        "path": [
+          "lineSpacing"
+        ]
+      }
+    ]
   ]
 }

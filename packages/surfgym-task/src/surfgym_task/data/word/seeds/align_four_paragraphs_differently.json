@@ -5,16 +5,75 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": ["text"],
-        "value": "Morning update stays on the left.\nBudget summary should sit in the center.\nSchedule reminder should move to the right.\nClosing analysis should use justified alignment."
+        "value": "Morning update stays on the left.\nBudget summary should sit in the center.\nSchedule reminder should move to the right.\nClosing analysis should use justified alignment.",
+        "query": [
+          [
+            "body",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
       },
-      { "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-paragraph", "property": ["paragraphs", "0", "horizontalAlign"], "value": "left" }
+      {
+        "match": "exact",
+        "value": "left",
+        "query": [
+          [
+            "paragraph",
+            0
+          ]
+        ],
+        "path": [
+          "horizontalAlign"
+        ]
+      }
     ],
-    [{ "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-paragraph", "property": ["paragraphs", "1", "horizontalAlign"], "value": "center" }],
-    [{ "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-paragraph", "property": ["paragraphs", "2", "horizontalAlign"], "value": "right" }],
-    [{ "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-paragraph", "property": ["paragraphs", "3", "horizontalAlign"], "value": "justify" }]
+    [
+      {
+        "match": "exact",
+        "value": "center",
+        "query": [
+          [
+            "paragraph",
+            1
+          ]
+        ],
+        "path": [
+          "horizontalAlign"
+        ]
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "value": "right",
+        "query": [
+          [
+            "paragraph",
+            2
+          ]
+        ],
+        "path": [
+          "horizontalAlign"
+        ]
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "value": "justify",
+        "query": [
+          [
+            "paragraph",
+            3
+          ]
+        ],
+        "path": [
+          "horizontalAlign"
+        ]
+      }
+    ]
   ]
 }

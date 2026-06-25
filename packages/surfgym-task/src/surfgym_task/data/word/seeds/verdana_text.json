@@ -5,21 +5,31 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": ["text"],
-        "value": "status memo"
+        "value": "status memo",
+        "query": [
+          [
+            "body",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "status memo", "fontFamily"],
-        "value": "Verdana"
+        "value": "Verdana",
+        "query": [
+          [
+            "text",
+            "status memo"
+          ]
+        ],
+        "path": [
+          "fontFamily"
+        ]
       }
     ]
   ]

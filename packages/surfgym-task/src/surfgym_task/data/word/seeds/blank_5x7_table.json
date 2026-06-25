@@ -6,11 +6,16 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "shape"],
-        "value": "5x7"
+        "value": "5x7",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "shape"
+        ]
       }
     ]
   ]

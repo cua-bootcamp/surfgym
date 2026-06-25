@@ -5,13 +5,16 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-footer",
-        "property": [
-          "text"
+        "value": "Archive note",
+        "query": [
+          [
+            "footer",
+            null
+          ]
         ],
-        "value": "Archive note"
+        "path": [
+          "text"
+        ]
       }
     ]
   ]

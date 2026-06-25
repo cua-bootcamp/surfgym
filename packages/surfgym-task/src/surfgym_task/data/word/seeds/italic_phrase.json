@@ -5,39 +5,44 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "The draft needs revision.",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "The draft needs revision."
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "needs revision",
-          "italic"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "needs revision"
+          ]
         ],
-        "value": "true"
+        "path": [
+          "italic"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "The draft",
-          "italic"
+        "value": false,
+        "query": [
+          [
+            "text",
+            "The draft"
+          ]
         ],
-        "value": "false"
+        "path": [
+          "italic"
+        ]
       }
     ]
   ]

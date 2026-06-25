@@ -6,83 +6,128 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": ["text"],
-        "value": "Mina draft done; Noor review pending; Ilya publish"
+        "value": "Mina draft done; Noor review pending; Ilya publish",
+        "query": [
+          [
+            "body",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "shape"],
-        "value": "4x4"
+        "value": "4x4",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "shape"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "cellsText"],
-        "value": "Owner|Draft|Review|Publish||||||||||||"
+        "value": "Owner|Draft|Review|Publish||||||||||||",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "cellsText"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "shape"],
-        "value": "4x4"
+        "value": "4x4",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "shape"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "cellsText"],
-        "value": "Owner|Draft|Review|Publish|Mina|done||||||||||"
+        "value": "Owner|Draft|Review|Publish|Mina|done||||||||||",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "cellsText"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "shape"],
-        "value": "4x4"
+        "value": "4x4",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "shape"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "cellsText"],
-        "value": "Owner|Draft|Review|Publish|Mina|done|||Noor||pending|||||"
+        "value": "Owner|Draft|Review|Publish|Mina|done|||Noor||pending|||||",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "cellsText"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "shape"],
-        "value": "4x4"
+        "value": "4x4",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "shape"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "cellsText"],
-        "value": "Owner|Draft|Review|Publish|Mina|done|||Noor||pending||Ilya|||publish"
+        "value": "Owner|Draft|Review|Publish|Mina|done|||Noor||pending||Ilya|||publish",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "cellsText"
+        ]
       }
     ]
   ]

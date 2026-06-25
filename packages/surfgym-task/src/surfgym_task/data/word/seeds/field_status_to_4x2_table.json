@@ -6,83 +6,128 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": ["text"],
-        "value": "Owner: Mina; Stage: Review; Flag: Active; Due: Friday"
+        "value": "Owner: Mina; Stage: Review; Flag: Active; Due: Friday",
+        "query": [
+          [
+            "body",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "shape"],
-        "value": "4x2"
+        "value": "4x2",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "shape"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "cellsText"],
-        "value": "Owner|Mina||||||"
+        "value": "Owner|Mina||||||",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "cellsText"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "shape"],
-        "value": "4x2"
+        "value": "4x2",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "shape"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "cellsText"],
-        "value": "Owner|Mina|Stage|Review||||"
+        "value": "Owner|Mina|Stage|Review||||",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "cellsText"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "shape"],
-        "value": "4x2"
+        "value": "4x2",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "shape"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "cellsText"],
-        "value": "Owner|Mina|Stage|Review|Flag|Active||"
+        "value": "Owner|Mina|Stage|Review|Flag|Active||",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "cellsText"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "shape"],
-        "value": "4x2"
+        "value": "4x2",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "shape"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-table",
-        "property": ["tables", "0", "cellsText"],
-        "value": "Owner|Mina|Stage|Review|Flag|Active|Due|Friday"
+        "value": "Owner|Mina|Stage|Review|Flag|Active|Due|Friday",
+        "query": [
+          [
+            "table",
+            0
+          ]
+        ],
+        "path": [
+          "cellsText"
+        ]
       }
     ]
   ]

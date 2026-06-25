@@ -5,55 +5,85 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": ["text"],
-        "value": "carry forward\nretire this entry"
+        "value": "carry forward\nretire this entry",
+        "query": [
+          [
+            "body",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": ["paragraphs", "0", "lineSpacing"],
-        "value": "1"
+        "value": 1,
+        "query": [
+          [
+            "paragraph",
+            0
+          ]
+        ],
+        "path": [
+          "lineSpacing"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": ["paragraphs", "1", "lineSpacing"],
-        "value": "1"
+        "value": 1,
+        "query": [
+          [
+            "paragraph",
+            1
+          ]
+        ],
+        "path": [
+          "lineSpacing"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "retire this entry", "strikethrough"],
-        "value": "true"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "retire this entry"
+          ]
+        ],
+        "path": [
+          "strikethrough"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "carry forward", "strikethrough"],
-        "value": "false"
+        "value": false,
+        "query": [
+          [
+            "text",
+            "carry forward"
+          ]
+        ],
+        "path": [
+          "strikethrough"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": ["paragraphs", "1", "lineSpacing"],
-        "value": "2"
+        "value": 2,
+        "query": [
+          [
+            "paragraph",
+            1
+          ]
+        ],
+        "path": [
+          "lineSpacing"
+        ]
       }
     ]
   ]

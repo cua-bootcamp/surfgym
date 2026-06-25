@@ -5,39 +5,44 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "Deadline confirmed",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "Deadline confirmed"
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "Deadline",
-          "underline"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "Deadline"
+          ]
         ],
-        "value": "true"
+        "path": [
+          "underline"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "confirmed",
-          "underline"
+        "value": false,
+        "query": [
+          [
+            "text",
+            "confirmed"
+          ]
         ],
-        "value": "false"
+        "path": [
+          "underline"
+        ]
       }
     ]
   ]

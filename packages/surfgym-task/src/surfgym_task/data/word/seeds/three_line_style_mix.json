@@ -5,39 +5,44 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "Weekly Plan\nediting in progress\nready tomorrow",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "Weekly Plan\nediting in progress\nready tomorrow"
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "Weekly Plan",
-          "bold"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "Weekly Plan"
+          ]
         ],
-        "value": "true"
+        "path": [
+          "bold"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "editing in progress",
-          "italic"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "editing in progress"
+          ]
         ],
-        "value": "true"
+        "path": [
+          "italic"
+        ]
       }
     ]
   ]

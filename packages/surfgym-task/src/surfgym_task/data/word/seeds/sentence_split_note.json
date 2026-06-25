@@ -5,13 +5,16 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "Log sample.\nFlag anomaly.\nClose review.",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "Log sample.\nFlag anomaly.\nClose review."
+        "path": [
+          "text"
+        ]
       }
     ]
   ]

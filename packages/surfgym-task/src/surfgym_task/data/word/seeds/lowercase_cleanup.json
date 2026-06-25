@@ -5,13 +5,16 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "regional status should stay quiet",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "regional status should stay quiet"
+        "path": [
+          "text"
+        ]
       }
     ]
   ]

@@ -5,57 +5,93 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": ["text"],
-        "value": "a2 + b2"
+        "value": "a2 + b2",
+        "query": [
+          [
+            "body",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "a2 + b2", "fontFamily"],
-        "value": "Calibri"
+        "value": "Calibri",
+        "query": [
+          [
+            "text",
+            "a2 + b2"
+          ]
+        ],
+        "path": [
+          "fontFamily"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "2#0", "verticalAlign"],
-        "value": "superscript"
+        "value": "superscript",
+        "query": [
+          [
+            "text",
+            {
+              "value": "2",
+              "occurrence": 0
+            }
+          ]
+        ],
+        "path": [
+          "verticalAlign"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "2#1", "verticalAlign"],
-        "value": "superscript"
+        "value": "superscript",
+        "query": [
+          [
+            "text",
+            {
+              "value": "2",
+              "occurrence": 1
+            }
+          ]
+        ],
+        "path": [
+          "verticalAlign"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "a", "verticalAlign"],
-        "value": "normal"
+        "value": "normal",
+        "query": [
+          [
+            "text",
+            "a"
+          ]
+        ],
+        "path": [
+          "verticalAlign"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "b", "verticalAlign"],
-        "value": "normal"
+        "value": "normal",
+        "query": [
+          [
+            "text",
+            "b"
+          ]
+        ],
+        "path": [
+          "verticalAlign"
+        ]
       }
     ]
   ]

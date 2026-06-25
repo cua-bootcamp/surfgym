@@ -5,47 +5,72 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": ["text"],
-        "value": "marker active"
+        "value": "marker active",
+        "query": [
+          [
+            "body",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": ["paragraphs", "0", "horizontalAlign"],
-        "value": "left"
+        "value": "left",
+        "query": [
+          [
+            "paragraph",
+            0
+          ]
+        ],
+        "path": [
+          "horizontalAlign"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "marker", "backgroundColor"],
-        "value": "blue"
+        "value": "blue",
+        "query": [
+          [
+            "text",
+            "marker"
+          ]
+        ],
+        "path": [
+          "backgroundColor"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "active", "backgroundColor"],
-        "value": "normal"
+        "value": "normal",
+        "query": [
+          [
+            "text",
+            "active"
+          ]
+        ],
+        "path": [
+          "backgroundColor"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-paragraph",
-        "property": ["paragraphs", "0", "horizontalAlign"],
-        "value": "right"
+        "value": "right",
+        "query": [
+          [
+            "paragraph",
+            0
+          ]
+        ],
+        "path": [
+          "horizontalAlign"
+        ]
       }
     ]
   ]

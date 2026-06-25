@@ -1,17 +1,24 @@
+{"hash":"005e5f7cce3efc0f168fb94c06a49849a418ed022625490eb40d1a6a69497c80","instruction":"Write the sentence The draft needs revision. and italicize only the words needs revision."}
 {"hash":"0114d70e0ecfdd18b97d7d390aee571deb5c33704a8bd711793efd705aaa132f","instruction":"Italicize only The Silent Harbor in the sentence and justify-align the paragraph."}
+{"hash":"01e1ce90a71e1a72552e638e96d71e8cfe926938d22cb3018fa3b258fbc9cd62","instruction":"Create a clean unique list of the lab sample codes with one code per line, keeping only the first appearance order."}
 {"hash":"01f3c49259c7c9f3ca89ce9d6e2e4a570c99a136280b462f3db8f6cb6457bad9","instruction":"Replace every temp in word-body with final, then bold both final words."}
 {"hash":"027c850793ac18e1827aaad4dddaa7eab628b7230cc8bb7944c00326e7b1ce30","instruction":"Format the sentence in Calibri, italicize only needs revision, and justify-align the paragraph."}
 {"hash":"029183193e6ba112284c8db0089692311b9ba197c48061e630c8bc7dca1bb59a","instruction":"Convert the existing inventory CSV text into a 3-row, 3-column table. Treat Item, Count, and Status as the header row."}
+{"hash":"029851df0ed7681891167bdf1041c6a24652be18de4d8b06a3d01f9dca3bb5c7","instruction":"Fill the 3×3 table with the metrics grid: Metric, Target, Actual in the first row; Accuracy, 90, 87 in the second row; and Latency, 200ms, 240ms in the third row."}
 {"hash":"02b92d3c6a65418869de384035cfc1a38c7aee2a44661701c7b877de0e798a19","instruction":"Type schedule ready and format the whole line in Tahoma with font size 15."}
 {"hash":"02c7a71573e0a7d1aaecfe1183adf65cc3a97dde95d6fc8b1ebf1e7be0dad941","instruction":"Italicize only \"The Silent Harbor\" in the existing sentence and justify-align the paragraph."}
 {"hash":"0301390564c66eb5be8f4ba03be04c17cfe0ccc5c4019df572d58220b9350d78","instruction":"Right-align the third paragraph."}
 {"hash":"03cf42bc7b7abf8d992154348bd252b6feb19a5eeb8245258d0ad66847d599bd","instruction":"Create a two-line note with \"Field Notes\" on the first line and \"draft copy\" on the second line. Make the text on the first line both bold and underlined."}
+{"hash":"044b1b812854ee86d4e0c9c0b8d75f97c397bc6b29f778b72982baa1501ed7d4","instruction":"Create the three-line note with Weekly Plan, editing in progress, and ready tomorrow, and make Weekly Plan bold and editing in progress italic."}
 {"hash":"057072891b4db8f6acd926771d42969962aa576f3e61f338f0fc977c06c11daf","instruction":"Convert the existing semicolon-separated status note into a 4-row, 2-column table in word-table with each label in the left column and each value in the right column."}
 {"hash":"05ad3821d4c62ed74edd56615d86c91d4688de443752befa546e1fd53652be21","instruction":"Set only \"big note\" to font size 18 in the existing line and center-align the paragraph."}
 {"hash":"05ada4fb4900a785cc67b5adc85a193c0d2c06b3c95cb53991cebea8c48eadca","instruction":"Underline only the date in the existing deadline line, set the line to font size 16, and right-align it."}
+{"hash":"05f24c8b8bb07c864320bc77c7e5fccb712db50c2a021ce96857225a7c36f918","instruction":"Create the two-line note with Checkpoint Log on the first line and notes pending on the second line, and make the first line bold."}
+{"hash":"061e76512bc9f01646a97dca9a47f46393db2869c188597eab6c1042f9671d37","instruction":"Type a2 + b2 and make both 2 characters superscript."}
 {"hash":"0646d48f3bcfa21c774b73a6a8e7e5b101c82adddd772932d213cfa5b385534b","instruction":"Add a footer labeled References updated."}
 {"hash":"08f774a0e8cf18a2183090d05ecd43865cbe36233cfe03af5a51328dc00f77fd","instruction":"Format the existing two-line note so the first line is bold and underlined, the second line remains plain, and the first paragraph is centered."}
 {"hash":"0946b4f728c1007dc915566622c7011e94986e1803c3cd926bb2ff7670f8bb9b","instruction":"Please type \"marker active\" and apply a blue text background only to the word \"marker\"."}
+{"hash":"0970a3a34b740e001f362fe8b92e0d154f606dffb02b3ef748c9743a62049905","instruction":"Type the two paragraphs as specified, then set the first paragraph to 1.5 line spacing while leaving the second paragraph unchanged."}
 {"hash":"0979ff39c1dcf473f6dc747ce98179a55db0219bbc40b49c7bd6686bf6d9ce86","instruction":"Enter schedule ready and format it in Tahoma with font size 15."}
 {"hash":"0a1e4abc35f2c370b19c303703348cc32978f6ae70f843e46bdcd4dcfb6c7210","instruction":"Enter Owner: Mina, Stage: Review, and Flag: Active as exactly three lines, and make only the labels before the colon bold."}
 {"hash":"0a2e874c6b128d5de4c728e0d6b4dcd26375445b144812c679a329fb6149b13b","instruction":"Convert the existing weekly phrase into a 4-row, 2-column table with Day and Task as the header row."}
@@ -25,6 +32,9 @@
 {"hash":"100967f02e8addb1728c633e7d98cb2202958be10e202f5fe9bc933a097bc104","instruction":"Convert the existing weekly phrase into a 4-row, 2-column table with Day and Task as the header row."}
 {"hash":"10182266ea13439c221dafb558c09cc0e4904ba2362fa755265a9f79fcf0da85","instruction":"Replace the uppercase text in word-body with regional status should stay quiet, then justify-align it and set the font size to 16."}
 {"hash":"123f4d1039373991ad69e996db9391a2ba799ad16a18c20f92e384f0ba4e0de8","instruction":"Format the existing line by highlighting only \"marker\" in blue, keeping \"active\" unhighlighted, and right-aligning the paragraph."}
+{"hash":"1308c0e9c1b81bba7ea7ef31ee10f30753431487b29e9dd7c5ecb6304ac2f10d","instruction":"Write “Submit by 2026-08-14” and underline only the date."}
+{"hash":"13f16b688b0936d74526079f6d1d10bcf39fab0d2f93aaafe69dbe050e64d443","instruction":"Create the three paragraphs reference note, archive this note, and closing note, and apply strikethrough only to the middle paragraph."}
+{"hash":"14663cc074bb8980a8001ee14e85c574285fa3f795a3c8740ec562f92c9a076f","instruction":"Type marker active and apply a blue text background only to the word marker."}
 {"hash":"1479fa1896c32c942824cee811c22db878a45c2f007b680707bca68a8b5bf02d","instruction":"Convert the workflow status note into a 4-row, 4-column table with Owner, Draft, Review, and Publish as the header row, leaving blank cells where an owner has no status."}
 {"hash":"15877f23177724dde3e9e032772fbbc4314cda376dec1bf2dedef33e22c5b020","instruction":"Underline only complete check and ensure it is not bold."}
 {"hash":"16076fe7557444c04618ab4fdee97d596687f7c66134acefacc7e8c60c0379fa","instruction":"Convert the existing field list into a 4-row, 2-column table with Field and Value as the header row, then add a footer that says Table prepared."}
@@ -38,12 +48,17 @@
 {"hash":"1bd4bc87f42fce45a4a3442e82ed5c5eaeb22ea5183844bd189f2afdd6340d53","instruction":"Strike through archive this note and set the full note in Calibri."}
 {"hash":"1d8b41bb474effeba41eccd0266b832f2927f9be3959b7ebbe54deab25abbcb5","instruction":"Enter reference note, archive this note, and closing note, and apply strikethrough only to archive this note."}
 {"hash":"1d9494d050ac603192a17c38e368104bce00d6604ea91f2146e12aacf7cbcbc8","instruction":"Format the line in Calibri, make moss green, make amber orange, and center-align the paragraph."}
+{"hash":"1dc19be7be7a3ae368d80ec89bbea7049e01f8993d1cfc30177f9dac76297cac","instruction":"Type shift this memo on a single line and right-align the paragraph."}
 {"hash":"1dc8c9ca7fd64610d2aa287087546e534c4a9f8c1e6e3d4b69a8dbbd7923c3dd","instruction":"Write \"CO2 + H2O = x2\". Format the existing formulas so the 2 in CO2 and the 2 in H2O are subscripts, while the 2 in x2 is superscript."}
 {"hash":"1f0f021d0ee08cca2b190afe903e42606f238ebf187fed065b31785afc3070e3","instruction":"Create two paragraphs, compact note and spaced note, then set only the second paragraph to double line spacing."}
+{"hash":"1f33c7bced6f5ebe84120cdab6ca8fc4c18671c312b562d9079deac6b1dfe2a2","instruction":"Type the priority marker text and set the whole line to font size 18."}
+{"hash":"1f6bfc7b829d2907b08f619652eabeb2350a0b445946ab73677045e0630e116f","instruction":"Convert the repeated code list into a unique 4-row, 2-column table with Code and Location as the header row, keeping only the first occurrence of each code."}
 {"hash":"20ad6a46f8a8e9db2fb7144f5c80f2f4b6e1bc73dc3be756138159c2a80ca3fb","instruction":"Make only the labels before the colon bold in the three lines: Owner, Stage, and Flag."}
 {"hash":"2115aea22f0a11efd217c66b7ac24d30634a534dd24ff484e4b5e9a87d782202","instruction":"Convert the existing rollup note into a 4-row, 2-column table with category and status values."}
 {"hash":"213a97673c8beeecad305c2c2cf2367c22799a7f178285e9cd1ccf67af303737","instruction":"Split the existing comma-separated items onto separate lines in word-body and underline only the first item."}
+{"hash":"218dc12d83eb0b4290b9270e76cb4264e4966b1a7e211882962a378af567b39f","instruction":"Format the existing line in Calibri, make moss green, make amber orange, and center-align the paragraph."}
 {"hash":"219b0d681c277fc04964b7e054cc37569a0d9888be681034803f95e383a63289","instruction":"Enter Check budget and timeline, and underline the words budget and timeline."}
+{"hash":"233b04a0e4cefba503ec3945de9293b36dff3e578aa63caefcff1066cbc02603","instruction":"Write ALERT update required, make ALERT bold, and underline required."}
 {"hash":"239bc0b41d30f58e4b670dad16c68462233233ad54d85cc31657bd22d4e0a3f7","instruction":"Convert the existing field list into a 4-row, 2-column table with Field and Value as the header row, then add a footer that says Table prepared."}
 {"hash":"23ab1bd9b7e9af1456e387d04312bca2378a86e967f2638f518709746ac95702","instruction":"Center-align the second paragraph."}
 {"hash":"240b79522fa431c2347b5f7e1f243bc490f8076464eb080d9ad8cbabca278808","instruction":"Convert the existing field list into a 4-row, 2-column table with Field and Value as the header row, then add a footer that says Table prepared."}
@@ -56,9 +71,15 @@
 {"hash":"265346fb1c977170ee1437e914d9190a16d4a9d71a20cd63af21d9a5116ea042","instruction":"Split the existing page note into two paragraphs and add the footer text \"Page split prepared\"."}
 {"hash":"270fefb91b62bef58ca3023a4057d4e21b98bb35f0b457b10d772fc2e8d88a37","instruction":"Convert the repeated code list in the table into a unique 4-row, 2-column table with Code and Location as the header row, keeping only the first appearance of each code."}
 {"hash":"276e52034e92fd900eb1d5c9fdc5ef217c420ef76bea0a05019c0979074c055f","instruction":"Center-align the second paragraph."}
+{"hash":"27c23d94ce639fc900bdbf6cc7a36968badf09f5a980616fa67788c09923abef","instruction":"Convert the existing workflow status note into a 4-row, 4-column table with Owner, Draft, Review, and Publish as the header row, leaving cells blank where an owner has no status for that column."}
+{"hash":"28380c87e373e0c18a4ddd9b89b34c625c5628e81cb5b336d91bc41758160503","instruction":"Strikethrough only retire this entry and leave carry forward unchanged."}
+{"hash":"28e1db3d8a149d2ca1f1dee8f82e5280eb0f0c9622cb075132b900025264e467","instruction":"Format the existing line in Calibri, make moss green, make amber orange, and center-align the paragraph."}
+{"hash":"296b2ef077fa8cdd8549fda1303be5630849145d00e46a87787b3c81c0a25c57","instruction":"Write the sentence please review the green section and make only the word green green."}
 {"hash":"29994b60175c6637624da42273fba8f4ae5525532ac12f0dcb449814a355c2ea","instruction":"Convert the repeated code list into a unique 4-row, 2-column table in word-table, keeping only the first appearance of each code and using Code and Location as the header row."}
 {"hash":"299a0efdfe758a902f1f9bcceaa51c882c22ac8fa799c1638a4ad22385b2be37","instruction":"Convert the status note into a 4-row, 2-column table in word-table, with each label in the left column and each value in the right column."}
 {"hash":"2a2480c71ee1e44694e86d47fb91cc194df5ab3f643ec94d57b39fc3dc92ec2e","instruction":"Convert the repeated code list in word-table into a unique 4-row, 2-column table with Code and Location as the header row."}
+{"hash":"2a33add50da1528873b1f75402037c35332120659a676dc7395be2c5e6112ce1","instruction":"Convert the workflow note into a 4-row, 4-column table with Owner, Draft, Review, and Publish as the header row, leaving blank any cells where an owner has no status for that column."}
+{"hash":"2ad0255d9fcdaf9309b8393b6deab6d61625bd71f45b0978912b8f376650a5d5","instruction":"Write exactly three lines: Owner: Mina, Stage: Review, and Flag: Active. Make only the labels before the colon bold."}
 {"hash":"2af797830728f734bd1fee3b4f32c718332194d5d1f874cfe270921a6893f3a5","instruction":"Enter overview line and follow-up line as two paragraphs, then change only the first paragraph to 1.5 line spacing."}
 {"hash":"2b99ee7ffc684f0b170363f9c41930a0f08e3bf0ed635dd025da0f064bd0c945","instruction":"Convert the existing dash-separated region lines into a 4-row, 3-column table in word-table, with the header row Region, Quarter, and Score."}
 {"hash":"2c5882e44004c4075b6779e0b876747e4d08afa95d765219a921da71be79458f","instruction":"Convert the existing field list into a 4-row, 2-column table with Field and Value as the header row, then add a footer that says Table prepared."}
@@ -68,47 +89,74 @@
 {"hash":"2f1ea536a0b2663d8a67e05bfa512d17508962cec401e578fda2091152c75499","instruction":"Enter carry forward on the first line and retire this entry on the second line, with strikethrough only on the second line."}
 {"hash":"2f3cabd530473b60965873ea6282ea38d04dfb079705fa36d1adf14ca316f529","instruction":"Enter priority marker and change the whole line to font size 18."}
 {"hash":"2f78d5e16d5993204b99a931cc1135d854bc8a29ca5acba5433c07e0a598b7dc","instruction":"Justify the first paragraph and right-align the second paragraph."}
+{"hash":"2fa76bbc5e5ecf4984668b85775d7554687fbfad8af44848c3cd8aa8f086d502","instruction":"Create the three paragraphs: reference note, archive this note, and closing note, and apply strikethrough only to the entire middle paragraph."}
 {"hash":"2fcb19ef3a156be7f0fd74d5093bb3ca95b1fe2a19491a69a652b9d2af2c0e59","instruction":"Type NH3 and make only the 3 subscript."}
 {"hash":"302adb94923bb5dab9be40aac77cf8055554cfde250762045d54b238c1eceb50","instruction":"Convert the existing dash-separated region lines into a 4-row, 3-column table in word-table, with the header row Region, Quarter, and Score."}
 {"hash":"304d5678945cd6f13e0c60045f7224ad6b100576370bcd230d6fb7d9201711e2","instruction":"Enter small note big note plain note on one line."}
+{"hash":"30b770441ce2b9a37cba755976d97a58bcbfd403e3f400570529a0fff2a3e167","instruction":"Convert the repeated code list into a unique 4-row, 2-column table with Code and Location as the header row, keeping only the first occurrence of each code."}
+{"hash":"321d6ad111f25b80910ef86b9db66c377edb7380f814afb9bbd5c38e3e849d08","instruction":"Write the three short notes on separate lines in the same order: Log sample., Flag anomaly., Close review."}
 {"hash":"325d49c692a273c5cb639a8ce0cc95af922645e89151204f691340b386eb7662","instruction":"Convert the workflow note in word-body into a 4-row, 4-column table with Owner, Draft, Review, and Publish as the header row, leaving blank cells where an owner has no status for that column."}
 {"hash":"33356425e4bacf1b602ee6c418e8d1fabae6976d1bb1259bdc9aae851544718d","instruction":"Convert the existing repeated code list into a unique 4-row, 2-column table in word-table, keeping only the first appearance of each code and using Code and Location as the header row."}
+{"hash":"3388badc05fa13c53e3d5e95c0ed2d3e4eeed4491f5217765fce07c13429e711","instruction":"Convert the existing weekly phrase into a 4-row, 2-column table with Day and Task as the header row."}
 {"hash":"33cc45fef91c183b4d28e14cbb8ced7b029ca9936b2d9b03bec0f38fc662959f","instruction":"Convert the workflow status note in word-table into a 4-row, 4-column table with Owner, Draft, Review, and Publish as the header row, leaving blank cells where an owner has no status for that column."}
+{"hash":"34b1e531333142fcbb35993696e653583d0ca4c6a68ba1bca752dab94bbaecdf","instruction":"Convert the dash-separated region lines into a 4-row, 3-column table with the header row Region, Quarter, and Score."}
 {"hash":"34d85b9a8208d3af3d741dedf1046178ed45094a7f7bcd21344da1a90d83fbd0","instruction":"Enter phase one, phase two review, and phase three on three lines, and make only the middle line italic."}
 {"hash":"35164af785fa1b1b0b7993d109c043896a7fbac2cfb7f4290130a1b170026c77","instruction":"Convert the existing dash-separated region lines into a 4-row, 3-column table with the header row Region, Quarter, and Score."}
+{"hash":"3538aa10b3a5321141e0ec90525e69a8069a459c0f3056d5e304b4d8b2aaea24","instruction":"Write We discussed The Silent Harbor yesterday., and italicize only The Silent Harbor."}
+{"hash":"35f2939a4e2e9a690f9990ef975ed0b87f5b41b3de3008956fc76ab5dd176330","instruction":"Write small note big note plain note on one line, then change only big note to font size 18."}
 {"hash":"360d89ef92b504c21f50fabf7e3d4a356a9d8aad099679cdee12da47e6e9f99f","instruction":"Please type \"Signal Ledger\" on a single line and make that text bold."}
+{"hash":"3643a0e70cb79a7ea84c56678074be9a9eb44990a20c052a43babc29508fd108","instruction":"Create the two paragraphs, plain note remains left and focus line moves inward, then center-align only the second paragraph."}
 {"hash":"36b0ef9e384f1dcc5eda653546a589cef30aa225f98eb55d0d7bb5aff0213125","instruction":"Write \"Check budget and timeline\" and underline the words \"budget\" and \"timeline\"."}
 {"hash":"36f692700d538e1dad7122d0245dacb94279241229c45688de5770b8db22e410","instruction":"Type marker active and apply a blue text background only to marker."}
+{"hash":"378257fece060ba0183ba88e43dc735d048f2c498fd9c50134cb2c351f2a9a5a","instruction":"Convert the inventory text into a 3-row, 3-column table with Item, Count, and Status as the header row."}
 {"hash":"37cb88a99cf3426a188e2a046e5dcc9bcdd98337a9c362443d737e2a4d8232b0","instruction":"Justify the first paragraph, right-align the second paragraph, make Design memo bold, underline final action, and format the 2 in phase2 as superscript."}
 {"hash":"387fcdb4cd08f6cd70d9f0751a126999f1e5a22d8544487eeb39a0fdeb7403ee","instruction":"Convert the existing workflow status note into a 4-row, 4-column table with Owner, Draft, Review, and Publish as the header row, leaving blank cells where an owner has no status for that column."}
+{"hash":"38bf09948059f44a6d9fb596f0a4d9d876f18bf56e2d7d9998d0c67e4cdc96cd","instruction":"Type the two paragraphs exactly as specified, then change only the first paragraph to 1.5 line spacing."}
 {"hash":"3ab03b3a851215316c6c5ea2f0181cb8f7fbe83eb5605ffe38d1769a25aeff89","instruction":"Write the sentence \"We discussed The Silent Harbor yesterday.\" and italicize only the phrase \"The Silent Harbor\"."}
+{"hash":"3b9244b46eabd1c70f1147898f7a167e1a2da9d06b425ce37e1c7ca22695a6c6","instruction":"Convert the semicolon-separated status note into a 4-row, 2-column table with each label in the left column and each value in the right column."}
 {"hash":"3c25e3d74b13951ef45ac1c3cb7b16846ec4f739bf4009e8216ad8f6baeeff64","instruction":"Apply strikethrough only to retire this entry and set the second paragraph to double spacing."}
 {"hash":"3c852b779b46a7066cd745489c11e46e39f2c64198f03e8ca31463dc2be5d1b1","instruction":"Set the three existing paragraphs to 1.15, 1.5, and 2 line spacing respectively, then align them left, center, and right respectively."}
+{"hash":"3ce97b6f50cae5a8d5ba14a25d96aa2a9270e824ea94e2f39efe2c1c0a968600","instruction":"Format the note so both paragraphs use Calibri at font size 18, justify the first paragraph, right-align the second paragraph, and make “Design memo” and “needs review.” bold."}
 {"hash":"3ceef21a3be9bd455dc2a478be5a8e7b0988ae4be3355c383af5c20f3fb36025","instruction":"Type boxed paragraph and add a simple box border on all four sides of the paragraph."}
+{"hash":"3cf727b1db1612fa14697ebf060d7d272620a23774559c5bd118b610ba475f4b","instruction":"Apply strikethrough to only retire this entry, leave carry forward unstruck, and set the second paragraph to double spacing."}
 {"hash":"3d69f901e3a6280992c3b41f1c6abaa96f263b64882da52aa72affc68f888f95","instruction":"Make Signal Ledger bold, set its font size to 20, and center the paragraph."}
+{"hash":"3d9b62b038a2320e467cb3016e33938f60b75d811928f41103795ceaace41660","instruction":"Format both paragraphs in Calibri at font size 18, justify the first paragraph, and right-align the second paragraph."}
+{"hash":"3de96eada2a76cab79c7f81063334d81ecfd41c55cce2935c9dbe71135a4b965","instruction":"Convert the existing field list into a 4-row, 2-column table with Field and Value as the header row, and add the footer text Table prepared."}
 {"hash":"3e13536725cf13837c5a19617440a644ae18925309386940b519269514c266f5","instruction":"Format the existing alert so \"ALERT\" is bold, \"required\" is underlined, \"update\" stays plain, and the paragraph is centered."}
 {"hash":"3e6203d50e07dbbd4d5c4b84e2c00c2a533f30558bf4fbcf793a93ce67d1d6ea","instruction":"Align the three existing paragraphs left, center, and right respectively."}
 {"hash":"3e79271ec4654688167538ae22e0f63535f34bfc4361a14c78c023edc795f790","instruction":"Underline budget and timeline, set the line to font size 17, and justify-align it."}
 {"hash":"3f441fbdc888d0ef4c027cabb7c9ec3e1ffd6b509efa3d4c816fd5490a26f2c2","instruction":"Type overview line and follow-up line as two separate paragraphs, then set the first paragraph to 1.5 line spacing and leave the second paragraph at single spacing."}
+{"hash":"41b18b9bca99d68be34b8482c0a547d6926fe150a08c96a0fdc431c662a5e8ef","instruction":"Write the sentence We discussed The Silent Harbor yesterday. and italicize only The Silent Harbor."}
 {"hash":"42875df3d6f46a29b07556063496bb9cad1024d4f751fc447404558559993e14","instruction":"Convert the existing weekly phrase into a 4-row, 2-column table with Day and Task as the header row."}
 {"hash":"42b682d001a452b15299fc76bef59c2b81c3a79dacd1283f6081aa6933af662b","instruction":"Convert the dash-separated region lines into a 4-row, 3-column table with the header row Region, Quarter, and Score in word-table."}
 {"hash":"42c227c648e5d6decccb90853b09f9aaf16aca63e50c9ba333a904e6216f7b64","instruction":"Format the existing formulas so the 2 in CO2 and the 2 in H2O are subscript, while the 2 in x2 is superscript."}
+{"hash":"42f5026ed96204d75dd5676700e7476883209545beab6795770d9e2d154e9d3b","instruction":"Highlight marker in blue and leave active unhighlighted."}
 {"hash":"44a14b4421f7675d84e20d4e7240fe35768abc28327f03ea47caa9104e327cfa","instruction":"Format the existing line in Calibri, make moss green, make amber orange, and center-align the paragraph."}
 {"hash":"44d683d43ead1c35b5c0b94b7ecff845df379a5b5560c516f478e3f0495c1376","instruction":"Fill the 3x3 table with Metric, Target, Actual in the first row; Accuracy, 90, 87 in the second row; and Latency, 200ms, 240ms in the third row."}
 {"hash":"44dbd4af7d7429849d82579bd7fd81d1139bbb108c1ec10b66f463624571fb81","instruction":"Type status memo and apply Verdana to the whole line."}
+{"hash":"454a36aeaa0646220a115cf9a383c8ac27050794847d8e294a0be1fadc046476","instruction":"Change the existing uppercase line to lowercase, then justify-align it and set the font size to 16."}
+{"hash":"46069472992e64797241be8d3536eb2b64a1b5559b64f17b411c9816fff515f7","instruction":"Type shift this memo on a single line and right-align the paragraph."}
+{"hash":"4616d981a44c08b684324d4d32d1c01feea4c52395bb7882c89acce640fd5847","instruction":"Convert the phrase in the document to title case, set it as Heading 2, and center-align the paragraph."}
 {"hash":"461e2cc5e8b87fc0eedaed1837c89da90a83293938c7ef01f38c07ca5c351007","instruction":"Convert the existing workflow status note into a 4-row, 4-column table with Owner, Draft, Review, and Publish as the header row, leaving cells blank where an owner has no status for that column."}
 {"hash":"46235ede751dd391c4d8b94b4d9cabf956d880d3f866e34afc53c57a34b7372f","instruction":"Set the paragraph in word-paragraph to Heading 2 and center-align it."}
 {"hash":"462d6c06a6f68c9ab41ae8d247a92011ac3c8d60535557dd63a9253a51f45046","instruction":"Convert the repeated code list in word-table into a unique 4-row, 2-column table with Code and Location as the header row."}
 {"hash":"4777f680ca72490e549548c19d2572dc992b5457b00d1f806858d09ab323019a","instruction":"Split the existing comma-separated items onto separate lines and underline only the first item."}
+{"hash":"486a60d323f00f9431ee8468f60de14020d135c11e02b0c37154b9fa7f7d89b1","instruction":"Type Submit by 2026-08-14 and underline only the date."}
 {"hash":"48ee0cee09e087e7d774373726c63abf4adfcd2650f4e883371372805024e3ff","instruction":"Write small note big note plain note on one line, then change only big note to font size 18."}
+{"hash":"491f7f36e01c450c67a5567ea17ccc2c54f24ccc34e1c463d4743649a55a81c9","instruction":"Insert a blank table with 4 columns and 2 rows into the document."}
 {"hash":"4b5fa13fa1738e93ecc77972d99b631984127271e95c05e85a20b31ab1d54852","instruction":"Convert the dash-separated region lines into a 4-row, 3-column table with the header row Region, Quarter, and Score in word-table."}
 {"hash":"4bb3d38b502a72b11dd29cdae5988fc84221d302ce45acb0183b0a81ae99e6e4","instruction":"Convert the existing field list into a 4-row, 2-column table with Field and Value as the header row, then add a footer that says Table prepared."}
 {"hash":"4bc7fa8bc628922b836bd8bc16fc02e08a7efb1dcaa5430217b27ba03fb2c0e3","instruction":"Justify the first paragraph, right-align the second paragraph, bold Design memo, underline final action, and format the 2 in phase2 as superscript."}
+{"hash":"4bd51c3f950a3fe1f54ef83d9c52c406508e33f958f5b3fd6fd57da9da68003f","instruction":"Convert the existing field list into a 4-row, 2-column table with Field and Value as the header row."}
 {"hash":"4be3d43a86cecc3d2d99a194909e39af278d115ab06482d541ae11941d349978","instruction":"Insert a blank table with 3 columns and 2 rows into the document."}
+{"hash":"4c320857eb54709bf3047db44cd744474620f4d9d085463b608f3b1746daf5e7","instruction":"Update the existing [REF] marker to [1], add the corresponding reference entry, and add a footer labeled References updated."}
 {"hash":"4c68681ab9f560ce4c5476529f5119593f89d8e301e3bf7af510e93a8fac3099","instruction":"Complete the 3-row, 3-column table in word-table with the contact list, using Name, Role, and Email as the first-row headers."}
 {"hash":"4d48005dde45c7632991bc8af46c1610cadc2d1ab359e3bb65d1a210e9a97dba","instruction":"Enter phase one, phase two review, and phase three on three lines."}
+{"hash":"4d9704ee9ffaa7e955f3c67bbeda9f1c62c45dde21015e5e98cbb4b8c067caf1","instruction":"Type schedule ready and format the entire line in Tahoma with font size 15."}
 {"hash":"4da9063b930f6fa45a5234ede05f4120e8cc739eba79cde9f9f91444f2536b30","instruction":"Justify-align the fourth paragraph."}
+{"hash":"4e33fedd5b01da864f361e47d1a7d4f83e2478ab54ac0592a027261e6a116106","instruction":"Write Deadline confirmed and underline only the word Deadline."}
 {"hash":"4e89623a5b40c3f37ab783828623e75a10ba134355d1948bd07bce9b0443f419","instruction":"Enter north, south, and east in word-body."}
+{"hash":"4ee3bb7d26d42e8b32deb0c9db6a3b08aae877b7594198072759791f9f832088","instruction":"Create the two-line note with Field Notes on the first line and draft copy on the second line, and make the first line bold and underlined."}
 {"hash":"4f398b154c8f506f8dc408f6554a08ddb009d8cda312d01d46b693b95b9dfb09","instruction":"Create a three-line note with \"Weekly Plan\", \"editing in progress\", and \"ready tomorrow\". Make the first line bold and the second line italic."}
 {"hash":"4f55d6c8ed90477658f3d992daebda34fab50413258b23bd43960d147a8b8149","instruction":"Convert the existing phrase in word-body to title case."}
 {"hash":"4fc3ff41d5076585d6259361a3c83507993a4f3c1950488763a7fb81b70cdb41","instruction":"Format the existing three-line note by bolding the title, italicizing the middle line, and right-aligning the final line."}
@@ -119,10 +167,14 @@
 {"hash":"51455569cda66c6705b442710596099b669c187250669bb8d5e10bb63714e0e0","instruction":"Convert the existing field list into a 4-row, 2-column table with Field and Value as the header row, then add a footer that says \"Table prepared\"."}
 {"hash":"515e406acde4339f6b9354acd4374a78f3649cfe0c312dda50c9233e412f7350","instruction":"Format the existing line in Calibri, make \"moss\" green, make \"amber\" orange, and center-align the paragraph."}
 {"hash":"51b0fac4530ceddfc642f66280036d1dc8ba328996b277f28565f9bc89e49ecc","instruction":"Convert the existing comma-separated contact list into a 3-row, 3-column table with Name, Role, and Email as the header row."}
+{"hash":"52290d574dfe005407dc3d797eb80252c5532172154087ecbf143bf032ea002c","instruction":"Type a2 + b2 and make both 2s superscript."}
 {"hash":"528aeb87528b66ead945e809d982524d4237ef89aaa03a835d04d68abb5fecd9","instruction":"Set the first two paragraphs to double line spacing and keep the third paragraph single-spaced."}
 {"hash":"52c80facaf6602d1296c9a10d277be295472ef1184250fdaa568a4ec71002d0a","instruction":"Center-align the second paragraph and right-align the third paragraph."}
 {"hash":"5302db06cad7933cc08a3c3656b50f346a73243c3198fdf9ff75f34a1635cb91","instruction":"Type Internal Memo on a single line and set that line to Heading 2 style."}
+{"hash":"537053d7368f263976a89b8b949dbccb0811fbc47c44892ed621e8d5b77e394e","instruction":"Highlight marker in blue, leave active unhighlighted, and right-align the paragraph."}
 {"hash":"53b03cdcbd664cec9431e2e55d7c21bb942e1567b8ba79aaba80b29aed39df0d","instruction":"Enter Field Notes on the first line and draft copy on the second line, and make the first line bold and underlined."}
+{"hash":"54e1303aa2b3e6c85d3f13c69f62cd38177304710a5b5cd92b64c54f88bd8363","instruction":"Create the two-line note with Field Notes on the first line and draft copy on the second line, and make Field Notes bold and underlined."}
+{"hash":"55b544fec901d4f25348bf49166157f6a5212ce619af2414336f3032a874ad75","instruction":"Type NH3 and make only the 3 a subscript."}
 {"hash":"55f5ae1750e9c66de9c0cf442d7c9798f3b2525860bd6bc34ef709643704ae64","instruction":"Make ALERT, update, and required 18-point text and center the paragraph."}
 {"hash":"56002b2c1a90e951ab18a549a539bcd323c7a9b3f3b01d7c147c028289b4d93c","instruction":"Convert the weekly phrase in word-table into a 4-row, 2-column table with Day and Task as the header row."}
 {"hash":"57377411acde38fa951112419f2d403fd1766ad7e10a4b6c7e44635e4f4cc038","instruction":"Set the existing three paragraphs to 1.15, 1.5, and 2 line spacing, then align them left, center, and right respectively."}
@@ -131,48 +183,63 @@
 {"hash":"58ea60ae39071f776f075f084fc58241b61fd6d78657f084e1b84714d92e5470","instruction":"Type Review draft complete check on a single line, set it to 20 pt and italic, make Review draft bold, and underline complete check."}
 {"hash":"58f597c7e3cea1a2e9397f683300d787d05579da538a322b3b176bb72d3ee0ad","instruction":"Convert the existing semicolon-separated status note into a 4-row, 2-column table with each label in the left column and each value in the right column."}
 {"hash":"593d67b5f4d3f7a4512c912797d81b53848e068ff414f1fb335d3ddb26fcf7d3","instruction":"Enter boxed paragraph and give it a simple box border on all four sides."}
+{"hash":"596dbb5b9cc45cad8395a14f4794a065a0ad58d9532d0b30d4e3cb5f05b6bf13","instruction":"Create the three paragraphs in order: alpha note, beta note, and gamma note, with line spacing set to 1.15, 1.5, and 2 respectively."}
 {"hash":"59828bbb1750e2f07c47f4e4171e2e9ad02906e898d167bcf0c5a06e8e38720a","instruction":"Convert the existing workflow status note into a 4-row, 4-column table in word-table with Owner, Draft, Review, and Publish as the header row, leaving blank cells where an owner has no status for that column."}
 {"hash":"59cb3b9d5eb2b72aa20d869a1420b19d1d578c7081afa83e75b1f07fe32dffef","instruction":"Convert the existing field list in word-body into a 4-row, 2-column table with Field and Value as the header row, then add a footer that says Table prepared."}
 {"hash":"59db5b5e802f0cead31d5629320ac8499169a497f95e84a0673b77d2ae2d8460","instruction":"Update the existing [REF] marker to [1], add the reference entry, and add a footer labeled \"References updated\"."}
+{"hash":"5a06c36ef0605322f09026e6fbd11a89f9a87471a10235d23c3096f79ed227c6","instruction":"Create the two-line text with carry forward on the first line and retire this entry on the second line, and apply strikethrough only to the second line."}
 {"hash":"5aaddb42c07d47b02c0287b6a3c1f6113527f888d9f9143b0aea4d30e42932f1","instruction":"Please write \"moss amber\" and make \"moss\" green while making \"amber\" orange."}
 {"hash":"5ad431e5a098e5a14fc95b014c1e258c62f73a0114c8b94ed0ba2061c303a0bd","instruction":"Bold only the first line of the existing note and center-align that first paragraph."}
 {"hash":"5ae008790dcb26f7654e7d99bb7822d8b7d8868c7bc654b180d6ea682dacda1d","instruction":"Set the deadline line to font size 16, underline only the date, and right-align it."}
 {"hash":"5aff9edef8c27348dc29908aa90937f1bea6dd8ce301dbf4fc5b1756567e072e","instruction":"Set the formula text in Calibri and make both 2s superscript while leaving the letters on the baseline."}
 {"hash":"5b6c0ece4e87f6008254129bbbbd66cb1a9af74f9b8c4a04f6c1178159589234","instruction":"Convert the existing field list into a 4-row, 2-column table with Field and Value as the header row, and add a footer that says Table prepared."}
 {"hash":"5c792718774e9f9370da3ec9c40d2ac75c172eab8611f3684f69ccc066bce40b","instruction":"Write these short notes on separate lines in the same order: \"Log sample.\" \"Flag anomaly.\" \"Close review.\""}
+{"hash":"5cfbcfdb6fbfcd8b82968380d35e3cd1520157b40de759b4de215bf29201e664","instruction":"Type marker active, and apply a blue text background only to the word marker."}
 {"hash":"5d22dca21261320990342d493582062b15d857da1b28340b98c3f038a0acab4a","instruction":"Type two paragraphs exactly as follows: \"overview line\" and \"follow-up line\". Then change only the first paragraph to 1.5 line spacing."}
 {"hash":"5d740334c21a5fbfce5981951963b83af0f3cd70c7df74c32fd91c1c3339606a","instruction":"Enter balanced report note on a single line, then justify-align that paragraph."}
 {"hash":"5e46c78f5e9467ede493f30c5984229acab69ccdf7ea15f161d4797ac0eed2a0","instruction":"Convert the existing comma-separated contact list into a 3-row, 3-column table with the first row as the headers Name, Role, and Email."}
 {"hash":"5e5c335aaf9b3c30172c6e3ee7927285cbc51b2c76d6212b0ba9bdea39d6abff","instruction":"Create the table in word-table with 2 columns and 3 rows so it contains Name, Score in the first row, Ilya, 87 in the second row, and Noor, 91 in the third row."}
+{"hash":"5f01574fbd0c65dbde07f2ef17860105af311a4766a8e5ad2b00ea5b5ea0040d","instruction":"Convert the inventory CSV text into a 3-row, 3-column table with Item, Count, and Status as the header row."}
 {"hash":"5f25f205051a6019aef27f31ccb3e0fddc06124ddd8ee05c4fd856b7720bf7d2","instruction":"Sort the existing four lines alphabetically, then double-space the final line."}
 {"hash":"5f5a0793c59d5d1c6b8e243a0d8caec997f6df43fd81bda6b8bb3e63851d48e2","instruction":"Set big note to font size 18 and center-align the paragraph."}
 {"hash":"600c46c10c9b84a3e8e8e17ad5eb5569bacc0c5b858a8c88519e0fb8d8203ea6","instruction":"Center-align the paragraph."}
+{"hash":"6022da9529d84d6f955cfd736fd37c7c8c6fb0dc4c961b51a0b20f4cbd91f826","instruction":"Write the sentence please review the green section and make only green green."}
 {"hash":"605ec972198a39ebca84ea538f5120e795ae4dc159c7a857624ab307399613ac","instruction":"Italicize only the middle line in the existing three-line note and right-align the final line."}
+{"hash":"606402862d58d47e698ced110f0d35d880b10ffb75655cf6c6513d799b1be4d5","instruction":"Enter the line regional status should stay quiet in lowercase."}
 {"hash":"60a7de722d201bc8232e16bab3cd1697cb5381d79e7e0dd95badc33650d2884d","instruction":"Please write the phrase \"river audit memo\" so that every word starts with a capital letter."}
 {"hash":"60fbba7037e9af63282a72badb2457be43e453a0d9e9dec64b909d1967cfb75e","instruction":"Write \"small note big note plain note\" on one line. Then change only \"big note\" to font size 18."}
 {"hash":"611dc1dfdf7fdc12cb2d8acc26bbc793eb3128757443ecdc05ebcf864fd72900","instruction":"Convert the contact list into a 3-row, 3-column table with Name, Role, and Email as the header row."}
 {"hash":"613369c248b32d51ebd912e6319ac8db063c548ea000d9ac3a3bb66f8826dbdd","instruction":"Bold the title, italicize the middle line, and right-align the final line."}
+{"hash":"6158a8636ccc972a281f95ba87e0e6fb1182266158cc9384d1fe0841e11cb1f4","instruction":"Set the three paragraphs to the correct line spacing and align them left, center, and right in order."}
 {"hash":"61f95810265afb66797b5dd3903e55a298d279002eddc29abe506db3de324f5c","instruction":"Add a footer that says Table prepared."}
 {"hash":"624235f261d143613568572f353ce74d14815dfc9997d919fa6259bb26a0b1ed","instruction":"Convert the existing repeated code list into a unique 4-row, 2-column table. Keep only the first appearance of each code and use Code and Location as the header row."}
+{"hash":"6254043942343c913bce3303f538aff32023a7e3de597f3f5d670bdff2ef5937","instruction":"Format the note so both paragraphs use Calibri at font size 18; justify the first paragraph, right-align the second paragraph, make Design memo bold, underline final action, and format the 2 in phase2 as superscript."}
 {"hash":"629c9df7e01a79d58fe86bd7b2634dd705d957729348d6c98461686b95a66e54","instruction":"Keep the existing three notes on separate lines, bold the first note, underline the final note, and justify-align all three paragraphs."}
 {"hash":"62f2b56ded57048dedff6dfb767ca8001910c94cd69d4f6a586ffebb3d8ae595","instruction":"Enter Weekly Plan, editing in progress, and ready tomorrow as a three-line note, and make the first line bold and the second line italic."}
 {"hash":"6305757b48abd9dafd1e13d5f8bb4aa6d87dbccff8de8b78350440d9f69a079e","instruction":"Format the 2 in phase2 as superscript."}
+{"hash":"630804a884ab563c6be9a81f287c20e19aead1e0763bb9fc9681933c51d3d922","instruction":"Convert the existing weekly phrase into a 4-row, 2-column table with Day and Task as the header row."}
 {"hash":"643fa79ca90f228cf6954abc4275a4f586a8b732bfab582a36ba0898085b3851","instruction":"Convert the existing weekly phrase in word-table into a 4-row, 2-column table with Day and Task as the header row."}
 {"hash":"6463923d9519bcec3c0af4b2ba6b9d49bc880aa989d0cd62d6928092f54fac0b","instruction":"Convert the workflow status note in word-body into a 4-row, 4-column table with Owner, Draft, Review, and Publish as the header row, leaving blank cells where an owner has no status for that column."}
 {"hash":"6506a578275b52d0983532671f7256dfd183c7a0e9d6dfe4070aa670bfbd6e84","instruction":"Convert the existing workflow status note into a 4-row, 4-column table with Owner, Draft, Review, and Publish as the header row, leaving blank any cells where an owner has no status."}
+{"hash":"6529ec161b27a67d6a26c9983e54194480ba2fc187db717910ff959589194337","instruction":"Type balanced report note on a single line and justify-align the paragraph."}
 {"hash":"65383efb64c4672856d809c57a8bfed5055d861e1c95e988513fea727af0132b","instruction":"Set the line spacing of the first two lines to double while keeping the third line single-spaced."}
 {"hash":"65d81e48fbcf1114589f310cec4406273a8d14ebbd93efabc3e85918aec67f68","instruction":"Make nearly complete bold and italic in the existing line, then set the line in Calibri."}
+{"hash":"66357b419c15e753563ec2d8a0c709e14ae162862db21ec65667b0f5ffc90610","instruction":"Write ALERT update required, make ALERT bold, and underline required while keeping update styled as specified."}
+{"hash":"66a6c4c4222a2cbae79aefd26b56aa9c4469783e547adb2d8767596d0f2ac947","instruction":"Center-align the second paragraph."}
 {"hash":"66c7e7ebf0a4c37fc44b3fdb1539817f39b340c30fc07b13db4c46b390ba0f28","instruction":"Create two paragraphs: \"plain note remains left\" and \"focus line moves inward\". Then center-align only the second paragraph."}
 {"hash":"66de3bfc54841488c8487acb4931f67662146501cbf068ac9dda2aff4dfd30dd","instruction":"Set the second paragraph to double spacing."}
 {"hash":"677910549599bd4d85c72994c14b043452cb3c775a685ef02884af0d4bacd2b8","instruction":"Enter please review the green section, and make only green green."}
 {"hash":"6a11e5ee317f24c4e716744c5e28aed7bbfba0d27ce3a58f25be30c27bdabe8e","instruction":"Fill the blank 3×3 table with Metric, Target, Actual in the first row; Accuracy, 90, 87 in the second row; and Latency, 200ms, 240ms in the third row."}
+{"hash":"6a123460eaa8e511ec291d614828e6310f13672db5518442b6e772f9bb443dfa","instruction":"Convert the workflow status note into a 4-row, 4-column table with Owner, Draft, Review, and Publish as the header row, leaving blank cells where no status is present."}
 {"hash":"6a4ac0da866212a8c2a1021c24ea4952fc767df439be06ee8e2d442c81d58be4","instruction":"Set the second paragraph to double spacing and right-align it."}
 {"hash":"6ab36e6b6c62a2b50639edbaa1b28bd34125ce37583fa66eb02e60a57ff4e0b3","instruction":"Convert the existing dash-separated region lines into a 4-row, 3-column table in word-table, with the header row Region, Quarter, and Score."}
+{"hash":"6b411fc6a2122895195c1070199c84ec085f67731cc0d51d1447a2f2ca10cdb6","instruction":"Create the three required paragraphs in the document, then set the opening paragraph to single spacing, the evidence paragraph to double spacing, the decision paragraph to 1.5 spacing, and make all document text font size 12."}
 {"hash":"6c19f2f39cc38c51c4559174f05f7bff16fa8815eda998f9d98d922093b659ec","instruction":"Create two paragraphs: \"compact note\" and \"spaced note\". Then set only the second paragraph to double line spacing."}
 {"hash":"6c92e522efba7c0d0ffcf05b4752ca1e6e4ff8e41a1a5e28119a3fd9f98e8ca5","instruction":"Create four paragraphs in this order: \"Source queue\", \"Park, Ji. \"Harbor Sampling Log.\" Field Archive Review, 2021.\", \"Nolan, Avery. \"Bridge Sensor Memo.\" Urban Systems Notes, 2022.\", and \"Add the latest calibration note [REF]\". Then change only the [REF] marker in the fourth paragraph to [1], and add a reference list entry: [1] Rao, Lina. \"Calibration Trace.\" Applied Sensor Letters, 2025."}
 {"hash":"6e50abc429727f55bfeb2d547d14a8fedc521c8aef8f8422a7f7f6ddfafb4a2d","instruction":"Create four separate lines with \"delta\", \"alpha\", \"charlie\", and \"bravo\". Then reorder the lines alphabetically."}
 {"hash":"6e67abb4c96287944b9d71a76e3c4711dd9b3bcf6e53f146cb819726d53fc045","instruction":"Enter CO2 + H2O = x2 and format the 2s in CO2 and H2O as subscript, and the 2 in x2 as superscript."}
 {"hash":"6f157c02dbc435349243b8896e77b4c61827703611284bfaea7d92324c232ee6","instruction":"Clean up the existing uppercase line so it is lowercase, then justify-align it and use font size 16."}
+{"hash":"6fd09d932d25f59158da1baf28585bd35d26a1cc5d7bd49e8ce15d1e00b2fa65","instruction":"Write Check budget and timeline and underline the words budget and timeline."}
 {"hash":"706081ae76b9052abf86e1d9733fbb851a2970f5abf5c38e778b88f8eee5745f","instruction":"Format the existing formula text in Calibri."}
 {"hash":"7077c876417d74224241b230ce77ba2547528231d074bcc876322c048c4b839c","instruction":"Enter NH3 and make only the 3 a subscript."}
 {"hash":"714e788499cfaf9180969e0dddcdc59bb5e3071dabbb2387a47f0098999e7fab","instruction":"Enter please review the green section, and make only the word green green."}
@@ -182,39 +249,60 @@
 {"hash":"722b632aa419bad03cd6570cfc3405d33095599e0dcfdbe6f97adb5b2ee6d809","instruction":"Enter Deadline confirmed and underline only the word Deadline."}
 {"hash":"72d004b2e7691323a9690cee69dd47c989e1014738ba8a9e7f14a3774bf4936d","instruction":"Set the font size of all document text to 12, apply single spacing to the first paragraph, double spacing to the second paragraph, and 1.5 spacing to the third paragraph."}
 {"hash":"7341b3fc39cdf5ada1d991f090450b23c8c8d8e30d4c1491eea623b40c60e077","instruction":"Create a two-line note with \"Checkpoint Log\" on the first line and \"notes pending\" on the second line. Make the first line bold."}
+{"hash":"737dc4a65795b5e98cdf21752d6b9eb24ac38ebf500995ea0a1858b5bca8cee6","instruction":"Create a two-line note with Checkpoint Log on the first line and notes pending on the second line, and make the first line bold."}
 {"hash":"73c30d40fac651cb9470538cf19f86f2aafdd55ad7c8f93cdb72590e6bd98d19","instruction":"Make the first line bold and leave the second line unbolded."}
+{"hash":"7402a8c83ce3dc8b70401c5bb9bc644b5b94eb0fd12b066be4f73028619f9d58","instruction":"Insert a page break so the document shows Page one text before the break and Page two text after it."}
 {"hash":"749dd044337cf4135c3bdd272511e2dd917c257a81ae6f58dc8f38aa8c8c2743","instruction":"Convert the existing weekly phrase into a 4-row, 2-column table in word-table, using Day and Task as the header row."}
+{"hash":"74c1a02c0ce63ce3637d64df0a96eb47948f17aa3d12bba3998628c486c468fb","instruction":"Type Internal Memo on a single line and set that line to Heading 2 style."}
+{"hash":"75be59274251b6cd5527dd51f3303d1c2645cef59638822fe59b09835e8e27cf","instruction":"Convert the existing inventory CSV text into a 3-row, 3-column table with Item, Count, and Status as the header row."}
+{"hash":"76e243eb8bbfccabd8eb0b31c0682b91fc04e74c90bc654c79c79238892e01b0","instruction":"Convert the existing weekly phrase into a 4-row, 2-column table with Day and Task as the header row."}
 {"hash":"770ac43c1d5ff8993a9c50be30f6b9d2aed99f8aedec18a0949e7cbda87cc93c","instruction":"Set the full note in Calibri."}
 {"hash":"78a0b37ab6eb73706a67e60b955f9698e53ae0fe696ceae7da533be77d773874","instruction":"Right-align the paragraph."}
+{"hash":"78a67877c24f8015cd9d8b6ee22c58eb20a37ea88bfe357ca87d807f926e100f","instruction":"Convert the contact list in the document into a 3-row, 3-column table with the first row as the headers Name, Role, and Email."}
+{"hash":"78e4ad0d3101acd890364807984fd3465a7d80164035351940d0a80820eaed64","instruction":"Convert the existing field list into the required 4-row, 2-column table with Field and Value as the header row."}
 {"hash":"794d2c5338e0c8c8fa2a6b6825fa093573e1c0972b75d4ba52c86585507ce746","instruction":"Set the sentence to Calibri, italicize only needs revision, and justify-align the paragraph."}
+{"hash":"79dea5dfeacf94530865ba0eb62b43fbc805c8cda9494bb42cb51b5558da0ffa","instruction":"Insert a blank table with 3 columns and 2 rows into the document."}
 {"hash":"79fdd4832c0cdaef2bc1a3db3ba8593ec9c9b7cee2e6ec4423174feacbe6232c","instruction":"Write check the summary now, with summary italic and font size 16."}
 {"hash":"7a86111304c49c3c7257dc1d7d83ef263a9fac74c9900de30f5d2a68ecd4f000","instruction":"Type a2 + b2 and make both 2 characters superscript."}
+{"hash":"7b02736af376203145271bb6276a617dc813f9b3d1a6ad008d932858e1b9c328","instruction":"Type Internal Memo on a single line and format that line as Heading 2."}
 {"hash":"7b24df267a88a41d9d73a842b0e7f0393c2003f95753eb9d998f42a26e9fe73a","instruction":"Convert the existing dash-separated region lines into a 4-row, 3-column table with the headers Region, Quarter, and Score."}
 {"hash":"7b72d5c867d21fcd245ba6f8d65f95d88d5c4835384354fb66deb8f8c9c4b434","instruction":"Right-align the existing memo, set it in Calibri, and make the word \"memo\" bold."}
 {"hash":"7c07212493f3bf744f0b3f4cf902a528412fb1a1e1cdb4126bb6d182ee9d25e5","instruction":"Make Signal Ledger bold."}
+{"hash":"7cf79d43efeb224af5e5a6ee87b341ed01e6213655dfb3e78c52c43a0447663d","instruction":"Write the three entries with one empty line between each: North entry, West entry, and South entry."}
 {"hash":"7da8584d70ad1c2eda6e4b583e70f3cbc188cbc52bf02a7d18bd8e7cbda3d3ae","instruction":"Fill the blank 3-row, 3-column table with Metric, Target, Actual in the first row; Accuracy, 90, 87 in the second row; and Latency, 200ms, 240ms in the third row."}
 {"hash":"7df2e8f0fa764a26a3f33e1717459aa3ad5b6bfee5af814e79fbbc5a2907ad0a","instruction":"Create this draft with extra blank lines between the entries: \"north\", \"south\", and \"east\". Then remove the blank lines so only one line break remains between entries."}
 {"hash":"7e09bb5f76ac5eadf31e6d844394b69598d48c54e5f20e2b8c5b1f89bd7425e2","instruction":"Format the text so there is one blank line between North entry, West entry, and South entry, then set the first entry to 1.5 line spacing and the last entry to double spacing."}
 {"hash":"7e3011911ad22c10a69f303ea7b212da7d5046d368a4d618be931bc22dca208f","instruction":"Make only Review draft bold and not underlined."}
 {"hash":"7f2a248b1ee795ca5e24210a02e9e43f6ef47dd58e397c0e07e95e0d49f2525d","instruction":"Make moss green and amber orange."}
 {"hash":"7fbb54af84b3bc2041c2db8522ad3711f0ee0d336140deb5a1e129d259e88354","instruction":"Create the line \"temp report temp checklist\". Then replace every occurrence of \"temp\" with \"final\"."}
+{"hash":"7ff50be8a906cb9d965009dce6ec6ecf9af3618aef66f988c89452b1ba6b3157","instruction":"Convert the repeated code list into a unique 4-row, 2-column table with Code and Location as the header row, keeping only the first appearance of each code."}
 {"hash":"80b3ddc209784ee5752ca2148db269f91d83121a2051d8c48b95fa29e7fd27ac","instruction":"Make only the number 2 in the existing text a subscript."}
 {"hash":"8142681d1687f12c8d4c3e35658e3fdb2af37f5530b94f9b6e4de9787eaf567e","instruction":"Please type \"priority marker\" and change the whole line to font size 18."}
+{"hash":"81c395587bea668f33ff2ad032c7706ed787ade77687a43339e1a4015aca29f5","instruction":"Convert the status grid note into a 3-row, 2-column table and fill it with the listed labels and values."}
+{"hash":"82216d40d071b7c4e5a031eeee089ed75355a7d4aa66b41c3d17fde0e7f9bdc3","instruction":"Format the note so both paragraphs use Calibri at font size 18, justify the first paragraph, right-align the second paragraph, make “Design memo” bold, underline “final action,” and format the 2 in “phase2” as superscript."}
 {"hash":"8278036903a6e3ee4b3b61e3ee7b64fce1defd1af86671257d2a0a4331b015bb","instruction":"Convert the existing status grid note into a 3-row, 2-column table and fill the cells with the listed labels and values."}
+{"hash":"83a1a98481193dc27657e1e9c7ad55d03be760618d95ecd736342543ed3b0854","instruction":"Write Review draft complete check on a single line, make the whole line font size 20 and italic, then make only Review draft bold and only complete check underlined."}
+{"hash":"8407cb4cd41e3196deb453836dc19ba43114255ac474075cbc0fa539cb0fc9e9","instruction":"Create the two paragraphs in the document, then center-align only the second paragraph while leaving the first paragraph left-aligned."}
 {"hash":"840d7ea6b7f86b85f9e7e6a2ab671e83f4e23b1714ac3254278d894a1b537085","instruction":"Please type \"boxed paragraph\" and give that paragraph a simple box border on all four sides."}
 {"hash":"8480b25098db60564376e492923855d58fbb746b5ae17f4162da18a1958aeba4","instruction":"Write the sentence \"check the summary now\". Make only the word \"summary\" italic and change that same word to font size 16."}
 {"hash":"84ad77b1d86910f773aafba60bd99fd0cbf1741ad360f3b1d8ea7bc7a196451a","instruction":"Make “Design memo” bold, underline “final action”, and format the 2 in “phase2” as superscript."}
 {"hash":"84b83f1dc5e2cd9eb6a5336b9ea762f46c1331ade3fbd70b1dd1ee43d7df33e8","instruction":"Convert the repeated code list in word-table into a unique 4-row, 2-column table with Code and Location as the header row."}
+{"hash":"84bf2bd67c7a16182439ad0d2dbbb9a27b294f1f67b66579b0fa46de17287594","instruction":"Create the two paragraphs compact note and spaced note, then set only the second paragraph to double line spacing."}
+{"hash":"856d38f6b5e55698d2e4001a2a4d8743ef0408debdf053ac2c3622c5ceeb46db","instruction":"Format the formula text in Calibri, with both 2s as superscript and the letters kept on the baseline."}
+{"hash":"858c73a0d645785d37418706032f634c20f503504f4d497f3a7f3122e689f85c","instruction":"Write moss amber, making moss green and amber orange."}
 {"hash":"85f91f3b092aa8f4daf8f24e9991febb182734fe96ffa576b396d35bdcb4b963","instruction":"Format the existing two-line note so only \"retire this entry\" is struck through and the second paragraph uses double spacing."}
 {"hash":"85f95ac3e0c92109d39528eb1ad14785cf565ce806b3f5428f9e21d440dd3f40","instruction":"Convert the existing comma-separated contact list into a 3-row, 3-column table in word-table, using Name, Role, and Email as the first row headers."}
+{"hash":"8613fa25652d746ac8da307aa9c98c81f1bf47d1df077cf33656e2ea629fa196","instruction":"Type status memo and apply Verdana to the whole line."}
 {"hash":"87739847cf1df7a7760d65f94a0ef6d5940c7d9a06c26708280f52b872dc5029","instruction":"Write CO2 + H2O = x2 in the cell, with the 2 in CO2 and the 2 in H2O as subscript, and the 2 in x2 as superscript."}
 {"hash":"88ce38c24ac8595a41947262ac8cdb317f932abc284e1a2610a40605006ef5cf","instruction":"Underline \"budget\" and \"timeline\" in the existing line, set the whole line to font size 17, and justify-align it."}
 {"hash":"88f8cb5d7746621fca872dfbb630613f3276cd561ae4ebebd35c5208e2d13be3","instruction":"Convert the existing dash-separated region lines into a 4-row, 3-column table in word-table with the header row Region, Quarter, and Score."}
 {"hash":"890b8c64c53f558575f9d3e9f81189ecff158ca12e665be31e41573907fb2323","instruction":"Convert the existing field list into the required 4-row, 2-column table with Field and Value as the header row, and add a footer that says Table prepared."}
 {"hash":"890d146b3ee2a2f01c2df3960c80665722fad3efd903a861c3afbab29f8020a0","instruction":"Convert the existing weekly phrase into a 4-row, 2-column table. Use Day and Task as the header row."}
+{"hash":"8ac7979d44000cde792f9ef574b5b6c79a1a93329ed0ba61572117197a8af794","instruction":"Write the sentence check the summary now, making only summary italic and setting its font size to 16."}
 {"hash":"8b0469eb1c4ee646fcd16816d21babe555acc9ff4d235cf1050a1ff40221c862","instruction":"Bold the labels before each colon and set the full report to Calibri."}
 {"hash":"8c256f4acf2eeb5459515bff67fce516926e85daa22d0c8966a66780326745bd","instruction":"Please write \"Status is nearly complete\" and make the phrase \"nearly complete\" both bold and italic."}
 {"hash":"8c4242acc9fedddf781e46f0c1fb56848e30e529e141488a3e9e9c6d13ff9d8c","instruction":"Convert the existing inventory CSV text into a 3-row, 3-column table. Treat Item, Count, and Status as the header row."}
+{"hash":"8c625e0fbc6e00ddf8dd60915de64235f9edbb7501212543556e1e4782aeb09a","instruction":"Set the three existing paragraphs to 1.15, 1.5, and 2 line spacing respectively."}
 {"hash":"8c91991b7747f1b891d7efb4ff70997ba29a4e444fea683ad94dc0b3e03b7cf8","instruction":"Italicize only the middle line and right-align the final line."}
 {"hash":"8d85d94d35b2eee97eb667f5308635dc2687cf80fd28babde5988324ce39a124","instruction":"Write exactly three lines: \"Owner: Mina\", \"Stage: Review\", and \"Flag: Active\". Make only the labels before the colon bold."}
 {"hash":"8e2352575fa4048aced90d90b536ad97a35936c9974d34bddd7fc8c8fd9f6120","instruction":"Change regional status should stay quiet to lowercase, justify-align it, and set the font size to 16."}
@@ -223,8 +311,10 @@
 {"hash":"8eda7ccd9c6a2a6e37893f0140cd5d4256bc24a611a88af1b52cf9f4b3589525","instruction":"Replace every \"temp\" in the existing line with \"final\", then bold both \"final\" words."}
 {"hash":"8f23c553af3508ad7998b330731d64fbcc11a8bd299aebc26ff10f76c6634349","instruction":"Underline only 2026-08-14 in Submit by 2026-08-14, set the line to font size 16, and right-align it."}
 {"hash":"8fa7fa1919f5fac8fe03e41455400d47f3d45628a0052f881195950236a0c785","instruction":"Type two paragraphs exactly as follows: \"overview line\" and \"follow-up line\". Then change only the first paragraph to 1.5 line spacing."}
+{"hash":"90d0495d0b463d11a32408c3dc97305ab93e3cda4e44558eebfc02cb5f784a7b","instruction":"Center-align the second line and right-align the third line."}
 {"hash":"91b11110f2092ed5a3b7d9d6de7df17f362d116c388fdef9d2ec6f9331dcb16b","instruction":"Set the existing line to Heading 2, use Calibri, and center-align the paragraph."}
 {"hash":"9234bbbc02ebcc688c52a8fdd393a79d55b16123a9a54525a7570ecd88f38d90","instruction":"Convert the repeated code list in word-table into a unique 4-row, 2-column table with Code and Location as the header row."}
+{"hash":"924beba7795be0fb8ea8f3f44e4c2a87fdf6b268dc47a9ceed0963492658ebfe","instruction":"Write the sentence The draft needs revision. and italicize only needs revision."}
 {"hash":"92973c0b67ad427214cbd33e510cdff545bb10b8f45b32b755a11d038e88de96","instruction":"Type balanced report note on a single line and justify-align that paragraph."}
 {"hash":"929a7ab1b306b96647c963a36e3d8b6738bb357001cdb77fe0edd82b49f8e25b","instruction":"Set the existing line to Heading 2."}
 {"hash":"92f0f89bdb3ddc826c5428c484aa2763aa8d8688ee27e8e6550c5c48c18842e9","instruction":"Deduplicate the lab sample codes into first-appearance order as R18, M02, K77, and P31, then right-align each resulting code line."}
@@ -233,35 +323,52 @@
 {"hash":"9319ba0acc58f84f8d6115ba269ec476c2810125eaf98422deaf77948216aa3f","instruction":"Set the existing formula in Calibri and keep the letters on the baseline while making both 2s superscript."}
 {"hash":"9367074793559d534b355dfbaef9e1c3f9daa581b921edaf87b64b0716eba034","instruction":"Underline final action and format the 2 in phase2 as superscript."}
 {"hash":"937332e34ec09f09282fcdaa15af42080b8d070afb14debe1e9799635eb07b78","instruction":"Convert the existing field list into a 4-row, 2-column table with Field and Value as the header row, then add a footer that says \"Table prepared\"."}
+{"hash":"939c25bb3d62e8101999910674ddadea43e8b3da96e42cab5f50b3002eb44bb8","instruction":"Convert the existing weekly phrase into a 4-row, 2-column table with Day and Task as the header row."}
 {"hash":"955244b1f516be4afa93952969200be21416bf58b3468e6d45e3e873c1a3e77d","instruction":"Convert the dash-separated region lines into a 4-row, 3-column table with the header row Region, Quarter, and Score in word-table."}
 {"hash":"955c56df897b4b3c9e19233b9db4f61de2e0764248d7cb3354fed80aee2b50a5","instruction":"Italicize only The Silent Harbor in the sentence and justify-align the paragraph."}
 {"hash":"964342ea09f3393de9fc5e9bee5f21d12775093dbb2c0760160a49001d71b4d0","instruction":"Convert the workflow note into a 4-row, 4-column table with Owner, Draft, Review, and Publish as the header row, leaving blank any cells where an owner has no status for that column."}
 {"hash":"96496d4edfef37a4bb050c55cb58ac6583a8fb5d590483c445d4580c5d13b835","instruction":"Enter Review draft complete check on a single line, make the whole line font size 20 and italic, then make only Review draft bold and only complete check underlined."}
 {"hash":"964b94589e6bfeb723bc7a6c9a46c600c9eaf4f4ef5bf3c89c1fd4d678deebe8","instruction":"Convert the existing field list into a 4-row, 2-column table with Field and Value as the header row, then add a footer that says Table prepared."}
 {"hash":"96e284bd7da74bbe28d33b0e1faca0b2cca3b326373c06c908c9fc27b11068ab","instruction":"Justify the first paragraph, right-align the second paragraph, and format the existing note in Calibri 18, making “Design memo” bold, “final action” underlined, and the 2 in “phase2” superscript."}
+{"hash":"977aa22aa7ade1564a53a45ac9e418ee0c3dc9f836668a27270f7fb3e709b982","instruction":"Set both paragraphs to Calibri at font size 18."}
 {"hash":"9a9ee636ccc2e46efc2ba48b7de0fcb1e28b654361f43c1a6d9ed51a35551f96","instruction":"Format the existing note so both paragraphs use Calibri at font size 18, with the first paragraph justified and the second paragraph right-aligned; make Design memo bold, underline final action, and format the 2 in phase2 as superscript."}
 {"hash":"9b1555ef800c265adb639b4fe73f328365d5a6cb0b3c4a6947f1e7eb8e968b9f","instruction":"Format the existing note so both paragraphs use Calibri at font size 18. Justify the first paragraph, right-align the second paragraph, make \"Design memo\" bold, underline \"final action\", and format the 2 in \"phase2\" as superscript."}
 {"hash":"9b21da79b4bdc52e8dc071b1aef7c31cdb631f8d66ee6415e5dea633c132b8c8","instruction":"Bold only the labels before each colon in the existing report and set the full report in Calibri."}
 {"hash":"9b8c687f261d31fbbb8dfe248ee1a114d7b6411ec1fb9b5ec7ec91d4329362eb","instruction":"Set the existing three sections to single, double, and 1.5 spacing, make every character font size 12, and justify-align the evidence paragraph."}
 {"hash":"9ba3bb75f040e83d1a7b83bb618cdbc40507dab60cfe9a863aec1c9cf5b07c57","instruction":"Enter Submit by 2026-08-14 in the cell, and underline only the date."}
 {"hash":"9c3567ade4ac4f693b27380672acad31b4a5a38572e76207bf680dbae09ffcc8","instruction":"Insert a blank table with 5 rows and 7 columns into the document."}
+{"hash":"9c6ed178ce957c6b08f3ca9158f8a0fcd586ed7d718238651bf382953ce36a41","instruction":"Create the three-line version of redwood, cedar, maple without commas."}
+{"hash":"9f671fa4b39e78c89967313505d30c0e875b5a4b80fdb8e732b153db71296f75","instruction":"Change the existing line to lowercase, justify-align the paragraph, and set the text to font size 16."}
 {"hash":"9fcf801ccffca9d241cdff2063678fa1e1b33e1d54395508dea8b01a589e532e","instruction":"Enter status memo in the cell text."}
 {"hash":"a0201b64598642e54ac644c591b832d0c41c39d15912840497e53c8a3e7e7f63","instruction":"Enter Review draft complete check on a single line in the sheet, set the whole line to font size 20 and italic, make Review draft bold, and underline only complete check."}
 {"hash":"a13dd36fc1cccc1ca7b20d944781cdb9fd31f087c1ff8ce3c737f299864434c7","instruction":"Enter Signal Ledger and make it bold."}
 {"hash":"a28e2ef7371d0cb1515030119e26e81b47be5fdc9cab34f22ed02ccddaf9aa20","instruction":"Convert the existing weekly phrase into a 4-row, 2-column table in word-table, using Day and Task as the header row."}
+{"hash":"a2ea752fe825627230c129f6d41caa7d6e8632d290f466c43d90ae80136b7c64","instruction":"Convert the existing workflow status note into a 4-row, 4-column table with Owner, Draft, Review, and Publish as the header row, leaving blank cells where an owner has no status for that column."}
+{"hash":"a3890ad076b33fc6bb7dab7834030309073ce5d91656ed5f45d2ad44a098e09e","instruction":"Write Review draft complete check on a single line, and format the whole line with font size 20 and italic."}
 {"hash":"a38d59fc2a88b19c46ccae9fd65e427b7cdc0a2acdac35c38d9344a21ac9cf5c","instruction":"Bold the first note and underline the final note."}
 {"hash":"a3d3c1b5471a28347c3f5e546c3a7926dd17eb52bba9af58ff28ee41ba41ca0e","instruction":"Add a footer that says Table prepared."}
 {"hash":"a566a4b3ddc0e33b60d017d3c2dd0449ad5f390b14cd08d3b2ff106da3546f6b","instruction":"Enter moss amber in the word-body cell and format moss green and amber orange."}
+{"hash":"a607ed4ee388e4138df7ae5c78125e0854e5ae8f0913b86aabe3909b89a10fce","instruction":"Convert the semicolon-separated status note into a 4-row, 2-column table with each label in the left column and each value in the right column."}
+{"hash":"a60c9ee36aa085c3bc6161bc6972e9770ed8d1f48a317a987d313a4f1aaa0b28","instruction":"Write small note big note plain note on one line, then change only big note to font size 18."}
+{"hash":"a6c644096c303fb7d44a7fdea5808942bb1eae9727ae054558fa66a1f4ec3078","instruction":"Write Check budget and timeline and underline the words budget and timeline."}
 {"hash":"a6f1c10689bb4cd39ed5dfe83f892e00a5aa0474dc5b2b01009a172ba54e8cab","instruction":"Convert the existing semicolon-separated status note into a 4-row, 2-column table in the word-table, with each label in the left column and each value in the right column."}
+{"hash":"a7608126e56bbaae601d526636175ddea3facff51c8fa4a91913d9e7d64d7282","instruction":"Format the formula a2 + b2 in Calibri and make both 2s superscript while leaving the letters on the baseline."}
 {"hash":"a7d00620cb0a0c659893a54b3f5170389ce13e146fa4d2da7fb1a000d6b3b97d","instruction":"Convert the repeated code list in the word-table into a unique 4-row, 2-column table with Code and Location as the header row, keeping only the first appearance of each code."}
 {"hash":"a83a44f645540610ec7160770849826096a9dbbcd5c274ee0daecabc703d7127","instruction":"Format the 2 in H2O as subscript."}
+{"hash":"a851a952650bd8f3e5fa6ea689455b18877ff9bcab7256546431030df590b785","instruction":"Write CO2 + H2O = x2, making the 2 in CO2 and the 2 in H2O subscript, and the 2 in x2 superscript."}
+{"hash":"a875298f905a5f39ee7a7d6ca703e8727630d9888690e7975c3e120b9dda5bbd","instruction":"Type the required text and format the whole line in Tahoma with font size 15."}
+{"hash":"a880b7d50da6cf4890509ca1d27b378a1dfeb8f33410cc5a1e442f6b3f5dafbf","instruction":"Write Status is nearly complete, and make nearly complete both bold and italic."}
+{"hash":"a8cc9b51f8dfa89ba221684aa6545a1a1b87188deccd921519d1657f3cf87f53","instruction":"Create the three-line note with Weekly Plan, editing in progress, and ready tomorrow, and make the first line bold and the second line italic."}
 {"hash":"a8e61932bf13c6fa58896c820dc8a7b258627f9b864bf4241c228ce5a672876d","instruction":"Remove the extra blank lines from the existing draft and right-align the cleaned entries."}
+{"hash":"aab3a60fcebe8549e867719ce25430317d151edc0509ebab04d67cbcd411e1e4","instruction":"Convert the existing dash-separated region lines into a 4-row, 3-column table with the header row Region, Quarter, and Score."}
 {"hash":"abf3079f529e819d900feb74c8d5b04efb32a3a9429781a025bae71de92f30da","instruction":"Make only green green, section blue, and justify-align the paragraph."}
 {"hash":"ad76b134e2ecc7985490c9d616fb2ed7ddc7ebc981d1ceb803d1423f787fef02","instruction":"Format the note so both paragraphs use Calibri 18, justify the first paragraph, and right-align the second paragraph."}
 {"hash":"ad7e6689edc7f2e7d8744d9f76a493e751a4e60fd7f0fb35687998c5a521a017","instruction":"Convert the existing field list into a 4-row, 2-column table with Field and Value as the header row, then add a footer that says Table prepared."}
 {"hash":"adb22c00c0157a22a1b337d882cb6d55508d7fb69abd6f4b2182841f6054a422","instruction":"Please type \"shift this memo\" on a single line and right-align that paragraph."}
+{"hash":"adb3212e59181c29563b6038e85b45a4b21dc15de593d3d9b9e68fd18b76e052","instruction":"Create the two lines with carry forward on the first line and retire this entry on the second line, and apply strikethrough only to retire this entry."}
 {"hash":"adf55d86f007621abe35e84fa0416338d7496401d72ccda71bb24fd78dc0d1d9","instruction":"Set the text “Internal Memo” to Heading 2 style."}
 {"hash":"ae83bb7df3d98341aecc664340ea20780fc8311474aeeee8c73056b510f583df","instruction":"Type two paragraphs exactly as follows: \"overview line\" and \"follow-up line\". Then change only the first paragraph to 1.5 line spacing."}
+{"hash":"aef4105209ed34cdf1c82419298f1fb401be6f065fcbb20beb248de20354259a","instruction":"Create the draft with the entries north, south, and east, then remove the extra blank lines so there is only one line break between each entry."}
 {"hash":"af176cdf5f60dba33cd6aa3c3b8bbbbae11344d0897a8cbcb5093ab3208f9655","instruction":"Enter We discussed The Silent Harbor yesterday., and italicize only The Silent Harbor."}
 {"hash":"af623adb9df44da4e4dad7b010273171a510cab047b033530f24806dd2171746","instruction":"Format the existing formula in Calibri, and make both 2s superscript while leaving the letters on the baseline."}
 {"hash":"b001d0718d346ce744c634d592cabee2d32ab86ef79853dc062c727b41632aba","instruction":"Convert the existing inventory CSV text into a 3-row, 3-column table with Item, Count, and Status as the header row."}
@@ -271,55 +378,81 @@
 {"hash":"b09035ef3cc783d820b21130bd1ab95dab08e018d44673afd9c188dc3ee7cef6","instruction":"Sort the four lines in word-body alphabetically, then double-space the final line."}
 {"hash":"b0fd5190fc0478be385c7ad1124e0b45d70ab8521a57daffa4ff967f7c8a66f6","instruction":"Make the line center-aligned, with moss in green and amber in orange, while keeping the font in Calibri."}
 {"hash":"b1aed68e39df0a4809292c703aec1f716ad28839c6f62375ee0c37e5beda9963","instruction":"Convert the existing semicolon-separated status note into a 4-row, 2-column table with each label in the left column and each value in the right column."}
+{"hash":"b1d4ae224ef34545a7b774421d08fc628bb63891cd259e760f3929ad5770f0c3","instruction":"Convert the existing status note into a 4-row, 2-column table with each label in the left column and each value in the right column."}
 {"hash":"b23815704c394c0d9705871236b68369be8110af6de1c442f59b24c3319caa01","instruction":"Please write these three entries with one empty line between each entry: \"North entry\", \"West entry\", and \"South entry\"."}
 {"hash":"b24afd8c5f2182c5470de1f8f43b2f4da02d166648024d0aebbb188a182a8d35","instruction":"Convert the existing field list in word-table into a 4-row, 2-column table with Field and Value as the header row, and add a footer that says Table prepared."}
 {"hash":"b400522715c362ae547be2f16c28ef4b7fcd36488ecccdca2f7506226e1431ce","instruction":"Format the existing sentence in Calibri, italicize only \"needs revision\", and justify-align the paragraph."}
+{"hash":"b45eaf2588ab4618d54457a02973a585177cd9897800ad63c53f560be60e9d48","instruction":"Write the required text on a single line, set the whole line to font size 20 and italic, then make only Review draft bold and only complete check underlined."}
+{"hash":"b56672d1e2cdb5c8fdd93fd42abe46f5d727a010caa4a4ff75845389cffc5863","instruction":"Insert a blank table with 5 rows and 7 columns into the document."}
 {"hash":"b69ab3acef950297a432c87c23e07dcdf151d6c73dcab73db98c50af803f129c","instruction":"Convert the note into a 4-row, 4-column table with Owner, Draft, Review, and Publish as the header row, leaving blank cells where there is no status."}
 {"hash":"b6bfcd9e4ce5ea3ace90b68adb99667479f804833f7a57dccbdbc6c2c5c40565","instruction":"Underline budget and timeline, set the line to font size 17, and justify-align it."}
 {"hash":"b72eacf88d68f94da9cd3a1d80fcd4bbbe4c0bbd8b70e64a2f0f5cc88a353872","instruction":"Format the existing note so both paragraphs use Calibri at font size 18, justify the first paragraph, right-align the second paragraph, make Design memo bold, underline final action, and format the 2 in phase2 as superscript."}
+{"hash":"b735a64c8b7973ac074852929d99182cd42290ac38b4ff14227c2679c5bef968","instruction":"Align the remaining paragraphs: center-align the second paragraph, right-align the third paragraph, and justify-align the fourth paragraph."}
+{"hash":"b7caef8d8e51ae7e329bff24e5275aa6739bbee4f5d8e9e29679bf34f8f09177","instruction":"Write River Audit Memo with each word capitalized."}
 {"hash":"b842ea31a727e3bf3adfe12db5a9dc683c016b394c0820b85b488ea24fc8cdd7","instruction":"Enter The draft needs revision. and italicize only needs revision."}
 {"hash":"b8b6c98a483e657a854bcc3276608b9d68fbd8232c9d439789c98c0a540161d9","instruction":"Convert the existing inventory text into a 3-row, 3-column table with Item, Count, and Status as the header row in word-table."}
 {"hash":"b912086f08ea67dcd2ace97d678ae9e77a1ecf60a8d34f5f64ba27d04c175ac2","instruction":"Please type \"a2 + b2\" and make both number 2 characters superscript."}
 {"hash":"b9324a64ad7012e6482774d88e336f632fa9961a6543389c25390156b96a5ce9","instruction":"Convert the existing workflow status note into a 4-row, 4-column table. Use Owner, Draft, Review, and Publish as the header row, and leave cells blank where the owner has no status for that column."}
+{"hash":"b9526513a76816f39b964049a5544dca1e88127a0a53ff22e05ae9175bd1b21a","instruction":"Convert the existing region lines into a 4-row, 3-column table with the header row Region, Quarter, and Score."}
+{"hash":"b977d67995eadc39d0ebdd3c0117adbdae365708f1544971959df84cf500b609","instruction":"Add a footer to the document and enter the required text in it."}
 {"hash":"b9d4332af78000898c4a915bc30513a9c5ce5de1aac9b3804f6e551cf55ad37c","instruction":"Enter Review draft complete check on a single line, make the whole line font size 20 and italic, then make only Review draft bold and only complete check underlined."}
 {"hash":"b9f2a7359da22d1f6bccfc92fd95bea59a8b52a94e7d09b6948747aa40743ff7","instruction":"Set the word summary to 18-point font and italicize it."}
+{"hash":"baa23c087393d8adf6fe6665e4ef4ece28d3d3f81026a62edd3b009ce02e3d5a","instruction":"Convert the existing semicolon-separated status note into a 4-row, 2-column table with each label in the left column and each value in the right column."}
 {"hash":"bbafabeeb22f096fa765ea524926516bfaca0b94d4d449fe1cde7e00f5c57b9d","instruction":"Use these lab sample codes to make a clean unique list with one code per line, keeping the first appearance order only: R18, M02, R18, K77, M02, P31, K77."}
 {"hash":"bbd6aa8af7dfb2cb52f6563e5d7034259758e0c2182dff5d5a429494d13d93f2","instruction":"Give the existing paragraph a box border."}
 {"hash":"bc29672bdf66b1dc9c6ed52a2267d85f8f19de857c4be41eb9e22315d1dd906e","instruction":"Set the full report in Calibri."}
 {"hash":"bd3dd8a61be3777accf9123eb04f9870123d29dbfeb5c3ae741477cbff27dcba","instruction":"Enter Security notice: password protection is unavailable in this fixture. in word-body"}
 {"hash":"bd4c3738c9aa7cc5d410aaf3c516be4fa0ac72c71e8192febc6aaf3992ef2d21","instruction":"Convert the existing dash-separated region lines into a 4-row, 3-column table with the header row Region, Quarter, and Score."}
 {"hash":"be2602e0691e4ed89642164026cfd7b5a010d0db9acfc299b0eca4eb2a6b2d65","instruction":"Enter Status is nearly complete and make nearly complete bold and italic."}
+{"hash":"bf1a422af69c8bce478cb669089917948df4da0122f0d088baf4dde5f991b93c","instruction":"Type Signal Ledger on a single line and make it bold."}
 {"hash":"bf34ccfe427833ae0dbf92ffcac479c61c6f05e9ab7aa1927c4347baee2e2536","instruction":"Enter reference note, archive this note, and closing note as three paragraphs, and apply strikethrough only to the entire middle paragraph."}
 {"hash":"bf409924417e9bf6218750e19d98303e1d967b41d69441082deecaae5e58f1d4","instruction":"Convert the existing field list into a 4-row, 2-column table with Field and Value as the header row, then add a footer that says Table prepared."}
+{"hash":"bf9e38f5230838d5b60e1adf76d63b9baebe7d4aa3a6c60fcd0cd2046fb26837","instruction":"Insert a blank table with 4 columns and 2 rows into the document."}
 {"hash":"c031d93a9e18871723dee9467c660dbb475a7873ec0a18ca3a544bec34acee6c","instruction":"Format the existing heading by making it bold, setting font size 20, and centering the paragraph."}
 {"hash":"c094355e4ed75d6076a914e4d61eea50aacdb2e0d4301086c149314e78b7b4e4","instruction":"Please type \"NH3\" and make only the number 3 a subscript."}
+{"hash":"c0b1ff652825b84af26926e96dc1c0919a7545ab92e2f680dcd9946247683804","instruction":"Set the line spacing of the first two paragraphs to double."}
 {"hash":"c10d3bfb44b0c39372561e078bab4673ecbf31e20e3c8760858c7d3a0c4c8947","instruction":"Add a footer that says Table prepared."}
 {"hash":"c15ccbe4bca994fd399802e238f646574ab39bc7d675e1d2779b913622f72a90","instruction":"Format the existing line in Tahoma at font size 15, underline \"ready\", and justify-align the paragraph."}
+{"hash":"c17bd40fe5d22ed2efda2d28717f89ea83775bf69a888b4a42ead77ffb922cb6","instruction":"Write CO2 + H2O = x2, with the 2 in CO2 and the 2 in H2O as subscripts, and the 2 in x2 as a superscript."}
 {"hash":"c21efde191caf1619b1df5cce04ee2c275827f470e5c3a18140a792abab704de","instruction":"Format the 2 in CO2 and the 2 in H2O as subscript, and format the 2 in x2 as superscript."}
 {"hash":"c3429d56de738b471e84e93c93d4a4446dcd109edc7372422c638c34847dd6b5","instruction":"Convert the existing field list in word-table into a 4-row, 2-column table with Field and Value as the header row, and add a footer that says Table prepared."}
+{"hash":"c354d2077fbe66ede0890732a94e3aa37954dbe69fdc749628b8782199974d66","instruction":"Type status memo and apply Verdana to the whole line."}
+{"hash":"c40bbf53c34ddb3b6a54ee1b3a603b558c06b2779ec4142e555835c0f2f3fd9b","instruction":"Write Status is nearly complete, and make nearly complete both bold and italic."}
 {"hash":"c428d0a3aa0cf8859334907780e926404bb1cb57c52983697ea5575758d2438e","instruction":"Please write \"Submit by 2026-08-14\" and underline only the date."}
 {"hash":"c45a1e4bcc5da08e2c2a2c974003f5580ba47f74992973a1a43ce33a8785add3","instruction":"Set the line spacing of the three paragraphs to 1.15, 1.5, and 2 respectively."}
+{"hash":"c53c8b2bca0823b6c18a4ca97b07451eca9e664a5951ad9eb03b6b7238ba6514","instruction":"Write Review draft complete check on a single line, set the whole line to font size 20 and italic, then make only Review draft bold and only complete check underlined."}
 {"hash":"c5ad225015370cee4faa436250c6c3fca652aadf447a4603a84726b9b7cab543","instruction":"Set only big note to font size 18 and center-align the paragraph."}
 {"hash":"c5b17185fbaca357a4d38f8fcf5ddd2a3adbfecd4fad27af0f2c0b9ec07c8f0c","instruction":"Convert the existing status grid note into a 3-row, 2-column table and fill the cells with the listed labels and values."}
 {"hash":"c5e0a1f4ab67fafd63228440351af7b99ec8728d775bf2d40e586151b43028ad","instruction":"Set the first two paragraphs to double spacing and keep the third paragraph single-spaced."}
 {"hash":"c6ea3c95721faa7fd96713920727a9cc95f20ace29ee65d012c96c03415091af","instruction":"Make moss Calibri and green, make amber orange, and center-align the paragraph."}
+{"hash":"c81859bd182ac4a0c76e5986585fbf8850d74b8c652a1e5bdced4cbb8f3b5080","instruction":"Write the three lines Owner: Mina, Stage: Review, and Flag: Active, and make only the labels before the colon bold."}
+{"hash":"c9180b6cbc098c6ca2cb3c0766d605272b2661a837dca3962f0f4f511d90db9e","instruction":"Write moss amber, with moss in green and amber in orange."}
+{"hash":"c99a2d25d65d5b357078e0a2ad6879d131b9a39d8a73f9cac933968f04551982","instruction":"Set the first paragraph to double line spacing while keeping the third paragraph single-spaced."}
+{"hash":"c9e3335e882ca0ca4cd391aaf01564fdb9c5c8bad81722aae843c8fcefe7f97c","instruction":"Fill the 3-row, 3-column table with the metrics grid: Metric, Target, Actual; Accuracy, 90, 87; and Latency, 200ms, 240ms."}
 {"hash":"ca1be2f7148e74cc898fe6446d85e5857770233c6f464ab0e362bd4453129dbf","instruction":"Format the existing formulas so the 2 in CO2 and the 2 in H2O are subscripts, while the 2 in x2 is superscript."}
 {"hash":"ca3c036e2cd593f055b88b4eae274df8f4b0409e569e732759831bb395f8b453","instruction":"Enter a2 + b2 and make both 2s superscript."}
 {"hash":"cb113c139c661a3bbbbad28405c53f0e11ea45c16940d86f478e058d83818b0a","instruction":"Convert the existing weekly phrase into a 4-row, 2-column table in word-table, using Day and Task as the header row."}
+{"hash":"cd3ebf4eb38623016f42dd1e7a9034546863564206c71f5c82dfe9f5c49bda3c","instruction":"Create the line temp report temp checklist, then replace every occurrence of temp with final."}
 {"hash":"cddf77c1c18c2dff9adc11e8d13e3e0936a6154c6b595de76bd7bffdda095885","instruction":"Format the existing entries with one blank line between each item, then use 1.5 spacing on the first entry and double spacing on the last entry."}
 {"hash":"ce3236e5368fbdd210ca6e092412d727999352bdb8774e144a24905e918ef2f1","instruction":"Enter We discussed The Silent Harbor yesterday. and italicize only The Silent Harbor."}
 {"hash":"cf0b6eca9b39a584a3e39dd49c0f932365f1f36acc7c0d23ce39233083cf3cea","instruction":"Enter shift this memo on a single line and right-align that paragraph."}
+{"hash":"cf92de839c92c49d770114b5ab99a974b3526a94e962541b36bb7007385f21d5","instruction":"Convert the existing field list into a 4-row, 2-column table with Field and Value as the header row, and add the footer text Table prepared."}
 {"hash":"cf9360e6006305dce1bbae9d14b7c1591ee352e74c0f8c0dd6fcec4188feaa67","instruction":"Underline only \"Deadline\" in the existing line, make \"confirmed\" font size 16, and right-align the paragraph."}
+{"hash":"cfb7643dc8a2f3cb996f61eeaa9f151aacd6b260cc6b97b76db43aa04954cc01","instruction":"Type boxed paragraph and add a simple box border to that paragraph on all four sides."}
+{"hash":"cfba7977dba5d4f685c6f6b468e2c89cf9ab32f14fad1212c2aacf8c2fa774e2","instruction":"Update the existing [REF] marker to [1], add the corresponding reference entry, and add a footer labeled References updated."}
 {"hash":"d1577c43dae481413062db9945fd9f36216fa4e4b733f5abe16c0afd1d760b98","instruction":"Make only \"nearly complete\" bold and italic in the existing line, then set the line in Calibri."}
 {"hash":"d1df07aae240fa56b065d8e90330ef072e3b67cebb7356a71d2242f09fa2c660","instruction":"Convert the weekly phrase into a 4-row, 2-column table with Day and Task as the header row."}
 {"hash":"d2017298824a2653b2a93006f08952587d24c196a847dd9287c10e60d2d8b7fd","instruction":"Format the 2 in CO2 and the 2 in H2O as subscript, and format the 2 in x2 as superscript."}
 {"hash":"d2dfb0d82ca7cf928085db1f7ccdc28e8fe8f39fa79accffe9ea70ba4385c1cf","instruction":"Format the 2 in x2 as superscript and keep the x in normal text."}
 {"hash":"d3d030f00527857ced4468d1fe2b34f3f141ea6727356792e372272af6b251eb","instruction":"Convert the workflow status note into a 4-row, 4-column table with Owner, Draft, Review, and Publish as the header row, leaving blank cells where an owner has no status for that column."}
 {"hash":"d4bbc6d1a2adbc05f8c3d58310d19af2f45de87c585685c8c36ce048584b0619","instruction":"Format the line with Tahoma, 15 pt font, underline ready, and justify-align the paragraph."}
+{"hash":"d58b7f6e6e1ea88dd4c9a805d2d1a454f3190b8e704f1b1dc46a524e0731537d","instruction":"Create the three specified paragraphs in the document, with the opening paragraph single-spaced, the evidence paragraph double-spaced, the decision paragraph 1.5-spaced, and all text set to font size 12."}
+{"hash":"d68ff3565ba5addc462046998317ea7226ac1fc9afd6b6f4b5eedc961ba3b085","instruction":"Type the balanced report note on a single line and justify-align that paragraph."}
 {"hash":"d6accbae74e690030e69efd0d08513bfdb7c85ce913efbc1da5e83297c8e78f6","instruction":"Italicize only \"summary\", set that same word to font size 18, and right-align the existing sentence."}
 {"hash":"d6c7fc9eb07d152ace5140dcf8aa9cc4a31641156be2639105a3d2835b0bada6","instruction":"Insert a blank table with 4 columns and 2 rows into the document."}
 {"hash":"d77aca119b2a3cdec4d44dec2330748c2e0e81a66d7e8d376517e3f537783a8b","instruction":"Convert the existing dash-separated region lines into a 4-row, 3-column table with the header row Region, Quarter, and Score."}
 {"hash":"d809340fae4f0172b0cb5a129bdbddaf6b4063cf3f67a0607655199c0594c7c8","instruction":"Format a2 + b2 in Calibri, with both 2s superscript and both letters on the baseline."}
+{"hash":"d81b0220ced373422982a5d8f4a57ff13516d847fbf849c5c95b79eb6d53cf71","instruction":"Convert the existing region lines into a 4-row, 3-column table with the header row Region, Quarter, and Score."}
 {"hash":"d861f0e421fb7d30dd53977815ad541f54706fad224e647d7b3503d64f605ec4","instruction":"Please type \"schedule ready\" and format the whole line in Tahoma with font size 15."}
 {"hash":"d89cad320753b94a3844cd1ff8851be9ef03a40abf5f66b3c7739b26dbb32c37","instruction":"Create three lines with \"phase one\", \"phase two review\", and \"phase three\". Make only the middle line italic."}
 {"hash":"d8de3d686923a39243a538d1a807db41dd42abe27347ba8a274f566f05e1fe07","instruction":"Right-align the third paragraph and justify-align the fourth paragraph."}
@@ -334,29 +467,44 @@
 {"hash":"dd5a2a5c7a4adfbc491370d32f541094b8d13d92780eeb7ffeb0b9e9107d4024","instruction":"Enter Source queue, Park, Ji. \"Harbor Sampling Log.\" Field Archive Review, 2021., Nolan, Avery. \"Bridge Sensor Memo.\" Urban Systems Notes, 2022., Add the latest calibration note [1], and [1] Rao, Lina. \"Calibration Trace.\" Applied Sensor Letters, 2025. in the word body."}
 {"hash":"de5ad5730ef02f753435fd1a04d15e4dca50eefc9f68914ce0c570b5564993b1","instruction":"Convert the workflow status note into a 4-row, 4-column table with Owner, Draft, Review, and Publish as the header row, leaving blank cells where an owner has no status."}
 {"hash":"de978a283b21941e7e603be1e8b53dd414ab48320386a1bd796f3ae4b9594025","instruction":"Convert the existing field list into a 4-row, 2-column table with Field and Value as the header row, then add a footer that says Table prepared."}
+{"hash":"df3b8888716d7d4ecfa318b9e23148a5a002f40fbd084365301f4bb30ba9f370","instruction":"Type the boxed paragraph and add a simple box border on all four sides."}
+{"hash":"df8e9c4d886e6375ef25637aeda4d8b7f44d51a29ffe41847e51045983463943","instruction":"Write CO2 + H2O = x2, making the 2 in CO2 and the 2 in H2O subscript, and the 2 in x2 superscript."}
 {"hash":"dfa288347c1932586e74742b2ab247b76a9f0f548af5a2adaee9d13795aeaedb","instruction":"Deduplicate the existing lab sample codes into first-appearance order, then right-align every resulting code line."}
+{"hash":"e05138cdeb219c58f59324dd226bd06aabdbfcc18de79f7489fc541ba014b0d3","instruction":"Type Signal Ledger on a single line and make it bold."}
 {"hash":"e08ce5867d866c3b655a83214980de89f063924383d6cc88815b4298035793f7","instruction":"Convert the repeated code list in word-table into a unique 4-row, 2-column table with Code and Location as the header row."}
+{"hash":"e0f59bf9061d9f50be6fd2bfe67b8fd49834dc840b752df7e83d5d6b38b70f61","instruction":"Create three paragraphs in this order: alpha note, beta note, and gamma note, and set their line spacing to 1.15, 1.5, and 2 respectively."}
 {"hash":"e140620463764ac573d2cc74be70a4438371d8943f82106ce6f0b92df1bb2283","instruction":"Write the sentence \"please review the green section\" and make only the word \"green\" green."}
 {"hash":"e16c5c99e18b040baa95dc8ec5309d09fb88325778cd28535f0d0dd502e6d56f","instruction":"Write the sentence The draft needs revision. and italicize only needs revision."}
 {"hash":"e22b3d6b60f22d68232b510da96b395b867318eb49b5be1998c087b8a4b62438","instruction":"Center-align only the second paragraph, keep the first paragraph left-aligned, and underline \"focus line\"."}
 {"hash":"e29059867042a72feded0cd8fe6df21c9c8dedec9d5b410793f2fa01acfad55c","instruction":"Write the sentence \"check the summary now\". Make only the word \"summary\" italic and change the font size to 16."}
+{"hash":"e2b2bd0f2a0820ca87575b8837f9729ea5c20c11580be41860dfd2f7d72d9538","instruction":"Convert the comma-separated contact list into a 3-row, 3-column table with the first row as the headers Name, Role, and Email."}
 {"hash":"e31b3c80930784bdb8d2479cc3a009917fa5dc4f0b3a140bdd0782066c147881","instruction":"Convert the existing semicolon-separated status note into a 4-row, 2-column table in word-table, with each label in the left column and each value in the right column."}
+{"hash":"e42173283d1642d5b7f93ec6b608b52e0462b30a64e8e78339c783c6b7aa2e1c","instruction":"Convert the existing field list into a 4-row, 2-column table with Field and Value as the header row, then add a footer that says Table prepared."}
 {"hash":"e45a4ae1ac4e8aa653c1d6bd59f65c0bb15007fa5a6c5a0fd45812d5bddc9ffb","instruction":"Format the existing formula in Calibri and make both 2 digits superscript while leaving the letters on the baseline."}
+{"hash":"e4691a0b4cceaff5dcc181a80481e96806a8e6cb8d3d90dbe38ed5a4990a12a5","instruction":"Insert a blank table with 3 columns and 2 rows into the document."}
 {"hash":"e4bef4133284458a8507bb3a03aa864b71c45d8cc95c3d1789e48f36ec543799","instruction":"Write the sentence \"check the summary now\". Make only the word \"summary\" italic and change the font size to 16."}
+{"hash":"e4d3042085e0fbb87857e24fa235f8906173847e90a6cb51ee53cbe555e139bb","instruction":"Fill the existing 3-row, 3-column table with the metrics grid: Metric, Target, Actual in the first row; Accuracy, 90, 87 in the second row; and Latency, 200ms, 240ms in the third row."}
+{"hash":"e4eec47451448748773214fd6cecc56d7528f618c9bc59a728b33e54d5cc8eb6","instruction":"Write Deadline confirmed and underline only Deadline."}
 {"hash":"e511324c63bb414f570afd00c6dcc7635cb22c6c7d5fa70e38219334494370b8","instruction":"Make “Field Notes” bold and underlined, and leave “draft copy” unformatted."}
+{"hash":"e513b2352d113635e41351037fd9a1a8de82daf03a8e27ef0e4e9312e1c2ff4e","instruction":"Create the two paragraphs compact note and spaced note, then set only the second paragraph to double line spacing."}
 {"hash":"e5363f445d9f5271098fb9f3c170e7a1b775c108d743e5b27f21c81bcfad3c16","instruction":"Enter ALERT update required, make ALERT bold, and underline required."}
 {"hash":"e5599b399491f9fb01b0a2368e1af35ebc9e5c05b56a3c78522155cef36e1220","instruction":"Convert the existing weekly phrase into a 4-row, 2-column table with Day and Task as the header row."}
 {"hash":"e6141f0711c369953524010619c55d82dc57e4ce673cf121c4f941063529fb89","instruction":"Create two paragraphs: \"plain note remains left\" and \"focus line moves inward\". Then center-align only the second paragraph."}
+{"hash":"e66e15962fb718850c8a5df7c73c2f5b8b4c7968f153af3c64a497d8d2606e5d","instruction":"Format the line in Calibri, make moss green, and make amber orange."}
 {"hash":"e7bc74b022bfa92d7deef6a7590ce4ee190538910a556de678ff1aa5e3944d4d","instruction":"Make Design memo bold, underline final action, and format the 2 in phase2 as superscript."}
 {"hash":"e7e7209c16063b4f9071fd7591f236177d55622bde9c0f3a89b65fbf9cb807a9","instruction":"Convert the semicolon-separated status note into a 4-row, 2-column table in word-table, with each label in the left column and each value in the right column."}
 {"hash":"e84ae3f2f9b53bee3ae87b9582c286e43980c479044d8898fff772aefbbc1d6b","instruction":"Write the sentence \"The draft needs revision.\" and italicize only the words \"needs revision\"."}
 {"hash":"e8771e81d313f9bd3844a236e61ed0965c4d29f348ddbfc83545d7f4a96f6414","instruction":"Make Review draft bold and keep it not underlined, and make complete check underlined and keep it not bold."}
 {"hash":"e8b6ad93faab5577b5048364001a9c5f7ec73a31379ba94370d34f1b2d461d21","instruction":"Create three paragraphs exactly as follows: \"Opening frame: scope and context\", \"Evidence block: signals and details\", and \"Decision note: action and owner\". Apply single spacing to the opening paragraph, double spacing to the evidence paragraph, and 1.5 spacing to the decision paragraph. Make sure all document text is font size 12 and no other font size is used."}
+{"hash":"e9600d4926842f92da13d0a93ffffd08bac3ad79a9829a98ba7eb74737f9adc7","instruction":"Convert the phrase in the document to title case, set the paragraph to Heading 2, and center-align it."}
 {"hash":"ea7f77677a35de257f11a58f23f63672dcd4751c22a25b6334de6757179762b8","instruction":"Enter Opening frame: scope and context, Evidence block: signals and details, and Decision note: action and owner in the body text."}
 {"hash":"ea8e70ac75f4b185f99c1348fdbfbc111ba8baadecc7dd07451e09834dfb6b3a","instruction":"Enter alpha note, beta note, and gamma note as three paragraphs in the word-body."}
 {"hash":"eaaf0635d04d86d1a1788afaa8859c49c1f66a4f61a1380ba70685596a2d60d8","instruction":"Make “Weekly Plan” bold and “editing in progress” italic."}
+{"hash":"eac715e36b1b409bee18ec0724e0994619f3901adb5a4a2f8c79bba11174c5a9","instruction":"Type NH3 and format only the 3 as subscript."}
 {"hash":"eadbd1c424ceb1e484ecdc6124e93b5e650a18ee9103575a194074784235541d","instruction":"Give the existing paragraph a box border, set it to Heading 2, and center-align it."}
+{"hash":"eb4fe6be1ed6ebfdef6d4400a87ec99bf92e33570302febb779b4fe0fbb9acaa","instruction":"Type priority marker and set the whole line to font size 18."}
 {"hash":"ebe5a789e8728dfc5db2689ee68c7943f6441cc34b91b7378281e11fe4a1367a","instruction":"Enter Deadline confirmed and underline only the word Deadline."}
+{"hash":"ec959f994bbe87bd70a5dbd5b248838fed23f8e24d8895fa725884ab2e78aa47","instruction":"Create the three lines with phase one, phase two review, and phase three, and make only the middle line italic."}
 {"hash":"ecb0bfd93ed08cb96dd5460ce936f1ca9bfdf0914b8ae447caf4b8a14d8a6897","instruction":"Strike through only the middle paragraph in the existing three-paragraph note and set the full note in Calibri."}
 {"hash":"ecd43466cd64804f28d5a8dc2aa93d7290004d48ef9c23f3ecdc924edc5d0939","instruction":"Please type \"balanced report note\" on a single line and justify-align that paragraph."}
 {"hash":"ed1a014950d45605f780dc4f06d608d9af97e74c2d7605304b850f14deb2dd10","instruction":"Convert the existing inventory CSV text into a 3-row, 3-column table with Item, Count, and Status as the header row."}
@@ -364,6 +512,7 @@
 {"hash":"ed7622a133668657589000e6ccec36614ec017dd0451f4bf05b66f0172878f3b","instruction":"Enter carry forward on the first line and retire this entry on the second line, with strikethrough only on the second line."}
 {"hash":"ed85d005aec92439c87918ce5a23cc12255f6b29cf2818072d5f6ac8536b91fc","instruction":"Fill the 3x3 table with Metric, Target, Actual in the first row; Accuracy, 90, 87 in the second row; and Latency, 200ms, 240ms in the third row."}
 {"hash":"ee472836e61e313c4762292d1b4b82a8ad75009547ce84fedad03fbd9c734dbb","instruction":"Set the second and third paragraphs to double and 1.5 line spacing, respectively."}
+{"hash":"eeef0a4e52d1671ddb1a62cad8394580d035fcc84555d298a5e45fce6f88ed28","instruction":"Reorder the lines alphabetically so the text appears as alpha, bravo, charlie, delta."}
 {"hash":"ef64b2b9aaf0fd541f97a1e9ad0ca5d6ab366fb1fccb70c539cbe52a5c257db0","instruction":"Split the existing page note into two paragraphs and add the footer text Page split prepared."}
 {"hash":"ef8be36b100ff7bb7aa3e49be7c33bce319d00f4eb77673b8363134d1c1ed6c0","instruction":"Create two lines with \"carry forward\" on the first line and \"retire this entry\" on the second line. Apply strikethrough only to the second line."}
 {"hash":"eff51eee34e01fd327dae86822bc7d3060e2e46e232453d30896a39b732c43b1","instruction":"Convert the existing repeated code list into a unique 4-row, 2-column table. Keep only the first appearance of each code and use Code and Location as the header row."}
@@ -373,19 +522,24 @@
 {"hash":"f0998855fcb7f2a0ed43c4c1d443fadc6a851090a3aaaf3e68f537dc03d43a86","instruction":"Write \"small note big note plain note\" on one line. Then change only \"big note\" to font size 18."}
 {"hash":"f160e7b3c2a687f4d27e21f900c3732a3f1f6003b8f20f10fd43d6f4e87afda3","instruction":"Convert the existing comma-separated score list into a 3-row, 2-column table with names and scores."}
 {"hash":"f2841172a8bf07e0b0b50c663ad6afe70166ebba3bb51e7187a6cf716af0c4a4","instruction":"Convert the semicolon-separated status note in word-body into a 4-row, 2-column table in word-table, with each label in the left column and each value in the right column."}
+{"hash":"f300ed12545b3cd97cef30012dedb719e697ce8e22330b3a4456a3e058b60ea2","instruction":"Write the sentence check the summary now, with only summary italicized and the font size set to 16."}
 {"hash":"f32e91c10525c4c1519a6615277d59a18bd5c33af6d3cb7df531d22985bfd4cb","instruction":"Set only the second paragraph to double spacing and right-align that second paragraph."}
 {"hash":"f33486ce532e1305be1e0643d8a5dae4427cca76a1ed9c2c8660214496049920","instruction":"Enter compact note and spaced note in the word body, then set only the second paragraph to double line spacing."}
 {"hash":"f38a1b6d82e174a39bb4c8e06d8326818fb4d4ca60a5d0784cd0b1c23703de22","instruction":"Convert the existing semicolon-separated status note into a 4-row, 2-column table with each label in the left column and each value in the right column."}
 {"hash":"f3a364b5d7491d891e03b377567c5902911e6f6925e1326fca6537cbbb89e87f","instruction":"Convert the semicolon-separated status note into a 4-row, 2-column table in word-table with each label in the left column and each value in the right column."}
 {"hash":"f3aa8a0e76a194f8db2e8be1a47e2d99ea45ffa62d85d98f1658ae6788b5beaf","instruction":"Convert the existing contact list into a 3-row, 3-column table with Name, Role, and Email as the header row."}
+{"hash":"f42ac89649bcaf2a83a34ac0226db8f5e0000e0fa3da256163c89a3afcd02968","instruction":"Create the three lines phase one, phase two review, and phase three, and make only the middle line italic."}
 {"hash":"f50fe8020f022f5c356ec18d93a4f2653d871c3d09354ff2dc10c3a2746223e9","instruction":"Type \"Internal Memo\" on a single line and set that line to Heading 2 style."}
 {"hash":"f52f738f142e9cacfa839a379fd09448dfb68f8d803a8318a492f0f626f5213e","instruction":"Create two paragraphs: \"compact note\" and \"spaced note\". Then set only the second paragraph to double line spacing."}
 {"hash":"f56a31abbb7759b4d49fc49df121e1c79e270f59d2ecec81b8a8b5706873d2bf","instruction":"Write the sentence \"check the summary now\". Make only the word \"summary\" italic and change the font size to 16."}
 {"hash":"f64ba8622ff2a79bf2e9f79869ad1008f079aaa78d443c921efdad84fb2d1dc0","instruction":"Set the font size to 12 throughout the document and change the second and third paragraphs to double and 1.5 line spacing."}
 {"hash":"f67bd07ea9a1c2ca817d171bac105a579798f1d99754e4561dc5d0d9dcf689ed","instruction":"Convert the existing comma-separated contact list into a 3-row, 3-column table. Use the first row as the headers Name, Role, and Email."}
+{"hash":"f71171b4106302dc531fc8ff35aa4cdc53bbaab4a03391ff44d4e0dd1ff43e72","instruction":"Format the formula a2 + b2 in Calibri, with both 2s superscript and the letters a and b left on the baseline."}
 {"hash":"f7155e6f5099c063c97806227ed49e79d88d71b7e3ec31c18067eacbd439b83b","instruction":"Enter plain note remains left and focus line moves inward as two paragraphs in the body, then center-align only the second paragraph."}
 {"hash":"f7311c3df2084c3467a5f1a93e4155e631eabc6b7e37f53f3ab94ac6d874afbf","instruction":"Convert the comma-separated contact list in word-body into a 3-row, 3-column table with Name, Role, and Email as the first row."}
 {"hash":"f7ebd44b3bc5781766c492749d14a2c22f24ecabdba24c31b8e943f0d00e2d1f","instruction":"Convert the existing dash-separated region lines into a 4-row, 3-column table with the headers Region, Quarter, and Score."}
+{"hash":"f82704967cb056a1f53d2136d608b8b0d1458152567526e34d3034c8341ee870","instruction":"Convert the contact list into a 3-row, 3-column table with Name, Role, and Email as the first row headers."}
+{"hash":"f890ea2e6e09ac74b82b68d7325a252879c4821dcb773f27aa52e3b1c57e3ea1","instruction":"Add the footer text Archive note."}
 {"hash":"f8de1063940641fea0d839cee2134e680ba6424d306430fe46ef3e757d54fb60","instruction":"Update the text in the word-body to replace [REF] with [1], add the reference entry, and add the footer labeled References updated."}
 {"hash":"f900b5ab33822cad7b160226ce18ce1fa18bba98469b7faf4f48cb3519b10588","instruction":"Underline only Deadline in the existing line."}
 {"hash":"f93b0b35e0dade7b3efee6faba4127c31c78f934094afe83923661650626431f","instruction":"Convert the repeated code list in the table into a unique 4-row, 2-column table with Code and Location as the header row."}
@@ -395,9 +549,11 @@
 {"hash":"faebc4d64ea735df98b344beae86aebe6099aa6642358d36c05a04831e482c9d","instruction":"Enter CO2 + H2O = x2 and format the 2 in CO2 and the 2 in H2O as subscript, and the 2 in x2 as superscript."}
 {"hash":"fb2285569a1ab50d16e9d412f081e6734984e8e614592472d674c02757742b45","instruction":"Create the comma-separated text \"redwood, cedar, maple\". Then split it into three separate lines without commas."}
 {"hash":"fb55ca50a454c283db463cd43bd788885e194ee214d6b610c3adca6dfff4af69","instruction":"Enter plain note remains left and focus line moves inward as two paragraphs, then center-align only the second paragraph."}
+{"hash":"fb97db477937f61eb8ab6fc2d019026b51d9c7ccbe7ff01a2d4dde2f12ba2b70","instruction":"Write CO2 + H2O = x2, making the 2 in CO2 and the 2 in H2O subscript and the 2 in x2 superscript."}
 {"hash":"fbd75c9cf6e5f83a8f4b4d8e9deba90515d731597c5266c6c1b182c80ffe1c6c","instruction":"Convert the existing comma-separated contact list into a 3-row, 3-column table. Use the first row as the headers Name, Role, and Email."}
 {"hash":"fbeb307dcb12e551b07e585e6f4f02638aca6136db598f70d687da4256b88dea","instruction":"Convert the existing inventory text into a 3-row, 3-column table with Item, Count, and Status as the header row."}
 {"hash":"fc3f231b5b12bc1d97a2545cd8767693d9204d555c57ad9a161433c5becb2916","instruction":"Type priority marker and set the whole line to font size 18."}
 {"hash":"fc602443a97d192ffa3ada126fb98c83c346c6d886f4ea1bfded57481c98b73e","instruction":"Convert the existing weekly phrase into a 4-row, 2-column table. Use Day and Task as the header row."}
 {"hash":"fca15e4b2ab870922803eefab24eab2ecde104ca197de76ff2922ce36c4ef2d4","instruction":"Make Field Notes bold and underlined, leave draft copy plain, and center the first paragraph."}
 {"hash":"fe935bc2969fe5f5442196f28543edd054961ec3eb3cac64437d5f8bd7f107c3","instruction":"Fill the 3×3 table with Metric, Target, Actual in the first row; Accuracy, 90, 87 in the second row; and Latency, 200ms, 240ms in the third row."}
+{"hash":"ff3ed7d18b502a3fc89d28e72a69fc6ecf9575f51df7db83a7b1e5cd1c152a05","instruction":"Create a unique 4-row, 2-column table from the code list, keeping only the first occurrence of each code and using Code and Location as the header row."}

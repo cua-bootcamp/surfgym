@@ -5,39 +5,44 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "Submit by 2026-08-14",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "Submit by 2026-08-14"
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "2026-08-14",
-          "underline"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "2026-08-14"
+          ]
         ],
-        "value": "true"
+        "path": [
+          "underline"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "Submit by",
-          "underline"
+        "value": false,
+        "query": [
+          [
+            "text",
+            "Submit by"
+          ]
         ],
-        "value": "false"
+        "path": [
+          "underline"
+        ]
       }
     ]
   ]

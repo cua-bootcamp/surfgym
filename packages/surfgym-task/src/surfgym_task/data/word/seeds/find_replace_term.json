@@ -5,13 +5,16 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "final report final checklist",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "final report final checklist"
+        "path": [
+          "text"
+        ]
       }
     ]
   ]

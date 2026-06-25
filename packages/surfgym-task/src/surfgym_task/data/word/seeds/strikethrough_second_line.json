@@ -5,39 +5,44 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "carry forward\nretire this entry",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "carry forward\nretire this entry"
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "retire this entry",
-          "strikethrough"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "retire this entry"
+          ]
         ],
-        "value": "true"
+        "path": [
+          "strikethrough"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "carry forward",
-          "strikethrough"
+        "value": false,
+        "query": [
+          [
+            "text",
+            "carry forward"
+          ]
         ],
-        "value": "false"
+        "path": [
+          "strikethrough"
+        ]
       }
     ]
   ]

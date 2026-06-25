@@ -5,51 +5,57 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "phase one\nphase two review\nphase three",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "phase one\nphase two review\nphase three"
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "phase two review",
-          "italic"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "phase two review"
+          ]
         ],
-        "value": "true"
+        "path": [
+          "italic"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "phase one",
-          "italic"
+        "value": false,
+        "query": [
+          [
+            "text",
+            "phase one"
+          ]
         ],
-        "value": "false"
+        "path": [
+          "italic"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "phase three",
-          "italic"
+        "value": false,
+        "query": [
+          [
+            "text",
+            "phase three"
+          ]
         ],
-        "value": "false"
+        "path": [
+          "italic"
+        ]
       }
     ]
   ]

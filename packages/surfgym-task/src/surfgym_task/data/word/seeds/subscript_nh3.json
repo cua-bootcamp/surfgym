@@ -5,37 +5,57 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": ["text"],
-        "value": "NH3"
+        "value": "NH3",
+        "query": [
+          [
+            "body",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "3", "verticalAlign"],
-        "value": "subscript"
+        "value": "subscript",
+        "query": [
+          [
+            "text",
+            "3"
+          ]
+        ],
+        "path": [
+          "verticalAlign"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "N", "verticalAlign"],
-        "value": "normal"
+        "value": "normal",
+        "query": [
+          [
+            "text",
+            "N"
+          ]
+        ],
+        "path": [
+          "verticalAlign"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": ["targets", "H", "verticalAlign"],
-        "value": "normal"
+        "value": "normal",
+        "query": [
+          [
+            "text",
+            "H"
+          ]
+        ],
+        "path": [
+          "verticalAlign"
+        ]
       }
     ]
   ]

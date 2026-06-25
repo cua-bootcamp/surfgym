@@ -5,39 +5,44 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "Status is nearly complete",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "Status is nearly complete"
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "nearly complete",
-          "bold"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "nearly complete"
+          ]
         ],
-        "value": "true"
+        "path": [
+          "bold"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "nearly complete",
-          "italic"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "nearly complete"
+          ]
         ],
-        "value": "true"
+        "path": [
+          "italic"
+        ]
       }
     ]
   ]

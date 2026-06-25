@@ -5,51 +5,57 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "We discussed The Silent Harbor yesterday.",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "We discussed The Silent Harbor yesterday."
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "The Silent Harbor",
-          "italic"
+        "value": true,
+        "query": [
+          [
+            "text",
+            "The Silent Harbor"
+          ]
         ],
-        "value": "true"
+        "path": [
+          "italic"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "We discussed",
-          "italic"
+        "value": false,
+        "query": [
+          [
+            "text",
+            "We discussed"
+          ]
         ],
-        "value": "false"
+        "path": [
+          "italic"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "yesterday",
-          "italic"
+        "value": false,
+        "query": [
+          [
+            "text",
+            "yesterday"
+          ]
         ],
-        "value": "false"
+        "path": [
+          "italic"
+        ]
       }
     ]
   ]

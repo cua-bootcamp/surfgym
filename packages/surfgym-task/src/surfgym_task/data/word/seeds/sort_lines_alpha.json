@@ -5,13 +5,16 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "alpha\nbravo\ncharlie\ndelta",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "alpha\nbravo\ncharlie\ndelta"
+        "path": [
+          "text"
+        ]
       }
     ]
   ]

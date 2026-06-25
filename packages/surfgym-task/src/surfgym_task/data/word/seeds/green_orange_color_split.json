@@ -5,39 +5,44 @@
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-body",
-        "property": [
-          "text"
+        "value": "moss amber",
+        "query": [
+          [
+            "body",
+            null
+          ]
         ],
-        "value": "moss amber"
+        "path": [
+          "text"
+        ]
       }
     ],
     [
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "moss",
-          "color"
+        "value": "green",
+        "query": [
+          [
+            "text",
+            "moss"
+          ]
         ],
-        "value": "green"
+        "path": [
+          "color"
+        ]
       },
       {
         "match": "exact",
-        "applyf": "applyWordMeta",
-        "evalf": "getWordMeta",
-        "param": "word-text-style",
-        "property": [
-          "targets",
-          "amber",
-          "color"
+        "value": "orange",
+        "query": [
+          [
+            "text",
+            "amber"
+          ]
         ],
-        "value": "orange"
+        "path": [
+          "color"
+        ]
       }
     ]
   ]
