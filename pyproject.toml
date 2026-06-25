@@ -28,8 +28,6 @@ surfgym-fixture = { workspace = true }
 
 [dependency-groups]
 dev = [
-    "uv",
-    "pip",
-    "ruff",
-    "pyright"
+    "pyright>=1.1.411",
+    "ruff>=0.15.19",
 ]

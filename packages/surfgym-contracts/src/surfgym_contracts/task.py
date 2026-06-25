@@ -47,12 +47,9 @@ class _WebsiteDependent(FrozenBaseModel):
     website_id: str = "_"
 
 
-class Website(_WebsiteDependent):
-    url: str
-
-
 ScalarValue: TypeAlias = Union[str, int, float, bool]
 Value: TypeAlias = Union[ScalarValue, list[str]]
+Observation: TypeAlias = Optional[Value]
 
 
 class RuleCore(_WebsiteDependent):
@@ -134,34 +131,11 @@ class ChromiumRule(RuleCore):
         return self
 
 
-def fill_rule_mode(value: object) -> object:
-    if not isinstance(value, dict) or "mode" in value:
-        return value  # pyright: ignore[reportUnknownVariableType]
-
-    if "script" in value:
-        return {**value, "mode": "console"}  # pyright: ignore[reportUnknownVariableType]
-    if "file" in value and "path" in value:
-        return {**value, "mode": "chromium"}  # pyright: ignore[reportUnknownVariableType]
-    if value.get("type") in {
-        "active_url",
-        "open_tabs",
-        "bookmark_bar_folder",
-        "bookmark_bar_url",
-        "history_keyword_absent",
-        "cookie_domain_absent",
-    }:
-        return {**value, "mode": "chromium"}  # pyright: ignore[reportUnknownVariableType]
-    return {**value, "mode": "dom"}  # pyright: ignore[reportUnknownVariableType]
-
-
-Rule = Annotated[
-    Union[DomRule, ConsoleRule, ChromiumRule],
-    Field(discriminator="mode"),
-    BeforeValidator(fill_rule_mode),
 Rule = Annotated[
     Union[
         Annotated[DomRule, Tag("dom")],
         Annotated[ConsoleRule, Tag("console")],
+        Annotated[ChromiumRule, Tag("chromium")],
     ],
     Discriminator(infer_rule_mode),
 ]

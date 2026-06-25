@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from io import BytesIO
 from queue import SimpleQueue
 from threading import Lock, Thread
-from typing import Callable, TypeVar
+from typing import Callable, Literal, TypeVar
 
 from PIL import Image, ImageDraw
 from surfgym_contracts.command import Command

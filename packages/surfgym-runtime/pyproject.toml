@@ -3,17 +3,20 @@ name = "surfgym-runtime"
 version = "0.1.0"
 requires-python = ">=3.10"
 dependencies = [
-  "surfgym-contracts",
-  "rich>=15.0.0",
-  "json5>=0.14.0",
-  "uvicorn>=0.46.0",
-  "requests>=2.33.1",
-  "fastapi>=0.136.1",
-  "pillow>=12.2.0",
-  "playwright>=1.59.0",
-  "httpx>=0.28.1"
+    "fastapi>=0.138.0",
+    "httpx>=0.28.1",
+    "json5>=0.15.0",
+    "pillow>=12.2.0",
+    "playwright>=1.60.0",
+    "requests>=2.34.2",
+    "rich>=15.0.0",
+    "surfgym-contracts",
+    "uvicorn>=0.49.0",
 ]
 
 [build-system]
 requires = ["uv_build>=0.11.15,<0.12"]
 build-backend = "uv_build"
+
+[tool.uv.sources]
+surfgym-contracts = { workspace = true }

@@ -6,10 +6,9 @@ cd surfgym
 conda create -n surfgym python=3.10
 conda activate surfgym
 
-pip install uv
-uv sync --active --all-packages
+pip install -U pip uv
+UV_CACHE_DIR=.uv-cache VIRTUAL_ENV="$CONDA_PREFIX" uv sync --active --all-packages --inexact
 
-uv run playwright install chromium
 playwright install chromium
 
 # Linux only
