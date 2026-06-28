@@ -1,7 +1,6 @@
 from typing import Annotated, Literal, TypeAlias, Union
 
 from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
-
 from surfgym_contracts.computer13 import Computer13
 
 

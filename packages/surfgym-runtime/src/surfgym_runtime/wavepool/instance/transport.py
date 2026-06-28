@@ -4,7 +4,7 @@ from typing import Union
 
 from playwright.async_api import Page
 from surfgym_contracts.command import MouseButtonType, PlaywrightKey
-from surfgym_contracts.task import ConsoleRule, DomRule
+from surfgym_contracts.task import ConsoleCriteria, DomCriteria
 
 from surfgym_runtime.wavepool.instance.error import (
     UnexpectedError,
@@ -155,7 +155,7 @@ class PlaywrightController:
     #     )
 
     async def get_console_observation(
-        self, page: Page, console_rules: list[ConsoleRule]
+        self, page: Page, console_rules: list[ConsoleCriteria]
     ) -> list[object]:
         await self._ensure_page_ready(page)
 
@@ -168,7 +168,7 @@ class PlaywrightController:
 
         return observations
 
-    async def get_dom_observation(self, page: Page, dom_rules: list[DomRule]) -> list[object]:
+    async def get_dom_observation(self, page: Page, dom_rules: list[DomCriteria]) -> list[object]:
         await self._ensure_page_ready(page)
 
         try:

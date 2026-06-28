@@ -1,0 +1,68 @@
+{
+  "instruction": "On slide 15, standardize all six sample cards to Liberation Sans Narrow and change their font color to black.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "query": [["slide", 15], ["text", {"role": "sample-card", "index": 0}]],
+        "path": ["style", "fontFamily"],
+        "value": "Liberation Sans Narrow"
+      },
+      {
+        "query": [["slide", 15], ["text", {"role": "sample-card", "index": 0}]],
+        "path": ["style", "color"],
+        "value": "black"
+      },
+      {
+        "query": [["slide", 15], ["text", {"role": "sample-card", "index": 1}]],
+        "path": ["style", "fontFamily"],
+        "value": "Liberation Sans Narrow"
+      },
+      {
+        "query": [["slide", 15], ["text", {"role": "sample-card", "index": 1}]],
+        "path": ["style", "color"],
+        "value": "black"
+      },
+      {
+        "query": [["slide", 15], ["text", {"role": "sample-card", "index": 2}]],
+        "path": ["style", "fontFamily"],
+        "value": "Liberation Sans Narrow"
+      },
+      {
+        "query": [["slide", 15], ["text", {"role": "sample-card", "index": 2}]],
+        "path": ["style", "color"],
+        "value": "black"
+      },
+      {
+        "query": [["slide", 15], ["text", {"role": "sample-card", "index": 3}]],
+        "path": ["style", "fontFamily"],
+        "value": "Liberation Sans Narrow"
+      },
+      {
+        "query": [["slide", 15], ["text", {"role": "sample-card", "index": 3}]],
+        "path": ["style", "color"],
+        "value": "black"
+      },
+      {
+        "query": [["slide", 15], ["text", {"role": "sample-card", "index": 4}]],
+        "path": ["style", "fontFamily"],
+        "value": "Liberation Sans Narrow"
+      },
+      {
+        "query": [["slide", 15], ["text", {"role": "sample-card", "index": 4}]],
+        "path": ["style", "color"],
+        "value": "black"
+      },
+      {
+        "query": [["slide", 15], ["text", {"role": "sample-card", "index": 5}]],
+        "path": ["style", "fontFamily"],
+        "value": "Liberation Sans Narrow"
+      },
+      {
+        "query": [["slide", 15], ["text", {"role": "sample-card", "index": 5}]],
+        "path": ["style", "color"],
+        "value": "black"
+      }
+    ]
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "instruction": "On slide 15, make only the cards containing \"Times New Roman\" and \"Microsoft JhengHei\" bold.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "query": [["slide", 15], ["text", {"role": "sample-card", "contains": "Times New Roman"}]],
+        "path": ["style", "bold"],
+        "value": true
+      },
+      {
+        "query": [["slide", 15], ["text", {"role": "sample-card", "contains": "Microsoft JhengHei"}]],
+        "path": ["style", "bold"],
+        "value": true
+      }
+    ]
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "instruction": "On slide 13, make the bottom note beginning with \"Use this slide for\" italic and change its font color to red.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "query": [["slide", 13], ["text", {"role": "bottom-note", "startsWith": "Use this slide for"}]],
+        "path": ["style", "italic"],
+        "value": true
+      },
+      {
+        "query": [["slide", 13], ["text", {"role": "bottom-note", "startsWith": "Use this slide for"}]],
+        "path": ["style", "color"],
+        "value": "red"
+      }
+    ]
+  ]
+}

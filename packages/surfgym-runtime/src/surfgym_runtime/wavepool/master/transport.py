@@ -3,7 +3,7 @@ from typing import Any, TypeVar
 import httpx
 from fastapi import status
 from pydantic import BaseModel, ValidationError
-from surfgym_contracts.protocol.gateway_to_upstream import AllocateRequest
+from surfgym_contracts.protocol.gateway_to_upstream import AllocateRequest, ReleaseRequest
 from surfgym_contracts.protocol.upstream_to_gateway import (
     ErrorResponse,
     GetInstanceResponse,
@@ -70,13 +70,16 @@ class InstanceClient:
         )
         return _handle_response(response, GetInstanceResponse, "allocate", port).instance_id
 
-    async def release(self, instance_id: str, port: int) -> ReleaseResponse:
+    async def release(
+        self, instance_id: str, port: int, request: ReleaseRequest
+    ) -> ReleaseResponse:
         response = await _post(
             self.client,
             f"{self.base_url(port)}/reset",
             operation="release",
             port=port,
             params={"instance_id": instance_id},
+            json=request.model_dump(mode="json"),
             timeout=self.timeouts.release - self.timeouts.layer_gap,
         )
         return _handle_response(response, ReleaseResponse, "release", port)

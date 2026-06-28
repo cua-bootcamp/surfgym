@@ -1,0 +1,28 @@
+{
+  "instruction": "On slide 6, underline both section headings, \"Quote bank\" and \"Paraphrase bank,\" and change their font color to black.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "query": [["slide", 6], ["text", "Quote bank"]],
+        "path": ["style", "underline"],
+        "value": true
+      },
+      {
+        "query": [["slide", 6], ["text", "Quote bank"]],
+        "path": ["style", "color"],
+        "value": "black"
+      },
+      {
+        "query": [["slide", 6], ["text", "Paraphrase bank"]],
+        "path": ["style", "underline"],
+        "value": true
+      },
+      {
+        "query": [["slide", 6], ["text", "Paraphrase bank"]],
+        "path": ["style", "color"],
+        "value": "black"
+      }
+    ]
+  ]
+}

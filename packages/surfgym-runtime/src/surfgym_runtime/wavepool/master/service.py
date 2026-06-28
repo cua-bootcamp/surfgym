@@ -1,6 +1,6 @@
 import asyncio
 
-from surfgym_contracts.protocol.gateway_to_upstream import AllocateRequest
+from surfgym_contracts.protocol.gateway_to_upstream import AllocateRequest, ReleaseRequest
 from surfgym_contracts.protocol.upstream_to_gateway import AllocateResponse
 
 from surfgym_runtime.support import WavepoolConfig, master_logger
@@ -154,9 +154,9 @@ class MasterService:
             await self.registry.mark_broken(port)
             raise
 
-    async def release(self, instance_id: str, port: int):
+    async def release(self, instance_id: str, port: int, request: ReleaseRequest):
         try:
-            response = await self.client.release(instance_id, port)
+            response = await self.client.release(instance_id, port, request)
             return response
         except MasterError as exc:
             if _should_mark_port_broken(exc):

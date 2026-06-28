@@ -104,7 +104,7 @@ def main() -> None:
                 [
                     ConsoleAction(
                         action_type="CONSOLE",
-                        actions=task.transition,
+                        hooks=task.transition,
                     ).model_dump(mode="json")
                 ]
             ],

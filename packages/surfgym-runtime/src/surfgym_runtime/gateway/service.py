@@ -8,8 +8,8 @@ from threading import Lock, Thread
 from typing import Callable, Literal, TypeVar
 
 from PIL import Image, ImageDraw
-from surfgym_contracts.command import Command
-from surfgym_contracts.computer13 import TerminalAction
+from surfgym_contracts.command import Command, ReferenceCommand
+from surfgym_contracts.computer13 import ReferenceAction, TerminalAction
 from surfgym_contracts.protocol.agent_to_gateway import (
     ActionRequest,
     AgentRequest,
@@ -17,8 +17,7 @@ from surfgym_contracts.protocol.agent_to_gateway import (
     StartRequest,
 )
 from surfgym_contracts.protocol.gateway_to_agent import ActionResponse, ImagePayload, RewardResponse
-from surfgym_contracts.task import Action, ProfileSetup, Website
-from typing_extensions import Optional
+from surfgym_contracts.task import CriteriaEvaluation, Hook, LLMJudgeEvaluation, Website
 
 from surfgym_runtime.gateway.error import (
     Deadline,
@@ -27,7 +26,6 @@ from surfgym_runtime.gateway.error import (
     RetryableError,
     deadline_for,
 )
-from surfgym_runtime.gateway.external_app import ExternalAppGatewayClient, ExternalAppSession
 from surfgym_runtime.gateway.transport import GatewayTransport
 from surfgym_runtime.support import Evaluator, Frame, TaskStore, WavepoolConfig, gateway_logger
 
@@ -40,7 +38,7 @@ class SessionState:
     instance_id: str
     port: int
     trace: list[Frame]
-    external_app: ExternalAppSession | None = None
+    release_hooks: list[Hook]
 
     def append_frame(
         self,
@@ -86,7 +84,6 @@ class Service:
         self.task_store = task_store
         self.evaluator = Evaluator()
         self.transport = GatewayTransport(wavepool_config)
-        self.external_apps = ExternalAppGatewayClient()
         self.process_timeout = wavepool_config.process_timeout
 
         self._session_lock = Lock()
@@ -125,22 +122,19 @@ class Service:
     ) -> ActionResponse:
         self._reserve_session(request.session_id)
         session_state = None
-        external_app_session = None
-        external_app_started = False
+
         try:
             task = self._require_task(request.task_id)
+
             instance_id, port = self._allocate(
-                deadline,
-                task.website,
-                task.setup,
-                task.profile_setup,
+                deadline, task.website, task.lifecycle_hooks.allocate
             )
             session_state = SessionState(
                 task_id=request.task_id,
                 instance_id=instance_id,
                 port=port,
                 trace=[],
-                external_app=external_app_session,
+                release_hooks=task.lifecycle_hooks.release,
             )
             screenshot_b64, media_type = self._screenshot(deadline, session_state)
             session_state.append_frame(
@@ -157,8 +151,6 @@ class Service:
             self._end_session(request.session_id)
             if session_state is not None:
                 self._release_queue.put(session_state)
-            elif external_app_started and external_app_session is not None:
-                self._try_release_external_app(external_app_session, context="start_rollback")
             raise
 
     def _handle_action(
@@ -166,11 +158,21 @@ class Service:
         request: ActionRequest,
         deadline: Callable[[str], Deadline],
     ) -> ActionResponse:
+        task = self._require_task(request.task_id)
         session_state = self._require_session_state(request.session_id, request.task_id)
 
         for action in request.actions:
-            if not isinstance(action, TerminalAction):
-                self._execute(deadline, session_state, action.to_commands())
+            match action:
+                case _ if isinstance(action, TerminalAction):
+                    continue
+                case ReferenceAction():
+                    self._execute(
+                        deadline,
+                        session_state,
+                        ReferenceCommand(hooks=task.lifecycle_hooks.reference),
+                    )
+                case _:
+                    self._execute(deadline, session_state, action.to_commands())
 
         (screenshot_b64, media_type) = self._screenshot(deadline, session_state)
         session_state.append_frame(kind="action", image_b64=screenshot_b64, media_type=media_type)
@@ -188,11 +190,12 @@ class Service:
         session_state = self._require_session_state(request.session_id, request.task_id)
 
         match task.evaluation:
-            case RuleBasedEvaluation():
+            case CriteriaEvaluation():
                 response = self._observe(
                     deadline=deadline,
                     state=session_state,
                     evaluation=task.evaluation,
+                    evaluation_hooks=task.lifecycle_hooks.evaluate,
                 )
                 reward = self.evaluator.rule_based_eval(task.evaluation, response.observation)
             case LLMJudgeEvaluation():
@@ -221,14 +224,15 @@ class Service:
         self,
         deadline: Callable[[str], Deadline],
         websites: list[Website],
-        setup: Optional[list[Action]],
-        profile_setup: Optional[ProfileSetup],
+        allocate_hooks: list[Hook],
     ) -> tuple[str, int]:
         d = deadline("allocate")
         response = self._run_with_retry(
             min_attempt_time=self.process_timeout.allocate,
             deadline=d,
-            func=lambda: self.transport.allocate(d, websites, setup, profile_setup),
+            func=lambda: self.transport.allocate(
+                deadline=d, websites=websites, allocate_hooks=allocate_hooks
+            ),
         )
         return (response.instance_id, response.instance_port)
 
@@ -237,7 +241,9 @@ class Service:
         response = self._run_with_retry(
             min_attempt_time=self.process_timeout.screenshot,
             deadline=d,
-            func=lambda: self.transport.screenshot(d, state.instance_id, state.port),
+            func=lambda: self.transport.screenshot(
+                deadline=d, instance_id=state.instance_id, instance_port=state.port
+            ),
         )
         return draw_cursor_on_screenshot(
             response.screenshot_b64, int(response.x), int(response.y)
@@ -248,17 +254,29 @@ class Service:
         *,
         deadline: Callable[[str], Deadline],
         state: SessionState,
-        evaluation: RuleBasedEvaluation,
+        evaluation: CriteriaEvaluation,
+        evaluation_hooks: list[Hook],
     ):
         d = deadline("observe")
         return self._run_with_retry(
             min_attempt_time=self.process_timeout.observe,
             deadline=d,
-            func=lambda: self.transport.observe(d, state.instance_id, state.port, evaluation),
+            func=lambda: self.transport.observe(
+                deadline=d,
+                instance_id=state.instance_id,
+                instance_port=state.port,
+                evaluation=evaluation,
+                evaluation_hooks=evaluation_hooks,
+            ),
         )
 
     def _execute(self, deadline: Callable[[str], Deadline], state: SessionState, command: Command):
-        self.transport.execute(deadline("execute"), state.instance_id, state.port, command)
+        self.transport.execute(
+            deadline=deadline("execute"),
+            instance_id=state.instance_id,
+            instance_port=state.port,
+            command=command,
+        )
 
     def _run_with_retry(
         self,
@@ -288,12 +306,14 @@ class Service:
             if state is None:
                 return
 
-            if state.external_app is not None:
-                self._try_release_external_app(state.external_app, context="release_worker")
-
             try:
                 release_deadline = Deadline(time.monotonic() + self._release_timeout, "release")
-                self.transport.release(release_deadline, state.instance_id, state.port)
+                self.transport.release(
+                    deadline=release_deadline,
+                    release_hooks=state.release_hooks,
+                    instance_id=state.instance_id,
+                    instance_port=state.port,
+                )
             except GatewayError as exc:
                 gateway_logger.warning(
                     """
@@ -311,32 +331,6 @@ Error Detail: error_type=%s message=%s
                     state.instance_id,
                     state.port,
                 )
-
-    def _release_external_app(self, session: ExternalAppSession) -> None:
-        self.external_apps.release(session, timeout=self._release_timeout)
-
-    def _try_release_external_app(self, session: ExternalAppSession, *, context: str) -> None:
-        try:
-            self._release_external_app(session)
-        except GatewayError as exc:
-            gateway_logger.warning(
-                """
-Failed to release external app: context=%s app=%s session_id=%s
-Error Detail: error_type=%s message=%s
-""".strip(),
-                context,
-                session.app,
-                session.session_id,
-                exc.error_type,
-                exc.message,
-            )
-        except Exception:
-            gateway_logger.exception(
-                "Unexpected external app release failure: context=%s app=%s session_id=%s",
-                context,
-                session.app,
-                session.session_id,
-            )
 
     def _reserve_session(self, session_id: int) -> None:
         with self._session_lock:

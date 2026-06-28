@@ -8,7 +8,7 @@ from typing import Annotated, Awaitable, Callable, ParamSpec, TypeVar
 import uvicorn
 from fastapi import Body, FastAPI, status
 from fastapi.responses import JSONResponse
-from surfgym_contracts.protocol.gateway_to_upstream import AllocateRequest
+from surfgym_contracts.protocol.gateway_to_upstream import AllocateRequest, ReleaseRequest
 from surfgym_contracts.protocol.upstream_to_gateway import ErrorResponse, UpstreamErrorType
 
 from surfgym_runtime.support import WavepoolConfig, load_config, master_logger, setup_logging
@@ -42,8 +42,12 @@ def create_app(config: WavepoolConfig) -> FastAPI:
         return await master.allocate(request)
 
     @handle_master_errors
-    async def release(instance_id: str, instance_port: int):
-        return await master.release(instance_id, instance_port)
+    async def release(
+        instance_id: str,
+        instance_port: int,
+        request: Annotated[ReleaseRequest, Body()],
+    ):
+        return await master.release(instance_id, instance_port, request)
 
     async def health():
         return {"status": "ok"}

@@ -1,0 +1,23 @@
+{
+  "instruction": "On slide 12, change the font colors of the top, middle, and bottom stacked boxes to blue, purple, and orange respectively. Use exactly these colors.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "query": [["slide", 12], ["text", {"role": "stacked-box", "position": "top"}]],
+        "path": ["style", "color"],
+        "value": "blue"
+      },
+      {
+        "query": [["slide", 12], ["text", {"role": "stacked-box", "position": "middle"}]],
+        "path": ["style", "color"],
+        "value": "purple"
+      },
+      {
+        "query": [["slide", 12], ["text", {"role": "stacked-box", "position": "bottom"}]],
+        "path": ["style", "color"],
+        "value": "orange"
+      }
+    ]
+  ]
+}

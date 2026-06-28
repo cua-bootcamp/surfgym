@@ -1,0 +1,18 @@
+{
+  "instruction": "On slide 4, underline the title \"Concept Map\" and change its font color to green. Use exactly green.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "query": [["slide", 4], ["text", "Concept Map"]],
+        "path": ["style", "underline"],
+        "value": true
+      },
+      {
+        "query": [["slide", 4], ["text", "Concept Map"]],
+        "path": ["style", "color"],
+        "value": "green"
+      }
+    ]
+  ]
+}

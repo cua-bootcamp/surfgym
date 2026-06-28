@@ -1,0 +1,23 @@
+{
+  "instruction": "On slide 8, change the font color of the Step 1, Step 2, and Step 3 cards to green, red, and blue respectively, from top to bottom. Use exactly these colors.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "query": [["slide", 8], ["text", "Step 1"]],
+        "path": ["style", "color"],
+        "value": "green"
+      },
+      {
+        "query": [["slide", 8], ["text", "Step 2"]],
+        "path": ["style", "color"],
+        "value": "red"
+      },
+      {
+        "query": [["slide", 8], ["text", "Step 3"]],
+        "path": ["style", "color"],
+        "value": "blue"
+      }
+    ]
+  ]
+}

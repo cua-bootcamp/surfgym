@@ -1,8 +1,6 @@
-from typing import Optional
-
 from pydantic import BaseModel, ConfigDict, Field
 
-from surfgym_contracts.task import Action, ProfileSetup, Website
+from surfgym_contracts.task import Hook, Website
 
 
 class _FrozenBaseModel(BaseModel):
@@ -11,5 +9,8 @@ class _FrozenBaseModel(BaseModel):
 
 class AllocateRequest(_FrozenBaseModel):
     websites: list[Website] = Field(min_length=1)
-    setup: Optional[list[Action]]
-    profile_setup: Optional[ProfileSetup] = None
+    allocate_hooks: list[Hook]
+
+
+class ReleaseRequest(_FrozenBaseModel):
+    release_hooks: list[Hook]

@@ -1,0 +1,18 @@
+{
+  "instruction": "On slide 16, underline only the \"Dark red 2\" swatch label and increase its font size to 22 pt.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "query": [["slide", 16], ["text", "Dark red 2"]],
+        "path": ["style", "underline"],
+        "value": true
+      },
+      {
+        "query": [["slide", 16], ["text", "Dark red 2"]],
+        "path": ["style", "fontSize"],
+        "value": 22
+      }
+    ]
+  ]
+}

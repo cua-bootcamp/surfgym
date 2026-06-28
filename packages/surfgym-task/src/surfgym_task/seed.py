@@ -4,14 +4,14 @@ import json
 from typing import Annotated, Literal, Optional, TypeAlias, cast
 
 from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, JsonValue, TypeAdapter
-from surfgym_contracts import Action, ConsoleRule, RuleCore
+from surfgym_contracts.task import ConsoleCriteria, ConsoleHook, CriteriaCore
 
 
 class FrozenBaseModel(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
 
-class StateAtom(RuleCore):
+class StateAtom(CriteriaCore):
     query: list[tuple[str, JsonValue]]
     path: list[str | int]
 
@@ -24,8 +24,8 @@ class StateAtom(RuleCore):
 }})()
 """.strip()
 
-    def to_rule(self) -> ConsoleRule:
-        return ConsoleRule(
+    def to_rule(self) -> ConsoleCriteria:
+        return ConsoleCriteria(
             value=self.value,
             match=self.match,
             normalize_space=self.normalize_space,
@@ -33,8 +33,8 @@ class StateAtom(RuleCore):
             script=self._to_script(type="eval"),
         )
 
-    def to_action(self) -> Action:
-        return Action(
+    def to_console_hook(self) -> ConsoleHook:
+        return ConsoleHook(
             mode="console",
             script=self._to_script(type="action"),
         )

@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any, Iterator, Mapping, TypedDict, TypeVar
 
 from pydantic import TypeAdapter
-from surfgym_contracts import Task
+from surfgym_contracts.task import Task
 
 from surfgym_task.hoare import HoareState
 from surfgym_task.instruction_generator import (
@@ -63,6 +63,11 @@ DEFAULT_TASK_VALUES: dict[str, DefaultTaskValues] = {
         "empty_start": False,
         "accumulation": "CUMULATIVE",
         "website": "http://localhost:3000/word",
+    },
+    "impress": {
+        "empty_start": True,
+        "accumulation": "CUMULATIVE",
+        "website": "http://localhost:5173/impress",
     },
 }
 

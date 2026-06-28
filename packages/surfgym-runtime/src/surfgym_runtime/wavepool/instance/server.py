@@ -10,7 +10,7 @@ import uvicorn
 from fastapi import Body, FastAPI, status
 from fastapi.responses import JSONResponse
 from surfgym_contracts.command import CommandAdapter
-from surfgym_contracts.protocol.gateway_to_upstream import AllocateRequest
+from surfgym_contracts.protocol.gateway_to_upstream import AllocateRequest, ReleaseRequest
 from surfgym_contracts.protocol.upstream_to_gateway import (
     ErrorResponse,
     ExecuteResponse,
@@ -51,12 +51,15 @@ def create_app(contexts_per_instance: int) -> FastAPI:
             raise InstanceNotIdle("No available context slot on this instance.")
 
         new_instance_id = str(uuid.uuid4())
-        await worker.create(new_instance_id, request.websites, request.setup, request.profile_setup)
+        await worker.create(new_instance_id, request.websites, request.allocate_hooks)
         return GetInstanceResponse(instance_id=new_instance_id)
 
     @handle_instance_errors
-    async def reset_instance(instance_id: str):
-        await worker.delete(instance_id)
+    async def reset_instance(
+        instance_id: str,
+        request: Annotated[ReleaseRequest, Body()],
+    ):
+        await worker.delete(instance_id, request.release_hooks)
         return ReleaseResponse()
 
     @handle_instance_errors

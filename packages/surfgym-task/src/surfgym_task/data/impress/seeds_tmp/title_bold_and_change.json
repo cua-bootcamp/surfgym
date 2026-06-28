@@ -1,0 +1,24 @@
+{
+  "instruction": "On slide 2, make the title \"Why plan before drafting?\" bold and change its font color to purple. Use exactly purple.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "query": [
+          ["slide", 2],
+          ["text", "Why plan before drafting?"]
+        ],
+        "path": ["style", "bold"],
+        "value": true
+      },
+      {
+        "query": [
+          ["slide", 2],
+          ["text", "Why plan before drafting?"]
+        ],
+        "path": ["style", "color"],
+        "value": "purple"
+      }
+    ]
+  ]
+}

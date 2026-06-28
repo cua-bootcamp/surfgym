@@ -1,0 +1,18 @@
+{
+  "instruction": "On slide 11, center-align both the \"Similarity\" and \"Difference\" headings.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "query": [["slide", 11], ["text", "Similarity"]],
+        "path": ["style", "horizontalAlign"],
+        "value": "center"
+      },
+      {
+        "query": [["slide", 11], ["text", "Difference"]],
+        "path": ["style", "horizontalAlign"],
+        "value": "center"
+      }
+    ]
+  ]
+}

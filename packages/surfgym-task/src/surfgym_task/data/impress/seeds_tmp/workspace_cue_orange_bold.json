@@ -1,0 +1,18 @@
+{
+  "instruction": "On slide 3, change the small label \"workspace cue\" to orange and make it bold.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "query": [["slide", 3], ["text", "workspace cue"]],
+        "path": ["style", "color"],
+        "value": "orange"
+      },
+      {
+        "query": [["slide", 3], ["text", "workspace cue"]],
+        "path": ["style", "bold"],
+        "value": true
+      }
+    ]
+  ]
+}

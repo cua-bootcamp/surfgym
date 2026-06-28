@@ -1,0 +1,38 @@
+{
+  "instruction": "On slide 16, change the text color of all six colored swatch labels to yellow, while leaving the swatch background colors unchanged.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "query": [["slide", 16], ["text", {"role": "swatch-label", "index": 0}]],
+        "path": ["style", "color"],
+        "value": "yellow"
+      },
+      {
+        "query": [["slide", 16], ["text", {"role": "swatch-label", "index": 1}]],
+        "path": ["style", "color"],
+        "value": "yellow"
+      },
+      {
+        "query": [["slide", 16], ["text", {"role": "swatch-label", "index": 2}]],
+        "path": ["style", "color"],
+        "value": "yellow"
+      },
+      {
+        "query": [["slide", 16], ["text", {"role": "swatch-label", "index": 3}]],
+        "path": ["style", "color"],
+        "value": "yellow"
+      },
+      {
+        "query": [["slide", 16], ["text", {"role": "swatch-label", "index": 4}]],
+        "path": ["style", "color"],
+        "value": "yellow"
+      },
+      {
+        "query": [["slide", 16], ["text", {"role": "swatch-label", "index": 5}]],
+        "path": ["style", "color"],
+        "value": "yellow"
+      }
+    ]
+  ]
+}

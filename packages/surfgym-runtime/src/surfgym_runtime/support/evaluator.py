@@ -7,7 +7,7 @@ from typing import Literal, cast
 
 import httpx
 from dotenv import load_dotenv
-from surfgym_contracts.task import LLMJudgeEvaluation, Observation, RuleBasedEvaluation, Value
+from surfgym_contracts.task import CriteriaEvaluation, LLMJudgeEvaluation, Observation, Value
 
 load_dotenv(Path(__file__).resolve().parents[5] / ".env")
 
@@ -27,7 +27,7 @@ class Evaluator:
         self.api_key = os.getenv("OPENAI_API_KEY")
 
     def rule_based_eval(
-        self, evaluation: RuleBasedEvaluation, observations: list[Observation]
+        self, evaluation: CriteriaEvaluation, observations: list[Observation]
     ) -> float:
         checks = tuple(
             _matches(
@@ -37,7 +37,7 @@ class Evaluator:
                 normalize_space=rule.normalize_space,
                 case_sensitive=rule.case_sensitive,
             )
-            for rule, observation in zip(evaluation.rules, observations)
+            for rule, observation in zip(evaluation.criteria, observations)
         )
 
         passed = (

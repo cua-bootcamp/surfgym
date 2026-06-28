@@ -1,0 +1,18 @@
+{
+  "instruction": "On slide 5, make the text inside the \"Revision check\" box 24 pt and center-aligned.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "query": [["slide", 5], ["text", "Revision check"]],
+        "path": ["style", "fontSize"],
+        "value": 24
+      },
+      {
+        "query": [["slide", 5], ["text", "Revision check"]],
+        "path": ["style", "horizontalAlign"],
+        "value": "center"
+      }
+    ]
+  ]
+}

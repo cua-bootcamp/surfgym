@@ -1,0 +1,28 @@
+{
+  "instruction": "On slide 3, right-align the text inside the four agenda cards: \"Gather ideas,\" \"Cluster evidence,\" \"Draft paragraphs,\" and \"Revise for flow.\" Do not change the numbered circles.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "query": [["slide", 3], ["text", "Gather ideas"]],
+        "path": ["style", "horizontalAlign"],
+        "value": "right"
+      },
+      {
+        "query": [["slide", 3], ["text", "Cluster evidence"]],
+        "path": ["style", "horizontalAlign"],
+        "value": "right"
+      },
+      {
+        "query": [["slide", 3], ["text", "Draft paragraphs"]],
+        "path": ["style", "horizontalAlign"],
+        "value": "right"
+      },
+      {
+        "query": [["slide", 3], ["text", "Revise for flow"]],
+        "path": ["style", "horizontalAlign"],
+        "value": "right"
+      }
+    ]
+  ]
+}

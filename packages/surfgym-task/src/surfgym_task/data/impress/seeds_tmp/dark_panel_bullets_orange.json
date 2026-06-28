@@ -1,0 +1,13 @@
+{
+  "instruction": "On slide 10, change the font color of the bullet list on the dark right panel to orange. Use exactly orange.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "query": [["slide", 10], ["text", {"role": "bullet-list", "panel": "dark-right"}]],
+        "path": ["style", "color"],
+        "value": "orange"
+      }
+    ]
+  ]
+}

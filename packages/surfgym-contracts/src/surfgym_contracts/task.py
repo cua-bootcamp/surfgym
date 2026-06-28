@@ -1,4 +1,3 @@
-from collections.abc import Sequence
 from typing import Annotated, Literal, Mapping, Optional, TypeAlias, Union
 
 from pydantic import (
@@ -9,26 +8,7 @@ from pydantic import (
     Tag,
     TypeAdapter,
     field_validator,
-    model_validator,
 )
-
-################################
-#          Auto Infer          #
-################################
-
-
-def infer_rule_mode(value: object) -> Optional[str]:
-    if isinstance(value, Mapping):
-        if "mode" in value and isinstance(value["mode"], str):
-            return value["mode"]
-        return "console" if "script" in value else "dom"
-
-
-def infer_evaluation_mode(value: object) -> Optional[str]:
-    if isinstance(value, Mapping):
-        if "mode" in value and isinstance(value["mode"], str):
-            return value["mode"]
-        return "llm" if "model" in value else "rule"
 
 
 class FrozenBaseModel(BaseModel):
@@ -36,6 +16,40 @@ class FrozenBaseModel(BaseModel):
         frozen=True,
         extra="forbid",
     )
+
+
+#################################
+#     Mode Inference Helper     #
+#################################
+
+
+def infer_mode(key_tags: Mapping[str, str], *, default: Optional[str] = None):
+    def infer_by_rule(value: object) -> Optional[str]:
+        if not isinstance(value, Mapping):
+            return None
+
+        if "mode" in value and isinstance(value["mode"], str):
+            return value["mode"]
+
+        for key, tag in key_tags.items():
+            if key in value:
+                return tag
+
+        return default
+
+    return infer_by_rule
+
+
+def infer_criteria():
+    return infer_mode({"script": "console"}, default="dom")
+
+
+def infer_evaluation():
+    return infer_mode({"criteria": "criteria"}, default="llm")
+
+
+def infer_hook():
+    return infer_mode({"method": "api", "script": "console"}, default="console")
 
 
 ################################
@@ -52,92 +66,31 @@ Value: TypeAlias = Union[ScalarValue, list[str]]
 Observation: TypeAlias = Optional[Value]
 
 
-class RuleCore(_WebsiteDependent):
+class CriteriaCore(_WebsiteDependent):
     match: Literal["contains", "exact", "regex"] = "exact"
     normalize_space: bool = False
     case_sensitive: bool = True
     value: Value
 
 
-class ConsoleRule(RuleCore):
+class ConsoleCriteria(CriteriaCore):
     mode: Literal["console"] = "console"
     script: str
 
 
-class DomRule(RuleCore):
+class DomCriteria(CriteriaCore):
     mode: Literal["dom"] = "dom"
     target: Literal["text", "html", "url", "title", "attr"] = "text"
     selector: Optional[str] = None
     attr: Optional[str] = None
 
 
-class ChromiumRule(RuleCore):
-    mode: Literal["chromium"] = "chromium"
-    type: Literal[
-        "json_value",
-        "active_url",
-        "open_tabs",
-        "bookmark_bar_folder",
-        "bookmark_bar_url",
-        "history_keyword_absent",
-        "cookie_domain_absent",
-    ] = "json_value"
-    file: Optional[str] = None
-    path: Optional[str] = None
-    query: Optional[str] = None
-    domain: Optional[str] = None
-
-    @model_validator(mode="after")
-    def validate_chromium_rule(self):
-        if self.type == "json_value":
-            if self.file is None or self.path is None:
-                raise ValueError("Chromium json_value rules require file and path.")
-            if self.query is not None or self.domain is not None:
-                raise ValueError("Chromium json_value rules do not accept query or domain.")
-            if isinstance(self.value, list):
-                raise ValueError("Chromium json_value rules require a scalar value.")
-            return self
-
-        if self.file is not None or self.path is not None:
-            raise ValueError("Only Chromium json_value rules accept file and path.")
-
-        if self.type == "history_keyword_absent":
-            if not self.query:
-                raise ValueError("Chromium history_keyword_absent rules require query.")
-            if not isinstance(self.value, bool):
-                raise ValueError("Chromium history_keyword_absent rules require a boolean value.")
-            return self
-
-        if self.type == "cookie_domain_absent":
-            if not self.domain:
-                raise ValueError("Chromium cookie_domain_absent rules require domain.")
-            if not isinstance(self.value, bool):
-                raise ValueError("Chromium cookie_domain_absent rules require a boolean value.")
-            return self
-
-        if self.query is not None or self.domain is not None:
-            raise ValueError(
-                "Only Chromium history_keyword_absent and cookie_domain_absent rules accept "
-                "query or domain."
-            )
-
-        if self.type == "open_tabs":
-            if not isinstance(self.value, list):
-                raise ValueError("Chromium open_tabs rules require a list value.")
-            return self
-
-        if isinstance(self.value, list):
-            raise ValueError(f"Chromium {self.type} rules require a scalar value.")
-        return self
-
-
-Rule = Annotated[
+Criteria = Annotated[
     Union[
-        Annotated[DomRule, Tag("dom")],
-        Annotated[ConsoleRule, Tag("console")],
-        Annotated[ChromiumRule, Tag("chromium")],
+        Annotated[DomCriteria, Tag("dom")],
+        Annotated[ConsoleCriteria, Tag("console")],
     ],
-    Discriminator(infer_rule_mode),
+    Discriminator(infer_criteria()),
 ]
 
 
@@ -146,23 +99,19 @@ Rule = Annotated[
 ################################
 
 
-class RuleBasedEvaluation(FrozenBaseModel):
-    mode: Literal["rule"] = "rule"
+class CriteriaEvaluation(FrozenBaseModel):
+    mode: Literal["criteria"] = "criteria"
     operator: Literal["or", "and"] = "and"
-    rules: Sequence[Rule]
+    criteria: list[Criteria]
 
-    @field_validator("rules", mode="before")
+    @field_validator("criteria", mode="before")
     @classmethod
-    def listify_rule(cls, value: Rule | list[Rule]) -> list[Rule]:
+    def listify_criteria(cls, value: Criteria | list[Criteria]) -> list[Criteria]:
         return value if isinstance(value, list) else [value]
-
-
-ExternalApp: TypeAlias = Literal["impress", "gimp", "vlc"]
 
 
 class LLMJudgeEvaluation(FrozenBaseModel):
     mode: Literal["llm"] = "llm"
-    external_app: ExternalApp
     model: str = "gpt-5.4-mini"
     image_detail: Literal["low", "high", "auto"] = "high"
     max_frames: int = Field(default=12, ge=2)
@@ -170,10 +119,10 @@ class LLMJudgeEvaluation(FrozenBaseModel):
 
 Evaluation = Annotated[
     Union[
-        Annotated[RuleBasedEvaluation, Tag("rule")],
+        Annotated[CriteriaEvaluation, Tag("criteria")],
         Annotated[LLMJudgeEvaluation, Tag("llm")],
     ],
-    Discriminator(infer_evaluation_mode),
+    Discriminator(infer_evaluation()),
 ]
 
 
@@ -186,9 +135,32 @@ class Website(_WebsiteDependent):
     url: str
 
 
-class Action(_WebsiteDependent):
-    mode: Literal["console", "playwright"] = "console"
+class ConsoleHook(_WebsiteDependent):
+    mode: Literal["console"] = "console"
     script: str
+
+
+class ApiHook(_WebsiteDependent):
+    mode: Literal["api"] = "api"
+    method: Literal["GET", "POST", "PUT", "PATCH", "DELETE"]
+    url: str
+    json_payload: Optional[dict[str, object]] = None
+
+
+Hook: TypeAlias = Annotated[
+    Union[
+        Annotated[ConsoleHook, Tag("console")],
+        Annotated[ApiHook, Tag("api")],
+    ],
+    Discriminator(infer_hook()),
+]
+
+
+class LifecycleHooks(FrozenBaseModel):
+    allocate: list[Hook] = []
+    evaluate: list[Hook] = []
+    release: list[Hook] = []
+    reference: list[Hook] = []
 
 
 class TaskCore(FrozenBaseModel):
@@ -206,53 +178,12 @@ class TaskCore(FrozenBaseModel):
         return value
 
 
-class ProfileJsonValue(FrozenBaseModel):
-    file: str
-    path: str
-    value: ScalarValue
-
-
-class ProfileHistoryEntry(FrozenBaseModel):
-    url: str
-    title: str = ""
-
-
-class ProfileCookie(FrozenBaseModel):
-    url: str
-    name: str
-    value: str
-    domain: Optional[str] = None
-    path: str = "/"
-    expires: Optional[float] = None
-    http_only: bool = False
-    secure: bool = False
-    same_site: Optional[Literal["Strict", "Lax", "None"]] = None
-
-
-class ProfileSetup(FrozenBaseModel):
-    json_values: list[ProfileJsonValue] = []
-    history_entries: list[ProfileHistoryEntry] = []
-    cookies: list[ProfileCookie] = []
-
-
 class Task(TaskCore):
     hash: str
     evaluation: Evaluation
     complexity: int
 
-    setup: Optional[list[Action]] = None
-    transition: Optional[list[Action]] = None
-
-    profile_setup: Optional[ProfileSetup] = None
-
-    @field_validator("setup", "transition", mode="before")
-    @classmethod
-    def listify_actions(cls, value: None | Action | list[Action]) -> Optional[list[Action]]:
-        if value is None:
-            return None
-        if isinstance(value, Action):
-            return [value]
-        return value
+    lifecycle_hooks: LifecycleHooks = LifecycleHooks()
 
 
 TaskRowsAdapter: TypeAdapter[list[Task]] = TypeAdapter(list[Task])

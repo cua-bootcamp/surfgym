@@ -1,12 +1,12 @@
 from functools import lru_cache
 from json import JSONDecodeError
-from typing import Any, Literal, Optional, TypeVar
+from typing import Any, Literal, TypeVar
 
 import requests
 from fastapi import status
 from pydantic import BaseModel, ValidationError
 from surfgym_contracts.command import Command, ObserveCommand
-from surfgym_contracts.protocol.gateway_to_upstream import AllocateRequest
+from surfgym_contracts.protocol.gateway_to_upstream import AllocateRequest, ReleaseRequest
 from surfgym_contracts.protocol.upstream_to_gateway import (
     AllocateResponse,
     ErrorResponse,
@@ -15,7 +15,7 @@ from surfgym_contracts.protocol.upstream_to_gateway import (
     ReleaseResponse,
     ScreenshotResponse,
 )
-from surfgym_contracts.task import Action, ProfileSetup, RuleBasedEvaluation, Website
+from surfgym_contracts.task import CriteriaEvaluation, Hook, Website
 
 from surfgym_runtime.gateway.error import Deadline, RetryableError, UpstreamError
 from surfgym_runtime.support.config import WavepoolConfig
@@ -41,46 +41,54 @@ class GatewayTransport:
 
     def allocate(
         self,
+        *,
         deadline: Deadline,
         websites: list[Website],
-        setup: Optional[list[Action]],
-        profile_setup: Optional[ProfileSetup],
+        allocate_hooks: list[Hook],
     ) -> AllocateResponse:
         timeout = deadline.timeout_for(self._timeouts.allocate)
-        return self._master_client.allocate(websites, setup, profile_setup, timeout)
+        return self._master_client.allocate(
+            websites=websites, allocate_hooks=allocate_hooks, timeout=timeout
+        )
 
-    def release(self, deadline: Deadline, instance_id: str, instance_port: int) -> ReleaseResponse:
+    def release(
+        self, *, deadline: Deadline, release_hooks: list[Hook], instance_id: str, instance_port: int
+    ) -> ReleaseResponse:
         timeout = deadline.timeout_for(self._timeouts.release)
-        return self._master_client.release(instance_id, instance_port, timeout)
+        return self._master_client.release(
+            release_hooks=release_hooks,
+            instance_id=instance_id,
+            instance_port=instance_port,
+            timeout=timeout,
+        )
 
     def execute(
-        self, deadline: Deadline, instance_id: str, instance_port: int, command: Command
+        self, *, deadline: Deadline, instance_id: str, instance_port: int, command: Command
     ) -> ExecuteResponse:
         timeout = deadline.timeout_for(self._timeouts.execute)
         return self._instance_client(port=instance_port).execute(instance_id, command, timeout)
 
     def screenshot(
-        self, deadline: Deadline, instance_id: str, instance_port: int
+        self, *, deadline: Deadline, instance_id: str, instance_port: int
     ) -> ScreenshotResponse:
         timeout = deadline.timeout_for(self._timeouts.screenshot)
         return self._instance_client(instance_port).screenshot(instance_id, timeout)
 
     def observe(
         self,
+        *,
         deadline: Deadline,
         instance_id: str,
         instance_port: int,
-        evaluation: RuleBasedEvaluation,
+        evaluation: CriteriaEvaluation,
+        evaluation_hooks: list[Hook],
     ) -> ObservationResponse:
         timeout = deadline.timeout_for(self._timeouts.observe)
         return self._instance_client(port=instance_port).observe(
-            instance_id, ObserveCommand(evaluation=evaluation), timeout
+            instance_id=instance_id,
+            command=ObserveCommand(evaluation=evaluation, evaluation_hooks=evaluation_hooks),
+            timeout=timeout,
         )
-
-    # def get_interactive_tree(
-    #     self, deadline: Deadline, instance_id: str, instance_port: int
-    # ) -> InteractiveTreeResponse:
-    #     return self.execute(deadline, instance_id, instance_port, InteractiveTreeCommand())
 
 
 class MasterClient:
@@ -93,12 +101,12 @@ class MasterClient:
 
     def allocate(
         self,
+        *,
         websites: list[Website],
-        setup: Optional[list[Action]],
-        profile_setup: Optional[ProfileSetup],
+        allocate_hooks: list[Hook],
         timeout: float,
     ):
-        request = AllocateRequest(websites=websites, setup=setup, profile_setup=profile_setup)
+        request = AllocateRequest(websites=websites, allocate_hooks=allocate_hooks)
         return _request_model(
             "POST",
             f"{self._get_base_url()}/allocate",
@@ -108,13 +116,17 @@ class MasterClient:
             timeout=timeout,
         )
 
-    def release(self, instance_id: str, instance_port: int, timeout: float):
+    def release(
+        self, *, release_hooks: list[Hook], instance_id: str, instance_port: int, timeout: float
+    ):
+        request = ReleaseRequest(release_hooks=release_hooks)
         return _request_model(
             "POST",
             f"{self._get_base_url()}/release",
             ReleaseResponse,
             operation="master.release",
             params={"instance_id": instance_id, "instance_port": instance_port},
+            json=request.model_dump(mode="json"),
             timeout=timeout,
         )
 
@@ -138,7 +150,7 @@ class InstanceClient:
             timeout=timeout,
         )
 
-    def observe(self, instance_id: str, command: Command, timeout: float):
+    def observe(self, *, instance_id: str, command: Command, timeout: float):
         return _request_model(
             "POST",
             f"{self._get_base_url()}/execute",

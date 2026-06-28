@@ -1,0 +1,28 @@
+{
+  "instruction": "On slide 4, change the text color of the four small concept cards to black, while keeping their background colors unchanged.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "query": [["slide", 4], ["text", {"role": "small-concept-card", "index": 0}]],
+        "path": ["style", "color"],
+        "value": "black"
+      },
+      {
+        "query": [["slide", 4], ["text", {"role": "small-concept-card", "index": 1}]],
+        "path": ["style", "color"],
+        "value": "black"
+      },
+      {
+        "query": [["slide", 4], ["text", {"role": "small-concept-card", "index": 2}]],
+        "path": ["style", "color"],
+        "value": "black"
+      },
+      {
+        "query": [["slide", 4], ["text", {"role": "small-concept-card", "index": 3}]],
+        "path": ["style", "color"],
+        "value": "black"
+      }
+    ]
+  ]
+}

@@ -1,37 +1,28 @@
 import asyncio
-import json
 import math
-import re
-import shutil
-import tempfile
+import os
 from collections import defaultdict
 from dataclasses import dataclass, field
 from io import BytesIO
-from pathlib import Path
-from typing import Any, DefaultDict, Optional
+from typing import Any, DefaultDict, cast
 
+import httpx
 from PIL import Image
 from playwright.async_api import Browser, BrowserContext, Page, Playwright, async_playwright
 from surfgym_contracts.command import Command
 from surfgym_contracts.protocol.upstream_to_gateway import ObservationResponse
 from surfgym_contracts.task import (
-    Action,
-    ChromiumRule,
-    ConsoleRule,
-    DomRule,
+    ApiHook,
+    ConsoleCriteria,
+    ConsoleHook,
+    CriteriaEvaluation,
+    DomCriteria,
+    Hook,
     Observation,
-    ProfileSetup,
     Website,
 )
-from typing_extensions import assert_never
 
 from surfgym_runtime.support import instance_logger
-from surfgym_runtime.support.chromium_profile import (
-    apply_chromium_profile_file_setup,
-    apply_chromium_runtime_profile_setup,
-    evaluate_chromium_profile_rule,
-    profile_setup_requires_persistent_context,
-)
 from surfgym_runtime.wavepool.instance.error import (
     CreateFailed,
     InstanceError,
@@ -52,7 +43,6 @@ from surfgym_runtime.wavepool.instance.transport import (
 class ContextState:
     instance_id: str
     context: BrowserContext
-    profile_dir: Path | None
     pages: dict[str, Page]
     page_layouts: dict[str, PageLayout]
     active_page_id: str | None
@@ -117,11 +107,7 @@ class PlaywrightBrowserWorker:
             return self._allocated_count() == 0
 
     async def create(
-        self,
-        instance_id: str,
-        websites: list[Website],
-        setup: Optional[list[Action]],
-        profile_setup: Optional[ProfileSetup],
+        self, instance_id: str, websites: list[Website], allocate_hooks: list[Hook]
     ) -> None:
         browser = self._require_browser()
 
@@ -135,53 +121,54 @@ class PlaywrightBrowserWorker:
             self._starting_sessions.add(instance_id)
 
         context: BrowserContext | None = None
-        profile_dir: Path | None = None
         committed = False
 
         try:
-            if _requires_persistent_profile(websites, profile_setup):
-                profile_dir = Path(tempfile.mkdtemp(prefix=f"surfgym-{instance_id}-"))
-                apply_chromium_profile_file_setup(profile_dir, profile_setup)
-                context = await self._require_playwright().chromium.launch_persistent_context(
-                    profile_dir,
-                    viewport={"width": self.viewport_width, "height": self.viewport_height},
+            context_options: dict[str, Any] = {
+                "viewport": {"width": self.viewport_width, "height": self.viewport_height},
+                "ignore_https_errors": True,
+            }
+
+            username = os.getenv("SURFGYM_HTTP_AUTH_USERNAME")
+            password = os.getenv("SURFGYM_HTTP_AUTH_PASSWORD")
+            if username and password:
+                context_options["http_credentials"] = {
+                    "username": username,
+                    "password": password,
+                }
+            elif username or password:
+                instance_logger.warning(
+                    "Ignoring incomplete HTTP Basic Auth credentials; set both "
+                    "SURFGYM_HTTP_AUTH_USERNAME and SURFGYM_HTTP_AUTH_PASSWORD."
                 )
-            else:
-                context = await browser.new_context(
-                    viewport={"width": self.viewport_width, "height": self.viewport_height}
-                )
 
-            await apply_chromium_runtime_profile_setup(context, profile_setup)
-            # context_options: dict[str, Any] = {
-            #     "viewport": {"width": self.viewport_width, "height": self.viewport_height},
-            #     "ignore_https_errors": True,
-            # }
-
-            # username = os.getenv("SURFGYM_HTTP_AUTH_USERNAME")
-            # password = os.getenv("SURFGYM_HTTP_AUTH_PASSWORD")
-            # if username and password:
-            #     context_options["http_credentials"] = {
-            #         "username": username,
-            #         "password": password,
-            #     }
-            # elif username or password:
-            #     instance_logger.warning(
-            #         "Ignoring incomplete HTTP Basic Auth credentials; set both "
-            #         "SURFGYM_HTTP_AUTH_USERNAME and SURFGYM_HTTP_AUTH_PASSWORD."
-            #     )
-
-            # context = await browser.new_context(**context_options)
+            context = await browser.new_context(**context_options)
             state = ContextState(
                 instance_id=instance_id,
                 context=context,
-                profile_dir=profile_dir,
                 pages={},
                 page_layouts={},
                 active_page_id=None,
                 controller=PlaywrightController(),
             )
 
-            await self._initialize_context(state, websites, setup)
+            layouts = _build_page_layouts(
+                page_count=len(websites),
+                total_width=self.viewport_width,
+                total_height=self.viewport_height,
+            )
+
+            for website, layout in zip(websites, layouts):
+                page = await state.context.new_page()
+                await state.controller.on_new_page(page, layout)
+                await state.controller.visit_page(page, website.url)
+
+                state.pages[website.website_id] = page
+                state.page_layouts[website.website_id] = layout
+                if state.active_page_id is None:
+                    state.active_page_id = website.website_id
+
+            await self._run_hooks(state, allocate_hooks)
 
             async with self._sessions_lock:
                 self._starting_sessions.discard(instance_id)
@@ -205,20 +192,18 @@ class PlaywrightBrowserWorker:
                         instance_logger.exception(
                             "Failed to clean up partially created Playwright context"
                         )
-                if profile_dir is not None:
-                    shutil.rmtree(profile_dir, ignore_errors=True)
 
-    async def delete(self, instance_id: str) -> None:
+    async def delete(self, instance_id: str, release_hooks: list[Hook] | None = None) -> None:
         state = await self._mark_closing(instance_id)
 
         try:
             async with state.lock:
+                await self._run_hooks(state, release_hooks or [])
                 await self._close_context_state(state)
+
         finally:
             async with self._sessions_lock:
                 self.sessions.pop(instance_id, None)
-            if state.profile_dir is not None:
-                shutil.rmtree(state.profile_dir, ignore_errors=True)
 
     async def delete_all(self) -> None:
         async with self._sessions_lock:
@@ -232,6 +217,56 @@ class PlaywrightBrowserWorker:
             except Exception:
                 instance_logger.exception("Failed to delete Playwright context: %s", instance_id)
 
+    async def _run_hooks(self, state: ContextState, hooks: list[Hook]) -> None:
+        for hook in hooks:
+            match hook:
+                case ApiHook():
+                    await self._run_api_hook(state, hook)
+                case ConsoleHook():
+                    await self._run_console_hook(state, hook)
+
+    async def _run_api_hook(self, state: ContextState, hook: ApiHook) -> None:
+        self._page_for_website(state, hook.website_id, context="api hook")
+
+        try:
+            async with httpx.AsyncClient(timeout=30.0) as client:
+                if hook.json_payload is None:
+                    response = await client.request(hook.method, hook.url)
+                else:
+                    response = await client.request(
+                        hook.method,
+                        hook.url,
+                        json=hook.json_payload,
+                    )
+        except httpx.RequestError as exc:
+            raise InvalidCommand(
+                f"API hook request failed: method={hook.method} "
+                f"url={hook.url} error={type(exc).__name__}"
+            ) from exc
+
+        if response.status_code < 200 or response.status_code >= 300:
+            raise InvalidCommand(
+                f"API hook returned non-success status: method={hook.method} "
+                f"url={hook.url} status={response.status_code} "
+                f"body={_response_text(response)}"
+            )
+
+        try:
+            body: object = response.json()
+        except ValueError:
+            return
+
+        if isinstance(body, dict):
+            response_body = cast(dict[str, object], body)
+            if response_body.get("ok") is False:
+                raise InvalidCommand(
+                    f"API hook reported failure: method={hook.method} url={hook.url}"
+                )
+
+    async def _run_console_hook(self, state: ContextState, hook: ConsoleHook) -> None:
+        page = self._page_for_website(state, hook.website_id, context="console hook")
+        await page.evaluate(hook.script)
+
     async def screenshot(self, instance_id: str) -> tuple[BytesIO, float, float]:
         state = await self._get_state(instance_id)
 
@@ -243,62 +278,6 @@ class PlaywrightBrowserWorker:
 
         async with state.lock:
             return await self._execute_in_state(state, command)
-
-    async def _initialize_context(
-        self,
-        state: ContextState,
-        websites: list[Website],
-        setup: Optional[list[Action]],
-    ) -> None:
-        layouts = _build_page_layouts(
-            page_count=len(websites),
-            total_width=self.viewport_width,
-            total_height=self.viewport_height,
-        )
-
-        for website, layout in zip(websites, layouts):
-            page = await state.context.new_page()
-            await state.controller.on_new_page(page, layout)
-            await state.controller.visit_page(page, website.url)
-
-            state.pages[website.website_id] = page
-            state.page_layouts[website.website_id] = layout
-            if state.active_page_id is None:
-                state.active_page_id = website.website_id
-
-        if setup:
-            for action in setup:
-                if action.mode == "playwright":
-                    await self._run_playwright_setup_action(state, action.script)
-                    continue
-
-                page = self._page_for_website(state, action.website_id, context="setup action")
-                await page.evaluate(action.script)
-
-    async def _run_playwright_setup_action(self, state: ContextState, script: str) -> None:
-        if script == "close_last_tab":
-            pages = list(state.context.pages)
-            if not pages:
-                return
-
-            page = pages[-1]
-            await page.close()
-
-            for website_id, tracked_page in list(state.pages.items()):
-                if tracked_page == page:
-                    state.pages.pop(website_id, None)
-                    state.page_layouts.pop(website_id, None)
-                    if state.active_page_id == website_id:
-                        state.active_page_id = next(iter(state.pages), None)
-
-            remaining_pages = [
-                remaining for remaining in state.context.pages if not remaining.is_closed()
-            ]
-            if remaining_pages:
-                await remaining_pages[-1].bring_to_front()
-            return
-
-        raise InvalidCommand(f"Unsupported Playwright setup action: {script}")
 
     async def _screenshot_state(self, state: ContextState) -> tuple[BytesIO, float, float]:
         try:
@@ -378,23 +357,15 @@ class PlaywrightBrowserWorker:
                     return await state.controller.hotkey_press(page, command.keys)
 
                 case "observe":
+                    #
                     return await self._get_observation(state, command.evaluation)
 
                 case "sleep":
                     return await state.controller.sleep(page, command.duration_ms)
 
                 case "command":
-                    for action in command.actions:
-                        page = self._page_for_website(
-                            state,
-                            action.website_id,
-                            context="command action",
-                        )
-                        await page.evaluate(action.script)
+                    await self._run_hooks(state, command.hooks)
                     return None
-
-                case _ as unreachable:
-                    assert_never(unreachable)
 
         except InstanceError:
             raise
@@ -407,23 +378,20 @@ class PlaywrightBrowserWorker:
     async def _get_observation(
         self,
         state: ContextState,
-        evaluation: RuleBasedEvaluation,
+        evaluation: CriteriaEvaluation,
     ) -> ObservationResponse:
-        rules = evaluation.rules
-        observations: list[Observation] = [None] * len(rules)
+        criteria = evaluation.criteria
+        observations: list[Observation] = [None] * len(criteria)
 
-        dom_groups: DefaultDict[str, list[tuple[int, DomRule]]] = defaultdict(list)
-        console_groups: DefaultDict[str, list[tuple[int, ConsoleRule]]] = defaultdict(list)
-        chromium_rules: list[tuple[int, ChromiumRule]] = []
+        dom_groups: DefaultDict[str, list[tuple[int, DomCriteria]]] = defaultdict(list)
+        console_groups: DefaultDict[str, list[tuple[int, ConsoleCriteria]]] = defaultdict(list)
 
-        for idx, rule in enumerate(rules):
+        for idx, rule in enumerate(criteria):
             match rule:
-                case DomRule():
+                case DomCriteria():
                     dom_groups[rule.website_id].append((idx, rule))
-                case ConsoleRule():
+                case ConsoleCriteria():
                     console_groups[rule.website_id].append((idx, rule))
-                case ChromiumRule():
-                    chromium_rules.append((idx, rule))
 
         for website_id, idx_rules in dom_groups.items():
             page = self._page_for_website(state, website_id, context="DOM observation")
@@ -450,27 +418,6 @@ class PlaywrightBrowserWorker:
 
             for original_idx, obs in zip(idx_arr, obs_arr):
                 observations[original_idx] = _coerce_playwright_observation(obs)
-
-        profile_chromium_rules: list[tuple[int, ChromiumRule]] = []
-        for original_idx, rule in chromium_rules:
-            if rule.type == "active_url":
-                observations[original_idx] = await _active_url_observation(state.context, rule)
-                continue
-
-            if rule.type == "open_tabs":
-                observations[original_idx] = [page.url for page in state.context.pages]
-                continue
-
-            profile_chromium_rules.append((original_idx, rule))
-
-        if profile_chromium_rules:
-            await self._close_context_state(state)
-
-            for original_idx, rule in profile_chromium_rules:
-                observations[original_idx] = evaluate_chromium_profile_rule(
-                    profile_dir=state.profile_dir,
-                    rule=rule,
-                )
 
         return ObservationResponse(observation=observations)
 
@@ -561,10 +508,6 @@ class PlaywrightBrowserWorker:
             raise InvalidCommand(f"{context} references unknown website_id: {website_id}") from exc
 
 
-# Temporary compatibility name. Prefer importing PlaywrightBrowserWorker from server.py.
-PlaywrightInstance = PlaywrightBrowserWorker
-
-
 ########################################
 #           Helper Functions           #
 ########################################
@@ -615,124 +558,6 @@ def _build_page_layouts(
     ]
 
 
-async def _active_url_observation(context: BrowserContext, rule: ChromiumRule) -> Observation:
-    pages = list(context.pages)
-    visible_page = await _visible_page(pages)
-    if visible_page is not None:
-        return visible_page.url
-
-    matching_page = _matching_page(pages, rule)
-    if matching_page is not None:
-        return matching_page.url
-
-    last_page = pages[-1] if pages else None
-    return last_page.url if last_page is not None else None
-
-
-async def _visible_page(pages: list[Page]) -> Page | None:
-    for page in reversed(pages):
-        try:
-            visibility_state = await page.evaluate("document.visibilityState")
-        except Exception:
-            continue
-        if visibility_state == "visible":
-            return page
-    return None
-
-
-def _matching_page(pages: list[Page], rule: ChromiumRule) -> Page | None:
-    for page in reversed(pages):
-        if _value_matches(
-            page.url,
-            rule.value,
-            match=rule.match,
-            normalize_space=rule.normalize_space,
-            case_sensitive=rule.case_sensitive,
-        ):
-            return page
-    return None
-
-
-def _requires_persistent_profile(
-    websites: list[Website],
-    profile_setup: ProfileSetup | None,
-) -> bool:
-    return any(website.url.startswith("chrome://") for website in websites) or (
-        profile_setup_requires_persistent_context(profile_setup)
-    )
-
-
-def _value_matches(
-    actual: Observation,
-    expected: object,
-    *,
-    match: str,
-    normalize_space: bool,
-    case_sensitive: bool,
-) -> bool:
-    actual_text = "" if actual is None else str(actual)
-    expected_text = str(expected)
-
-    if normalize_space:
-        actual_text = " ".join(actual_text.split())
-        expected_text = " ".join(expected_text.split())
-
-    if match == "exact":
-        if not case_sensitive:
-            actual_text = actual_text.casefold()
-            expected_text = expected_text.casefold()
-        return actual_text == expected_text
-
-    if match == "contains":
-        if not case_sensitive:
-            actual_text = actual_text.casefold()
-            expected_text = expected_text.casefold()
-        return expected_text in actual_text
-
-    if match == "regex":
-        flags = 0 if case_sensitive else re.IGNORECASE
-        return re.search(expected_text, actual_text, flags=flags) is not None
-
-    return False
-
-
-def _read_profile_json_value(
-    *,
-    profile_dir: Path | None,
-    relative_file: str,
-    dotted_path: str,
-) -> Observation:
-    if profile_dir is None:
-        return None
-
-    path = _safe_profile_path(profile_dir, relative_file)
-    if path is None or not path.exists():
-        return None
-
-    try:
-        data: Any = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return None
-
-    current: Any = data
-    for key in dotted_path.split("."):
-        if not isinstance(current, dict) or key not in current:
-            return None
-        current = current[key]
-
-    return _coerce_playwright_observation(current)
-
-
-def _safe_profile_path(profile_dir: Path, relative_file: str) -> Path | None:
-    profile_root = profile_dir.resolve()
-    path = (profile_root / relative_file).resolve()
-
-    if not path.is_relative_to(profile_root):
-        return None
-
-    return path
-
-
 def _coerce_playwright_observation(value: object) -> Observation:
     if isinstance(value, bool):
         return value
@@ -749,3 +574,10 @@ def _coerce_playwright_observation(value: object) -> Observation:
         return value
 
     return None
+
+
+def _response_text(response: httpx.Response) -> str:
+    text = response.text.strip()
+    if not text:
+        return "empty response"
+    return " ".join(text.split())[:2000]

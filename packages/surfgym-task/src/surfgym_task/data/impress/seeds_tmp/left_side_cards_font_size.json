@@ -1,0 +1,23 @@
+{
+  "instruction": "On slide 2, change the font size of the three left-side cards to 18 pt, 16 pt, and 14 pt respectively, from top to bottom.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "query": [["slide", 2], ["text", {"role": "left-side-card", "index": 0}]],
+        "path": ["style", "fontSize"],
+        "value": 18
+      },
+      {
+        "query": [["slide", 2], ["text", {"role": "left-side-card", "index": 1}]],
+        "path": ["style", "fontSize"],
+        "value": 16
+      },
+      {
+        "query": [["slide", 2], ["text", {"role": "left-side-card", "index": 2}]],
+        "path": ["style", "fontSize"],
+        "value": 14
+      }
+    ]
+  ]
+}
