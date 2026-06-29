@@ -5,6 +5,7 @@ requires-python = ">=3.10"
 dependencies = [
     "dotenv>=0.9.9",
     "openai>=2.44.0",
+    "surfgym-contracts",
 ]
 
 [build-system]

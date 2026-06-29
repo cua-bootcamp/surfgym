@@ -942,12 +942,14 @@ source = { editable = "packages/surfgym-task" }
 dependencies = [
     { name = "dotenv" },
     { name = "openai" },
+    { name = "surfgym-contracts" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "dotenv", specifier = ">=0.9.9" },
     { name = "openai", specifier = ">=2.44.0" },
+    { name = "surfgym-contracts", editable = "packages/surfgym-contracts" },
 ]
 
 [[package]]

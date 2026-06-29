@@ -13,10 +13,16 @@ from surfgym_contracts.computer13 import ReferenceAction, TerminalAction
 from surfgym_contracts.protocol.agent_to_gateway import (
     ActionRequest,
     AgentRequest,
+    ReleaseRequest,
     RewardRequest,
     StartRequest,
 )
-from surfgym_contracts.protocol.gateway_to_agent import ActionResponse, ImagePayload, RewardResponse
+from surfgym_contracts.protocol.gateway_to_agent import (
+    ActionResponse,
+    ImagePayload,
+    ReleaseResponse,
+    RewardResponse,
+)
 from surfgym_contracts.task import CriteriaEvaluation, Hook, LLMJudgeEvaluation, Website
 
 from surfgym_runtime.gateway.error import (
@@ -116,6 +122,8 @@ class Service:
                 return self._handle_action(request, deadline)
             case RewardRequest():
                 return self._handle_reward(request, deadline)
+            case ReleaseRequest():
+                return self._handle_release(request)
 
     def _handle_start(
         self, request: StartRequest, deadline: Callable[[str], Deadline]
@@ -218,6 +226,17 @@ class Service:
             session_id=request.session_id,
             task_id=request.task_id,
             reward=reward,
+        )
+
+    def _handle_release(self, request: ReleaseRequest) -> ReleaseResponse:
+        session_state = self._require_session_state(request.session_id, request.task_id)
+
+        self._release_queue.put(session_state)
+        self._end_session(request.session_id)
+
+        return ReleaseResponse(
+            session_id=request.session_id,
+            task_id=request.task_id,
         )
 
     def _allocate(

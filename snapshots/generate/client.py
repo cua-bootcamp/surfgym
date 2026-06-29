@@ -8,6 +8,7 @@ from urllib.request import Request, urlopen
 from surfgym_contracts.protocol.gateway_to_agent import (
     ActionResponse,
     ErrorResponse,
+    ReleaseResponse,
     Response,
     ResponseAdapter,
     RewardResponse,
@@ -30,10 +31,12 @@ class Client:
         actions: list[list[dict[str, Any]]],
         gateway_url: str,
         snapshot_dir: Path,
+        snapshot_only: bool = False,
     ):
         self.task_id = task_id
         self.session_id = session_id
         self.actions = actions
+        self.snapshot_only = snapshot_only
 
         self.snapshot_dir = snapshot_dir
         self.snapshot_dir.mkdir(parents=True, exist_ok=True)
@@ -54,6 +57,27 @@ class Client:
             },
         )
         self._create_snapshots(next(step), start_response)
+
+        if self.snapshot_only:
+            release_response = post(
+                self.url,
+                {
+                    "op": "release",
+                    "session_id": self.session_id,
+                    "task_id": self.task_id,
+                },
+            )
+            self._create_snapshots(next(step), release_response)
+
+            match release_response:
+                case ReleaseResponse():
+                    return ClientResult(
+                        task_id=self.task_id,
+                        snapshot_dir=self.snapshot_dir,
+                        reward=0.0,
+                    )
+                case _:
+                    raise ValueError("Release failed.")
 
         for action_batch in self.actions:
             action_response = post(
@@ -101,6 +125,8 @@ class Client:
                 )
             case RewardResponse():
                 (self.snapshot_dir / "reward.txt").write_text(str(response.reward))
+            case ReleaseResponse():
+                (self.snapshot_dir / "release.txt").write_text("released\n")
             case ErrorResponse():
                 pass
 

@@ -1,6 +1,7 @@
 from typing import Annotated, Literal, TypeAlias, Union
 
 from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
+
 from surfgym_contracts.computer13 import Computer13
 
 
@@ -27,8 +28,12 @@ class RewardRequest(_BaseRequest):
     op: Literal["reward"]
 
 
+class ReleaseRequest(_BaseRequest):
+    op: Literal["release"]
+
+
 AgentRequest: TypeAlias = Annotated[
-    Union[StartRequest, ActionRequest, RewardRequest],
+    Union[StartRequest, ActionRequest, RewardRequest, ReleaseRequest],
     Field(discriminator="op"),
 ]
 

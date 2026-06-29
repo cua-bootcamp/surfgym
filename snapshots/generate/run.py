@@ -6,7 +6,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from surfgym_contracts import ConsoleAction
+from surfgym_contracts.computer13 import ReferenceAction
 from surfgym_runtime.support import TaskStore
 
 from .client import Client, ClientResult
@@ -20,6 +20,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--task-path", type=Path, required=True)
     parser.add_argument("--max-parallel", type=int, default=1)
+    parser.add_argument("--mode", choices=["reference", "allocated"], default="reference")
     return parser.parse_args()
 
 
@@ -91,24 +92,18 @@ def main() -> None:
     base_session_id = time.time_ns() // 1_000_000
 
     def run_one(index: int, task: Any):
-        if task.transition is None:
-            raise ValueError(f"transition missing in {task.task_id}")
-
         task_root = snapshot_root / task.task_id
+        snapshot_only = args.mode == "allocated"
 
         return Client(
             task_id=task.task_id,
             session_id=base_session_id + index,
             gateway_url=args.gateway_url,
-            actions=[
-                [
-                    ConsoleAction(
-                        action_type="CONSOLE",
-                        hooks=task.transition,
-                    ).model_dump(mode="json")
-                ]
-            ],
+            actions=[]
+            if snapshot_only
+            else [[ReferenceAction(action_type="REFERENCE").model_dump(mode="json")]],
             snapshot_dir=task_root,
+            snapshot_only=snapshot_only,
         ).run()
 
     results_by_task_id: dict[str, ClientResult] = {}

@@ -2,7 +2,14 @@ import argparse
 from pathlib import Path
 from typing import get_args
 
-from surfgym_contracts import Evaluation, Task, Website
+from surfgym_contracts.task import (
+    ApiHook,
+    CriteriaEvaluation,
+    LifecycleHooks,
+    LLMJudgeEvaluation,
+    Task,
+    Website,
+)
 
 from surfgym_task.hoare import HoareStateGenerator
 from surfgym_task.io import (
@@ -41,17 +48,50 @@ class Augmentor:
                                 task_hash, seed, hoare_state
                             )
 
+                            if seed.domain == "impress":
+                                evaluation = LLMJudgeEvaluation()
+                                lifecycle_hooks = LifecycleHooks(
+                                    allocate=[
+                                        ApiHook(
+                                            method="POST",
+                                            url="http://localhost:53001/impress/allocate",
+                                            json_payload={
+                                                "setup_file": "1.pptx",
+                                            },
+                                            timing="before",
+                                        )
+                                    ],
+                                    release=[
+                                        ApiHook(
+                                            method="POST",
+                                            url="http://localhost:53001/impress/release",
+                                            timing="before",
+                                        )
+                                    ],
+                                )
+                            else:
+                                evaluation = CriteriaEvaluation(
+                                    criteria=[
+                                        atom.to_console_criteria() for atom in hoare_state.end_state
+                                    ]
+                                )
+                                lifecycle_hooks = LifecycleHooks(
+                                    allocate=[
+                                        atom.to_console_hook() for atom in hoare_state.start_state
+                                    ],
+                                    reference=[
+                                        atom.to_console_hook() for atom in hoare_state.end_state
+                                    ],
+                                )
+
                             task = Task(
                                 hash=task_hash,
                                 task_id=task_id,
                                 instruction=instruction,
                                 website=[Website(url=seed.website)],
                                 complexity=hoare_state.complexity,
-                                evaluation=Evaluation(
-                                    rules=[atom.to_rule() for atom in hoare_state.end_state]
-                                ),
-                                setup=[atom.to_action() for atom in hoare_state.start_state],
-                                transition=[atom.to_action() for atom in hoare_state.end_state],
+                                evaluation=evaluation,
+                                lifecycle_hooks=lifecycle_hooks,
                             )
                             stats.task_count += 1
 

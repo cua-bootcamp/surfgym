@@ -1,0 +1,6 @@
+Generating snapshots
+  gateway: http://127.0.0.1:18000
+  task path: /Users/goonco/01_workspace/09_llm-lab/surfgym/packages/surfgym-task/src/surfgym_task/data/impress/out/augmented.jsonl
+  max parallel: 4
+  mode: reference
+

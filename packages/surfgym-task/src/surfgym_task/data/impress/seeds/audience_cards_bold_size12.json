@@ -1,45 +1,69 @@
 {
   "instruction": "On slide 9, make all four audience cards bold and change their font size to 12 pt.",
-  "empty_start": false,
+  "empty_start": true,
   "states": [
     [
       {
-        "query": [["slide", 9], ["text", {"role": "audience-card", "index": 0}]],
+        "query": [
+          ["slide", 9],
+          ["text", { "role": "audience-card", "index": 0 }]
+        ],
         "path": ["style", "bold"],
         "value": true
       },
       {
-        "query": [["slide", 9], ["text", {"role": "audience-card", "index": 0}]],
+        "query": [
+          ["slide", 9],
+          ["text", { "role": "audience-card", "index": 0 }]
+        ],
         "path": ["style", "fontSize"],
         "value": 12
       },
       {
-        "query": [["slide", 9], ["text", {"role": "audience-card", "index": 1}]],
+        "query": [
+          ["slide", 9],
+          ["text", { "role": "audience-card", "index": 1 }]
+        ],
         "path": ["style", "bold"],
         "value": true
       },
       {
-        "query": [["slide", 9], ["text", {"role": "audience-card", "index": 1}]],
+        "query": [
+          ["slide", 9],
+          ["text", { "role": "audience-card", "index": 1 }]
+        ],
         "path": ["style", "fontSize"],
         "value": 12
       },
       {
-        "query": [["slide", 9], ["text", {"role": "audience-card", "index": 2}]],
+        "query": [
+          ["slide", 9],
+          ["text", { "role": "audience-card", "index": 2 }]
+        ],
         "path": ["style", "bold"],
         "value": true
       },
       {
-        "query": [["slide", 9], ["text", {"role": "audience-card", "index": 2}]],
+        "query": [
+          ["slide", 9],
+          ["text", { "role": "audience-card", "index": 2 }]
+        ],
         "path": ["style", "fontSize"],
         "value": 12
       },
       {
-        "query": [["slide", 9], ["text", {"role": "audience-card", "index": 3}]],
+        "query": [
+          ["slide", 9],
+          ["text", { "role": "audience-card", "index": 3 }]
+        ],
         "path": ["style", "bold"],
         "value": true
       },
       {
-        "query": [["slide", 9], ["text", {"role": "audience-card", "index": 3}]],
+        "query": [
+          ["slide", 9],
+          ["text", { "role": "audience-card", "index": 3 }]
+        ],
         "path": ["style", "fontSize"],
         "value": 12
       }

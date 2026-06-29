@@ -1,10 +1,20 @@
 {
   "instruction": "On slide 9, change only the bottom body paragraph beginning with \"Audience choices shape\" to purple.",
-  "empty_start": false,
+  "empty_start": true,
   "states": [
     [
       {
-        "query": [["slide", 9], ["text", {"role": "body-paragraph", "startsWith": "Audience choices shape", "position": "bottom"}]],
+        "query": [
+          ["slide", 9],
+          [
+            "text",
+            {
+              "role": "body-paragraph",
+              "startsWith": "Audience choices shape",
+              "position": "bottom"
+            }
+          ]
+        ],
         "path": ["style", "color"],
         "value": "purple"
       }

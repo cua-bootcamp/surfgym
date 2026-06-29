@@ -1,9 +1,0 @@
-// tasks that requires menu ui
-{
-  "instruction": "Create the comma-separated text \"Name, Score, Ilya, 87, Noor, 91\". Then convert it into a table with 2 columns and 3 rows so the first row is Name, Score, the second row is Ilya, 87, and the third row is Noor, 91.",
-  "empty_start": true,
-  "states": [
-    [{ "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-table", "property": ["tables", "0", "shape"], "value": "2x3" }],
-    [{ "match": "exact", "applyf": "applyWordMeta", "evalf": "getWordMeta", "param": "word-table", "property": ["tables", "0", "cellsText"], "value": "Name|Score|Ilya|87|Noor|91" }]
-  ]
-}

@@ -4,7 +4,8 @@ import os
 from collections import defaultdict
 from dataclasses import dataclass, field
 from io import BytesIO
-from typing import Any, DefaultDict, cast
+from typing import Any, DefaultDict, Literal, cast
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 import httpx
 from PIL import Image
@@ -37,6 +38,8 @@ from surfgym_runtime.wavepool.instance.transport import (
     PlaywrightController,
     ScreenCursor,
 )
+
+HookTiming = Literal["before", "after"]
 
 
 @dataclass
@@ -110,6 +113,8 @@ class PlaywrightBrowserWorker:
         self, instance_id: str, websites: list[Website], allocate_hooks: list[Hook]
     ) -> None:
         browser = self._require_browser()
+        before_allocate_hooks = _hooks_for_timing(allocate_hooks, "before")
+        after_allocate_hooks = _hooks_for_timing(allocate_hooks, "after")
 
         async with self._sessions_lock:
             if instance_id in self.sessions or instance_id in self._starting_sessions:
@@ -158,17 +163,26 @@ class PlaywrightBrowserWorker:
                 total_height=self.viewport_height,
             )
 
+            await self._run_page_independent_hooks(
+                before_allocate_hooks,
+                context="before allocate hook",
+                instance_id=instance_id,
+            )
+
             for website, layout in zip(websites, layouts):
                 page = await state.context.new_page()
                 await state.controller.on_new_page(page, layout)
-                await state.controller.visit_page(page, website.url)
+                await state.controller.visit_page(
+                    page,
+                    _url_with_session_id(website.url, instance_id),
+                )
 
                 state.pages[website.website_id] = page
                 state.page_layouts[website.website_id] = layout
                 if state.active_page_id is None:
                     state.active_page_id = website.website_id
 
-            await self._run_hooks(state, allocate_hooks)
+            await self._run_hooks(state, after_allocate_hooks)
 
             async with self._sessions_lock:
                 self._starting_sessions.discard(instance_id)
@@ -195,11 +209,22 @@ class PlaywrightBrowserWorker:
 
     async def delete(self, instance_id: str, release_hooks: list[Hook] | None = None) -> None:
         state = await self._mark_closing(instance_id)
+        before_release_hooks = _hooks_for_timing(release_hooks or [], "before")
+        after_release_hooks = _hooks_for_timing(release_hooks or [], "after")
 
         try:
             async with state.lock:
-                await self._run_hooks(state, release_hooks or [])
-                await self._close_context_state(state)
+                try:
+                    try:
+                        await self._run_hooks(state, before_release_hooks)
+                    finally:
+                        await self._close_context_state(state)
+                finally:
+                    await self._run_page_independent_hooks(
+                        after_release_hooks,
+                        context="after release hook",
+                        instance_id=state.instance_id,
+                    )
 
         finally:
             async with self._sessions_lock:
@@ -219,35 +244,52 @@ class PlaywrightBrowserWorker:
 
     async def _run_hooks(self, state: ContextState, hooks: list[Hook]) -> None:
         for hook in hooks:
+            _reject_replace_hook(hook, context="page hook")
             match hook:
                 case ApiHook():
-                    await self._run_api_hook(state, hook)
+                    await self._run_api_hook(hook, state.instance_id)
                 case ConsoleHook():
                     await self._run_console_hook(state, hook)
 
-    async def _run_api_hook(self, state: ContextState, hook: ApiHook) -> None:
-        self._page_for_website(state, hook.website_id, context="api hook")
+    async def _run_page_independent_hooks(
+        self, hooks: list[Hook], *, context: str, instance_id: str
+    ) -> None:
+        for hook in hooks:
+            _reject_replace_hook(hook, context=context)
+            match hook:
+                case ApiHook():
+                    await self._run_api_hook(hook, instance_id)
+                case ConsoleHook():
+                    raise InvalidCommand(f"{context} does not support console hooks")
+
+    async def _run_api_hook(self, hook: ApiHook, instance_id: str) -> None:
+        url = _url_with_session_id(hook.url, instance_id)
+        json_payload = _json_payload_with_session_id(
+            hook.json_payload,
+            instance_id,
+            hook.method,
+        )
 
         try:
             async with httpx.AsyncClient(timeout=30.0) as client:
-                if hook.json_payload is None:
-                    response = await client.request(hook.method, hook.url)
+                if json_payload is None:
+                    response = await client.request(hook.method, url)
                 else:
                     response = await client.request(
                         hook.method,
-                        hook.url,
-                        json=hook.json_payload,
+                        url,
+                        json=json_payload,
                     )
         except httpx.RequestError as exc:
             raise InvalidCommand(
                 f"API hook request failed: method={hook.method} "
-                f"url={hook.url} error={type(exc).__name__}"
+                f"url={url} error={type(exc).__name__}"
             ) from exc
 
         if response.status_code < 200 or response.status_code >= 300:
             raise InvalidCommand(
                 f"API hook returned non-success status: method={hook.method} "
-                f"url={hook.url} status={response.status_code} "
+                f"url={url} status={response.status_code} "
                 f"body={_response_text(response)}"
             )
 
@@ -260,7 +302,7 @@ class PlaywrightBrowserWorker:
             response_body = cast(dict[str, object], body)
             if response_body.get("ok") is False:
                 raise InvalidCommand(
-                    f"API hook reported failure: method={hook.method} url={hook.url}"
+                    f"API hook reported failure: method={hook.method} url={url}"
                 )
 
     async def _run_console_hook(self, state: ContextState, hook: ConsoleHook) -> None:
@@ -511,6 +553,51 @@ class PlaywrightBrowserWorker:
 ########################################
 #           Helper Functions           #
 ########################################
+
+
+def _hooks_for_timing(hooks: list[Hook], timing: HookTiming) -> list[Hook]:
+    selected: list[Hook] = []
+
+    for hook in hooks:
+        if hook.timing == timing:
+            selected.append(hook)
+        elif hook.timing == "replace":
+            raise InvalidCommand("replace hook timing is not supported yet")
+
+    return selected
+
+
+def _reject_replace_hook(hook: Hook, *, context: str) -> None:
+    if hook.timing == "replace":
+        raise InvalidCommand(f"{context} does not support replace hooks")
+
+
+def _url_with_session_id(url: str, instance_id: str) -> str:
+    parts = urlsplit(url)
+    query = [
+        (key, value)
+        for key, value in parse_qsl(parts.query, keep_blank_values=True)
+        if key != "session_id"
+    ]
+    query.append(("session_id", instance_id))
+
+    return urlunsplit(parts._replace(query=urlencode(query)))
+
+
+def _json_payload_with_session_id(
+    payload: dict[str, object] | None,
+    instance_id: str,
+    method: str,
+) -> dict[str, object] | None:
+    if payload is None:
+        if method in {"POST", "PUT", "PATCH"}:
+            return {"session_id": instance_id}
+        return None
+
+    return {
+        **payload,
+        "session_id": instance_id,
+    }
 
 
 def _build_page_layouts(

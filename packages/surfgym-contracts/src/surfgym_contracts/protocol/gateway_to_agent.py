@@ -36,6 +36,10 @@ class RewardResponse(_BaseResponse):
     reward: float
 
 
+class ReleaseResponse(_BaseResponse):
+    status: Literal[ResponseStatus.OK] = ResponseStatus.OK
+
+
 ErrorType: TypeAlias = Literal["TIMEOUT", "INVALID_REQUEST", "UPSTREAM", "RETRYABLE", "UNEXPECTED"]
 
 
@@ -47,5 +51,5 @@ class ErrorResponse(_FrozenBaseModel):
     message: str
 
 
-Response: TypeAlias = ActionResponse | RewardResponse | ErrorResponse
+Response: TypeAlias = ActionResponse | RewardResponse | ReleaseResponse | ErrorResponse
 ResponseAdapter: TypeAdapter[Response] = TypeAdapter(Response)

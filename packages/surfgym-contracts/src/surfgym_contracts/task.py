@@ -25,6 +25,9 @@ class FrozenBaseModel(BaseModel):
 
 def infer_mode(key_tags: Mapping[str, str], *, default: Optional[str] = None):
     def infer_by_rule(value: object) -> Optional[str]:
+        if isinstance(value, BaseModel):
+            value = value.model_dump(mode="python")
+
         if not isinstance(value, Mapping):
             return None
 
@@ -135,12 +138,16 @@ class Website(_WebsiteDependent):
     url: str
 
 
-class ConsoleHook(_WebsiteDependent):
+class _Hook(_WebsiteDependent):
+    timing: Literal["before", "after", "replace"]
+
+
+class ConsoleHook(_Hook):
     mode: Literal["console"] = "console"
     script: str
 
 
-class ApiHook(_WebsiteDependent):
+class ApiHook(_Hook):
     mode: Literal["api"] = "api"
     method: Literal["GET", "POST", "PUT", "PATCH", "DELETE"]
     url: str
