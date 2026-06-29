@@ -1,15 +1,22 @@
 {
   "instruction": "On slide 8, make the text in the label \"draft labels become movable cards\" bold and change its font size to 14 pt.",
-  "empty_start": false,
   "states": [
     [
       {
-        "query": [["slide", 8], ["textbox", "draft labels become movable cards"]],
+        "query": [
+          ["slide", 8],
+          ["textbox", "draft labels become movable cards"]
+        ],
         "path": ["style", "bold"],
         "value": true
-      },
+      }
+    ],
+    [
       {
-        "query": [["slide", 8], ["textbox", "draft labels become movable cards"]],
+        "query": [
+          ["slide", 8],
+          ["textbox", "draft labels become movable cards"]
+        ],
         "path": ["style", "fontSize"],
         "value": 14
       }

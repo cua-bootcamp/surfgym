@@ -5,63 +5,77 @@
       {
         "query": [
           ["slide", 13],
-          ["text", { "role": "checklist-card", "index": 0 }]
+          ["textbox", "Title names the focus"]
         ],
         "path": ["style", "fontFamily"],
         "value": "Liberation Sans Narrow"
-      },
+      }
+    ],
+    [
       {
         "query": [
           ["slide", 13],
-          ["text", { "role": "checklist-card", "index": 1 }]
+          ["textbox", "Evidence is cited"]
         ],
         "path": ["style", "fontFamily"],
         "value": "Liberation Sans Narrow"
-      },
+      }
+    ],
+    [
       {
         "query": [
           ["slide", 13],
-          ["text", { "role": "checklist-card", "index": 2 }]
+          ["textbox", "Intro sets context"]
         ],
         "path": ["style", "fontFamily"],
         "value": "Liberation Sans Narrow"
-      },
+      }
+    ],
+    [
       {
         "query": [
           ["slide", 13],
-          ["text", { "role": "checklist-card", "index": 3 }]
+          ["textbox", "Analysis explains why"]
         ],
         "path": ["style", "fontFamily"],
         "value": "Liberation Sans Narrow"
-      },
+      }
+    ],
+    [
       {
         "query": [
           ["slide", 13],
-          ["text", { "role": "checklist-card", "index": 4 }]
+          ["textbox", "Thesis makes a claim"]
         ],
         "path": ["style", "fontFamily"],
         "value": "Liberation Sans Narrow"
-      },
+      }
+    ],
+    [
       {
         "query": [
           ["slide", 13],
-          ["text", { "role": "checklist-card", "index": 5 }]
+          ["textbox", "Transitions guide readers"]
         ],
         "path": ["style", "fontFamily"],
         "value": "Liberation Sans Narrow"
-      },
+      }
+    ],
+    [
       {
         "query": [
           ["slide", 13],
-          ["text", { "role": "checklist-card", "index": 6 }]
+          ["textbox", "Paragraph order is clear"]
         ],
         "path": ["style", "fontFamily"],
         "value": "Liberation Sans Narrow"
-      },
+      }
+    ],
+    [
       {
         "query": [
           ["slide", 13],
-          ["text", { "role": "checklist-card", "index": 7 }]
+          ["textbox", "Conclusion looks forward"]
         ],
         "path": ["style", "fontFamily"],
         "value": "Liberation Sans Narrow"

@@ -9,7 +9,9 @@
         ],
         "path": ["style", "horizontalAlign"],
         "value": "right"
-      },
+      }
+    ],
+    [
       {
         "query": [
           ["slide", 3],
@@ -17,7 +19,9 @@
         ],
         "path": ["style", "horizontalAlign"],
         "value": "right"
-      },
+      }
+    ],
+    [
       {
         "query": [
           ["slide", 3],
@@ -25,7 +29,9 @@
         ],
         "path": ["style", "horizontalAlign"],
         "value": "right"
-      },
+      }
+    ],
+    [
       {
         "query": [
           ["slide", 3],

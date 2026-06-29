@@ -50,6 +50,20 @@ class Augmentor:
                             )
 
                             if seed.domain == "impress":
+                                start_operations = [
+                                    atom.model_dump(mode="json")
+                                    for atom in hoare_state.start_state
+                                ]
+                                end_operations = [
+                                    atom.model_dump(mode="json")
+                                    for atom in hoare_state.end_state
+                                ]
+                                setup_payload = {
+                                    "setup_file": "1.pptx",
+                                }
+                                if start_operations:
+                                    setup_payload["operations"] = start_operations
+
                                 evaluation = CriteriaEvaluation(
                                     criteria=[
                                         DomCriteria(
@@ -66,9 +80,7 @@ class Augmentor:
                                         ApiHook(
                                             method="POST",
                                             url="http://localhost:53001/impress/allocate",
-                                            json_payload={
-                                                "setup_file": "1.pptx",
-                                            },
+                                            json_payload=setup_payload,
                                             timing="before",
                                         )
                                     ],
@@ -77,10 +89,7 @@ class Augmentor:
                                             method="POST",
                                             url="http://localhost:53001/impress/evaluate",
                                             json_payload={
-                                                "criteria": [
-                                                    atom.model_dump(mode="json")
-                                                    for atom in hoare_state.end_state
-                                                ],
+                                                "criteria": end_operations,
                                             },
                                             timing="replace",
                                         )
@@ -90,6 +99,16 @@ class Augmentor:
                                             method="POST",
                                             url="http://localhost:53001/impress/release",
                                             timing="before",
+                                        )
+                                    ],
+                                    reference=[
+                                        ApiHook(
+                                            method="POST",
+                                            url="http://localhost:53001/impress/reference",
+                                            json_payload={
+                                                "operations": end_operations,
+                                            },
+                                            timing="after",
                                         )
                                     ],
                                 )

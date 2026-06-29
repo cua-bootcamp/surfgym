@@ -1,15 +1,22 @@
 {
   "instruction": "On slide 11, change the title \"Compare & Contrast Notes\" to 44 pt and change its font color to purple.",
-  "empty_start": false,
   "states": [
     [
       {
-        "query": [["slide", 11], ["textbox", "Compare & Contrast Notes"]],
+        "query": [
+          ["slide", 11],
+          ["textbox", "Compare & Contrast Notes"]
+        ],
         "path": ["style", "fontSize"],
         "value": 44
-      },
+      }
+    ],
+    [
       {
-        "query": [["slide", 11], ["textbox", "Compare & Contrast Notes"]],
+        "query": [
+          ["slide", 11],
+          ["textbox", "Compare & Contrast Notes"]
+        ],
         "path": ["style", "color"],
         "value": "purple"
       }

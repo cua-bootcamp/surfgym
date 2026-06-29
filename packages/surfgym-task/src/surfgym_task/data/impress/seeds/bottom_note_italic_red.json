@@ -12,7 +12,9 @@
         ],
         "path": ["style", "italic"],
         "value": true
-      },
+      }
+    ],
+    [
       {
         "query": [
           ["slide", 13],

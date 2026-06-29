@@ -1,20 +1,32 @@
 {
   "instruction": "On slide 8, change the font color of the Step 1, Step 2, and Step 3 cards to green, red, and blue respectively, from top to bottom. Use exactly these colors.",
-  "empty_start": false,
   "states": [
     [
       {
-        "query": [["slide", 8], ["textbox", "Step 1\nName the paragraph’s main point."]],
+        "query": [
+          ["slide", 8],
+          ["textbox", "Step 1\nName the paragraph’s main point."]
+        ],
         "path": ["style", "color"],
         "value": "green"
-      },
+      }
+    ],
+    [
       {
-        "query": [["slide", 8], ["textbox", "Step 2\nMark repeated or missing ideas."]],
+        "query": [
+          ["slide", 8],
+          ["textbox", "Step 2\nMark repeated or missing ideas."]
+        ],
         "path": ["style", "color"],
         "value": "red"
-      },
+      }
+    ],
+    [
       {
-        "query": [["slide", 8], ["textbox", "Step 3\nMove sections into a stronger order."]],
+        "query": [
+          ["slide", 8],
+          ["textbox", "Step 3\nMove sections into a stronger order."]
+        ],
         "path": ["style", "color"],
         "value": "blue"
       }

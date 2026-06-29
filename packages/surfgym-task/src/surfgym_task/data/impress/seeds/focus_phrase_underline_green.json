@@ -1,15 +1,22 @@
 {
   "instruction": "On slide 14, underline the first text box and change its font color to green. Use exactly green.",
-  "empty_start": false,
   "states": [
     [
       {
-        "query": [["slide", 14], ["textbox", "FOCUS PHRASE"]],
+        "query": [
+          ["slide", 14],
+          ["textbox", "FOCUS PHRASE"]
+        ],
         "path": ["style", "underline"],
         "value": true
-      },
+      }
+    ],
+    [
       {
-        "query": [["slide", 14], ["textbox", "FOCUS PHRASE"]],
+        "query": [
+          ["slide", 14],
+          ["textbox", "FOCUS PHRASE"]
+        ],
         "path": ["style", "color"],
         "value": "green"
       }
