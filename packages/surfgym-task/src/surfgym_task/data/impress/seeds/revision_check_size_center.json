@@ -4,14 +4,14 @@
   "states": [
     [
       {
-        "query": [["slide", 5], ["text", "Revision check"]],
+        "query": [["slide", 5], ["textbox", "Revision check"]],
         "path": ["style", "fontSize"],
         "value": 24
       },
       {
-        "query": [["slide", 5], ["text", "Revision check"]],
+        "query": [["slide", 5], ["textbox", "Revision check"]],
         "path": ["style", "horizontalAlign"],
-        "value": "center"
+        "value": "middle"
       }
     ]
   ]

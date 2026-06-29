@@ -3,6 +3,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 from surfgym_contracts.protocol.gateway_to_agent import (
@@ -20,6 +21,47 @@ class ClientResult:
     task_id: str
     snapshot_dir: Path
     reward: float
+
+
+class SnapshotClientError(RuntimeError):
+    pass
+
+
+class SnapshotGatewayError(SnapshotClientError):
+    def __init__(self, *, operation: str, response: ErrorResponse):
+        self.operation = operation
+        self.response = response
+
+        super().__init__(
+            "\n".join(
+                [
+                    "Snapshot gateway returned an error response.",
+                    f"(operation) {operation}",
+                    f"(session_id) {response.session_id}",
+                    f"(task_id) {response.task_id}",
+                    f"(error_type) {response.error_type}",
+                    f"(message) {response.message}",
+                    "(response)",
+                    response_json(response).rstrip(),
+                ]
+            )
+        )
+
+
+class SnapshotHttpError(SnapshotClientError):
+    def __init__(self, *, operation: str, url: str, status: int | None, body: str):
+        super().__init__(
+            "\n".join(
+                [
+                    "Snapshot gateway HTTP request failed.",
+                    f"(operation) {operation}",
+                    f"(url) {url}",
+                    f"(status) {status}",
+                    "(body)",
+                    body,
+                ]
+            )
+        )
 
 
 class Client:
@@ -55,8 +97,10 @@ class Client:
                 "session_id": self.session_id,
                 "task_id": self.task_id,
             },
+            operation="start",
         )
-        self._create_snapshots(next(step), start_response)
+        self._create_snapshots(next(step), "start", start_response)
+        self._raise_if_error("start", start_response)
 
         if self.snapshot_only:
             release_response = post(
@@ -66,8 +110,10 @@ class Client:
                     "session_id": self.session_id,
                     "task_id": self.task_id,
                 },
+                operation="release",
             )
-            self._create_snapshots(next(step), release_response)
+            self._create_snapshots(next(step), "release", release_response)
+            self._raise_if_error("release", release_response)
 
             match release_response:
                 case ReleaseResponse():
@@ -77,9 +123,13 @@ class Client:
                         reward=0.0,
                     )
                 case _:
-                    raise ValueError("Release failed.")
+                    raise ValueError(
+                        f"Expected ReleaseResponse, got {type(release_response).__name__}: "
+                        f"{response_json(release_response)}"
+                    )
 
-        for action_batch in self.actions:
+        for action_index, action_batch in enumerate(self.actions):
+            operation = f"action_{action_index}"
             action_response = post(
                 self.url,
                 {
@@ -88,8 +138,10 @@ class Client:
                     "task_id": self.task_id,
                     "actions": action_batch,
                 },
+                operation=operation,
             )
-            self._create_snapshots(next(step), action_response)
+            self._create_snapshots(next(step), operation, action_response)
+            self._raise_if_error(operation, action_response)
 
         reward_response = post(
             self.url,
@@ -98,8 +150,10 @@ class Client:
                 "session_id": self.session_id,
                 "task_id": self.task_id,
             },
+            operation="reward",
         )
-        self._create_snapshots(next(step), reward_response)
+        self._create_snapshots(next(step), "reward", reward_response)
+        self._raise_if_error("reward", reward_response)
 
         match reward_response:
             case RewardResponse():
@@ -109,7 +163,10 @@ class Client:
                     reward=reward_response.reward,
                 )
             case _:
-                raise ValueError("Somethings wrooooong!")
+                raise ValueError(
+                    f"Expected RewardResponse, got {type(reward_response).__name__}: "
+                    f"{response_json(reward_response)}"
+                )
 
     def _step_gen(self):
         step = 0
@@ -117,7 +174,7 @@ class Client:
             yield step
             step += 1
 
-    def _create_snapshots(self, step: int, response: Response):
+    def _create_snapshots(self, step: int, operation: str, response: Response):
         match response:
             case ActionResponse():
                 (self.snapshot_dir / f"screenshot_{step}.png").write_bytes(
@@ -128,10 +185,17 @@ class Client:
             case ReleaseResponse():
                 (self.snapshot_dir / "release.txt").write_text("released\n")
             case ErrorResponse():
-                pass
+                (self.snapshot_dir / f"error_{step}_{operation}.json").write_text(
+                    response_json(response),
+                    encoding="utf-8",
+                )
+
+    def _raise_if_error(self, operation: str, response: Response) -> None:
+        if isinstance(response, ErrorResponse):
+            raise SnapshotGatewayError(operation=operation, response=response)
 
 
-def post(url: str, payload: dict[str, object]) -> Response:
+def post(url: str, payload: dict[str, object], *, operation: str) -> Response:
     body = json.dumps(payload).encode("utf-8")
 
     request = Request(
@@ -141,8 +205,32 @@ def post(url: str, payload: dict[str, object]) -> Response:
         method="POST",
     )
 
-    with urlopen(request, timeout=90) as http_response:
-        return ResponseAdapter.validate_json(http_response.read())
+    try:
+        with urlopen(request, timeout=90) as http_response:
+            return ResponseAdapter.validate_json(http_response.read())
+    except HTTPError as exc:
+        error_body = exc.read().decode("utf-8", errors="replace")
+        raise SnapshotHttpError(
+            operation=operation,
+            url=url,
+            status=exc.code,
+            body=error_body,
+        ) from exc
+    except URLError as exc:
+        raise SnapshotHttpError(
+            operation=operation,
+            url=url,
+            status=None,
+            body=str(exc),
+        ) from exc
+
+
+def response_json(response: Response) -> str:
+    return json.dumps(
+        response.model_dump(mode="json"),
+        ensure_ascii=False,
+        indent=2,
+    ) + "\n"
 
 
 def decode_png_base64(data: str) -> bytes:

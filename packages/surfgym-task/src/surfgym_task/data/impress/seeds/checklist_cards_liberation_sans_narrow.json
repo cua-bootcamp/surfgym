@@ -1,45 +1,68 @@
 {
   "instruction": "On slide 13, change the font of all eight checklist cards to Liberation Sans Narrow, but do not change the footer.",
-  "empty_start": false,
   "states": [
     [
       {
-        "query": [["slide", 13], ["text", {"role": "checklist-card", "index": 0}]],
+        "query": [
+          ["slide", 13],
+          ["text", { "role": "checklist-card", "index": 0 }]
+        ],
         "path": ["style", "fontFamily"],
         "value": "Liberation Sans Narrow"
       },
       {
-        "query": [["slide", 13], ["text", {"role": "checklist-card", "index": 1}]],
+        "query": [
+          ["slide", 13],
+          ["text", { "role": "checklist-card", "index": 1 }]
+        ],
         "path": ["style", "fontFamily"],
         "value": "Liberation Sans Narrow"
       },
       {
-        "query": [["slide", 13], ["text", {"role": "checklist-card", "index": 2}]],
+        "query": [
+          ["slide", 13],
+          ["text", { "role": "checklist-card", "index": 2 }]
+        ],
         "path": ["style", "fontFamily"],
         "value": "Liberation Sans Narrow"
       },
       {
-        "query": [["slide", 13], ["text", {"role": "checklist-card", "index": 3}]],
+        "query": [
+          ["slide", 13],
+          ["text", { "role": "checklist-card", "index": 3 }]
+        ],
         "path": ["style", "fontFamily"],
         "value": "Liberation Sans Narrow"
       },
       {
-        "query": [["slide", 13], ["text", {"role": "checklist-card", "index": 4}]],
+        "query": [
+          ["slide", 13],
+          ["text", { "role": "checklist-card", "index": 4 }]
+        ],
         "path": ["style", "fontFamily"],
         "value": "Liberation Sans Narrow"
       },
       {
-        "query": [["slide", 13], ["text", {"role": "checklist-card", "index": 5}]],
+        "query": [
+          ["slide", 13],
+          ["text", { "role": "checklist-card", "index": 5 }]
+        ],
         "path": ["style", "fontFamily"],
         "value": "Liberation Sans Narrow"
       },
       {
-        "query": [["slide", 13], ["text", {"role": "checklist-card", "index": 6}]],
+        "query": [
+          ["slide", 13],
+          ["text", { "role": "checklist-card", "index": 6 }]
+        ],
         "path": ["style", "fontFamily"],
         "value": "Liberation Sans Narrow"
       },
       {
-        "query": [["slide", 13], ["text", {"role": "checklist-card", "index": 7}]],
+        "query": [
+          ["slide", 13],
+          ["text", { "role": "checklist-card", "index": 7 }]
+        ],
         "path": ["style", "fontFamily"],
         "value": "Liberation Sans Narrow"
       }

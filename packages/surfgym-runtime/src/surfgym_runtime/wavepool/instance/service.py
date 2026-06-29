@@ -399,8 +399,11 @@ class PlaywrightBrowserWorker:
                     return await state.controller.hotkey_press(page, command.keys)
 
                 case "observe":
-                    #
-                    return await self._get_observation(state, command.evaluation)
+                    return await self._get_observation_with_hooks(
+                        state,
+                        command.evaluation,
+                        command.evaluation_hooks,
+                    )
 
                 case "sleep":
                     return await state.controller.sleep(page, command.duration_ms)
@@ -462,6 +465,94 @@ class PlaywrightBrowserWorker:
                 observations[original_idx] = _coerce_playwright_observation(obs)
 
         return ObservationResponse(observation=observations)
+
+    async def _get_observation_with_hooks(
+        self,
+        state: ContextState,
+        evaluation: CriteriaEvaluation,
+        hooks: list[Hook],
+    ) -> ObservationResponse:
+        before_hooks, replace_hook, after_hooks = _observe_hooks_by_timing(hooks)
+
+        await self._run_hooks(state, before_hooks)
+        try:
+            if replace_hook is not None:
+                return await self._run_observation_replace_hook(
+                    state,
+                    replace_hook,
+                    criteria_count=len(evaluation.criteria),
+                )
+
+            return await self._get_observation(state, evaluation)
+        finally:
+            await self._run_hooks(state, after_hooks)
+
+    async def _run_observation_replace_hook(
+        self,
+        state: ContextState,
+        hook: Hook,
+        *,
+        criteria_count: int,
+    ) -> ObservationResponse:
+        match hook:
+            case ApiHook():
+                body = await self._run_api_observation_hook(hook, state.instance_id)
+                return _observation_response_from_hook_body(body, criteria_count)
+            case ConsoleHook():
+                page = self._page_for_website(state, hook.website_id, context="observe hook")
+                body = await page.evaluate(hook.script)
+                return _observation_response_from_hook_body(body, criteria_count)
+
+    async def _run_api_observation_hook(
+        self,
+        hook: ApiHook,
+        instance_id: str,
+    ) -> object:
+        url = _url_with_session_id(hook.url, instance_id)
+        json_payload = _json_payload_with_session_id(
+            hook.json_payload,
+            instance_id,
+            hook.method,
+        )
+
+        try:
+            async with httpx.AsyncClient(timeout=30.0) as client:
+                if json_payload is None:
+                    response = await client.request(hook.method, url)
+                else:
+                    response = await client.request(
+                        hook.method,
+                        url,
+                        json=json_payload,
+                    )
+        except httpx.RequestError as exc:
+            raise InvalidCommand(
+                f"observe API hook request failed: method={hook.method} "
+                f"url={url} error={type(exc).__name__}"
+            ) from exc
+
+        if response.status_code < 200 or response.status_code >= 300:
+            raise InvalidCommand(
+                f"observe API hook returned non-success status: method={hook.method} "
+                f"url={url} status={response.status_code} "
+                f"body={_response_text(response)}"
+            )
+
+        try:
+            body: object = response.json()
+        except ValueError as exc:
+            raise InvalidCommand(
+                f"observe API hook must return JSON: method={hook.method} url={url}"
+            ) from exc
+
+        if isinstance(body, dict):
+            response_body = cast(dict[str, object], body)
+            if response_body.get("ok") is False:
+                raise InvalidCommand(
+                    f"observe API hook reported failure: method={hook.method} url={url}"
+                )
+
+        return body
 
     async def _get_state(self, instance_id: str) -> ContextState:
         async with self._sessions_lock:
@@ -567,6 +658,26 @@ def _hooks_for_timing(hooks: list[Hook], timing: HookTiming) -> list[Hook]:
     return selected
 
 
+def _observe_hooks_by_timing(hooks: list[Hook]) -> tuple[list[Hook], Hook | None, list[Hook]]:
+    before_hooks: list[Hook] = []
+    after_hooks: list[Hook] = []
+    replace_hooks: list[Hook] = []
+
+    for hook in hooks:
+        if hook.timing == "before":
+            before_hooks.append(hook)
+        elif hook.timing == "after":
+            after_hooks.append(hook)
+        elif hook.timing == "replace":
+            replace_hooks.append(hook)
+
+    if len(replace_hooks) > 1:
+        raise InvalidCommand("observe supports at most one replace hook")
+
+    replace_hook = replace_hooks[0] if replace_hooks else None
+    return before_hooks, replace_hook, after_hooks
+
+
 def _reject_replace_hook(hook: Hook, *, context: str) -> None:
     if hook.timing == "replace":
         raise InvalidCommand(f"{context} does not support replace hooks")
@@ -660,7 +771,36 @@ def _coerce_playwright_observation(value: object) -> Observation:
             return str(value)
         return value
 
+    if isinstance(value, list) and all(isinstance(item, str) for item in value):
+        return value
+
     return None
+
+
+def _observation_response_from_hook_body(body: object, criteria_count: int) -> ObservationResponse:
+    raw_observation: object
+    if isinstance(body, dict):
+        if "observation" not in body:
+            if "value" not in body:
+                raise InvalidCommand("observe replace hook response must include observation")
+            raw_observation = [body["value"]]
+        else:
+            raw_observation = body["observation"]
+    else:
+        raw_observation = body
+
+    if isinstance(raw_observation, list):
+        observations = [_coerce_playwright_observation(item) for item in raw_observation]
+    else:
+        observations = [_coerce_playwright_observation(raw_observation)]
+
+    if len(observations) != criteria_count:
+        raise InvalidCommand(
+            "observe replace hook returned observation count "
+            f"{len(observations)} for {criteria_count} criteria"
+        )
+
+    return ObservationResponse(observation=observations)
 
 
 def _response_text(response: httpx.Response) -> str:

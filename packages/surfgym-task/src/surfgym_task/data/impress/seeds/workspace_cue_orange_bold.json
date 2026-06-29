@@ -4,12 +4,12 @@
   "states": [
     [
       {
-        "query": [["slide", 3], ["text", "workspace cue"]],
+        "query": [["slide", 3], ["textbox", "workspace cue"]],
         "path": ["style", "color"],
         "value": "orange"
       },
       {
-        "query": [["slide", 3], ["text", "workspace cue"]],
+        "query": [["slide", 3], ["textbox", "workspace cue"]],
         "path": ["style", "bold"],
         "value": true
       }

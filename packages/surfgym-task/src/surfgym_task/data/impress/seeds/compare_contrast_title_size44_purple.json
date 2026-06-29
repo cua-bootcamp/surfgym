@@ -4,12 +4,12 @@
   "states": [
     [
       {
-        "query": [["slide", 11], ["text", "Compare & Contrast Notes"]],
+        "query": [["slide", 11], ["textbox", "Compare & Contrast Notes"]],
         "path": ["style", "fontSize"],
         "value": 44
       },
       {
-        "query": [["slide", 11], ["text", "Compare & Contrast Notes"]],
+        "query": [["slide", 11], ["textbox", "Compare & Contrast Notes"]],
         "path": ["style", "color"],
         "value": "purple"
       }

@@ -1,12 +1,11 @@
 {
   "instruction": "On slide 9, make all four audience cards bold and change their font size to 12 pt.",
-  "empty_start": true,
   "states": [
     [
       {
         "query": [
           ["slide", 9],
-          ["text", { "role": "audience-card", "index": 0 }]
+          ["textbox", "Reader knowledge\nWhat can you assume?"]
         ],
         "path": ["style", "bold"],
         "value": true
@@ -14,7 +13,7 @@
       {
         "query": [
           ["slide", 9],
-          ["text", { "role": "audience-card", "index": 0 }]
+          ["textbox", "Reader knowledge\nWhat can you assume?"]
         ],
         "path": ["style", "fontSize"],
         "value": 12
@@ -22,7 +21,7 @@
       {
         "query": [
           ["slide", 9],
-          ["text", { "role": "audience-card", "index": 1 }]
+          ["textbox", "Reader values\nWhat concerns matter most?"]
         ],
         "path": ["style", "bold"],
         "value": true
@@ -30,7 +29,7 @@
       {
         "query": [
           ["slide", 9],
-          ["text", { "role": "audience-card", "index": 1 }]
+          ["textbox", "Reader values\nWhat concerns matter most?"]
         ],
         "path": ["style", "fontSize"],
         "value": 12
@@ -38,7 +37,7 @@
       {
         "query": [
           ["slide", 9],
-          ["text", { "role": "audience-card", "index": 2 }]
+          ["textbox", "Purpose\nInform, persuade, analyze, or reflect?"]
         ],
         "path": ["style", "bold"],
         "value": true
@@ -46,7 +45,7 @@
       {
         "query": [
           ["slide", 9],
-          ["text", { "role": "audience-card", "index": 2 }]
+          ["textbox", "Purpose\nInform, persuade, analyze, or reflect?"]
         ],
         "path": ["style", "fontSize"],
         "value": 12
@@ -54,7 +53,7 @@
       {
         "query": [
           ["slide", 9],
-          ["text", { "role": "audience-card", "index": 3 }]
+          ["textbox", "Tone\nHow formal should the voice be?"]
         ],
         "path": ["style", "bold"],
         "value": true
@@ -62,7 +61,7 @@
       {
         "query": [
           ["slide", 9],
-          ["text", { "role": "audience-card", "index": 3 }]
+          ["textbox", "Tone\nHow formal should the voice be?"]
         ],
         "path": ["style", "fontSize"],
         "value": 12

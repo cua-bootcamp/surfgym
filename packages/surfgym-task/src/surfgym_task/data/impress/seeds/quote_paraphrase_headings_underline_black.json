@@ -4,22 +4,22 @@
   "states": [
     [
       {
-        "query": [["slide", 6], ["text", "Quote bank"]],
+        "query": [["slide", 6], ["textbox", "Quote bank"]],
         "path": ["style", "underline"],
         "value": true
       },
       {
-        "query": [["slide", 6], ["text", "Quote bank"]],
+        "query": [["slide", 6], ["textbox", "Quote bank"]],
         "path": ["style", "color"],
         "value": "black"
       },
       {
-        "query": [["slide", 6], ["text", "Paraphrase bank"]],
+        "query": [["slide", 6], ["textbox", "Paraphrase bank"]],
         "path": ["style", "underline"],
         "value": true
       },
       {
-        "query": [["slide", 6], ["text", "Paraphrase bank"]],
+        "query": [["slide", 6], ["textbox", "Paraphrase bank"]],
         "path": ["style", "color"],
         "value": "black"
       }

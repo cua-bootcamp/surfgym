@@ -4,17 +4,17 @@
   "states": [
     [
       {
-        "query": [["slide", 8], ["text", "Step 1"]],
+        "query": [["slide", 8], ["textbox", "Step 1\nName the paragraph’s main point."]],
         "path": ["style", "color"],
         "value": "green"
       },
       {
-        "query": [["slide", 8], ["text", "Step 2"]],
+        "query": [["slide", 8], ["textbox", "Step 2\nMark repeated or missing ideas."]],
         "path": ["style", "color"],
         "value": "red"
       },
       {
-        "query": [["slide", 8], ["text", "Step 3"]],
+        "query": [["slide", 8], ["textbox", "Step 3\nMove sections into a stronger order."]],
         "path": ["style", "color"],
         "value": "blue"
       }

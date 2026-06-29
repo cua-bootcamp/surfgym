@@ -4,12 +4,12 @@
   "states": [
     [
       {
-        "query": [["slide", 4], ["text", "Concept Map"]],
+        "query": [["slide", 4], ["textbox", "Concept Map"]],
         "path": ["style", "underline"],
         "value": true
       },
       {
-        "query": [["slide", 4], ["text", "Concept Map"]],
+        "query": [["slide", 4], ["textbox", "Concept Map"]],
         "path": ["style", "color"],
         "value": "green"
       }

@@ -4,7 +4,7 @@
   "states": [
     [
       {
-        "query": [["slide", 14], ["text", "FOCUS PHRASE"]],
+        "query": [["slide", 14], ["textbox", "FOCUS PHRASE"]],
         "path": ["style", "fontSize"],
         "value": 54
       },

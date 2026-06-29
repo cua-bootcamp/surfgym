@@ -4,12 +4,12 @@
   "states": [
     [
       {
-        "query": [["slide", 16], ["text", "Dark red 2"]],
+        "query": [["slide", 16], ["textbox", "Dark red 2"]],
         "path": ["style", "underline"],
         "value": true
       },
       {
-        "query": [["slide", 16], ["text", "Dark red 2"]],
+        "query": [["slide", 16], ["textbox", "Dark red 2"]],
         "path": ["style", "fontSize"],
         "value": 22
       }

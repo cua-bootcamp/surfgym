@@ -4,12 +4,12 @@
   "states": [
     [
       {
-        "query": [["slide", 10], ["text", "Transition checks"]],
+        "query": [["slide", 10], ["textbox", "Transition checks"]],
         "path": ["style", "fontFamily"],
         "value": "Times New Roman"
       },
       {
-        "query": [["slide", 10], ["text", "Transition checks"]],
+        "query": [["slide", 10], ["textbox", "Transition checks"]],
         "path": ["style", "underline"],
         "value": true
       }

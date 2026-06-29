@@ -4,12 +4,12 @@
   "states": [
     [
       {
-        "query": [["slide", 8], ["text", "draft labels become movable cards"]],
+        "query": [["slide", 8], ["textbox", "draft labels become movable cards"]],
         "path": ["style", "bold"],
         "value": true
       },
       {
-        "query": [["slide", 8], ["text", "draft labels become movable cards"]],
+        "query": [["slide", 8], ["textbox", "draft labels become movable cards"]],
         "path": ["style", "fontSize"],
         "value": 14
       }

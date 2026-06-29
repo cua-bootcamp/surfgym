@@ -5,6 +5,7 @@ from typing import get_args
 from surfgym_contracts.task import (
     ApiHook,
     CriteriaEvaluation,
+    DomCriteria,
     LifecycleHooks,
     LLMJudgeEvaluation,
     Task,
@@ -49,7 +50,17 @@ class Augmentor:
                             )
 
                             if seed.domain == "impress":
-                                evaluation = LLMJudgeEvaluation()
+                                evaluation = CriteriaEvaluation(
+                                    criteria=[
+                                        DomCriteria(
+                                            value=atom.value,
+                                            match=atom.match,
+                                            normalize_space=atom.normalize_space,
+                                            case_sensitive=atom.case_sensitive,
+                                        )
+                                        for atom in hoare_state.end_state
+                                    ]
+                                )
                                 lifecycle_hooks = LifecycleHooks(
                                     allocate=[
                                         ApiHook(
@@ -61,6 +72,19 @@ class Augmentor:
                                             timing="before",
                                         )
                                     ],
+                                    evaluate=[
+                                        ApiHook(
+                                            method="POST",
+                                            url="http://localhost:53001/impress/evaluate",
+                                            json_payload={
+                                                "criteria": [
+                                                    atom.model_dump(mode="json")
+                                                    for atom in hoare_state.end_state
+                                                ],
+                                            },
+                                            timing="replace",
+                                        )
+                                    ],
                                     release=[
                                         ApiHook(
                                             method="POST",
@@ -69,6 +93,9 @@ class Augmentor:
                                         )
                                     ],
                                 )
+                            elif seed.domain == "gimp" or seed.domain == "vlc":
+                                evaluation = LLMJudgeEvaluation()
+                                lifecycle_hooks = LifecycleHooks()
                             else:
                                 evaluation = CriteriaEvaluation(
                                     criteria=[
