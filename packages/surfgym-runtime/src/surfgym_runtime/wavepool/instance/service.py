@@ -40,6 +40,7 @@ from surfgym_runtime.wavepool.instance.transport import (
 )
 
 HookTiming = Literal["before", "after"]
+HOOK_REQUEST_TIMEOUT_SECONDS = 600.0
 
 
 @dataclass
@@ -271,7 +272,7 @@ class PlaywrightBrowserWorker:
         )
 
         try:
-            async with httpx.AsyncClient(timeout=30.0) as client:
+            async with httpx.AsyncClient(timeout=HOOK_REQUEST_TIMEOUT_SECONDS) as client:
                 if json_payload is None:
                     response = await client.request(hook.method, url)
                 else:
@@ -516,7 +517,7 @@ class PlaywrightBrowserWorker:
         )
 
         try:
-            async with httpx.AsyncClient(timeout=30.0) as client:
+            async with httpx.AsyncClient(timeout=HOOK_REQUEST_TIMEOUT_SECONDS) as client:
                 if json_payload is None:
                     response = await client.request(hook.method, url)
                 else:

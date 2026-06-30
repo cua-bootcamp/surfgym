@@ -4,24 +4,24 @@
   "gateway": {
     "host": "127.0.0.1",
     "port": 18000,
-    "gateway_workers": 32,
-    "gateway_in_flight": 32,
-    "verl_timeout": 30.0,
-    "in_flight_timeout": 5.0,
+    "gateway_workers": 128,
+    "gateway_in_flight": 128,
+    "verl_timeout": 720.0,
+    "in_flight_timeout": 120.0,
     "deadline_margin": 3.0
   },
   "wavepool": {
     "host": "127.0.0.1",
     "master_port": 5500,
     "instance_start_port": 9000,
-    "instances": 4,
-    "contexts_per_instance": 4,
+    "instances": 16,
+    "contexts_per_instance": 6,
     "process_timeout": {
-      "allocate": 15.0,
-      "release": 5.0,
-      "screenshot": 5.0,
-      "observe": 5.0,
-      "execute": 5.0,
+      "allocate": 600.0,
+      "release": 120.0,
+      "screenshot": 30.0,
+      "observe": 120.0,
+      "execute": 30.0,
       "layer_gap": 1.0
     }
   }

@@ -15,6 +15,8 @@ from surfgym_contracts.protocol.gateway_to_agent import (
     RewardResponse,
 )
 
+SNAPSHOT_GATEWAY_REQUEST_TIMEOUT_SECONDS = 600
+
 
 @dataclass(frozen=True)
 class ClientResult:
@@ -141,6 +143,26 @@ class Client:
                 operation=operation,
             )
             self._create_snapshots(next(step), operation, action_response)
+            if isinstance(action_response, ErrorResponse):
+                reward_operation = "reward_after_action_failure"
+                self._record_action_failure_reward(
+                    failed_operation=operation,
+                    action_response=action_response,
+                    reward_operation=reward_operation,
+                )
+                reward_response = post(
+                    self.url,
+                    {
+                        "op": "reward",
+                        "session_id": self.session_id,
+                        "task_id": self.task_id,
+                    },
+                    operation=reward_operation,
+                )
+                self._create_snapshots(next(step), reward_operation, reward_response)
+                self._raise_if_error(reward_operation, reward_response)
+                return self._result_from_reward_response(reward_response)
+
             self._raise_if_error(operation, action_response)
 
         reward_response = post(
@@ -154,19 +176,40 @@ class Client:
         )
         self._create_snapshots(next(step), "reward", reward_response)
         self._raise_if_error("reward", reward_response)
+        return self._result_from_reward_response(reward_response)
 
-        match reward_response:
+    def _result_from_reward_response(self, response: Response) -> ClientResult:
+        match response:
             case RewardResponse():
                 return ClientResult(
                     task_id=self.task_id,
                     snapshot_dir=self.snapshot_dir,
-                    reward=reward_response.reward,
+                    reward=response.reward,
                 )
             case _:
                 raise ValueError(
-                    f"Expected RewardResponse, got {type(reward_response).__name__}: "
-                    f"{response_json(reward_response)}"
+                    f"Expected RewardResponse, got {type(response).__name__}: "
+                    f"{response_json(response)}"
                 )
+
+    def _record_action_failure_reward(
+        self,
+        *,
+        failed_operation: str,
+        action_response: ErrorResponse,
+        reward_operation: str,
+    ) -> None:
+        payload = {
+            "failed_operation": failed_operation,
+            "action_error_type": action_response.error_type,
+            "action_error_message": action_response.message,
+            "reward_operation": reward_operation,
+            "reason": "action_failed",
+        }
+        (self.snapshot_dir / "action_failure_reward.json").write_text(
+            json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
 
     def _step_gen(self):
         step = 0
@@ -206,7 +249,10 @@ def post(url: str, payload: dict[str, object], *, operation: str) -> Response:
     )
 
     try:
-        with urlopen(request, timeout=90) as http_response:
+        with urlopen(
+            request,
+            timeout=SNAPSHOT_GATEWAY_REQUEST_TIMEOUT_SECONDS,
+        ) as http_response:
             return ResponseAdapter.validate_json(http_response.read())
     except HTTPError as exc:
         error_body = exc.read().decode("utf-8", errors="replace")
