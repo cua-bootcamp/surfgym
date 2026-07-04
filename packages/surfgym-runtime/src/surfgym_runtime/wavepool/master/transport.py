@@ -3,11 +3,13 @@ from typing import Any, TypeVar
 import httpx
 from fastapi import status
 from pydantic import BaseModel, ValidationError
-from surfgym_contracts.protocol.gateway_to_upstream import AllocateRequest, ReleaseRequest
+from surfgym_contracts.protocol.gateway_to_upstream import (
+    GatewayAllocateRequest,
+    GatewayReleaseRequest,
+)
 from surfgym_contracts.protocol.upstream_to_gateway import (
     ErrorResponse,
-    GetInstanceResponse,
-    IdleResponse,
+    InstanceAllocateResponse,
     ReleaseResponse,
 )
 
@@ -59,50 +61,33 @@ class InstanceClient:
     def base_url(self, port: int) -> str:
         return f"http://{self.host}:{port}"
 
-    async def allocate(self, port: int, request: AllocateRequest) -> str:
+    async def allocate(
+        self, port: int, context_id: str, request: GatewayAllocateRequest
+    ) -> InstanceAllocateResponse:
         response = await _post(
             self.client,
             f"{self.base_url(port)}/allocate",
             operation="allocate",
             port=port,
+            params={"context_id": context_id},
             json=request.model_dump(mode="json"),
             timeout=self.timeouts.allocate - self.timeouts.layer_gap,
         )
-        return _handle_response(response, GetInstanceResponse, "allocate", port).instance_id
+        return _handle_response(response, InstanceAllocateResponse, "allocate", port)
 
     async def release(
-        self, instance_id: str, port: int, request: ReleaseRequest
+        self, context_id: str, port: int, request: GatewayReleaseRequest
     ) -> ReleaseResponse:
         response = await _post(
             self.client,
-            f"{self.base_url(port)}/reset",
+            f"{self.base_url(port)}/release",
             operation="release",
             port=port,
-            params={"instance_id": instance_id},
+            params={"context_id": context_id},
             json=request.model_dump(mode="json"),
             timeout=self.timeouts.release - self.timeouts.layer_gap,
         )
         return _handle_response(response, ReleaseResponse, "release", port)
-
-    async def force_release(self, port: int) -> None:
-        response = await _post(
-            self.client,
-            f"{self.base_url(port)}/force_reset",
-            operation="force_release",
-            port=port,
-            timeout=self.timeouts.release - self.timeouts.layer_gap,
-        )
-        _handle_response(response, ReleaseResponse, "force_release", port)
-
-    async def is_idle(self, port: int) -> bool:
-        response = await _post(
-            self.client,
-            f"{self.base_url(port)}/idle",
-            operation="is_idle",
-            port=port,
-            timeout=self.timeouts.release - self.timeouts.layer_gap,
-        )
-        return _handle_response(response, IdleResponse, "is_idle", port).idle
 
 
 ################################################
@@ -134,7 +119,6 @@ def _handle_response(response: httpx.Response, schema: type[_T], operation: str,
         )
 
     raise MasterError(
-        error_type=payload.error_type,
         message=payload.message,
         status_code=response.status_code,
         retryable=payload.retryable,

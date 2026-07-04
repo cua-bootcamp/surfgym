@@ -7,10 +7,15 @@ class _FrozenBaseModel(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
 
-class AllocateRequest(_FrozenBaseModel):
+class GatewayAllocateRequest(_FrozenBaseModel):
     websites: list[Website] = Field(min_length=1)
     allocate_hooks: list[Hook]
 
 
-class ReleaseRequest(_FrozenBaseModel):
+class GatewayReleaseRequest(_FrozenBaseModel):
     release_hooks: list[Hook]
+
+
+MasterAllocateRequest = GatewayAllocateRequest
+
+MasterReleaseRequest = GatewayReleaseRequest

@@ -8,19 +8,23 @@ from typing import Annotated, Awaitable, Callable, ParamSpec, TypeVar
 import uvicorn
 from fastapi import Body, FastAPI, status
 from fastapi.responses import JSONResponse
-from surfgym_contracts.protocol.gateway_to_upstream import AllocateRequest, ReleaseRequest
-from surfgym_contracts.protocol.upstream_to_gateway import ErrorResponse, UpstreamErrorType
+from surfgym_contracts.protocol.gateway_to_upstream import (
+    GatewayAllocateRequest,
+    GatewayReleaseRequest,
+)
+from surfgym_contracts.protocol.upstream_to_gateway import ErrorResponse
 
 from surfgym_runtime.support import WavepoolConfig, load_config, master_logger, setup_logging
 from surfgym_runtime.wavepool.master.error import MasterError
-from surfgym_runtime.wavepool.master.service import MasterService, SlotRegistry
+from surfgym_runtime.wavepool.master.registry import LeaseRegistry
+from surfgym_runtime.wavepool.master.service import MasterService
 
 _P = ParamSpec("_P")
 _T = TypeVar("_T")
 
 
 def create_app(config: WavepoolConfig) -> FastAPI:
-    registry = SlotRegistry(
+    registry = LeaseRegistry(
         instance_start_port=config.instance_start_port,
         instance_n=config.instances,
         contexts_per_instance=config.contexts_per_instance,
@@ -30,7 +34,7 @@ def create_app(config: WavepoolConfig) -> FastAPI:
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
-        recover_task = asyncio.create_task(master.recover_loop())
+        recover_task = asyncio.create_task(master.release_loop())
         try:
             yield
         finally:
@@ -38,16 +42,12 @@ def create_app(config: WavepoolConfig) -> FastAPI:
             await master.close()
 
     @handle_master_errors
-    async def allocate(request: Annotated[AllocateRequest, Body()]):
+    async def allocate(request: Annotated[GatewayAllocateRequest, Body()]):
         return await master.allocate(request)
 
     @handle_master_errors
-    async def release(
-        instance_id: str,
-        instance_port: int,
-        request: Annotated[ReleaseRequest, Body()],
-    ):
-        return await master.release(instance_id, instance_port, request)
+    async def release(context_id: str, request: Annotated[GatewayReleaseRequest, Body()]):
+        return await master.release(context_id, request)
 
     async def health():
         return {"status": "ok"}
@@ -71,15 +71,13 @@ def handle_master_errors(
             return await func(*args, **kwargs)
         except MasterError as exc:
             master_logger.warning(
-                "Master request failed: op=%s error_type=%s retryable=%s message=%s",
+                "Master request failed: op=%s retryable=%s message=%s",
                 op,
-                exc.error_type,
                 exc.retryable,
                 exc.message,
             )
             return _error_response(
                 status_code=exc.status_code,
-                error_type=exc.error_type,
                 message=exc.message,
                 retryable=exc.retryable,
             )
@@ -87,7 +85,6 @@ def handle_master_errors(
             master_logger.exception("Unexpected master request failure: op=%s", op)
             return _error_response(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                error_type="UNEXPECTED",
                 message=f"Unexpected master error during {op}",
                 retryable=True,
             )
@@ -98,12 +95,10 @@ def handle_master_errors(
 def _error_response(
     *,
     status_code: int,
-    error_type: UpstreamErrorType,
     message: str,
     retryable: bool,
 ) -> JSONResponse:
     payload = ErrorResponse(
-        error_type=error_type,
         message=message,
         retryable=retryable,
     )

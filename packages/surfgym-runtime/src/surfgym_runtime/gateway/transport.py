@@ -6,11 +6,14 @@ import requests
 from fastapi import status
 from pydantic import BaseModel, ValidationError
 from surfgym_contracts.command import Command, ObserveCommand
-from surfgym_contracts.protocol.gateway_to_upstream import AllocateRequest, ReleaseRequest
+from surfgym_contracts.protocol.gateway_to_upstream import (
+    GatewayAllocateRequest,
+    GatewayReleaseRequest,
+)
 from surfgym_contracts.protocol.upstream_to_gateway import (
-    AllocateResponse,
     ErrorResponse,
     ExecuteResponse,
+    MasterAllocateResponse,
     ObservationResponse,
     ReleaseResponse,
     ScreenshotResponse,
@@ -45,47 +48,48 @@ class GatewayTransport:
         deadline: Deadline,
         websites: list[Website],
         allocate_hooks: list[Hook],
-    ) -> AllocateResponse:
+    ) -> MasterAllocateResponse:
         timeout = deadline.timeout_for(self._timeouts.allocate)
         return self._master_client.allocate(
             websites=websites, allocate_hooks=allocate_hooks, timeout=timeout
         )
 
     def release(
-        self, *, deadline: Deadline, release_hooks: list[Hook], instance_id: str, instance_port: int
+        self, *, deadline: Deadline, context_id: str, release_hooks: list[Hook]
     ) -> ReleaseResponse:
         timeout = deadline.timeout_for(self._timeouts.release)
         return self._master_client.release(
-            release_hooks=release_hooks,
-            instance_id=instance_id,
-            instance_port=instance_port,
-            timeout=timeout,
+            context_id=context_id, release_hooks=release_hooks, timeout=timeout
         )
 
     def execute(
-        self, *, deadline: Deadline, instance_id: str, instance_port: int, command: Command
+        self, deadline: Deadline, context_id: str, instance_port: int, command: Command
     ) -> ExecuteResponse:
         timeout = deadline.timeout_for(self._timeouts.execute)
-        return self._instance_client(port=instance_port).execute(instance_id, command, timeout)
+        return self._instance_client(instance_port).execute(
+            context_id=context_id, command=command, timeout=timeout
+        )
 
     def screenshot(
-        self, *, deadline: Deadline, instance_id: str, instance_port: int
+        self, deadline: Deadline, context_id: str, instance_port: int
     ) -> ScreenshotResponse:
         timeout = deadline.timeout_for(self._timeouts.screenshot)
-        return self._instance_client(instance_port).screenshot(instance_id, timeout)
+        return self._instance_client(instance_port).screenshot(
+            context_id=context_id, timeout=timeout
+        )
 
     def observe(
         self,
         *,
         deadline: Deadline,
-        instance_id: str,
+        context_id: str,
         instance_port: int,
         evaluation: CriteriaEvaluation,
         evaluation_hooks: list[Hook],
     ) -> ObservationResponse:
         timeout = deadline.timeout_for(self._timeouts.observe)
-        return self._instance_client(port=instance_port).observe(
-            instance_id=instance_id,
+        return self._instance_client(instance_port).observe(
+            context_id=context_id,
             command=ObserveCommand(evaluation=evaluation, evaluation_hooks=evaluation_hooks),
             timeout=timeout,
         )
@@ -106,27 +110,26 @@ class MasterClient:
         allocate_hooks: list[Hook],
         timeout: float,
     ):
-        request = AllocateRequest(websites=websites, allocate_hooks=allocate_hooks)
         return _request_model(
             "POST",
             f"{self._get_base_url()}/allocate",
-            AllocateResponse,
+            MasterAllocateResponse,
             operation="master.allocate",
-            json=request.model_dump(mode="json"),
+            json=GatewayAllocateRequest(
+                websites=websites, allocate_hooks=allocate_hooks
+            ).model_dump(mode="json"),
             timeout=timeout,
         )
 
-    def release(
-        self, *, release_hooks: list[Hook], instance_id: str, instance_port: int, timeout: float
-    ):
-        request = ReleaseRequest(release_hooks=release_hooks)
+    def release(self, *, context_id: str, release_hooks: list[Hook], timeout: float):
+
         return _request_model(
             "POST",
             f"{self._get_base_url()}/release",
             ReleaseResponse,
             operation="master.release",
-            params={"instance_id": instance_id, "instance_port": instance_port},
-            json=request.model_dump(mode="json"),
+            params={"context_id": context_id},
+            json=GatewayReleaseRequest(release_hooks=release_hooks).model_dump(mode="json"),
             timeout=timeout,
         )
 
@@ -139,35 +142,35 @@ class InstanceClient:
     def _get_base_url(self):
         return f"http://{self.host}:{self.port}"
 
-    def execute(self, instance_id: str, command: Command, timeout: float):
+    def execute(self, *, context_id: str, command: Command, timeout: float):
         return _request_model(
             "POST",
             f"{self._get_base_url()}/execute",
             ExecuteResponse,
             operation="instance.execute",
-            params={"instance_id": instance_id},
+            params={"context_id": context_id},
             json=command.model_dump(mode="json"),
             timeout=timeout,
         )
 
-    def observe(self, *, instance_id: str, command: Command, timeout: float):
+    def observe(self, *, context_id: str, command: Command, timeout: float):
         return _request_model(
             "POST",
             f"{self._get_base_url()}/execute",
             ObservationResponse,
             operation="instance.observe",
-            params={"instance_id": instance_id},
+            params={"context_id": context_id},
             json=command.model_dump(mode="json"),
             timeout=timeout,
         )
 
-    def screenshot(self, instance_id: str, timeout: float):
+    def screenshot(self, *, context_id: str, timeout: float):
         return _request_model(
             "GET",
             f"{self._get_base_url()}/screenshot",
             ScreenshotResponse,
             operation="instance.screenshot",
-            params={"instance_id": instance_id},
+            params={"context_id": context_id},
             timeout=timeout,
         )
 
@@ -259,7 +262,6 @@ Upstream returned invalid error response.
     message = f"""
 Upstream failed while handling operation.
 (operation) {operation}
-(error_type) {payload.error_type}
 (message) {payload.message}
 (status) {response.status_code} "
 """.strip()

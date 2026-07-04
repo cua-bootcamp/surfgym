@@ -39,12 +39,17 @@ _T = TypeVar("_T")
 
 
 @dataclass(frozen=True)
+class Lease:
+    context_id: str
+    port: int
+
+
+@dataclass(frozen=True)
 class SessionState:
     task_id: str
-    instance_id: str
-    port: int
-    trace: list[Frame]
+    lease: Lease
     release_hooks: list[Hook]
+    trace: list[Frame] = []
 
     def append_frame(
         self,
@@ -133,18 +138,13 @@ class Service:
 
         try:
             task = self._require_task(request.task_id)
-
-            instance_id, port = self._allocate(
-                deadline, task.website, task.lifecycle_hooks.allocate
-            )
+            context_id, port = self._allocate(deadline, task.website, task.lifecycle_hooks.allocate)
             session_state = SessionState(
                 task_id=request.task_id,
-                instance_id=instance_id,
-                port=port,
-                trace=[],
+                lease=Lease(context_id=context_id, port=port),
                 release_hooks=task.lifecycle_hooks.release,
             )
-            screenshot_b64, media_type = self._screenshot(deadline, session_state)
+            screenshot_b64, media_type = self._screenshot(deadline, session_state.lease)
             session_state.append_frame(
                 kind="start", image_b64=screenshot_b64, media_type=media_type
             )
@@ -176,13 +176,13 @@ class Service:
                 case ReferenceAction():
                     self._execute(
                         deadline,
-                        session_state,
+                        session_state.lease,
                         ReferenceCommand(hooks=task.lifecycle_hooks.reference),
                     )
                 case _:
-                    self._execute(deadline, session_state, action.to_commands())
+                    self._execute(deadline, session_state.lease, action.to_commands())
 
-        (screenshot_b64, media_type) = self._screenshot(deadline, session_state)
+        (screenshot_b64, media_type) = self._screenshot(deadline, session_state.lease)
         session_state.append_frame(kind="action", image_b64=screenshot_b64, media_type=media_type)
 
         return ActionResponse(
@@ -201,13 +201,13 @@ class Service:
             case CriteriaEvaluation():
                 response = self._observe(
                     deadline=deadline,
-                    state=session_state,
+                    lease=session_state.lease,
                     evaluation=task.evaluation,
                     evaluation_hooks=task.lifecycle_hooks.evaluate,
                 )
                 reward = self.evaluator.rule_based_eval(task.evaluation, response.observation)
             case LLMJudgeEvaluation():
-                (screenshot_b64, media_type) = self._screenshot(deadline, session_state)
+                (screenshot_b64, media_type) = self._screenshot(deadline, session_state.lease)
                 session_state.append_frame(
                     kind="reward", image_b64=screenshot_b64, media_type=media_type
                 )
@@ -253,16 +253,14 @@ class Service:
                 deadline=d, websites=websites, allocate_hooks=allocate_hooks
             ),
         )
-        return (response.instance_id, response.instance_port)
+        return (response.context_id, response.instance_port)
 
-    def _screenshot(self, deadline: Callable[[str], Deadline], state: SessionState):
+    def _screenshot(self, deadline: Callable[[str], Deadline], lease: Lease):
         d = deadline("screenshot")
         response = self._run_with_retry(
             min_attempt_time=self.process_timeout.screenshot,
             deadline=d,
-            func=lambda: self.transport.screenshot(
-                deadline=d, instance_id=state.instance_id, instance_port=state.port
-            ),
+            func=lambda: self.transport.screenshot(d, lease.context_id, lease.port),
         )
         return draw_cursor_on_screenshot(
             response.screenshot_b64, int(response.x), int(response.y)
@@ -272,7 +270,7 @@ class Service:
         self,
         *,
         deadline: Callable[[str], Deadline],
-        state: SessionState,
+        lease: Lease,
         evaluation: CriteriaEvaluation,
         evaluation_hooks: list[Hook],
     ):
@@ -282,20 +280,15 @@ class Service:
             deadline=d,
             func=lambda: self.transport.observe(
                 deadline=d,
-                instance_id=state.instance_id,
-                instance_port=state.port,
+                context_id=lease.context_id,
+                instance_port=lease.port,
                 evaluation=evaluation,
                 evaluation_hooks=evaluation_hooks,
             ),
         )
 
-    def _execute(self, deadline: Callable[[str], Deadline], state: SessionState, command: Command):
-        self.transport.execute(
-            deadline=deadline("execute"),
-            instance_id=state.instance_id,
-            instance_port=state.port,
-            command=command,
-        )
+    def _execute(self, deadline: Callable[[str], Deadline], lease: Lease, command: Command):
+        self.transport.execute(deadline("execute"), lease.context_id, lease.port, command)
 
     def _run_with_retry(
         self,
@@ -329,26 +322,25 @@ class Service:
                 release_deadline = Deadline(time.monotonic() + self._release_timeout, "release")
                 self.transport.release(
                     deadline=release_deadline,
+                    context_id=state.lease.context_id,
                     release_hooks=state.release_hooks,
-                    instance_id=state.instance_id,
-                    instance_port=state.port,
                 )
             except GatewayError as exc:
                 gateway_logger.warning(
                     """
-Failed to release: instance_id=%s port=%s
+Failed to release: context_id=%s port=%s
 Error Detail: error_type=%s message=%s
 """.strip(),
-                    state.instance_id,
-                    state.port,
+                    state.lease.context_id,
+                    state.lease.port,
                     exc.error_type,
                     exc.message,
                 )
             except Exception:
                 gateway_logger.exception(
-                    "Unexpected release worker failure: instance_id=%s port=%s",
-                    state.instance_id,
-                    state.port,
+                    "Unexpected release worker failure: context_id=%s port=%s",
+                    state.lease.context_id,
+                    state.lease.port,
                 )
 
     def _reserve_session(self, session_id: int) -> None:

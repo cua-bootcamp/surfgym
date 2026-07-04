@@ -11,14 +11,14 @@ class _FrozenBaseModel(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
 
-class AllocateResponse(_FrozenBaseModel):
-    instance_id: str
+class MasterAllocateResponse(_FrozenBaseModel):
+    context_id: str
     instance_host: str
     instance_port: int
 
 
-class GetInstanceResponse(_FrozenBaseModel):
-    instance_id: str
+class InstanceAllocateResponse(_FrozenBaseModel):
+    pass
 
 
 class ScreenshotResponse(_FrozenBaseModel):
@@ -59,27 +59,5 @@ UpstreamErrorType: TypeAlias = (
 
 
 class ErrorResponse(_FrozenBaseModel):
-    error_type: UpstreamErrorType
     message: str
     retryable: bool = False
-
-
-# class InstanceServerErrorType(str, Enum):
-#     INSTANCE_NOT_IDLE = "INSTANCE_NOT_IDLE"
-#     INSTANCE_IDLE = "INSTANCE_IDLE"
-#     INVALID_COMMAND = "INVALID_COMMAND"
-#     INVALID_INSTANCE_ID = "INVALID_INSTANCE_ID"
-#     CREATE_FAILED = "CREATE_FAILED"
-
-
-# class InteractiveTreeResponse(_FrozenBaseModel):
-#     mouse_position: MousePosition
-#     regions: list[InteractiveRegion]
-# class InteractiveRegion(_FrozenBaseModel):
-#     role: str
-#     visible_text: str
-#     bbox: tuple[float, float, float, float]  # [left, top, width, height]
-# interactive_region_list_adapter = TypeAdapter(list[InteractiveRegion])
-# class MousePosition(_FrozenBaseModel):
-#     x: int
-#     y: int

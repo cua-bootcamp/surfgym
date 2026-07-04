@@ -45,7 +45,7 @@ HOOK_REQUEST_TIMEOUT_SECONDS = 600.0
 
 @dataclass
 class ContextState:
-    instance_id: str
+    context_id: str
     context: BrowserContext
     pages: dict[str, Page]
     page_layouts: dict[str, PageLayout]
@@ -111,20 +111,20 @@ class PlaywrightBrowserWorker:
             return self._allocated_count() == 0
 
     async def create(
-        self, instance_id: str, websites: list[Website], allocate_hooks: list[Hook]
+        self, context_id: str, websites: list[Website], allocate_hooks: list[Hook]
     ) -> None:
         browser = self._require_browser()
         before_allocate_hooks = _hooks_for_timing(allocate_hooks, "before")
         after_allocate_hooks = _hooks_for_timing(allocate_hooks, "after")
 
         async with self._sessions_lock:
-            if instance_id in self.sessions or instance_id in self._starting_sessions:
-                raise CreateFailed(f"Instance id already exists: {instance_id}")
+            if context_id in self.sessions or context_id in self._starting_sessions:
+                raise CreateFailed(f"Instance id already exists: {context_id}")
 
             if self._allocated_count() >= self.contexts_per_instance:
                 raise InstanceNotIdle("No available context slot on this instance.")
 
-            self._starting_sessions.add(instance_id)
+            self._starting_sessions.add(context_id)
 
         context: BrowserContext | None = None
         committed = False
@@ -150,7 +150,7 @@ class PlaywrightBrowserWorker:
 
             context = await browser.new_context(**context_options)
             state = ContextState(
-                instance_id=instance_id,
+                context_id=context_id,
                 context=context,
                 pages={},
                 page_layouts={},
@@ -167,7 +167,7 @@ class PlaywrightBrowserWorker:
             await self._run_page_independent_hooks(
                 before_allocate_hooks,
                 context="before allocate hook",
-                instance_id=instance_id,
+                context_id=context_id,
             )
 
             for website, layout in zip(websites, layouts):
@@ -175,7 +175,7 @@ class PlaywrightBrowserWorker:
                 await state.controller.on_new_page(page, layout)
                 await state.controller.visit_page(
                     page,
-                    _url_with_session_id(website.url, instance_id),
+                    _url_with_session_id(website.url, context_id),
                 )
 
                 state.pages[website.website_id] = page
@@ -186,8 +186,8 @@ class PlaywrightBrowserWorker:
             await self._run_hooks(state, after_allocate_hooks)
 
             async with self._sessions_lock:
-                self._starting_sessions.discard(instance_id)
-                self.sessions[instance_id] = state
+                self._starting_sessions.discard(context_id)
+                self.sessions[context_id] = state
                 committed = True
         except InstanceNotIdle:
             raise
@@ -198,7 +198,7 @@ class PlaywrightBrowserWorker:
         finally:
             if not committed:
                 async with self._sessions_lock:
-                    self._starting_sessions.discard(instance_id)
+                    self._starting_sessions.discard(context_id)
 
                 if context is not None:
                     try:
@@ -208,8 +208,11 @@ class PlaywrightBrowserWorker:
                             "Failed to clean up partially created Playwright context"
                         )
 
-    async def delete(self, instance_id: str, release_hooks: list[Hook] | None = None) -> None:
-        state = await self._mark_closing(instance_id)
+    async def delete(self, context_id: str, release_hooks: list[Hook] | None = None) -> None:
+        state = await self._mark_closing(context_id)
+        if state is None:
+            return
+
         before_release_hooks = _hooks_for_timing(release_hooks or [], "before")
         after_release_hooks = _hooks_for_timing(release_hooks or [], "after")
 
@@ -224,18 +227,18 @@ class PlaywrightBrowserWorker:
                     await self._run_page_independent_hooks(
                         after_release_hooks,
                         context="after release hook",
-                        instance_id=state.instance_id,
+                        context_id=state.context_id,
                     )
 
         finally:
             async with self._sessions_lock:
-                self.sessions.pop(instance_id, None)
+                self.sessions.pop(context_id, None)
 
     async def delete_all(self) -> None:
         async with self._sessions_lock:
-            instance_ids = list(self.sessions)
+            context_ids = list(self.sessions)
 
-        for instance_id in instance_ids:
+        for instance_id in context_ids:
             try:
                 await self.delete(instance_id)
             except InvalidInstanceId:
@@ -248,26 +251,26 @@ class PlaywrightBrowserWorker:
             _reject_replace_hook(hook, context="page hook")
             match hook:
                 case ApiHook():
-                    await self._run_api_hook(hook, state.instance_id)
+                    await self._run_api_hook(hook, state.context_id)
                 case ConsoleHook():
                     await self._run_console_hook(state, hook)
 
     async def _run_page_independent_hooks(
-        self, hooks: list[Hook], *, context: str, instance_id: str
+        self, hooks: list[Hook], *, context: str, context_id: str
     ) -> None:
         for hook in hooks:
             _reject_replace_hook(hook, context=context)
             match hook:
                 case ApiHook():
-                    await self._run_api_hook(hook, instance_id)
+                    await self._run_api_hook(hook, context_id)
                 case ConsoleHook():
                     raise InvalidCommand(f"{context} does not support console hooks")
 
-    async def _run_api_hook(self, hook: ApiHook, instance_id: str) -> None:
-        url = _url_with_session_id(hook.url, instance_id)
+    async def _run_api_hook(self, hook: ApiHook, context_id: str) -> None:
+        url = _url_with_session_id(hook.url, context_id)
         json_payload = _json_payload_with_session_id(
             hook.json_payload,
-            instance_id,
+            context_id,
             hook.method,
         )
 
@@ -302,9 +305,7 @@ class PlaywrightBrowserWorker:
         if isinstance(body, dict):
             response_body = cast(dict[str, object], body)
             if response_body.get("ok") is False:
-                raise InvalidCommand(
-                    f"API hook reported failure: method={hook.method} url={url}"
-                )
+                raise InvalidCommand(f"API hook reported failure: method={hook.method} url={url}")
 
     async def _run_console_hook(self, state: ContextState, hook: ConsoleHook) -> None:
         page = self._page_for_website(state, hook.website_id, context="console hook")
@@ -497,7 +498,7 @@ class PlaywrightBrowserWorker:
     ) -> ObservationResponse:
         match hook:
             case ApiHook():
-                body = await self._run_api_observation_hook(hook, state.instance_id)
+                body = await self._run_api_observation_hook(hook, state.context_id)
                 return _observation_response_from_hook_body(body, criteria_count)
             case ConsoleHook():
                 page = self._page_for_website(state, hook.website_id, context="observe hook")
@@ -564,12 +565,14 @@ class PlaywrightBrowserWorker:
 
             return state
 
-    async def _mark_closing(self, instance_id: str) -> ContextState:
+    async def _mark_closing(self, context_id: str) -> ContextState | None:
         async with self._sessions_lock:
-            state = self.sessions.get(instance_id)
+            state = self.sessions.get(context_id)
 
             if state is None:
-                raise InvalidInstanceId(f"Instance id {instance_id} is not running on this server.")
+                if context_id in self._starting_sessions:
+                    raise InstanceNotIdle(f"Context id {context_id} is still starting.")
+                return None
 
             state.closing = True
             return state
