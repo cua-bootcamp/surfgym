@@ -9,6 +9,8 @@ import httpx
 from dotenv import load_dotenv
 from surfgym_contracts.task import CriteriaEvaluation, LLMJudgeEvaluation, Observation, Value
 
+from surfgym_runtime.support.logger import gateway_logger
+
 load_dotenv(Path(__file__).resolve().parents[5] / ".env")
 
 # [TODO] timeout and error logic
@@ -29,6 +31,13 @@ class Evaluator:
     def rule_based_eval(
         self, evaluation: CriteriaEvaluation, observations: list[Observation]
     ) -> float:
+
+        if len(observations) != len(evaluation.criteria):
+            raise ValueError(
+                f"Observation count {len(observations)} does not match "
+                f"criteria count {len(evaluation.criteria)}"
+            )
+
         checks = tuple(
             _matches(
                 observation,
@@ -69,7 +78,13 @@ class Evaluator:
                 verdict = json.loads(_extract_output_text(response.json()))
                 return _clamp_reward(float(verdict["score"]))
         except Exception:
-            return 0.0
+            # judge 인프라 실패(키 누락, 네트워크, 파싱)가 "태스크 실패 0점"과
+            # 구분되지 않는다. 최소한 흔적은 남긴다.
+            gateway_logger.exception(
+                "LLM judge evaluation failed; returning fallback reward %.1f",
+                _FALLBACK_REWARD,
+            )
+            return _FALLBACK_REWARD
 
 
 def _sample_trace(trace: list[Frame], max_frames: int) -> list[Frame]:
@@ -248,7 +263,6 @@ def _build_request_payload(
 _OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses"
 _MAX_OUTPUT_TOKENS = 512
 _FALLBACK_REWARD = 0.0
-_TIMEOUT_SECONDS = 30.0
 
 _SYSTEM_PROMPT = """\
 You are a strict SurfGym VLM judge for a GUI task.

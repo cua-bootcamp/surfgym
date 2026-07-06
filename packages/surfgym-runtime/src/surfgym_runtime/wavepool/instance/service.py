@@ -267,6 +267,16 @@ class PlaywrightBrowserWorker:
                     raise InvalidCommand(f"{context} does not support console hooks")
 
     async def _run_api_hook(self, hook: ApiHook, context_id: str) -> None:
+        await self._call_hook_api(hook, context_id, context="API hook")
+
+    async def _call_hook_api(
+        self,
+        hook: ApiHook,
+        context_id: str,
+        *,
+        context: str,
+        require_json: bool = False,
+    ) -> object | None:
         url = _url_with_session_id(hook.url, context_id)
         json_payload = _json_payload_with_session_id(
             hook.json_payload,
@@ -286,26 +296,32 @@ class PlaywrightBrowserWorker:
                     )
         except httpx.RequestError as exc:
             raise InvalidCommand(
-                f"API hook request failed: method={hook.method} "
+                f"{context} request failed: method={hook.method} "
                 f"url={url} error={type(exc).__name__}"
             ) from exc
 
         if response.status_code < 200 or response.status_code >= 300:
             raise InvalidCommand(
-                f"API hook returned non-success status: method={hook.method} "
+                f"{context} returned non-success status: method={hook.method} "
                 f"url={url} status={response.status_code} "
                 f"body={_response_text(response)}"
             )
 
         try:
             body: object = response.json()
-        except ValueError:
-            return
+        except ValueError as exc:
+            if require_json:
+                raise InvalidCommand(
+                    f"{context} must return JSON: method={hook.method} url={url}"
+                ) from exc
+            return None
 
         if isinstance(body, dict):
             response_body = cast(dict[str, object], body)
             if response_body.get("ok") is False:
-                raise InvalidCommand(f"API hook reported failure: method={hook.method} url={url}")
+                raise InvalidCommand(f"{context} reported failure: method={hook.method} url={url}")
+
+        return body
 
     async def _run_console_hook(self, state: ContextState, hook: ConsoleHook) -> None:
         page = self._page_for_website(state, hook.website_id, context="console hook")
@@ -510,57 +526,18 @@ class PlaywrightBrowserWorker:
         hook: ApiHook,
         instance_id: str,
     ) -> object:
-        url = _url_with_session_id(hook.url, instance_id)
-        json_payload = _json_payload_with_session_id(
-            hook.json_payload,
+        return await self._call_hook_api(
+            hook,
             instance_id,
-            hook.method,
+            context="observe API hook",
+            require_json=True,
         )
-
-        try:
-            async with httpx.AsyncClient(timeout=HOOK_REQUEST_TIMEOUT_SECONDS) as client:
-                if json_payload is None:
-                    response = await client.request(hook.method, url)
-                else:
-                    response = await client.request(
-                        hook.method,
-                        url,
-                        json=json_payload,
-                    )
-        except httpx.RequestError as exc:
-            raise InvalidCommand(
-                f"observe API hook request failed: method={hook.method} "
-                f"url={url} error={type(exc).__name__}"
-            ) from exc
-
-        if response.status_code < 200 or response.status_code >= 300:
-            raise InvalidCommand(
-                f"observe API hook returned non-success status: method={hook.method} "
-                f"url={url} status={response.status_code} "
-                f"body={_response_text(response)}"
-            )
-
-        try:
-            body: object = response.json()
-        except ValueError as exc:
-            raise InvalidCommand(
-                f"observe API hook must return JSON: method={hook.method} url={url}"
-            ) from exc
-
-        if isinstance(body, dict):
-            response_body = cast(dict[str, object], body)
-            if response_body.get("ok") is False:
-                raise InvalidCommand(
-                    f"observe API hook reported failure: method={hook.method} url={url}"
-                )
-
-        return body
 
     async def _get_state(self, instance_id: str) -> ContextState:
         async with self._sessions_lock:
             state = self.sessions.get(instance_id)
 
-            if state is None or state.closing:
+            if state is None or state.closing or state.context_closed:
                 raise InvalidInstanceId(f"Instance id {instance_id} is not running on this server.")
 
             return state
@@ -615,7 +592,7 @@ class PlaywrightBrowserWorker:
                     state.active_page_id = website_id
                 return PageCursor(x - layout.x, y - layout.y)
 
-        raise RuntimeError(f"screen cursor is outside page layouts: ({x}, {y})")
+        raise InvalidCommand(f"screen cursor is outside page layouts: ({x}, {y})")
 
     def _page_to_screen_cursor(self, state: ContextState) -> ScreenCursor:
         page_id = state.active_page_id

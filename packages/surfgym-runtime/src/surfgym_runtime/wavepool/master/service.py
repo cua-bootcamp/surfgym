@@ -18,6 +18,8 @@ class MasterService:
         self.client = InstanceClient(wavepool_config.host, wavepool_config.process_timeout)
         self.registry = registry
 
+        self._release_wakeup = asyncio.Event()
+
     async def close(self):
         await self.client.close()
 
@@ -29,7 +31,8 @@ class MasterService:
         try:
             await self.client.allocate(lease.port_slot.port, lease.context_id, request)
         except Exception:
-            await self.registry.mark_lease(lease.context_id)
+            await self.registry.enqueue_release(lease.context_id)
+            self._release_wakeup.set()
             raise
 
         return MasterAllocateResponse(
@@ -39,25 +42,33 @@ class MasterService:
         )
 
     async def release(self, context_id: str, request: GatewayReleaseRequest) -> ReleaseResponse:
-        try:
-            lease = self.registry.require_lease(context_id)
-            await self.client.release(context_id, lease.port_slot.port, request)
-        except Exception:
-            await self.registry.mark_lease(context_id, request)
-            raise
-
-        await self.registry.release_lease(context_id)
+        await self.registry.enqueue_release(context_id, request)
+        self._release_wakeup.set()
         return ReleaseResponse()
 
-    # [TODO] Batch Release
-    async def release_all(self):
-        for lease in self.registry.broken_lease:
+    async def release_all(self) -> None:
+        for pending in await self.registry.pending_releases():
             try:
-                await self.release(lease.context_id, lease.release_request)
+                await self.client.release(pending.context_id, pending.port, pending.release_request)
+                await self.registry.complete_release(pending.context_id)
             except Exception:
-                master_logger.warning("Failed recovering %s", lease.context_id, exc_info=True)
+                master_logger.warning(
+                    "Failed releasing %s",
+                    pending.context_id,
+                    exc_info=True,
+                )
 
     async def release_loop(self):
         while True:
-            await asyncio.sleep(10)
-            await self.release_all()
+            try:
+                try:
+                    await asyncio.wait_for(self._release_wakeup.wait(), timeout=10)
+                except asyncio.TimeoutError:
+                    pass
+
+                self._release_wakeup.clear()
+                await self.release_all()
+            except asyncio.CancelledError:
+                raise
+            except Exception:
+                master_logger.exception("Release loop iteration failed")

@@ -111,12 +111,10 @@ class PlaywrightController:
     async def mouse_down(self, page: Page):
         await self._ensure_page_ready(page)
         await page.mouse.down()
-        self._mouse_button_down = True
 
     async def mouse_up(self, page: Page):
         await self._ensure_page_ready(page)
         await page.mouse.up()
-        self._mouse_button_down = False
 
     async def drag_to(self, page: Page, cursor: PageCursor):
         await self._ensure_page_ready(page)

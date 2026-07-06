@@ -1,5 +1,6 @@
 import argparse
 import asyncio
+import contextlib
 from contextlib import asynccontextmanager
 from functools import wraps
 from pathlib import Path
@@ -39,6 +40,8 @@ def create_app(config: WavepoolConfig) -> FastAPI:
             yield
         finally:
             recover_task.cancel()
+            with contextlib.suppress(asyncio.CancelledError):
+                await recover_task
             await master.close()
 
     @handle_master_errors

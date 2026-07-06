@@ -35,8 +35,9 @@ class Lease:
 
 
 @dataclass(frozen=True)
-class Broken_Lease:
+class PendingRelease:
     context_id: str
+    port: int
     release_request: GatewayReleaseRequest
 
 
@@ -51,7 +52,7 @@ class LeaseRegistry:
             PortSlot(instance_start_port + i, contexts_per_instance) for i in range(instance_n)
         ]
         self._lease: dict[str, Lease] = {}
-        self.broken_lease: list[Broken_Lease] = []
+        self._pending_releases: dict[str, PendingRelease] = {}
 
         self._lock = asyncio.Lock()
 
@@ -65,27 +66,36 @@ class LeaseRegistry:
                 self._lease[lease.context_id] = lease
                 return lease
 
-    async def mark_lease(
-        self, context_id: str, release_request: Optional[GatewayReleaseRequest] = None
-    ) -> None:
+    async def enqueue_release(
+        self, context_id: str, request: Optional[GatewayReleaseRequest] = None
+    ):
         async with self._lock:
             lease = self.require_lease(context_id)
-            self.broken_lease.append(
-                Broken_Lease(
-                    context_id=lease.context_id,
-                    release_request=release_request or GatewayReleaseRequest(release_hooks=[]),
-                )
+            self._pending_releases[context_id] = PendingRelease(
+                context_id=lease.context_id,
+                port=lease.port_slot.port,
+                release_request=request or GatewayReleaseRequest(release_hooks=[]),
             )
 
-    async def release_lease(self, context_id: str) -> Lease | None:
+    async def pending_releases(self) -> list[PendingRelease]:
         async with self._lock:
-            lease = self._lease.pop(context_id, None)
-            if lease is None:
+            return list(self._pending_releases.values())
+
+    async def complete_release(self, context_id: str) -> None:
+        async with self._lock:
+            if self._pending_releases.pop(context_id, None) is None:
                 raise UnexpectedError(f"Context ID {context_id} not found in registry")
+            lease = self.remove_lease(context_id)
             lease.port_slot.release()
 
     def require_lease(self, context_id: str) -> Lease:
         lease = self._lease.get(context_id, None)
+        if lease is None:
+            raise UnexpectedError(f"Context ID {context_id} not found in registry")
+        return lease
+
+    def remove_lease(self, context_id: str):
+        lease = self._lease.pop(context_id, None)
         if lease is None:
             raise UnexpectedError(f"Context ID {context_id} not found in registry")
         return lease

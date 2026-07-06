@@ -28,12 +28,8 @@ class RewardRequest(_BaseRequest):
     op: Literal["reward"]
 
 
-class ReleaseRequest(_BaseRequest):
-    op: Literal["release"]
-
-
 AgentRequest: TypeAlias = Annotated[
-    Union[StartRequest, ActionRequest, RewardRequest, ReleaseRequest],
+    Union[StartRequest, ActionRequest, RewardRequest],
     Field(discriminator="op"),
 ]
 
