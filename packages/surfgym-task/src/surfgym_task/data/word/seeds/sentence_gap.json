@@ -1,0 +1,21 @@
+{
+  "instruction": "Please write these three entries with one empty line between each entry: \"North entry\", \"West entry\", and \"South entry\".",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "value": "North entry\n\nWest entry\n\nSouth entry",
+        "query": [
+          [
+            "body",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
+      }
+    ]
+  ]
+}

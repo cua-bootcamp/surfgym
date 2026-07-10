@@ -1,0 +1,92 @@
+{
+  "instruction": "Format the existing line in Calibri, make \"moss\" green, make \"amber\" orange, and center-align the paragraph.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "value": "moss amber",
+        "query": [
+          [
+            "body",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "left",
+        "query": [
+          [
+            "paragraph",
+            0
+          ]
+        ],
+        "path": [
+          "horizontalAlign"
+        ]
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "value": "Calibri",
+        "query": [
+          [
+            "text",
+            "moss amber"
+          ]
+        ],
+        "path": [
+          "fontFamily"
+        ]
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "value": "green",
+        "query": [
+          [
+            "text",
+            "moss"
+          ]
+        ],
+        "path": [
+          "color"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "orange",
+        "query": [
+          [
+            "text",
+            "amber"
+          ]
+        ],
+        "path": [
+          "color"
+        ]
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "value": "center",
+        "query": [
+          [
+            "paragraph",
+            0
+          ]
+        ],
+        "path": [
+          "horizontalAlign"
+        ]
+      }
+    ]
+  ]
+}

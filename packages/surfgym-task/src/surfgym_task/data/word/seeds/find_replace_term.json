@@ -1,0 +1,21 @@
+{
+  "instruction": "Create the line \"temp report temp checklist\". Then replace every occurrence of \"temp\" with \"final\".",
+  "empty_start": true,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "value": "final report final checklist",
+        "query": [
+          [
+            "body",
+            null
+          ]
+        ],
+        "path": [
+          "text"
+        ]
+      }
+    ]
+  ]
+}
