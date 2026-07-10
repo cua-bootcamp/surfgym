@@ -4,7 +4,7 @@ from typing import Annotated, Any, Literal, Optional, TypeAlias, Union
 from pydantic import BaseModel, ConfigDict, Field, GetCoreSchemaHandler, TypeAdapter
 from pydantic_core import core_schema
 
-from surfgym_contracts.task import CriteriaEvaluation, Hook
+from surfgym_contracts.task import CriteriaEvaluation
 
 ###################
 # Action Commands #
@@ -157,20 +157,14 @@ class HotKeyCommand(_BaseCommand):
     keys: list[PlaywrightKey]
 
 
-class ObserveCommand(_BaseCommand):
-    command: Literal["observe"] = "observe"
-    evaluation: CriteriaEvaluation
-    evaluation_hooks: list[Hook]
+class EvaluateCommand(_BaseCommand):
+    command: Literal["evaluate"] = "evaluate"
+    criteria: CriteriaEvaluation
 
 
 class SleepCommand(_BaseCommand):
     command: Literal["sleep"] = "sleep"
     duration_ms: int
-
-
-class ReferenceCommand(_BaseCommand):
-    command: Literal["command"] = "command"
-    hooks: list[Hook]
 
 
 CommandPayload: TypeAlias = Union[
@@ -186,8 +180,6 @@ CommandPayload: TypeAlias = Union[
     KeyPressCommand,
     HotKeyCommand,
     SleepCommand,
-    ObserveCommand,
-    ReferenceCommand,
 ]
 
 Command = Annotated[

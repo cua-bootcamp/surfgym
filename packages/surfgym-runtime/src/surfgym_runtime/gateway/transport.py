@@ -1,24 +1,27 @@
 from functools import lru_cache
 from json import JSONDecodeError
-from typing import Any, Literal, TypeVar
+from typing import Any, TypeVar
 
 import requests
 from fastapi import status
 from pydantic import BaseModel, ValidationError
-from surfgym_contracts.command import Command, ObserveCommand
+from surfgym_contracts.command import Command
 from surfgym_contracts.protocol.gateway_to_upstream import (
+    ExecuteRequest,
     GatewayAllocateRequest,
     GatewayReleaseRequest,
+    ObserveRequest,
+    ScreenshotRequest,
 )
 from surfgym_contracts.protocol.upstream_to_gateway import (
     ErrorResponse,
     ExecuteResponse,
     MasterAllocateResponse,
-    ObservationResponse,
-    ReleaseResponse,
+    MasterReleaseResponse,
+    ObserveResponse,
     ScreenshotResponse,
 )
-from surfgym_contracts.task import CriteriaEvaluation, Hook, Website
+from surfgym_contracts.task import Criteria, Hook, Website
 
 from surfgym_runtime.gateway.error import Deadline, RetryableError, UpstreamError
 from surfgym_runtime.support.config import WavepoolConfig
@@ -54,9 +57,7 @@ class GatewayTransport:
             websites=websites, allocate_hooks=allocate_hooks, timeout=timeout
         )
 
-    def release(
-        self, *, deadline: Deadline, context_id: str, release_hooks: list[Hook]
-    ) -> ReleaseResponse:
+    def release(self, *, deadline: Deadline, context_id: str, release_hooks: list[Hook]):
         timeout = deadline.timeout_for(self._timeouts.release)
         return self._master_client.release(
             context_id=context_id, release_hooks=release_hooks, timeout=timeout
@@ -84,13 +85,14 @@ class GatewayTransport:
         deadline: Deadline,
         context_id: str,
         instance_port: int,
-        evaluation: CriteriaEvaluation,
-        evaluation_hooks: list[Hook],
-    ) -> ObservationResponse:
+        criteria: list[Criteria],
+        observe_hooks: list[Hook],
+    ) -> ObserveResponse:
         timeout = deadline.timeout_for(self._timeouts.observe)
         return self._instance_client(instance_port).observe(
             context_id=context_id,
-            command=ObserveCommand(evaluation=evaluation, evaluation_hooks=evaluation_hooks),
+            criteria=criteria,
+            observe_hooks=observe_hooks,
             timeout=timeout,
         )
 
@@ -111,7 +113,6 @@ class MasterClient:
         timeout: float,
     ):
         return _request_model(
-            "POST",
             f"{self._get_base_url()}/allocate",
             MasterAllocateResponse,
             operation="master.allocate",
@@ -122,11 +123,9 @@ class MasterClient:
         )
 
     def release(self, *, context_id: str, release_hooks: list[Hook], timeout: float):
-
         return _request_model(
-            "POST",
             f"{self._get_base_url()}/release",
-            ReleaseResponse,
+            MasterReleaseResponse,
             operation="master.release",
             params={"context_id": context_id},
             json=GatewayReleaseRequest(release_hooks=release_hooks).model_dump(mode="json"),
@@ -144,33 +143,40 @@ class InstanceClient:
 
     def execute(self, *, context_id: str, command: Command, timeout: float):
         return _request_model(
-            "POST",
             f"{self._get_base_url()}/execute",
             ExecuteResponse,
             operation="instance.execute",
             params={"context_id": context_id},
-            json=command.model_dump(mode="json"),
+            json=ExecuteRequest(command=command).model_dump(mode="json"),
             timeout=timeout,
         )
 
-    def observe(self, *, context_id: str, command: Command, timeout: float):
+    def observe(
+        self,
+        *,
+        context_id: str,
+        criteria: list[Criteria],
+        observe_hooks: list[Hook],
+        timeout: float,
+    ):
         return _request_model(
-            "POST",
-            f"{self._get_base_url()}/execute",
-            ObservationResponse,
+            f"{self._get_base_url()}/observe",
+            ObserveResponse,
             operation="instance.observe",
             params={"context_id": context_id},
-            json=command.model_dump(mode="json"),
+            json=ObserveRequest(criteria=criteria, observe_hooks=observe_hooks).model_dump(
+                mode="json"
+            ),
             timeout=timeout,
         )
 
     def screenshot(self, *, context_id: str, timeout: float):
         return _request_model(
-            "GET",
             f"{self._get_base_url()}/screenshot",
             ScreenshotResponse,
             operation="instance.screenshot",
             params={"context_id": context_id},
+            json=ScreenshotRequest().model_dump(mode="json"),
             timeout=timeout,
         )
 
@@ -179,24 +185,20 @@ class InstanceClient:
 #               Helper Functions               #
 ################################################
 
-HttpMethod = Literal["GET", "POST"]
-
 
 def _request_model(
-    method: HttpMethod,
     url: str,
-    schema: type[_T],
+    response_schema: type[_T],
     *,
     operation: str,
     timeout: float,
     **kwargs: Any,
 ) -> _T:
-    response = _request(method, url, operation=operation, timeout=timeout, **kwargs)
-    return _decode_response(response, schema, operation=operation)
+    response = _request(url, operation=operation, timeout=timeout, **kwargs)
+    return _decode_response(response, response_schema, operation=operation)
 
 
 def _request(
-    method: HttpMethod,
     url: str,
     *,
     operation: str,
@@ -204,7 +206,7 @@ def _request(
     **kwargs: Any,
 ) -> requests.Response:
     try:
-        return requests.request(method, url, timeout=timeout, **kwargs)
+        return requests.request("POST", url, timeout=timeout, **kwargs)
     except requests.exceptions.Timeout as exc:
         raise RetryableError(
             f"Upstream request timed out: operation={operation} url={url}"

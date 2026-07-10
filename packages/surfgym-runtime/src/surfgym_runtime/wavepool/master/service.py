@@ -4,7 +4,10 @@ from surfgym_contracts.protocol.gateway_to_upstream import (
     GatewayAllocateRequest,
     GatewayReleaseRequest,
 )
-from surfgym_contracts.protocol.upstream_to_gateway import MasterAllocateResponse, ReleaseResponse
+from surfgym_contracts.protocol.upstream_to_gateway import (
+    MasterAllocateResponse,
+    MasterReleaseResponse,
+)
 
 from surfgym_runtime.support import WavepoolConfig, master_logger
 from surfgym_runtime.wavepool.master.error import OutOfInstanceError
@@ -23,7 +26,7 @@ class MasterService:
     async def close(self):
         await self.client.close()
 
-    async def allocate(self, request: GatewayAllocateRequest) -> MasterAllocateResponse:
+    async def allocate(self, request: GatewayAllocateRequest):
         lease = await self.registry.reserve_lease()
         if lease is None:
             raise OutOfInstanceError("No available instance at the moment")
@@ -41,10 +44,10 @@ class MasterService:
             instance_host=self.config.host,
         )
 
-    async def release(self, context_id: str, request: GatewayReleaseRequest) -> ReleaseResponse:
+    async def release(self, context_id: str, request: GatewayReleaseRequest):
         await self.registry.enqueue_release(context_id, request)
         self._release_wakeup.set()
-        return ReleaseResponse()
+        return MasterReleaseResponse()
 
     async def release_all(self) -> None:
         for pending in await self.registry.pending_releases():

@@ -5,8 +5,8 @@ from io import BytesIO
 from typing import Callable, TypeVar
 
 from PIL import Image, ImageDraw
-from surfgym_contracts.command import Command, ReferenceCommand
-from surfgym_contracts.computer13 import ReferenceAction, TerminalAction
+from surfgym_contracts.command import Command
+from surfgym_contracts.computer13 import TerminalAction
 from surfgym_contracts.protocol.agent_to_gateway import (
     ActionRequest,
     AgentRequest,
@@ -18,7 +18,7 @@ from surfgym_contracts.protocol.gateway_to_agent import (
     ImagePayload,
     RewardResponse,
 )
-from surfgym_contracts.task import CriteriaEvaluation, Hook, LLMJudgeEvaluation, Website
+from surfgym_contracts.task import Criteria, CriteriaEvaluation, Hook, LLMJudgeEvaluation, Website
 
 from surfgym_runtime.gateway.error import (
     Deadline,
@@ -44,12 +44,13 @@ class Service:
         self.task_store = task_store
         self.evaluator = Evaluator()
         self.transport = GatewayTransport(wavepool_config)
-        self.process_timeout = wavepool_config.process_timeout
         self._session_registry = SessionRegistry()
         self._release_worker = ReleaseWorker(
             transport=self.transport,
             release_timeout=wavepool_config.process_timeout.release,
         )
+
+        self.process_timeout = wavepool_config.process_timeout
 
     def open(self) -> None:
         self._release_worker.start()
@@ -103,23 +104,14 @@ class Service:
         request: ActionRequest,
         deadline: Callable[[str], Deadline],
     ) -> ActionResponse:
-        task = self._require_task(request.task_id)
         session_state = self._session_registry.require_session_state(
             request.session_id, request.task_id
         )
 
         for action in request.actions:
-            match action:
-                case _ if isinstance(action, TerminalAction):
-                    continue
-                case ReferenceAction():
-                    self._execute(
-                        deadline,
-                        session_state.lease,
-                        ReferenceCommand(hooks=task.lifecycle_hooks.reference),
-                    )
-                case _:
-                    self._execute(deadline, session_state.lease, action.to_commands())
+            if isinstance(action, TerminalAction):
+                continue
+            self._execute(deadline, session_state.lease, action.to_commands())
 
         (screenshot_b64, media_type) = self._screenshot(deadline, session_state.lease)
         session_state.append_frame(kind="action", image_b64=screenshot_b64, media_type=media_type)
@@ -143,8 +135,8 @@ class Service:
                 response = self._observe(
                     deadline=deadline,
                     lease=session_state.lease,
-                    evaluation=task.evaluation,
-                    evaluation_hooks=task.lifecycle_hooks.evaluate,
+                    criteria=task.evaluation.criteria,
+                    observe_hooks=task.lifecycle_hooks.observe,
                 )
                 reward = self.evaluator.rule_based_eval(task.evaluation, response.observation)
             case LLMJudgeEvaluation():
@@ -201,8 +193,8 @@ class Service:
         *,
         deadline: Callable[[str], Deadline],
         lease: Lease,
-        evaluation: CriteriaEvaluation,
-        evaluation_hooks: list[Hook],
+        criteria: list[Criteria],
+        observe_hooks: list[Hook],
     ):
         d = deadline("observe")
         return self._run_with_retry(
@@ -212,8 +204,8 @@ class Service:
                 deadline=d,
                 context_id=lease.context_id,
                 instance_port=lease.port,
-                evaluation=evaluation,
-                evaluation_hooks=evaluation_hooks,
+                criteria=criteria,
+                observe_hooks=observe_hooks,
             ),
         )
 

@@ -227,10 +227,6 @@ class DoubleClickAction(_BaseClickAction):
         )
 
 
-class ReferenceAction(_BaseComputerAction):
-    action_type: Literal["REFERENCE"]
-
-
 Computer13 = Annotated[
     Union[
         MoveToAction,
@@ -249,7 +245,6 @@ Computer13 = Annotated[
         WaitAction,
         FailAction,
         DoneAction,
-        ReferenceAction,
     ],
     Field(discriminator="action_type"),
 ]

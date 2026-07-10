@@ -51,10 +51,6 @@ def infer_evaluation():
     return infer_mode({"criteria": "criteria"}, default="llm")
 
 
-def infer_hook():
-    return infer_mode({"method": "api", "script": "console"}, default="console")
-
-
 ################################
 #             Rule             #
 ################################
@@ -138,36 +134,15 @@ class Website(_WebsiteDependent):
     url: str
 
 
-class _Hook(_WebsiteDependent):
-    timing: Literal["before", "after", "replace"]
-
-
-class ConsoleHook(_Hook):
-    mode: Literal["console"] = "console"
+class Hook(_WebsiteDependent):
+    timing: Literal["before", "after"]
     script: str
-
-
-class ApiHook(_Hook):
-    mode: Literal["api"] = "api"
-    method: Literal["GET", "POST", "PUT", "PATCH", "DELETE"]
-    url: str
-    json_payload: Optional[dict[str, object]] = None
-
-
-Hook: TypeAlias = Annotated[
-    Union[
-        Annotated[ConsoleHook, Tag("console")],
-        Annotated[ApiHook, Tag("api")],
-    ],
-    Discriminator(infer_hook()),
-]
 
 
 class LifecycleHooks(FrozenBaseModel):
     allocate: list[Hook] = []
-    evaluate: list[Hook] = []
+    observe: list[Hook] = []
     release: list[Hook] = []
-    reference: list[Hook] = []
 
 
 class TaskCore(FrozenBaseModel):

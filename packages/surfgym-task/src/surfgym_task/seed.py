@@ -4,7 +4,7 @@ import json
 from typing import Annotated, Literal, Optional, TypeAlias, cast
 
 from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, JsonValue, TypeAdapter
-from surfgym_contracts.task import ConsoleCriteria, ConsoleHook, CriteriaCore
+from surfgym_contracts.task import ConsoleCriteria, CriteriaCore
 
 
 class FrozenBaseModel(BaseModel):
@@ -15,7 +15,7 @@ class StateAtom(CriteriaCore):
     query: list[tuple[str, JsonValue]]
     path: list[str | int]
 
-    def _to_script(self, type: Literal["eval", "action"]) -> str:
+    def to_script(self, type: Literal["eval", "action"]) -> str:
         payload = {"query": self.query, "path": self.path, "value": self.value}
         f = "get" if type == "eval" else "set"
         return f"""
@@ -30,11 +30,8 @@ class StateAtom(CriteriaCore):
             match=self.match,
             normalize_space=self.normalize_space,
             case_sensitive=self.case_sensitive,
-            script=self._to_script(type="eval"),
+            script=self.to_script(type="eval"),
         )
-
-    def to_console_hook(self) -> ConsoleHook:
-        return ConsoleHook(mode="console", script=self._to_script(type="action"), timing="after")
 
     def to_string(self, hide_value: bool = False) -> str:
         query = self._query_string()

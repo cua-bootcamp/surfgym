@@ -1,1 +1,5 @@
-{ "typeCheckingMode": "strict", "reportMatchNotExhaustive": "error" }
+{
+  "typeCheckingMode": "strict",
+  "reportMatchNotExhaustive": "error",
+  "reportImportCycles": "error"
+}

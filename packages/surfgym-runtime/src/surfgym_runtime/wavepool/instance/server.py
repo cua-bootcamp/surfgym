@@ -3,23 +3,29 @@ import base64
 from contextlib import asynccontextmanager
 from functools import wraps
 from pathlib import Path
-from typing import Annotated, Any, Awaitable, Callable, ParamSpec, TypeVar
+from typing import Annotated, Awaitable, Callable, ParamSpec, TypeVar
 
 import uvicorn
 from fastapi import Body, FastAPI, status
 from fastapi.responses import JSONResponse
-from surfgym_contracts.command import CommandAdapter
-from surfgym_contracts.protocol.gateway_to_upstream import MasterAllocateRequest
+from surfgym_contracts.protocol.gateway_to_upstream import (
+    ExecuteRequest,
+    MasterAllocateRequest,
+    MasterReleaseRequest,
+    ObserveRequest,
+    ScreenshotRequest,
+)
 from surfgym_contracts.protocol.upstream_to_gateway import (
     ErrorResponse,
     ExecuteResponse,
+    InsatnceReleaseResponse,
     InstanceAllocateResponse,
-    ReleaseResponse,
+    ObserveResponse,
     ScreenshotResponse,
 )
 
 from surfgym_runtime.support import instance_logger, setup_logging
-from surfgym_runtime.wavepool.instance.error import InstanceError, InstanceNotIdle
+from surfgym_runtime.wavepool.instance.error import InstanceError
 from surfgym_runtime.wavepool.instance.service import PlaywrightBrowserWorker
 
 _P = ParamSpec("_P")
@@ -31,8 +37,8 @@ def create_app(contexts_per_instance: int) -> FastAPI:
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
-        await worker.open()
         try:
+            await worker.open()
             yield
         finally:
             await worker.close()
@@ -45,19 +51,22 @@ def create_app(contexts_per_instance: int) -> FastAPI:
         context_id: str,
         request: Annotated[MasterAllocateRequest, Body()],
     ):
-        if not await worker.has_capacity():
-            raise InstanceNotIdle("No available context slot on this instance.")
-
-        await worker.create(context_id, request.websites, request.allocate_hooks)
+        await worker.allocate(context_id, request.websites, request.allocate_hooks)
         return InstanceAllocateResponse()
 
     @handle_instance_errors
-    async def release(context_id: str):
-        await worker.delete(context_id)
-        return ReleaseResponse()
+    async def release(
+        context_id: str,
+        request: Annotated[MasterReleaseRequest, Body()],
+    ):
+        await worker.release(context_id)
+        return InsatnceReleaseResponse()
 
     @handle_instance_errors
-    async def screenshot(context_id: str):
+    async def screenshot(
+        context_id: str,
+        request: Annotated[ScreenshotRequest, Body()],
+    ):
         screenshot, x, y = await worker.screenshot(context_id)
         screenshot_b64 = base64.b64encode(screenshot.getvalue()).decode("ascii")
 
@@ -71,21 +80,29 @@ def create_app(contexts_per_instance: int) -> FastAPI:
     @handle_instance_errors
     async def execute(
         context_id: str,
-        command_data: Annotated[dict[str, Any], Body(...)],
+        request: Annotated[ExecuteRequest, Body()],
     ):
-        command = CommandAdapter.validate_python(command_data)
-        result = await worker.execute(context_id, command)
+        await worker.execute(context_id, request.command)
+        return ExecuteResponse()
 
-        if result is None:
-            return ExecuteResponse()
-        return result
+    @handle_instance_errors
+    async def observe(
+        context_id: str,
+        request: Annotated[ObserveRequest, Body()],
+    ):
+
+        return ObserveResponse(
+            observation=await worker.observe(context_id, request.criteria, request.observe_hooks)
+        )
 
     app = FastAPI(lifespan=lifespan)
     app.add_api_route("/health", health, methods=["GET"])
     app.add_api_route("/allocate", allocate, methods=["POST"])
     app.add_api_route("/release", release, methods=["POST"])
-    app.add_api_route("/screenshot", screenshot, methods=["GET"])
     app.add_api_route("/execute", execute, methods=["POST"])
+    app.add_api_route("/observe", observe, methods=["POST"])
+    app.add_api_route("/screenshot", screenshot, methods=["POST"])
+
     return app
 
 

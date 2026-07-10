@@ -15,19 +15,20 @@ from surfgym_contracts.protocol.gateway_to_agent import ErrorResponse, Response
 
 from surfgym_runtime.gateway.error import GatewayError, InvalidRequest, TimeOutError
 from surfgym_runtime.gateway.service import Service
-from surfgym_runtime.support import GatewayConfig, TaskStore, WavepoolConfig, gateway_logger
+from surfgym_runtime.support import Config, TaskStore, gateway_logger
 
 _T = TypeVar("_T")
 _R = TypeVar("_R")
 
 
-def create_app(
-    *, gateway_config: GatewayConfig, wavepool_config: WavepoolConfig, task_store: TaskStore
-):
+def create_app(config: Config):
+    gateway_config = config.gateway_config
+    wavepool_config = config.wavepool_config
+
     executor = ThreadPoolExecutor(max_workers=gateway_config.gateway_workers)
     in_flight = asyncio.Semaphore(gateway_config.gateway_in_flight)
     service = Service(
-        task_store=task_store,
+        task_store=TaskStore.from_file(config.task_file_path),
         wavepool_config=wavepool_config,
     )
 

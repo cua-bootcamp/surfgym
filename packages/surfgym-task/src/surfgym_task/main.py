@@ -3,11 +3,9 @@ from pathlib import Path
 from typing import get_args
 
 from surfgym_contracts.task import (
-    ApiHook,
     CriteriaEvaluation,
-    DomCriteria,
+    Hook,
     LifecycleHooks,
-    LLMJudgeEvaluation,
     Task,
     Website,
 )
@@ -49,86 +47,21 @@ class Augmentor:
                                 task_hash, seed, hoare_state
                             )
 
-                            if seed.domain == "impress":
-                                start_operations = [
-                                    atom.model_dump(mode="json")
+                            evaluation = CriteriaEvaluation(
+                                criteria=[
+                                    atom.to_console_criteria() for atom in hoare_state.end_state
+                                ]
+                            )
+                            lifecycle_hooks = LifecycleHooks(
+                                allocate=[
+                                    Hook(script=atom.to_script(type="action"), timing="after")
                                     for atom in hoare_state.start_state
-                                ]
-                                end_operations = [
-                                    atom.model_dump(mode="json")
+                                ],
+                                observe=[
+                                    Hook(script=atom.to_script(type="action"), timing="before")
                                     for atom in hoare_state.end_state
-                                ]
-                                setup_payload = {
-                                    "setup_file": "1.pptx",
-                                }
-                                if start_operations:
-                                    setup_payload["operations"] = start_operations
-
-                                evaluation = CriteriaEvaluation(
-                                    criteria=[
-                                        DomCriteria(
-                                            value=atom.value,
-                                            match=atom.match,
-                                            normalize_space=atom.normalize_space,
-                                            case_sensitive=atom.case_sensitive,
-                                        )
-                                        for atom in hoare_state.end_state
-                                    ]
-                                )
-                                lifecycle_hooks = LifecycleHooks(
-                                    allocate=[
-                                        ApiHook(
-                                            method="POST",
-                                            url="http://localhost:53001/impress/allocate",
-                                            json_payload=setup_payload,
-                                            timing="before",
-                                        )
-                                    ],
-                                    evaluate=[
-                                        ApiHook(
-                                            method="POST",
-                                            url="http://localhost:53001/impress/evaluate",
-                                            json_payload={
-                                                "criteria": end_operations,
-                                            },
-                                            timing="replace",
-                                        )
-                                    ],
-                                    release=[
-                                        ApiHook(
-                                            method="POST",
-                                            url="http://localhost:53001/impress/release",
-                                            timing="before",
-                                        )
-                                    ],
-                                    reference=[
-                                        ApiHook(
-                                            method="POST",
-                                            url="http://localhost:53001/impress/reference",
-                                            json_payload={
-                                                "operations": end_operations,
-                                            },
-                                            timing="after",
-                                        )
-                                    ],
-                                )
-                            elif seed.domain == "gimp" or seed.domain == "vlc":
-                                evaluation = LLMJudgeEvaluation()
-                                lifecycle_hooks = LifecycleHooks()
-                            else:
-                                evaluation = CriteriaEvaluation(
-                                    criteria=[
-                                        atom.to_console_criteria() for atom in hoare_state.end_state
-                                    ]
-                                )
-                                lifecycle_hooks = LifecycleHooks(
-                                    allocate=[
-                                        atom.to_console_hook() for atom in hoare_state.start_state
-                                    ],
-                                    reference=[
-                                        atom.to_console_hook() for atom in hoare_state.end_state
-                                    ],
-                                )
+                                ],
+                            )
 
                             task = Task(
                                 hash=task_hash,
@@ -144,7 +77,9 @@ class Augmentor:
                             augment_writer.write_task(task)
                             task_writer.write_task(f, t, task)
                             task_writer.write_payload(f, t, payload)
-                augment_writer.write_summary(stats)
+                        augment_writer.write_summary(stats)
+        except Exception:
+            raise
         finally:
             self.instruction_loader.flush()
 

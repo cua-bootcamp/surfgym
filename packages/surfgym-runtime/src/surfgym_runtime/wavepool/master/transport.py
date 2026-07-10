@@ -10,7 +10,7 @@ from surfgym_contracts.protocol.gateway_to_upstream import (
 from surfgym_contracts.protocol.upstream_to_gateway import (
     ErrorResponse,
     InstanceAllocateResponse,
-    ReleaseResponse,
+    MasterReleaseResponse,
 )
 
 from surfgym_runtime.support import ProcessTimeout
@@ -75,9 +75,7 @@ class InstanceClient:
         )
         return _handle_response(response, InstanceAllocateResponse, "allocate", port)
 
-    async def release(
-        self, context_id: str, port: int, request: GatewayReleaseRequest
-    ) -> ReleaseResponse:
+    async def release(self, context_id: str, port: int, request: GatewayReleaseRequest):
         response = await _post(
             self.client,
             f"{self.base_url(port)}/release",
@@ -87,7 +85,7 @@ class InstanceClient:
             json=request.model_dump(mode="json"),
             timeout=self.timeouts.release - self.timeouts.layer_gap,
         )
-        return _handle_response(response, ReleaseResponse, "release", port)
+        return _handle_response(response, MasterReleaseResponse, "release", port)
 
 
 ################################################
