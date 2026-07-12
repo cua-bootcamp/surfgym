@@ -1,4 +1,5 @@
 {
+  "domain": "word",
   "instruction": "Create a two-line note with \"Checkpoint Log\" on the first line and \"notes pending\" on the second line. Make the first line bold.",
   "empty_start": true,
   "states": [
@@ -6,43 +7,22 @@
       {
         "match": "exact",
         "value": "Checkpoint Log\nnotes pending",
-        "query": [
-          [
-            "body",
-            null
-          ]
-        ],
-        "path": [
-          "text"
-        ]
+        "query": [["body", null]],
+        "path": ["text"]
       }
     ],
     [
       {
         "match": "exact",
         "value": true,
-        "query": [
-          [
-            "text",
-            "Checkpoint Log"
-          ]
-        ],
-        "path": [
-          "bold"
-        ]
+        "query": [["text", "Checkpoint Log"]],
+        "path": ["bold"]
       },
       {
         "match": "exact",
         "value": false,
-        "query": [
-          [
-            "text",
-            "notes pending"
-          ]
-        ],
-        "path": [
-          "bold"
-        ]
+        "query": [["text", "notes pending"]],
+        "path": ["bold"]
       }
     ]
   ]

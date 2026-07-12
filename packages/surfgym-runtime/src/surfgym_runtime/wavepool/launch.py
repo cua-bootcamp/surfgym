@@ -281,7 +281,9 @@ def launch() -> None:
     setup_logging(deploy_logger, config.log_path, component="deploy")
 
     supervisor = WavepoolSupervisor(
-        config=config.wavepool_config, config_path=args.config_path, log_path=config.log_path
+        config=config.wavepool_config,
+        config_path=args.config_path,
+        log_path=config.log_path,
     )
 
     try:

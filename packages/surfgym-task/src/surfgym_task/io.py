@@ -77,8 +77,8 @@ RawSeedTaskAdapter: TypeAdapter[RawSeedTask] = TypeAdapter(RawSeedTask)
 
 def iterate_seed(seeds_dir: Path) -> Iterator[tuple[SeedTask, str]]:
     for path in sorted(seeds_dir.glob("*.json")):
-        domain = seeds_dir.parent.name
         raw_seed = load_rows(path, RawSeedTaskAdapter)
+        domain = seeds_dir.parent.name if raw_seed.domain is None else raw_seed.domain
 
         defaults = DEFAULT_TASK_VALUES.get(domain)
         if defaults is None:

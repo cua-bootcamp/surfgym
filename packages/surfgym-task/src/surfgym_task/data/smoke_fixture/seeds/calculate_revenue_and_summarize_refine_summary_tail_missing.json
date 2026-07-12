@@ -1,4 +1,5 @@
 {
+  "domain": "spreadsheet",
   "instruction": "Correct the inconsistent revenue and summary entries near the bottom, then calculate discounted order Revenue and create the product revenue summary in K2:L6.",
   "empty_start": false,
   "states": [

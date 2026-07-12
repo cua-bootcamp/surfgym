@@ -46,17 +46,10 @@ export function App() {
     [runDetail, selectedTaskId]
   );
 
-  const filteredTasks = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
-    const tasks = runDetail?.tasks ?? [];
-    if (!normalizedQuery) return tasks;
-
-    return tasks.filter(
-      (task) =>
-        task.taskId.toLowerCase().includes(normalizedQuery) ||
-        task.instruction.toLowerCase().includes(normalizedQuery)
-    );
-  }, [query, runDetail?.tasks]);
+  const selectedTaskIndex = useMemo(
+    () => runDetail?.tasks.findIndex((task) => task.taskId === selectedTaskId) ?? -1,
+    [runDetail, selectedTaskId]
+  );
 
   const dirty =
     selectedTask !== null && draftInstruction.trim() !== selectedTask.instruction.trim();
@@ -92,6 +85,34 @@ export function App() {
     setSelectedScreenshotIndex(0);
     setSaveState("idle");
   }, [selectedTask?.taskId, selectedTask?.instruction]);
+
+  useEffect(() => {
+    function isEditableTarget(target: EventTarget | null) {
+      if (!(target instanceof HTMLElement)) return false;
+      return (
+        target.isContentEditable ||
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        target instanceof HTMLSelectElement
+      );
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (isEditableTarget(event.target)) return;
+      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+
+      const tasks = runDetail?.tasks ?? [];
+      if (tasks.length === 0 || selectedTaskIndex < 0) return;
+
+      const direction = event.key === "ArrowRight" ? 1 : -1;
+      const nextIndex = (selectedTaskIndex + direction + tasks.length) % tasks.length;
+      setSelectedTaskId(tasks[nextIndex].taskId);
+      event.preventDefault();
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [runDetail?.tasks, selectedTaskIndex]);
 
   async function saveInstruction() {
     if (!selectedTask?.instructionKey || !dirty) return;
@@ -138,14 +159,14 @@ export function App() {
         onSelectTask={setSelectedTaskId}
       />
 
-      <section className="flex-1 flex flex-col h-full">
+      <section className="flex-1 flex flex-col h-full min-h-0">
         <header className="shrink-0 border-b border-slate-200 bg-white px-6 py-4">
           {selectedTask ? (
             <div className="flex items-start justify-between gap-6">
               <div className="min-w-0">
                 <h2 className="truncate text-xl font-semibold">{selectedTask.taskId}</h2>
-                <p className="mt-1 truncate text-sm text-slate-500">
-                  Editing `instruction.jsonl` via key: {selectedTask.instructionKey ?? "not mapped"}
+                <p className="mt-2 max-w-5xl text-sm leading-5 text-slate-600">
+                  {selectedTask.instruction}
                 </p>
               </div>
               <div className="flex shrink-0 items-center gap-2">
@@ -170,64 +191,13 @@ export function App() {
           )}
         </header>
 
-        <div className="flex flex-col flex-1 gap-4 p-4">
-          <section className="rounded-md border border-slate-200 bg-white collapse-0">
-            <div className="border-b border-slate-200 px-4 py-3">
-              <div className="text-sm font-semibold">Instruction</div>
-              <div className="mt-1 text-xs text-slate-500">
-                Save writes to {runDetail?.instructionPath ?? "instruction.jsonl"}
-              </div>
-            </div>
-
-            <textarea
-              className="min-h-0 w-full resize-none border-0 p-4 text-sm leading-6 outline-none"
-              value={draftInstruction}
-              disabled={!selectedTask}
-              onChange={(event) => {
-                setDraftInstruction(event.target.value);
-                setSaveState("idle");
-              }}
-            />
-
-            <div className="flex min-h-12 items-center justify-between gap-3 border-t border-slate-200 px-4 py-3 text-xs text-slate-500">
-              <span>
-                {dirty ? "Unsaved changes" : saveState === "saved" ? "Saved" : "No changes"}
-              </span>
-              <span>Reward {selectedTask?.reward}</span>
-            </div>
-          </section>
-
-          <section className="grid flex-1 rounded-md border border-slate-200 bg-white">
-            {/* <div className="flex items-center justify-between gap-4 border-b border-slate-200 px-4 py-3">
-              <div>
-                <div className="text-sm font-semibold">Screenshots</div>
-                <div className="mt-1 text-xs text-slate-500">
-                  {selectedTask?.screenshots.length ?? 0} captured steps
-                </div>
-              </div>
-
-              <div className="flex flex-wrap justify-end gap-2">
-                {selectedTask?.screenshots.map((screenshot, index) => (
-                  <button
-                    key={screenshot}
-                    className={[
-                      "h-8 rounded-md border px-3 text-xs font-medium",
-                      selectedScreenshotIndex === index
-                        ? "border-blue-500 bg-blue-50 text-blue-700"
-                        : "border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
-                    ].join(" ")}
-                    onClick={() => setSelectedScreenshotIndex(index)}
-                  >
-                    {index}
-                  </button>
-                ))}
-              </div>
-            </div> */}
-
-            <div className="min-h-0 flex flex-row overflow-y-auto bg-slate-50 p-3">
+        <div className="flex min-h-0 flex-1 flex-col gap-4 p-4">
+          <section className="min-h-0 flex-1 overflow-hidden rounded-md border border-slate-200 bg-white">
+            <div className="flex h-full min-h-0 flex-col gap-3 overflow-y-auto bg-slate-50 p-3">
               {selectedTask?.screenshots.map((s) => (
                 <img
-                  className="w-1/2 rounded border border-slate-200 bg-white object-contain"
+                  key={s}
+                  className="w-full rounded border border-slate-200 bg-white object-contain"
                   src={s}
                 />
               ))}

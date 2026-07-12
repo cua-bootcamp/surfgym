@@ -60,6 +60,7 @@ States: TypeAlias = Annotated[list[State], BeforeValidator(listify), Field(min_l
 
 
 class RawSeedTask(FrozenBaseModel):
+    domain: Optional[str] = None
     instruction: str
     states: States
     empty_start: Optional[bool] = None

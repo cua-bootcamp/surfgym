@@ -18,7 +18,7 @@ from surfgym_runtime.wavepool.instance.session import ContextManager, ScreenCurs
 
 
 class PlaywrightBrowserWorker:
-    def __init__(self, *, contexts_per_instance: int) -> None:
+    def __init__(self, *, contexts_per_instance: int, DEV_MODE: bool) -> None:
         self.viewport_width = 1920
         self.viewport_height = 1080
         self.ctx_manager = ContextManager(
@@ -26,6 +26,8 @@ class PlaywrightBrowserWorker:
             vw=self.viewport_width,
             vh=self.viewport_height,
         )
+
+        self.DEV_MODE = DEV_MODE
 
     async def open(self) -> None:
         await self.ctx_manager.open()
@@ -159,13 +161,15 @@ class PlaywrightBrowserWorker:
 
     async def observe(self, context_id: str, criteria: list[Criteria], observe_hooks: list[Hook]):
 
-        async def run_before_hook(hook: Hook) -> None:
-            page, _ = self.ctx_manager.require_page(context_id, hook.website_id)
-            await page.evaluate(hook.script)
+        if self.DEV_MODE:
 
-        await asyncio.gather(
-            *(run_before_hook(hook) for hook in observe_hooks if hook.timing == "before")
-        )
+            async def run_before_hook(hook: Hook) -> None:
+                page, _ = self.ctx_manager.require_page(context_id, hook.website_id)
+                await page.evaluate(hook.script)
+
+            await asyncio.gather(
+                *(run_before_hook(hook) for hook in observe_hooks if hook.timing == "before")
+            )
 
         observations: list[Observation] = [None] * len(criteria)
         console_critera: list[tuple[ConsoleCriteria, Page, int]] = []
@@ -188,31 +192,6 @@ class PlaywrightBrowserWorker:
             observations[idx] = obs
 
         return observations
-
-    # def _screen_to_page_cursor(
-    #     self,
-    #     context: Context,
-    #     x: float | None,
-    #     y: float | None,
-    # ) -> PageCursor:
-    #     if x is None or y is None:
-    #         return context.cursor
-
-    #     _, layout = self.ctx_manager.require_page(context.context_id, context.active_page_id)
-    #     if layout.x <= x < layout.x + layout.width and layout.y <= y < layout.y + layout.height:
-    #         return PageCursor(x - layout.x, y - layout.y)
-    #     raise InvalidCommand(f"screen cursor is outside page layouts: ({x}, {y})")
-
-    # def _page_to_screen_cursor(
-    #     self,
-    #     context: Context,
-    # ) -> ScreenCursor:
-    #     _, layout = self.ctx_manager.require_page(context.context_id, context.active_page_id)
-
-    #     return ScreenCursor(
-    #         layout.x + context.cursor.x,
-    #         layout.y + context.cursor.y,
-    #     )
 
 
 ########################################

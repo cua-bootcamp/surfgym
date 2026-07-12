@@ -6,7 +6,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from surfgym_contracts.computer13 import ReferenceAction
 from surfgym_runtime.support import TaskStore
 
 from .client import Client, ClientResult
@@ -93,17 +92,13 @@ def main() -> None:
 
     def run_one(index: int, task: Any):
         task_root = snapshot_root / task.task_id
-        snapshot_only = args.mode == "allocated"
 
         return Client(
             task_id=task.task_id,
             session_id=base_session_id + index,
             gateway_url=args.gateway_url,
-            actions=[]
-            if snapshot_only
-            else [[ReferenceAction(action_type="REFERENCE").model_dump(mode="json")]],
+            actions=[],
             snapshot_dir=task_root,
-            snapshot_only=snapshot_only,
         ).run()
 
     results_by_task_id: dict[str, ClientResult] = {}

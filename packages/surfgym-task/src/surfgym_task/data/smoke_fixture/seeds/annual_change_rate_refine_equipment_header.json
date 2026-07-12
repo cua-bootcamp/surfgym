@@ -1,4 +1,5 @@
 {
+  "domain": "spreadsheet",
   "instruction": "Correct the mislabeled change column in the summary table, then calculate the annual change rates.",
   "empty_start": false,
   "states": [

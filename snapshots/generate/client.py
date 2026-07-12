@@ -8,8 +8,8 @@ from urllib.request import Request, urlopen
 
 from surfgym_contracts.protocol.gateway_to_agent import (
     ActionResponse,
+    DEVRewardResponse,
     ErrorResponse,
-    ReleaseResponse,
     Response,
     ResponseAdapter,
     RewardResponse,
@@ -75,12 +75,9 @@ class Client:
         actions: list[list[dict[str, Any]]],
         gateway_url: str,
         snapshot_dir: Path,
-        snapshot_only: bool = False,
     ):
         self.task_id = task_id
         self.session_id = session_id
-        self.actions = actions
-        self.snapshot_only = snapshot_only
 
         self.snapshot_dir = snapshot_dir
         self.snapshot_dir.mkdir(parents=True, exist_ok=True)
@@ -104,67 +101,6 @@ class Client:
         self._create_snapshots(next(step), "start", start_response)
         self._raise_if_error("start", start_response)
 
-        if self.snapshot_only:
-            release_response = post(
-                self.url,
-                {
-                    "op": "release",
-                    "session_id": self.session_id,
-                    "task_id": self.task_id,
-                },
-                operation="release",
-            )
-            self._create_snapshots(next(step), "release", release_response)
-            self._raise_if_error("release", release_response)
-
-            match release_response:
-                case ReleaseResponse():
-                    return ClientResult(
-                        task_id=self.task_id,
-                        snapshot_dir=self.snapshot_dir,
-                        reward=0.0,
-                    )
-                case _:
-                    raise ValueError(
-                        f"Expected ReleaseResponse, got {type(release_response).__name__}: "
-                        f"{response_json(release_response)}"
-                    )
-
-        for action_index, action_batch in enumerate(self.actions):
-            operation = f"action_{action_index}"
-            action_response = post(
-                self.url,
-                {
-                    "op": "action",
-                    "session_id": self.session_id,
-                    "task_id": self.task_id,
-                    "actions": action_batch,
-                },
-                operation=operation,
-            )
-            self._create_snapshots(next(step), operation, action_response)
-            if isinstance(action_response, ErrorResponse):
-                reward_operation = "reward_after_action_failure"
-                self._record_action_failure_reward(
-                    failed_operation=operation,
-                    action_response=action_response,
-                    reward_operation=reward_operation,
-                )
-                reward_response = post(
-                    self.url,
-                    {
-                        "op": "reward",
-                        "session_id": self.session_id,
-                        "task_id": self.task_id,
-                    },
-                    operation=reward_operation,
-                )
-                self._create_snapshots(next(step), reward_operation, reward_response)
-                self._raise_if_error(reward_operation, reward_response)
-                return self._result_from_reward_response(reward_response)
-
-            self._raise_if_error(operation, action_response)
-
         reward_response = post(
             self.url,
             {
@@ -180,7 +116,7 @@ class Client:
 
     def _result_from_reward_response(self, response: Response) -> ClientResult:
         match response:
-            case RewardResponse():
+            case DEVRewardResponse():
                 return ClientResult(
                     task_id=self.task_id,
                     snapshot_dir=self.snapshot_dir,
@@ -188,28 +124,10 @@ class Client:
                 )
             case _:
                 raise ValueError(
-                    f"Expected RewardResponse, got {type(response).__name__}: "
+                    f"Expected DEVRewardResponse with a screenshot, "
+                    f"got {type(response).__name__}: "
                     f"{response_json(response)}"
                 )
-
-    def _record_action_failure_reward(
-        self,
-        *,
-        failed_operation: str,
-        action_response: ErrorResponse,
-        reward_operation: str,
-    ) -> None:
-        payload = {
-            "failed_operation": failed_operation,
-            "action_error_type": action_response.error_type,
-            "action_error_message": action_response.message,
-            "reward_operation": reward_operation,
-            "reason": "action_failed",
-        }
-        (self.snapshot_dir / "action_failure_reward.json").write_text(
-            json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
-            encoding="utf-8",
-        )
 
     def _step_gen(self):
         step = 0
@@ -224,14 +142,22 @@ class Client:
                     decode_png_base64(response.image.data)
                 )
             case RewardResponse():
+                raise ValueError(
+                    "Expected DEVRewardResponse with a screenshot for reward snapshots, "
+                    "got RewardResponse. Launch the gateway with DEV=1."
+                )
+            case DEVRewardResponse():
                 (self.snapshot_dir / "reward.txt").write_text(str(response.reward))
-            case ReleaseResponse():
-                (self.snapshot_dir / "release.txt").write_text("released\n")
+                (self.snapshot_dir / f"screenshot_{step}.png").write_bytes(
+                    decode_png_base64(response.image.data)
+                )
             case ErrorResponse():
                 (self.snapshot_dir / f"error_{step}_{operation}.json").write_text(
                     response_json(response),
                     encoding="utf-8",
                 )
+            case _:
+                raise ValueError(f"Unexpected response type: {type(response).__name__}")
 
     def _raise_if_error(self, operation: str, response: Response) -> None:
         if isinstance(response, ErrorResponse):
@@ -272,11 +198,14 @@ def post(url: str, payload: dict[str, object], *, operation: str) -> Response:
 
 
 def response_json(response: Response) -> str:
-    return json.dumps(
-        response.model_dump(mode="json"),
-        ensure_ascii=False,
-        indent=2,
-    ) + "\n"
+    return (
+        json.dumps(
+            response.model_dump(mode="json"),
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n"
+    )
 
 
 def decode_png_base64(data: str) -> bytes:

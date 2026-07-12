@@ -1,0 +1,27 @@
+{"hash":"05f24c8b8bb07c864320bc77c7e5fccb712db50c2a021ce96857225a7c36f918","instruction":"Create a two-line note with Checkpoint Log on the first line and notes pending on the second line, and make the first line bold."}
+{"hash":"0f19ad8a8748f8af45d890a796bca92f52f1e853c648c617a4e1c6ed2ac0e4c2","instruction":"Calculate the annual change rates in G3:I6 for the summary table, using the corrected Equipment Value Change column in H."}
+{"hash":"14e41b0dd894261d0edb2bfcf288d18582ea3e1e48ca4a92cb98100e30540713","instruction":"Calculate the annual change rates in G3:I5, using the corrected summary table headers."}
+{"hash":"16b9e189f8b10fc2be46b18f03d24c8793fe9906aa276b059fc08d4d958e6257","instruction":"Correct the inconsistent result entries in F4 and G4, then calculate the remaining Final Price values in F3:F5 and enter the average row label in B5."}
+{"hash":"20569288c48faf5d8726009cb82759e07c54edfd27befe743bf2a8c078d92522","instruction":"Calculate the annual change rates for 2020 > 2021 in G3:I3."}
+{"hash":"218dc12d83eb0b4290b9270e76cb4264e4966b1a7e211882962a378af567b39f","instruction":"Format the existing line in Calibri, make moss green, make amber orange, and center-align the paragraph."}
+{"hash":"21f2cfe7cd2d8e221e9f8655b84ecf644f56e6bbafed483b976c6c382f931df2","instruction":"Correct the revenue value in F10 and the summary total in L6."}
+{"hash":"28e1db3d8a149d2ca1f1dee8f82e5280eb0f0c9622cb075132b900025264e467","instruction":"Format the existing line in Calibri."}
+{"hash":"4d80a6117b063779053991df1954174f22f630d6891fb7b21eee9993791a6e29","instruction":"Create the Sex summary table in D1:E3 and the Civil Status summary table starting in D5:E5, with each category’s proportion as a decimal."}
+{"hash":"66a6c4c4222a2cbae79aefd26b56aa9c4469783e547adb2d8767596d0f2ac947","instruction":"Center-align the second line."}
+{"hash":"672152ee30c172316e31c5d89e4e2449bca7ce77f7ff7c2714d49580d88c9d78","instruction":"Correct the revenue entries in F3:F10 and complete the product revenue summary in K2:L6."}
+{"hash":"67fc6b1ff6be0e4543f8d0a5dd4e47fa7296219d1cc945aa1cf9842084807d11","instruction":"Correct the inconsistent prefilled result entries in F4 and G4, completing the Final Price after Discount and Tax and the Product_Label for row 4 following the existing Product_Label format."}
+{"hash":"737dc4a65795b5e98cdf21752d6b9eb24ac38ebf500995ea0a1858b5bca8cee6","instruction":"Create the two-line note with Checkpoint Log on the first line and notes pending on the second line, and make the first line bold."}
+{"hash":"7b0358b769bbe133e01e02efffebd93cfd3ade0a9f0bc80c4988b78eae86b447","instruction":"Swap the product names in A3 and A4, then highlight the Marker row in A3:C3 and the Eraser row in A5:C5 with yellow."}
+{"hash":"7cf79d43efeb224af5e5a6ee87b341ed01e6213655dfb3e78c52c43a0447663d","instruction":"Write the three entries with one empty line between each: North entry, West entry, and South entry."}
+{"hash":"90d0495d0b463d11a32408c3dc97305ab93e3cda4e44558eebfc02cb5f784a7b","instruction":"Center-align the second line and right-align the third line in the paragraph."}
+{"hash":"9441fef7c30262dce15749d7a1f35719f39f7e006ce89db6ca94cacc08287f78","instruction":"Create the Sex summary table headers in D1 and E1."}
+{"hash":"98fcc8d157cf8d1faf755b09bb327e7de94b15c028284f007e1b51c09ff189f2","instruction":"Calculate the correct Final Price values in F3:F4 and update G4 to match the existing Product_Label format."}
+{"hash":"b6dcd3bcb35e0a56c51a4e6faa57bcd316b1c075f3e132d6b443fc3fa50896e6","instruction":"Correct the inconsistent result entries in F3:G4, including the final price and Product_Label values."}
+{"hash":"b735a64c8b7973ac074852929d99182cd42290ac38b4ff14227c2679c5bef968","instruction":"Set the second paragraph to center alignment, the third paragraph to right alignment, and the fourth paragraph to justified alignment."}
+{"hash":"cd3ebf4eb38623016f42dd1e7a9034546863564206c71f5c82dfe9f5c49bda3c","instruction":"Create the line temp report temp checklist, then replace every occurrence of temp with final."}
+{"hash":"cd77acb51d361c4eb905cf0a555892363c025fb9439f26889760b1f6250b396d","instruction":"Correct the swapped product names in A3 and A4."}
+{"hash":"d2a2dade125805ad0dea875bd3040a72f38e2e24e4f19991b8469d0e311b2142","instruction":"Create the Sex summary table in D1:E3 with Sex and Proportion headers, and list each sex with its proportion as a decimal."}
+{"hash":"e0309119c44cd736fdcd24663b4c678b98d84e60f4635d92434a16f4b57af7fd","instruction":"Calculate the annual change rates in G3:I4."}
+{"hash":"e66e15962fb718850c8a5df7c73c2f5b8b4c7968f153af3c64a497d8d2606e5d","instruction":"Format the existing line in Calibri, make moss green, and make amber orange."}
+{"hash":"e98a6c8764cebc912f720a38ab56f765ab7b2d02fbb0ae506c0d9773a9f59421","instruction":"Create the Sex summary table in D1:E3 and the Civil Status summary table in D5:E7, with each category listed alongside its proportion as a decimal."}
+{"hash":"f4a54fb6edbf75b1987b37c67e7578b4311f463470d20f834a00629d76d8b6bd","instruction":"Calculate the Revenue values in F3:F10, correct F10 and the product revenue summary in K2:L6."}

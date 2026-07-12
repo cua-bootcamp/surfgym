@@ -38,7 +38,7 @@ export function Sidebar({
   }, [query, tasks]);
 
   return (
-    <aside className="min-w-40 h-full flex flex-col border-r overflow-hidden border-slate-200 bg-white">
+    <aside className="h-full w-[400px] shrink-0 flex flex-col border-r overflow-hidden border-slate-200 bg-white">
       <div className="space-y-4 shrink-0 border-b border-slate-200 px-5 py-4">
         <label className="grid gap-1.5 text-sm font-medium text-slate-700">
           Snapshot run

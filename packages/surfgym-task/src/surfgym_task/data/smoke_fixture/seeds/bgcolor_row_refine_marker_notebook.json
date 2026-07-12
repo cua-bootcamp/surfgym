@@ -1,5 +1,6 @@
 {
-  "instruction": "Correct the swapped Marker and Notebook product names, then make the Marker and Eraser rows yellow.",
+  "domain": "spreadsheet",
+  "instruction": "Swap product name Marker and Notebook, then make the Marker and Eraser rows yellow.",
   "empty_start": false,
   "states": [
     [
