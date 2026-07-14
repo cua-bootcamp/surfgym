@@ -1,303 +1,286 @@
 import json
-import shutil
+import sqlite3
+from collections.abc import Iterator
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterator, Mapping, TypedDict, TypeVar
+from types import TracebackType
+from typing import Tuple, TypeVar, get_args
 
 from pydantic import TypeAdapter
 from surfgym_contracts.task import Task
 
 from surfgym_task.hoare import HoareState
-from surfgym_task.instruction_generator import (
-    InstructionGenerator,
-    InstructionPayload,
-    build_instruction_payload,
-)
-from surfgym_task.seed import Accumulation, RawSeedTask, SeedTask
+from surfgym_task.instruction_generator import InstructionGenerator
+from surfgym_task.seed import Domain, RawSeedTask, SeedTask
 
+T = TypeVar("T")
 
-@dataclass(frozen=True)
-class DataPaths:
-    root_dir: Path
-    seeds_dir: Path
-    out_dir: Path
-    instruction: Path
-
-
-def resolve_datapaths(target_dir: Path) -> DataPaths:
-    seeds_dir = target_dir / "seeds"
-    out_dir = target_dir / "out"
-    instruction = target_dir / "instruction.jsonl"
-
-    if not target_dir.exists() or not target_dir.is_dir():
-        raise FileNotFoundError(f"Directory not found: {target_dir}")
-    if not seeds_dir.exists() or not seeds_dir.is_dir():
-        raise FileNotFoundError(f"Seeds directory not found: {seeds_dir}")
-
-    if out_dir.exists():
-        shutil.rmtree(out_dir)
-    out_dir.mkdir(parents=True, exist_ok=True)
-    instruction.touch(exist_ok=True)
-
-    return DataPaths(
-        root_dir=target_dir,
-        seeds_dir=seeds_dir,
-        instruction=instruction,
-        out_dir=out_dir,
-    )
-
-
-class DefaultTaskValues(TypedDict):
-    empty_start: bool
-    accumulation: Accumulation
-    website: str
-
-
-DEFAULT_TASK_VALUES: dict[str, DefaultTaskValues] = {
-    "spreadsheet": {
-        "empty_start": False,
-        "accumulation": "CUMULATIVE",
-        "website": "http://localhost:3000/spreadsheet",
-    },
-    "word": {
-        "empty_start": False,
-        "accumulation": "CUMULATIVE",
-        "website": "http://localhost:3000/word",
-    },
-    "impress": {
-        "empty_start": True,
-        "accumulation": "CUMULATIVE",
-        "website": "http://localhost:53001/impress",
-    },
-}
-
-
-RawSeedTaskAdapter: TypeAdapter[RawSeedTask] = TypeAdapter(RawSeedTask)
-
-
-def iterate_seed(seeds_dir: Path) -> Iterator[tuple[SeedTask, str]]:
-    for path in sorted(seeds_dir.glob("*.json")):
-        raw_seed = load_rows(path, RawSeedTaskAdapter)
-        domain = seeds_dir.parent.name if raw_seed.domain is None else raw_seed.domain
-
-        defaults = DEFAULT_TASK_VALUES.get(domain)
-        if defaults is None:
-            raise ValueError(f"No default values for domain: {domain}")
-
-        empty_start = (
-            raw_seed.empty_start if raw_seed.empty_start is not None else defaults["empty_start"]
-        )
-
-        if empty_start:
-            raw_seed.states.insert(0, [])
-
-        yield (
-            SeedTask(
-                domain=domain,
-                instruction=raw_seed.instruction,
-                states=raw_seed.states,
-                accumulation=raw_seed.accumulation
-                if raw_seed.accumulation
-                else defaults["accumulation"],
-                website=raw_seed.website if raw_seed.website else defaults["website"],
-            ),
-            f"{domain}_{path.stem}",
-        )
+COMMIT_EVERY = 30
 
 
 @dataclass
-class RunStats:
+class Summary:
     seed_count: int = 0
     task_count: int = 0
 
-    def to_dict(self) -> dict[str, int]:
-        return {
-            "seed_count": self.seed_count,
-            "task_count": self.task_count,
-        }
+
+class JsonIO:
+    @staticmethod
+    def read(path: Path) -> object:
+        with path.open("r", encoding="utf-8") as stream:
+            return json.load(stream)
+
+    @staticmethod
+    def validate(path: Path, schema: type[T]) -> T:
+        payload = JsonIO.read(path)
+        return TypeAdapter(schema).validate_python(payload)
+
+    @staticmethod
+    def write(path: Path, value: object) -> None:
+        payload = TypeAdapter(type(value)).dump_python(value, mode="json")
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("w", encoding="utf-8") as stream:
+            json.dump(
+                payload,
+                stream,
+                ensure_ascii=False,
+                indent=2,
+            )
+            stream.write("\n")
 
 
-class JsonWriter:
-    def __init__(self, path: Path, flush_every: int = 10):
+class SQLiteIO:
+    def __init__(self, path: Path):
         self.path = path
-        self.flush_every = flush_every
-        self.count = 0
+        self.connection: sqlite3.Connection | None = None
 
+        self.pending: int = 0
+        self.commit_every: int = COMMIT_EVERY
+
+    def __enter__(self) -> "SQLiteIO":
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        self.fp = self.path.open("w", encoding="utf-8")
-
-    def __enter__(self) -> "JsonWriter":
+        self.connection = sqlite3.connect(self.path)
         return self
 
-    def __exit__(self, *args: object) -> None:
-        self.close()
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        traceback: TracebackType | None,
+    ) -> None:
+        if self.connection is None:
+            return
 
-    def write(self, row: Mapping[str, Any]) -> None:
-        self.fp.write(
-            json.dumps(
-                row,
-                ensure_ascii=False,
-                separators=(",", ":"),
+        try:
+            if exc_type is None:
+                self.connection.commit()
+            else:
+                self.connection.rollback()
+        finally:
+            self.connection.close()
+            self.connection = None
+
+    def execute(
+        self,
+        sql: str,
+        parameters: tuple[object, ...] = (),
+    ) -> sqlite3.Cursor:
+        self._flush_pending()
+        return self._require_connection().execute(sql, parameters)
+
+    def commit(self):
+        self._require_connection().commit()
+
+    def _flush_pending(self):
+        self.pending += 1
+        if self.pending >= self.commit_every:
+            self.pending = 0
+            self.commit()
+
+    def _require_connection(self) -> sqlite3.Connection:
+        if self.connection is None:
+            raise RuntimeError("SQLiteIO is not open.")
+        return self.connection
+
+
+class SeedReader:
+    """
+    Read a RawSeedTask and transform it into a SeedTask.
+    """
+
+    def __init__(self, seeds_dir: Path):
+        self.seeds_dir = seeds_dir
+
+    def get_seed(self) -> Iterator[Tuple[SeedTask, str]]:
+        for seed_path in self.seeds_dir.glob("*.json"):
+            raw_seed = JsonIO.validate(seed_path, RawSeedTask)
+            yield (self._adhoc_transformation(raw_seed), seed_path.stem)
+
+    def _adhoc_transformation(self, raw_seed: RawSeedTask) -> SeedTask:
+        domain = raw_seed.domain or self.seeds_dir.parent.name
+        if domain not in get_args(Domain):
+            raise ValueError(f"Unsupported domain: {domain}")
+
+        if domain == "spreadsheet" or domain == "word":
+            empty_start = raw_seed.empty_start or False
+            if empty_start:
+                raw_seed.states.insert(0, [])
+
+            return SeedTask(
+                domain=domain,
+                instruction=raw_seed.instruction,
+                states=raw_seed.states,
+                accumulation=raw_seed.accumulation or "CUMULATIVE",
+                website=raw_seed.website or f"http://localhost:3000/{domain}",
             )
-            + "\n"
-        )
 
-        self.count += 1
-        if self.count % self.flush_every == 0:
-            self.flush()
+        if domain == "impress":
+            if raw_seed.setup_file is None:
+                raise ValueError("Need a setup file")
 
-    def flush(self) -> None:
-        self.fp.flush()
+            empty_start = raw_seed.empty_start or True
+            if empty_start:
+                raw_seed.states.insert(0, [])
 
-    def close(self) -> None:
-        self.flush()
-        self.fp.close()
-
-
-class TaskWriter:
-    def __init__(self, seed_dir: Path):
-        self.seed_dir = seed_dir
-
-    def __enter__(self) -> "TaskWriter":
-        self.seed_dir.mkdir(parents=True, exist_ok=True)
-        return self
-
-    def __exit__(self, *args: object) -> None:
-        return None
-
-    def _task_dir(self, f: int, t: int) -> Path:
-        task_dir = self.seed_dir / f"{f}_{t}"
-        task_dir.mkdir(parents=True, exist_ok=True)
-        return task_dir
-
-    def _write_json(self, f: int, t: int, filename: str, value: object) -> None:
-        (self._task_dir(f, t) / filename).write_text(
-            json.dumps(
-                value,
-                ensure_ascii=False,
-                indent=2,
+            return SeedTask(
+                domain=domain,
+                instruction=raw_seed.instruction,
+                states=raw_seed.states,
+                accumulation=raw_seed.accumulation or "CUMULATIVE",
+                website=raw_seed.website
+                or f"http://localhost:53001/{domain}?setup_file={raw_seed.setup_file}",
             )
-            + "\n",
-            encoding="utf-8",
-        )
 
-    def write_task(self, f: int, t: int, task: Task) -> None:
-        self._write_json(f, t, "task.json", task.model_dump(mode="json"))
-
-    def write_payload(self, f: int, t: int, payload: InstructionPayload) -> None:
-        self._write_json(f, t, "payload.json", payload)
+        else:
+            raise ValueError("Unimplemented")
 
 
-class AugmentationWriter:
-    def __init__(self, out_dir: Path, flush_every: int = 10):
-        self.out_dir = out_dir
-        self.detail_dir = out_dir / "detail"
-        self.flush_every = flush_every
+class DetailWriter:
+    def __init__(self, out_directory: Path):
+        self._detail_directory = out_directory / "detail"
 
-    def __enter__(self) -> "AugmentationWriter":
-        self.out_dir.mkdir(parents=True, exist_ok=True)
-        self.detail_dir.mkdir(parents=True, exist_ok=True)
-        self.augmented = JsonWriter(self.out_dir / "augmented.jsonl", self.flush_every)
-        return self
+    def write_task(self, task: Task):
+        seed_name, idx1, idx2 = task.task_id.rsplit("_", 2)
+        path = self._detail_directory / seed_name / f"{idx1}_{idx2}.json"
+        JsonIO.write(path, task)
 
-    def __exit__(self, *args: object) -> None:
-        self.augmented.close()
-
-    def open_seed(self, seed_id: str) -> TaskWriter:
-        return TaskWriter(self.detail_dir / seed_id)
-
-    def write_task(self, task: Task) -> None:
-        self.augmented.write(task.model_dump(mode="json"))
-
-    def write_summary(self, stats: RunStats) -> None:
-        summary_path = self.out_dir / "summary.json"
-        summary_path.write_text(
-            json.dumps(
-                stats.to_dict(),
-                ensure_ascii=False,
-                indent=2,
-            )
-            + "\n",
-            encoding="utf-8",
-        )
+    def write_summary(self, summary: Summary):
+        path = self._detail_directory / "summary.json"
+        JsonIO.write(path, summary)
 
 
 class InstructionLoader:
-    def __init__(self, path: Path, flush_every: int = 10):
-        self.path = path
-        self.count = 0
-        self.flush_every = flush_every
-        self.instruction_generator = InstructionGenerator()
-        rows = load_rows(
-            path,
-            TypeAdapter(list[dict[str, str]]),
-            default=[],
+    def __init__(
+        self,
+        database_path: Path,
+    ):
+        self.database = SQLiteIO(database_path)
+        self.insturction_generator = InstructionGenerator()
+
+    def __enter__(self) -> "InstructionLoader":
+        self.database.__enter__()
+        self.database.execute(
+            """
+CREATE TABLE IF NOT EXISTS instructions (
+    task_hash TEXT PRIMARY KEY,
+    instruction TEXT NOT NULL
+)
+""".strip()
         )
+        self.database.commit()
 
-        self.instructions: dict[str, str] = {}
-        for row in rows:
-            task_hash = row.get("hash")
-            instruction = row.get("instruction")
+        return self
 
-            if task_hash is None or instruction is None:
-                raise ValueError(f"Invalid instruction row in {path}: {row}")
-
-            self.instructions[task_hash] = instruction
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        traceback: TracebackType | None,
+    ) -> None:
+        self.database.__exit__(exc_type, exc_value, traceback)
 
     def get(
         self,
         task_hash: str,
         seed: SeedTask,
         hoare_state: HoareState,
-    ) -> tuple[str, InstructionPayload]:
-        payload = build_instruction_payload(seed, hoare_state)
-
-        instruction = self.instructions.get(task_hash)
+    ) -> str:
+        instruction = self._get_instruction(task_hash)
         if instruction is not None:
-            return instruction, payload
+            return instruction
 
-        instruction = self.instruction_generator.generate(payload)
-        self.instructions[task_hash] = instruction
+        instruction = self.insturction_generator.generate(seed, hoare_state)
+        self._upsert_instruction(task_hash, instruction)
+        return instruction
 
-        self.count += 1
-        if self.count % self.flush_every == 0:
-            self.flush()
+    def _get_instruction(self, task_hash: str) -> str | None:
+        row = self.database.execute(
+            """
+SELECT instruction
+FROM instructions
+WHERE task_hash = ?
+        """.strip(),
+            (task_hash,),
+        ).fetchone()
 
-        return instruction, payload
+        return None if row is None else row[0]
 
-    def flush(self) -> None:
-        with JsonWriter(self.path, self.flush_every) as writer:
-            for task_hash, instruction in sorted(self.instructions.items()):
-                writer.write(
-                    {
-                        "hash": task_hash,
-                        "instruction": instruction,
-                    }
-                )
+    def _upsert_instruction(
+        self,
+        task_hash: str,
+        instruction: str,
+    ):
+        self.database.execute(
+            """
+INSERT INTO instructions (task_hash, instruction)
+VALUES (?, ?)
+ON CONFLICT(task_hash)
+DO UPDATE SET instruction = excluded.instruction
+            """.strip(),
+            (task_hash, instruction),
+        )
 
 
-T = TypeVar("T")
+class TaskWriter:
+    def __init__(
+        self,
+        database_path: Path,
+    ):
+        self.database = SQLiteIO(database_path)
+        self.pending: int = 0
+        self.commit_every: int = COMMIT_EVERY
 
+    def __enter__(self) -> "TaskWriter":
+        self.database.__enter__()
 
-def load_rows(path: Path, validator: TypeAdapter[T], default: T | None = None) -> T:
-    if not path.exists():
-        if default is None:
-            raise FileNotFoundError(path)
-        return validator.validate_python(default)
+        self.database.execute("DROP TABLE IF EXISTS tasks")
+        self.database.execute(
+            """
+CREATE TABLE tasks (
+    task_id TEXT PRIMARY KEY,
+    payload TEXT NOT NULL
+)
+""".strip()
+        )
 
-    suffix = path.suffix.lower()
-    if suffix not in {".json", ".jsonl", ".ndjson"}:
-        raise ValueError(f"Unsupported task file type: {path.suffix}")
+        return self
 
-    text = path.read_text(encoding="utf-8").strip()
-    if not text:
-        if default is None:
-            raise ValueError(f"Empty task file: {path}")
-        return validator.validate_python(default)
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        traceback: TracebackType | None,
+    ) -> None:
+        self.database.__exit__(exc_type, exc_value, traceback)
 
-    payload = (
-        [json.loads(line) for line in text.splitlines() if line.strip()]
-        if suffix in {".jsonl", ".ndjson"}
-        else json.loads(text)
-    )
-    return validator.validate_python(payload)
+    def write(self, task: Task) -> None:
+        self.database.execute(
+            """
+INSERT INTO tasks (task_id, payload)
+VALUES (?, ?)
+""".strip(),
+            (
+                task.task_id,
+                task.model_dump_json(),
+            ),
+        )

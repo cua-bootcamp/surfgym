@@ -59,18 +59,22 @@ State: TypeAlias = Annotated[list[StateAtom], BeforeValidator(listify)]
 States: TypeAlias = Annotated[list[State], BeforeValidator(listify), Field(min_length=1)]
 
 
+Domain: TypeAlias = Literal["vlc", "gimp", "impress", "spreadsheet", "word"]
+
+
 class RawSeedTask(FrozenBaseModel):
-    domain: Optional[str] = None
     instruction: str
     states: States
+    domain: Optional[Domain] = None
     empty_start: Optional[bool] = None
     accumulation: Optional[Accumulation] = None
     website: Optional[str] = None
+    setup_file: Optional[str] = None
 
 
 class SeedTask(FrozenBaseModel):
     website: str
-    domain: str
+    domain: Domain
     instruction: str
     states: States
     accumulation: Accumulation

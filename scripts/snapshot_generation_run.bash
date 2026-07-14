@@ -3,9 +3,9 @@ set -euo pipefail
 
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 
-TASK_PATH="${1:-$ROOT_DIR/packages/surfgym-task/src/surfgym_task/data/smoke/out/augmented.jsonl}"
+TASK_PATH="${1:-$ROOT_DIR/packages/surfgym-task/src/surfgym_task/data/impress/out/augmented.jsonl}"
 GATEWAY_URL="${2:-http://127.0.0.1:18000}"
-MAX_PARALLEL="${3:-8}"
+MAX_PARALLEL="${3:-2}"
 
 cd "$ROOT_DIR"
 

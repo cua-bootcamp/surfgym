@@ -24,29 +24,15 @@ class InstructionPayload(TypedDict):
     required: list[str]
 
 
-def build_instruction_payload(seed_task: SeedTask, hoare_state: HoareState) -> InstructionPayload:
-    given_state = seed_task.states[0]
-    completed_states = seed_task.states[1 : hoare_state.origin_start_idx + 1]
-    required_states = seed_task.states[
-        hoare_state.origin_start_idx + 1 : hoare_state.origin_end_idx + 1
-    ]
-
-    return {
-        "source_instruction": seed_task.instruction,
-        "domain": seed_task.domain,
-        "given": [atom.to_string() for atom in given_state],
-        "completed": [atom.to_string() for state in completed_states for atom in state],
-        "required": [atom.to_string(True) for state in required_states for atom in state],
-    }
-
-
 class InstructionGenerator:
     def __init__(self):
         api_key = os.getenv("OPENAI_API_KEY")
         self.client: Any = OpenAI(api_key=api_key)
         self.model = "gpt-5.4-mini"
 
-    def generate(self, payload: InstructionPayload) -> str:
+    def generate(self, seed_task: SeedTask, hoare_state: HoareState) -> str:
+        payload = self._build_instruction_payload(seed_task, hoare_state)
+
         response: Any = self.client.responses.create(
             model=self.model,
             input=[
@@ -69,6 +55,23 @@ class InstructionGenerator:
 
         print(f"instruction generated: {instruction}")
         return instruction
+
+    def _build_instruction_payload(
+        self, seed_task: SeedTask, hoare_state: HoareState
+    ) -> InstructionPayload:
+        given_state = seed_task.states[0]
+        completed_states = seed_task.states[1 : hoare_state.origin_start_idx + 1]
+        required_states = seed_task.states[
+            hoare_state.origin_start_idx + 1 : hoare_state.origin_end_idx + 1
+        ]
+
+        return {
+            "source_instruction": seed_task.instruction,
+            "domain": seed_task.domain,
+            "given": [atom.to_string() for atom in given_state],
+            "completed": [atom.to_string() for state in completed_states for atom in state],
+            "required": [atom.to_string(True) for state in required_states for atom in state],
+        }
 
 
 SYSTEM_PROMPT = """
