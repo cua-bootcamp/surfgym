@@ -19,7 +19,14 @@ from surfgym_contracts.protocol.gateway_to_agent import (
     ImagePayload,
     RewardResponse,
 )
-from surfgym_contracts.task import Criteria, CriteriaEvaluation, Hook, LLMJudgeEvaluation, Website
+from surfgym_contracts.task import (
+    Criteria,
+    CriteriaEvaluation,
+    Hook,
+    LLMJudgeEvaluation,
+    Task,
+    Website,
+)
 
 from surfgym_runtime.gateway.error import (
     Deadline,
@@ -150,7 +157,7 @@ class Service:
     def _compute_reward(
         self,
         *,
-        task,
+        task: Task,
         session_state: SessionState,
         deadline: Callable[[str], Deadline],
     ) -> float:

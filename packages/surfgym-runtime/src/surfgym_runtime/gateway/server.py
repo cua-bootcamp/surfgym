@@ -28,7 +28,7 @@ def create_app(config: Config, DEV_MODE: bool):
     executor = ThreadPoolExecutor(max_workers=gateway_config.gateway_workers)
     in_flight = asyncio.Semaphore(gateway_config.gateway_in_flight)
     service = Service(
-        task_store=TaskStore.from_file(config.task_file_path),
+        task_store=TaskStore(config.task_file_path),
         wavepool_config=wavepool_config,
         DEV_MODE=DEV_MODE,
     )

@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 
-TARGET_DIR="${1:-$ROOT_DIR/packages/surfgym-task/src/surfgym_task/data/impress}"
+TARGET_DIR="${1:-$ROOT_DIR/packages/surfgym-task/src/surfgym_task/data/smoke_fixture}"
 GRANULARITY="${2:-COARSE}"
 
 cd "$ROOT_DIR"

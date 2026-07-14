@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/setting.sh"
 
-TASK_PATH="${1:-$ROOT_DIR/packages/surfgym-task/src/surfgym_task/data/impress/out/augmented.jsonl}"
+TASK_PATH="${1:-$TASK_FILE_PATH}"
 GATEWAY_URL="${2:-http://127.0.0.1:18000}"
-MAX_PARALLEL="${3:-2}"
+MAX_PARALLEL="${3:-16}"
 
 cd "$ROOT_DIR"
 
@@ -17,4 +17,4 @@ printf '  max parallel: %s\n' "$MAX_PARALLEL"
 exec uv run python -m snapshots.generate.run \
   --gateway-url "$GATEWAY_URL" \
   --task-path "$TASK_PATH" \
-  --max-parallel "$MAX_PARALLEL" \
+  --max-parallel "$MAX_PARALLEL"

@@ -1,56 +1,67 @@
-import json
+import sqlite3
+from contextlib import closing
 from pathlib import Path
-from typing import cast
 
-import json5
-from surfgym_contracts.task import Task, TaskRowsAdapter
+from surfgym_contracts.task import Task
 
 
 class TaskStore:
-    """Preloaded lookup table for Surfgym tasks."""
+    """SQLite-backed task lookup store."""
 
-    def __init__(self, tasks: list[Task]) -> None:
-        self._tasks_by_id: dict[str, Task] = {task.task_id: task for task in tasks}
+    def __init__(self, database_path: str | Path) -> None:
+        path = Path(database_path)
 
-    @classmethod
-    def from_file(cls, path: str | Path) -> "TaskStore":
-        return cls(_load_task_rows(Path(path)))
+        if not path.exists():
+            raise FileNotFoundError(path)
 
-    @classmethod
-    def from_rows(cls, rows: list[dict[str, object]]) -> "TaskStore":
-        return cls(TaskRowsAdapter.validate_python(rows))
+        if not path.is_file():
+            raise ValueError(f"Task database path is not a file: {path}")
+
+        self._database_uri = f"{path.resolve().as_uri()}?mode=ro"
+        self._validate_schema()
 
     def get(self, task_id: str | int) -> Task | None:
-        key = str(task_id)
-        return self._tasks_by_id.get(key)
+        with closing(self._connect()) as connection:
+            row = connection.execute(
+                """
+SELECT payload
+FROM tasks
+WHERE task_id = ?
+""".strip(),
+                (str(task_id),),
+            ).fetchone()
 
-    def __contains__(self, task_id: object) -> bool:
-        return str(task_id) in self._tasks_by_id
+        if row is None:
+            return None
 
-    def __len__(self) -> int:
-        return len(self._tasks_by_id)
+        return Task.model_validate_json(row[0])
 
-    def all_tasks(self):
-        return list(self._tasks_by_id.values())
+    def task_ids(self) -> list[str]:
+        with closing(self._connect()) as connection:
+            rows = connection.execute(
+                """
+    SELECT task_id
+    FROM tasks
+    ORDER BY rowid
+    """.strip()
+            ).fetchall()
 
+        return [row[0] for row in rows]
 
-def _load_task_rows(path: Path) -> list[Task]:
-    if not path.exists():
-        raise FileNotFoundError(path)
+    def _connect(self) -> sqlite3.Connection:
+        return sqlite3.connect(
+            self._database_uri,
+            uri=True,
+        )
 
-    suffix = path.suffix.lower()
-    if suffix not in {".json", ".jsonl", ".ndjson", ".jsonc"}:
-        raise ValueError(f"Unsupported task file type: {path.suffix}")
+    def _validate_schema(self) -> None:
+        with closing(self._connect()) as connection:
+            rows = connection.execute("PRAGMA table_info(tasks)").fetchall()
 
-    text = path.read_text(encoding="utf-8").strip()
-    if not text:
-        return []
+        columns = {row[1] for row in rows}
+        required_columns = {"task_id", "payload"}
+        missing_columns = required_columns - columns
 
-    if suffix in {".jsonl", ".ndjson"}:
-        payload = [json.loads(line) for line in text.splitlines() if line.strip()]
-    elif suffix == ".jsonc":
-        payload = cast(object, json5.loads(text))
-    else:
-        payload = json.loads(text)
-
-    return TaskRowsAdapter.validate_python(payload)
+        if missing_columns:
+            names = ", ".join(sorted(missing_columns))
+            raise ValueError(f"Invalid task database schema; missing columns: {names}")

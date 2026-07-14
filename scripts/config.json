@@ -1,5 +1,5 @@
 {
-  "task_file_path": "packages/surfgym-task/src/surfgym_task/data/impress/out/augmented.jsonl",
+  "task_file_path": "packages/surfgym-task/src/surfgym_task/data/smoke_fixture/out/tasks.sqlite3",
   "log_path": "logs/",
   "gateway": {
     "host": "127.0.0.1",
@@ -14,7 +14,7 @@
     "host": "127.0.0.1",
     "master_port": 5500,
     "instance_start_port": 9000,
-    "instances": 1,
+    "instances": 5,
     "contexts_per_instance": 4,
     "process_timeout": {
       "allocate": 600.0,

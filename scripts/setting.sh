@@ -36,6 +36,8 @@ else:
 PY
 }
 
+readonly TASK_FILE_PATH="$(json_get '.task_file_path')"
+
 readonly GATEWAY_HOST="$(json_get '.gateway.host')"
 readonly GATEWAY_PORT="$(json_get '.gateway.port')"
 

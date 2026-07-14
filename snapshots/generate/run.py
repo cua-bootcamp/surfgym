@@ -40,7 +40,7 @@ def record_task_failure(snapshot_root: Path, task_id: str, exc: BaseException) -
 
 def build_manifest(
     *,
-    tasks: list[Any],
+    task_ids: list[str],
     task_path: Path,
     elapsed_seconds: float,
     results_by_task_id: dict[str, ClientResult],
@@ -49,20 +49,20 @@ def build_manifest(
     manifest_tasks: dict[str, TaskMeta] = {}
     reward_sum = 0.0
 
-    for task in tasks:
-        result = results_by_task_id.get(task.task_id)
+    for task_id in task_ids:
+        result = results_by_task_id.get(task_id)
         if result is None:
             continue
 
         manifest_tasks[result.task_id] = TaskMeta(
-            snapshot_dir=Path(task.task_id),
+            snapshot_dir=Path(task_id),
             reward=result.reward,
         )
         reward_sum += result.reward
 
     return Manifest(
         summary=Summary(
-            total=len(tasks),
+            total=len(task_ids),
             succeeded=len(manifest_tasks),
             failed=len(failures_by_task_id),
             reward_sum=reward_sum,
@@ -87,14 +87,14 @@ def main() -> None:
     snapshot_root = snapshots_dir / "__snapshots__" / timestamp
     snapshot_root.mkdir(parents=True, exist_ok=True)
 
-    tasks = TaskStore.from_file(args.task_path).all_tasks()
+    task_ids = TaskStore(args.task_path).task_ids()
     base_session_id = time.time_ns() // 1_000_000
 
-    def run_one(index: int, task: Any):
-        task_root = snapshot_root / task.task_id
+    def run_one(index: int, task_id: Any):
+        task_root = snapshot_root / task_id
 
         return Client(
-            task_id=task.task_id,
+            task_id=task_id,
             session_id=base_session_id + index,
             gateway_url=args.gateway_url,
             actions=[],
@@ -106,7 +106,8 @@ def main() -> None:
 
     with ThreadPoolExecutor(max_workers=args.max_parallel) as executor:
         future_by_task_id = {
-            executor.submit(run_one, index, task): task.task_id for index, task in enumerate(tasks)
+            executor.submit(run_one, index, task_id): task_id
+            for index, task_id in enumerate(task_ids)
         }
 
         for future in as_completed(future_by_task_id):
@@ -121,7 +122,7 @@ def main() -> None:
 
     elapsed_seconds = time.perf_counter() - run_started_at
     manifest = build_manifest(
-        tasks=tasks,
+        task_ids=task_ids,
         task_path=args.task_path,
         elapsed_seconds=elapsed_seconds,
         results_by_task_id=results_by_task_id,
@@ -137,7 +138,7 @@ def main() -> None:
     if failures_by_task_id:
         raise RuntimeError(
             f"Snapshot generation failed for {len(failures_by_task_id)} "
-            f"of {len(tasks)} tasks; manifest written to {manifest_path}"
+            f"of {len(task_ids)} tasks; manifest written to {manifest_path}"
         )
 
 
