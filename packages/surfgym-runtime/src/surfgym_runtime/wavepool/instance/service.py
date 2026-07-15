@@ -153,14 +153,11 @@ class PlaywrightBrowserWorker:
         canvas.save(output, format="PNG")
         output.seek(0)
 
-        # screen_cursor = self._page_to_screen_cursor(ctx)
-
         _, layout = self.ctx_manager.require_page(ctx.context_id, ctx.active_page_id)
         screen_cursor = ctx.cursor.to_screen_cursor(layout)
         return output, screen_cursor.x, screen_cursor.y
 
     async def observe(self, context_id: str, criteria: list[Criteria], observe_hooks: list[Hook]):
-
         if self.DEV_MODE:
 
             async def run_before_hook(hook: Hook) -> None:
@@ -190,6 +187,14 @@ class PlaywrightBrowserWorker:
 
         for obs, idx in console_results + dom_results:
             observations[idx] = obs
+
+        async def run_after_hook(hook: Hook) -> None:
+            page, _ = self.ctx_manager.require_page(context_id, hook.website_id)
+            await page.evaluate(hook.script)
+
+        await asyncio.gather(
+            *(run_after_hook(hook) for hook in observe_hooks if hook.timing == "after")
+        )
 
         return observations
 

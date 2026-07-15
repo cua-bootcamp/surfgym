@@ -12,6 +12,6 @@ printf 'Running surfgym_task.main\n'
 printf '  seed dir: %s\n' "$TARGET_DIR"
 printf '  granularity: %s\n' "$GRANULARITY"
 
-exec uv run python -m surfgym_task.main \
+exec python -m surfgym_task.main \
   --target-dir "$TARGET_DIR" \
-  --granularity "$GRANULARITY" \
+  --granularity "$GRANULARITY"

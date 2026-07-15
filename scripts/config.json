@@ -1,11 +1,11 @@
 {
-  "task_file_path": "packages/surfgym-task/src/surfgym_task/data/smoke_fixture/out/tasks.sqlite3",
+  "task_file_path": "packages/surfgym-task/src/surfgym_task/data/impress/out/tasks.sqlite3",
   "log_path": "logs/",
   "gateway": {
     "host": "127.0.0.1",
     "port": 18000,
-    "gateway_workers": 16,
-    "gateway_in_flight": 16,
+    "gateway_workers": 6,
+    "gateway_in_flight": 6,
     "verl_timeout": 720.0,
     "in_flight_timeout": 120.0,
     "deadline_margin": 3.0
@@ -14,8 +14,8 @@
     "host": "127.0.0.1",
     "master_port": 5500,
     "instance_start_port": 9000,
-    "instances": 5,
-    "contexts_per_instance": 4,
+    "instances": 1,
+    "contexts_per_instance": 6,
     "process_timeout": {
       "allocate": 600.0,
       "release": 120.0,
