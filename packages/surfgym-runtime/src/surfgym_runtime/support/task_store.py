@@ -1,5 +1,5 @@
 import sqlite3
-from contextlib import closing
+import threading
 from pathlib import Path
 
 from surfgym_contracts.task import Task
@@ -10,24 +10,24 @@ class TaskStore:
 
     def __init__(self, database_path: str | Path) -> None:
         path = Path(database_path)
-
-        if not path.exists():
+        if not (path.exists() and path.is_file()):
             raise FileNotFoundError(path)
 
-        if not path.is_file():
-            raise ValueError(f"Task database path is not a file: {path}")
+        self._connection = sqlite3.connect(
+            f"{path.resolve().as_uri()}?mode=ro", uri=True, check_same_thread=False
+        )
+        self._lock = threading.Lock()
 
-        self._database_uri = f"{path.resolve().as_uri()}?mode=ro"
         self._validate_schema()
 
-    def get(self, task_id: str | int) -> Task | None:
-        with closing(self._connect()) as connection:
-            row = connection.execute(
+    def get(self, task_id: str) -> Task | None:
+        with self._lock:
+            row = self._connection.execute(
                 """
-SELECT payload
-FROM tasks
-WHERE task_id = ?
-""".strip(),
+    SELECT payload
+    FROM tasks
+    WHERE task_id = ?
+    """.strip(),
                 (str(task_id),),
             ).fetchone()
 
@@ -37,27 +37,19 @@ WHERE task_id = ?
         return Task.model_validate_json(row[0])
 
     def task_ids(self) -> list[str]:
-        with closing(self._connect()) as connection:
-            rows = connection.execute(
+        with self._lock:
+            rows = self._connection.execute(
                 """
-    SELECT task_id
-    FROM tasks
-    ORDER BY rowid
-    """.strip()
+        SELECT task_id
+        FROM tasks
+        ORDER BY rowid
+        """.strip()
             ).fetchall()
 
         return [row[0] for row in rows]
 
-    def _connect(self) -> sqlite3.Connection:
-        return sqlite3.connect(
-            self._database_uri,
-            uri=True,
-        )
-
     def _validate_schema(self) -> None:
-        with closing(self._connect()) as connection:
-            rows = connection.execute("PRAGMA table_info(tasks)").fetchall()
-
+        rows = self._connection.execute("PRAGMA table_info(tasks)").fetchall()
         columns = {row[1] for row in rows}
         required_columns = {"task_id", "payload"}
         missing_columns = required_columns - columns
@@ -65,3 +57,6 @@ WHERE task_id = ?
         if missing_columns:
             names = ", ".join(sorted(missing_columns))
             raise ValueError(f"Invalid task database schema; missing columns: {names}")
+
+    def close(self):
+        self._connection.close()
