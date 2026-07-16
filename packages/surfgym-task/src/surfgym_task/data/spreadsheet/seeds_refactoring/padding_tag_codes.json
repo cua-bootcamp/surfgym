@@ -1,0 +1,468 @@
+{
+  "instruction": "Copy each number from the \"Raw Tag\" column into the \"6-Digit Asset Tag\" column, padding zeros in front so that every asset tag has exactly six digits. Finish the work and do not touch irrelevant regions, even if they are blank.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A2"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "Equipment"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B2"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "Raw Tag"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C2"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "Location"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "D2"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "6-Digit Asset Tag"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A3"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "Projector"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B3"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "42"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C3"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "Room 101"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A4"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "Laptop Cart"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B4"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "907"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C4"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "Lab A"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A5"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "3D Printer"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B5"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "1205"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C5"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "Maker Space"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A6"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "Scanner"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B6"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "75"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C6"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "Office"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A7"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "Audio Mixer"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B7"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "88901"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C7"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "Studio"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A8"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "Server"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B8"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "314159"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C8"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "Data Room"
+      }
+    ],
+    [
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "D3"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "000042"
+      }
+    ],
+    [
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "D4"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "000907"
+      }
+    ],
+    [
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "D5"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "001205"
+      }
+    ],
+    [
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "D6"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "000075"
+      }
+    ],
+    [
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "D7"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "088901"
+      }
+    ],
+    [
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "D8"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "314159"
+      }
+    ]
+  ]
+}

@@ -1,152 +1,8 @@
 {
+  "instruction": "Some project delivery dates are not confirmed yet and are temporarily marked as \"TBD\". Please hide the rows that contain \"TBD\" in the Delivery Date column. Do not delete any cells or rows, and do not use a filter. Leave all other rows visible.",
   "empty_start": false,
-  "instruction": "Fill the Gross Profit column by subtracting Returns, Discounts, Allowances, Material, Labor, and Overhead from Sales. Then create a new sheet named \"Sheet2\" and, under the header \"Year_Profit\" in column A, combine each Year with an underscore and the integer part of its Gross Profit. Do not modify unrelated cells.",
   "states": [
     [
-      {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "A1"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
-        "value": "Year"
-      },
-      {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "B1"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
-        "value": "Sales"
-      },
-      {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "C1"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
-        "value": "Returns"
-      },
-      {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "D1"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
-        "value": "Discounts"
-      },
-      {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "E1"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
-        "value": "Allowances"
-      },
-      {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "F1"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
-        "value": "Material"
-      },
-      {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "G1"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
-        "value": "Labor"
-      },
-      {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "H1"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
-        "value": "Overhead"
-      },
-      {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "I1"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
-        "value": "Gross Profit"
-      },
       {
         "query": [
           [
@@ -161,7 +17,7 @@
         "path": [
           "v"
         ],
-        "value": 2022
+        "value": "Project"
       },
       {
         "query": [
@@ -177,7 +33,7 @@
         "path": [
           "v"
         ],
-        "value": 120000
+        "value": "Owner"
       },
       {
         "query": [
@@ -193,7 +49,7 @@
         "path": [
           "v"
         ],
-        "value": 5000
+        "value": "Start Date"
       },
       {
         "query": [
@@ -209,7 +65,7 @@
         "path": [
           "v"
         ],
-        "value": 2000
+        "value": "Delivery Date"
       },
       {
         "query": [
@@ -225,55 +81,7 @@
         "path": [
           "v"
         ],
-        "value": 1000
-      },
-      {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "F2"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
-        "value": 30000
-      },
-      {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "G2"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
-        "value": 20000
-      },
-      {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "H2"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
-        "value": 10000
+        "value": "Budget"
       },
       {
         "query": [
@@ -289,7 +97,7 @@
         "path": [
           "v"
         ],
-        "value": 2023
+        "value": "Client Portal"
       },
       {
         "query": [
@@ -305,7 +113,7 @@
         "path": [
           "v"
         ],
-        "value": 135000
+        "value": "Mina"
       },
       {
         "query": [
@@ -321,7 +129,7 @@
         "path": [
           "v"
         ],
-        "value": 4000
+        "value": "2024-02-01"
       },
       {
         "query": [
@@ -337,7 +145,7 @@
         "path": [
           "v"
         ],
-        "value": 2500
+        "value": "2024-03-15"
       },
       {
         "query": [
@@ -353,55 +161,7 @@
         "path": [
           "v"
         ],
-        "value": 1500
-      },
-      {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "F3"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
-        "value": 35000
-      },
-      {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "G3"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
-        "value": 22000
-      },
-      {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "H3"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
-        "value": 12000
+        "value": "18500"
       },
       {
         "query": [
@@ -417,7 +177,7 @@
         "path": [
           "v"
         ],
-        "value": 2024
+        "value": "Inventory Sync"
       },
       {
         "query": [
@@ -433,7 +193,7 @@
         "path": [
           "v"
         ],
-        "value": 150000
+        "value": "Daniel"
       },
       {
         "query": [
@@ -449,7 +209,7 @@
         "path": [
           "v"
         ],
-        "value": 6000
+        "value": "2024-02-05"
       },
       {
         "query": [
@@ -465,7 +225,7 @@
         "path": [
           "v"
         ],
-        "value": 3000
+        "value": "TBD"
       },
       {
         "query": [
@@ -481,7 +241,7 @@
         "path": [
           "v"
         ],
-        "value": 2000
+        "value": "22400"
       },
       {
         "query": [
@@ -491,13 +251,13 @@
           ],
           [
             "cell",
-            "F4"
+            "A5"
           ]
         ],
         "path": [
           "v"
         ],
-        "value": 40000
+        "value": "Mobile Checkout"
       },
       {
         "query": [
@@ -507,13 +267,13 @@
           ],
           [
             "cell",
-            "G4"
+            "B5"
           ]
         ],
         "path": [
           "v"
         ],
-        "value": 25000
+        "value": "Grace"
       },
       {
         "query": [
@@ -523,13 +283,285 @@
           ],
           [
             "cell",
-            "H4"
+            "C5"
           ]
         ],
         "path": [
           "v"
         ],
-        "value": 15000
+        "value": "2024-02-08"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "D5"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "2024-04-02"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "E5"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "31200"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A6"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "Data Migration"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B6"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "Hugo"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C6"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "2024-02-12"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "D6"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "TBD"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "E6"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "27900"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A7"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "Analytics Dashboard"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B7"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "Iris"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C7"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "2024-02-15"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "D7"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "2024-03-29"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "E7"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "19800"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A8"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "Billing API"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B8"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "Joon"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C8"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "2024-02-20"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "D8"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "TBD"
+      },
+      {
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "E8"
+          ]
+        ],
+        "path": [
+          "v"
+        ],
+        "value": "24600"
       }
     ],
     [
@@ -541,13 +573,14 @@
           ],
           [
             "cell",
-            "I2"
+            "D3"
           ]
         ],
         "path": [
-          "f"
+          "row",
+          "filtered"
         ],
-        "value": "=B2-C2-D2-E2-F2-G2-H2"
+        "value": true
       },
       {
         "query": [
@@ -557,13 +590,14 @@
           ],
           [
             "cell",
-            "I3"
+            "D5"
           ]
         ],
         "path": [
-          "f"
+          "row",
+          "filtered"
         ],
-        "value": "=B3-C3-D3-E3-F3-G3-H3"
+        "value": true
       },
       {
         "query": [
@@ -573,195 +607,14 @@
           ],
           [
             "cell",
-            "I4"
+            "D7"
           ]
         ],
         "path": [
-          "f"
+          "row",
+          "filtered"
         ],
-        "value": "=B4-C4-D4-E4-F4-G4-H4"
-      },
-      {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "I2"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
-        "value": 52000
-      },
-      {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "I3"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
-        "value": 58000
-      },
-      {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "I4"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
-        "value": 59000
-      }
-    ],
-    [
-      {
-        "match": "exact",
-        "value": "Sheet2",
-        "query": [
-          [
-            "sheet",
-            "Sheet2"
-          ]
-        ],
-        "path": [
-          "name"
-        ]
-      },
-      {
-        "match": "exact",
-        "value": "Year_Profit",
-        "query": [
-          [
-            "sheet",
-            "Sheet2"
-          ],
-          [
-            "cell",
-            "A1"
-          ]
-        ],
-        "path": [
-          "v"
-        ]
-      },
-      {
-        "match": "exact",
-        "value": "=Sheet1!A2&\"_\"&INT(Sheet1!I2)",
-        "query": [
-          [
-            "sheet",
-            "Sheet2"
-          ],
-          [
-            "cell",
-            "A2"
-          ]
-        ],
-        "path": [
-          "f"
-        ]
-      },
-      {
-        "match": "exact",
-        "value": "=Sheet1!A3&\"_\"&INT(Sheet1!I3)",
-        "query": [
-          [
-            "sheet",
-            "Sheet2"
-          ],
-          [
-            "cell",
-            "A3"
-          ]
-        ],
-        "path": [
-          "f"
-        ]
-      },
-      {
-        "match": "exact",
-        "value": "=Sheet1!A4&\"_\"&INT(Sheet1!I4)",
-        "query": [
-          [
-            "sheet",
-            "Sheet2"
-          ],
-          [
-            "cell",
-            "A4"
-          ]
-        ],
-        "path": [
-          "f"
-        ]
-      },
-      {
-        "match": "exact",
-        "value": "2022_52000",
-        "query": [
-          [
-            "sheet",
-            "Sheet2"
-          ],
-          [
-            "cell",
-            "A2"
-          ]
-        ],
-        "path": [
-          "v"
-        ]
-      },
-      {
-        "match": "exact",
-        "value": "2023_58000",
-        "query": [
-          [
-            "sheet",
-            "Sheet2"
-          ],
-          [
-            "cell",
-            "A3"
-          ]
-        ],
-        "path": [
-          "v"
-        ]
-      },
-      {
-        "match": "exact",
-        "value": "2024_59000",
-        "query": [
-          [
-            "sheet",
-            "Sheet2"
-          ],
-          [
-            "cell",
-            "A4"
-          ]
-        ],
-        "path": [
-          "v"
-        ]
+        "value": true
       }
     ]
   ]

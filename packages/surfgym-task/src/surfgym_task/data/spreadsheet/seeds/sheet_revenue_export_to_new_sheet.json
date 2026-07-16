@@ -1,0 +1,231 @@
+{
+  "instruction": "Create a new sheet named \"Revenue Export\". Copy the current sheet's Revenue column into A1:A4 of Revenue Export, including the header. Leave the source table unchanged.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "value": "Order ID",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A1"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Revenue",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B1"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "SO-101",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A2"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 1240,
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B2"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "SO-102",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A3"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 980,
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B3"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "SO-103",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A4"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 760,
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B4"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "value": "Revenue Export",
+        "query": [
+          [
+            "sheet",
+            "Revenue Export"
+          ]
+        ],
+        "path": [
+          "name"
+        ]
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "value": "Revenue",
+        "query": [
+          [
+            "sheet",
+            "Revenue Export"
+          ],
+          [
+            "cell",
+            "A1"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 1240,
+        "query": [
+          [
+            "sheet",
+            "Revenue Export"
+          ],
+          [
+            "cell",
+            "A2"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 760,
+        "query": [
+          [
+            "sheet",
+            "Revenue Export"
+          ],
+          [
+            "cell",
+            "A4"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "value": 1240,
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B2"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      }
+    ]
+  ]
+}

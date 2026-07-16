@@ -1,159 +1,930 @@
 {
-  "instruction": "We have survey data with respondents' sex in column A and civil status in column B, starting from row 2. In columns D and E, create a 'Sex' summary table with the header 'Sex' in D1 and 'Proportion' in E1, listing each sex with its proportion as a decimal. Leave one blank row after the Sex table, then create a 'Civil Status' summary table in the same format below.",
+  "instruction": "Create a new sheet named \"Sheet2\". Merge A1:C1, enter the title \"Demographic Profile\", and format it with a blue fill, white font, and bold text. From the survey data on Sheet1, create three PivotTables on Sheet2 showing each category as a percentage of the grand total: Sex at A3, Civil Status at A7, and Highest Educational Attainment at A12. Leave one blank row between the PivotTables.",
   "empty_start": false,
   "states": [
     [
       {
+        "match": "exact",
+        "value": "Sex",
         "query": [
-          ["sheet", null],
-          ["cell", "A1"]
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A1"
+          ]
         ],
-        "path": ["v"],
-        "value": "Sex"
+        "path": [
+          "v"
+        ]
       },
       {
+        "match": "exact",
+        "value": "Civil Status",
         "query": [
-          ["sheet", null],
-          ["cell", "B1"]
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B1"
+          ]
         ],
-        "path": ["v"],
-        "value": "Civil Status"
+        "path": [
+          "v"
+        ]
       },
       {
+        "match": "exact",
+        "value": "Highest Educational Attainment",
         "query": [
-          ["sheet", null],
-          ["cell", "A2"]
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C1"
+          ]
         ],
-        "path": ["v"],
-        "value": "Female"
+        "path": [
+          "v"
+        ]
       },
       {
+        "match": "exact",
+        "value": "Female",
         "query": [
-          ["sheet", null],
-          ["cell", "B2"]
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A2"
+          ]
         ],
-        "path": ["v"],
-        "value": "Married"
+        "path": [
+          "v"
+        ]
       },
       {
+        "match": "exact",
+        "value": "Married",
         "query": [
-          ["sheet", null],
-          ["cell", "A3"]
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B2"
+          ]
         ],
-        "path": ["v"],
-        "value": "Male"
+        "path": [
+          "v"
+        ]
       },
       {
+        "match": "exact",
+        "value": "College",
         "query": [
-          ["sheet", null],
-          ["cell", "B3"]
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C2"
+          ]
         ],
-        "path": ["v"],
-        "value": "Single"
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Male",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A3"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Single",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B3"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "High School",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C3"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Female",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A4"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Single",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B4"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "College",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C4"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Male",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A5"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Married",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B5"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Graduate",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C5"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Female",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A6"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Married",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B6"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "High School",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C6"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Male",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A7"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Single",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B7"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "College",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C7"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Female",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A8"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Widowed",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B8"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Graduate",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C8"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Male",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A9"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Married",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B9"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "College",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C9"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
       }
     ],
     [
       {
+        "match": "exact",
+        "value": "Sheet2",
         "query": [
-          ["sheet", null],
-          ["cell", "D1"]
+          [
+            "sheet",
+            "Sheet2"
+          ]
         ],
-        "path": ["v"],
-        "value": "Sex"
+        "path": [
+          "name"
+        ]
       },
       {
+        "match": "exact",
+        "value": "Demographic Profile",
         "query": [
-          ["sheet", null],
-          ["cell", "E1"]
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "A1"
+          ]
         ],
-        "path": ["v"],
-        "value": "Proportion"
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "rgb(0, 0, 255)",
+        "query": [
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "A1"
+          ]
+        ],
+        "path": [
+          "s",
+          "bg",
+          "rgb"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "rgb(255, 255, 255)",
+        "query": [
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "A1"
+          ]
+        ],
+        "path": [
+          "s",
+          "cl",
+          "rgb"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 1,
+        "query": [
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "A1"
+          ]
+        ],
+        "path": [
+          "s",
+          "bl"
+        ]
       }
     ],
     [
       {
+        "match": "exact",
+        "value": "Sex",
         "query": [
-          ["sheet", null],
-          ["cell", "D2"]
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "A3"
+          ]
         ],
-        "path": ["v"],
-        "value": "Female"
+        "path": [
+          "v"
+        ]
       },
       {
+        "match": "exact",
+        "value": "Proportion",
         "query": [
-          ["sheet", null],
-          ["cell", "E2"]
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "B3"
+          ]
         ],
-        "path": ["v"],
-        "value": 0.5
+        "path": [
+          "v"
+        ]
       },
       {
+        "match": "exact",
+        "value": "Female",
         "query": [
-          ["sheet", null],
-          ["cell", "D3"]
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "A4"
+          ]
         ],
-        "path": ["v"],
-        "value": "Male"
+        "path": [
+          "v"
+        ]
       },
       {
+        "match": "exact",
+        "value": 0.5,
         "query": [
-          ["sheet", null],
-          ["cell", "E3"]
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "B4"
+          ]
         ],
-        "path": ["v"],
-        "value": 0.5
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "D5"]
-        ],
-        "path": ["v"],
-        "value": "Civil Status"
+        "path": [
+          "v"
+        ]
       },
       {
+        "match": "exact",
+        "value": "Male",
         "query": [
-          ["sheet", null],
-          ["cell", "E5"]
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "A5"
+          ]
         ],
-        "path": ["v"],
-        "value": "Proportion"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "D6"]
-        ],
-        "path": ["v"],
-        "value": "Married"
+        "path": [
+          "v"
+        ]
       },
       {
+        "match": "exact",
+        "value": 0.5,
         "query": [
-          ["sheet", null],
-          ["cell", "E6"]
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "B5"
+          ]
         ],
-        "path": ["v"],
-        "value": 0.5
+        "path": [
+          "v"
+        ]
       },
       {
+        "match": "exact",
+        "value": "Civil Status",
         "query": [
-          ["sheet", null],
-          ["cell", "D7"]
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "A7"
+          ]
         ],
-        "path": ["v"],
-        "value": "Single"
+        "path": [
+          "v"
+        ]
       },
       {
+        "match": "exact",
+        "value": "Proportion",
         "query": [
-          ["sheet", null],
-          ["cell", "E7"]
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "B7"
+          ]
         ],
-        "path": ["v"],
-        "value": 0.5
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Married",
+        "query": [
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "A8"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 0.5,
+        "query": [
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "B8"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Single",
+        "query": [
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "A9"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 0.375,
+        "query": [
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "B9"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Widowed",
+        "query": [
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "A10"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 0.125,
+        "query": [
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "B10"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Highest Educational Attainment",
+        "query": [
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "A12"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Proportion",
+        "query": [
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "B12"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "College",
+        "query": [
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "A13"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 0.5,
+        "query": [
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "B13"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Graduate",
+        "query": [
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "A14"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 0.25,
+        "query": [
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "B14"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "High School",
+        "query": [
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "A15"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 0.25,
+        "query": [
+          [
+            "sheet",
+            "Sheet2"
+          ],
+          [
+            "cell",
+            "B15"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
       }
     ]
   ]

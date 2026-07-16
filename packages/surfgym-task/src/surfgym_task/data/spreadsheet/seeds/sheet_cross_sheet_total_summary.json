@@ -1,0 +1,284 @@
+{
+  "instruction": "Create a new sheet named \"Summary\". On Summary, calculate total revenue and total expenses from the original revenue and expenses table using formulas in C2:C3 that reference the original sheet. Use formulas rather than hard-coded totals.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "value": "Month",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "A1"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Revenue",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B1"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Expenses",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C1"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 32000,
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B2"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 18400,
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C2"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 28700,
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B3"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 16900,
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C3"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 35400,
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B4"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 20100,
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C4"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "value": "Summary",
+        "query": [
+          [
+            "sheet",
+            "Summary"
+          ]
+        ],
+        "path": [
+          "name"
+        ]
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "value": "Total Revenue",
+        "query": [
+          [
+            "sheet",
+            "Summary"
+          ],
+          [
+            "cell",
+            "B2"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Total Expenses",
+        "query": [
+          [
+            "sheet",
+            "Summary"
+          ],
+          [
+            "cell",
+            "B3"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "value": "=SUM(Sheet1!B2:B4)",
+        "query": [
+          [
+            "sheet",
+            "Summary"
+          ],
+          [
+            "cell",
+            "C2"
+          ]
+        ],
+        "path": [
+          "f"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "=SUM(Sheet1!C2:C4)",
+        "query": [
+          [
+            "sheet",
+            "Summary"
+          ],
+          [
+            "cell",
+            "C3"
+          ]
+        ],
+        "path": [
+          "f"
+        ]
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "value": 96100,
+        "query": [
+          [
+            "sheet",
+            "Summary"
+          ],
+          [
+            "cell",
+            "C2"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 55400,
+        "query": [
+          [
+            "sheet",
+            "Summary"
+          ],
+          [
+            "cell",
+            "C3"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      }
+    ]
+  ]
+}

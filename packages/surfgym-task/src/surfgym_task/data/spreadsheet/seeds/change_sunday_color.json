@@ -1,486 +1,75 @@
 {
-  "instruction": "Fill the cells containing Sunday dates in the March through May 2026 date table with a red background.",
   "empty_start": false,
+  "instruction": "In the March through May 2026 partial calendar, fill every Saturday and Sunday date cell with a red (#ff0000) background. Do not change weekday cells or unrelated regions.",
   "states": [
     [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A1"]
-        ],
-        "path": ["v"],
-        "value": "Mar"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B1"]
-        ],
-        "path": ["v"],
-        "value": "Apr"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C1"]
-        ],
-        "path": ["v"],
-        "value": "May"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A2"]
-        ],
-        "path": ["v"],
-        "value": "3-1-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A3"]
-        ],
-        "path": ["v"],
-        "value": "3-2-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A4"]
-        ],
-        "path": ["v"],
-        "value": "3-3-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A5"]
-        ],
-        "path": ["v"],
-        "value": "3-4-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A6"]
-        ],
-        "path": ["v"],
-        "value": "3-5-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A7"]
-        ],
-        "path": ["v"],
-        "value": "3-6-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A8"]
-        ],
-        "path": ["v"],
-        "value": "3-7-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A9"]
-        ],
-        "path": ["v"],
-        "value": "3-8-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A10"]
-        ],
-        "path": ["v"],
-        "value": "3-9-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A11"]
-        ],
-        "path": ["v"],
-        "value": "3-10-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A12"]
-        ],
-        "path": ["v"],
-        "value": "3-11-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A13"]
-        ],
-        "path": ["v"],
-        "value": "3-12-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A14"]
-        ],
-        "path": ["v"],
-        "value": "3-13-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A15"]
-        ],
-        "path": ["v"],
-        "value": "3-14-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A16"]
-        ],
-        "path": ["v"],
-        "value": "3-15-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A17"]
-        ],
-        "path": ["v"],
-        "value": "3-16-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B2"]
-        ],
-        "path": ["v"],
-        "value": "4-1-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B3"]
-        ],
-        "path": ["v"],
-        "value": "4-2-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B4"]
-        ],
-        "path": ["v"],
-        "value": "4-3-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B5"]
-        ],
-        "path": ["v"],
-        "value": "4-4-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B6"]
-        ],
-        "path": ["v"],
-        "value": "4-5-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B7"]
-        ],
-        "path": ["v"],
-        "value": "4-6-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B8"]
-        ],
-        "path": ["v"],
-        "value": "4-7-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B9"]
-        ],
-        "path": ["v"],
-        "value": "4-8-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B10"]
-        ],
-        "path": ["v"],
-        "value": "4-9-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B11"]
-        ],
-        "path": ["v"],
-        "value": "4-10-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B12"]
-        ],
-        "path": ["v"],
-        "value": "4-11-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B13"]
-        ],
-        "path": ["v"],
-        "value": "4-12-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B14"]
-        ],
-        "path": ["v"],
-        "value": "4-13-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B15"]
-        ],
-        "path": ["v"],
-        "value": "4-14-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B16"]
-        ],
-        "path": ["v"],
-        "value": "4-15-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B17"]
-        ],
-        "path": ["v"],
-        "value": "4-16-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C2"]
-        ],
-        "path": ["v"],
-        "value": "5-1-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C3"]
-        ],
-        "path": ["v"],
-        "value": "5-2-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C4"]
-        ],
-        "path": ["v"],
-        "value": "5-3-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C5"]
-        ],
-        "path": ["v"],
-        "value": "5-4-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C6"]
-        ],
-        "path": ["v"],
-        "value": "5-5-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C7"]
-        ],
-        "path": ["v"],
-        "value": "5-6-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C8"]
-        ],
-        "path": ["v"],
-        "value": "5-7-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C9"]
-        ],
-        "path": ["v"],
-        "value": "5-8-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C10"]
-        ],
-        "path": ["v"],
-        "value": "5-9-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C11"]
-        ],
-        "path": ["v"],
-        "value": "5-10-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C12"]
-        ],
-        "path": ["v"],
-        "value": "5-11-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C13"]
-        ],
-        "path": ["v"],
-        "value": "5-12-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C14"]
-        ],
-        "path": ["v"],
-        "value": "5-13-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C15"]
-        ],
-        "path": ["v"],
-        "value": "5-14-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C16"]
-        ],
-        "path": ["v"],
-        "value": "5-15-2026"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C17"]
-        ],
-        "path": ["v"],
-        "value": "5-16-2026"
-      }
+      {"query":[["sheet",null],["cell","A1"]],"path":["v"],"value":"Mar"},
+      {"query":[["sheet",null],["cell","B1"]],"path":["v"],"value":"Apr"},
+      {"query":[["sheet",null],["cell","C1"]],"path":["v"],"value":"May"},
+      {"query":[["sheet",null],["cell","A2"]],"path":["v"],"value":"3-1-2026"},
+      {"query":[["sheet",null],["cell","A3"]],"path":["v"],"value":"3-2-2026"},
+      {"query":[["sheet",null],["cell","A4"]],"path":["v"],"value":"3-3-2026"},
+      {"query":[["sheet",null],["cell","A5"]],"path":["v"],"value":"3-4-2026"},
+      {"query":[["sheet",null],["cell","A6"]],"path":["v"],"value":"3-5-2026"},
+      {"query":[["sheet",null],["cell","A7"]],"path":["v"],"value":"3-6-2026"},
+      {"query":[["sheet",null],["cell","A8"]],"path":["v"],"value":"3-7-2026"},
+      {"query":[["sheet",null],["cell","A9"]],"path":["v"],"value":"3-8-2026"},
+      {"query":[["sheet",null],["cell","A10"]],"path":["v"],"value":"3-9-2026"},
+      {"query":[["sheet",null],["cell","A11"]],"path":["v"],"value":"3-10-2026"},
+      {"query":[["sheet",null],["cell","A12"]],"path":["v"],"value":"3-11-2026"},
+      {"query":[["sheet",null],["cell","A13"]],"path":["v"],"value":"3-12-2026"},
+      {"query":[["sheet",null],["cell","A14"]],"path":["v"],"value":"3-13-2026"},
+      {"query":[["sheet",null],["cell","A15"]],"path":["v"],"value":"3-14-2026"},
+      {"query":[["sheet",null],["cell","A16"]],"path":["v"],"value":"3-15-2026"},
+      {"query":[["sheet",null],["cell","A17"]],"path":["v"],"value":"3-16-2026"},
+      {"query":[["sheet",null],["cell","B2"]],"path":["v"],"value":"4-1-2026"},
+      {"query":[["sheet",null],["cell","B3"]],"path":["v"],"value":"4-2-2026"},
+      {"query":[["sheet",null],["cell","B4"]],"path":["v"],"value":"4-3-2026"},
+      {"query":[["sheet",null],["cell","B5"]],"path":["v"],"value":"4-4-2026"},
+      {"query":[["sheet",null],["cell","B6"]],"path":["v"],"value":"4-5-2026"},
+      {"query":[["sheet",null],["cell","B7"]],"path":["v"],"value":"4-6-2026"},
+      {"query":[["sheet",null],["cell","B8"]],"path":["v"],"value":"4-7-2026"},
+      {"query":[["sheet",null],["cell","B9"]],"path":["v"],"value":"4-8-2026"},
+      {"query":[["sheet",null],["cell","B10"]],"path":["v"],"value":"4-9-2026"},
+      {"query":[["sheet",null],["cell","B11"]],"path":["v"],"value":"4-10-2026"},
+      {"query":[["sheet",null],["cell","B12"]],"path":["v"],"value":"4-11-2026"},
+      {"query":[["sheet",null],["cell","B13"]],"path":["v"],"value":"4-12-2026"},
+      {"query":[["sheet",null],["cell","B14"]],"path":["v"],"value":"4-13-2026"},
+      {"query":[["sheet",null],["cell","B15"]],"path":["v"],"value":"4-14-2026"},
+      {"query":[["sheet",null],["cell","B16"]],"path":["v"],"value":"4-15-2026"},
+      {"query":[["sheet",null],["cell","B17"]],"path":["v"],"value":"4-16-2026"},
+      {"query":[["sheet",null],["cell","C2"]],"path":["v"],"value":"5-1-2026"},
+      {"query":[["sheet",null],["cell","C3"]],"path":["v"],"value":"5-2-2026"},
+      {"query":[["sheet",null],["cell","C4"]],"path":["v"],"value":"5-3-2026"},
+      {"query":[["sheet",null],["cell","C5"]],"path":["v"],"value":"5-4-2026"},
+      {"query":[["sheet",null],["cell","C6"]],"path":["v"],"value":"5-5-2026"},
+      {"query":[["sheet",null],["cell","C7"]],"path":["v"],"value":"5-6-2026"},
+      {"query":[["sheet",null],["cell","C8"]],"path":["v"],"value":"5-7-2026"},
+      {"query":[["sheet",null],["cell","C9"]],"path":["v"],"value":"5-8-2026"},
+      {"query":[["sheet",null],["cell","C10"]],"path":["v"],"value":"5-9-2026"},
+      {"query":[["sheet",null],["cell","C11"]],"path":["v"],"value":"5-10-2026"},
+      {"query":[["sheet",null],["cell","C12"]],"path":["v"],"value":"5-11-2026"},
+      {"query":[["sheet",null],["cell","C13"]],"path":["v"],"value":"5-12-2026"},
+      {"query":[["sheet",null],["cell","C14"]],"path":["v"],"value":"5-13-2026"},
+      {"query":[["sheet",null],["cell","C15"]],"path":["v"],"value":"5-14-2026"},
+      {"query":[["sheet",null],["cell","C16"]],"path":["v"],"value":"5-15-2026"},
+      {"query":[["sheet",null],["cell","C17"]],"path":["v"],"value":"5-16-2026"}
     ],
     [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A2"]
-        ],
-        "path": ["s", "bg", "rgb"],
-        "value": "rgb(255, 0, 0)"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A9"]
-        ],
-        "path": ["s", "bg", "rgb"],
-        "value": "rgb(255, 0, 0)"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A16"]
-        ],
-        "path": ["s", "bg", "rgb"],
-        "value": "rgb(255, 0, 0)"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B6"]
-        ],
-        "path": ["s", "bg", "rgb"],
-        "value": "rgb(255, 0, 0)"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B13"]
-        ],
-        "path": ["s", "bg", "rgb"],
-        "value": "rgb(255, 0, 0)"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C4"]
-        ],
-        "path": ["s", "bg", "rgb"],
-        "value": "rgb(255, 0, 0)"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C11"]
-        ],
-        "path": ["s", "bg", "rgb"],
-        "value": "rgb(255, 0, 0)"
-      }
+      {"query":[["sheet",null],["cell","A2"]],"path":["s","bg","rgb"],"value":"rgb(255, 0, 0)"},
+      {"query":[["sheet",null],["cell","A8"]],"path":["s","bg","rgb"],"value":"rgb(255, 0, 0)"},
+      {"query":[["sheet",null],["cell","A9"]],"path":["s","bg","rgb"],"value":"rgb(255, 0, 0)"},
+      {"query":[["sheet",null],["cell","A15"]],"path":["s","bg","rgb"],"value":"rgb(255, 0, 0)"},
+      {"query":[["sheet",null],["cell","A16"]],"path":["s","bg","rgb"],"value":"rgb(255, 0, 0)"},
+      {"query":[["sheet",null],["cell","B5"]],"path":["s","bg","rgb"],"value":"rgb(255, 0, 0)"},
+      {"query":[["sheet",null],["cell","B6"]],"path":["s","bg","rgb"],"value":"rgb(255, 0, 0)"},
+      {"query":[["sheet",null],["cell","B12"]],"path":["s","bg","rgb"],"value":"rgb(255, 0, 0)"},
+      {"query":[["sheet",null],["cell","B13"]],"path":["s","bg","rgb"],"value":"rgb(255, 0, 0)"},
+      {"query":[["sheet",null],["cell","C3"]],"path":["s","bg","rgb"],"value":"rgb(255, 0, 0)"},
+      {"query":[["sheet",null],["cell","C4"]],"path":["s","bg","rgb"],"value":"rgb(255, 0, 0)"},
+      {"query":[["sheet",null],["cell","C10"]],"path":["s","bg","rgb"],"value":"rgb(255, 0, 0)"},
+      {"query":[["sheet",null],["cell","C11"]],"path":["s","bg","rgb"],"value":"rgb(255, 0, 0)"},
+      {"query":[["sheet",null],["cell","C17"]],"path":["s","bg","rgb"],"value":"rgb(255, 0, 0)"}
     ]
   ]
 }

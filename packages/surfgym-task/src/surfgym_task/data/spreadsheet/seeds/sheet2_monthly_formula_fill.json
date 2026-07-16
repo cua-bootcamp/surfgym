@@ -1,0 +1,388 @@
+{
+  "instruction": "Create a new sheet named \"Monthly Summary\". Build A1:B4 with Jan, Feb, and Mar totals calculated from the sales records on the current sheet by filling the same SUMIF formula pattern down the Total Sales column.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "match": "exact",
+        "value": "Month",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B1"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Sales",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C1"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Jan",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B2"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 1200,
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C2"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Jan",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B3"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 800,
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C3"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Feb",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B4"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 1500,
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C4"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Mar",
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "B5"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 2100,
+        "query": [
+          [
+            "sheet",
+            null
+          ],
+          [
+            "cell",
+            "C5"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "value": "Monthly Summary",
+        "query": [
+          [
+            "sheet",
+            "Monthly Summary"
+          ]
+        ],
+        "path": [
+          "name"
+        ]
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "value": "Month",
+        "query": [
+          [
+            "sheet",
+            "Monthly Summary"
+          ],
+          [
+            "cell",
+            "A1"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Total Sales",
+        "query": [
+          [
+            "sheet",
+            "Monthly Summary"
+          ],
+          [
+            "cell",
+            "B1"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "value": "Jan",
+        "query": [
+          [
+            "sheet",
+            "Monthly Summary"
+          ],
+          [
+            "cell",
+            "A2"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Feb",
+        "query": [
+          [
+            "sheet",
+            "Monthly Summary"
+          ],
+          [
+            "cell",
+            "A3"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "Mar",
+        "query": [
+          [
+            "sheet",
+            "Monthly Summary"
+          ],
+          [
+            "cell",
+            "A4"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "value": "=SUMIF(Sheet1!B2:B5,A2,Sheet1!C2:C5)",
+        "query": [
+          [
+            "sheet",
+            "Monthly Summary"
+          ],
+          [
+            "cell",
+            "B2"
+          ]
+        ],
+        "path": [
+          "f"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "=SUMIF(Sheet1!B2:B5,A3,Sheet1!C2:C5)",
+        "query": [
+          [
+            "sheet",
+            "Monthly Summary"
+          ],
+          [
+            "cell",
+            "B3"
+          ]
+        ],
+        "path": [
+          "f"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": "=SUMIF(Sheet1!B2:B5,A4,Sheet1!C2:C5)",
+        "query": [
+          [
+            "sheet",
+            "Monthly Summary"
+          ],
+          [
+            "cell",
+            "B4"
+          ]
+        ],
+        "path": [
+          "f"
+        ]
+      }
+    ],
+    [
+      {
+        "match": "exact",
+        "value": 2000,
+        "query": [
+          [
+            "sheet",
+            "Monthly Summary"
+          ],
+          [
+            "cell",
+            "B2"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 1500,
+        "query": [
+          [
+            "sheet",
+            "Monthly Summary"
+          ],
+          [
+            "cell",
+            "B3"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      },
+      {
+        "match": "exact",
+        "value": 2100,
+        "query": [
+          [
+            "sheet",
+            "Monthly Summary"
+          ],
+          [
+            "cell",
+            "B4"
+          ]
+        ],
+        "path": [
+          "v"
+        ]
+      }
+    ]
+  ]
+}

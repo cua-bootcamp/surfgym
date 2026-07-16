@@ -1,98 +1,20 @@
 {
-  "instruction": "We have a spending log where column B holds expense amounts under the header 'Spent ($)'. Add a 'Formatted' column in column C, copy the amounts into C2:C4, and apply the 0.00 number format so each value displays exactly two decimal places.",
   "empty_start": false,
+  "instruction": "Format the values in the original Spent column so that every amount displays exactly two decimal places. Do not create a new column or change the underlying numeric values.",
   "states": [
     [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B1"]
-        ],
-        "path": ["v"],
-        "value": "Spent ($)"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C1"]
-        ],
-        "path": ["v"],
-        "value": "Formatted"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B2"]
-        ],
-        "path": ["v"],
-        "value": 40
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B3"]
-        ],
-        "path": ["v"],
-        "value": 50.5
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B4"]
-        ],
-        "path": ["v"],
-        "value": 30.75
-      }
+      {"query":[["sheet",null],["cell","B1"]],"path":["v"],"value":"Spent"},
+      {"query":[["sheet",null],["cell","B2"]],"path":["v"],"value":40},
+      {"query":[["sheet",null],["cell","B3"]],"path":["v"],"value":50.5},
+      {"query":[["sheet",null],["cell","B4"]],"path":["v"],"value":30.75}
     ],
     [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C2"]
-        ],
-        "path": ["v"],
-        "value": 40
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C2"]
-        ],
-        "path": ["s", "n", "pattern"],
-        "value": "0.00"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C3"]
-        ],
-        "path": ["v"],
-        "value": 50.5
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C3"]
-        ],
-        "path": ["s", "n", "pattern"],
-        "value": "0.00"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C4"]
-        ],
-        "path": ["v"],
-        "value": 30.75
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C4"]
-        ],
-        "path": ["s", "n", "pattern"],
-        "value": "0.00"
-      }
+      {"query":[["sheet",null],["cell","B2"]],"path":["s","n","pattern"],"value":"0.00"},
+      {"query":[["sheet",null],["cell","B3"]],"path":["s","n","pattern"],"value":"0.00"},
+      {"query":[["sheet",null],["cell","B4"]],"path":["s","n","pattern"],"value":"0.00"},
+      {"query":[["sheet",null],["cell","B2"]],"path":["v"],"value":40},
+      {"query":[["sheet",null],["cell","B3"]],"path":["v"],"value":50.5},
+      {"query":[["sheet",null],["cell","B4"]],"path":["v"],"value":30.75}
     ]
   ]
 }

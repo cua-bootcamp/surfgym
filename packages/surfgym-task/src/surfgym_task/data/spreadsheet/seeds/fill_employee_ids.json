@@ -1,114 +1,22 @@
 {
-  "instruction": "In the employee roster starting from row 3, fill in the 'Emp ID' column (column B) with sequential employee IDs starting from 1000 (i.e., 1000, 1001, 1002, 1003, 1004). Do not alter the names in column C.",
   "empty_start": false,
+  "instruction": "Fill the Seq No. column with sequence labels in the form \"No. #\", replacing # with 1, 2, 3, and so on. Leave the names and unrelated cells unchanged.",
   "states": [
     [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B2"]
-        ],
-        "path": ["v"],
-        "value": "Emp ID"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C2"]
-        ],
-        "path": ["v"],
-        "value": "Name"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C3"]
-        ],
-        "path": ["v"],
-        "value": "Alice Smith"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C4"]
-        ],
-        "path": ["v"],
-        "value": "Bob Jones"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C5"]
-        ],
-        "path": ["v"],
-        "value": "Charlie Brown"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C6"]
-        ],
-        "path": ["v"],
-        "value": "Diana Prince"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C7"]
-        ],
-        "path": ["v"],
-        "value": "Evan Wright"
-      }
+      {"query":[["sheet",null],["cell","B2"]],"path":["v"],"value":"Seq No."},
+      {"query":[["sheet",null],["cell","C2"]],"path":["v"],"value":"Name"},
+      {"query":[["sheet",null],["cell","C3"]],"path":["v"],"value":"Alice Smith"},
+      {"query":[["sheet",null],["cell","C4"]],"path":["v"],"value":"Bob Jones"},
+      {"query":[["sheet",null],["cell","C5"]],"path":["v"],"value":"Charlie Brown"},
+      {"query":[["sheet",null],["cell","C6"]],"path":["v"],"value":"Diana Prince"},
+      {"query":[["sheet",null],["cell","C7"]],"path":["v"],"value":"Evan Wright"}
     ],
     [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B3"]
-        ],
-        "path": ["v"],
-        "value": 1000
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B4"]
-        ],
-        "path": ["v"],
-        "value": 1001
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B5"]
-        ],
-        "path": ["v"],
-        "value": 1002
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B6"]
-        ],
-        "path": ["v"],
-        "value": 1003
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B7"]
-        ],
-        "path": ["v"],
-        "value": 1004
-      }
+      {"query":[["sheet",null],["cell","B3"]],"path":["v"],"value":"No. 1"},
+      {"query":[["sheet",null],["cell","B4"]],"path":["v"],"value":"No. 2"},
+      {"query":[["sheet",null],["cell","B5"]],"path":["v"],"value":"No. 3"},
+      {"query":[["sheet",null],["cell","B6"]],"path":["v"],"value":"No. 4"},
+      {"query":[["sheet",null],["cell","B7"]],"path":["v"],"value":"No. 5"}
     ]
   ]
 }

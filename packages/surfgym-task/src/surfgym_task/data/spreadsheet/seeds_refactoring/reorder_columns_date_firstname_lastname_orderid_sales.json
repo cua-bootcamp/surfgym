@@ -1,0 +1,90 @@
+{
+  "instruction": "We have a sales table where the columns are in the wrong order starting from column B. The current order is First Name, Order ID, Last Name, Date, Sales. Rearrange the columns so they read Date, First Name, Last Name, Order ID, Sales. Keep all data intact and leave everything else unchanged.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B1"]
+        ],
+        "path": ["v"],
+        "value": "First Name"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C1"]
+        ],
+        "path": ["v"],
+        "value": "Order ID"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D1"]
+        ],
+        "path": ["v"],
+        "value": "Last Name"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E1"]
+        ],
+        "path": ["v"],
+        "value": "Date"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F1"]
+        ],
+        "path": ["v"],
+        "value": "Sales"
+      }
+    ],
+    [
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "B1"]
+        ],
+        "path": ["v"],
+        "value": "Date"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "C1"]
+        ],
+        "path": ["v"],
+        "value": "First Name"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "D1"]
+        ],
+        "path": ["v"],
+        "value": "Last Name"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "E1"]
+        ],
+        "path": ["v"],
+        "value": "Order ID"
+      },
+      {
+        "query": [
+          ["sheet", null],
+          ["cell", "F1"]
+        ],
+        "path": ["v"],
+        "value": "Sales"
+      }
+    ]
+  ]
+}
