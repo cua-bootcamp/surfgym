@@ -1,0 +1,206 @@
+{
+  "instruction": "Create two separate column charts from the yearly comparison table. The first chart should use Quarter, 2019 Sales, and 2019 COGS. The second chart should use Quarter, 2020 Sales, and 2020 COGS.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
+        "value": "Quarter"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "value": "2019 Sales"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
+        "value": "2019 COGS"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D1",
+        "property": "value",
+        "value": "2020 Sales"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E1",
+        "property": "value",
+        "value": "2020 COGS"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "value": "Q1"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "value": 220
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
+        "value": 130
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D2",
+        "property": "value",
+        "value": 250
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E2",
+        "property": "value",
+        "value": 148
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "value": "Q2"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": 240
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
+        "value": 142
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D3",
+        "property": "value",
+        "value": 265
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E3",
+        "property": "value",
+        "value": 155
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "value": "Q3"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "value": 260
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
+        "value": 151
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D4",
+        "property": "value",
+        "value": 282
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E4",
+        "property": "value",
+        "value": 166
+      }
+    ],
+    [
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "sourceRange": "A1:C4"
+        },
+        "property": "sourceRange",
+        "value": "A1:C4"
+      },
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "sourceRange": "A1:C4"
+        },
+        "property": "chartType",
+        "value": "column"
+      },
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "sourceRange": "A1:C4"
+        },
+        "property": "title",
+        "value": "2019 Sales and COGS"
+      }
+    ],
+    [
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "sourceRange": "A1:A4,D1:E4"
+        },
+        "property": "sourceRange",
+        "value": "A1:A4,D1:E4"
+      },
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "sourceRange": "A1:A4,D1:E4"
+        },
+        "property": "chartType",
+        "value": "column"
+      },
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "sourceRange": "A1:A4,D1:E4"
+        },
+        "property": "title",
+        "value": "2020 Sales and COGS"
+      }
+    ]
+  ]
+}

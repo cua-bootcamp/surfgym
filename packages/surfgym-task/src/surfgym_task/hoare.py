@@ -93,14 +93,7 @@ class HoareStateGenerator:
         keep_fresh_state: dict[str, StateAtom] = {}
         for state in states[: idx + 1]:
             for atom in state:
-                keep_fresh_state[
-                    _canonical_json(
-                        {
-                            "query": atom.query,
-                            "path": atom.path,
-                        }
-                    )
-                ] = atom
+                keep_fresh_state[_canonical_json(atom.identity_payload())] = atom
 
         return list(keep_fresh_state.values())
 

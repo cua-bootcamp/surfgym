@@ -1,0 +1,193 @@
+{
+  "instruction": "Create a new sheet named \"Monthly Summary\". Build A1:B4 with Jan, Feb, and Mar totals calculated from the sales records on the current sheet by filling the same SUMIF formula pattern down the Total Sales column.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "match": "exact",
+        "value": "Month"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
+        "match": "exact",
+        "value": "Sales"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "match": "exact",
+        "value": "Jan"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
+        "match": "exact",
+        "value": 1200
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "match": "exact",
+        "value": "Jan"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
+        "match": "exact",
+        "value": 800
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "match": "exact",
+        "value": "Feb"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
+        "match": "exact",
+        "value": 1500
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B5",
+        "property": "value",
+        "match": "exact",
+        "value": "Mar"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C5",
+        "property": "value",
+        "match": "exact",
+        "value": 2100
+      }
+    ],
+    [
+      {
+        "kind": "sheet",
+        "sheet": "Monthly Summary",
+        "property": "name",
+        "match": "exact",
+        "value": "Monthly Summary"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": "Monthly Summary",
+        "cell": "A1",
+        "property": "value",
+        "match": "exact",
+        "value": "Month"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Monthly Summary",
+        "cell": "B1",
+        "property": "value",
+        "match": "exact",
+        "value": "Total Sales"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": "Monthly Summary",
+        "cell": "A2",
+        "property": "value",
+        "match": "exact",
+        "value": "Jan"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Monthly Summary",
+        "cell": "A3",
+        "property": "value",
+        "match": "exact",
+        "value": "Feb"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Monthly Summary",
+        "cell": "A4",
+        "property": "value",
+        "match": "exact",
+        "value": "Mar"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": "Monthly Summary",
+        "cell": "B2",
+        "property": "formula",
+        "match": "exact",
+        "value": "=SUMIF(Sheet1!B2:B5,A2,Sheet1!C2:C5)"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Monthly Summary",
+        "cell": "B3",
+        "property": "formula",
+        "match": "exact",
+        "value": "=SUMIF(Sheet1!B2:B5,A3,Sheet1!C2:C5)"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Monthly Summary",
+        "cell": "B4",
+        "property": "formula",
+        "match": "exact",
+        "value": "=SUMIF(Sheet1!B2:B5,A4,Sheet1!C2:C5)"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": "Monthly Summary",
+        "cell": "B2",
+        "property": "value",
+        "match": "exact",
+        "value": 2000
+      },
+      {
+        "kind": "cell",
+        "sheet": "Monthly Summary",
+        "cell": "B3",
+        "property": "value",
+        "match": "exact",
+        "value": 1500
+      },
+      {
+        "kind": "cell",
+        "sheet": "Monthly Summary",
+        "cell": "B4",
+        "property": "value",
+        "match": "exact",
+        "value": 2100
+      }
+    ]
+  ]
+}

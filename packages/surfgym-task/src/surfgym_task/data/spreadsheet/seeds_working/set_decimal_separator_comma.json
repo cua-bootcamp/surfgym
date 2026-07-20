@@ -1,0 +1,126 @@
+{
+  "instruction": "Replace the decimal point in the text values in B2:B4 with a comma.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
+        "value": "Item"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "value": "Value"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "value": "A"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "valueType",
+        "value": 4
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "value": "12.5"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "value": "B"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "valueType",
+        "value": 4
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": "7.25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "valueType",
+        "value": 4
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "value": "100.0"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "valueType",
+        "value": 4
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "value": "12,5"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "valueType",
+        "value": 4
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": "7,25"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "valueType",
+        "value": 4
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "value": "100,0"
+      }
+    ]
+  ]
+}

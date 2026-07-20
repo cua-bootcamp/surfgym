@@ -1,0 +1,119 @@
+{
+  "instruction": "We have a physics experiment table with 'Mass Up (kg)' in column A, 'Accel Up' in column B, 'Mass Down (kg)' in column C, and 'Accel Down' in column D. The acceleration formulas are already filled in row 2 for columns B and D. Extend those same formulas to the remaining rows, then add a 'Combined Data' column in E that shows each row's values in the format 'Header: value' with exactly two decimal places, separated by commas.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
+        "value": "Mass Up (kg)"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "value": "Accel Up"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
+        "value": "Mass Down (kg)"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D1",
+        "property": "value",
+        "value": "Accel Down"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "value": 1
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "value": 2
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
+        "value": 0
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D2",
+        "property": "value",
+        "value": 0
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "value": 2
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E1",
+        "property": "value",
+        "value": "Combined Data"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": 4
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D3",
+        "property": "value",
+        "value": 3
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E2",
+        "property": "value",
+        "value": "Mass Up (kg): 1.00, Accel Up: 2.00, Mass Down (kg): 0.00, Accel Down: 0.00"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E3",
+        "property": "value",
+        "value": "Mass Up (kg): 2.00, Accel Up: 4.00, Mass Down (kg): 1.00, Accel Down: 3.00"
+      }
+    ]
+  ]
+}

@@ -80,15 +80,15 @@ You write one concise user-facing benchmark instruction for the next subtask.
 Input shape:
 - source_instruction: the original whole task. Use this as the source of truth for the user's intended operation.
 - domain: the task domain, such as spreadsheet.
-- given: DSL lines describing the visible starting context before any task output was completed.
-- completed: DSL lines describing targets already completed before this subtask. Do not ask the user to repeat them.
-- required: DSL lines describing the unfinished targets for this subtask.
+- given: State lines describing the visible starting context before any task output was completed.
+- completed: State lines describing targets already completed before this subtask. Do not ask the user to repeat them.
+- required: State lines describing the unfinished targets for this subtask.
 
-DSL notes:
-- A line such as sheet().cell("B9").v = "Sales" means the visible value or property is Sales.
+State notation notes:
+- A line such as cell(sheet=null, cell="B9").value = "Sales" means B9 contains Sales on the default sheet.
 - A line ending with = <hidden> means the final evaluator value is intentionally hidden.
 - Treat <hidden> as a validation target only. Never reveal, invent, or ask the user to enter the hidden value.
-- Do not mention the DSL, sections, evaluator, validation, or hidden values in the final instruction.
+- Do not mention the state notation, sections, evaluator, validation, or hidden values in the final instruction.
 
 Core rules:
 - Preserve the operation described by source_instruction.
@@ -102,17 +102,17 @@ Core rules:
 - Keep all unrelated cells, content, and formatting unchanged unless source_instruction says otherwise.
 
 Examples:
-- required has sheet().cell("D5").v = <hidden>
+- required has cell(sheet=null, cell="D5").value = <hidden>
   Output: Calculate the correct total rental charge in D5.
-- required has sheet().cell("D5").v = <hidden> and sheet().cell("D6").v = <hidden>
+- required has cell(sheet=null, cell="D5").value = <hidden> and cell(sheet=null, cell="D6").value = <hidden>
   Output: Calculate the correct total rental charges in D5:D6.
-- completed has sheet().cell("D3").v = <hidden> and required has sheet().cell("D4").v = <hidden>
+- completed has cell(sheet=null, cell="D3").value = <hidden> and required has cell(sheet=null, cell="D4").value = <hidden>
   Output: Continue the task by calculating the next required result in D4.
-- required has sheet().cell("B3").v = "Alice"
+- required has cell(sheet=null, cell="B3").value = "Alice"
   Output: Enter Alice in B3.
-- required has sheet().cell("A1").s.bl = true
+- required has cell(sheet=null, cell="A1").bold = true
   Output: Make A1 bold.
-- required has sheet().cell("B3").v = <hidden>, sheet().cell("B4").v = <hidden>, and source_instruction asks to normalize phone numbers
+- required has cell(sheet=null, cell="B3").value = <hidden>, cell(sheet=null, cell="B4").value = <hidden>, and source_instruction asks to normalize phone numbers
   Output: Normalize the phone numbers in B3:B4 into the requested format.
 
 Output rules:

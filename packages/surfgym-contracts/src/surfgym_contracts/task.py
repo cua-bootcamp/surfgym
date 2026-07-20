@@ -5,6 +5,7 @@ from pydantic import (
     ConfigDict,
     Discriminator,
     Field,
+    JsonValue,
     Tag,
     TypeAdapter,
     field_validator,
@@ -60,16 +61,15 @@ class _WebsiteDependent(FrozenBaseModel):
     website_id: str = "_"
 
 
-ScalarValue: TypeAlias = Union[str, int, float, bool]
-Value: TypeAlias = Union[ScalarValue, list[str]]
-Observation: TypeAlias = Optional[Value]
+JsonValue: TypeAlias = JsonValue
+Observation: TypeAlias = Optional[JsonValue]
 
 
 class CriteriaCore(_WebsiteDependent):
     match: Literal["contains", "exact", "regex"] = "exact"
     normalize_space: bool = False
     case_sensitive: bool = True
-    value: Value
+    value: JsonValue
 
 
 class ConsoleCriteria(CriteriaCore):

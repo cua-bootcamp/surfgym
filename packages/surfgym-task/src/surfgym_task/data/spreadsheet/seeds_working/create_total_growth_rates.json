@@ -1,0 +1,418 @@
+{
+  "empty_start": false,
+  "instruction": "Calculate the total sales for Jan through Jun in an underneath row named \"Total\" and create a column chart titled \"Total\" from those monthly totals. Then calculate month-on-month growth for Feb through Jun in another row named \"Growth\" and create a line chart titled \"Growth\" that omits Jan. Do not modify unrelated cells.",
+  "states": [
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
+        "value": "Sales Rep"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "value": "Jan"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
+        "value": "Feb"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D1",
+        "property": "value",
+        "value": "Mar"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E1",
+        "property": "value",
+        "value": "Apr"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F1",
+        "property": "value",
+        "value": "May"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "G1",
+        "property": "value",
+        "value": "Jun"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "value": "Alice"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "value": 100
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
+        "value": 120
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D2",
+        "property": "value",
+        "value": 150
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E2",
+        "property": "value",
+        "value": 180
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F2",
+        "property": "value",
+        "value": 210
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "G2",
+        "property": "value",
+        "value": 252
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "value": "Bob"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": 80
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
+        "value": 100
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D3",
+        "property": "value",
+        "value": 125
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E3",
+        "property": "value",
+        "value": 150
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F3",
+        "property": "value",
+        "value": 180
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "G3",
+        "property": "value",
+        "value": 216
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "value": "Total"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "formula",
+        "value": "=SUM(B2:B3)"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "formula",
+        "value": "=SUM(C2:C3)"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D4",
+        "property": "formula",
+        "value": "=SUM(D2:D3)"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E4",
+        "property": "formula",
+        "value": "=SUM(E2:E3)"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F4",
+        "property": "formula",
+        "value": "=SUM(F2:F3)"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "G4",
+        "property": "formula",
+        "value": "=SUM(G2:G3)"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "value": 180
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
+        "value": 220
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D4",
+        "property": "value",
+        "value": 275
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E4",
+        "property": "value",
+        "value": 330
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F4",
+        "property": "value",
+        "value": 390
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "G4",
+        "property": "value",
+        "value": 468
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A5",
+        "property": "value",
+        "value": "Growth"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C5",
+        "property": "formula",
+        "value": "=(C4-B4)/B4"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D5",
+        "property": "formula",
+        "value": "=(D4-C4)/C4"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E5",
+        "property": "formula",
+        "value": "=(E4-D4)/D4"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F5",
+        "property": "formula",
+        "value": "=(F4-E4)/E4"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "G5",
+        "property": "formula",
+        "value": "=(G4-F4)/F4"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C5",
+        "property": "value",
+        "value": 0.2222222222
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D5",
+        "property": "value",
+        "value": 0.25
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E5",
+        "property": "value",
+        "value": 0.2
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F5",
+        "property": "value",
+        "value": 0.1818181818
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "G5",
+        "property": "value",
+        "value": 0.2
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C5",
+        "property": "numberFormat",
+        "value": "0.00%"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D5",
+        "property": "numberFormat",
+        "value": "0.00%"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E5",
+        "property": "numberFormat",
+        "value": "0.00%"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F5",
+        "property": "numberFormat",
+        "value": "0.00%"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "G5",
+        "property": "numberFormat",
+        "value": "0.00%"
+      }
+    ],
+    [
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "title": "Total"
+        },
+        "property": "sourceRange",
+        "value": "B1:G1,B4:G4"
+      },
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "title": "Total"
+        },
+        "property": "chartType",
+        "value": "column"
+      },
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "title": "Total"
+        },
+        "property": "title",
+        "value": "Total"
+      },
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "title": "Growth"
+        },
+        "property": "sourceRange",
+        "value": "C1:G1,C5:G5"
+      },
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "title": "Growth"
+        },
+        "property": "chartType",
+        "value": "line"
+      },
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "title": "Growth"
+        },
+        "property": "title",
+        "value": "Growth"
+      }
+    ]
+  ]
+}

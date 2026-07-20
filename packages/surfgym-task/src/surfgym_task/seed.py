@@ -3,8 +3,8 @@ from __future__ import annotations
 import json
 from typing import Annotated, Literal, Optional, TypeAlias, cast
 
-from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, JsonValue, TypeAdapter
-from surfgym_contracts.task import ConsoleCriteria, CriteriaCore
+from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, TypeAdapter
+from surfgym_contracts.task import CriteriaCore, JsonValue
 
 
 class FrozenBaseModel(BaseModel):
@@ -12,41 +12,17 @@ class FrozenBaseModel(BaseModel):
 
 
 class StateAtom(CriteriaCore):
-    query: list[tuple[str, JsonValue]]
-    path: list[str | int]
+    spec: dict[str, JsonValue]
 
-    def to_script(self, type: Literal["eval", "action"]) -> str:
-        payload = {"query": self.query, "path": self.path, "value": self.value}
-        f = "get" if type == "eval" else "set"
-        return f"""
-(() => {{
-    return window.surfgym.{f}({json.dumps(payload, ensure_ascii=False)})
-}})()
-""".strip()
+    def to_get(
+        self,
+    ):
+        return f"window.surfgym.get({json.dumps(self.spec, ensure_ascii=False)})"
 
-    def to_console_criteria(self) -> ConsoleCriteria:
-        return ConsoleCriteria(
-            value=self.value,
-            match=self.match,
-            normalize_space=self.normalize_space,
-            case_sensitive=self.case_sensitive,
-            script=self.to_script(type="eval"),
-        )
-
-    def to_string(self, hide_value: bool = False) -> str:
-        query = self._query_string()
-        path = self._path_string()
-        value = "<hidden>" if hide_value else json.dumps(self.value, ensure_ascii=False)
-        return f"{query}{path} = {value}"
-
-    def _query_string(self) -> str:
-        return "".join(
-            f"{name}({'' if value is None else json.dumps(value, ensure_ascii=False)})"
-            for name, value in self.query
-        )
-
-    def _path_string(self) -> str:
-        return "".join(f".{p}" if isinstance(p, str) else f"[{p}]" for p in self.path)
+    def to_set(self):
+        spec = json.dumps(self.spec, ensure_ascii=False)
+        value = json.dumps(self.value, ensure_ascii=False)
+        return f"window.surfgym.set({spec}, {value})"
 
 
 def listify(value: object) -> list[object]:

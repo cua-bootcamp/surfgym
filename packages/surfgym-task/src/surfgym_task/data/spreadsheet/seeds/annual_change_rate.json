@@ -4,364 +4,691 @@
   "states": [
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A2"]
-        ],
-        "path": ["v"],
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A1",
+          "property": "value"
+        },
         "value": "Year"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B2"]
-        ],
-        "path": ["v"],
-        "value": "Cash Reserve"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B1",
+          "property": "value"
+        },
+        "value": "Cash & Equivalents"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C2"]
-        ],
-        "path": ["v"],
-        "value": "Equipment Value"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C1",
+          "property": "value"
+        },
+        "value": "Inventory"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D2"]
-        ],
-        "path": ["v"],
-        "value": "Other Investment"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D1",
+          "property": "value"
+        },
+        "value": "Property & Equipment"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A3"]
-        ],
-        "path": ["v"],
-        "value": "2020"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "E1",
+          "property": "value"
+        },
+        "value": "Assets"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B3"]
-        ],
-        "path": ["v"],
-        "value": "80000"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "F1",
+          "property": "value"
+        },
+        "value": "Current Liabilities"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C3"]
-        ],
-        "path": ["v"],
-        "value": "150000"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "G1",
+          "property": "value"
+        },
+        "value": "Long-term Liabilities"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D3"]
-        ],
-        "path": ["v"],
-        "value": "40000"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "H1",
+          "property": "value"
+        },
+        "value": "Owner's Equity"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A4"]
-        ],
-        "path": ["v"],
-        "value": "2021"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "I1",
+          "property": "value"
+        },
+        "value": "Liabilities & Owner's Equity"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B4"]
-        ],
-        "path": ["v"],
-        "value": "88000"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A2",
+          "property": "value"
+        },
+        "value": 2014
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C4"]
-        ],
-        "path": ["v"],
-        "value": "142500"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B2",
+          "property": "value"
+        },
+        "value": 120000
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D4"]
-        ],
-        "path": ["v"],
-        "value": "44000"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C2",
+          "property": "value"
+        },
+        "value": 80000
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A5"]
-        ],
-        "path": ["v"],
-        "value": "2022"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D2",
+          "property": "value"
+        },
+        "value": 200000
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B5"]
-        ],
-        "path": ["v"],
-        "value": "96800"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "F2",
+          "property": "value"
+        },
+        "value": 6762
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C5"]
-        ],
-        "path": ["v"],
-        "value": "156750"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "G2",
+          "property": "value"
+        },
+        "value": 50000
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D5"]
-        ],
-        "path": ["v"],
-        "value": "39600"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "H2",
+          "property": "value"
+        },
+        "value": 172474
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A6"]
-        ],
-        "path": ["v"],
-        "value": "2023"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A3",
+          "property": "value"
+        },
+        "value": 2015
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B6"]
-        ],
-        "path": ["v"],
-        "value": "91960"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B3",
+          "property": "value"
+        },
+        "value": 132000
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C6"]
-        ],
-        "path": ["v"],
-        "value": "150480"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C3",
+          "property": "value"
+        },
+        "value": 76000
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D6"]
-        ],
-        "path": ["v"],
-        "value": "43560"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D3",
+          "property": "value"
+        },
+        "value": 208000
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A7"]
-        ],
-        "path": ["v"],
-        "value": "2024"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "F3",
+          "property": "value"
+        },
+        "value": 7653
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B7"]
-        ],
-        "path": ["v"],
-        "value": "101156"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "G3",
+          "property": "value"
+        },
+        "value": 50000
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C7"]
-        ],
-        "path": ["v"],
-        "value": "165528"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "H3",
+          "property": "value"
+        },
+        "value": 196318
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D7"]
-        ],
-        "path": ["v"],
-        "value": "45738"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A4",
+          "property": "value"
+        },
+        "value": 2016
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "F2"]
-        ],
-        "path": ["v"],
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B4",
+          "property": "value"
+        },
+        "value": 125400
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C4",
+          "property": "value"
+        },
+        "value": 82080
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D4",
+          "property": "value"
+        },
+        "value": 197600
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "F4",
+          "property": "value"
+        },
+        "value": 8258
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "G4",
+          "property": "value"
+        },
+        "value": 40000
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "H4",
+          "property": "value"
+        },
+        "value": 220797
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A5",
+          "property": "value"
+        },
+        "value": 2017
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B5",
+          "property": "value"
+        },
+        "value": 137940
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C5",
+          "property": "value"
+        },
+        "value": 85363.2
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D5",
+          "property": "value"
+        },
+        "value": 212420
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "F5",
+          "property": "value"
+        },
+        "value": 9133
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "G5",
+          "property": "value"
+        },
+        "value": 40000
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "H5",
+          "property": "value"
+        },
+        "value": 239576
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A6",
+          "property": "value"
+        },
+        "value": 2018
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B6",
+          "property": "value"
+        },
+        "value": 144837
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C6",
+          "property": "value"
+        },
+        "value": 81948.67
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D6",
+          "property": "value"
+        },
+        "value": 218792.6
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "F6",
+          "property": "value"
+        },
+        "value": 9839
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "G6",
+          "property": "value"
+        },
+        "value": 30000
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "H6",
+          "property": "value"
+        },
+        "value": 253852
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A7",
+          "property": "value"
+        },
+        "value": 2019
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B7",
+          "property": "value"
+        },
+        "value": 141940.26
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C7",
+          "property": "value"
+        },
+        "value": 88504.56
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D7",
+          "property": "value"
+        },
+        "value": 229732.23
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "F7",
+          "property": "value"
+        },
+        "value": 10585
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "G7",
+          "property": "value"
+        },
+        "value": 30000
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "H7",
+          "property": "value"
+        },
+        "value": 282688
+      }
+    ],
+    [
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "A1",
+          "property": "value"
+        },
         "value": "Year"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "G2"]
-        ],
-        "path": ["v"],
-        "value": "Cash Reserve Change"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "B1",
+          "property": "value"
+        },
+        "value": "Cash changes"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "H2"]
-        ],
-        "path": ["v"],
-        "value": "Equipment Value Change"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "C1",
+          "property": "value"
+        },
+        "value": "Inventory changes"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "I2"]
-        ],
-        "path": ["v"],
-        "value": "Other Investment Change"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "F3"]
-        ],
-        "path": ["v"],
-        "value": "2020 > 2021"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "F4"]
-        ],
-        "path": ["v"],
-        "value": "2021 > 2022"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "F5"]
-        ],
-        "path": ["v"],
-        "value": "2022 > 2023"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "F6"]
-        ],
-        "path": ["v"],
-        "value": "2023 > 2024"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "D1",
+          "property": "value"
+        },
+        "value": "PPE changes"
       }
     ],
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "G3"]
-        ],
-        "path": ["v"],
-        "value": "0.1"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "A2",
+          "property": "value"
+        },
+        "value": 2015
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "H3"]
-        ],
-        "path": ["v"],
-        "value": "-0.05"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "B2",
+          "property": "value"
+        },
+        "value": 0.1
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "I3"]
-        ],
-        "path": ["v"],
-        "value": "0.1"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "C2",
+          "property": "value"
+        },
+        "value": -0.05
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "D2",
+          "property": "value"
+        },
+        "value": 0.04
       }
     ],
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "G4"]
-        ],
-        "path": ["v"],
-        "value": "0.1"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "A3",
+          "property": "value"
+        },
+        "value": 2016
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "H4"]
-        ],
-        "path": ["v"],
-        "value": "0.1"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "B3",
+          "property": "value"
+        },
+        "value": -0.05
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "I4"]
-        ],
-        "path": ["v"],
-        "value": "-0.1"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "C3",
+          "property": "value"
+        },
+        "value": 0.08
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "D3",
+          "property": "value"
+        },
+        "value": -0.05
       }
     ],
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "G5"]
-        ],
-        "path": ["v"],
-        "value": "-0.05"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "A4",
+          "property": "value"
+        },
+        "value": 2017
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "H5"]
-        ],
-        "path": ["v"],
-        "value": "-0.04"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "B4",
+          "property": "value"
+        },
+        "value": 0.1
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "I5"]
-        ],
-        "path": ["v"],
-        "value": "0.1"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "C4",
+          "property": "value"
+        },
+        "value": 0.039999999999999966
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "D4",
+          "property": "value"
+        },
+        "value": 0.075
       }
     ],
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "G6"]
-        ],
-        "path": ["v"],
-        "value": "0.1"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "A5",
+          "property": "value"
+        },
+        "value": 2018
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "H6"]
-        ],
-        "path": ["v"],
-        "value": "0.1"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "B5",
+          "property": "value"
+        },
+        "value": 0.05
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "I6"]
-        ],
-        "path": ["v"],
-        "value": "0.05"
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "C5",
+          "property": "value"
+        },
+        "value": -0.04000002342929973
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "D5",
+          "property": "value"
+        },
+        "value": 0.030000000000000027
+      }
+    ],
+    [
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "A6",
+          "property": "value"
+        },
+        "value": 2019
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "B6",
+          "property": "value"
+        },
+        "value": -0.019999999999999934
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "C6",
+          "property": "value"
+        },
+        "value": 0.0799999560700619
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "D6",
+          "property": "value"
+        },
+        "value": 0.05000000000000002
       }
     ]
   ]

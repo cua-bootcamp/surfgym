@@ -4,11 +4,7 @@ import {
   UniverSheetsConditionalFormattingPreset
 } from "@univerjs/presets/preset-sheets-conditional-formatting";
 import UniverPresetSheetsConditionalFormattingEnUS from "@univerjs/presets/preset-sheets-conditional-formatting/locales/en-US";
-import {
-  UniverLicensePlugin,
-  UniverSheetsChartPlugin,
-  UniverSheetsChartUIPlugin
-} from "@univerjs/presets/preset-sheets-advanced";
+import { UniverSheetsAdvancedPreset } from "@univerjs/presets/preset-sheets-advanced";
 import UniverPresetSheetsAdvancedEnUS from "@univerjs/presets/preset-sheets-advanced/locales/en-US";
 import { UniverSheetsDrawingPreset } from "@univerjs/presets/preset-sheets-drawing";
 import UniverPresetSheetsDrawingEnUS from "@univerjs/presets/preset-sheets-drawing/locales/en-US";
@@ -19,7 +15,7 @@ import UniverPresetSheetsSortEnUS from "@univerjs/presets/preset-sheets-sort/loc
 import { UniverSheetsCorePreset } from "@univerjs/preset-sheets-core";
 import UniverPresetSheetsCoreEnUS from "@univerjs/preset-sheets-core/locales/en-US";
 import { createSpreadsheetActions } from "./spreadsheet-actions";
-import { cell, chart, get, set, sheet } from "./external";
+import { get, set } from "./external";
 import { SpreadsheetRuntimeStore } from "./runtime";
 import { renderSpreadsheetMockToolbar, setupSpreadsheetUi } from "./spreadsheet-ui";
 
@@ -58,15 +54,11 @@ const { univerAPI } = createUniver({
         zoomSlider: true
       }
     }),
+    UniverSheetsAdvancedPreset({ license: "" }),
     UniverSheetsDrawingPreset(),
     UniverSheetsFilterPreset(),
     UniverSheetsSortPreset(),
     UniverSheetsConditionalFormattingPreset()
-  ],
-  plugins: [
-    [UniverLicensePlugin, { license: "" }],
-    UniverSheetsChartPlugin,
-    UniverSheetsChartUIPlugin
   ]
 });
 
@@ -82,39 +74,7 @@ SpreadsheetRuntimeStore.runtime = {
   univerAPI
 };
 
-type SpreadsheetSurfgymGlobal = Window["surfgym"] & {
-  sheet: typeof sheet;
-  cell: typeof cell;
-  chart: typeof chart;
-};
-
-type SpreadsheetDebugGlobal = Window & {
-  surfgym: SpreadsheetSurfgymGlobal;
-  getSheetMeta: (
-    sheetRef?: Parameters<typeof sheet>[0]
-  ) => ReturnType<ReturnType<typeof sheet>["getMeta"]>;
-  getCellMeta: (
-    cellRefStr: Parameters<typeof cell>[1],
-    sheetRef?: Parameters<typeof cell>[0]
-  ) => ReturnType<typeof cell>;
-  getChartMeta: (
-    sheetRef?: Parameters<typeof chart>[0],
-    chartRef?: Parameters<typeof chart>[1]
-  ) => ReturnType<ReturnType<typeof chart>["getMeta"]>;
-};
-
-const spreadsheetGlobal = (window as unknown) as SpreadsheetDebugGlobal;
-
-spreadsheetGlobal.surfgym = {
-  get,
-  set,
-  sheet,
-  cell,
-  chart
-};
-spreadsheetGlobal.getSheetMeta = (sheetRef) => sheet(sheetRef).getMeta();
-spreadsheetGlobal.getCellMeta = (cellRefStr, sheetRef) => cell(sheetRef, cellRefStr);
-spreadsheetGlobal.getChartMeta = (sheetRef, chartRef) => chart(sheetRef, chartRef).getMeta();
+window.surfgym = { get, set };
 
 worksheet.setGridLinesColor("rgb(204, 204, 204)");
 worksheet.setColumnWidths(0, worksheet.getMaxColumns(), 136); // 전체 컬럼 폭: 136px

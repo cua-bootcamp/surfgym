@@ -1,0 +1,1060 @@
+{
+  "instruction": "Select the full data table and sort the entire table by the Amount ($) column in ascending order.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
+        "value": "Date"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "value": "Product Name"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
+        "value": "Amount ($)"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "value": "12-19-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "value": "Wireless Mouse"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
+        "value": "25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "value": "12-20-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": "Mechanical Keyboard"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
+        "value": "89"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "value": "12-21-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "value": "Monitor Stand"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
+        "value": "32"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A5",
+        "property": "value",
+        "value": "12-22-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B5",
+        "property": "value",
+        "value": "USB-C Cable"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C5",
+        "property": "value",
+        "value": "12"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A6",
+        "property": "value",
+        "value": "12-23-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B6",
+        "property": "value",
+        "value": "Office Headset"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C6",
+        "property": "value",
+        "value": "55"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A7",
+        "property": "value",
+        "value": "12-24-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B7",
+        "property": "value",
+        "value": "Desk Pad"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C7",
+        "property": "value",
+        "value": "15"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A8",
+        "property": "value",
+        "value": "12-25-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B8",
+        "property": "value",
+        "value": "Bluetooth Speaker"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C8",
+        "property": "value",
+        "value": "72"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A9",
+        "property": "value",
+        "value": "12-26-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B9",
+        "property": "value",
+        "value": "Webcam"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C9",
+        "property": "value",
+        "value": "48"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A10",
+        "property": "value",
+        "value": "12-27-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B10",
+        "property": "value",
+        "value": "Laptop Sleeve"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C10",
+        "property": "value",
+        "value": "29"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A11",
+        "property": "value",
+        "value": "12-28-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B11",
+        "property": "value",
+        "value": "Power Bank"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C11",
+        "property": "value",
+        "value": "45"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A12",
+        "property": "value",
+        "value": "12-29-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B12",
+        "property": "value",
+        "value": "USB Hub"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C12",
+        "property": "value",
+        "value": "35"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A13",
+        "property": "value",
+        "value": "12-30-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B13",
+        "property": "value",
+        "value": "Desk Mat"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C13",
+        "property": "value",
+        "value": "22"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A14",
+        "property": "value",
+        "value": "12-31-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B14",
+        "property": "value",
+        "value": "Wireless Charger"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C14",
+        "property": "value",
+        "value": "38"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A15",
+        "property": "value",
+        "value": "01-01-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B15",
+        "property": "value",
+        "value": "Gaming Mouse"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C15",
+        "property": "value",
+        "value": "65"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A16",
+        "property": "value",
+        "value": "01-02-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B16",
+        "property": "value",
+        "value": "Mechanical Keyboard"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C16",
+        "property": "value",
+        "value": "95"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A17",
+        "property": "value",
+        "value": "01-03-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B17",
+        "property": "value",
+        "value": "Monitor Stand"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C17",
+        "property": "value",
+        "value": "32"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A18",
+        "property": "value",
+        "value": "01-04-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B18",
+        "property": "value",
+        "value": "USB-C Cable"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C18",
+        "property": "value",
+        "value": "12"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A19",
+        "property": "value",
+        "value": "01-05-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B19",
+        "property": "value",
+        "value": "Office Headset"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C19",
+        "property": "value",
+        "value": "55"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A20",
+        "property": "value",
+        "value": "01-06-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B20",
+        "property": "value",
+        "value": "Desk Pad"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C20",
+        "property": "value",
+        "value": "15"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A21",
+        "property": "value",
+        "value": "01-07-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B21",
+        "property": "value",
+        "value": "Bluetooth Speaker"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C21",
+        "property": "value",
+        "value": "72"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A22",
+        "property": "value",
+        "value": "01-08-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B22",
+        "property": "value",
+        "value": "Webcam"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C22",
+        "property": "value",
+        "value": "48"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A23",
+        "property": "value",
+        "value": "01-09-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B23",
+        "property": "value",
+        "value": "Laptop Sleeve"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C23",
+        "property": "value",
+        "value": "29"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A24",
+        "property": "value",
+        "value": "01-10-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B24",
+        "property": "value",
+        "value": "Power Bank"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C24",
+        "property": "value",
+        "value": "45"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A25",
+        "property": "value",
+        "value": "01-11-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B25",
+        "property": "value",
+        "value": "USB Hub"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C25",
+        "property": "value",
+        "value": "35"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
+        "value": "Date"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "value": "Product Name"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
+        "value": "Amount ($)"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "value": "12-22-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "value": "USB-C Cable"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
+        "value": "12"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "value": "01-04-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": "USB-C Cable"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
+        "value": "12"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "value": "12-24-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "value": "Desk Pad"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
+        "value": "15"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A5",
+        "property": "value",
+        "value": "01-06-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B5",
+        "property": "value",
+        "value": "Desk Pad"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C5",
+        "property": "value",
+        "value": "15"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A6",
+        "property": "value",
+        "value": "12-30-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B6",
+        "property": "value",
+        "value": "Desk Mat"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C6",
+        "property": "value",
+        "value": "22"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A7",
+        "property": "value",
+        "value": "12-19-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B7",
+        "property": "value",
+        "value": "Wireless Mouse"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C7",
+        "property": "value",
+        "value": "25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A8",
+        "property": "value",
+        "value": "12-27-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B8",
+        "property": "value",
+        "value": "Laptop Sleeve"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C8",
+        "property": "value",
+        "value": "29"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A9",
+        "property": "value",
+        "value": "01-09-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B9",
+        "property": "value",
+        "value": "Laptop Sleeve"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C9",
+        "property": "value",
+        "value": "29"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A10",
+        "property": "value",
+        "value": "12-21-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B10",
+        "property": "value",
+        "value": "Monitor Stand"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C10",
+        "property": "value",
+        "value": "32"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A11",
+        "property": "value",
+        "value": "01-03-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B11",
+        "property": "value",
+        "value": "Monitor Stand"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C11",
+        "property": "value",
+        "value": "32"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A12",
+        "property": "value",
+        "value": "12-29-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B12",
+        "property": "value",
+        "value": "USB Hub"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C12",
+        "property": "value",
+        "value": "35"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A13",
+        "property": "value",
+        "value": "01-11-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B13",
+        "property": "value",
+        "value": "USB Hub"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C13",
+        "property": "value",
+        "value": "35"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A14",
+        "property": "value",
+        "value": "12-31-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B14",
+        "property": "value",
+        "value": "Wireless Charger"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C14",
+        "property": "value",
+        "value": "38"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A15",
+        "property": "value",
+        "value": "12-28-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B15",
+        "property": "value",
+        "value": "Power Bank"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C15",
+        "property": "value",
+        "value": "45"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A16",
+        "property": "value",
+        "value": "01-10-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B16",
+        "property": "value",
+        "value": "Power Bank"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C16",
+        "property": "value",
+        "value": "45"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A17",
+        "property": "value",
+        "value": "12-26-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B17",
+        "property": "value",
+        "value": "Webcam"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C17",
+        "property": "value",
+        "value": "48"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A18",
+        "property": "value",
+        "value": "01-08-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B18",
+        "property": "value",
+        "value": "Webcam"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C18",
+        "property": "value",
+        "value": "48"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A19",
+        "property": "value",
+        "value": "12-23-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B19",
+        "property": "value",
+        "value": "Office Headset"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C19",
+        "property": "value",
+        "value": "55"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A20",
+        "property": "value",
+        "value": "01-05-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B20",
+        "property": "value",
+        "value": "Office Headset"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C20",
+        "property": "value",
+        "value": "55"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A21",
+        "property": "value",
+        "value": "01-01-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B21",
+        "property": "value",
+        "value": "Gaming Mouse"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C21",
+        "property": "value",
+        "value": "65"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A22",
+        "property": "value",
+        "value": "12-25-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B22",
+        "property": "value",
+        "value": "Bluetooth Speaker"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C22",
+        "property": "value",
+        "value": "72"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A23",
+        "property": "value",
+        "value": "01-07-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B23",
+        "property": "value",
+        "value": "Bluetooth Speaker"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C23",
+        "property": "value",
+        "value": "72"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A24",
+        "property": "value",
+        "value": "12-20-24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B24",
+        "property": "value",
+        "value": "Mechanical Keyboard"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C24",
+        "property": "value",
+        "value": "89"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A25",
+        "property": "value",
+        "value": "01-02-25"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B25",
+        "property": "value",
+        "value": "Mechanical Keyboard"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C25",
+        "property": "value",
+        "value": "95"
+      }
+    ]
+  ]
+}

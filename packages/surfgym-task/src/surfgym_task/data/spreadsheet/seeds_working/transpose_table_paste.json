@@ -1,0 +1,140 @@
+{
+  "instruction": "Transpose the table in A2:C4 and paste the transposed result starting at E2. The top-left cell of the pasted table must be E2.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "value": "Product"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "value": "Q1"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
+        "value": "Q2"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "value": "Alpha"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": "120"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
+        "value": "150"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "value": "Beta"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "value": "90"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
+        "value": "110"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E2",
+        "property": "value",
+        "value": "Product"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F2",
+        "property": "value",
+        "value": "Alpha"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "G2",
+        "property": "value",
+        "value": "Beta"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E3",
+        "property": "value",
+        "value": "Q1"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F3",
+        "property": "value",
+        "value": "120"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "G3",
+        "property": "value",
+        "value": "90"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E4",
+        "property": "value",
+        "value": "Q2"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F4",
+        "property": "value",
+        "value": "150"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "G4",
+        "property": "value",
+        "value": "110"
+      }
+    ]
+  ]
+}

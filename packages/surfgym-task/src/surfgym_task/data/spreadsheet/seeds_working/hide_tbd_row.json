@@ -1,0 +1,276 @@
+{
+  "instruction": "Some project delivery dates are not confirmed yet and are temporarily marked as \"TBD\". Please hide the rows that contain \"TBD\" in the Delivery Date column. Do not delete any cells or rows, and do not use a filter. Leave all other rows visible.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "value": "Project"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "value": "Owner"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
+        "value": "Start Date"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D2",
+        "property": "value",
+        "value": "Delivery Date"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E2",
+        "property": "value",
+        "value": "Budget"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "value": "Client Portal"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": "Mina"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
+        "value": "2024-02-01"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D3",
+        "property": "value",
+        "value": "2024-03-15"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E3",
+        "property": "value",
+        "value": "18500"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "value": "Inventory Sync"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "value": "Daniel"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
+        "value": "2024-02-05"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D4",
+        "property": "value",
+        "value": "TBD"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E4",
+        "property": "value",
+        "value": "22400"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A5",
+        "property": "value",
+        "value": "Mobile Checkout"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B5",
+        "property": "value",
+        "value": "Grace"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C5",
+        "property": "value",
+        "value": "2024-02-08"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D5",
+        "property": "value",
+        "value": "2024-04-02"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E5",
+        "property": "value",
+        "value": "31200"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A6",
+        "property": "value",
+        "value": "Data Migration"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B6",
+        "property": "value",
+        "value": "Hugo"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C6",
+        "property": "value",
+        "value": "2024-02-12"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D6",
+        "property": "value",
+        "value": "TBD"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E6",
+        "property": "value",
+        "value": "27900"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A7",
+        "property": "value",
+        "value": "Analytics Dashboard"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B7",
+        "property": "value",
+        "value": "Iris"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C7",
+        "property": "value",
+        "value": "2024-02-15"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D7",
+        "property": "value",
+        "value": "2024-03-29"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E7",
+        "property": "value",
+        "value": "19800"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A8",
+        "property": "value",
+        "value": "Billing API"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B8",
+        "property": "value",
+        "value": "Joon"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C8",
+        "property": "value",
+        "value": "2024-02-20"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D8",
+        "property": "value",
+        "value": "TBD"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E8",
+        "property": "value",
+        "value": "24600"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D4",
+        "property": "rowHidden",
+        "value": true
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D6",
+        "property": "rowHidden",
+        "value": true
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D8",
+        "property": "rowHidden",
+        "value": true
+      }
+    ]
+  ]
+}

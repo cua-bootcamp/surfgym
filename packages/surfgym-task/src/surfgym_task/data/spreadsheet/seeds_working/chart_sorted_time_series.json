@@ -1,0 +1,155 @@
+{
+  "instruction": "Sort the time series by Date Time ascending, then create a line chart titled \"Quantity Over Time\" from the sorted Date Time and Quantity table, using Date Time as the x-axis and Quantity as the y-axis.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
+        "value": "Date Time"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "value": "Quantity"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "value": "2024-03-05 14:00"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "value": 18
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "value": "2024-03-05 09:00"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": 11
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "value": "2024-03-05 12:00"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "value": 15
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "value": "2024-03-05 09:00"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "value": 11
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "value": "2024-03-05 12:00"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": 15
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "value": "2024-03-05 14:00"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "value": 18
+      }
+    ],
+    [
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "title": "Quantity Over Time"
+        },
+        "property": "sourceRange",
+        "value": "A1:B4"
+      },
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "sourceRange": "A1:B4"
+        },
+        "property": "chartType",
+        "value": "line"
+      },
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "sourceRange": "A1:B4"
+        },
+        "property": "title",
+        "value": "Quantity Over Time"
+      },
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "sourceRange": "A1:B4"
+        },
+        "property": "xAxisTitle",
+        "value": "Date Time"
+      },
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "sourceRange": "A1:B4"
+        },
+        "property": "yAxisTitle",
+        "value": "Quantity"
+      }
+    ]
+  ]
+}

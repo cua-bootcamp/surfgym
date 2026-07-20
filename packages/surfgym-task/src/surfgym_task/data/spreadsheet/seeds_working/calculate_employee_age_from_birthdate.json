@@ -1,0 +1,194 @@
+{
+  "instruction": "Calculate each employee's age from their birthday using the reference date shown in G1. Put the results in column C under the header \"Age\". Do not modify unrelated regions.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "value": "Employee"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "value": "Birthday"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
+        "value": "Age"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "value": "Emma"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": "1990-06-15"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "value": "Noah"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "value": "1985-12-20"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A5",
+        "property": "value",
+        "value": "Olivia"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B5",
+        "property": "value",
+        "value": "2000-01-02"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A6",
+        "property": "value",
+        "value": "Liam"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B6",
+        "property": "value",
+        "value": "1997-01-01"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F1",
+        "property": "value",
+        "value": "Reference Date"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "G1",
+        "property": "value",
+        "value": "2025-01-01"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E3",
+        "property": "value",
+        "value": "Department"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F3",
+        "property": "value",
+        "value": "Finance"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E4",
+        "property": "value",
+        "value": "Status"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F4",
+        "property": "value",
+        "value": "Active"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
+        "value": "34"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
+        "value": "39"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C5",
+        "property": "value",
+        "value": "24"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C6",
+        "property": "value",
+        "value": "28"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E3",
+        "property": "value",
+        "value": "Department"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F3",
+        "property": "value",
+        "value": "Finance"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E4",
+        "property": "value",
+        "value": "Status"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F4",
+        "property": "value",
+        "value": "Active"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "G1",
+        "property": "value",
+        "value": "2025-01-01"
+      }
+    ]
+  ]
+}

@@ -1,108 +1,154 @@
+import type { Path, Value } from "../external";
 import {
-  _getSheetMeta,
   _getCellMeta,
   _getChartMeta,
-  _setSheetMeta,
+  _getRowHidden,
+  _getSheetName,
+  _getSheetNames,
   _setCellMeta,
   _setChartMeta,
-  type SheetRef,
+  _setRowHidden,
+  _setSheetName,
+  _setSheetNames,
   type ChartRef
 } from "./internal";
-import { getFactory, setFactory, SET, type Path, type Value } from "../external";
 
-const external = {
-  sheet
+const CELL_PATHS = {
+  backgroundColor: ["s", "bg", "rgb"],
+  bold: ["s", "bl"],
+  fontColor: ["s", "cl", "rgb"],
+  formula: ["f"],
+  numberFormat: ["s", "n", "pattern"],
+  value: ["v"],
+  valueType: ["t"]
+} satisfies Record<string, Path[]>;
+
+const CHART_PROPERTIES = [
+  "categoryData",
+  "chartType",
+  "context",
+  "dataOrientation",
+  "height",
+  "legendPosition",
+  "position",
+  "range",
+  "seriesData",
+  "sourceRange",
+  "title",
+  "width",
+  "xAxisTitle",
+  "yAxisTitle"
+] as const;
+
+type SheetSelector = string | number | null;
+type CellProperty = keyof typeof CELL_PATHS | "rowHidden";
+type SheetProperty = "name";
+type WorkbookProperty = "sheetNames";
+type ChartProperty = (typeof CHART_PROPERTIES)[number];
+
+type CellSpec = {
+  kind: "cell";
+  sheet: SheetSelector;
+  cell: string;
+  property: CellProperty;
 };
 
-export const set = setFactory(external);
-export const get = getFactory(external);
+type SheetSpec = {
+  kind: "sheet";
+  sheet: SheetSelector;
+  property: SheetProperty;
+};
 
-export function sheet(sheetRef?: SheetRef) {
-  const getMeta = () => _getSheetMeta(sheetRef);
+type ChartSpec = {
+  kind: "chart";
+  sheet: SheetSelector;
+  chart?: ChartRef;
+  property: ChartProperty;
+};
 
-  return {
-    get id() {
-      return getMeta().id;
-    },
-    get name() {
-      return getMeta().name;
-    },
-    get index() {
-      return getMeta().index;
-    },
-    getMeta,
-    cell: (cellRefStr: string) => cell(sheetRef, cellRefStr),
-    chart: (chartRef?: ChartRef) => chart(sheetRef, chartRef),
-    [SET]: (path: Path[], value: Value) => _setSheetMeta(sheetRef, path, value)
-  };
+type WorkbookSpec = {
+  kind: "workbook";
+  property: WorkbookProperty;
+};
+
+export type SpreadsheetSpec = CellSpec | SheetSpec | ChartSpec | WorkbookSpec;
+export type Get = typeof get;
+export type Set = typeof set;
+
+export function get(spec: SpreadsheetSpec): unknown {
+  switch (spec.kind) {
+    case "cell":
+      if (spec.property === "rowHidden") return _getRowHidden(sheetRef(spec.sheet), spec.cell);
+      return readPath(_getCellMeta(sheetRef(spec.sheet), spec.cell), getCellPath(spec.property));
+    case "sheet":
+      assertSheetProperty(spec.property);
+      return _getSheetName(sheetRef(spec.sheet));
+    case "chart":
+      assertChartProperty(spec.property);
+      return _getChartMeta(sheetRef(spec.sheet), spec.chart)[spec.property];
+    case "workbook":
+      assertWorkbookProperty(spec.property);
+      return _getSheetNames();
+  }
+
+  throw unsupportedSpec(spec);
 }
 
-export function cell(sheetRef: SheetRef | undefined, cellRefStr: string) {
-  return {
-    ..._getCellMeta(sheetRef, cellRefStr),
-    [SET]: (path: Path[], value: Value) => _setCellMeta(sheetRef, cellRefStr, path, value)
-  };
+export function set(spec: SpreadsheetSpec, value: Value) {
+  switch (spec.kind) {
+    case "cell":
+      if (spec.property === "rowHidden") return _setRowHidden(sheetRef(spec.sheet), spec.cell, value);
+      return _setCellMeta(sheetRef(spec.sheet), spec.cell, getCellPath(spec.property), value);
+    case "sheet":
+      assertSheetProperty(spec.property);
+      return _setSheetName(sheetRef(spec.sheet), value);
+    case "chart":
+      assertChartProperty(spec.property);
+      return _setChartMeta(sheetRef(spec.sheet), spec.chart, [spec.property], value);
+    case "workbook":
+      assertWorkbookProperty(spec.property);
+      return _setSheetNames(value);
+  }
+
+  throw unsupportedSpec(spec);
 }
 
-export function chart(sheetRef?: SheetRef, chartRef?: ChartRef) {
-  const getMeta = () => _getChartMeta(sheetRef, chartRef);
+function sheetRef(sheet: SheetSelector): string | number | undefined {
+  return sheet ?? undefined;
+}
 
-  return {
-    get id() {
-      return getMeta().id;
-    },
-    get sheetId() {
-      return getMeta().sheetId;
-    },
-    get sheetName() {
-      return getMeta().sheetName;
-    },
-    get index() {
-      return getMeta().index;
-    },
-    get chartType() {
-      return getMeta().chartType;
-    },
-    get sourceRange() {
-      return getMeta().sourceRange;
-    },
-    get range() {
-      return getMeta().range;
-    },
-    get title() {
-      return getMeta().title;
-    },
-    get xAxisTitle() {
-      return getMeta().xAxisTitle;
-    },
-    get yAxisTitle() {
-      return getMeta().yAxisTitle;
-    },
-    get legendPosition() {
-      return getMeta().legendPosition;
-    },
-    get dataOrientation() {
-      return getMeta().dataOrientation;
-    },
-    get width() {
-      return getMeta().width;
-    },
-    get height() {
-      return getMeta().height;
-    },
-    get position() {
-      return getMeta().position;
-    },
-    get context() {
-      return getMeta().context;
-    },
-    get seriesData() {
-      return getMeta().seriesData;
-    },
-    get categoryData() {
-      return getMeta().categoryData;
-    },
-    getMeta,
-    [SET]: (path: Path[], value: Value) => _setChartMeta(sheetRef, chartRef, path, value)
-  };
+function assertChartProperty(property: string): asserts property is ChartProperty {
+  if (!CHART_PROPERTIES.includes(property as ChartProperty)) {
+    throw new Error(`Unsupported chart property: ${property}`);
+  }
+}
+
+function assertSheetProperty(property: string): asserts property is SheetProperty {
+  if (property !== "name") throw new Error(`Unsupported sheet property: ${property}`);
+}
+
+function assertWorkbookProperty(property: string): asserts property is WorkbookProperty {
+  if (property !== "sheetNames") throw new Error(`Unsupported workbook property: ${property}`);
+}
+
+function unsupportedSpec(spec: never): Error {
+  const kind = (spec as { kind?: unknown }).kind;
+  return new Error(`Unsupported spreadsheet spec kind: ${String(kind)}`);
+}
+
+function getCellPath(property: keyof typeof CELL_PATHS): Path[] {
+  const path = CELL_PATHS[property];
+  if (!path) throw new Error(`Unsupported cell property: ${property}`);
+  return path;
+}
+
+function readPath(value: unknown, path: Path[]): unknown {
+  let current = value;
+
+  for (const key of path) {
+    if (current === null || typeof current !== "object") return undefined;
+    current = (current as Record<PropertyKey, unknown>)[key];
+  }
+
+  return current;
 }

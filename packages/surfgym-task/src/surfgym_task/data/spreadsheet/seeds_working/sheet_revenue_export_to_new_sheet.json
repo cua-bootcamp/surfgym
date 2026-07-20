@@ -1,0 +1,117 @@
+{
+  "instruction": "Create a new sheet named \"Revenue Export\". Copy the current sheet's Revenue column into A1:A4 of Revenue Export, including the header. Leave the source table unchanged.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
+        "match": "exact",
+        "value": "Order ID"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "match": "exact",
+        "value": "Revenue"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "match": "exact",
+        "value": "SO-101"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "match": "exact",
+        "value": 1240
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "match": "exact",
+        "value": "SO-102"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "match": "exact",
+        "value": 980
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "match": "exact",
+        "value": "SO-103"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "match": "exact",
+        "value": 760
+      }
+    ],
+    [
+      {
+        "kind": "sheet",
+        "sheet": "Revenue Export",
+        "property": "name",
+        "match": "exact",
+        "value": "Revenue Export"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": "Revenue Export",
+        "cell": "A1",
+        "property": "value",
+        "match": "exact",
+        "value": "Revenue"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Revenue Export",
+        "cell": "A2",
+        "property": "value",
+        "match": "exact",
+        "value": 1240
+      },
+      {
+        "kind": "cell",
+        "sheet": "Revenue Export",
+        "cell": "A4",
+        "property": "value",
+        "match": "exact",
+        "value": 760
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "match": "exact",
+        "value": 1240
+      }
+    ]
+  ]
+}

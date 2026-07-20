@@ -1,0 +1,163 @@
+{
+  "instruction": "We have an employee directory with names in column A and their departments in column B starting from row 3. In column D, list all the unique departments present in this list in the order of their first appearance. Keep all other cells and columns unchanged.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "value": "Employee"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "value": "Department"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D2",
+        "property": "value",
+        "value": "Unique Departments"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "value": "Alice"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": "HR"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "value": "Bob"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "value": "Engineering"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A5",
+        "property": "value",
+        "value": "Charlie"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B5",
+        "property": "value",
+        "value": "HR"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A6",
+        "property": "value",
+        "value": "David"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B6",
+        "property": "value",
+        "value": "Marketing"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A7",
+        "property": "value",
+        "value": "Emma"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B7",
+        "property": "value",
+        "value": "Engineering"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A8",
+        "property": "value",
+        "value": "Frank"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B8",
+        "property": "value",
+        "value": "Marketing"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A9",
+        "property": "value",
+        "value": "Grace"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B9",
+        "property": "value",
+        "value": "Sales"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D3",
+        "property": "value",
+        "value": "HR"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D4",
+        "property": "value",
+        "value": "Engineering"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D5",
+        "property": "value",
+        "value": "Marketing"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D6",
+        "property": "value",
+        "value": "Sales"
+      }
+    ]
+  ]
+}

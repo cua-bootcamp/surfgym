@@ -1,0 +1,80 @@
+{
+  "instruction": "We have a sales table where the columns are in the wrong order starting from column B. The current order is First Name, Order ID, Last Name, Date, Sales. Rearrange the columns so they read Date, First Name, Last Name, Order ID, Sales. Keep all data intact and leave everything else unchanged.",
+  "empty_start": false,
+  "states": [
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "value": "First Name"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
+        "value": "Order ID"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D1",
+        "property": "value",
+        "value": "Last Name"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E1",
+        "property": "value",
+        "value": "Date"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F1",
+        "property": "value",
+        "value": "Sales"
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "value": "Date"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
+        "value": "First Name"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D1",
+        "property": "value",
+        "value": "Last Name"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E1",
+        "property": "value",
+        "value": "Order ID"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F1",
+        "property": "value",
+        "value": "Sales"
+      }
+    ]
+  ]
+}

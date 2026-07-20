@@ -1,0 +1,208 @@
+{
+  "empty_start": false,
+  "instruction": "Convert each value in the Parameter column to Millions (M) in column B and Billions (B) in column C. Round to one decimal place using half-up rounding, and include exactly one space between the number and the unit. Do not modify unrelated cells.",
+  "states": [
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "value": "Parameter"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "value": "Millions (M)"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
+        "value": "Billions (B)"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "value": 1250000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "value": 2500000000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A5",
+        "property": "value",
+        "value": 1499500000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A6",
+        "property": "value",
+        "value": 999500000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A7",
+        "property": "value",
+        "value": 350000
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "formula",
+        "value": "=TEXT(ROUND(A3/1000000,1),\"0.0\")&\" M\""
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "formula",
+        "value": "=TEXT(ROUND(A3/1000000000,1),\"0.0\")&\" B\""
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "formula",
+        "value": "=TEXT(ROUND(A4/1000000,1),\"0.0\")&\" M\""
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "formula",
+        "value": "=TEXT(ROUND(A4/1000000000,1),\"0.0\")&\" B\""
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B5",
+        "property": "formula",
+        "value": "=TEXT(ROUND(A5/1000000,1),\"0.0\")&\" M\""
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C5",
+        "property": "formula",
+        "value": "=TEXT(ROUND(A5/1000000000,1),\"0.0\")&\" B\""
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B6",
+        "property": "formula",
+        "value": "=TEXT(ROUND(A6/1000000,1),\"0.0\")&\" M\""
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C6",
+        "property": "formula",
+        "value": "=TEXT(ROUND(A6/1000000000,1),\"0.0\")&\" B\""
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B7",
+        "property": "formula",
+        "value": "=TEXT(ROUND(A7/1000000,1),\"0.0\")&\" M\""
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C7",
+        "property": "formula",
+        "value": "=TEXT(ROUND(A7/1000000000,1),\"0.0\")&\" B\""
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": "1.3 M"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
+        "value": "0.0 B"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "value": "2500.0 M"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
+        "value": "2.5 B"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B5",
+        "property": "value",
+        "value": "1499.5 M"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C5",
+        "property": "value",
+        "value": "1.5 B"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B6",
+        "property": "value",
+        "value": "999.5 M"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C6",
+        "property": "value",
+        "value": "1.0 B"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B7",
+        "property": "value",
+        "value": "0.4 M"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C7",
+        "property": "value",
+        "value": "0.0 B"
+      }
+    ]
+  ]
+}

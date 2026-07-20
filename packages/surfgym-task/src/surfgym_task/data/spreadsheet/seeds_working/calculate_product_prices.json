@@ -1,0 +1,348 @@
+{
+  "empty_start": false,
+  "instruction": "Fill the Gross Profit column by subtracting Returns, Discounts, Allowances, Material, Labor, and Overhead from Sales. Then create a new sheet named \"Sheet2\" and, under the header \"Year_Profit\" in column A, combine each Year with an underscore and the integer part of its Gross Profit. Do not modify unrelated cells.",
+  "states": [
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
+        "value": "Year"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "value": "Sales"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
+        "value": "Returns"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D1",
+        "property": "value",
+        "value": "Discounts"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E1",
+        "property": "value",
+        "value": "Allowances"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F1",
+        "property": "value",
+        "value": "Material"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "G1",
+        "property": "value",
+        "value": "Labor"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "H1",
+        "property": "value",
+        "value": "Overhead"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "I1",
+        "property": "value",
+        "value": "Gross Profit"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "value": 2022
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "value": 120000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
+        "value": 5000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D2",
+        "property": "value",
+        "value": 2000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E2",
+        "property": "value",
+        "value": 1000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F2",
+        "property": "value",
+        "value": 30000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "G2",
+        "property": "value",
+        "value": 20000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "H2",
+        "property": "value",
+        "value": 10000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "value": 2023
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": 135000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
+        "value": 4000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D3",
+        "property": "value",
+        "value": 2500
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E3",
+        "property": "value",
+        "value": 1500
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F3",
+        "property": "value",
+        "value": 35000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "G3",
+        "property": "value",
+        "value": 22000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "H3",
+        "property": "value",
+        "value": 12000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "value": 2024
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "value": 150000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
+        "value": 6000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D4",
+        "property": "value",
+        "value": 3000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E4",
+        "property": "value",
+        "value": 2000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F4",
+        "property": "value",
+        "value": 40000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "G4",
+        "property": "value",
+        "value": 25000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "H4",
+        "property": "value",
+        "value": 15000
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "I2",
+        "property": "formula",
+        "value": "=B2-C2-D2-E2-F2-G2-H2"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "I3",
+        "property": "formula",
+        "value": "=B3-C3-D3-E3-F3-G3-H3"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "I4",
+        "property": "formula",
+        "value": "=B4-C4-D4-E4-F4-G4-H4"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "I2",
+        "property": "value",
+        "value": 52000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "I3",
+        "property": "value",
+        "value": 58000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "I4",
+        "property": "value",
+        "value": 59000
+      }
+    ],
+    [
+      {
+        "kind": "sheet",
+        "sheet": "Sheet2",
+        "property": "name",
+        "match": "exact",
+        "value": "Sheet2"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A1",
+        "property": "value",
+        "match": "exact",
+        "value": "Year_Profit"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A2",
+        "property": "formula",
+        "match": "exact",
+        "value": "=Sheet1!A2&\"_\"&INT(Sheet1!I2)"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A3",
+        "property": "formula",
+        "match": "exact",
+        "value": "=Sheet1!A3&\"_\"&INT(Sheet1!I3)"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A4",
+        "property": "formula",
+        "match": "exact",
+        "value": "=Sheet1!A4&\"_\"&INT(Sheet1!I4)"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A2",
+        "property": "value",
+        "match": "exact",
+        "value": "2022_52000"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A3",
+        "property": "value",
+        "match": "exact",
+        "value": "2023_58000"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A4",
+        "property": "value",
+        "match": "exact",
+        "value": "2024_59000"
+      }
+    ]
+  ]
+}

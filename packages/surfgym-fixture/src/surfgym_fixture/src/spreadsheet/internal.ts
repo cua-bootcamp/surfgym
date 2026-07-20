@@ -63,13 +63,20 @@ type ChartRuntimeConfig = {
 
 const chartMetaRegistry: ChartMeta[] = [];
 
+function getWorkbookSheets() {
+  const { workbook, defaultWorksheet } = SpreadsheetRuntimeStore.runtime;
+  const sheets = workbook.getSheets?.() ?? [];
+  const defaultSheetId = defaultWorksheet.getSheetId?.();
+
+  return sheets.some((sheet) => sheet.getSheetId?.() === defaultSheetId)
+    ? sheets
+    : [defaultWorksheet, ...sheets];
+}
+
 function resolveSheet(sheetRef?: SheetRef, options: ResolveSheetOptions = {}) {
   const { workbook, defaultWorksheet } = SpreadsheetRuntimeStore.runtime;
   const workbookWithSheets = workbook as unknown as WorkbookWithSheetMutation;
-  const workbookSheets = workbookWithSheets.getSheets?.() ?? [];
-  const sheets = workbookSheets.includes(defaultWorksheet)
-    ? workbookSheets
-    : [defaultWorksheet, ...workbookSheets];
+  const sheets = getWorkbookSheets();
 
   if (sheetRef === undefined) return defaultWorksheet;
 
@@ -87,9 +94,28 @@ function resolveSheet(sheetRef?: SheetRef, options: ResolveSheetOptions = {}) {
     return sheet;
   }
 
+  if (!Number.isInteger(sheetRef) || sheetRef < 0) {
+    throw new Error(`Invalid sheet index: ${sheetRef}`);
+  }
+
   const sheet = sheets[sheetRef];
+  if (
+    !sheet &&
+    options.create &&
+    sheetRef === sheets.length &&
+    typeof workbookWithSheets.insertSheet === "function"
+  ) {
+    return workbookWithSheets.insertSheet();
+  }
+
   if (!sheet) throw new Error(`Sheet not found: index=${sheetRef}`);
   return sheet;
+}
+
+function activateSheetAfterExplicitSet(sheetRef: SheetRef | undefined, worksheet: WorksheetLike) {
+  if (sheetRef === undefined) return;
+
+  SpreadsheetRuntimeStore.runtime.workbook.setActiveSheet(worksheet);
 }
 
 function isRecord(value: unknown): value is Record<PropertyKey, unknown> {
@@ -680,40 +706,85 @@ export function _setCellMeta(
   const last = path[path.length - 1] as Path;
   target[last] = value;
   range.setValueForCell(data);
+  activateSheetAfterExplicitSet(sheetRef, worksheet);
 }
 
-function getSheetMetaForWorksheet(worksheet: WorksheetLike) {
-  const { workbook } = SpreadsheetRuntimeStore.runtime;
-  const sheets = workbook.getSheets?.() ?? [];
+export function _getRowHidden(sheetRef: SheetRef | undefined, cellRefStr: string) {
+  const worksheet = resolveSheet(sheetRef);
+  const { row } = resolveCell(cellRefStr);
 
-  return {
-    id: worksheet.getSheetId?.() ?? null,
-    name: getSheetName(worksheet),
-    index: sheets.indexOf(worksheet)
-  };
+  return !worksheet.getSheet().getRowRawVisible(row);
 }
 
-export function _getSheetMeta(sheetRef?: SheetRef) {
-  return getSheetMetaForWorksheet(resolveSheet(sheetRef));
+export function _setRowHidden(
+  sheetRef: SheetRef | undefined,
+  cellRefStr: string,
+  value: Value
+) {
+  if (typeof value !== "boolean") throw new Error("rowHidden must be a boolean.");
+
+  const worksheet = resolveSheet(sheetRef);
+  const { row } = resolveCell(cellRefStr);
+  if (value) worksheet.hideRows(row, 1);
+  else worksheet.showRows(row, 1);
+  activateSheetAfterExplicitSet(sheetRef, worksheet);
 }
 
-export function _setSheetMeta(sheetRef: SheetRef | undefined, path: Path[], value: Value) {
-  if (path.length !== 1 || path[0] !== "name") {
-    throw new Error(`Unsupported sheet path: ${path.map(String).join(".")}`);
-  }
+export function _getSheetName(sheetRef?: SheetRef) {
+  return getSheetName(resolveSheet(sheetRef));
+}
 
+export function _setSheetName(sheetRef: SheetRef | undefined, value: Value) {
+  const worksheet = resolveSheet(sheetRef, { create: true });
   if (typeof value !== "string" || value.trim() === "") {
     throw new Error("Sheet name must be a non-empty string.");
   }
 
-  const worksheet = resolveSheet(sheetRef, { create: true });
   const setName = (worksheet as WorksheetWithCharts).setName;
-
   if (typeof setName === "function" && getSheetName(worksheet) !== value) {
     setName.call(worksheet, value);
   }
 
-  return getSheetMetaForWorksheet(worksheet);
+  activateSheetAfterExplicitSet(sheetRef, worksheet);
+  return getSheetName(worksheet);
+}
+
+export function _getSheetNames() {
+  return getWorkbookSheets().map((sheet) => {
+    const name = getSheetName(sheet);
+    if (name === null) throw new Error("Sheet has no name.");
+    return name;
+  });
+}
+
+export function _setSheetNames(value: Value) {
+  if (
+    !Array.isArray(value) ||
+    !value.every((name) => typeof name === "string" && name.trim() !== "")
+  ) {
+    throw new Error("sheetNames must be an array of non-empty strings.");
+  }
+  const names = value as string[];
+
+  const { workbook } = SpreadsheetRuntimeStore.runtime;
+  const mutableWorkbook = workbook as unknown as WorkbookWithSheetMutation;
+  let sheets = getWorkbookSheets();
+  if (sheets.length > names.length) throw new Error("Removing sheets is not supported.");
+
+  while (sheets.length < names.length) {
+    if (typeof mutableWorkbook.insertSheet !== "function") {
+      throw new Error("Creating sheets is not supported.");
+    }
+    mutableWorkbook.insertSheet();
+    sheets = getWorkbookSheets();
+  }
+
+  names.forEach((name, index) => {
+    const sheet = sheets[index] as WorksheetWithCharts;
+    if (getSheetName(sheet) !== name) sheet.setName?.(name);
+  });
+
+  return _getSheetNames();
 }
 
 function buildChartMeta(worksheet: WorksheetLike, charts: FChart[], chart: FChart): ChartMeta {
@@ -775,6 +846,7 @@ export async function _setChartMeta(
 
   await syncChartMetaToWorksheet(worksheet, meta);
 
+  activateSheetAfterExplicitSet(sheetRef, worksheet);
   return meta;
 }
 
