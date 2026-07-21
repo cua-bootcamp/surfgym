@@ -1,7 +1,7 @@
 import hashlib
 import json
 from functools import cached_property
-from typing import Any, Iterator
+from typing import Iterator
 
 from pydantic import BaseModel, ConfigDict
 
@@ -17,33 +17,24 @@ class HoareState(FrozenBaseModel):
     origin_end_idx: int
     start_state: State
     end_state: State
-    complexity: int
 
     @cached_property
-    def canonical_payload(self) -> dict[str, Any]:
-        return {
-            "startState": _canonical_state(self.start_state),
-            "endState": _canonical_state(self.end_state),
-        }
+    def complexity(self) -> int:
+        return self.origin_end_idx - self.origin_start_idx
 
     @cached_property
-    def canonical_json(self) -> str:
-        return _canonical_json(self.canonical_payload)
+    def cannoncial(self) -> str:
+        return json.dumps(
+            self.model_dump(mode="json"),
+            sort_keys=True,
+            ensure_ascii=False,
+            separators=(",", ":"),
+            allow_nan=False,
+        )
 
     @cached_property
-    def key(self) -> str:
-        return hashlib.sha256(self.canonical_json.encode("utf-8")).hexdigest()
-
-    def __hash__(self) -> int:
-        return hash(self.key)
-
-    def __eq__(self, other: object) -> bool:
-        if not isinstance(other, HoareState):
-            return NotImplemented
-        return self.key == other.key
-
-    def to_key(self) -> str:
-        return self.key
+    def hash(self) -> str:
+        return hashlib.sha256(self.cannoncial.encode("utf-8")).hexdigest()
 
 
 class HoareStateGenerator:
@@ -78,7 +69,6 @@ class HoareStateGenerator:
             origin_end_idx=end_idx,
             start_state=start_state,
             end_state=end_state,
-            complexity=end_idx - start_idx,
         )
 
     def _accumulate(
@@ -93,20 +83,6 @@ class HoareStateGenerator:
         keep_fresh_state: dict[str, StateAtom] = {}
         for state in states[: idx + 1]:
             for atom in state:
-                keep_fresh_state[_canonical_json(atom.identity_payload())] = atom
+                keep_fresh_state[atom.cannoncial] = atom
 
         return list(keep_fresh_state.values())
-
-
-def _canonical_json(value: Any) -> str:
-    return json.dumps(
-        value,
-        sort_keys=True,
-        ensure_ascii=False,
-        separators=(",", ":"),
-    )
-
-
-def _canonical_state(state: State) -> list[dict[str, Any]]:
-    atoms = [atom.model_dump(mode="json") for atom in state]
-    return sorted(atoms, key=_canonical_json)

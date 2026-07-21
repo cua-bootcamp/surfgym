@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 import json
-from typing import Annotated, Literal, Optional, TypeAlias, cast
+from functools import cached_property
+from typing import Annotated, Literal, Optional, TypeAlias
 
-from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, TypeAdapter
-from surfgym_contracts.task import CriteriaCore, JsonValue
+from pydantic import BaseModel, ConfigDict, Field, JsonValue, TypeAdapter
+from surfgym_contracts.task import ConsoleCriteria, CriteriaCore
 
 
 class FrozenBaseModel(BaseModel):
@@ -13,6 +14,15 @@ class FrozenBaseModel(BaseModel):
 
 class StateAtom(CriteriaCore):
     spec: dict[str, JsonValue]
+
+    @cached_property
+    def cannoncial(self) -> str:
+        return json.dumps(
+            self.spec,
+            sort_keys=True,
+            ensure_ascii=False,
+            separators=(",", ":"),
+        )
 
     def to_get(
         self,
@@ -24,15 +34,32 @@ class StateAtom(CriteriaCore):
         value = json.dumps(self.value, ensure_ascii=False)
         return f"window.surfgym.set({spec}, {value})"
 
+    def to_console_criteria(self) -> ConsoleCriteria:
+        return ConsoleCriteria(
+            value=self.value,
+            match=self.match,
+            normalize_space=self.normalize_space,
+            case_sensitive=self.case_sensitive,
+            script=self.to_get(),
+        )
 
-def listify(value: object) -> list[object]:
-    if isinstance(value, list):
-        return cast(list[object], value)
-    return [value]
+    def to_string(self, *, hide_value: bool = False) -> str:
+        value = (
+            "<hidden>"
+            if hide_value
+            else json.dumps(
+                self.value,
+                sort_keys=True,
+                ensure_ascii=False,
+                separators=(",", ":"),
+                allow_nan=False,
+            )
+        )
+        return f"{self.cannoncial} = {value}"
 
 
-State: TypeAlias = Annotated[list[StateAtom], BeforeValidator(listify)]
-States: TypeAlias = Annotated[list[State], BeforeValidator(listify), Field(min_length=1)]
+State: TypeAlias = list[StateAtom]
+States: TypeAlias = Annotated[list[State], Field(min_length=1)]
 
 
 Domain: TypeAlias = Literal["vlc", "gimp", "impress", "spreadsheet", "word"]

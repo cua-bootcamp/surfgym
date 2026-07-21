@@ -30,8 +30,7 @@ def augment(target_dir: Path, granularity: Granularity):
 
             for hoare_state in hoare_state_generator.generate(seed):
                 observe_hooks = [
-                    Hook(script=atom.to_script(type="action"), timing="before")
-                    for atom in hoare_state.end_state
+                    Hook(script=atom.to_set(), timing="before") for atom in hoare_state.end_state
                 ]
                 if seed.domain == "impress":
                     observe_hooks.append(
@@ -41,11 +40,9 @@ def augment(target_dir: Path, granularity: Granularity):
                         )
                     )
 
-                task_hash = hoare_state.to_key()
                 task = Task(
-                    hash=task_hash,
                     task_id=f"{seed_name}_{hoare_state.origin_start_idx}_{hoare_state.origin_end_idx}",
-                    instruction=instruction_loader.get(task_hash, seed, hoare_state),
+                    instruction=instruction_loader.get(hoare_state.hash, seed, hoare_state),
                     website=[Website(url=seed.website)],
                     complexity=hoare_state.complexity,
                     evaluation=CriteriaEvaluation(
@@ -53,7 +50,7 @@ def augment(target_dir: Path, granularity: Granularity):
                     ),
                     lifecycle_hooks=LifecycleHooks(
                         allocate=[
-                            Hook(script=atom.to_script(type="action"), timing="after")
+                            Hook(script=atom.to_set(), timing="after")
                             for atom in hoare_state.start_state
                         ],
                         observe=observe_hooks,

@@ -61,7 +61,6 @@ class _WebsiteDependent(FrozenBaseModel):
     website_id: str = "_"
 
 
-JsonValue: TypeAlias = JsonValue
 Observation: TypeAlias = Optional[JsonValue]
 
 
@@ -161,7 +160,6 @@ class TaskCore(FrozenBaseModel):
 
 
 class Task(TaskCore):
-    hash: str
     evaluation: Evaluation
     complexity: int
 

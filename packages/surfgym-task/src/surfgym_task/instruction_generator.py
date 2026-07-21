@@ -70,7 +70,9 @@ class InstructionGenerator:
             "domain": seed_task.domain,
             "given": [atom.to_string() for atom in given_state],
             "completed": [atom.to_string() for state in completed_states for atom in state],
-            "required": [atom.to_string(True) for state in required_states for atom in state],
+            "required": [
+                atom.to_string(hide_value=True) for state in required_states for atom in state
+            ],
         }
 
 
