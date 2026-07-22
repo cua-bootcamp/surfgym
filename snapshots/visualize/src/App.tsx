@@ -35,9 +35,7 @@ export function App() {
   const [selectedRunId, setSelectedRunId] = useState<string>("");
   const [runDetail, setRunDetail] = useState<SnapshotRunDetail | null>(null);
   const [selectedTaskId, setSelectedTaskId] = useState("");
-  const [query, setQuery] = useState("");
   const [draftInstruction, setDraftInstruction] = useState("");
-  const [selectedScreenshotIndex, setSelectedScreenshotIndex] = useState(0);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [error, setError] = useState("");
 
@@ -82,7 +80,6 @@ export function App() {
 
   useEffect(() => {
     setDraftInstruction(selectedTask?.instruction ?? "");
-    setSelectedScreenshotIndex(0);
     setSaveState("idle");
   }, [selectedTask?.taskId, selectedTask?.instruction]);
 
@@ -121,11 +118,14 @@ export function App() {
     setError("");
 
     try {
-      await api(`/api/instructions/${encodeURIComponent(selectedTask.instructionKey)}`, {
-        method: "PATCH",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ instruction: draftInstruction.trim() })
-      });
+      await api(
+        `/api/runs/${encodeURIComponent(selectedRunId)}/instructions/${encodeURIComponent(selectedTask.instructionKey)}`,
+        {
+          method: "PATCH",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ instruction: draftInstruction.trim() })
+        }
+      );
 
       setRunDetail((current) => {
         if (!current) return current;
@@ -192,6 +192,40 @@ export function App() {
         </header>
 
         <div className="flex min-h-0 flex-1 flex-col gap-4 p-4">
+          <section className="shrink-0 overflow-hidden rounded-md border border-slate-200 bg-white">
+            <div className="border-b border-slate-200 px-4 py-3">
+              <div className="text-sm font-semibold">Instruction</div>
+              <div className="mt-1 truncate text-xs text-slate-500">
+                {selectedTask?.instructionKey
+                  ? `Save writes to ${runDetail?.instructionPath ?? "instructions.sqlite3"}`
+                  : "This task could not be mapped to an instruction hash."}
+              </div>
+            </div>
+
+            <textarea
+              className="block min-h-28 w-full resize-y border-0 p-4 text-sm leading-6 outline-none disabled:bg-slate-50 disabled:text-slate-500"
+              value={draftInstruction}
+              disabled={!selectedTask?.instructionKey}
+              onChange={(event) => {
+                setDraftInstruction(event.target.value);
+                setSaveState("idle");
+              }}
+            />
+
+            <div className="flex min-h-11 items-center justify-between gap-3 border-t border-slate-200 px-4 py-2 text-xs text-slate-500">
+              <span>
+                {!selectedTask?.instructionKey
+                  ? "Read only"
+                  : dirty
+                    ? "Unsaved changes"
+                    : saveState === "saved"
+                      ? "Saved to SQLite"
+                      : "No changes"}
+              </span>
+              <span>Reward {selectedTask?.reward ?? "-"}</span>
+            </div>
+          </section>
+
           <section className="min-h-0 flex-1 overflow-hidden rounded-md border border-slate-200 bg-white">
             <div className="flex h-full min-h-0 flex-col gap-3 overflow-y-auto bg-slate-50 p-3">
               {selectedTask?.screenshots.map((s) => (

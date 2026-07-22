@@ -16,7 +16,6 @@ python -m playwright install chromium
 # Linux only
 playwright install-deps chromium
 
-source .venv/bin/activate
 
 sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl
 

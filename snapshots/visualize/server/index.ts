@@ -1,7 +1,9 @@
+import { createHash } from "node:crypto";
 import { createReadStream } from "node:fs";
 import fs from "node:fs/promises";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import path from "node:path";
+import { DatabaseSync } from "node:sqlite";
 import { fileURLToPath } from "node:url";
 
 import { parse } from "jsonc-parser";
@@ -11,7 +13,7 @@ const appRoot = path.resolve(serverDir, "..");
 const repoRoot = path.resolve(appRoot, "..", "..");
 
 const snapshotsRoot = path.join(repoRoot, "snapshots", "__snapshots__");
-const augmentedPath = path.join(
+const defaultTaskSourcePath = path.join(
   repoRoot,
   "packages",
   "surfgym-task",
@@ -20,17 +22,7 @@ const augmentedPath = path.join(
   "data",
   "spreadsheet",
   "out",
-  "augmented.jsonl"
-);
-const instructionPath = path.join(
-  repoRoot,
-  "packages",
-  "surfgym-task",
-  "src",
-  "surfgym_task",
-  "data",
-  "spreadsheet",
-  "instruction.jsonl"
+  "tasks.sqlite3"
 );
 
 type Manifest = {
@@ -38,11 +30,29 @@ type Manifest = {
   tasks: Record<string, { snapshot_dir: string; reward: number }>;
 };
 
-type AugmentedTask = { task_id: string; instruction?: string; hash?: string };
-type TaskSourceEntry = { instruction: string; hash: string | null };
-type InstructionRow = { hash?: unknown; instruction?: unknown };
+type TaskDatabaseRow = { task_id: unknown; payload: unknown };
+type InstructionDatabaseRow = { task_hash: unknown; instruction: unknown };
+type TaskSourceEntry = { instruction: string };
+type InstructionMap = Map<string, string>;
 
-type InstructionMap = Record<string, string>;
+type StateAtom = {
+  website_id?: unknown;
+  match?: unknown;
+  normalize_space?: unknown;
+  case_sensitive?: unknown;
+  value?: unknown;
+  spec?: unknown;
+};
+
+type RawSeedTask = {
+  states?: unknown;
+  domain?: unknown;
+  empty_start?: unknown;
+  accumulation?: unknown;
+};
+
+type NormalizedSeedTask = { states: StateAtom[][]; accumulation: "DELTA" | "CUMULATIVE" };
+type SeedCache = Map<string, Promise<NormalizedSeedTask | null>>;
 
 const jsonHeaders = { "content-type": "application/json; charset=utf-8" };
 
@@ -69,51 +79,229 @@ async function readJsonc<T>(filePath: string): Promise<T> {
   return parse(text) as T;
 }
 
-async function readJsonl<T>(filePath: string): Promise<T[]> {
-  const text = await fs.readFile(filePath, "utf8");
-  return text
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .map((line) => JSON.parse(line) as T);
+function resolveTaskSourcePath(taskSource: string): string {
+  const candidate = taskSource.trim() || defaultTaskSourcePath;
+  return path.isAbsolute(candidate) ? candidate : path.resolve(repoRoot, candidate);
 }
 
-async function readInstructionMap(): Promise<InstructionMap> {
-  const rows = await readJsonl<InstructionRow>(instructionPath).catch(() => []);
-  const instructions: InstructionMap = {};
+function resolveInstructionDatabasePath(taskSourcePath: string): string {
+  if (path.extname(taskSourcePath) !== ".sqlite3") {
+    throw new Error(`Snapshot task source is not a SQLite database: ${taskSourcePath}`);
+  }
 
-  for (const row of rows) {
-    if (typeof row.hash === "string" && typeof row.instruction === "string") {
-      instructions[row.hash] = row.instruction;
+  return path.resolve(path.dirname(taskSourcePath), "..", "instructions.sqlite3");
+}
+
+async function assertRegularFile(filePath: string, label: string) {
+  const stat = await fs.stat(filePath).catch(() => null);
+  if (!stat?.isFile()) {
+    throw new Error(`${label} not found: ${filePath}`);
+  }
+}
+
+async function readTaskSourceTasks(taskSourcePath: string): Promise<Map<string, TaskSourceEntry>> {
+  await assertRegularFile(taskSourcePath, "Task database");
+  const database = new DatabaseSync(taskSourcePath, { readOnly: true });
+
+  try {
+    const rows = database
+      .prepare("SELECT task_id, payload FROM tasks ORDER BY rowid")
+      .all() as TaskDatabaseRow[];
+    const tasks = new Map<string, TaskSourceEntry>();
+
+    for (const row of rows) {
+      if (typeof row.task_id !== "string" || typeof row.payload !== "string") continue;
+
+      const payload = JSON.parse(row.payload) as { instruction?: unknown };
+      tasks.set(row.task_id, {
+        instruction: typeof payload.instruction === "string" ? payload.instruction : ""
+      });
+    }
+
+    return tasks;
+  } finally {
+    database.close();
+  }
+}
+
+async function readInstructionMap(instructionDatabasePath: string): Promise<InstructionMap> {
+  await assertRegularFile(instructionDatabasePath, "Instruction database");
+  const database = new DatabaseSync(instructionDatabasePath, { readOnly: true });
+
+  try {
+    const rows = database
+      .prepare("SELECT task_hash, instruction FROM instructions ORDER BY rowid")
+      .all() as InstructionDatabaseRow[];
+    const instructions: InstructionMap = new Map();
+
+    for (const row of rows) {
+      if (typeof row.task_hash === "string" && typeof row.instruction === "string") {
+        instructions.set(row.task_hash, row.instruction);
+      }
+    }
+
+    return instructions;
+  } finally {
+    database.close();
+  }
+}
+
+function canonicalJson(value: unknown): string {
+  if (Array.isArray(value)) {
+    return `[${value.map(canonicalJson).join(",")}]`;
+  }
+
+  if (value !== null && typeof value === "object") {
+    const record = value as Record<string, unknown>;
+    return `{${Object.keys(record)
+      .sort()
+      .map((key) => `${JSON.stringify(key)}:${canonicalJson(record[key])}`)
+      .join(",")}}`;
+  }
+
+  const serialized = JSON.stringify(value);
+  if (serialized === undefined) {
+    throw new Error("Seed contains a value that cannot be serialized.");
+  }
+  return serialized;
+}
+
+function isStateAtom(value: unknown): value is StateAtom {
+  if (value === null || typeof value !== "object") return false;
+  const atom = value as StateAtom;
+  return atom.spec !== null && typeof atom.spec === "object" && "value" in atom;
+}
+
+function normalizeSeed(rawSeed: RawSeedTask, targetDirectory: string): NormalizedSeedTask {
+  if (!Array.isArray(rawSeed.states)) {
+    throw new Error("Seed states must be an array.");
+  }
+
+  const states = rawSeed.states.map((state) => {
+    if (!Array.isArray(state) || !state.every(isStateAtom)) {
+      throw new Error("Seed contains a state atom without a spec and value.");
+    }
+    return [...state];
+  });
+
+  const domain =
+    typeof rawSeed.domain === "string" ? rawSeed.domain : path.basename(targetDirectory);
+  if ((domain === "spreadsheet" || domain === "word") && rawSeed.empty_start === true) {
+    states.unshift([]);
+  } else if (domain === "impress") {
+    // SeedReader currently inserts an empty start for Impress even when empty_start is false.
+    states.unshift([]);
+  }
+
+  return { states, accumulation: rawSeed.accumulation === "DELTA" ? "DELTA" : "CUMULATIVE" };
+}
+
+function normalizedAtom(atom: StateAtom) {
+  return {
+    website_id: typeof atom.website_id === "string" ? atom.website_id : "_",
+    match:
+      atom.match === "contains" || atom.match === "regex" || atom.match === "exact"
+        ? atom.match
+        : "exact",
+    normalize_space: typeof atom.normalize_space === "boolean" ? atom.normalize_space : false,
+    case_sensitive: typeof atom.case_sensitive === "boolean" ? atom.case_sensitive : true,
+    value: atom.value,
+    spec: atom.spec
+  };
+}
+
+function accumulatedState(
+  states: StateAtom[][],
+  index: number,
+  accumulation: "DELTA" | "CUMULATIVE"
+): StateAtom[] {
+  if (accumulation === "DELTA") return states[index] ?? [];
+
+  const fresh = new Map<string, StateAtom>();
+  for (const state of states.slice(0, index + 1)) {
+    for (const atom of state) {
+      fresh.set(canonicalJson(atom.spec), atom);
     }
   }
-
-  return instructions;
+  return [...fresh.values()];
 }
 
-async function writeInstructionMap(instructions: InstructionMap) {
-  const rows = Object.entries(instructions)
-    .sort(([left], [right]) => left.localeCompare(right))
-    .map(([hash, instruction]) => JSON.stringify({ hash, instruction }));
-
-  await fs.writeFile(instructionPath, `${rows.join("\n")}${rows.length > 0 ? "\n" : ""}`, "utf8");
+function parseGeneratedTaskId(taskId: string) {
+  const match = /^(.*)_(\d+)_(\d+)$/.exec(taskId);
+  if (!match) return null;
+  return { seedName: match[1], startIndex: Number(match[2]), endIndex: Number(match[3]) };
 }
 
-async function readTaskSourceTasks(taskSource: string): Promise<Map<string, TaskSourceEntry>> {
-  try {
-    const rows = taskSource.endsWith(".jsonl")
-      ? await readJsonl<AugmentedTask>(taskSource)
-      : await readJsonc<AugmentedTask[]>(taskSource);
+function loadSeed(
+  seedName: string,
+  targetDirectory: string,
+  seedCache: SeedCache
+): Promise<NormalizedSeedTask | null> {
+  const cached = seedCache.get(seedName);
+  if (cached) return cached;
 
-    return new Map(
-      rows.map((row) => [
-        row.task_id,
-        { instruction: row.instruction ?? "", hash: typeof row.hash === "string" ? row.hash : null }
-      ])
-    );
-  } catch {
-    return new Map();
+  const seedPath = path.join(targetDirectory, "seeds", `${seedName}.json`);
+  const pending = readJsonc<RawSeedTask>(seedPath)
+    .then((rawSeed) => normalizeSeed(rawSeed, targetDirectory))
+    .catch(() => null);
+  seedCache.set(seedName, pending);
+  return pending;
+}
+
+async function calculateTaskHash(
+  taskId: string,
+  targetDirectory: string,
+  seedCache: SeedCache
+): Promise<string | null> {
+  const parsedTaskId = parseGeneratedTaskId(taskId);
+  if (!parsedTaskId) return null;
+
+  const seed = await loadSeed(parsedTaskId.seedName, targetDirectory, seedCache);
+  if (!seed) return null;
+  if (
+    parsedTaskId.startIndex < 0 ||
+    parsedTaskId.endIndex <= parsedTaskId.startIndex ||
+    parsedTaskId.endIndex >= seed.states.length
+  ) {
+    return null;
   }
+
+  const payload = {
+    origin_start_idx: parsedTaskId.startIndex,
+    origin_end_idx: parsedTaskId.endIndex,
+    start_state: accumulatedState(seed.states, parsedTaskId.startIndex, seed.accumulation).map(
+      normalizedAtom
+    ),
+    end_state: accumulatedState(seed.states, parsedTaskId.endIndex, seed.accumulation).map(
+      normalizedAtom
+    )
+  };
+
+  return createHash("sha256").update(canonicalJson(payload), "utf8").digest("hex");
+}
+
+function instructionKeyByUniqueText(
+  sourceInstruction: string,
+  instructions: InstructionMap
+): string | null {
+  const matches = [...instructions.entries()].filter(([, instruction]) => {
+    return instruction === sourceInstruction;
+  });
+  return matches.length === 1 ? matches[0][0] : null;
+}
+
+async function resolveInstructionKey(
+  taskId: string,
+  sourceInstruction: string,
+  targetDirectory: string,
+  instructions: InstructionMap,
+  seedCache: SeedCache
+): Promise<string | null> {
+  const calculatedHash = await calculateTaskHash(taskId, targetDirectory, seedCache).catch(
+    () => null
+  );
+  if (calculatedHash && instructions.has(calculatedHash)) return calculatedHash;
+  return instructionKeyByUniqueText(sourceInstruction, instructions);
 }
 
 async function listRuns() {
@@ -151,14 +339,26 @@ async function runDetail(runId: string) {
   const safeRunId = path.basename(runId);
   const runDir = path.join(snapshotsRoot, safeRunId);
   const manifest = await readManifest(safeRunId);
-  const instructions = await readInstructionMap();
-  const taskSourcePath = manifest.summary.task_source || augmentedPath;
-  const sourceTasks = await readTaskSourceTasks(taskSourcePath);
+  const taskSourcePath = resolveTaskSourcePath(manifest.summary.task_source);
+  const instructionPath = resolveInstructionDatabasePath(taskSourcePath);
+  const targetDirectory = path.dirname(path.dirname(taskSourcePath));
+  const [sourceTasks, instructions] = await Promise.all([
+    readTaskSourceTasks(taskSourcePath),
+    readInstructionMap(instructionPath)
+  ]);
+  const seedCache: SeedCache = new Map();
 
   const tasks = await Promise.all(
     Object.entries(manifest.tasks).map(async ([taskId, meta]) => {
       const sourceTask = sourceTasks.get(taskId);
-      const instructionKey = sourceTask?.hash ?? null;
+      const sourceInstruction = sourceTask?.instruction ?? "";
+      const instructionKey = await resolveInstructionKey(
+        taskId,
+        sourceInstruction,
+        targetDirectory,
+        instructions,
+        seedCache
+      );
       const taskDir = path.join(runDir, path.basename(String(meta.snapshot_dir)));
       const screenshots = await listScreenshots(taskDir);
 
@@ -167,9 +367,9 @@ async function runDetail(runId: string) {
         reward: meta.reward,
         instructionKey,
         instruction: instructionKey
-          ? (instructions[instructionKey] ?? sourceTask?.instruction ?? "")
-          : (sourceTask?.instruction ?? ""),
-        sourceInstruction: sourceTask?.instruction ?? "",
+          ? (instructions.get(instructionKey) ?? sourceInstruction)
+          : sourceInstruction,
+        sourceInstruction,
         screenshots: screenshots.map(
           (file) =>
             `/api/runs/${encodeURIComponent(safeRunId)}/tasks/${encodeURIComponent(taskId)}/screenshots/${encodeURIComponent(file)}`
@@ -181,10 +381,26 @@ async function runDetail(runId: string) {
   return { id: safeRunId, summary: manifest.summary, instructionPath, taskSourcePath, tasks };
 }
 
-async function updateInstruction(key: string, instruction: string) {
-  const instructions = await readInstructionMap();
-  instructions[key] = instruction;
-  await writeInstructionMap(instructions);
+async function updateInstruction(
+  runId: string,
+  key: string,
+  instruction: string
+): Promise<boolean> {
+  const manifest = await readManifest(runId);
+  const taskSourcePath = resolveTaskSourcePath(manifest.summary.task_source);
+  const instructionPath = resolveInstructionDatabasePath(taskSourcePath);
+  await assertRegularFile(instructionPath, "Instruction database");
+
+  const database = new DatabaseSync(instructionPath);
+  try {
+    database.exec("PRAGMA busy_timeout = 5000");
+    const result = database
+      .prepare("UPDATE instructions SET instruction = ? WHERE task_hash = ?")
+      .run(instruction, key);
+    return Number(result.changes) > 0;
+  } finally {
+    database.close();
+  }
 }
 
 async function serveScreenshot(
@@ -245,9 +461,10 @@ async function handleRequest(request: IncomingMessage, response: ServerResponse)
 
     if (
       request.method === "PATCH" &&
-      segments.length === 3 &&
+      segments.length === 5 &&
       segments[0] === "api" &&
-      segments[1] === "instructions"
+      segments[1] === "runs" &&
+      segments[3] === "instructions"
     ) {
       const body = await readRequestJson(request);
       const instruction =
@@ -260,7 +477,12 @@ async function handleRequest(request: IncomingMessage, response: ServerResponse)
         return;
       }
 
-      await updateInstruction(segments[2], instruction);
+      const updated = await updateInstruction(segments[2], segments[4], instruction);
+      if (!updated) {
+        sendError(response, 404, "Instruction hash not found.");
+        return;
+      }
+
       sendJson(response, 200, { instruction });
       return;
     }

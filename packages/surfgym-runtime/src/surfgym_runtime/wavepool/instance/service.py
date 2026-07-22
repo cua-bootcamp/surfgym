@@ -1,6 +1,7 @@
 import asyncio
 import math
 from io import BytesIO
+from typing import cast
 
 from PIL import Image
 from playwright.async_api import Page
@@ -11,6 +12,7 @@ from surfgym_contracts.task import (
     DomCriteria,
     Hook,
     Observation,
+    Value,
     Website,
 )
 
@@ -278,8 +280,34 @@ def _coerce_playwright_observation(value: object) -> Observation:
             return str(value)
         return value
 
-    # if isinstance(value, list) and all(isinstance(item, str) for item in value):
-    #     return value
+    if isinstance(value, list):
+        list_result: list[Value] = []
+
+        for item in cast(list[object], value):
+            coerced_item = _coerce_playwright_observation(item)
+
+            if coerced_item is None:
+                return None
+
+            list_result.append(coerced_item)
+
+        return list_result
+
+    if isinstance(value, dict):
+        dict_result: dict[str, Value] = {}
+
+        for key, item in cast(dict[object, object], value).items():
+            if not isinstance(key, str):
+                return None
+
+            coerced_item = _coerce_playwright_observation(item)
+
+            if coerced_item is None:
+                return None
+
+            dict_result[key] = coerced_item
+
+        return dict_result
 
     return None
 

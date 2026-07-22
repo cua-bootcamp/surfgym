@@ -1,6 +1,5 @@
 {
   "instruction": "Calculate the annual change rates compared with the previous year for the Cash Reserve, Equipment Value, and Other Investment columns. Enter the results as decimal rates, for example 0.10 for a 10% increase. Put the summary table in cells F2:I6.",
-  "empty_start": false,
   "states": [
     [
       {
@@ -461,6 +460,17 @@
           "property": "value"
         },
         "value": 282688
+      }
+    ],
+    [
+      {
+        "spec": {
+          "kind": "sheet",
+          "sheet": "Sheet2",
+          "property": "name"
+        },
+        "match": "exact",
+        "value": "Sheet2"
       }
     ],
     [

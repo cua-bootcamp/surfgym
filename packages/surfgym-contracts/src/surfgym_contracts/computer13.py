@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Annotated, Any, Literal, TypeAlias, Union
+from typing import Annotated, Any, Literal, Union
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -95,8 +95,6 @@ class DoneAction(_BaseComputerAction):
         raise AssertionError(f"{self.__class__.__name__} does not have a corresponding command ")
 
 
-TerminalAction: TypeAlias = FailAction | DoneAction
-
 #####################
 # Single Key Action #
 #####################
@@ -127,7 +125,7 @@ class KeyUpAction(_SingleKeyAction):
         return KeyUpCommand(key=self.key)
 
 
-SingleKeyAction: TypeAlias = PressAction | KeyDownAction | KeyUpAction
+type SingleKeyAction = PressAction | KeyDownAction | KeyUpAction
 
 
 ####################
@@ -141,9 +139,6 @@ class HotkeyAction(_BaseComputerAction):
 
     def to_commands(self) -> HotKeyCommand:
         return HotKeyCommand(keys=self.keys)
-
-
-MultiKeyAction: TypeAlias = HotkeyAction
 
 
 ################
@@ -169,7 +164,7 @@ class MouseUpAction(_MouseAction):
         return MouseUpCommand()
 
 
-MouseAction: TypeAlias = MouseDownAction | MouseUpAction
+type MouseAction = MouseDownAction | MouseUpAction
 
 
 ################

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 from functools import cached_property
-from typing import Annotated, Literal, Optional, TypeAlias
+from typing import Annotated, Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, JsonValue, TypeAdapter
 from surfgym_contracts.task import ConsoleCriteria, CriteriaCore
@@ -58,11 +58,11 @@ class StateAtom(CriteriaCore):
         return f"{self.cannoncial} = {value}"
 
 
-State: TypeAlias = list[StateAtom]
-States: TypeAlias = Annotated[list[State], Field(min_length=1)]
+type State = list[StateAtom]
+type States = Annotated[list[State], Field(min_length=1)]
 
 
-Domain: TypeAlias = Literal["vlc", "gimp", "impress", "spreadsheet", "word"]
+type Domain = Literal["vlc", "gimp", "impress", "spreadsheet", "word"]
 
 
 class RawSeedTask(FrozenBaseModel):
@@ -83,8 +83,8 @@ class SeedTask(FrozenBaseModel):
     accumulation: Accumulation
 
 
-Granularity: TypeAlias = Literal["COARSE", "FINE"]
-Accumulation: TypeAlias = Literal["DELTA", "CUMULATIVE"]
+type Granularity = Literal["COARSE", "FINE"]
+type Accumulation = Literal["DELTA", "CUMULATIVE"]
 
 
 TaskRowsAdapter: TypeAdapter[list[SeedTask]] = TypeAdapter(list[SeedTask])

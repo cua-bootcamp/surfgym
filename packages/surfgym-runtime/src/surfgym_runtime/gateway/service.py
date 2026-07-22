@@ -6,7 +6,7 @@ from typing import Callable, TypeVar
 
 from PIL import Image, ImageDraw
 from surfgym_contracts.command import Command
-from surfgym_contracts.computer13 import TerminalAction
+from surfgym_contracts.computer13 import DoneAction, FailAction
 from surfgym_contracts.protocol.agent_to_gateway import (
     ActionRequest,
     AgentRequest,
@@ -117,7 +117,7 @@ class Service:
         )
 
         for action in request.actions:
-            if isinstance(action, TerminalAction):
+            if isinstance(action, (FailAction, DoneAction)):
                 continue
             self._execute(deadline, session_state.lease, action.to_commands())
 

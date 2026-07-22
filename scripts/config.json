@@ -1,13 +1,13 @@
 {
-  "task_file_path": "packages/surfgym-task/src/surfgym_task/data/impress/out/tasks.sqlite3",
+  "task_file_path": "packages/surfgym-task/src/surfgym_task/data/spreadsheet/out/tasks.sqlite3",
   "log_path": "logs/",
   "gateway": {
     "host": "127.0.0.1",
     "port": 18000,
     "gateway_workers": 6,
     "gateway_in_flight": 6,
-    "verl_timeout": 720.0,
-    "in_flight_timeout": 120.0,
+    "verl_timeout": 20,
+    "in_flight_timeout": 20.0,
     "deadline_margin": 3.0
   },
   "wavepool": {
@@ -17,11 +17,11 @@
     "instances": 1,
     "contexts_per_instance": 6,
     "process_timeout": {
-      "allocate": 600.0,
-      "release": 120.0,
-      "screenshot": 30.0,
-      "observe": 120.0,
-      "execute": 30.0,
+      "allocate": 10.0,
+      "release": 5.0,
+      "screenshot": 5.0,
+      "observe": 5.0,
+      "execute": 5.0,
       "layer_gap": 1.0
     }
   }

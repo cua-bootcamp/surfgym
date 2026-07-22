@@ -66,7 +66,7 @@ def augment(target_dir: Path, granularity: Granularity):
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--target-dir", required=True)
-    parser.add_argument("--granularity", required=True, choices=get_args(Granularity))
+    parser.add_argument("--granularity", required=True, choices=get_args(Granularity.__value__))
     args = parser.parse_args()
 
     augment(

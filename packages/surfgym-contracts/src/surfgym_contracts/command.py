@@ -1,5 +1,5 @@
 from string import ascii_uppercase
-from typing import Annotated, Any, Literal, Optional, TypeAlias, Union
+from typing import Annotated, Any, Literal, Optional, Union
 
 from pydantic import BaseModel, ConfigDict, Field, GetCoreSchemaHandler, TypeAdapter
 from pydantic_core import core_schema
@@ -10,7 +10,7 @@ from surfgym_contracts.task import CriteriaEvaluation
 # Action Commands #
 ###################
 
-MouseButtonType: TypeAlias = Literal["left", "right", "middle"]
+type MouseButtonType = Literal["left", "right", "middle"]
 
 
 _MODIFIER_KEYS = {"Shift", "Control", "Alt", "Meta", "ShiftLeft", "ControlOrMeta"}
@@ -167,7 +167,7 @@ class SleepCommand(_BaseCommand):
     duration_ms: int
 
 
-CommandPayload: TypeAlias = Union[
+type CommandPayload = Union[
     MouseMoveCommand,
     DragToCommand,
     MouseWheelCommand,

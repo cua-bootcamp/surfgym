@@ -3,14 +3,14 @@ from __future__ import annotations
 import asyncio
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Tuple, TypeAlias
+from typing import Tuple
 
 from playwright.async_api import Browser, BrowserContext, Page, Playwright, async_playwright
 from surfgym_contracts.task import Website
 
 from surfgym_runtime.wavepool.instance.error import UnexpectedError
 
-Website_ID: TypeAlias = str
+type Website_ID = str
 
 
 @dataclass(frozen=True)
@@ -42,7 +42,7 @@ class ScreenCursor:
         return PageCursor(self.x - layout.x, self.y - layout.y)
 
 
-Page_Meta: TypeAlias = Tuple[Page, PageLayout]
+type Page_Meta = Tuple[Page, PageLayout]
 
 
 @dataclass

@@ -1,19 +1,26 @@
 import json
 import os
-import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal, cast
 
 import httpx
 from dotenv import load_dotenv
-from surfgym_contracts.task import CriteriaEvaluation, LLMJudgeEvaluation, Observation, Value
+from surfgym_contracts.task import (
+    CriteriaEvaluation,
+    LLMJudgeEvaluation,
+    MatchMode,
+    Observation,
+    Value,
+)
 
+from surfgym_runtime.gateway.error import Unexpected
 from surfgym_runtime.support.logger import gateway_logger
 
 load_dotenv(Path(__file__).resolve().parents[5] / ".env")
 
-# [TODO] timeout and error logic
+REWARD_POINT = 1.0
+FAILURE_POINT = 0.0
 
 
 @dataclass(frozen=True)
@@ -26,40 +33,41 @@ class Frame:
 
 class Evaluator:
     def __init__(self):
-        self.api_key = os.getenv("OPENAI_API_KEY")
+        self._api_key: str | None = os.getenv("OPENAI_API_KEY") or None
 
     def rule_based_eval(
         self, evaluation: CriteriaEvaluation, observations: list[Observation]
     ) -> float:
 
         if len(observations) != len(evaluation.criteria):
-            raise ValueError(
-                f"Observation count {len(observations)} does not match "
-                f"criteria count {len(evaluation.criteria)}"
+            raise Unexpected(
+                f"Observation count {len(observations)} does not match criteria count {len(evaluation.criteria)}"
             )
 
         checks = tuple(
-            _matches(
+            _match(
                 observation,
                 rule.value,
-                match=rule.match,
+                rule.match,
                 normalize_space=rule.normalize_space,
                 case_sensitive=rule.case_sensitive,
             )
             for rule, observation in zip(evaluation.criteria, observations)
         )
 
-        passed = (
-            all(check for check in checks)
-            if evaluation.operator == "and"
-            else any(check for check in checks)
-        )
-
-        return 1.0 if passed else 0
+        match evaluation.operator:
+            case "and":
+                passed = all(check for check in checks)
+            case "or":
+                passed = any(check for check in checks)
+        return REWARD_POINT if passed else FAILURE_POINT
 
     def llm_judge_eval(
         self, instruction: str, trace: list[Frame], evaluation: LLMJudgeEvaluation, timeout: float
     ) -> float:
+        if self._api_key is None:
+            raise Unexpected("OPENAI_API_KEY is required for LLM judge evaluation.")
+
         sampled = _sample_trace(trace, evaluation.max_frames)
         payload = _build_request_payload(instruction, sampled, evaluation)
 
@@ -68,7 +76,7 @@ class Evaluator:
                 response = client.post(
                     _OPENAI_RESPONSES_URL,
                     headers={
-                        "Authorization": f"Bearer {self.api_key}",
+                        "Authorization": f"Bearer {self._api_key}",
                         "Content-Type": "application/json",
                     },
                     json=payload,
@@ -97,110 +105,120 @@ def _sample_trace(trace: list[Frame], max_frames: int) -> list[Frame]:
     return [trace[index] for index in sample_indexes]
 
 
-def _matches(
-    actual: Observation,
-    expected: Value,
-    match: Literal["contains", "exact", "regex"],
+def _match(
+    observation: Observation,
+    answer: Value,
+    match_mode: MatchMode,
+    *,
     normalize_space: bool,
     case_sensitive: bool,
-) -> bool:
-    if isinstance(actual, list) or isinstance(expected, list):
-        return _matches_list(
-            actual,
-            expected,
-            match=match,
-            normalize_space=normalize_space,
-            case_sensitive=case_sensitive,
-        )
-
-    actual_text = _to_text(actual)
-    expected_text = _to_text(expected)
-
-    if normalize_space:
-        actual_text = _normalize_space(actual_text)
-        expected_text = _normalize_space(expected_text)
-
-    if match == "regex":
-        flags = 0 if case_sensitive else re.IGNORECASE
-        return re.search(expected_text, actual_text, flags=flags) is not None
-
-    if not case_sensitive:
-        actual_text = actual_text.casefold()
-        expected_text = expected_text.casefold()
-
-    if match == "exact":
-        return actual_text == expected_text
-
-    return expected_text in actual_text
-
-
-def _matches_list(
-    actual: Observation,
-    expected: Value,
-    match: Literal["contains", "exact", "regex"],
-    normalize_space: bool,
-    case_sensitive: bool,
-) -> bool:
-    if not isinstance(actual, list) or not isinstance(expected, list):
+):
+    if observation is None:
         return False
 
-    actual_values = [
-        _normalize_match_text(
-            value,
-            normalize_space=normalize_space,
-            case_sensitive=case_sensitive,
-        )
-        for value in actual
-    ]
-    expected_values = [
-        _normalize_match_text(
-            value,
-            normalize_space=normalize_space,
-            case_sensitive=case_sensitive,
-        )
-        for value in expected
-    ]
+    answer = _normalize_value(
+        answer, normalize_space=normalize_space, case_sensitive=case_sensitive
+    )
+    observation = _normalize_value(
+        observation, normalize_space=normalize_space, case_sensitive=case_sensitive
+    )
 
-    if match == "exact":
-        return actual_values == expected_values
+    match match_mode:
+        case "exact":
+            return _match_exact(observation, answer)
+        case "contains":
+            return _match_contains(observation, answer)
+        case "regex":
+            return _match_regex(observation, answer)
 
-    if match == "contains":
-        return all(value in actual_values for value in expected_values)
 
-    if match == "regex":
-        flags = 0 if case_sensitive else re.IGNORECASE
-        return all(
-            any(
-                re.search(expected_pattern, actual_value, flags=flags)
-                for actual_value in actual_values
+def _normalize_value(value: Value, *, normalize_space: bool, case_sensitive: bool) -> Value:
+    match value:
+        case str():
+            if normalize_space:
+                value = " ".join(value.split())
+
+            if not case_sensitive:
+                value = value.casefold()
+
+            return value
+
+        case float():
+            return round(value, 4)
+
+        case list():
+            return [
+                _normalize_value(
+                    item,
+                    normalize_space=normalize_space,
+                    case_sensitive=case_sensitive,
+                )
+                for item in value
+            ]
+
+        case dict():
+            return {
+                key: _normalize_value(
+                    item,
+                    normalize_space=normalize_space,
+                    case_sensitive=case_sensitive,
+                )
+                for key, item in value.items()
+            }
+
+        case _:
+            return value
+
+
+def _match_exact(observation: Observation, answer: Value) -> bool:
+    match observation, answer:
+        case bool(), bool():
+            return observation == answer
+
+        # [Warning] bool needs to be handled before numeric types (bool is a subclass of int).
+        case (bool(), _) | (_, bool()):
+            return False
+
+        case ((int() | float()), (int() | float())):
+            return observation == answer
+
+        case str(), str():
+            return observation == answer
+
+        case list(), list():
+            if len(observation) != len(answer):
+                return False
+
+            return all(
+                _match_exact(observation_item, answer_item)
+                for observation_item, answer_item in zip(
+                    observation,
+                    answer,
+                )
             )
-            for expected_pattern in expected_values
-        )
 
-    return False
+        case dict(), dict():
+            if observation.keys() != answer.keys():
+                return False
 
+            return all(_match_exact(observation[key], answer[key]) for key in answer)
 
-def _to_text(value: Observation) -> str:
-    if value is None:
-        return ""
-    return str(value)
-
-
-def _normalize_space(value: str) -> str:
-    return " ".join(value.split())
+        case _:
+            return False
 
 
-def _normalize_match_text(
-    value: str,
-    normalize_space: bool,
-    case_sensitive: bool,
-) -> str:
-    text = value
-    if normalize_space:
-        text = _normalize_space(text)
-    if not case_sensitive:
-        text = text.casefold()
-    return text
+def _match_contains(
+    observation: Observation,
+    answer: Value,
+):
+    raise Unexpected("match contains is currently not supported")
+
+
+def _match_regex(
+    observation: Observation,
+    answer: Value,
+):
+    raise Unexpected("match regex is currently not supported")
 
 
 def _build_request_payload(

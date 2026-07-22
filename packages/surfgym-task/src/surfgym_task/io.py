@@ -118,7 +118,7 @@ class SeedReader:
 
     def _adhoc_transformation(self, raw_seed: RawSeedTask) -> SeedTask:
         domain = raw_seed.domain or self.seeds_dir.parent.name
-        if domain not in get_args(Domain):
+        if domain not in get_args(Domain.__value__):
             raise ValueError(f"Unsupported domain: {domain}")
 
         if domain == "spreadsheet" or domain == "word":

@@ -1,11 +1,10 @@
-from typing import Annotated, Literal, Mapping, Optional, TypeAlias, Union
+from typing import Annotated, Literal, Mapping, Optional, Union
 
 from pydantic import (
     BaseModel,
     ConfigDict,
     Discriminator,
     Field,
-    JsonValue,
     Tag,
     TypeAdapter,
     field_validator,
@@ -61,14 +60,16 @@ class _WebsiteDependent(FrozenBaseModel):
     website_id: str = "_"
 
 
-Observation: TypeAlias = Optional[JsonValue]
+type Value = str | bool | int | float | list[Value] | dict[str, Value]
+type Observation = Optional[Value]
+type MatchMode = Literal["contains", "exact", "regex"]
 
 
 class CriteriaCore(_WebsiteDependent):
-    match: Literal["contains", "exact", "regex"] = "exact"
+    match: MatchMode = "exact"
     normalize_space: bool = False
     case_sensitive: bool = True
-    value: JsonValue
+    value: Value
 
 
 class ConsoleCriteria(CriteriaCore):
