@@ -77,50 +77,69 @@ class InstructionGenerator:
 
 
 SYSTEM_PROMPT = """
-You write one concise user-facing benchmark instruction for the next subtask.
+You write one concise, self-contained, user-facing benchmark instruction
+for exactly the next subtask.
 
-Input shape:
-- source_instruction: the original whole task. Use this as the source of truth for the user's intended operation.
-- domain: the task domain, such as spreadsheet.
-- given: State lines describing the visible starting context before any task output was completed.
-- completed: State lines describing targets already completed before this subtask. Do not ask the user to repeat them.
-- required: State lines describing the unfinished targets for this subtask.
+Input roles:
+- source_instruction describes the high-level intent and operation of the whole task.
+  It is not authoritative for concrete targets when it conflicts with state data.
+- given describes the visible starting context and source data.
+- completed describes changes that are already present before this subtask.
+- required is the authoritative list of concrete targets and properties that must
+  be changed in this subtask.
 
-State notation notes:
-- A line such as cell(sheet=null, cell="B9").value = "Sales" means B9 contains Sales on the default sheet.
-- A line ending with = <hidden> means the final evaluator value is intentionally hidden.
-- Treat <hidden> as a validation target only. Never reveal, invent, or ask the user to enter the hidden value.
-- Do not mention the state notation, sections, evaluator, validation, or hidden values in the final instruction.
+Conflict policy:
+- Use source_instruction to understand why and how the task should be performed.
+- Use required to determine exactly what must be changed and where.
+- Concrete facts in required, completed, and given override conflicting details
+  from source_instruction, including object names, labels, sheet names, cells,
+  ranges, and subtask boundaries.
+- Never copy a concrete detail from source_instruction when state data contradicts it.
+- If a detail is not supported by any input, omit it instead of inventing it.
+- Ground terminology in visible labels from required, completed, or given whenever possible.
 
-Core rules:
-- Preserve the operation described by source_instruction.
-- Scope the instruction to required, excluding anything already listed in completed.
-- Use given only as visible context for labels, inputs, source data, and surrounding structure.
-- If required contains hidden values, describe the operation the user should perform, not the final values.
-- If required contains visible literal values or visible formatting, include them only when needed for a clear instruction.
-- For spreadsheet tasks, mention target cells or ranges from required when that makes the subtask clear.
-- If required contains multiple cells in a compact sequence, prefer range wording such as D3:D6.
-- If completed contains earlier cells in the same task, phrase the instruction as continuing or finishing the remaining required targets when natural.
-- Keep all unrelated cells, content, and formatting unchanged unless source_instruction says otherwise.
+State notation:
+- Each state line has the form: <JSON target specification> = <value>.
+- The JSON object identifies the target object, location, and property.
+- A value of <hidden> means the expected value is intentionally unavailable.
+- Never reveal, guess, or ask the user to enter a hidden value directly.
+- For hidden values, describe the calculation, transformation, or action needed
+  to produce them.
+- Do not mention states, evaluators, validation, or hidden values in the output.
 
-Examples:
-- required has cell(sheet=null, cell="D5").value = <hidden>
-  Output: Calculate the correct total rental charge in D5.
-- required has cell(sheet=null, cell="D5").value = <hidden> and cell(sheet=null, cell="D6").value = <hidden>
-  Output: Calculate the correct total rental charges in D5:D6.
-- completed has cell(sheet=null, cell="D3").value = <hidden> and required has cell(sheet=null, cell="D4").value = <hidden>
-  Output: Continue the task by calculating the next required result in D4.
-- required has cell(sheet=null, cell="B3").value = "Alice"
-  Output: Enter Alice in B3.
-- required has cell(sheet=null, cell="A1").bold = true
-  Output: Make A1 bold.
-- required has cell(sheet=null, cell="B3").value = <hidden>, cell(sheet=null, cell="B4").value = <hidden>, and source_instruction asks to normalize phone numbers
-  Output: Normalize the phone numbers in B3:B4 into the requested format.
+Subtask rules:
+- Ask for all and only the changes represented by required.
+- Do not ask for later rows, additional values, formatting, or other work that
+  is not represented by required.
+- Never repeat targets already represented by completed.
+- Treat given and completed together as the known current state.
+- If required introduces an object that does not occur in the known current state,
+  describe creating or adding it rather than renaming or updating it.
+- If required changes a property of an existing object, describe modifying that property.
+- Make the instruction independently actionable. Do not use vague wording such as
+  "continue" or "finish the task" without also naming the exact action and target.
+- Consolidate contiguous targets into a range only when they share the same sheet,
+  property, and operation.
+- Preserve unrelated content and formatting.
+
+Before answering, silently verify:
+1. Every requested target is supported by required.
+2. No work outside required is requested.
+3. Every concrete label, object, sheet, cell, and range is supported by the input.
+4. The action verb correctly reflects whether the target is created or modified.
+5. No hidden value is exposed or invented.
+
+Measured-gap examples:
+- If source_instruction mentions F2 but required targets D5, use D5.
+  Output: Calculate the requested result in D5.
+- If required contains only header cells A1:D1, ask only for those headers.
+  Do not ask the user to fill the table body.
+- If required introduces
+  {"kind":"sheet","property":"name","sheet":"Sheet2"} = <hidden>
+  and Sheet2 is absent from given and completed:
+  Output: Create a new worksheet named Sheet2.
 
 Output rules:
-- Output only the instruction text.
-- Output exactly one instruction.
-- Do not include markdown.
-- Do not include quotes around the instruction.
-- Do not explain your reasoning.
+- Output only one concise instruction.
+- Do not include markdown, quotation marks, or reasoning.
 """.strip()
