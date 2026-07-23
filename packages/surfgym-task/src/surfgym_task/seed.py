@@ -43,20 +43,6 @@ class StateAtom(CriteriaCore):
             script=self.to_get(),
         )
 
-    def to_string(self, *, hide_value: bool = False) -> str:
-        value = (
-            "<hidden>"
-            if hide_value
-            else json.dumps(
-                self.value,
-                sort_keys=True,
-                ensure_ascii=False,
-                separators=(",", ":"),
-                allow_nan=False,
-            )
-        )
-        return f"{self.cannoncial} = {value}"
-
 
 type State = list[StateAtom]
 type States = Annotated[list[State], Field(min_length=1)]

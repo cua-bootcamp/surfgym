@@ -1,5 +1,5 @@
 {
-  "instruction": "Calculate the annual change rates compared with the previous year for the Cash Reserve, Equipment Value, and Other Investment columns. Enter the results as decimal rates, for example 0.10 for a 10% increase. Put the summary table in cells F2:I6.",
+  "instruction": "Create an annual-change summary table in \"Sheet2\" for the years 2015 through 2019. Calculate the year-over-year change rates for the \"Cash & Equivalents\", \"Inventory\", and \"Property & Equipment\" columns in \"Sheet1\". Use the headers \"Year\", \"Cash changes\", \"Inventory changes\", and \"PPE changes\", respectively.",
   "states": [
     [
       {

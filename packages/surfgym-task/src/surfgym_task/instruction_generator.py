@@ -5,6 +5,8 @@ from typing import Any, TypedDict
 
 from dotenv import load_dotenv
 from openai import OpenAI
+from pydantic import JsonValue
+from surfgym_contracts.task import Value
 
 from surfgym_task.hoare import HoareState
 from surfgym_task.seed import SeedTask
@@ -16,12 +18,21 @@ load_dotenv(Path(__file__).resolve().parents[4] / ".env")
 load_dotenv(Path(__file__).resolve().parent / ".env")
 
 
+class CurrentStatePayload(TypedDict):
+    target: dict[str, JsonValue]
+    current_value: Value
+
+
+class RequiredStatePayload(TypedDict):
+    target: dict[str, JsonValue]
+    expected_value: Value
+
+
 class InstructionPayload(TypedDict):
     source_instruction: str
     domain: str
-    given: list[str]
-    completed: list[str]
-    required: list[str]
+    current: list[CurrentStatePayload]
+    required: list[RequiredStatePayload]
 
 
 class InstructionGenerator:
@@ -53,93 +64,108 @@ class InstructionGenerator:
         if not instruction:
             raise RuntimeError("Instruction generator returned an empty instruction.")
 
-        print(f"instruction generated: {instruction}")
+        print(
+            f"""### {instruction}
+
+```json
+{payload}
+```
+
+<br>
+
+"""
+        )
         return instruction
 
     def _build_instruction_payload(
-        self, seed_task: SeedTask, hoare_state: HoareState
+        self,
+        seed_task: SeedTask,
+        hoare_state: HoareState,
     ) -> InstructionPayload:
-        given_state = seed_task.states[0]
-        completed_states = seed_task.states[1 : hoare_state.origin_start_idx + 1]
-        required_states = seed_task.states[
-            hoare_state.origin_start_idx + 1 : hoare_state.origin_end_idx + 1
+        current: list[CurrentStatePayload] = [
+            {
+                "target": atom.spec,
+                "current_value": atom.value,
+            }
+            for atom in hoare_state.start_state
+        ]
+        required: list[RequiredStatePayload] = [
+            {
+                "target": atom.spec,
+                "expected_value": atom.value,
+            }
+            for atom in hoare_state.diff
         ]
 
         return {
             "source_instruction": seed_task.instruction,
             "domain": seed_task.domain,
-            "given": [atom.to_string() for atom in given_state],
-            "completed": [atom.to_string() for state in completed_states for atom in state],
-            "required": [
-                atom.to_string(hide_value=True) for state in required_states for atom in state
-            ],
+            "current": current,
+            "required": required,
         }
 
 
 SYSTEM_PROMPT = """
-You write one concise, self-contained, user-facing benchmark instruction
-for exactly the next subtask.
+You convert a whole-task description and a state transition into one concise, self-contained, user-facing subtask instruction.
 
-Input roles:
-- source_instruction describes the high-level intent and operation of the whole task.
-  It is not authoritative for concrete targets when it conflicts with state data.
-- given describes the visible starting context and source data.
-- completed describes changes that are already present before this subtask.
-- required is the authoritative list of concrete targets and properties that must
-  be changed in this subtask.
+Follow these two stages in order.
 
-Conflict policy:
-- Use source_instruction to understand why and how the task should be performed.
-- Use required to determine exactly what must be changed and where.
-- Concrete facts in required, completed, and given override conflicting details
-  from source_instruction, including object names, labels, sheet names, cells,
-  ranges, and subtask boundaries.
-- Never copy a concrete detail from source_instruction when state data contradicts it.
-- If a detail is not supported by any input, omit it instead of inventing it.
-- Ground terminology in visible labels from required, completed, or given whenever possible.
+Stage 1 — Determine scope:
 
-State notation:
-- Each state line has the form: <JSON target specification> = <value>.
-- The JSON object identifies the target object, location, and property.
-- A value of <hidden> means the expected value is intentionally unavailable.
-- Never reveal, guess, or ask the user to enter a hidden value directly.
-- For hidden values, describe the calculation, transformation, or action needed
-  to produce them.
-- Do not mention states, evaluators, validation, or hidden values in the output.
+- Build the complete allowed change set from required targets only.
+  expected_value does not expand this set.
+- Ask for every required target and no other target. source_instruction and
+  current must never add targets, contents, ranges, or future work.
+- Use required target metadata for exact identities, locations, properties, and
+  extent. Mentioning, populating, formatting, or modifying an object counts as
+  requesting a change to it.
+- A subtask may intentionally stop at an incomplete intermediate state. Do not
+  complete more of the whole task to make the instruction more useful.
 
-Subtask rules:
-- Ask for all and only the changes represented by required.
-- Do not ask for later rows, additional values, formatting, or other work that
-  is not represented by required.
-- Never repeat targets already represented by completed.
-- Treat given and completed together as the known current state.
-- If required introduces an object that does not occur in the known current state,
-  describe creating or adding it rather than renaming or updating it.
-- If required changes a property of an existing object, describe modifying that property.
-- Make the instruction independently actionable. Do not use vague wording such as
-  "continue" or "finish the task" without also naming the exact action and target.
-- Consolidate contiguous targets into a range only when they share the same sheet,
-  property, and operation.
-- Preserve unrelated content and formatting.
+Stage 2 — Determine content for each allowed target:
 
-Before answering, silently verify:
-1. Every requested target is supported by required.
-2. No work outside required is requested.
-3. Every concrete label, object, sheet, cell, and range is supported by the input.
-4. The action verb correctly reflects whether the target is created or modified.
-5. No hidden value is exposed or invented.
+- expected_value may be stated only when source_instruction explicitly supplies
+  that same content or unambiguously supplies it as part of a literal list,
+  sequence, range, or setting that maps to the target.
+- Presence in required or current alone never authorizes expected_value to be
+  stated as the content the user should produce or apply.
+- If source_instruction describes an operation that produces expected_value,
+  state the operation and its supported inputs without stating expected_value.
+  Use an explicit verb such as calculate, derive, compare, look up, convert,
+  generate, or transform.
+- Do not replace a producing operation with instructions to enter, fill,
+  populate, set, or use its result. Do not call the result given, provided,
+  listed, specified, required, expected, corresponding, or shown.
+- If neither supplied content nor a producing operation maps unambiguously to a
+  required target, omit the unsupported detail instead of guessing.
 
-Measured-gap examples:
-- If source_instruction mentions F2 but required targets D5, use D5.
-  Output: Calculate the requested result in D5.
-- If required contains only header cells A1:D1, ask only for those headers.
-  Do not ask the user to fill the table body.
-- If required introduces
-  {"kind":"sheet","property":"name","sheet":"Sheet2"} = <hidden>
-  and Sheet2 is absent from given and completed:
-  Output: Create a new worksheet named Sheet2.
+Use source_instruction only to determine applicable supplied content, purpose,
+operations, and relationships inside the Stage 1 boundary. Use current for
+exact facts, existing names, and operation inputs; current is read-only unless
+the same target is also in required. Do not combine conflicting alternatives or
+replace exact supported names with guesses.
 
-Output rules:
-- Output only one concise instruction.
-- Do not include markdown, quotation marks, or reasoning.
+Object transitions:
+
+- If required contains only a new object, ask only to create it.
+- If required contains a new object and its contents, explicitly create it and
+  add only the required contents.
+- If a required object identity is absent from current, request creation
+  unconditionally. Do not use “ensure,” “rename,” “create or rename,” or
+  conditions such as “if needed.”
+- Request a rename only when required changes the identity of an object already
+  present in current.
+- Group targets only when they share the same operation and property. Preserve
+  unrelated content and settings.
+
+Before answering, verify:
+
+1. Every required target is covered, and every requested change is in required.
+2. Every stated expected_value passes the source_instruction disclosure rule.
+3. Every unstated produced result has an explicit operation and supported
+   inputs.
+4. No future work is requested, and every new required object is explicitly
+   created.
+
+Output only one concise instruction. Do not include markdown, labels, quotation marks, input-field names, or reasoning.
 """.strip()

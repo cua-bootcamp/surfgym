@@ -36,6 +36,15 @@ class HoareState(FrozenBaseModel):
     def hash(self) -> str:
         return hashlib.sha256(self.cannoncial.encode("utf-8")).hexdigest()
 
+    @cached_property
+    def diff(self) -> State:
+        start_by_target = {atom.cannoncial: atom for atom in self.start_state}
+        return [
+            end_atom
+            for end_atom in self.end_state
+            if start_by_target.get(end_atom.cannoncial) != end_atom
+        ]
+
 
 class HoareStateGenerator:
     def __init__(self, granularity: Granularity):
