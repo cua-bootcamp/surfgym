@@ -139,6 +139,29 @@ function resolveCell(address: string) {
   };
 }
 
+function resolveCellRange(address: string): RangeLike {
+  const parts = address.trim().split(":");
+  if (parts.length < 1 || parts.length > 2) {
+    throw new Error(`Invalid cell range address: ${address}`);
+  }
+
+  const startAddress = parts[0];
+  const endAddress = parts[1] ?? startAddress;
+  if (!startAddress || !endAddress) {
+    throw new Error(`Invalid cell range address: ${address}`);
+  }
+
+  const start = resolveCell(startAddress);
+  const end = resolveCell(endAddress);
+
+  return {
+    startRow: Math.min(start.row, end.row),
+    endRow: Math.max(start.row, end.row),
+    startColumn: Math.min(start.column, end.column),
+    endColumn: Math.max(start.column, end.column)
+  };
+}
+
 function columnIndexToName(columnIndex: number) {
   let columnNumber = columnIndex + 1;
   let columnName = "";
@@ -685,6 +708,41 @@ export function _getCellMeta(sheetRef: SheetRef | undefined, cellRefStr: string)
   return { ...data, s: style };
 }
 
+export function _getCellMetaValue(
+  sheetRef: SheetRef | undefined,
+  cellRefStr: string,
+  path: Path[]
+) {
+  const worksheet = resolveSheet(sheetRef);
+  const cellRange = resolveCellRange(cellRefStr);
+  const values: unknown[][] = [];
+
+  for (let row = cellRange.startRow; row <= cellRange.endRow; row += 1) {
+    const rowValues: unknown[] = [];
+
+    for (
+      let column = cellRange.startColumn;
+      column <= cellRange.endColumn;
+      column += 1
+    ) {
+      const range = worksheet.getRange(row, column);
+      const data = worksheet.getSheet().getCellRaw(row, column) ?? {};
+      const style = range.getCellStyleData("cell") ?? {};
+
+      rowValues.push(readPath({ ...data, s: style }, path));
+    }
+
+    values.push(rowValues);
+  }
+
+  const firstValue = values[0]?.[0];
+  const hasUniformValue = values.every((row) =>
+    row.every((value) => Object.is(value, firstValue))
+  );
+
+  return hasUniformValue ? firstValue : values;
+}
+
 export function _setCellMeta(
   sheetRef: SheetRef | undefined,
   cellRefStr: string,
@@ -692,28 +750,66 @@ export function _setCellMeta(
   value: Value
 ) {
   const worksheet = resolveSheet(sheetRef);
-  const cellRef = resolveCell(cellRefStr);
-  const range = worksheet.getRange(cellRef.row, cellRef.column);
+  const cellRange = resolveCellRange(cellRefStr);
 
-  const data = range.getCellData() ?? {};
-  let target = data as Record<PropertyKey, unknown>;
+  for (let row = cellRange.startRow; row <= cellRange.endRow; row += 1) {
+    for (
+      let column = cellRange.startColumn;
+      column <= cellRange.endColumn;
+      column += 1
+    ) {
+      const range = worksheet.getRange(row, column);
+      const data = range.getCellData() ?? {};
+      let target = data as Record<PropertyKey, unknown>;
 
-  for (const key of path.slice(0, -1)) {
-    if (target[key] == null || typeof target[key] !== "object") target[key] = {};
-    target = target[key] as Record<PropertyKey, unknown>;
+      for (const key of path.slice(0, -1)) {
+        if (target[key] == null || typeof target[key] !== "object") target[key] = {};
+        target = target[key] as Record<PropertyKey, unknown>;
+      }
+
+      const last = path[path.length - 1] as Path;
+      target[last] = value;
+      range.setValueForCell(data);
+    }
   }
 
-  const last = path[path.length - 1] as Path;
-  target[last] = value;
-  range.setValueForCell(data);
+  activateSheetAfterExplicitSet(sheetRef, worksheet);
+}
+
+export function _setCellNumberFormat(
+  sheetRef: SheetRef | undefined,
+  cellRefStr: string,
+  value: Value
+) {
+  if (typeof value !== "string") throw new Error("numberFormat must be a string.");
+
+  const worksheet = resolveSheet(sheetRef);
+  const cellRange = resolveCellRange(cellRefStr);
+
+  for (let row = cellRange.startRow; row <= cellRange.endRow; row += 1) {
+    for (
+      let column = cellRange.startColumn;
+      column <= cellRange.endColumn;
+      column += 1
+    ) {
+      worksheet.getRange(row, column).setNumberFormat(value);
+    }
+  }
+
   activateSheetAfterExplicitSet(sheetRef, worksheet);
 }
 
 export function _getRowHidden(sheetRef: SheetRef | undefined, cellRefStr: string) {
   const worksheet = resolveSheet(sheetRef);
-  const { row } = resolveCell(cellRefStr);
+  const cellRange = resolveCellRange(cellRefStr);
+  const values: boolean[] = [];
 
-  return !worksheet.getSheet().getRowRawVisible(row);
+  for (let row = cellRange.startRow; row <= cellRange.endRow; row += 1) {
+    values.push(!worksheet.getSheet().getRowRawVisible(row));
+  }
+
+  const firstValue = values[0];
+  return values.every((value) => value === firstValue) ? firstValue : values;
 }
 
 export function _setRowHidden(
@@ -724,9 +820,11 @@ export function _setRowHidden(
   if (typeof value !== "boolean") throw new Error("rowHidden must be a boolean.");
 
   const worksheet = resolveSheet(sheetRef);
-  const { row } = resolveCell(cellRefStr);
-  if (value) worksheet.hideRows(row, 1);
-  else worksheet.showRows(row, 1);
+  const cellRange = resolveCellRange(cellRefStr);
+  const rowCount = cellRange.endRow - cellRange.startRow + 1;
+
+  if (value) worksheet.hideRows(cellRange.startRow, rowCount);
+  else worksheet.showRows(cellRange.startRow, rowCount);
   activateSheetAfterExplicitSet(sheetRef, worksheet);
 }
 

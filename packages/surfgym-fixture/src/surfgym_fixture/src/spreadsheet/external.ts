@@ -1,11 +1,12 @@
 import type { Path, Value } from "../external";
 import {
-  _getCellMeta,
+  _getCellMetaValue,
   _getChartMeta,
   _getRowHidden,
   _getSheetName,
   _getSheetNames,
   _setCellMeta,
+  _setCellNumberFormat,
   _setChartMeta,
   _setRowHidden,
   _setSheetName,
@@ -79,7 +80,11 @@ export function get(spec: SpreadsheetSpec): unknown {
   switch (spec.kind) {
     case "cell":
       if (spec.property === "rowHidden") return _getRowHidden(sheetRef(spec.sheet), spec.cell);
-      return readPath(_getCellMeta(sheetRef(spec.sheet), spec.cell), getCellPath(spec.property));
+      return _getCellMetaValue(
+        sheetRef(spec.sheet),
+        spec.cell,
+        getCellPath(spec.property)
+      );
     case "sheet":
       assertSheetProperty(spec.property);
       return _getSheetName(sheetRef(spec.sheet));
@@ -98,6 +103,9 @@ export function set(spec: SpreadsheetSpec, value: Value) {
   switch (spec.kind) {
     case "cell":
       if (spec.property === "rowHidden") return _setRowHidden(sheetRef(spec.sheet), spec.cell, value);
+      if (spec.property === "numberFormat") {
+        return _setCellNumberFormat(sheetRef(spec.sheet), spec.cell, value);
+      }
       return _setCellMeta(sheetRef(spec.sheet), spec.cell, getCellPath(spec.property), value);
     case "sheet":
       assertSheetProperty(spec.property);
@@ -140,15 +148,4 @@ function getCellPath(property: keyof typeof CELL_PATHS): Path[] {
   const path = CELL_PATHS[property];
   if (!path) throw new Error(`Unsupported cell property: ${property}`);
   return path;
-}
-
-function readPath(value: unknown, path: Path[]): unknown {
-  let current = value;
-
-  for (const key of path) {
-    if (current === null || typeof current !== "object") return undefined;
-    current = (current as Record<PropertyKey, unknown>)[key];
-  }
-
-  return current;
 }

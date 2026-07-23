@@ -6,6 +6,15 @@
         "spec": {
           "kind": "cell",
           "sheet": "Sheet1",
+          "cell": "B2:I7",
+          "property": "numberFormat"
+        },
+        "value": "$#,##0.00"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
           "cell": "A1",
           "property": "value"
         },

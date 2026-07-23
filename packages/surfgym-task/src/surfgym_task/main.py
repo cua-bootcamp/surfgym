@@ -29,6 +29,16 @@ def augment(target_dir: Path, granularity: Granularity):
             summary.seed_count += 1
 
             for hoare_state in hoare_state_generator.generate(seed):
+                is_full_task = (
+                    hoare_state.origin_start_idx == 0
+                    and hoare_state.origin_end_idx == len(seed.states) - 1
+                )
+                instruction = (
+                    seed.instruction
+                    if is_full_task
+                    else instruction_loader.get(hoare_state.hash, seed, hoare_state)
+                )
+
                 observe_hooks = [
                     Hook(script=atom.to_set(), timing="before") for atom in hoare_state.end_state
                 ]
@@ -42,7 +52,7 @@ def augment(target_dir: Path, granularity: Granularity):
 
                 task = Task(
                     task_id=f"{seed_name}_{hoare_state.origin_start_idx}_{hoare_state.origin_end_idx}",
-                    instruction=instruction_loader.get(hoare_state.hash, seed, hoare_state),
+                    instruction=instruction,
                     website=[Website(url=seed.website)],
                     complexity=hoare_state.complexity,
                     evaluation=CriteriaEvaluation(
