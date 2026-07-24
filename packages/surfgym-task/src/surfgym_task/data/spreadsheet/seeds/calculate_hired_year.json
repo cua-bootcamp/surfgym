@@ -1,0 +1,1056 @@
+{
+  "instruction": "Calculate each employee's completed \"Years of Service\" based on their hire date. Do not touch irrelevant regions including blank cells.",
+  "states": [
+    [
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B1",
+          "property": "value"
+        },
+        "value": "Employee"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C1",
+          "property": "value"
+        },
+        "value": "Hire Date"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D1",
+          "property": "value"
+        },
+        "value": "Years of Service"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B2",
+          "property": "value"
+        },
+        "value": "Ethan Parker"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C2",
+          "property": "value"
+        },
+        "value": 43171.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C2",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B3",
+          "property": "value"
+        },
+        "value": "Olivia Bennett"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C3",
+          "property": "value"
+        },
+        "value": 44140.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C3",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B4",
+          "property": "value"
+        },
+        "value": "Noah Collins"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C4",
+          "property": "value"
+        },
+        "value": 42568.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C4",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B5",
+          "property": "value"
+        },
+        "value": "Emma Turner"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C5",
+          "property": "value"
+        },
+        "value": 44617.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C5",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B6",
+          "property": "value"
+        },
+        "value": "Liam Foster"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C6",
+          "property": "value"
+        },
+        "value": 41891.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C6",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B7",
+          "property": "value"
+        },
+        "value": "Ava Mitchell"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C7",
+          "property": "value"
+        },
+        "value": 43600.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C7",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B8",
+          "property": "value"
+        },
+        "value": "Mason Reed"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C8",
+          "property": "value"
+        },
+        "value": 42763.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C8",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B9",
+          "property": "value"
+        },
+        "value": "Sophia Carter"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C9",
+          "property": "value"
+        },
+        "value": 44356.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C9",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B10",
+          "property": "value"
+        },
+        "value": "Lucas Morgan"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C10",
+          "property": "value"
+        },
+        "value": 42348.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C10",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B11",
+          "property": "value"
+        },
+        "value": "Isabella Hayes"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C11",
+          "property": "value"
+        },
+        "value": 45167.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C11",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B12",
+          "property": "value"
+        },
+        "value": "James Brooks"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C12",
+          "property": "value"
+        },
+        "value": 41204.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C12",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B13",
+          "property": "value"
+        },
+        "value": "Mia Cooper"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C13",
+          "property": "value"
+        },
+        "value": 44009.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C13",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B14",
+          "property": "value"
+        },
+        "value": "Benjamin Ward"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C14",
+          "property": "value"
+        },
+        "value": 43374.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C14",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B15",
+          "property": "value"
+        },
+        "value": "Charlotte Kelly"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C15",
+          "property": "value"
+        },
+        "value": 41358.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C15",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B16",
+          "property": "value"
+        },
+        "value": "Henry Rivera"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C16",
+          "property": "value"
+        },
+        "value": 45630.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C16",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B17",
+          "property": "value"
+        },
+        "value": "Amelia Price"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C17",
+          "property": "value"
+        },
+        "value": 42617.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C17",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B18",
+          "property": "value"
+        },
+        "value": "Alexander Gray"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C18",
+          "property": "value"
+        },
+        "value": 40651.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C18",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B19",
+          "property": "value"
+        },
+        "value": "Harper Hughes"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C19",
+          "property": "value"
+        },
+        "value": 43668.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C19",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B20",
+          "property": "value"
+        },
+        "value": "Daniel Ross"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C20",
+          "property": "value"
+        },
+        "value": 44788.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C20",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B21",
+          "property": "value"
+        },
+        "value": "Evelyn Sanders"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C21",
+          "property": "value"
+        },
+        "value": 43047.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C21",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B22",
+          "property": "value"
+        },
+        "value": "Michael Perry"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C22",
+          "property": "value"
+        },
+        "value": 41967.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C22",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B23",
+          "property": "value"
+        },
+        "value": "Abigail Long"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C23",
+          "property": "value"
+        },
+        "value": 44345.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C23",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B24",
+          "property": "value"
+        },
+        "value": "Samuel Powell"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C24",
+          "property": "value"
+        },
+        "value": 42171.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C24",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B25",
+          "property": "value"
+        },
+        "value": "Emily Patterson"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C25",
+          "property": "value"
+        },
+        "value": 45082.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C25",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B26",
+          "property": "value"
+        },
+        "value": "Jacob Coleman"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C26",
+          "property": "value"
+        },
+        "value": 40207.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C26",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B27",
+          "property": "value"
+        },
+        "value": "Ella Jenkins"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C27",
+          "property": "value"
+        },
+        "value": 43131.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C27",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B28",
+          "property": "value"
+        },
+        "value": "William Bryant"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C28",
+          "property": "value"
+        },
+        "value": 44097.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C28",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B29",
+          "property": "value"
+        },
+        "value": "Grace Russell"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C29",
+          "property": "value"
+        },
+        "value": 41241.0
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C29",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yyyy"
+      }
+    ],
+    [
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D2",
+          "property": "value"
+        },
+        "value": 8
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D3",
+          "property": "value"
+        },
+        "value": 5
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D4",
+          "property": "value"
+        },
+        "value": 10
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D5",
+          "property": "value"
+        },
+        "value": 4
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D6",
+          "property": "value"
+        },
+        "value": 11
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D7",
+          "property": "value"
+        },
+        "value": 7
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D8",
+          "property": "value"
+        },
+        "value": 9
+      },
+
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D9",
+          "property": "value"
+        },
+        "value": 5
+      },
+
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D10",
+          "property": "value"
+        },
+        "value": 10
+      },
+
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D11",
+          "property": "value"
+        },
+        "value": 2
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D12",
+          "property": "value"
+        },
+        "value": 13
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D13",
+          "property": "value"
+        },
+        "value": 6
+      },
+
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D14",
+          "property": "value"
+        },
+        "value": 7
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D15",
+          "property": "value"
+        },
+        "value": 13
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D16",
+          "property": "value"
+        },
+        "value": 1
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D17",
+          "property": "value"
+        },
+        "value": 9
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D18",
+          "property": "value"
+        },
+        "value": 15
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D19",
+          "property": "value"
+        },
+        "value": 7
+      },
+
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D20",
+          "property": "value"
+        },
+        "value": 3
+      },
+
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D21",
+          "property": "value"
+        },
+        "value": 8
+      },
+
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D22",
+          "property": "value"
+        },
+        "value": 11
+      },
+
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D23",
+          "property": "value"
+        },
+        "value": 5
+      },
+
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D24",
+          "property": "value"
+        },
+        "value": 11
+      },
+
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D25",
+          "property": "value"
+        },
+        "value": 3
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D26",
+          "property": "value"
+        },
+        "value": 16
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D27",
+          "property": "value"
+        },
+        "value": 8
+      },
+
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D28",
+          "property": "value"
+        },
+        "value": 5
+      },
+
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D29",
+          "property": "value"
+        },
+        "value": 13
+      }
+    ]
+  ]
+}
