@@ -64,17 +64,7 @@ class InstructionGenerator:
         if not instruction:
             raise RuntimeError("Instruction generator returned an empty instruction.")
 
-            #         print(
-            #             f"""### {instruction}
-
-            # ```json
-            # {payload}
-            # ```
-
-            # <br>
-
-            # """
-            #         )
+        print(f"Instruction Generated - {instruction}")
         return instruction
 
     def _build_instruction_payload(
