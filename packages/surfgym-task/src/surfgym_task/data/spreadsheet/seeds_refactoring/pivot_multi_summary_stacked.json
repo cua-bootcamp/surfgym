@@ -1,32 +1,226 @@
 {
-  "instruction": "Create two pivot tables from the current sheet's channel and product sales table, and place both on Sheet2. Put a Channel revenue pivot at A1 and a Product units pivot at A7, with labels sorted alphabetically in each pivot.",
+  "instruction": "Create two PivotTables from the current Channel, Product, and Revenue table, and place both on Sheet2. Put a Channel Revenue Pivot at A1 with Channel as the row field and Revenue as a summed value. Put a Product Revenue Pivot at A6 with Product as the row field and Revenue as a summed value. Sort the row labels alphabetically in both PivotTables.",
   "empty_start": false,
   "states": [
     [
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A1","property":["cell","v"],"value":"Channel"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B1","property":["cell","v"],"value":"Product"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"D1","property":["cell","v"],"value":"Units"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"E1","property":["cell","v"],"value":"Revenue"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A2","property":["cell","v"],"value":"Online"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B2","property":["cell","v"],"value":"Alpha Kite"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"D2","property":["cell","v"],"value":8},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"E2","property":["cell","v"],"value":1600},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A3","property":["cell","v"],"value":"Retail"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B3","property":["cell","v"],"value":"Mini Drone"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"D3","property":["cell","v"],"value":5},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"E3","property":["cell","v"],"value":2100}
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
+        "match": "exact",
+        "value": "Channel"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "match": "exact",
+        "value": "Product"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
+        "match": "exact",
+        "value": "Revenue"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "match": "exact",
+        "value": "Online"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "match": "exact",
+        "value": "Alpha Kite"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
+        "match": "exact",
+        "value": 1600
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "match": "exact",
+        "value": "Retail"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "match": "exact",
+        "value": "Mini Drone"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
+        "match": "exact",
+        "value": 2100
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "match": "exact",
+        "value": "Online"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "match": "exact",
+        "value": "Mini Drone"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
+        "match": "exact",
+        "value": 900
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A5",
+        "property": "value",
+        "match": "exact",
+        "value": "Retail"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B5",
+        "property": "value",
+        "match": "exact",
+        "value": "Alpha Kite"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C5",
+        "property": "value",
+        "match": "exact",
+        "value": 700
+      }
     ],
     [
-      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"channel-revenue-pivot"},"property":["sourceRange"],"value":"A1:E3"},
-      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"channel-revenue-pivot"},"property":["destinationSheetName"],"value":"Sheet2"},
-      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"channel-revenue-pivot"},"property":["destinationAddress"],"value":"A1"},
-      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"channel-revenue-pivot"},"property":["rowFieldsCsv"],"value":"Channel"}
-    ],
-    [
-      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"product-units-pivot"},"property":["destinationSheetName"],"value":"Sheet2"},
-      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"product-units-pivot"},"property":["destinationAddress"],"value":"A7"},
-      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"product-units-pivot"},"property":["rowFieldsCsv"],"value":"Product"},
-      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"product-units-pivot"},"property":["valueFieldsCsv"],"value":"Units:sum"}
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A1",
+        "property": "value",
+        "match": "exact",
+        "value": "Channel"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B1",
+        "property": "value",
+        "match": "exact",
+        "value": "Sum of Revenue"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A2",
+        "property": "value",
+        "match": "exact",
+        "value": "Online"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B2",
+        "property": "value",
+        "match": "exact",
+        "value": 2500
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A3",
+        "property": "value",
+        "match": "exact",
+        "value": "Retail"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B3",
+        "property": "value",
+        "match": "exact",
+        "value": 2800
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A6",
+        "property": "value",
+        "match": "exact",
+        "value": "Product"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B6",
+        "property": "value",
+        "match": "exact",
+        "value": "Sum of Revenue"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A7",
+        "property": "value",
+        "match": "exact",
+        "value": "Alpha Kite"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B7",
+        "property": "value",
+        "match": "exact",
+        "value": 2300
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A8",
+        "property": "value",
+        "match": "exact",
+        "value": "Mini Drone"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B8",
+        "property": "value",
+        "match": "exact",
+        "value": 3000
+      }
     ]
   ]
 }

@@ -4,1205 +4,1055 @@
   "states": [
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
         "value": "Date"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
         "value": "Product Name"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
         "value": "Amount ($)"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
         "value": "12-19-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
         "value": "Wireless Mouse"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
         "value": "25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
         "value": "12-20-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
         "value": "Mechanical Keyboard"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
         "value": "89"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A4"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
         "value": "12-21-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B4"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
         "value": "Monitor Stand"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C4"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
         "value": "32"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A5"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A5",
+        "property": "value",
         "value": "12-22-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B5"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B5",
+        "property": "value",
         "value": "USB-C Cable"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C5"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C5",
+        "property": "value",
         "value": "12"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A6"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A6",
+        "property": "value",
         "value": "12-23-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B6"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B6",
+        "property": "value",
         "value": "Office Headset"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C6"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C6",
+        "property": "value",
         "value": "55"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A7"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A7",
+        "property": "value",
         "value": "12-24-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B7"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B7",
+        "property": "value",
         "value": "Desk Pad"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C7"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C7",
+        "property": "value",
         "value": "15"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A8"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A8",
+        "property": "value",
         "value": "12-25-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B8"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B8",
+        "property": "value",
         "value": "Bluetooth Speaker"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C8"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C8",
+        "property": "value",
         "value": "72"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A9"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A9",
+        "property": "value",
         "value": "12-26-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B9"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B9",
+        "property": "value",
         "value": "Webcam"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C9"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C9",
+        "property": "value",
         "value": "48"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A10"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A10",
+        "property": "value",
         "value": "12-27-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B10"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B10",
+        "property": "value",
         "value": "Laptop Sleeve"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C10"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C10",
+        "property": "value",
         "value": "29"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A11"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A11",
+        "property": "value",
         "value": "12-28-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B11"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B11",
+        "property": "value",
         "value": "Power Bank"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C11"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C11",
+        "property": "value",
         "value": "45"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A12"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A12",
+        "property": "value",
         "value": "12-29-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B12"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B12",
+        "property": "value",
         "value": "USB Hub"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C12"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C12",
+        "property": "value",
         "value": "35"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A13"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A13",
+        "property": "value",
         "value": "12-30-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B13"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B13",
+        "property": "value",
         "value": "Desk Mat"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C13"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C13",
+        "property": "value",
         "value": "22"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A14"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A14",
+        "property": "value",
         "value": "12-31-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B14"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B14",
+        "property": "value",
         "value": "Wireless Charger"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C14"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C14",
+        "property": "value",
         "value": "38"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A15"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A15",
+        "property": "value",
         "value": "01-01-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B15"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B15",
+        "property": "value",
         "value": "Gaming Mouse"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C15"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C15",
+        "property": "value",
         "value": "65"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A16"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A16",
+        "property": "value",
         "value": "01-02-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B16"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B16",
+        "property": "value",
         "value": "Mechanical Keyboard"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C16"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C16",
+        "property": "value",
         "value": "95"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A17"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A17",
+        "property": "value",
         "value": "01-03-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B17"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B17",
+        "property": "value",
         "value": "Monitor Stand"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C17"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C17",
+        "property": "value",
         "value": "32"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A18"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A18",
+        "property": "value",
         "value": "01-04-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B18"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B18",
+        "property": "value",
         "value": "USB-C Cable"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C18"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C18",
+        "property": "value",
         "value": "12"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A19"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A19",
+        "property": "value",
         "value": "01-05-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B19"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B19",
+        "property": "value",
         "value": "Office Headset"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C19"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C19",
+        "property": "value",
         "value": "55"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A20"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A20",
+        "property": "value",
         "value": "01-06-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B20"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B20",
+        "property": "value",
         "value": "Desk Pad"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C20"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C20",
+        "property": "value",
         "value": "15"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A21"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A21",
+        "property": "value",
         "value": "01-07-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B21"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B21",
+        "property": "value",
         "value": "Bluetooth Speaker"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C21"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C21",
+        "property": "value",
         "value": "72"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A22"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A22",
+        "property": "value",
         "value": "01-08-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B22"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B22",
+        "property": "value",
         "value": "Webcam"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C22"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C22",
+        "property": "value",
         "value": "48"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A23"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A23",
+        "property": "value",
         "value": "01-09-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B23"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B23",
+        "property": "value",
         "value": "Laptop Sleeve"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C23"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C23",
+        "property": "value",
         "value": "29"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A24"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A24",
+        "property": "value",
         "value": "01-10-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B24"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B24",
+        "property": "value",
         "value": "Power Bank"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C24"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C24",
+        "property": "value",
         "value": "45"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A25"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A25",
+        "property": "value",
         "value": "01-11-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B25"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B25",
+        "property": "value",
         "value": "USB Hub"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C25"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C25",
+        "property": "value",
         "value": "35"
       }
     ],
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
         "value": "Date"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
         "value": "Product Name"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
         "value": "Amount ($)"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
         "value": "12-22-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
         "value": "USB-C Cable"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
         "value": "12"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
         "value": "01-04-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
         "value": "USB-C Cable"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
         "value": "12"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A4"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
         "value": "12-24-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B4"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
         "value": "Desk Pad"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C4"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
         "value": "15"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A5"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A5",
+        "property": "value",
         "value": "01-06-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B5"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B5",
+        "property": "value",
         "value": "Desk Pad"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C5"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C5",
+        "property": "value",
         "value": "15"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A6"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A6",
+        "property": "value",
         "value": "12-30-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B6"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B6",
+        "property": "value",
         "value": "Desk Mat"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C6"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C6",
+        "property": "value",
         "value": "22"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A7"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A7",
+        "property": "value",
         "value": "12-19-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B7"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B7",
+        "property": "value",
         "value": "Wireless Mouse"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C7"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C7",
+        "property": "value",
         "value": "25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A8"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A8",
+        "property": "value",
         "value": "12-27-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B8"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B8",
+        "property": "value",
         "value": "Laptop Sleeve"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C8"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C8",
+        "property": "value",
         "value": "29"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A9"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A9",
+        "property": "value",
         "value": "01-09-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B9"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B9",
+        "property": "value",
         "value": "Laptop Sleeve"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C9"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C9",
+        "property": "value",
         "value": "29"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A10"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A10",
+        "property": "value",
         "value": "12-21-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B10"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B10",
+        "property": "value",
         "value": "Monitor Stand"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C10"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C10",
+        "property": "value",
         "value": "32"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A11"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A11",
+        "property": "value",
         "value": "01-03-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B11"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B11",
+        "property": "value",
         "value": "Monitor Stand"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C11"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C11",
+        "property": "value",
         "value": "32"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A12"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A12",
+        "property": "value",
         "value": "12-29-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B12"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B12",
+        "property": "value",
         "value": "USB Hub"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C12"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C12",
+        "property": "value",
         "value": "35"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A13"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A13",
+        "property": "value",
         "value": "01-11-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B13"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B13",
+        "property": "value",
         "value": "USB Hub"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C13"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C13",
+        "property": "value",
         "value": "35"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A14"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A14",
+        "property": "value",
         "value": "12-31-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B14"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B14",
+        "property": "value",
         "value": "Wireless Charger"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C14"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C14",
+        "property": "value",
         "value": "38"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A15"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A15",
+        "property": "value",
         "value": "12-28-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B15"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B15",
+        "property": "value",
         "value": "Power Bank"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C15"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C15",
+        "property": "value",
         "value": "45"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A16"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A16",
+        "property": "value",
         "value": "01-10-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B16"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B16",
+        "property": "value",
         "value": "Power Bank"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C16"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C16",
+        "property": "value",
         "value": "45"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A17"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A17",
+        "property": "value",
         "value": "12-26-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B17"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B17",
+        "property": "value",
         "value": "Webcam"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C17"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C17",
+        "property": "value",
         "value": "48"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A18"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A18",
+        "property": "value",
         "value": "01-08-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B18"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B18",
+        "property": "value",
         "value": "Webcam"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C18"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C18",
+        "property": "value",
         "value": "48"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A19"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A19",
+        "property": "value",
         "value": "12-23-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B19"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B19",
+        "property": "value",
         "value": "Office Headset"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C19"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C19",
+        "property": "value",
         "value": "55"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A20"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A20",
+        "property": "value",
         "value": "01-05-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B20"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B20",
+        "property": "value",
         "value": "Office Headset"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C20"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C20",
+        "property": "value",
         "value": "55"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A21"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A21",
+        "property": "value",
         "value": "01-01-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B21"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B21",
+        "property": "value",
         "value": "Gaming Mouse"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C21"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C21",
+        "property": "value",
         "value": "65"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A22"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A22",
+        "property": "value",
         "value": "12-25-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B22"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B22",
+        "property": "value",
         "value": "Bluetooth Speaker"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C22"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C22",
+        "property": "value",
         "value": "72"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A23"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A23",
+        "property": "value",
         "value": "01-07-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B23"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B23",
+        "property": "value",
         "value": "Bluetooth Speaker"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C23"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C23",
+        "property": "value",
         "value": "72"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A24"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A24",
+        "property": "value",
         "value": "12-20-24"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B24"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B24",
+        "property": "value",
         "value": "Mechanical Keyboard"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C24"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C24",
+        "property": "value",
         "value": "89"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A25"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A25",
+        "property": "value",
         "value": "01-02-25"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B25"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B25",
+        "property": "value",
         "value": "Mechanical Keyboard"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C25"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C25",
+        "property": "value",
         "value": "95"
       }
     ]

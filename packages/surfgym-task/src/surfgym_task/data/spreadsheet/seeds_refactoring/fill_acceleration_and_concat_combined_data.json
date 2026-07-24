@@ -4,129 +4,114 @@
   "states": [
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
         "value": "Mass Up (kg)"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
         "value": "Accel Up"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
         "value": "Mass Down (kg)"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D1",
+        "property": "value",
         "value": "Accel Down"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
         "value": 1
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
         "value": 2
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
         "value": 0
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D2",
+        "property": "value",
         "value": 0
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
         "value": 2
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
         "value": 1
       }
     ],
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E1",
+        "property": "value",
         "value": "Combined Data"
       }
     ],
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
         "value": 4
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D3",
+        "property": "value",
         "value": 3
       }
     ],
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E2",
+        "property": "value",
         "value": "Mass Up (kg): 1.00, Accel Up: 2.00, Mass Down (kg): 0.00, Accel Down: 0.00"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E3",
+        "property": "value",
         "value": "Mass Up (kg): 2.00, Accel Up: 4.00, Mass Down (kg): 1.00, Accel Down: 3.00"
       }
     ]

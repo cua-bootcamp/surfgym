@@ -3,29 +3,112 @@
   "empty_start": false,
   "states": [
     [
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A1","property":["cell","v"],"value":"Invoice No."},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B1","property":["cell","v"],"value":"Region"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"D1","property":["cell","v"],"value":"Amount"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A2","property":["cell","v"],"value":"INV-001"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B2","property":["cell","v"],"value":"East"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A3","property":["cell","v"],"value":"INV-002"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B3","property":["cell","v"],"value":"West"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A4","property":["cell","v"],"value":"INV-003"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B4","property":["cell","v"],"value":"East"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A5","property":["cell","v"],"value":"INV-004"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B5","property":["cell","v"],"value":"South"}
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
+        "match": "exact",
+        "value": "Invoice No."
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "match": "exact",
+        "value": "Region"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D1",
+        "property": "value",
+        "match": "exact",
+        "value": "Amount"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "match": "exact",
+        "value": "INV-001"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "match": "exact",
+        "value": "East"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "match": "exact",
+        "value": "INV-002"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "match": "exact",
+        "value": "West"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "match": "exact",
+        "value": "INV-003"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "match": "exact",
+        "value": "East"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A5",
+        "property": "value",
+        "match": "exact",
+        "value": "INV-004"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B5",
+        "property": "value",
+        "match": "exact",
+        "value": "South"
+      }
     ],
     [
-      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"region-count-pivot"},"property":["name"],"value":"Region Count Pivot"},
-      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"region-count-pivot"},"property":["sourceRange"],"value":"A1:D5"},
-      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"region-count-pivot"},"property":["destinationSheetName"],"value":"Sheet2"},
-      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"region-count-pivot"},"property":["destinationAddress"],"value":"A1"},
-      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"region-count-pivot"},"property":["rowFieldsCsv"],"value":"Region"},
-      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"region-count-pivot"},"property":["valueFieldsCsv"],"value":"Invoice No.:count"}
-    ],
-    [
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Sheet2","address":"A2"},"property":["cell","v"],"value":"East"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Sheet2","address":"B2"},"property":["cell","v"],"value":2}
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A2",
+        "property": "value",
+        "match": "exact",
+        "value": "East"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B2",
+        "property": "value",
+        "match": "exact",
+        "value": 2
+      }
     ]
   ]
 }

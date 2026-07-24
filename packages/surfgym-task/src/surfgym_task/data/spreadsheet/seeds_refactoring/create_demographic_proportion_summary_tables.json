@@ -1,159 +1,442 @@
 {
-  "instruction": "We have survey data with respondents' sex in column A and civil status in column B, starting from row 2. In columns D and E, create a 'Sex' summary table with the header 'Sex' in D1 and 'Proportion' in E1, listing each sex with its proportion as a decimal. Leave one blank row after the Sex table, then create a 'Civil Status' summary table in the same format below.",
+  "instruction": "Create a new sheet named \"Sheet2\". Merge A1:C1, enter the title \"Demographic Profile\", and format it with a blue fill, white font, and bold text. From the survey data on Sheet1, create three PivotTables on Sheet2 showing each category as a percentage of the grand total: Sex at A3, Civil Status at A7, and Highest Educational Attainment at A12. Leave one blank row between the PivotTables.",
   "empty_start": false,
   "states": [
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
+        "match": "exact",
         "value": "Sex"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "match": "exact",
         "value": "Civil Status"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
+        "match": "exact",
+        "value": "Highest Educational Attainment"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "match": "exact",
         "value": "Female"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "match": "exact",
         "value": "Married"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
+        "match": "exact",
+        "value": "College"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "match": "exact",
         "value": "Male"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "match": "exact",
         "value": "Single"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
+        "match": "exact",
+        "value": "High School"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "match": "exact",
+        "value": "Female"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "match": "exact",
+        "value": "Single"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
+        "match": "exact",
+        "value": "College"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A5",
+        "property": "value",
+        "match": "exact",
+        "value": "Male"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B5",
+        "property": "value",
+        "match": "exact",
+        "value": "Married"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C5",
+        "property": "value",
+        "match": "exact",
+        "value": "Graduate"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A6",
+        "property": "value",
+        "match": "exact",
+        "value": "Female"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B6",
+        "property": "value",
+        "match": "exact",
+        "value": "Married"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C6",
+        "property": "value",
+        "match": "exact",
+        "value": "High School"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A7",
+        "property": "value",
+        "match": "exact",
+        "value": "Male"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B7",
+        "property": "value",
+        "match": "exact",
+        "value": "Single"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C7",
+        "property": "value",
+        "match": "exact",
+        "value": "College"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A8",
+        "property": "value",
+        "match": "exact",
+        "value": "Female"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B8",
+        "property": "value",
+        "match": "exact",
+        "value": "Widowed"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C8",
+        "property": "value",
+        "match": "exact",
+        "value": "Graduate"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A9",
+        "property": "value",
+        "match": "exact",
+        "value": "Male"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B9",
+        "property": "value",
+        "match": "exact",
+        "value": "Married"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C9",
+        "property": "value",
+        "match": "exact",
+        "value": "College"
       }
     ],
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D1"]
-        ],
-        "path": ["v"],
+        "kind": "sheet",
+        "sheet": "Sheet2",
+        "property": "name",
+        "match": "exact",
+        "value": "Sheet2"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A1",
+        "property": "value",
+        "match": "exact",
+        "value": "Demographic Profile"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A1",
+        "property": "backgroundColor",
+        "match": "exact",
+        "value": "rgb(0, 0, 255)"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A1",
+        "property": "fontColor",
+        "match": "exact",
+        "value": "rgb(255, 255, 255)"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A1",
+        "property": "bold",
+        "match": "exact",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A3",
+        "property": "value",
+        "match": "exact",
         "value": "Sex"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B3",
+        "property": "value",
+        "match": "exact",
         "value": "Proportion"
-      }
-    ],
-    [
+      },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A4",
+        "property": "value",
+        "match": "exact",
         "value": "Female"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B4",
+        "property": "value",
+        "match": "exact",
         "value": 0.5
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A5",
+        "property": "value",
+        "match": "exact",
         "value": "Male"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B5",
+        "property": "value",
+        "match": "exact",
         "value": 0.5
-      }
-    ],
-    [
+      },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D5"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A7",
+        "property": "value",
+        "match": "exact",
         "value": "Civil Status"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E5"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B7",
+        "property": "value",
+        "match": "exact",
         "value": "Proportion"
-      }
-    ],
-    [
+      },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D6"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A8",
+        "property": "value",
+        "match": "exact",
         "value": "Married"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E6"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B8",
+        "property": "value",
+        "match": "exact",
         "value": 0.5
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D7"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A9",
+        "property": "value",
+        "match": "exact",
         "value": "Single"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E7"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B9",
+        "property": "value",
+        "match": "exact",
+        "value": 0.375
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A10",
+        "property": "value",
+        "match": "exact",
+        "value": "Widowed"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B10",
+        "property": "value",
+        "match": "exact",
+        "value": 0.125
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A12",
+        "property": "value",
+        "match": "exact",
+        "value": "Highest Educational Attainment"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B12",
+        "property": "value",
+        "match": "exact",
+        "value": "Proportion"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A13",
+        "property": "value",
+        "match": "exact",
+        "value": "College"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B13",
+        "property": "value",
+        "match": "exact",
         "value": 0.5
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A14",
+        "property": "value",
+        "match": "exact",
+        "value": "Graduate"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B14",
+        "property": "value",
+        "match": "exact",
+        "value": 0.25
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A15",
+        "property": "value",
+        "match": "exact",
+        "value": "High School"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B15",
+        "property": "value",
+        "match": "exact",
+        "value": 0.25
       }
     ]
   ]

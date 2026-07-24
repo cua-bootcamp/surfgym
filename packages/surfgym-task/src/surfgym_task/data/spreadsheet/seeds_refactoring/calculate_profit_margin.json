@@ -1,477 +1,177 @@
 {
-  "instruction": "Add a new column named \"profit margin\" right next to the 'Gross Profit (USD)' column and calculate the profit margin for each week by dividing \"Gross Profit (USD)\" by \"Sales (USD)\" in that column.",
   "empty_start": false,
+  "instruction": "Add a new column named \"Profit\" directly next to the COGS column and calculate each week's profit by subtracting COGS from Sales. Do not modify unrelated cells.",
   "states": [
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
         "value": "Week"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B1"]
-        ],
-        "path": ["v"],
-        "value": "Sales (USD)"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "value": "Sales"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C1"]
-        ],
-        "path": ["v"],
-        "value": "COGS (USD)"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
+        "value": "COGS"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D1"]
-        ],
-        "path": ["v"],
-        "value": "Gross Profit (USD)"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
         "value": "Week 1"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B2"]
-        ],
-        "path": ["v"],
-        "value": "98450"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "value": 98450
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C2"]
-        ],
-        "path": ["v"],
-        "value": "72120.5"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
+        "value": 72120.5
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D2"]
-        ],
-        "path": ["v"],
-        "value": "26329.5"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
         "value": "Week 2"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B3"]
-        ],
-        "path": ["v"],
-        "value": "115200"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": 115200
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C3"]
-        ],
-        "path": ["v"],
-        "value": "45670.8"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
+        "value": 45670.8
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D3"]
-        ],
-        "path": ["v"],
-        "value": "69529.2"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A4"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
         "value": "Week 3"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B4"]
-        ],
-        "path": ["v"],
-        "value": "87340"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "value": 87340
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C4"]
-        ],
-        "path": ["v"],
-        "value": "15230.45"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
+        "value": 15230.45
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D4"]
-        ],
-        "path": ["v"],
-        "value": "72109.55"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A5"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A5",
+        "property": "value",
         "value": "Week 4"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B5"]
-        ],
-        "path": ["v"],
-        "value": "62800"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B5",
+        "property": "value",
+        "value": 62800
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C5"]
-        ],
-        "path": ["v"],
-        "value": "58900.2"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "D5"]
-        ],
-        "path": ["v"],
-        "value": "3899.8"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A6"]
-        ],
-        "path": ["v"],
-        "value": "Week 5"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B6"]
-        ],
-        "path": ["v"],
-        "value": "91550"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C6"]
-        ],
-        "path": ["v"],
-        "value": "31450.6"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "D6"]
-        ],
-        "path": ["v"],
-        "value": "60099.4"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A7"]
-        ],
-        "path": ["v"],
-        "value": "Week 6"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B7"]
-        ],
-        "path": ["v"],
-        "value": "84200"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C7"]
-        ],
-        "path": ["v"],
-        "value": "29100.35"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "D7"]
-        ],
-        "path": ["v"],
-        "value": "55099.65"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A8"]
-        ],
-        "path": ["v"],
-        "value": "Week 7"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B8"]
-        ],
-        "path": ["v"],
-        "value": "128900"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C8"]
-        ],
-        "path": ["v"],
-        "value": "82450.9"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "D8"]
-        ],
-        "path": ["v"],
-        "value": "46449.1"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A9"]
-        ],
-        "path": ["v"],
-        "value": "Week 8"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B9"]
-        ],
-        "path": ["v"],
-        "value": "79600"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C9"]
-        ],
-        "path": ["v"],
-        "value": "63200.15"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "D9"]
-        ],
-        "path": ["v"],
-        "value": "16399.85"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A10"]
-        ],
-        "path": ["v"],
-        "value": "Week 9"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B10"]
-        ],
-        "path": ["v"],
-        "value": "105400"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C10"]
-        ],
-        "path": ["v"],
-        "value": "4560.25"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "D10"]
-        ],
-        "path": ["v"],
-        "value": "100839.75"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A11"]
-        ],
-        "path": ["v"],
-        "value": "Week 10"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B11"]
-        ],
-        "path": ["v"],
-        "value": "82150"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C11"]
-        ],
-        "path": ["v"],
-        "value": "48900.75"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "D11"]
-        ],
-        "path": ["v"],
-        "value": "33249.25"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "E1"]
-        ],
-        "path": ["v"],
-        "value": "profit margin"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C5",
+        "property": "value",
+        "value": 58900.2
       }
     ],
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E1"]
-        ],
-        "path": ["v"],
-        "value": "profit margin"
-      }
-    ],
-    [
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D1",
+        "property": "value",
+        "value": "Profit"
+      },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E2"]
-        ],
-        "path": ["v"],
-        "value": "0.267440325"
-      }
-    ],
-    [
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D2",
+        "property": "formula",
+        "value": "=B2-C2"
+      },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E3"]
-        ],
-        "path": ["v"],
-        "value": "0.6035520833"
-      }
-    ],
-    [
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D3",
+        "property": "formula",
+        "value": "=B3-C3"
+      },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E4"]
-        ],
-        "path": ["v"],
-        "value": "0.8256188459"
-      }
-    ],
-    [
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D4",
+        "property": "formula",
+        "value": "=B4-C4"
+      },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E5"]
-        ],
-        "path": ["v"],
-        "value": "0.06209872611"
-      }
-    ],
-    [
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D5",
+        "property": "formula",
+        "value": "=B5-C5"
+      },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E6"]
-        ],
-        "path": ["v"],
-        "value": "0.6564653195"
-      }
-    ],
-    [
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D2",
+        "property": "value",
+        "value": 26329.5
+      },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E7"]
-        ],
-        "path": ["v"],
-        "value": "0.6543901425"
-      }
-    ],
-    [
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D3",
+        "property": "value",
+        "value": 69529.2
+      },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E8"]
-        ],
-        "path": ["v"],
-        "value": "0.3603498836"
-      }
-    ],
-    [
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D4",
+        "property": "value",
+        "value": 72109.55
+      },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E9"]
-        ],
-        "path": ["v"],
-        "value": "0.2060282663"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "E10"]
-        ],
-        "path": ["v"],
-        "value": "0.956733871"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "E11"]
-        ],
-        "path": ["v"],
-        "value": "0.4047382836"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D5",
+        "property": "value",
+        "value": 3899.8
       }
     ]
   ]

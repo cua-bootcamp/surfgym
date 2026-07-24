@@ -3,30 +3,141 @@
   "empty_start": false,
   "states": [
     [
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A1","property":["cell","v"],"value":"Month"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B1","property":["cell","v"],"value":"Revenue"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"C1","property":["cell","v"],"value":"Expenses"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B2","property":["cell","v"],"value":32000},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"C2","property":["cell","v"],"value":18400},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B3","property":["cell","v"],"value":28700},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"C3","property":["cell","v"],"value":16900},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"B4","property":["cell","v"],"value":35400},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"C4","property":["cell","v"],"value":20100}
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
+        "match": "exact",
+        "value": "Month"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "match": "exact",
+        "value": "Revenue"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
+        "match": "exact",
+        "value": "Expenses"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "match": "exact",
+        "value": 32000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
+        "match": "exact",
+        "value": 18400
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "match": "exact",
+        "value": 28700
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
+        "match": "exact",
+        "value": 16900
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "match": "exact",
+        "value": 35400
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
+        "match": "exact",
+        "value": 20100
+      }
     ],
     [
-      {"match":"exact","applyf":"applySheetMeta","evalf":"getSheetMeta","param":{"sheetName":"Summary"},"property":["sheet","name"],"value":"Summary"}
+      {
+        "kind": "sheet",
+        "sheet": "Summary",
+        "property": "name",
+        "match": "exact",
+        "value": "Summary"
+      }
     ],
     [
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Summary","address":"B2"},"property":["cell","v"],"value":"Total Revenue"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Summary","address":"B3"},"property":["cell","v"],"value":"Total Expenses"}
+      {
+        "kind": "cell",
+        "sheet": "Summary",
+        "cell": "B2",
+        "property": "value",
+        "match": "exact",
+        "value": "Total Revenue"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Summary",
+        "cell": "B3",
+        "property": "value",
+        "match": "exact",
+        "value": "Total Expenses"
+      }
     ],
     [
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Summary","address":"C2"},"property":["cell","f"],"value":"=SUM(Sheet1!B2:B4)"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Summary","address":"C3"},"property":["cell","f"],"value":"=SUM(Sheet1!C2:C4)"}
+      {
+        "kind": "cell",
+        "sheet": "Summary",
+        "cell": "C2",
+        "property": "formula",
+        "match": "exact",
+        "value": "=SUM(Sheet1!B2:B4)"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Summary",
+        "cell": "C3",
+        "property": "formula",
+        "match": "exact",
+        "value": "=SUM(Sheet1!C2:C4)"
+      }
     ],
     [
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Summary","address":"C2"},"property":["cell","v"],"value":96100},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Summary","address":"C3"},"property":["cell","v"],"value":55400}
+      {
+        "kind": "cell",
+        "sheet": "Summary",
+        "cell": "C2",
+        "property": "value",
+        "match": "exact",
+        "value": 96100
+      },
+      {
+        "kind": "cell",
+        "sheet": "Summary",
+        "cell": "C3",
+        "property": "value",
+        "match": "exact",
+        "value": 55400
+      }
     ]
   ]
 }

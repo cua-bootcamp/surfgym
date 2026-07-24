@@ -1,221 +1,207 @@
 {
-  "instruction": "Convert the values in column A so they are shown in Thousands (K) in column B and Millions (M) in column C. Round to one decimal place, use half-up rounding, and include one white space between the number and the unit. Then calculate B3+B4 in E3 and B5-B6 in E4 using the converted numeric values, and show the results with the K unit and one decimal place. Do not modify unrelated cells.",
   "empty_start": false,
+  "instruction": "Convert each value in the Parameter column to Millions (M) in column B and Billions (B) in column C. Round to one decimal place using half-up rounding, and include exactly one space between the number and the unit. Do not modify unrelated cells.",
   "states": [
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
         "value": "Parameter"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B2"]
-        ],
-        "path": ["v"],
-        "value": "Thousands (K)"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
         "value": "Millions (M)"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A3"]
-        ],
-        "path": ["v"],
-        "value": "12500"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
+        "value": "Billions (B)"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A4"]
-        ],
-        "path": ["v"],
-        "value": "2500000"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "value": 1250000
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A5"]
-        ],
-        "path": ["v"],
-        "value": "1499500"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "value": 2500000000
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A6"]
-        ],
-        "path": ["v"],
-        "value": "999500"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A5",
+        "property": "value",
+        "value": 1499500000
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A7"]
-        ],
-        "path": ["v"],
-        "value": "350"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A6",
+        "property": "value",
+        "value": 999500000
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E2"]
-        ],
-        "path": ["v"],
-        "value": "Derived Result"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "F2"]
-        ],
-        "path": ["v"],
-        "value": "Notes"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "F3"]
-        ],
-        "path": ["v"],
-        "value": "Leave unchanged"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A7",
+        "property": "value",
+        "value": 350000
       }
     ],
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B3"]
-        ],
-        "path": ["v"],
-        "value": "12.5 K"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "formula",
+        "value": "=TEXT(ROUND(A3/1000000,1),\"0.0\")&\" M\""
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C3"]
-        ],
-        "path": ["v"],
-        "value": "0.0 M"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "formula",
+        "value": "=TEXT(ROUND(A3/1000000000,1),\"0.0\")&\" B\""
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "formula",
+        "value": "=TEXT(ROUND(A4/1000000,1),\"0.0\")&\" M\""
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "formula",
+        "value": "=TEXT(ROUND(A4/1000000000,1),\"0.0\")&\" B\""
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B5",
+        "property": "formula",
+        "value": "=TEXT(ROUND(A5/1000000,1),\"0.0\")&\" M\""
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C5",
+        "property": "formula",
+        "value": "=TEXT(ROUND(A5/1000000000,1),\"0.0\")&\" B\""
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B6",
+        "property": "formula",
+        "value": "=TEXT(ROUND(A6/1000000,1),\"0.0\")&\" M\""
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C6",
+        "property": "formula",
+        "value": "=TEXT(ROUND(A6/1000000000,1),\"0.0\")&\" B\""
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B7",
+        "property": "formula",
+        "value": "=TEXT(ROUND(A7/1000000,1),\"0.0\")&\" M\""
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C7",
+        "property": "formula",
+        "value": "=TEXT(ROUND(A7/1000000000,1),\"0.0\")&\" B\""
       }
     ],
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B4"]
-        ],
-        "path": ["v"],
-        "value": "2500.0 K"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": "1.3 M"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C4"]
-        ],
-        "path": ["v"],
-        "value": "2.5 M"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B5"]
-        ],
-        "path": ["v"],
-        "value": "1499.5 K"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
+        "value": "0.0 B"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C5"]
-        ],
-        "path": ["v"],
-        "value": "1.5 M"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B6"]
-        ],
-        "path": ["v"],
-        "value": "999.5 K"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "value": "2500.0 M"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C6"]
-        ],
-        "path": ["v"],
-        "value": "1.0 M"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B7"]
-        ],
-        "path": ["v"],
-        "value": "0.4 K"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
+        "value": "2.5 B"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C7"]
-        ],
-        "path": ["v"],
-        "value": "0.0 M"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "E3"]
-        ],
-        "path": ["v"],
-        "value": "2512.5 K"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B5",
+        "property": "value",
+        "value": "1499.5 M"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E4"]
-        ],
-        "path": ["v"],
-        "value": "500.0 K"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "F2"]
-        ],
-        "path": ["v"],
-        "value": "Notes"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C5",
+        "property": "value",
+        "value": "1.5 B"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "F3"]
-        ],
-        "path": ["v"],
-        "value": "Leave unchanged"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B6",
+        "property": "value",
+        "value": "999.5 M"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C6",
+        "property": "value",
+        "value": "1.0 B"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B7",
+        "property": "value",
+        "value": "0.4 M"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C7",
+        "property": "value",
+        "value": "0.0 B"
       }
     ]
   ]

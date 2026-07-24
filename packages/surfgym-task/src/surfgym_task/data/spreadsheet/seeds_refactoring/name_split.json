@@ -4,169 +4,149 @@
   "states": [
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
         "value": "Full Name"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
         "value": "Alice M Carter"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
         "value": "Brian T Lee"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A4"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
         "value": "Chloe R Kim"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A5"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A5",
+        "property": "value",
         "value": "David P Jones"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
         "value": "First Name"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
         "value": "Middle Initial"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D1",
+        "property": "value",
         "value": "Last Name"
       }
     ],
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
         "value": "Alice"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
         "value": "Brian"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B4"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
         "value": "Chloe"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B5"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B5",
+        "property": "value",
         "value": "David"
       }
     ],
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
         "value": "M"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
         "value": "T"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C4"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
         "value": "R"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C5"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C5",
+        "property": "value",
         "value": "P"
       }
     ],
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D2",
+        "property": "value",
         "value": "Carter"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D3",
+        "property": "value",
         "value": "Lee"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D4"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D4",
+        "property": "value",
         "value": "Kim"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D5"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D5",
+        "property": "value",
         "value": "Jones"
       }
     ]

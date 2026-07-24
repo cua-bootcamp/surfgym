@@ -1,561 +1,426 @@
 {
-  "instruction": "In the current sheet, use the product price table to calculate the revenue for each order. Revenue should be calculated as Unit Price × Quantity × (1 - Discount Rate). Put the revenue values in column F with the header \"Revenue\" in F2. Then create a product revenue summary in cells K2:L6, with product names in column K and the total revenue for each product in column L.",
+  "instruction": "Create a separate sheet named \"Retail Price\" containing each product and its unit price. On Sheet1, add a Revenue column and calculate each order's revenue by looking up the product price from the Retail Price sheet and using Unit Price × Quantity × (1 - Discount Rate). Then create a PivotTable named \"Product Revenue Pivot\" on Sheet2 at A1, with Product as the row field and Revenue as the summed value field.",
   "empty_start": false,
   "states": [
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
+        "match": "exact",
         "value": "Order Date"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "match": "exact",
         "value": "Product"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
+        "match": "exact",
         "value": "Quantity"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D1",
+        "property": "value",
+        "match": "exact",
         "value": "Discount Rate"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "match": "exact",
         "value": "2024-01-05"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "match": "exact",
         "value": "Alpha Kite"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C3"]
-        ],
-        "path": ["v"],
-        "value": "6"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
+        "match": "exact",
+        "value": 6
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D3"]
-        ],
-        "path": ["v"],
-        "value": "0.1"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D2",
+        "property": "value",
+        "match": "exact",
+        "value": 0.1
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A4"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "match": "exact",
         "value": "2024-01-06"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B4"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "match": "exact",
         "value": "Mini Drone"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C4"]
-        ],
-        "path": ["v"],
-        "value": "2"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
+        "match": "exact",
+        "value": 2
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D4"]
-        ],
-        "path": ["v"],
-        "value": "0.05"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D3",
+        "property": "value",
+        "match": "exact",
+        "value": 0.05
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A5"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "match": "exact",
         "value": "2024-01-07"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B5"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "match": "exact",
         "value": "Foam Glider"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C5"]
-        ],
-        "path": ["v"],
-        "value": "8"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
+        "match": "exact",
+        "value": 8
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D5"]
-        ],
-        "path": ["v"],
-        "value": "0"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D4",
+        "property": "value",
+        "match": "exact",
+        "value": 0
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A6"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A5",
+        "property": "value",
+        "match": "exact",
         "value": "2024-01-08"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B6"]
-        ],
-        "path": ["v"],
-        "value": "Stunt Yo-Yo"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B5",
+        "property": "value",
+        "match": "exact",
+        "value": "Alpha Kite"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C6"]
-        ],
-        "path": ["v"],
-        "value": "10"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C5",
+        "property": "value",
+        "match": "exact",
+        "value": 4
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D6"]
-        ],
-        "path": ["v"],
-        "value": "0.15"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D5",
+        "property": "value",
+        "match": "exact",
+        "value": 0
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A7"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A6",
+        "property": "value",
+        "match": "exact",
         "value": "2024-01-09"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B7"]
-        ],
-        "path": ["v"],
-        "value": "Alpha Kite"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C7"]
-        ],
-        "path": ["v"],
-        "value": "4"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "D7"]
-        ],
-        "path": ["v"],
-        "value": "0"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A8"]
-        ],
-        "path": ["v"],
-        "value": "2024-01-10"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B8"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B6",
+        "property": "value",
+        "match": "exact",
         "value": "Mini Drone"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C8"]
-        ],
-        "path": ["v"],
-        "value": "3"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C6",
+        "property": "value",
+        "match": "exact",
+        "value": 3
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D8"]
-        ],
-        "path": ["v"],
-        "value": "0.1"
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D6",
+        "property": "value",
+        "match": "exact",
+        "value": 0.1
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "A9"]
-        ],
-        "path": ["v"],
-        "value": "2024-01-11"
+        "kind": "sheet",
+        "sheet": "Retail Price",
+        "property": "name",
+        "match": "exact",
+        "value": "Retail Price"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B9"]
-        ],
-        "path": ["v"],
-        "value": "Foam Glider"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C9"]
-        ],
-        "path": ["v"],
-        "value": "5"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "D9"]
-        ],
-        "path": ["v"],
-        "value": "0.2"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "A10"]
-        ],
-        "path": ["v"],
-        "value": "2024-01-12"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "B10"]
-        ],
-        "path": ["v"],
-        "value": "Stunt Yo-Yo"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "C10"]
-        ],
-        "path": ["v"],
-        "value": "12"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "D10"]
-        ],
-        "path": ["v"],
-        "value": "0"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "G2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": "Retail Price",
+        "cell": "A1",
+        "property": "value",
+        "match": "exact",
         "value": "Product"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "H2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": "Retail Price",
+        "cell": "B1",
+        "property": "value",
+        "match": "exact",
         "value": "Unit Price"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "G3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": "Retail Price",
+        "cell": "A2",
+        "property": "value",
+        "match": "exact",
         "value": "Alpha Kite"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "H3"]
-        ],
-        "path": ["v"],
-        "value": "18.5"
+        "kind": "cell",
+        "sheet": "Retail Price",
+        "cell": "B2",
+        "property": "value",
+        "match": "exact",
+        "value": 18.5
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "G4"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": "Retail Price",
+        "cell": "A3",
+        "property": "value",
+        "match": "exact",
         "value": "Mini Drone"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "H4"]
-        ],
-        "path": ["v"],
-        "value": "42"
+        "kind": "cell",
+        "sheet": "Retail Price",
+        "cell": "B3",
+        "property": "value",
+        "match": "exact",
+        "value": 42
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "G5"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": "Retail Price",
+        "cell": "A4",
+        "property": "value",
+        "match": "exact",
         "value": "Foam Glider"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "H5"]
-        ],
-        "path": ["v"],
-        "value": "12.75"
-      },
+        "kind": "cell",
+        "sheet": "Retail Price",
+        "cell": "B4",
+        "property": "value",
+        "match": "exact",
+        "value": 12.75
+      }
+    ],
+    [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "G6"]
-        ],
-        "path": ["v"],
-        "value": "Stunt Yo-Yo"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "H6"]
-        ],
-        "path": ["v"],
-        "value": "9.5"
-      },
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "F2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E1",
+        "property": "value",
+        "match": "exact",
         "value": "Revenue"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "K2"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E2",
+        "property": "formula",
+        "match": "exact",
+        "value": "=VLOOKUP(B2,'Retail Price'!A:B,2,FALSE)*C2*(1-D2)"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E2",
+        "property": "value",
+        "match": "exact",
+        "value": 99.9
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E3",
+        "property": "formula",
+        "match": "exact",
+        "value": "=VLOOKUP(B3,'Retail Price'!A:B,2,FALSE)*C3*(1-D3)"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E3",
+        "property": "value",
+        "match": "exact",
+        "value": 79.8
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E4",
+        "property": "formula",
+        "match": "exact",
+        "value": "=VLOOKUP(B4,'Retail Price'!A:B,2,FALSE)*C4*(1-D4)"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E4",
+        "property": "value",
+        "match": "exact",
+        "value": 102
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E5",
+        "property": "formula",
+        "match": "exact",
+        "value": "=VLOOKUP(B5,'Retail Price'!A:B,2,FALSE)*C5*(1-D5)"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E5",
+        "property": "value",
+        "match": "exact",
+        "value": 74
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E6",
+        "property": "formula",
+        "match": "exact",
+        "value": "=VLOOKUP(B6,'Retail Price'!A:B,2,FALSE)*C6*(1-D6)"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E6",
+        "property": "value",
+        "match": "exact",
+        "value": 113.4
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A1",
+        "property": "value",
+        "match": "exact",
         "value": "Product"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "L2"]
-        ],
-        "path": ["v"],
-        "value": "Total Revenue"
-      }
-    ],
-    [
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B1",
+        "property": "value",
+        "match": "exact",
+        "value": "Sum of Revenue"
+      },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "F3"]
-        ],
-        "path": ["v"],
-        "value": "99.9"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "F4"]
-        ],
-        "path": ["v"],
-        "value": "79.8"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "F4"]
-        ],
-        "path": ["v"],
-        "value": "79.8"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "F5"]
-        ],
-        "path": ["v"],
-        "value": "102"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "F6"]
-        ],
-        "path": ["v"],
-        "value": "80.75"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "F7"]
-        ],
-        "path": ["v"],
-        "value": "74"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "F8"]
-        ],
-        "path": ["v"],
-        "value": "113.4"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "F9"]
-        ],
-        "path": ["v"],
-        "value": "51"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "F10"]
-        ],
-        "path": ["v"],
-        "value": "114"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "K3"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A2",
+        "property": "value",
+        "match": "exact",
         "value": "Alpha Kite"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "L3"]
-        ],
-        "path": ["v"],
-        "value": "173.9"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "K4"]
-        ],
-        "path": ["v"],
-        "value": "Mini Drone"
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B2",
+        "property": "value",
+        "match": "exact",
+        "value": 173.9
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "L4"]
-        ],
-        "path": ["v"],
-        "value": "193.2"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "K5"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A3",
+        "property": "value",
+        "match": "exact",
         "value": "Foam Glider"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "L5"]
-        ],
-        "path": ["v"],
-        "value": "153"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["sheet", null],
-          ["cell", "K6"]
-        ],
-        "path": ["v"],
-        "value": "Stunt Yo-Yo"
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B3",
+        "property": "value",
+        "match": "exact",
+        "value": 102
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "L6"]
-        ],
-        "path": ["v"],
-        "value": "194.75"
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A4",
+        "property": "value",
+        "match": "exact",
+        "value": "Mini Drone"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B4",
+        "property": "value",
+        "match": "exact",
+        "value": 193.2
       }
     ]
   ]

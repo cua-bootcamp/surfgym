@@ -4,85 +4,75 @@
   "states": [
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
         "value": "First Name"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
         "value": "Order ID"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D1",
+        "property": "value",
         "value": "Last Name"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E1",
+        "property": "value",
         "value": "Date"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "F1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F1",
+        "property": "value",
         "value": "Sales"
       }
     ],
     [
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "B1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
         "value": "Date"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "C1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
         "value": "First Name"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "D1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D1",
+        "property": "value",
         "value": "Last Name"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "E1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E1",
+        "property": "value",
         "value": "Order ID"
       },
       {
-        "query": [
-          ["sheet", null],
-          ["cell", "F1"]
-        ],
-        "path": ["v"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "F1",
+        "property": "value",
         "value": "Sales"
       }
     ]

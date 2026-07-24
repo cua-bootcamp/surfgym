@@ -1,29 +1,162 @@
 {
-  "instruction": "Create a pivot table named \"Promotion Summary Pivot\" on Sheet2 from the current sheet's promotion table. Use Promotion as the row field and summarize Orders and Revenue with sums. Sort promotion labels alphabetically and do not manually type the summary values.",
   "empty_start": false,
+  "instruction": "Create a Pivot Table on a new sheet named \"Sheet2\" that summarizes total Revenue for each Promotion. Put Promotion in the column field so the promotion names appear as column headers, and use Revenue as the only summed value field. Do not manually type the summary values.",
   "states": [
     [
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A1","property":["cell","v"],"value":"Promotion"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"D1","property":["cell","v"],"value":"Orders"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"E1","property":["cell","v"],"value":"Revenue"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A2","property":["cell","v"],"value":"Coupon"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"D2","property":["cell","v"],"value":18},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"E2","property":["cell","v"],"value":3600},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"A3","property":["cell","v"],"value":"Coupon"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"D3","property":["cell","v"],"value":24},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":"E3","property":["cell","v"],"value":4800}
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
+        "match": "exact",
+        "value": "Promotion"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "match": "exact",
+        "value": "Revenue"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "match": "exact",
+        "value": "Coupon"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "match": "exact",
+        "value": 3600
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "match": "exact",
+        "value": "BOGO"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "match": "exact",
+        "value": 2500
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "match": "exact",
+        "value": "Coupon"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "match": "exact",
+        "value": 4800
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A5",
+        "property": "value",
+        "match": "exact",
+        "value": "No Promotion"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B5",
+        "property": "value",
+        "match": "exact",
+        "value": 1500
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A6",
+        "property": "value",
+        "match": "exact",
+        "value": "BOGO"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B6",
+        "property": "value",
+        "match": "exact",
+        "value": 3700
+      }
     ],
     [
-      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"promotion-summary-pivot"},"property":["name"],"value":"Promotion Summary Pivot"},
-      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"promotion-summary-pivot"},"property":["sourceRange"],"value":"A1:E3"},
-      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"promotion-summary-pivot"},"property":["destinationSheetName"],"value":"Sheet2"},
-      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"promotion-summary-pivot"},"property":["rowFieldsCsv"],"value":"Promotion"},
-      {"match":"exact","applyf":"applyPivotMeta","evalf":"getPivotMeta","param":{"id":"promotion-summary-pivot"},"property":["valueFieldsCsv"],"value":"Orders:sum,Revenue:sum"}
-    ],
-    [
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Sheet2","address":"A2"},"property":["cell","v"],"value":"Coupon"},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Sheet2","address":"B2"},"property":["cell","v"],"value":42},
-      {"match":"exact","applyf":"applyCellMeta","evalf":"getCellMeta","param":{"sheetName":"Sheet2","address":"C2"},"property":["cell","v"],"value":8400}
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B1",
+        "property": "value",
+        "match": "exact",
+        "value": "BOGO"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "C1",
+        "property": "value",
+        "match": "exact",
+        "value": "Coupon"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "D1",
+        "property": "value",
+        "match": "exact",
+        "value": "No Promotion"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "A2",
+        "property": "value",
+        "match": "exact",
+        "value": "Sum of Revenue"
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "B2",
+        "property": "value",
+        "match": "exact",
+        "value": 6200
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "C2",
+        "property": "value",
+        "match": "exact",
+        "value": 8400
+      },
+      {
+        "kind": "cell",
+        "sheet": "Sheet2",
+        "cell": "D2",
+        "property": "value",
+        "match": "exact",
+        "value": 1500
+      }
     ]
   ]
 }

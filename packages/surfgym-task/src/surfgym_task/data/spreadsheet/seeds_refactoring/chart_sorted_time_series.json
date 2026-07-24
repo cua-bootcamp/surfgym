@@ -3,47 +3,151 @@
   "empty_start": false,
   "states": [
     [
-      { "query": [["sheet", null], ["cell", "A1"]], "path": ["v"], "value": "Date Time" },
-      { "query": [["sheet", null], ["cell", "B1"]], "path": ["v"], "value": "Quantity" },
-      { "query": [["sheet", null], ["cell", "A2"]], "path": ["v"], "value": "2024-03-05 14:00" },
-      { "query": [["sheet", null], ["cell", "B2"]], "path": ["v"], "value": 18 },
-      { "query": [["sheet", null], ["cell", "A3"]], "path": ["v"], "value": "2024-03-05 09:00" },
-      { "query": [["sheet", null], ["cell", "B3"]], "path": ["v"], "value": 11 },
-      { "query": [["sheet", null], ["cell", "A4"]], "path": ["v"], "value": "2024-03-05 12:00" },
-      { "query": [["sheet", null], ["cell", "B4"]], "path": ["v"], "value": 15 }
-    ],
-    [
-      { "query": [["sheet", null], ["cell", "A2"]], "path": ["v"], "value": "2024-03-05 09:00" },
-      { "query": [["sheet", null], ["cell", "B2"]], "path": ["v"], "value": 11 },
-      { "query": [["sheet", null], ["cell", "A3"]], "path": ["v"], "value": "2024-03-05 12:00" },
-      { "query": [["sheet", null], ["cell", "B3"]], "path": ["v"], "value": 15 },
-      { "query": [["sheet", null], ["cell", "A4"]], "path": ["v"], "value": "2024-03-05 14:00" },
-      { "query": [["sheet", null], ["cell", "B4"]], "path": ["v"], "value": 18 }
-    ],
-    [
       {
-        "query": [["sheet", "Sheet1"], ["chart", { "title": "Quantity Over Time" }]],
-        "path": ["sourceRange"],
-        "value": "A1:B4"
-      },
-      {
-        "query": [["sheet", "Sheet1"], ["chart", { "sourceRange": "A1:B4" }]],
-        "path": ["chartType"],
-        "value": "line"
-      },
-      {
-        "query": [["sheet", "Sheet1"], ["chart", { "sourceRange": "A1:B4" }]],
-        "path": ["title"],
-        "value": "Quantity Over Time"
-      },
-      {
-        "query": [["sheet", "Sheet1"], ["chart", { "sourceRange": "A1:B4" }]],
-        "path": ["xAxisTitle"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
         "value": "Date Time"
       },
       {
-        "query": [["sheet", "Sheet1"], ["chart", { "sourceRange": "A1:B4" }]],
-        "path": ["yAxisTitle"],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "value": "Quantity"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "value": "2024-03-05 14:00"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "value": 18
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "value": "2024-03-05 09:00"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": 11
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "value": "2024-03-05 12:00"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "value": 15
+      }
+    ],
+    [
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "value": "2024-03-05 09:00"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "value": 11
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "value": "2024-03-05 12:00"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": 15
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "value": "2024-03-05 14:00"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "value": 18
+      }
+    ],
+    [
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "title": "Quantity Over Time"
+        },
+        "property": "sourceRange",
+        "value": "A1:B4"
+      },
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "sourceRange": "A1:B4"
+        },
+        "property": "chartType",
+        "value": "line"
+      },
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "sourceRange": "A1:B4"
+        },
+        "property": "title",
+        "value": "Quantity Over Time"
+      },
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "sourceRange": "A1:B4"
+        },
+        "property": "xAxisTitle",
+        "value": "Date Time"
+      },
+      {
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "sourceRange": "A1:B4"
+        },
+        "property": "yAxisTitle",
         "value": "Quantity"
       }
     ]

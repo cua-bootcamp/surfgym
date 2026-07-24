@@ -4,616 +4,271 @@
   "states": [
     [
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "A2"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
         "value": "Project"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "B2"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
         "value": "Owner"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "C2"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
         "value": "Start Date"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "D2"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D2",
+        "property": "value",
         "value": "Delivery Date"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "E2"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E2",
+        "property": "value",
         "value": "Budget"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "A3"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
         "value": "Client Portal"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "B3"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
         "value": "Mina"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "C3"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
         "value": "2024-02-01"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "D3"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D3",
+        "property": "value",
         "value": "2024-03-15"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "E3"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E3",
+        "property": "value",
         "value": "18500"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "A4"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
         "value": "Inventory Sync"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "B4"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
         "value": "Daniel"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "C4"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
         "value": "2024-02-05"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "D4"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D4",
+        "property": "value",
         "value": "TBD"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "E4"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E4",
+        "property": "value",
         "value": "22400"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "A5"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A5",
+        "property": "value",
         "value": "Mobile Checkout"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "B5"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B5",
+        "property": "value",
         "value": "Grace"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "C5"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C5",
+        "property": "value",
         "value": "2024-02-08"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "D5"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D5",
+        "property": "value",
         "value": "2024-04-02"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "E5"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E5",
+        "property": "value",
         "value": "31200"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "A6"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A6",
+        "property": "value",
         "value": "Data Migration"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "B6"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B6",
+        "property": "value",
         "value": "Hugo"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "C6"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C6",
+        "property": "value",
         "value": "2024-02-12"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "D6"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D6",
+        "property": "value",
         "value": "TBD"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "E6"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E6",
+        "property": "value",
         "value": "27900"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "A7"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A7",
+        "property": "value",
         "value": "Analytics Dashboard"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "B7"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B7",
+        "property": "value",
         "value": "Iris"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "C7"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C7",
+        "property": "value",
         "value": "2024-02-15"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "D7"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D7",
+        "property": "value",
         "value": "2024-03-29"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "E7"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E7",
+        "property": "value",
         "value": "19800"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "A8"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A8",
+        "property": "value",
         "value": "Billing API"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "B8"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B8",
+        "property": "value",
         "value": "Joon"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "C8"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C8",
+        "property": "value",
         "value": "2024-02-20"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "D8"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D8",
+        "property": "value",
         "value": "TBD"
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "E8"
-          ]
-        ],
-        "path": [
-          "v"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E8",
+        "property": "value",
         "value": "24600"
       }
     ],
     [
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "D3"
-          ]
-        ],
-        "path": [
-          "row",
-          "filtered"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D4",
+        "property": "rowHidden",
         "value": true
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "D5"
-          ]
-        ],
-        "path": [
-          "row",
-          "filtered"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D6",
+        "property": "rowHidden",
         "value": true
       },
       {
-        "query": [
-          [
-            "sheet",
-            null
-          ],
-          [
-            "cell",
-            "D7"
-          ]
-        ],
-        "path": [
-          "row",
-          "filtered"
-        ],
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D8",
+        "property": "rowHidden",
         "value": true
       }
     ]

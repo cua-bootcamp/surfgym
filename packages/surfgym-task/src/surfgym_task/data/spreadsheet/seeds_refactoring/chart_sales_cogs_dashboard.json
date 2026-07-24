@@ -3,41 +3,134 @@
   "empty_start": false,
   "states": [
     [
-      { "query": [["sheet", null], ["cell", "A1"]], "path": ["v"], "value": "Month" },
-      { "query": [["sheet", null], ["cell", "B1"]], "path": ["v"], "value": "Sales" },
-      { "query": [["sheet", null], ["cell", "C1"]], "path": ["v"], "value": "COGS" },
-      { "query": [["sheet", null], ["cell", "A2"]], "path": ["v"], "value": "Jan" },
-      { "query": [["sheet", null], ["cell", "B2"]], "path": ["v"], "value": 42000 },
-      { "query": [["sheet", null], ["cell", "C2"]], "path": ["v"], "value": 25000 },
-      { "query": [["sheet", null], ["cell", "A3"]], "path": ["v"], "value": "Feb" },
-      { "query": [["sheet", null], ["cell", "B3"]], "path": ["v"], "value": 39000 },
-      { "query": [["sheet", null], ["cell", "C3"]], "path": ["v"], "value": 24100 },
-      { "query": [["sheet", null], ["cell", "A4"]], "path": ["v"], "value": "Mar" },
-      { "query": [["sheet", null], ["cell", "B4"]], "path": ["v"], "value": 45500 },
-      { "query": [["sheet", null], ["cell", "C4"]], "path": ["v"], "value": 27600 }
-    ],
-    [
-      { "query": [["sheet", "Dashboard"]], "path": ["name"], "value": "Dashboard" }
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
+        "value": "Month"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "value": "Sales"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
+        "value": "COGS"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "value": "Jan"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "value": 42000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
+        "value": 25000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "value": "Feb"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": 39000
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
+        "value": 24100
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "value": "Mar"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "value": 45500
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
+        "value": 27600
+      }
     ],
     [
       {
-        "query": [["sheet", "Dashboard"], ["chart", { "title": "Sales vs COGS" }]],
-        "path": ["sourceRange"],
+        "kind": "sheet",
+        "sheet": "Dashboard",
+        "property": "name",
+        "value": "Dashboard"
+      }
+    ],
+    [
+      {
+        "kind": "chart",
+        "sheet": "Dashboard",
+        "chart": {
+          "title": "Sales vs COGS"
+        },
+        "property": "sourceRange",
         "value": "Sheet1!A1:C4"
       },
       {
-        "query": [["sheet", "Dashboard"], ["chart", { "sourceRange": "Sheet1!A1:C4" }]],
-        "path": ["chartType"],
+        "kind": "chart",
+        "sheet": "Dashboard",
+        "chart": {
+          "sourceRange": "Sheet1!A1:C4"
+        },
+        "property": "chartType",
         "value": "column"
       },
       {
-        "query": [["sheet", "Dashboard"], ["chart", { "sourceRange": "Sheet1!A1:C4" }]],
-        "path": ["title"],
+        "kind": "chart",
+        "sheet": "Dashboard",
+        "chart": {
+          "sourceRange": "Sheet1!A1:C4"
+        },
+        "property": "title",
         "value": "Sales vs COGS"
       },
       {
-        "query": [["sheet", "Dashboard"], ["chart", { "sourceRange": "Sheet1!A1:C4" }]],
-        "path": ["legendPosition"],
+        "kind": "chart",
+        "sheet": "Dashboard",
+        "chart": {
+          "sourceRange": "Sheet1!A1:C4"
+        },
+        "property": "legendPosition",
         "value": "right"
       }
     ]

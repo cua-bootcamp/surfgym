@@ -3,58 +3,202 @@
   "empty_start": false,
   "states": [
     [
-      { "query": [["sheet", null], ["cell", "A1"]], "path": ["v"], "value": "Quarter" },
-      { "query": [["sheet", null], ["cell", "B1"]], "path": ["v"], "value": "2019 Sales" },
-      { "query": [["sheet", null], ["cell", "C1"]], "path": ["v"], "value": "2019 COGS" },
-      { "query": [["sheet", null], ["cell", "D1"]], "path": ["v"], "value": "2020 Sales" },
-      { "query": [["sheet", null], ["cell", "E1"]], "path": ["v"], "value": "2020 COGS" },
-      { "query": [["sheet", null], ["cell", "A2"]], "path": ["v"], "value": "Q1" },
-      { "query": [["sheet", null], ["cell", "B2"]], "path": ["v"], "value": 220 },
-      { "query": [["sheet", null], ["cell", "C2"]], "path": ["v"], "value": 130 },
-      { "query": [["sheet", null], ["cell", "D2"]], "path": ["v"], "value": 250 },
-      { "query": [["sheet", null], ["cell", "E2"]], "path": ["v"], "value": 148 },
-      { "query": [["sheet", null], ["cell", "A3"]], "path": ["v"], "value": "Q2" },
-      { "query": [["sheet", null], ["cell", "B3"]], "path": ["v"], "value": 240 },
-      { "query": [["sheet", null], ["cell", "C3"]], "path": ["v"], "value": 142 },
-      { "query": [["sheet", null], ["cell", "D3"]], "path": ["v"], "value": 265 },
-      { "query": [["sheet", null], ["cell", "E3"]], "path": ["v"], "value": 155 },
-      { "query": [["sheet", null], ["cell", "A4"]], "path": ["v"], "value": "Q3" },
-      { "query": [["sheet", null], ["cell", "B4"]], "path": ["v"], "value": 260 },
-      { "query": [["sheet", null], ["cell", "C4"]], "path": ["v"], "value": 151 },
-      { "query": [["sheet", null], ["cell", "D4"]], "path": ["v"], "value": 282 },
-      { "query": [["sheet", null], ["cell", "E4"]], "path": ["v"], "value": 166 }
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A1",
+        "property": "value",
+        "value": "Quarter"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B1",
+        "property": "value",
+        "value": "2019 Sales"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C1",
+        "property": "value",
+        "value": "2019 COGS"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D1",
+        "property": "value",
+        "value": "2020 Sales"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E1",
+        "property": "value",
+        "value": "2020 COGS"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A2",
+        "property": "value",
+        "value": "Q1"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B2",
+        "property": "value",
+        "value": 220
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C2",
+        "property": "value",
+        "value": 130
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D2",
+        "property": "value",
+        "value": 250
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E2",
+        "property": "value",
+        "value": 148
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A3",
+        "property": "value",
+        "value": "Q2"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B3",
+        "property": "value",
+        "value": 240
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C3",
+        "property": "value",
+        "value": 142
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D3",
+        "property": "value",
+        "value": 265
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E3",
+        "property": "value",
+        "value": 155
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "A4",
+        "property": "value",
+        "value": "Q3"
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "B4",
+        "property": "value",
+        "value": 260
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "C4",
+        "property": "value",
+        "value": 151
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "D4",
+        "property": "value",
+        "value": 282
+      },
+      {
+        "kind": "cell",
+        "sheet": null,
+        "cell": "E4",
+        "property": "value",
+        "value": 166
+      }
     ],
     [
       {
-        "query": [["sheet", "Sheet1"], ["chart", { "sourceRange": "A1:C4" }]],
-        "path": ["sourceRange"],
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "sourceRange": "A1:C4"
+        },
+        "property": "sourceRange",
         "value": "A1:C4"
       },
       {
-        "query": [["sheet", "Sheet1"], ["chart", { "sourceRange": "A1:C4" }]],
-        "path": ["chartType"],
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "sourceRange": "A1:C4"
+        },
+        "property": "chartType",
         "value": "column"
       },
       {
-        "query": [["sheet", "Sheet1"], ["chart", { "sourceRange": "A1:C4" }]],
-        "path": ["title"],
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "sourceRange": "A1:C4"
+        },
+        "property": "title",
         "value": "2019 Sales and COGS"
       }
     ],
     [
       {
-        "query": [["sheet", "Sheet1"], ["chart", { "sourceRange": "A1:A4,D1:E4" }]],
-        "path": ["sourceRange"],
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "sourceRange": "A1:A4,D1:E4"
+        },
+        "property": "sourceRange",
         "value": "A1:A4,D1:E4"
       },
       {
-        "query": [["sheet", "Sheet1"], ["chart", { "sourceRange": "A1:A4,D1:E4" }]],
-        "path": ["chartType"],
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "sourceRange": "A1:A4,D1:E4"
+        },
+        "property": "chartType",
         "value": "column"
       },
       {
-        "query": [["sheet", "Sheet1"], ["chart", { "sourceRange": "A1:A4,D1:E4" }]],
-        "path": ["title"],
+        "kind": "chart",
+        "sheet": "Sheet1",
+        "chart": {
+          "sourceRange": "A1:A4,D1:E4"
+        },
+        "property": "title",
         "value": "2020 Sales and COGS"
       }
     ]
