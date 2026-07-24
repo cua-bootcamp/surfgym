@@ -15,7 +15,7 @@
 
 | # | OSWorld reference | 유지할 seed | 공통 핵심 동작 |
 |---:|---|---|---|
-| ✅ | [`04d9aeaf-7bed-4024-bedb-e10e6f00eb7f`](reference/04d9aeaf-7bed-4024-bedb-e10e6f00eb7f.json) | [`annual_change_rate.json`](seeds/annual_change_rate.json) | 여러 자산 열의 전년 대비 변화율 표 계산 |
+| ✅ | `04d9aeaf-7bed-4024-bedb-e10e6f00eb7f`| | 여러 자산 열의 전년 대비 변화율 표 계산 |
 | 2 | [`0a2e43bf-b26c-4631-a966-af9dfa12c9e5`](reference/0a2e43bf-b26c-4631-a966-af9dfa12c9e5.json) | [`calculate_monthly_total_sales.json`](seeds/calculate_monthly_total_sales.json) | 월별 합계 행 계산 후 선 차트 생성 |
 | 3 | [`0bf05a7d-b28b-44d2-955a-50b41e24012a`](reference/0bf05a7d-b28b-44d2-955a-50b41e24012a.json) | [`padding_tag_codes.json`](seeds/padding_tag_codes.json) | 숫자 ID를 복사하고 앞쪽을 0으로 패딩 |
 | 4 | [`12382c62-0cd1-4bf2-bdc8-1d20bf9b2371`](reference/12382c62-0cd1-4bf2-bdc8-1d20bf9b2371.json) | [`chart_sales_cogs_dashboard.json`](seeds/chart_sales_cogs_dashboard.json) | 새 시트에 Sales와 COGS 비교 열 차트 생성 |
@@ -24,10 +24,10 @@
 | 7 | [`26a8440e-c166-4c50-aef4-bfb77314b46b`](reference/26a8440e-c166-4c50-aef4-bfb77314b46b.json) | [`sheet2_monthly_formula_fill.json`](seeds/sheet2_monthly_formula_fill.json) | 새 시트에 월별 합계 요약표 작성 |
 | 8 | [`347ef137-7eeb-4c80-a3bb-0951f26a8aff`](reference/347ef137-7eeb-4c80-a3bb-0951f26a8aff.json) | [`chart_two_year_3d_comparison.json`](seeds/chart_two_year_3d_comparison.json) | 두 연도의 데이터를 각각 별도 열 차트로 생성 |
 | ✅ | [`357ef137-7eeb-4c80-a3bb-0951f26a8aff`](reference/357ef137-7eeb-4c80-a3bb-0951f26a8aff.json) | [`calculate_rental_fee.json`](seeds/calculate_rental_fee.json) | 시간 형식의 기간과 시간당 단가를 올바르게 곱함 |
-| 10 | [`37608790-6147-45d0-9f20-1137bb35703d`](reference/37608790-6147-45d0-9f20-1137bb35703d.json) | [`name_split.json`](seeds/name_split.json) | 한 필드의 이름 정보를 세 열로 분리 |
+| 10 | `37608790-6147-45d0-9f20-1137bb35703d`| ) | 한 필드의 이름 정보를 세 열로 분리 |
 | 11 | [`3a7c8185-25c1-4941-bd7b-96e823c9f21f`](reference/3a7c8185-25c1-4941-bd7b-96e823c9f21f.json) | [`chart_sorted_time_series.json`](seeds/chart_sorted_time_series.json) | 날짜 오름차순 정렬 후 시계열 선 차트 생성 |
 | 12 | [`4172ea6e-6b77-4edb-a9cc-c0014bd1603b`](reference/4172ea6e-6b77-4edb-a9cc-c0014bd1603b.json) | [`calculate_loan_maturity_date.json`](seeds/calculate_loan_maturity_date.json) | 대출 시작일과 기간으로 만기일 계산 |
-| 13 | [`42e0a640-4f19-4b28-973d-729602b5a4a7`](reference/42e0a640-4f19-4b28-973d-729602b5a4a7.json) | [`sheet_cross_sheet_total_summary.json`](seeds/sheet_cross_sheet_total_summary.json) | 새 시트에서 Revenue와 Expenses 합계 계산 |
+| ✅ | [`42e0a640-4f19-4b28-973d-729602b5a4a7`](reference/42e0a640-4f19-4b28-973d-729602b5a4a7.json) | [`sheet_cross_sheet_total_summary.json`](seeds/sheet_cross_sheet_total_summary.json) | 새 시트에서 Revenue와 Expenses 합계 계산 |
 | 14 | [`4de54231-e4b5-49e3-b2ba-61a0bec721c0`](reference/4de54231-e4b5-49e3-b2ba-61a0bec721c0.json) | [`fill_acceleration_and_concat_combined_data.json`](seeds/fill_acceleration_and_concat_combined_data.json) | 수식 채우기 후 헤더·값을 소수 둘째 자리 텍스트로 결합 |
 | ✅ | [`4e6fcf72-daf3-439f-a232-c434ce416af6`](reference/4e6fcf72-daf3-439f-a232-c434ce416af6.json) | [`calculate_employee_age_from_birthdate.json`](seeds/calculate_employee_age_from_birthdate.json) | 생년월일로 직원 나이 계산 |
 | 16 | [`51b11269-2ca8-4b2a-9163-f21758420e78`](reference/51b11269-2ca8-4b2a-9163-f21758420e78.json) | [`assending_amount.json`](seeds/assending_amount.json) | 금액 열을 기준으로 전체 레코드 오름차순 정렬 |

@@ -1,16 +1,16 @@
 {
-  "id": "01b269ae-2111-4a07-81fd-3fcd711993b0",
+  "id": "37608790-6147-45d0-9f20-1137bb35703d",
   "snapshot": "libreoffice_calc",
-  "instruction": "Fill all the blank cells in B1:E30 with the value in the cell above it. Finish the work and don't touch irrelevant regions, even if they are blank.",
-  "source": "https://www.youtube.com/shorts/VrUzPTIwQ04",
+  "instruction": "The information are mixed in one field. Help me split them and fill in the columns of First Name, Last Name and Rank. Finish the work and don't touch the original data.",
+  "source": "https://www.youtube.com/shorts/uzPo_CPCHH8",
   "config": [
     {
       "type": "download",
       "parameters": {
         "files": [
           {
-            "url": "https://huggingface.co/datasets/xlangai/ubuntu_osworld_file_cache/resolve/main/libreoffice_calc/01b269ae-2111-4a07-81fd-3fcd711993b0/Student_Level_Fill_Blank.xlsx",
-            "path": "/home/user/Student_Level_Fill_Blank.xlsx"
+            "url": "https://huggingface.co/datasets/xlangai/ubuntu_osworld_file_cache/resolve/main/libreoffice_calc/37608790-6147-45d0-9f20-1137bb35703d/Employee_Roles_and_Ranks.xlsx",
+            "path": "/home/user/Employee_Roles_and_Ranks.xlsx"
           }
         ]
       }
@@ -18,11 +18,11 @@
     {
       "type": "open",
       "parameters": {
-        "path": "/home/user/Student_Level_Fill_Blank.xlsx"
+        "path": "/home/user/Employee_Roles_and_Ranks.xlsx"
       }
     }
   ],
-  "trajectory": "trajectories/01b269ae-2111-4a07-81fd-3fcd711993b0",
+  "trajectory": "trajectories/37608790-6147-45d0-9f20-1137bb35703d",
   "related_apps": [
     "libreoffice calc"
   ],
@@ -31,7 +31,7 @@
       {
         "type": "activate_window",
         "parameters": {
-          "window_name": "Student_Level_Fill_Blank.xlsx - LibreOffice Calc",
+          "window_name": "Employee_Roles_and_Ranks.xlsx - LibreOffice Calc",
           "strict": true
         }
       },
@@ -61,13 +61,13 @@
     "func": "compare_table",
     "expected": {
       "type": "cloud_file",
-      "path": "https://huggingface.co/datasets/xlangai/ubuntu_osworld_file_cache/resolve/main/libreoffice_calc/01b269ae-2111-4a07-81fd-3fcd711993b0/Student_Level_Fill_Blank_gold.xlsx",
-      "dest": "Student_Level_Fill_Blank_gold.xlsx"
+      "path": "https://huggingface.co/datasets/xlangai/ubuntu_osworld_file_cache/resolve/main/libreoffice_calc/37608790-6147-45d0-9f20-1137bb35703d/Employee_Roles_and_Ranks_gold.xlsx",
+      "dest": "Employee_Roles_and_Ranks_gold.xlsx"
     },
     "result": {
       "type": "vm_file",
-      "path": "/home/user/Student_Level_Fill_Blank.xlsx",
-      "dest": "Student_Level_Fill_Blank.xlsx"
+      "path": "/home/user/Employee_Roles_and_Ranks.xlsx",
+      "dest": "Employee_Roles_and_Ranks.xlsx"
     },
     "options": {
       "rules": [
