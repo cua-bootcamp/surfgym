@@ -1,0 +1,324 @@
+{
+  "instruction": "Format the \"Unit Price ($)\" column by keeping two decimal points.",
+  "states": [
+    [
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A1",
+          "property": "value"
+        },
+        "value": "Item"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B1",
+          "property": "value"
+        },
+        "value": "Restock Date"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C1",
+          "property": "value"
+        },
+        "value": "Unit Price ($)"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D1",
+          "property": "value"
+        },
+        "value": "Supplier"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A2",
+          "property": "value"
+        },
+        "value": "Coffee Beans"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B2",
+          "property": "value"
+        },
+        "value": 46204
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C2",
+          "property": "value"
+        },
+        "value": 18
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D2",
+          "property": "value"
+        },
+        "value": "North Roast"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A3",
+          "property": "value"
+        },
+        "value": "Oat Milk"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B3",
+          "property": "value"
+        },
+        "value": 46205
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C3",
+          "property": "value"
+        },
+        "value": 4.5
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D3",
+          "property": "value"
+        },
+        "value": "Green Dairy"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A4",
+          "property": "value"
+        },
+        "value": "Vanilla Syrup"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B4",
+          "property": "value"
+        },
+        "value": 46206
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C4",
+          "property": "value"
+        },
+        "value": 12.75
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D4",
+          "property": "value"
+        },
+        "value": "SweetCraft"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A5",
+          "property": "value"
+        },
+        "value": "Paper Cups"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B5",
+          "property": "value"
+        },
+        "value": 46207
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C5",
+          "property": "value"
+        },
+        "value": 3.9
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D5",
+          "property": "value"
+        },
+        "value": "EcoServe"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A6",
+          "property": "value"
+        },
+        "value": "Tea Sachets"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B6",
+          "property": "value"
+        },
+        "value": 46208
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C6",
+          "property": "value"
+        },
+        "value": 9
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D6",
+          "property": "value"
+        },
+        "value": "Leaf & Co."
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A7",
+          "property": "value"
+        },
+        "value": "Chocolate Powder"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B7",
+          "property": "value"
+        },
+        "value": 46209
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C7",
+          "property": "value"
+        },
+        "value": 6.4
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D7",
+          "property": "value"
+        },
+        "value": "Cocoa Works"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A8",
+          "property": "value"
+        },
+        "value": "Matcha Powder"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B8",
+          "property": "value"
+        },
+        "value": 46210
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C8",
+          "property": "value"
+        },
+        "value": 22.35
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D8",
+          "property": "value"
+        },
+        "value": "Uji Select"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A1:D1",
+          "property": "bold"
+        },
+        "value": 1
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B2:B8",
+          "property": "numberFormat"
+        },
+        "value": "m/d/yy"
+      }
+    ],
+    [
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C1:C8",
+          "property": "numberFormat"
+        },
+        "value": "0.00"
+      }
+    ]
+  ]
+}
