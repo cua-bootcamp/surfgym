@@ -1,5 +1,8 @@
 import { ChartTypeBits, SheetsChartService } from "@univerjs/presets/preset-sheets-advanced";
-import type { FWorksheet } from "@univerjs/preset-sheets-core";
+import {
+  checkCellValueType,
+  type FWorksheet
+} from "@univerjs/preset-sheets-core";
 import type { FChart } from "@univerjs/presets/lib/types/preset-sheets-advanced/index.js";
 import type { Path, Value } from "../external";
 import { SpreadsheetRuntimeStore } from "./runtime";
@@ -120,6 +123,14 @@ function activateSheetAfterExplicitSet(sheetRef: SheetRef | undefined, worksheet
 
 function isRecord(value: unknown): value is Record<PropertyKey, unknown> {
   return value !== null && typeof value === "object";
+}
+
+function isCellValue(value: Value): value is string | number | boolean {
+  return (
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean"
+  );
 }
 
 function resolveCell(address: string) {
@@ -759,6 +770,27 @@ export function _setCellMeta(
       column += 1
     ) {
       const range = worksheet.getRange(row, column);
+
+      if (path.length === 1 && path[0] === "v") {
+        if (value === null) {
+          range.clearContent();
+          continue;
+        }
+
+        if (!isCellValue(value)) {
+          throw new Error("Cell value must be a scalar.");
+        }
+
+        range.setValueForCell({
+          v: value,
+          t: checkCellValueType(value, null),
+          f: null,
+          p: null,
+          si: null
+        });
+        continue;
+      }
+
       const data = range.getCellData() ?? {};
       let target = data as Record<PropertyKey, unknown>;
 
