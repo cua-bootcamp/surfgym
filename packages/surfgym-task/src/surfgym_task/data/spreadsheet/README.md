@@ -25,4 +25,5 @@
 
 1. [seeds](/Users/goonco/01_workspace/09_llm-lab/cua-boot/surfgym/packages/surfgym-task/src/surfgym_task/data/spreadsheet/seeds/)에 `B.json`을 만든다.
 2. `B.json`의 instruction 과 state를 붙이는데 이때 `state`는 [surfgym_task](/Users/goonco/01_workspace/09_llm-lab/cua-boot/surfgym/packages/surfgym-task/src/surfgym_task/)  와 [spreadsheet](/Users/goonco/01_workspace/09_llm-lab/cua-boot/surfgym/packages/surfgym-fixture/src/surfgym_fixture/src/spreadsheet/) 의 내용을 자세히 보고 만들어야 한다.
-3. 이때 현재 spreadsheet fixture에서 evaluation이 불가능한 경우가 있다. (피봇 테이블, 차트) 이 경우 사용자에게 알린다.
+3. 또한 instruction 생성 시에 기존 seed와 너무 동일하지 않게 (목적은 같되 벡터 유사도는 피할 수 있게) 만든다.
+4. 이때 현재 spreadsheet fixture에서 evaluation이 불가능한 경우가 있다. (피봇 테이블, 차트) 이 경우 사용자에게 알린다.
