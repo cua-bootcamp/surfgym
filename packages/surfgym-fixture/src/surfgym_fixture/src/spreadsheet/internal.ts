@@ -6,6 +6,7 @@ import { SpreadsheetRuntimeStore } from "./runtime";
 
 type WorksheetLike = FWorksheet;
 const chartUpdateConfigCommandId = "sheet.command.chart-update-config";
+const setZoomRatioCommandId = "sheet.command.set-zoom-ratio";
 
 type InjectorLike = {
   get: <T>(token: unknown) => T;
@@ -848,6 +849,10 @@ export function _getSheetName(sheetRef?: SheetRef) {
   return getSheetName(resolveSheet(sheetRef));
 }
 
+export function _getSheetZoom(sheetRef?: SheetRef) {
+  return resolveSheet(sheetRef).getZoom();
+}
+
 export function _resetSpreadsheetState() {
   const runtime = SpreadsheetRuntimeStore.runtime;
   const { workbook } = runtime;
@@ -886,6 +891,35 @@ export function _setSheetName(sheetRef: SheetRef | undefined, value: Value) {
 
   activateSheetAfterExplicitSet(sheetRef, worksheet);
   return getSheetName(worksheet);
+}
+
+export async function _setSheetZoom(sheetRef: SheetRef | undefined, value: Value) {
+  if (typeof value !== "number" || !Number.isFinite(value) || value < 0.1 || value > 4) {
+    throw new Error("Sheet zoom must be a finite number between 0.1 and 4.");
+  }
+
+  const runtime = SpreadsheetRuntimeStore.runtime;
+  await runtime.rendered;
+
+  const worksheet = resolveSheet(sheetRef, { create: true });
+  activateSheetAfterExplicitSet(sheetRef, worksheet);
+
+  const applied = await runtime.univerAPI.executeCommand(setZoomRatioCommandId, {
+    unitId: runtime.workbook.getId(),
+    subUnitId: worksheet.getSheetId(),
+    zoomRatio: value
+  });
+
+  if (!applied) {
+    throw new Error(`Failed to set sheet zoom to ${value}.`);
+  }
+
+  const actual = worksheet.getZoom();
+  if (!Number.isFinite(actual) || Math.abs(actual - value) > 1e-9) {
+    throw new Error(`Sheet zoom mismatch after set: expected=${value}, actual=${actual}.`);
+  }
+
+  return actual;
 }
 
 export function _getIndexedSheetName(sheetRef: IndexedSheetRef) {

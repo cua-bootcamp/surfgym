@@ -5,6 +5,7 @@ import {
   _getIndexedSheetName,
   _getRowHidden,
   _getSheetName,
+  _getSheetZoom,
   _resetSpreadsheetState,
   _setCellMeta,
   _setCellNumberFormat,
@@ -12,9 +13,11 @@ import {
   _setIndexedSheetName,
   _setRowHidden,
   _setSheetName,
+  _setSheetZoom,
   type ChartRef,
   type IndexedSheetRef
 } from "./internal";
+import { SpreadsheetRuntimeStore } from "./runtime";
 
 const CELL_PATHS = {
   backgroundColor: ["s", "bg", "rgb"],
@@ -45,7 +48,7 @@ const CHART_PROPERTIES = [
 
 type SheetSelector = string | number | null;
 type CellProperty = keyof typeof CELL_PATHS | "rowHidden";
-type SheetProperty = "name";
+type SheetProperty = "name" | "zoom";
 type ChartProperty = (typeof CHART_PROPERTIES)[number];
 
 type CellSpec = {
@@ -84,8 +87,11 @@ export function get(spec: SpreadsheetSpec): unknown {
       return _getCellMetaValue(sheetRef(spec.sheet), spec.cell, getCellPath(spec.property));
     case "sheet":
       assertSheetProperty(spec.property);
-      if (isIndexedSheetRef(spec.sheet)) return _getIndexedSheetName(spec.sheet);
-      return _getSheetName(sheetRef(spec.sheet));
+      if (spec.property === "name") {
+        if (isIndexedSheetRef(spec.sheet)) return _getIndexedSheetName(spec.sheet);
+        return _getSheetName(sheetRef(spec.sheet));
+      }
+      return _getSheetZoom(resolveSheetRef(spec.sheet));
     case "chart":
       assertChartProperty(spec.property);
       return _getChartMeta(sheetRef(spec.sheet), spec.chart)[spec.property];
@@ -105,8 +111,11 @@ export function set(spec: SpreadsheetSpec, value: Value) {
       return _setCellMeta(sheetRef(spec.sheet), spec.cell, getCellPath(spec.property), value);
     case "sheet":
       assertSheetProperty(spec.property);
-      if (isIndexedSheetRef(spec.sheet)) return _setIndexedSheetName(spec.sheet, value);
-      return _setSheetName(sheetRef(spec.sheet), value);
+      if (spec.property === "name") {
+        if (isIndexedSheetRef(spec.sheet)) return _setIndexedSheetName(spec.sheet, value);
+        return _setSheetName(sheetRef(spec.sheet), value);
+      }
+      return _setSheetZoom(resolveSheetRef(spec.sheet), value);
     case "chart":
       assertChartProperty(spec.property);
       return _setChartMeta(sheetRef(spec.sheet), spec.chart, [spec.property], value);
@@ -118,6 +127,7 @@ export function set(spec: SpreadsheetSpec, value: Value) {
 export async function applyState(atoms: SpreadsheetStateAtom[]) {
   if (!Array.isArray(atoms)) throw new Error("Spreadsheet state must be an array.");
 
+  await SpreadsheetRuntimeStore.runtime.rendered;
   await settleSpreadsheetRendering();
   _resetSpreadsheetState();
 
@@ -142,6 +152,13 @@ function isIndexedSheetRef(sheet: SheetSelector | IndexedSheetRef): sheet is Ind
   return typeof sheet === "object" && sheet !== null;
 }
 
+function resolveSheetRef(sheet: SheetSelector | IndexedSheetRef): string | number | undefined {
+  if (!isIndexedSheetRef(sheet)) return sheetRef(sheet);
+
+  _getIndexedSheetName(sheet);
+  return sheet.index;
+}
+
 function assertChartProperty(property: string): asserts property is ChartProperty {
   if (!CHART_PROPERTIES.includes(property as ChartProperty)) {
     throw new Error(`Unsupported chart property: ${property}`);
@@ -149,7 +166,9 @@ function assertChartProperty(property: string): asserts property is ChartPropert
 }
 
 function assertSheetProperty(property: string): asserts property is SheetProperty {
-  if (property !== "name") throw new Error(`Unsupported sheet property: ${property}`);
+  if (property !== "name" && property !== "zoom") {
+    throw new Error(`Unsupported sheet property: ${property}`);
+  }
 }
 
 function unsupportedSpec(spec: never): Error {

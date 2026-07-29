@@ -9,6 +9,7 @@ type SpreadsheetRuntime = {
   workbook: FWorkbook;
   defaultWorksheet: FWorksheet;
   univerAPI: SpreadsheetUniverAPI;
+  rendered: Promise<void>;
   initializeWorksheet: (worksheet: FWorksheet) => void;
 };
 

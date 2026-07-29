@@ -88,26 +88,68 @@ function initializeWorksheet(targetWorksheet: FWorksheet) {
   }
 }
 
+function waitForSpreadsheetRendered(timeoutMs = 10_000) {
+  const renderedStage = univerAPI.Enum.LifecycleStages.Rendered;
+
+  if (univerAPI.getCurrentLifecycleStage() >= renderedStage) {
+    return Promise.resolve();
+  }
+
+  return new Promise<void>((resolve, reject) => {
+    let settled = false;
+    let disposable: { dispose: () => void } | null = null;
+    let timeoutId: number | null = null;
+
+    const finish = (error?: Error) => {
+      if (settled) return;
+
+      settled = true;
+      if (timeoutId !== null) window.clearTimeout(timeoutId);
+      disposable?.dispose();
+
+      if (error) reject(error);
+      else resolve();
+    };
+
+    timeoutId = window.setTimeout(() => {
+      finish(new Error(`Spreadsheet did not reach Rendered within ${timeoutMs}ms.`));
+    }, timeoutMs);
+
+    const registered = univerAPI.addEvent(univerAPI.Event.LifeCycleChanged, ({ stage }) => {
+      if (stage < renderedStage) return;
+
+      finish();
+    });
+
+    disposable = registered;
+
+    if (settled) {
+      registered.dispose();
+    } else if (univerAPI.getCurrentLifecycleStage() >= renderedStage) {
+      finish();
+    }
+  });
+}
+
+const rendered = waitForSpreadsheetRendered();
+
 SpreadsheetRuntimeStore.runtime = {
   workbook,
   defaultWorksheet: worksheet,
   univerAPI,
+  rendered,
   initializeWorksheet
 };
 
 window.surfgym = { get, set, applyState };
 initializeWorksheet(worksheet);
 
-if (univerAPI.getCurrentLifecycleStage() < univerAPI.Enum.LifecycleStages.Rendered) {
-  let disposable: { dispose: () => void } | null = null;
-
-  disposable = univerAPI.addEvent(univerAPI.Event.LifeCycleChanged, ({ stage }) => {
-    if (stage !== univerAPI.Enum.LifecycleStages.Rendered) return;
-
+void rendered.then(
+  () => {
     customizeSpreadsheetHeaders(SpreadsheetRuntimeStore.runtime.defaultWorksheet);
-    disposable?.dispose();
-  });
-}
+  },
+  () => undefined
+);
 
 const actions = createSpreadsheetActions({
   univerAPI,
