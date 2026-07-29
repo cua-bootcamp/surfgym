@@ -1,0 +1,21 @@
+{
+  "task_id": "vlc_hide_title_filename",
+  "hash": "vlc_hide_title_filename",
+  "instruction": "Stop VLC from showing the currently playing file name in the window title bar, and make sure the setting persists across restarts.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "complexity": 1,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'qt-name-in-title', default: '1' } ] }); return data[0]; }",
+        "value": "0",
+        "match": "exact"
+      }
+    ]
+  }
+}

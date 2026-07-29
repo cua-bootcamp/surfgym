@@ -1,0 +1,19 @@
+{
+  "task_id": "geo_hierarchy_italy_rome",
+  "hash": "geo_hierarchy_italy_rome",
+  "instruction": "Starting from the country list, navigate to Italy, then to Rome, to reach the Rome hotel search.",
+  "website": {
+    "base": "http://localhost:3200/countries"
+  },
+  "complexity": 2,
+  "evaluation": {
+    "operator": "and",
+    "criteria": [
+      {
+        "target": "url",
+        "match": "contains",
+        "value": "/city/it/rome"
+      }
+    ]
+  }
+}

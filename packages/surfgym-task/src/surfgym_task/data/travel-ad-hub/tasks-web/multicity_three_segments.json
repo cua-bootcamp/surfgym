@@ -1,0 +1,28 @@
+{
+  "task_id": "multicity_three_segments",
+  "hash": "multicity_three_segments",
+  "instruction": "Plan a multi-city trip with three flights: London to Paris, Paris to Rome, and Rome to Amsterdam. Add the flight segments and fill them in, but do not search yet.",
+  "website": {
+    "base": "http://localhost:3200/flights"
+  },
+  "complexity": 4,
+  "evaluation": {
+    "operator": "and",
+    "criteria": [
+      {
+        "script": "(()=>[...document.querySelectorAll(\"input[placeholder='City or airport']\")].map(i=>i.value.trim().toLowerCase()))()",
+        "value": [
+          "london",
+          "paris",
+          "paris",
+          "rome",
+          "rome",
+          "amsterdam"
+        ],
+        "match": "exact",
+        "normalize_space": true,
+        "case_sensitive": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "vlc_single_instance_reuse",
+  "hash": "vlc_single_instance_reuse",
+  "instruction": "Make VLC always reuse a single instance when I open a new file.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "complexity": 1,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'one-instance-when-started-from-file', default: '1' } ] }); return data[0]; }",
+        "value": "0",
+        "match": "exact"
+      }
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "task_id": "help_search_refund",
+  "hash": "help_search_refund",
+  "instruction": "In the Help Centre, search for 'refund' and open the article about when a refund is received.",
+  "website": {
+    "base": "http://localhost:3200/help"
+  },
+  "complexity": 2,
+  "evaluation": {
+    "operator": "and",
+    "criteria": [
+      {
+        "target": "text",
+        "match": "contains",
+        "value": "Search results for"
+      },
+      {
+        "target": "text",
+        "match": "contains",
+        "value": "Refunds are typically processed within 7-10 business days"
+      }
+    ]
+  }
+}
