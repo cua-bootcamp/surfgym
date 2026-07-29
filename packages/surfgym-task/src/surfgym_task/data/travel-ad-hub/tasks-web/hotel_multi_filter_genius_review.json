@@ -1,0 +1,27 @@
+{
+  "task_id": "hotel_multi_filter_genius_review",
+  "hash": "hotel_multi_filter_genius_review",
+  "instruction": "Show hotels in Paris with Genius discounts enabled and a review score of Superb: 9+.",
+  "website": {
+    "base": "http://localhost:3200/search",
+    "param": {
+      "destination": "Paris"
+    }
+  },
+  "complexity": 3,
+  "evaluation": {
+    "operator": "and",
+    "criteria": [
+      {
+        "script": "(()=>{const l=[...document.querySelectorAll('label')].find(x=>x.textContent.includes('Genius'));return l?l.querySelector('input[type=checkbox]').checked:false;})()",
+        "value": true,
+        "match": "exact"
+      },
+      {
+        "script": "(()=>{const r=[...document.querySelectorAll('input[type=radio]')].find(x=>x.checked);return r?(r.closest('label')?.textContent.trim()||null):null;})()",
+        "value": "Superb: 9+",
+        "match": "exact"
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "task_id": "gimp_resize_layer_256",
+  "hash": "gimp_resize_layer_256",
+  "instruction": "Could you resize the subject layer's height to 256 pixels while maintaining the original aspect ratio?",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "subject & background2.xcf"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

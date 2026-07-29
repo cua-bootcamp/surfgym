@@ -1,0 +1,24 @@
+{
+  "task_id": "car_rating_sort",
+  "hash": "car_rating_sort",
+  "instruction": "Show cars available in Barcelona, sorted by customer rating (highest first).",
+  "website": {
+    "base": "http://localhost:3200/cars/search",
+    "param": {
+      "pickup": "Barcelona"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "operator": "and",
+    "criteria": [
+      {
+        "target": "attr",
+        "selector": "select",
+        "attr": "value",
+        "match": "exact",
+        "value": "rating"
+      }
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "task_id": "help_search_cancel",
+  "hash": "help_search_cancel",
+  "instruction": "In the Help Centre, find the article about how to cancel a booking.",
+  "website": {
+    "base": "http://localhost:3200/help"
+  },
+  "complexity": 2,
+  "evaluation": {
+    "operator": "and",
+    "criteria": [
+      {
+        "target": "text",
+        "match": "contains",
+        "value": "Search results for"
+      },
+      {
+        "target": "text",
+        "match": "contains",
+        "value": "If your booking has free cancellation, you will receive a full refund."
+      }
+    ]
+  }
+}

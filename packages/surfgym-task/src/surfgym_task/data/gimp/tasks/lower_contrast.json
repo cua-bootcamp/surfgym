@@ -1,0 +1,18 @@
+{
+  "task_id": "gimp_lower_contrast",
+  "hash": "gimp_lower_contrast",
+  "instruction": "I'd like to soften the picture — could you assist me in lowering the contrast?",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "High contrast.jpg"
+    }
+  },
+  "complexity": 1,
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

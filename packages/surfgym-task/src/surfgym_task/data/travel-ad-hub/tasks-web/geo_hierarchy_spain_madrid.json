@@ -1,0 +1,19 @@
+{
+  "task_id": "geo_hierarchy_spain_madrid",
+  "hash": "geo_hierarchy_spain_madrid",
+  "instruction": "From the country list, browse to Spain and then to Madrid.",
+  "website": {
+    "base": "http://localhost:3200/countries"
+  },
+  "complexity": 2,
+  "evaluation": {
+    "operator": "and",
+    "criteria": [
+      {
+        "target": "url",
+        "match": "contains",
+        "value": "/city/es/madrid"
+      }
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "task_id": "hotel_review_genius_filter",
+  "hash": "hotel_review_genius_filter",
+  "instruction": "Search hotels in Amsterdam, set the review score to Very good: 8+ and enable Genius discounts, without leaving the results page.",
+  "website": {
+    "base": "http://localhost:3200/search",
+    "param": {
+      "destination": "Amsterdam"
+    }
+  },
+  "complexity": 3,
+  "evaluation": {
+    "operator": "and",
+    "criteria": [
+      {
+        "target": "url",
+        "match": "contains",
+        "value": "/search"
+      },
+      {
+        "script": "(()=>{const r=[...document.querySelectorAll('input[type=radio]')].find(x=>x.checked);return r?(r.closest('label')?.textContent.trim()||null):null;})()",
+        "value": "Very good: 8+",
+        "match": "exact"
+      },
+      {
+        "script": "(()=>{const l=[...document.querySelectorAll('label')].find(x=>x.textContent.includes('Genius'));return l?l.querySelector('input[type=checkbox]').checked:false;})()",
+        "value": true,
+        "match": "exact"
+      }
+    ]
+  }
+}
