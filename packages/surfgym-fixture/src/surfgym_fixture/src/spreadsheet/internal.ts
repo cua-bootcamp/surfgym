@@ -1,8 +1,5 @@
 import { ChartTypeBits, SheetsChartService } from "@univerjs/presets/preset-sheets-advanced";
-import {
-  checkCellValueType,
-  type FWorksheet
-} from "@univerjs/preset-sheets-core";
+import { checkCellValueType, type FWorksheet } from "@univerjs/preset-sheets-core";
 import type { FChart } from "@univerjs/presets/lib/types/preset-sheets-advanced/index.js";
 import type { Path, Value } from "../external";
 import { SpreadsheetRuntimeStore } from "./runtime";
@@ -35,7 +32,8 @@ type WorkbookWithSheetMutation = {
   getSheets?: () => WorksheetLike[];
   getSheetByName?: (sheetName: string) => WorksheetLike | null | undefined;
   getSheetBySheetId?: (sheetId: string) => WorksheetLike | null | undefined;
-  insertSheet?: (name?: string) => WorksheetLike;
+  insertSheet?: (name?: string, options?: { index?: number }) => WorksheetLike;
+  moveSheet?: (sheet: WorksheetLike, index: number) => unknown;
 };
 type ChartBuilderLike = {
   setChartType: (chartType: ChartTypeBits) => ChartBuilderLike;
@@ -126,11 +124,7 @@ function isRecord(value: unknown): value is Record<PropertyKey, unknown> {
 }
 
 function isCellValue(value: Value): value is string | number | boolean {
-  return (
-    typeof value === "string" ||
-    typeof value === "number" ||
-    typeof value === "boolean"
-  );
+  return typeof value === "string" || typeof value === "number" || typeof value === "boolean";
 }
 
 function resolveCell(address: string) {
@@ -466,7 +460,10 @@ function getChartMetasForWorksheet(worksheet: WorksheetLike) {
       .map((item) => [item.id, item] as [string, ChartMeta])
   );
   const actualMetas = charts.map((chart) =>
-    mergeChartMeta(buildChartMeta(worksheet, charts, chart), registeredById.get(chart.getChartId?.() ?? ""))
+    mergeChartMeta(
+      buildChartMeta(worksheet, charts, chart),
+      registeredById.get(chart.getChartId?.() ?? "")
+    )
   );
   const actualIds = new Set(actualMetas.map((item) => item.id).filter(Boolean));
   const registeredOnly = registeredForSheet.filter((item) => !item.id || !actualIds.has(item.id));
@@ -510,7 +507,8 @@ function resolveChartMeta(chartMetas: ChartMeta[], chartRef?: ChartRef) {
 function createChartMeta(worksheet: WorksheetLike, chartRef?: ChartRef): ChartMeta {
   const sheetId = worksheet.getSheetId?.() ?? null;
   const chartRefRecord = isRecord(chartRef) ? chartRef : {};
-  const index = typeof chartRef === "number" ? chartRef : getChartMetasForWorksheet(worksheet).length;
+  const index =
+    typeof chartRef === "number" ? chartRef : getChartMetasForWorksheet(worksheet).length;
   const chartType =
     chartRefRecord.chartType !== undefined ? normalizeChartType(chartRefRecord.chartType) : null;
 
@@ -574,13 +572,17 @@ function getMutableChartMeta(worksheet: WorksheetLike, chartRef?: ChartRef) {
 
   if (registeredMatches.length === 1) return registeredMatches[0]!;
   if (registeredMatches.length > 1)
-    throw new Error(`Expected exactly one matching registered chart, found ${registeredMatches.length}.`);
+    throw new Error(
+      `Expected exactly one matching registered chart, found ${registeredMatches.length}.`
+    );
 
   const existingMatches = findMatchingChartMetas(getChartMetasForWorksheet(worksheet), chartRef);
   if (existingMatches.length > 1)
     throw new Error(`Expected exactly one matching chart, found ${existingMatches.length}.`);
 
-  const meta = existingMatches[0] ? { ...existingMatches[0] } : createChartMeta(worksheet, chartRef);
+  const meta = existingMatches[0]
+    ? { ...existingMatches[0] }
+    : createChartMeta(worksheet, chartRef);
   upsertChartMeta(meta);
 
   return meta;
@@ -731,11 +733,7 @@ export function _getCellMetaValue(
   for (let row = cellRange.startRow; row <= cellRange.endRow; row += 1) {
     const rowValues: unknown[] = [];
 
-    for (
-      let column = cellRange.startColumn;
-      column <= cellRange.endColumn;
-      column += 1
-    ) {
+    for (let column = cellRange.startColumn; column <= cellRange.endColumn; column += 1) {
       const range = worksheet.getRange(row, column);
       const data = worksheet.getSheet().getCellRaw(row, column) ?? {};
       const style = range.getCellStyleData("cell") ?? {};
@@ -747,9 +745,7 @@ export function _getCellMetaValue(
   }
 
   const firstValue = values[0]?.[0];
-  const hasUniformValue = values.every((row) =>
-    row.every((value) => Object.is(value, firstValue))
-  );
+  const hasUniformValue = values.every((row) => row.every((value) => Object.is(value, firstValue)));
 
   return hasUniformValue ? firstValue : values;
 }
@@ -764,11 +760,7 @@ export function _setCellMeta(
   const cellRange = resolveCellRange(cellRefStr);
 
   for (let row = cellRange.startRow; row <= cellRange.endRow; row += 1) {
-    for (
-      let column = cellRange.startColumn;
-      column <= cellRange.endColumn;
-      column += 1
-    ) {
+    for (let column = cellRange.startColumn; column <= cellRange.endColumn; column += 1) {
       const range = worksheet.getRange(row, column);
 
       if (path.length === 1 && path[0] === "v") {
@@ -819,11 +811,7 @@ export function _setCellNumberFormat(
   const cellRange = resolveCellRange(cellRefStr);
 
   for (let row = cellRange.startRow; row <= cellRange.endRow; row += 1) {
-    for (
-      let column = cellRange.startColumn;
-      column <= cellRange.endColumn;
-      column += 1
-    ) {
+    for (let column = cellRange.startColumn; column <= cellRange.endColumn; column += 1) {
       worksheet.getRange(row, column).setNumberFormat(value);
     }
   }
@@ -844,11 +832,7 @@ export function _getRowHidden(sheetRef: SheetRef | undefined, cellRefStr: string
   return values.every((value) => value === firstValue) ? firstValue : values;
 }
 
-export function _setRowHidden(
-  sheetRef: SheetRef | undefined,
-  cellRefStr: string,
-  value: Value
-) {
+export function _setRowHidden(sheetRef: SheetRef | undefined, cellRefStr: string, value: Value) {
   if (typeof value !== "boolean") throw new Error("rowHidden must be a boolean.");
 
   const worksheet = resolveSheet(sheetRef);
@@ -864,57 +848,126 @@ export function _getSheetName(sheetRef?: SheetRef) {
   return getSheetName(resolveSheet(sheetRef));
 }
 
-export function _setSheetName(sheetRef: SheetRef | undefined, value: Value) {
-  const worksheet = resolveSheet(sheetRef, { create: true });
-  if (typeof value !== "string" || value.trim() === "") {
-    throw new Error("Sheet name must be a non-empty string.");
+export function _resetSpreadsheetState() {
+  const runtime = SpreadsheetRuntimeStore.runtime;
+  const { workbook } = runtime;
+  const previousSheets = workbook.getSheets();
+  const existingNames = new Set(previousSheets.map((sheet) => sheet.getSheetName()));
+  let resetSheetName = "__surfgym_reset__";
+
+  while (existingNames.has(resetSheetName)) resetSheetName += "_";
+
+  const resetWorksheet = workbook.insertSheet(resetSheetName, { index: 0 });
+  workbook.setActiveSheet(resetWorksheet);
+
+  for (const sheet of previousSheets) {
+    if (!workbook.deleteSheet(sheet)) {
+      throw new Error(`Failed to remove sheet while resetting state: ${sheet.getSheetName()}`);
+    }
   }
 
+  resetWorksheet.setName("Sheet1");
+  workbook.setActiveSheet(resetWorksheet);
+  runtime.defaultWorksheet = resetWorksheet;
+  runtime.initializeWorksheet(resetWorksheet);
+  chartMetaRegistry.length = 0;
+
+  return resetWorksheet;
+}
+
+export function _setSheetName(sheetRef: SheetRef | undefined, value: Value) {
+  const name = requireSheetName(value);
+  const worksheet = resolveSheet(sheetRef, { create: true });
+
   const setName = (worksheet as WorksheetWithCharts).setName;
-  if (typeof setName === "function" && getSheetName(worksheet) !== value) {
-    setName.call(worksheet, value);
+  if (typeof setName === "function" && getSheetName(worksheet) !== name) {
+    setName.call(worksheet, name);
   }
 
   activateSheetAfterExplicitSet(sheetRef, worksheet);
   return getSheetName(worksheet);
 }
 
-export function _getSheetNames() {
-  return getWorkbookSheets().map((sheet) => {
-    const name = getSheetName(sheet);
-    if (name === null) throw new Error("Sheet has no name.");
-    return name;
-  });
+export function _getIndexedSheetName(sheetRef: IndexedSheetRef) {
+  const { index, name } = normalizeIndexedSheetRef(sheetRef);
+  const worksheet = getWorkbookSheets()[index];
+
+  if (!worksheet) throw new Error(`Sheet not found: index=${index}, name=${name}`);
+
+  const actualName = getSheetName(worksheet);
+  if (actualName !== name) {
+    throw new Error(
+      `Sheet mismatch at index ${index}: expected ${name}, actual ${String(actualName)}`
+    );
+  }
+
+  return actualName;
 }
 
-export function _setSheetNames(value: Value) {
-  if (
-    !Array.isArray(value) ||
-    !value.every((name) => typeof name === "string" && name.trim() !== "")
-  ) {
-    throw new Error("sheetNames must be an array of non-empty strings.");
+export function _setIndexedSheetName(sheetRef: IndexedSheetRef, value: Value) {
+  const normalized = normalizeIndexedSheetRef(sheetRef);
+  const valueName = requireSheetName(value);
+
+  if (valueName !== normalized.name) {
+    throw new Error(
+      `Indexed sheet name must match set value: selector=${normalized.name}, value=${valueName}`
+    );
   }
-  const names = value as string[];
 
   const { workbook } = SpreadsheetRuntimeStore.runtime;
   const mutableWorkbook = workbook as unknown as WorkbookWithSheetMutation;
   let sheets = getWorkbookSheets();
-  if (sheets.length > names.length) throw new Error("Removing sheets is not supported.");
 
-  while (sheets.length < names.length) {
-    if (typeof mutableWorkbook.insertSheet !== "function") {
-      throw new Error("Creating sheets is not supported.");
-    }
-    mutableWorkbook.insertSheet();
-    sheets = getWorkbookSheets();
+  if (normalized.index > sheets.length) {
+    throw new Error(
+      `Cannot place sheet at index ${normalized.index}; sheet count is ${sheets.length}.`
+    );
   }
 
-  names.forEach((name, index) => {
-    const sheet = sheets[index] as WorksheetWithCharts;
-    if (getSheetName(sheet) !== name) sheet.setName?.(name);
-  });
+  let worksheet = sheets.find((sheet) => getSheetName(sheet) === normalized.name);
 
-  return _getSheetNames();
+  if (worksheet) {
+    const currentIndex = sheets.indexOf(worksheet);
+    if (currentIndex !== normalized.index) {
+      if (normalized.index >= sheets.length) {
+        throw new Error(
+          `Cannot move existing sheet ${normalized.name} to index ${normalized.index}.`
+        );
+      }
+      if (typeof mutableWorkbook.moveSheet !== "function") {
+        throw new Error("Moving sheets is not supported.");
+      }
+      mutableWorkbook.moveSheet(worksheet, normalized.index);
+    }
+  } else {
+    worksheet = sheets[normalized.index];
+    if (worksheet) {
+      const setName = (worksheet as WorksheetWithCharts).setName;
+      if (typeof setName !== "function") throw new Error("Renaming sheets is not supported.");
+      setName.call(worksheet, normalized.name);
+    } else {
+      if (typeof mutableWorkbook.insertSheet !== "function") {
+        throw new Error("Creating sheets is not supported.");
+      }
+      worksheet = mutableWorkbook.insertSheet(normalized.name, {
+        index: normalized.index
+      });
+    }
+  }
+
+  sheets = getWorkbookSheets();
+  const indexedWorksheet = sheets[normalized.index];
+  const actualName = indexedWorksheet ? getSheetName(indexedWorksheet) : null;
+  if (!indexedWorksheet || actualName !== normalized.name) {
+    throw new Error(
+      `Failed to place sheet ${normalized.name} at index ${normalized.index}; actual=${String(
+        actualName
+      )}`
+    );
+  }
+
+  activateSheetAfterExplicitSet(normalized.index, indexedWorksheet);
+  return actualName;
 }
 
 function buildChartMeta(worksheet: WorksheetLike, charts: FChart[], chart: FChart): ChartMeta {
@@ -969,7 +1022,11 @@ export async function _setChartMeta(
   const worksheet = resolveSheet(sheetRef, { create: true });
   const meta = getMutableChartMeta(worksheet, chartRef);
 
-  writePath(meta as unknown as Record<PropertyKey, unknown>, path, normalizeChartSetValue(path, value));
+  writePath(
+    meta as unknown as Record<PropertyKey, unknown>,
+    path,
+    normalizeChartSetValue(path, value)
+  );
   meta.sheetId = worksheet.getSheetId?.() ?? meta.sheetId;
   meta.sheetName = getSheetName(worksheet);
   upsertChartMeta(meta);
@@ -981,6 +1038,10 @@ export async function _setChartMeta(
 }
 
 export type SheetRef = string | number;
+export type IndexedSheetRef = {
+  index: number;
+  name: string;
+};
 export type CellRef = {
   row: number;
   column: number;
@@ -994,6 +1055,32 @@ export type ChartRef =
       sourceRange?: string;
       chartType?: unknown;
     };
+
+type NormalizedIndexedSheetRef = {
+  index: number;
+  name: string;
+};
+
+function requireSheetName(value: Value): string {
+  if (typeof value !== "string" || value.trim() === "") {
+    throw new Error("Sheet name must be a non-empty string.");
+  }
+  return value;
+}
+
+function normalizeIndexedSheetRef(sheetRef: IndexedSheetRef): NormalizedIndexedSheetRef {
+  if (!Number.isInteger(sheetRef.index) || sheetRef.index < 0) {
+    throw new Error(`Sheet index must be a non-negative integer: ${String(sheetRef.index)}`);
+  }
+  if (typeof sheetRef.name !== "string" || sheetRef.name.trim() === "") {
+    throw new Error("Indexed sheet name must be a non-empty string.");
+  }
+
+  return {
+    index: sheetRef.index,
+    name: sheetRef.name
+  };
+}
 
 // ######################################
 // #                Meta                #

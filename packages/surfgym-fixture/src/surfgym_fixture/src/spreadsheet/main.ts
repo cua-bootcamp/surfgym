@@ -12,10 +12,10 @@ import { UniverSheetsFilterPreset } from "@univerjs/presets/preset-sheets-filter
 import UniverPresetSheetsFilterEnUS from "@univerjs/presets/preset-sheets-filter/locales/en-US";
 import { UniverSheetsSortPreset } from "@univerjs/presets/preset-sheets-sort";
 import UniverPresetSheetsSortEnUS from "@univerjs/presets/preset-sheets-sort/locales/en-US";
-import { UniverSheetsCorePreset } from "@univerjs/preset-sheets-core";
+import { UniverSheetsCorePreset, type FWorksheet } from "@univerjs/preset-sheets-core";
 import UniverPresetSheetsCoreEnUS from "@univerjs/preset-sheets-core/locales/en-US";
 import { createSpreadsheetActions } from "./spreadsheet-actions";
-import { get, set } from "./external";
+import { applyState, get, set } from "./external";
 import { SpreadsheetRuntimeStore } from "./runtime";
 import { renderSpreadsheetMockToolbar, setupSpreadsheetUi } from "./spreadsheet-ui";
 
@@ -68,38 +68,43 @@ const workbook = univerAPI.createWorkbook({
 });
 const worksheet = workbook.getActiveSheet();
 
-SpreadsheetRuntimeStore.runtime = {
-  workbook,
-  defaultWorksheet: worksheet,
-  univerAPI
-};
-
-window.surfgym = { get, set };
-
-worksheet.setGridLinesColor("rgb(204, 204, 204)");
-worksheet.setColumnWidths(0, worksheet.getMaxColumns(), 136); // 전체 컬럼 폭: 136px
-worksheet.setRowHeights(0, worksheet.getMaxRows(), 24); // 전체 행 높이: 32px
-
 const headerStyle = {
   borderColor: "rgb(204, 204, 204)",
   backgroundColor: "rgb(230, 230, 230)"
 };
 
-function customizeSpreadsheetHeaders() {
-  worksheet.customizeColumnHeader({ headerStyle });
-  worksheet.customizeRowHeader({ headerStyle });
-  worksheet.refreshCanvas?.();
+function customizeSpreadsheetHeaders(targetWorksheet: FWorksheet) {
+  targetWorksheet.customizeColumnHeader({ headerStyle });
+  targetWorksheet.customizeRowHeader({ headerStyle });
+  targetWorksheet.refreshCanvas?.();
 }
 
-if (univerAPI.getCurrentLifecycleStage() >= univerAPI.Enum.LifecycleStages.Rendered) {
-  customizeSpreadsheetHeaders();
-} else {
+function initializeWorksheet(targetWorksheet: FWorksheet) {
+  targetWorksheet.setGridLinesColor("rgb(204, 204, 204)");
+  targetWorksheet.setColumnWidths(0, targetWorksheet.getMaxColumns(), 136);
+
+  if (univerAPI.getCurrentLifecycleStage() >= univerAPI.Enum.LifecycleStages.Rendered) {
+    customizeSpreadsheetHeaders(targetWorksheet);
+  }
+}
+
+SpreadsheetRuntimeStore.runtime = {
+  workbook,
+  defaultWorksheet: worksheet,
+  univerAPI,
+  initializeWorksheet
+};
+
+window.surfgym = { get, set, applyState };
+initializeWorksheet(worksheet);
+
+if (univerAPI.getCurrentLifecycleStage() < univerAPI.Enum.LifecycleStages.Rendered) {
   let disposable: { dispose: () => void } | null = null;
 
   disposable = univerAPI.addEvent(univerAPI.Event.LifeCycleChanged, ({ stage }) => {
     if (stage !== univerAPI.Enum.LifecycleStages.Rendered) return;
 
-    customizeSpreadsheetHeaders();
+    customizeSpreadsheetHeaders(SpreadsheetRuntimeStore.runtime.defaultWorksheet);
     disposable?.dispose();
   });
 }
@@ -107,7 +112,7 @@ if (univerAPI.getCurrentLifecycleStage() >= univerAPI.Enum.LifecycleStages.Rende
 const actions = createSpreadsheetActions({
   univerAPI,
   workbook: workbook as Parameters<typeof createSpreadsheetActions>[0]["workbook"],
-  worksheet
+  getDefaultWorksheet: () => SpreadsheetRuntimeStore.runtime.defaultWorksheet
 });
 
 renderSpreadsheetMockToolbar({

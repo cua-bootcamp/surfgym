@@ -91,7 +91,7 @@ type SpreadsheetUniverApi = {
 type SpreadsheetActionsContext = {
   univerAPI: SpreadsheetUniverApi;
   workbook: SpreadsheetWorkbook;
-  worksheet: unknown;
+  getDefaultWorksheet: () => unknown;
 };
 
 export type SelectionRangeTarget = {
@@ -159,9 +159,7 @@ export type PivotTableApplyResult = {
   sheetName?: string;
 };
 
-export function createSpreadsheetActions({ univerAPI, workbook, worksheet }: SpreadsheetActionsContext) {
-  const defaultWorksheet = worksheet as SpreadsheetWorksheet;
-
+export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksheet }: SpreadsheetActionsContext) {
   function normalizeSelectionRange(selectionRange: SelectionRange, maxRow: number, maxColumn: number) {
     const selectedAllRows = selectionRange.startRow <= 0 && selectionRange.endRow >= maxRow;
     const selectedAllColumns = selectionRange.startColumn <= 0 && selectionRange.endColumn >= maxColumn;
@@ -199,7 +197,7 @@ export function createSpreadsheetActions({ univerAPI, workbook, worksheet }: Spr
       | { workbook: SpreadsheetWorkbook; worksheet: SpreadsheetWorksheet }
       | null
       | undefined;
-    const targetWorksheet = activeTarget?.worksheet ?? defaultWorksheet;
+    const targetWorksheet = activeTarget?.worksheet ?? (getDefaultWorksheet() as SpreadsheetWorksheet);
     const selectionRange = targetWorksheet.getSelection()?.getActiveRange()?.getRange();
     const maxRow = targetWorksheet.getMaxRows() - 1;
     const maxColumn = targetWorksheet.getMaxColumns() - 1;

@@ -161,14 +161,11 @@ class PlaywrightBrowserWorker:
 
     async def observe(self, context_id: str, criteria: list[Criteria], observe_hooks: list[Hook]):
         if self.DEV_MODE:
-
-            async def run_before_hook(hook: Hook) -> None:
+            for hook in observe_hooks:
+                if hook.timing != "before":
+                    continue
                 page, _ = self.ctx_manager.require_page(context_id, hook.website_id)
                 await page.evaluate(hook.script)
-
-            await asyncio.gather(
-                *(run_before_hook(hook) for hook in observe_hooks if hook.timing == "before")
-            )
 
         observations: list[Observation] = [None] * len(criteria)
         console_critera: list[tuple[ConsoleCriteria, Page, int]] = []

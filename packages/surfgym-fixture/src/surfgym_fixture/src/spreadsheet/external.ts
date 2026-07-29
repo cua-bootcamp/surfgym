@@ -2,16 +2,18 @@ import type { Path, Value } from "../external";
 import {
   _getCellMetaValue,
   _getChartMeta,
+  _getIndexedSheetName,
   _getRowHidden,
   _getSheetName,
-  _getSheetNames,
+  _resetSpreadsheetState,
   _setCellMeta,
   _setCellNumberFormat,
   _setChartMeta,
+  _setIndexedSheetName,
   _setRowHidden,
   _setSheetName,
-  _setSheetNames,
-  type ChartRef
+  type ChartRef,
+  type IndexedSheetRef
 } from "./internal";
 
 const CELL_PATHS = {
@@ -44,7 +46,6 @@ const CHART_PROPERTIES = [
 type SheetSelector = string | number | null;
 type CellProperty = keyof typeof CELL_PATHS | "rowHidden";
 type SheetProperty = "name";
-type WorkbookProperty = "sheetNames";
 type ChartProperty = (typeof CHART_PROPERTIES)[number];
 
 type CellSpec = {
@@ -56,7 +57,7 @@ type CellSpec = {
 
 type SheetSpec = {
   kind: "sheet";
-  sheet: SheetSelector;
+  sheet: SheetSelector | IndexedSheetRef;
   property: SheetProperty;
 };
 
@@ -67,33 +68,27 @@ type ChartSpec = {
   property: ChartProperty;
 };
 
-type WorkbookSpec = {
-  kind: "workbook";
-  property: WorkbookProperty;
+export type SpreadsheetSpec = CellSpec | SheetSpec | ChartSpec;
+export type SpreadsheetStateAtom = {
+  spec: SpreadsheetSpec;
+  value: Value;
 };
-
-export type SpreadsheetSpec = CellSpec | SheetSpec | ChartSpec | WorkbookSpec;
 export type Get = typeof get;
 export type Set = typeof set;
+export type ApplyState = typeof applyState;
 
 export function get(spec: SpreadsheetSpec): unknown {
   switch (spec.kind) {
     case "cell":
       if (spec.property === "rowHidden") return _getRowHidden(sheetRef(spec.sheet), spec.cell);
-      return _getCellMetaValue(
-        sheetRef(spec.sheet),
-        spec.cell,
-        getCellPath(spec.property)
-      );
+      return _getCellMetaValue(sheetRef(spec.sheet), spec.cell, getCellPath(spec.property));
     case "sheet":
       assertSheetProperty(spec.property);
+      if (isIndexedSheetRef(spec.sheet)) return _getIndexedSheetName(spec.sheet);
       return _getSheetName(sheetRef(spec.sheet));
     case "chart":
       assertChartProperty(spec.property);
       return _getChartMeta(sheetRef(spec.sheet), spec.chart)[spec.property];
-    case "workbook":
-      assertWorkbookProperty(spec.property);
-      return _getSheetNames();
   }
 
   throw unsupportedSpec(spec);
@@ -102,27 +97,49 @@ export function get(spec: SpreadsheetSpec): unknown {
 export function set(spec: SpreadsheetSpec, value: Value) {
   switch (spec.kind) {
     case "cell":
-      if (spec.property === "rowHidden") return _setRowHidden(sheetRef(spec.sheet), spec.cell, value);
+      if (spec.property === "rowHidden")
+        return _setRowHidden(sheetRef(spec.sheet), spec.cell, value);
       if (spec.property === "numberFormat") {
         return _setCellNumberFormat(sheetRef(spec.sheet), spec.cell, value);
       }
       return _setCellMeta(sheetRef(spec.sheet), spec.cell, getCellPath(spec.property), value);
     case "sheet":
       assertSheetProperty(spec.property);
+      if (isIndexedSheetRef(spec.sheet)) return _setIndexedSheetName(spec.sheet, value);
       return _setSheetName(sheetRef(spec.sheet), value);
     case "chart":
       assertChartProperty(spec.property);
       return _setChartMeta(sheetRef(spec.sheet), spec.chart, [spec.property], value);
-    case "workbook":
-      assertWorkbookProperty(spec.property);
-      return _setSheetNames(value);
   }
 
   throw unsupportedSpec(spec);
 }
 
+export async function applyState(atoms: SpreadsheetStateAtom[]) {
+  if (!Array.isArray(atoms)) throw new Error("Spreadsheet state must be an array.");
+
+  await settleSpreadsheetRendering();
+  _resetSpreadsheetState();
+
+  for (const atom of atoms) {
+    await set(atom.spec, atom.value);
+  }
+
+  await settleSpreadsheetRendering();
+  return true;
+}
+
+async function settleSpreadsheetRendering() {
+  await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+  await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+}
+
 function sheetRef(sheet: SheetSelector): string | number | undefined {
   return sheet ?? undefined;
+}
+
+function isIndexedSheetRef(sheet: SheetSelector | IndexedSheetRef): sheet is IndexedSheetRef {
+  return typeof sheet === "object" && sheet !== null;
 }
 
 function assertChartProperty(property: string): asserts property is ChartProperty {
@@ -133,10 +150,6 @@ function assertChartProperty(property: string): asserts property is ChartPropert
 
 function assertSheetProperty(property: string): asserts property is SheetProperty {
   if (property !== "name") throw new Error(`Unsupported sheet property: ${property}`);
-}
-
-function assertWorkbookProperty(property: string): asserts property is WorkbookProperty {
-  if (property !== "sheetNames") throw new Error(`Unsupported workbook property: ${property}`);
 }
 
 function unsupportedSpec(spec: never): Error {

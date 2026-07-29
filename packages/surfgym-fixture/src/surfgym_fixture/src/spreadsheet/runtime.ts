@@ -1,5 +1,5 @@
 import type { FWorkbook, FWorksheet } from "@univerjs/preset-sheets-core";
-import type { Get, Set } from "./external";
+import type { ApplyState, Get, Set } from "./external";
 
 type SpreadsheetUniverAPI = {
   executeCommand: <P extends object = object, R = boolean>(id: string, params?: P) => Promise<R>;
@@ -9,6 +9,7 @@ type SpreadsheetRuntime = {
   workbook: FWorkbook;
   defaultWorksheet: FWorksheet;
   univerAPI: SpreadsheetUniverAPI;
+  initializeWorksheet: (worksheet: FWorksheet) => void;
 };
 
 export class SpreadsheetRuntimeStore {
@@ -32,6 +33,7 @@ declare global {
     surfgym: {
       get: Get;
       set: Set;
+      applyState: ApplyState;
     };
   }
 }

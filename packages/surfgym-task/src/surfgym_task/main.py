@@ -1,12 +1,32 @@
 import argparse
+import json
 from pathlib import Path
-from typing import get_args
+from typing import Literal, get_args
 
 from surfgym_contracts.task import CriteriaEvaluation, Hook, LifecycleHooks, Task, Website
 
 from surfgym_task.hoare import HoareStateGenerator
 from surfgym_task.io import DetailWriter, InstructionLoader, SeedReader, Summary, TaskWriter
-from surfgym_task.seed import Granularity
+from surfgym_task.seed import Domain, Granularity, State
+
+
+def _state_set_hooks(
+    state: State,
+    *,
+    domain: Domain,
+    timing: Literal["before", "after"],
+) -> list[Hook]:
+    if domain != "spreadsheet":
+        return [Hook(script=atom.to_set(), timing=timing) for atom in state]
+
+    atoms = [{"spec": atom.spec, "value": atom.value} for atom in state]
+    payload = json.dumps(
+        atoms,
+        ensure_ascii=False,
+        separators=(",", ":"),
+        allow_nan=False,
+    )
+    return [Hook(script=f"window.surfgym.applyState({payload})", timing=timing)]
 
 
 def augment(target_dir: Path, granularity: Granularity):
@@ -39,9 +59,11 @@ def augment(target_dir: Path, granularity: Granularity):
                     else instruction_loader.get(hoare_state.hash, seed, hoare_state)
                 )
 
-                observe_hooks = [
-                    Hook(script=atom.to_set(), timing="before") for atom in hoare_state.end_state
-                ]
+                observe_hooks = _state_set_hooks(
+                    hoare_state.end_state,
+                    domain=seed.domain,
+                    timing="before",
+                )
                 if seed.domain == "impress":
                     observe_hooks.append(
                         Hook(
@@ -59,10 +81,11 @@ def augment(target_dir: Path, granularity: Granularity):
                         criteria=[atom.to_console_criteria() for atom in hoare_state.end_state]
                     ),
                     lifecycle_hooks=LifecycleHooks(
-                        allocate=[
-                            Hook(script=atom.to_set(), timing="after")
-                            for atom in hoare_state.start_state
-                        ],
+                        allocate=_state_set_hooks(
+                            hoare_state.start_state,
+                            domain=seed.domain,
+                            timing="after",
+                        ),
                         observe=observe_hooks,
                     ),
                 )
