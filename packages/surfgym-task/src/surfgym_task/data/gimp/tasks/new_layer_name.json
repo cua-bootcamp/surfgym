@@ -15,7 +15,7 @@
     "criteria": [
       {
         "mode": "console",
-        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/GIMP/2.10/gimprc', format: 'sexpr', key: 'layer-new-name', default: '\"Layer\"' } ] }); return data[0]; }",
+        "script": "async () => { return await window.surfgym.get({ file: '.config/GIMP/2.10/gimprc', format: 'sexpr', key: 'layer-new-name', default: '\"Layer\"' }); }",
         "value": "\"new layer\"",
         "match": "exact"
       }

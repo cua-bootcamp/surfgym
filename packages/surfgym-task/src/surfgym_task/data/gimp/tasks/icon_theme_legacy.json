@@ -12,7 +12,7 @@
     "criteria": [
       {
         "mode": "console",
-        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/GIMP/2.10/gimprc', format: 'sexpr', key: 'icon-theme', default: '\"Symbolic\"' } ] }); return data[0]; }",
+        "script": "async () => { return await window.surfgym.get({ file: '.config/GIMP/2.10/gimprc', format: 'sexpr', key: 'icon-theme', default: '\"Symbolic\"' }); }",
         "value": "\"Legacy\"",
         "match": "exact"
       }

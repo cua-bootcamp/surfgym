@@ -15,7 +15,7 @@
     "criteria": [
       {
         "mode": "console",
-        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: 'output.png', format: 'file_magic', offset: 0, length: 8, default: '' } ] }); return data[0]; }",
+        "script": "async () => { return await window.surfgym.get({ file: 'output.png', format: 'file_magic', offset: 0, length: 8, default: '' }); }",
         "value": "89504E470D0A1A0A",
         "match": "exact"
       }

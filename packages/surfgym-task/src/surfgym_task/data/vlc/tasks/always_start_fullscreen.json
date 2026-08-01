@@ -16,7 +16,7 @@
     "criteria": [
       {
         "mode": "console",
-        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'fullscreen', default: '0' } ] }); return data[0]; }",
+        "script": "async () => { return await window.surfgym.get({ file: '.config/vlc/vlcrc', format: 'key_value', key: 'fullscreen', default: '0' }); }",
         "value": "1",
         "match": "exact"
       }

@@ -12,7 +12,7 @@
     "criteria": [
       {
         "mode": "console",
-        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'input-record-path', default: '' } ] }); return data[0]; }",
+        "script": "async () => { return await window.surfgym.get({ file: '.config/vlc/vlcrc', format: 'key_value', key: 'input-record-path', default: '' }); }",
         "value": "/config/Videos",
         "match": "exact"
       }

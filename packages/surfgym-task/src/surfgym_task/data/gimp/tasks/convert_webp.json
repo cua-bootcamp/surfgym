@@ -15,7 +15,7 @@
     "criteria": [
       {
         "mode": "console",
-        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: 'Seoul.webp', format: 'file_magic', offset: 0, length: 12, default: '' } ] }); return data[0]; }",
+        "script": "async () => { return await window.surfgym.get({ file: 'Seoul.webp', format: 'file_magic', offset: 0, length: 12, default: '' }); }",
         "value": "^52494646[0-9A-F]{8}57454250$",
         "match": "regex"
       }
