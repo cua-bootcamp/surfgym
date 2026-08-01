@@ -15,11 +15,11 @@ class _FrozenBaseModel(BaseModel):
 
 class GatewayAllocateRequest(_FrozenBaseModel):
     websites: list[Website] = Field(min_length=1)
-    allocate_hooks: list[Hook]
+    hooks: list[Hook]
 
 
 class GatewayReleaseRequest(_FrozenBaseModel):
-    release_hooks: list[Hook]
+    hooks: list[Hook]
 
 
 ##############################
@@ -43,7 +43,7 @@ class ExecuteRequest(_FrozenBaseModel):
 
 class ObserveRequest(_FrozenBaseModel):
     criteria: list[Criteria]
-    observe_hooks: list[Hook]
+    hooks: list[Hook]
 
 
 class ScreenshotRequest(_FrozenBaseModel):

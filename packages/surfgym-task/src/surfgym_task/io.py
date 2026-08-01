@@ -4,14 +4,14 @@ from collections.abc import Iterator
 from dataclasses import dataclass
 from pathlib import Path
 from types import TracebackType
-from typing import Tuple, TypeVar, get_args
+from typing import Tuple, TypeVar
 
 from pydantic import TypeAdapter
 from surfgym_contracts.task import Task
 
 from surfgym_task.hoare import HoareState
 from surfgym_task.instruction_generator import InstructionGenerator
-from surfgym_task.seed import Domain, RawSeedTask, SeedTask
+from surfgym_task.seed import RawSeedTask, SeedTask
 
 T = TypeVar("T")
 
@@ -118,8 +118,6 @@ class SeedReader:
 
     def _adhoc_transformation(self, raw_seed: RawSeedTask) -> SeedTask:
         domain = raw_seed.domain or self.seeds_dir.parent.name
-        if domain not in get_args(Domain.__value__):
-            raise ValueError(f"Unsupported domain: {domain}")
 
         if domain == "spreadsheet" or domain == "word":
             empty_start = raw_seed.empty_start or False
@@ -131,13 +129,10 @@ class SeedReader:
                 instruction=raw_seed.instruction,
                 states=raw_seed.states,
                 accumulation=raw_seed.accumulation or "CUMULATIVE",
-                website=raw_seed.website or f"http://localhost:3000/{domain}",
+                website=raw_seed.website.to_url(),
             )
 
         if domain == "impress":
-            if raw_seed.setup_file is None:
-                raise ValueError("Need a setup file")
-
             empty_start = raw_seed.empty_start or True
             if empty_start:
                 raw_seed.states.insert(0, [])
@@ -147,8 +142,7 @@ class SeedReader:
                 instruction=raw_seed.instruction,
                 states=raw_seed.states,
                 accumulation=raw_seed.accumulation or "CUMULATIVE",
-                website=raw_seed.website
-                or f"http://localhost:53001/{domain}?setup_file={raw_seed.setup_file}",
+                website=raw_seed.website.to_url(),
             )
 
         else:
@@ -169,7 +163,7 @@ class DetailWriter:
         JsonIO.write(path, summary)
 
 
-class InstructionLoader:
+class InstructionWriter:
     def __init__(
         self,
         database_path: Path,
@@ -177,7 +171,7 @@ class InstructionLoader:
         self.database = SQLiteIO(database_path)
         self.insturction_generator = InstructionGenerator()
 
-    def __enter__(self) -> "InstructionLoader":
+    def __enter__(self) -> "InstructionWriter":
         self.database.__enter__()
         self.database.execute(
             """

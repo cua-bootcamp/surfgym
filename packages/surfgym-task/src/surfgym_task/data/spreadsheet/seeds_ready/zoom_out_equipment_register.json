@@ -1,5 +1,6 @@
 {
   "instruction": "The equipment register opens at an impractical magnification. Set the Sheet1 view to exactly 100% so the table is easy to scan, without editing any entries.",
+  "website": "http://localhost:3000/spreadsheet",
   "states": [
     [
       { "spec": { "kind": "sheet", "sheet": "Sheet1", "property": "name" }, "value": "Sheet1" },

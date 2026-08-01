@@ -2,7 +2,7 @@ import base64
 import random
 import time
 from io import BytesIO
-from typing import Callable, TypeVar
+from typing import Callable, Optional, TypeVar
 
 from PIL import Image, ImageDraw
 from surfgym_contracts.command import Command
@@ -15,7 +15,6 @@ from surfgym_contracts.protocol.agent_to_gateway import (
 )
 from surfgym_contracts.protocol.gateway_to_agent import (
     ActionResponse,
-    DEVRewardResponse,
     ImagePayload,
     RewardResponse,
 )
@@ -43,9 +42,7 @@ _T = TypeVar("_T")
 
 
 class Service:
-    def __init__(
-        self, *, task_store: TaskStore, wavepool_config: WavepoolConfig, DEV_MODE: bool
-    ) -> None:
+    def __init__(self, *, task_store: TaskStore, wavepool_config: WavepoolConfig) -> None:
         self.task_store = task_store
         self.evaluator = Evaluator()
         self.transport = GatewayTransport(wavepool_config)
@@ -54,7 +51,6 @@ class Service:
             transport=self.transport,
             release_timeout=wavepool_config.process_timeout.release,
         )
-        self.DEV_MODE = DEV_MODE
 
         self.process_timeout = wavepool_config.process_timeout
 
@@ -72,8 +68,6 @@ class Service:
             case ActionRequest():
                 return self._handle_action(request, deadline)
             case RewardRequest():
-                if self.DEV_MODE:
-                    return self._DEV_handle_reward(request, deadline)
                 return self._handle_reward(request, deadline)
 
     def _handle_start(
@@ -131,12 +125,17 @@ class Service:
         )
 
     def _handle_reward(
-        self, request: RewardRequest, deadline: Callable[[str], Deadline]
+        self,
+        request: RewardRequest,
+        deadline: Callable[[str], Deadline],
     ) -> RewardResponse:
         task = self._require_task(request.task_id)
         session_state = self._session_registry.require_session_state(
-            request.session_id, request.task_id
+            request.session_id,
+            request.task_id,
         )
+
+        reward_image: Optional[ImagePayload] = None
 
         try:
             reward = self._compute_reward(
@@ -144,6 +143,21 @@ class Service:
                 session_state=session_state,
                 deadline=deadline,
             )
+
+            if task.include_reward_image:
+                screenshot_b64, media_type = self._screenshot(
+                    deadline,
+                    session_state.lease,
+                )
+                session_state.append_frame(
+                    kind="reward",
+                    image_b64=screenshot_b64,
+                    media_type=media_type,
+                )
+                reward_image = ImagePayload(
+                    data=screenshot_b64,
+                    mimeType=media_type,
+                )
         finally:
             self._release_worker.enqueue(session_state)
             self._session_registry.end_session(request.session_id)
@@ -152,6 +166,7 @@ class Service:
             session_id=request.session_id,
             task_id=request.task_id,
             reward=reward,
+            image=reward_image,
         )
 
     def _compute_reward(
@@ -263,35 +278,6 @@ class Service:
         if task is None:
             raise InvalidRequest(f"Unknown task_id: {task_id}")
         return task
-
-    def _DEV_handle_reward(
-        self, request: RewardRequest, deadline: Callable[[str], Deadline]
-    ) -> DEVRewardResponse:
-        task = self._require_task(request.task_id)
-        session_state = self._session_registry.require_session_state(
-            request.session_id, request.task_id
-        )
-
-        try:
-            reward = self._compute_reward(
-                task=task,
-                session_state=session_state,
-                deadline=deadline,
-            )
-            (screenshot_b64, media_type) = self._screenshot(deadline, session_state.lease)
-            session_state.append_frame(
-                kind="reward", image_b64=screenshot_b64, media_type=media_type
-            )
-
-            return DEVRewardResponse(
-                session_id=request.session_id,
-                task_id=request.task_id,
-                reward=reward,
-                image=ImagePayload(data=screenshot_b64, mimeType=media_type),
-            )
-        finally:
-            self._release_worker.enqueue(session_state)
-            self._session_registry.end_session(request.session_id)
 
 
 ################################################

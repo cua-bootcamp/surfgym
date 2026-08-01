@@ -1,5 +1,6 @@
 {
   "instruction": "Finish the three depot summaries. For every inspection category, combine Weeks 1–4 in the rightmost cell; on each closing row, enter the four weekly rollups and the grand count of recorded checks.",
+  "website": "http://localhost:3000/spreadsheet",
   "states": [
     [
       { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A1", "property": "value" }, "value": "North Depot" },

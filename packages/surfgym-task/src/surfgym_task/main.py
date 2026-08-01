@@ -1,40 +1,33 @@
 import argparse
-import json
 from pathlib import Path
-from typing import Literal, get_args
+from typing import get_args
 
 from surfgym_contracts.task import CriteriaEvaluation, Hook, LifecycleHooks, Task, Website
 
 from surfgym_task.hoare import HoareStateGenerator
-from surfgym_task.io import DetailWriter, InstructionLoader, SeedReader, Summary, TaskWriter
-from surfgym_task.seed import Domain, Granularity, State
+from surfgym_task.io import DetailWriter, InstructionWriter, SeedReader, Summary, TaskWriter
+from surfgym_task.seed import Domain, Granularity, Profile
+
+_DOCKER_FIXTURE_DOMAINS: frozenset[Domain] = frozenset(
+    {
+        "impress",
+        "vlc",
+        "gimp",
+    }
+)
+
+_DOCKER_RELEASE_HOOK = Hook(
+    timing="before",
+    script='window.surfgym.get({"$surfgym":{"type":"release"}})',
+)
 
 
-def _state_set_hooks(
-    state: State,
-    *,
-    domain: Domain,
-    timing: Literal["before", "after"],
-) -> list[Hook]:
-    if domain != "spreadsheet":
-        return [Hook(script=atom.to_set(), timing=timing) for atom in state]
-
-    atoms = [{"spec": atom.spec, "value": atom.value} for atom in state]
-    payload = json.dumps(
-        atoms,
-        ensure_ascii=False,
-        separators=(",", ":"),
-        allow_nan=False,
-    )
-    return [Hook(script=f"window.surfgym.applyState({payload})", timing=timing)]
-
-
-def augment(target_dir: Path, granularity: Granularity):
+def augment(seed_dir: Path, granularity: Granularity, profile: Profile):
     path = {
-        "seeds": target_dir / "seeds",
-        "out": target_dir / "out",
-        "instructions": target_dir / "instructions.sqlite3",
-        "tasks": target_dir / "out" / "tasks.sqlite3",
+        "seeds": seed_dir / "seeds",
+        "out": seed_dir / "out",
+        "instructions": seed_dir / "instructions.sqlite3",
+        "tasks": seed_dir / "out" / "tasks.sqlite3",
     }
 
     summary = Summary()
@@ -42,7 +35,7 @@ def augment(target_dir: Path, granularity: Granularity):
     detail_writer = DetailWriter(path["out"])
 
     with (
-        InstructionLoader(path["instructions"]) as instruction_loader,
+        InstructionWriter(path["instructions"]) as instruction_writer,
         TaskWriter(path["tasks"]) as task_writer,
     ):
         for seed, seed_name in SeedReader(path["seeds"]).get_seed():
@@ -56,21 +49,8 @@ def augment(target_dir: Path, granularity: Granularity):
                 instruction = (
                     seed.instruction
                     if is_full_task
-                    else instruction_loader.get(hoare_state.hash, seed, hoare_state)
+                    else instruction_writer.get(hoare_state.hash, seed, hoare_state)
                 )
-
-                observe_hooks = _state_set_hooks(
-                    hoare_state.end_state,
-                    domain=seed.domain,
-                    timing="before",
-                )
-                if seed.domain == "impress":
-                    observe_hooks.append(
-                        Hook(
-                            script="(() => {\n  return window.surfgym.release();\n})()",
-                            timing="after",
-                        )
-                    )
 
                 task = Task(
                     task_id=f"{seed_name}_{hoare_state.origin_start_idx}_{hoare_state.origin_end_idx}",
@@ -81,13 +61,21 @@ def augment(target_dir: Path, granularity: Granularity):
                         criteria=[atom.to_console_criteria() for atom in hoare_state.end_state]
                     ),
                     lifecycle_hooks=LifecycleHooks(
-                        allocate=_state_set_hooks(
-                            hoare_state.start_state,
-                            domain=seed.domain,
-                            timing="after",
-                        ),
-                        observe=observe_hooks,
+                        allocate=[
+                            Hook(script=atom.to_set(), timing="after")
+                            for atom in hoare_state.start_state
+                        ],
+                        observe=[
+                            Hook(script=atom.to_set(), timing="before")
+                            for atom in hoare_state.end_state
+                        ]
+                        if profile == "SNAPSHOT"
+                        else [],
+                        release=[_DOCKER_RELEASE_HOOK]
+                        if seed.domain in _DOCKER_FIXTURE_DOMAINS
+                        else [],
                     ),
+                    include_reward_image=profile == "SNAPSHOT",
                 )
 
                 summary.task_count += 1
@@ -96,16 +84,39 @@ def augment(target_dir: Path, granularity: Granularity):
                 task_writer.write(task)
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--target-dir", required=True)
-    parser.add_argument("--granularity", required=True, choices=get_args(Granularity.__value__))
-    args = parser.parse_args()
-
-    augment(
-        target_dir=Path(args.target_dir),
-        granularity=args.granularity,
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Generate SurfGym tasks from seed tasks.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
+
+    parser.add_argument(
+        "seed_dir",
+        type=Path,
+    )
+
+    parser.add_argument(
+        "-g",
+        "--granularity",
+        type=str.upper,
+        choices=get_args(Granularity.__value__),
+        default="COARSE",
+    )
+
+    parser.add_argument(
+        "-p",
+        "--profile",
+        type=str.upper,
+        choices=get_args(Profile.__value__),
+        default="ROLLOUT",
+    )
+
+    return parser.parse_args()
+
+
+def main() -> None:
+    args = parse_args()
+    augment(seed_dir=Path(args.seed_dir), granularity=args.granularity, profile=args.profile)
 
 
 if __name__ == "__main__":

@@ -21,7 +21,7 @@ _T = TypeVar("_T")
 _R = TypeVar("_R")
 
 
-def create_app(config: Config, DEV_MODE: bool):
+def create_app(config: Config):
     gateway_config = config.gateway_config
     wavepool_config = config.wavepool_config
 
@@ -31,7 +31,6 @@ def create_app(config: Config, DEV_MODE: bool):
     service = Service(
         task_store=task_store,
         wavepool_config=wavepool_config,
-        DEV_MODE=DEV_MODE,
     )
 
     @asynccontextmanager

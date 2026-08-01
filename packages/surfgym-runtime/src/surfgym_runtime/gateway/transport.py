@@ -116,9 +116,9 @@ class MasterClient:
             f"{self._get_base_url()}/allocate",
             MasterAllocateResponse,
             operation="master.allocate",
-            json=GatewayAllocateRequest(
-                websites=websites, allocate_hooks=allocate_hooks
-            ).model_dump(mode="json"),
+            json=GatewayAllocateRequest(websites=websites, hooks=allocate_hooks).model_dump(
+                mode="json"
+            ),
             timeout=timeout,
         )
 
@@ -128,7 +128,7 @@ class MasterClient:
             MasterReleaseResponse,
             operation="master.release",
             params={"context_id": context_id},
-            json=GatewayReleaseRequest(release_hooks=release_hooks).model_dump(mode="json"),
+            json=GatewayReleaseRequest(hooks=release_hooks).model_dump(mode="json"),
             timeout=timeout,
         )
 
@@ -164,9 +164,7 @@ class InstanceClient:
             ObserveResponse,
             operation="instance.observe",
             params={"context_id": context_id},
-            json=ObserveRequest(criteria=criteria, observe_hooks=observe_hooks).model_dump(
-                mode="json"
-            ),
+            json=ObserveRequest(criteria=criteria, hooks=observe_hooks).model_dump(mode="json"),
             timeout=timeout,
         )
 

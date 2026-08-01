@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import Any, Literal
+from typing import Any, Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
 
@@ -34,12 +34,7 @@ class ActionResponse(_BaseResponse):
 class RewardResponse(_BaseResponse):
     status: Literal[ResponseStatus.OK] = ResponseStatus.OK
     reward: float
-
-
-class DEVRewardResponse(_BaseResponse):
-    status: Literal[ResponseStatus.OK] = ResponseStatus.OK
-    reward: float
-    image: ImagePayload
+    image: Optional[ImagePayload] = None
 
 
 type ErrorType = Literal["TIMEOUT", "INVALID_REQUEST", "UPSTREAM", "RETRYABLE", "UNEXPECTED"]
@@ -53,5 +48,5 @@ class ErrorResponse(_FrozenBaseModel):
     message: str
 
 
-type Response = ActionResponse | RewardResponse | ErrorResponse | DEVRewardResponse
+type Response = ActionResponse | RewardResponse | ErrorResponse
 ResponseAdapter: TypeAdapter[Response] = TypeAdapter(Response)

@@ -1,7 +1,7 @@
 import asyncio
 import math
 from io import BytesIO
-from typing import cast
+from typing import Literal, cast
 
 from PIL import Image
 from playwright.async_api import Page
@@ -20,7 +20,7 @@ from surfgym_runtime.wavepool.instance.session import ContextManager, ScreenCurs
 
 
 class PlaywrightBrowserWorker:
-    def __init__(self, *, contexts_per_instance: int, DEV_MODE: bool) -> None:
+    def __init__(self, *, contexts_per_instance: int) -> None:
         self.viewport_width = 1920
         self.viewport_height = 1080
         self.ctx_manager = ContextManager(
@@ -28,8 +28,6 @@ class PlaywrightBrowserWorker:
             vw=self.viewport_width,
             vh=self.viewport_height,
         )
-
-        self.DEV_MODE = DEV_MODE
 
     async def open(self) -> None:
         await self.ctx_manager.open()
@@ -41,29 +39,21 @@ class PlaywrightBrowserWorker:
         self,
         context_id: str,
         websites: list[Website],
-        allocate_hooks: list[Hook],
+        hooks: list[Hook],
     ):
         await self.ctx_manager.create(context_id, websites)
         ctx = self.ctx_manager.require_context(context_id)
-
-        after_hooks: dict[str, list[Hook]] = {}
-
-        for hook in allocate_hooks:
-            if hook.timing == "after":
-                after_hooks.setdefault(hook.website_id, []).append(hook)
 
         async def load_website(website: Website) -> None:
             page, _ = self.ctx_manager.require_page(ctx.context_id, website.website_id)
             await page.goto(website.url, wait_until="domcontentloaded")
 
-            hooks = after_hooks.get(website.website_id)
-            if hooks is not None:
-                for hook in hooks:
-                    await page.evaluate(hook.script)
-
         await asyncio.gather(*(load_website(website) for website in websites))
 
-    async def release(self, context_id: str):
+        await self._run_hooks(context_id, hooks, timing="after")
+
+    async def release(self, context_id: str, hooks: list[Hook]):
+        await self._run_hooks(context_id, hooks, timing="before")
         await self.ctx_manager.delete(context_id)
 
     async def execute(self, context_id: str, command: Command):
@@ -159,13 +149,8 @@ class PlaywrightBrowserWorker:
         screen_cursor = ctx.cursor.to_screen_cursor(layout)
         return output, screen_cursor.x, screen_cursor.y
 
-    async def observe(self, context_id: str, criteria: list[Criteria], observe_hooks: list[Hook]):
-        if self.DEV_MODE:
-            for hook in observe_hooks:
-                if hook.timing != "before":
-                    continue
-                page, _ = self.ctx_manager.require_page(context_id, hook.website_id)
-                await page.evaluate(hook.script)
+    async def observe(self, context_id: str, criteria: list[Criteria], hooks: list[Hook]):
+        await self._run_hooks(context_id, hooks, timing="before")
 
         observations: list[Observation] = [None] * len(criteria)
         console_critera: list[tuple[ConsoleCriteria, Page, int]] = []
@@ -187,15 +172,22 @@ class PlaywrightBrowserWorker:
         for obs, idx in console_results + dom_results:
             observations[idx] = obs
 
-        async def run_after_hook(hook: Hook) -> None:
-            page, _ = self.ctx_manager.require_page(context_id, hook.website_id)
-            await page.evaluate(hook.script)
-
-        await asyncio.gather(
-            *(run_after_hook(hook) for hook in observe_hooks if hook.timing == "after")
-        )
-
+        await self._run_hooks(context_id, hooks, timing="after")
         return observations
+
+    async def _run_hooks(
+        self,
+        context_id: str,
+        hooks: list[Hook],
+        *,
+        timing: Literal["before", "after"],
+    ):
+        for hook in (h for h in hooks if h.timing == timing):
+            page, _ = self.ctx_manager.require_page(
+                context_id,
+                hook.website_id,
+            )
+            await page.evaluate(hook.script)
 
 
 ########################################

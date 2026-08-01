@@ -1,5 +1,6 @@
 {
   "instruction": "Expand every \"Observation Tag\" into the neighboring \"Observation ID\", \"Target\", and \"Sky Condition\" fields. Each tag uses vertical bars between its three parts; preserve the tag entries exactly as supplied.",
+  "website": "http://localhost:3000/spreadsheet",
   "states": [
     [
       { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A1", "property": "value" }, "value": "Observation Tag" },

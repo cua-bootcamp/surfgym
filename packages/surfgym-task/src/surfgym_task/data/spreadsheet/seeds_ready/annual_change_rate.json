@@ -1,5 +1,6 @@
 {
   "instruction": "Create an annual-change summary table in \"Sheet2\" for the years 2015 through 2019. Calculate the year-over-year change rates for the \"Cash & Equivalents\", \"Inventory\", and \"Property & Equipment\" columns in \"Sheet1\". Use the headers \"Year\", \"Cash changes\", \"Inventory changes\", and \"PPE changes\", respectively.",
+  "website": "http://localhost:3000/spreadsheet",
   "states": [
     [
       { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B2:I7", "property": "numberFormat" }, "value": "$#,##0.00" },

@@ -8,7 +8,6 @@ from urllib.request import Request, urlopen
 
 from surfgym_contracts.protocol.gateway_to_agent import (
     ActionResponse,
-    DEVRewardResponse,
     ErrorResponse,
     Response,
     ResponseAdapter,
@@ -116,7 +115,7 @@ class Client:
 
     def _result_from_reward_response(self, response: Response) -> ClientResult:
         match response:
-            case DEVRewardResponse():
+            case RewardResponse():
                 return ClientResult(
                     task_id=self.task_id,
                     snapshot_dir=self.snapshot_dir,
@@ -124,7 +123,7 @@ class Client:
                 )
             case _:
                 raise ValueError(
-                    f"Expected DEVRewardResponse with a screenshot, "
+                    f"Expected RewardResponse with a screenshot, "
                     f"got {type(response).__name__}: "
                     f"{response_json(response)}"
                 )
@@ -142,11 +141,11 @@ class Client:
                     decode_png_base64(response.image.data)
                 )
             case RewardResponse():
-                raise ValueError(
-                    "Expected DEVRewardResponse with a screenshot for reward snapshots, "
-                    "got RewardResponse. Launch the gateway with DEV=1."
-                )
-            case DEVRewardResponse():
+                if not response.image.data:
+                    raise ValueError(
+                        "Expected RewardResponse with a screenshot for reward snapshots, "
+                        "got RewardResponse without image data. Launch the gateway with DEV=1."
+                    )
                 (self.snapshot_dir / "reward.txt").write_text(str(response.reward))
                 (self.snapshot_dir / f"screenshot_{step}.png").write_bytes(
                     decode_png_base64(response.image.data)

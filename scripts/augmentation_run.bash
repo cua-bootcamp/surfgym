@@ -3,15 +3,21 @@ set -euo pipefail
 
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 
-TARGET_DIR="${1:-$ROOT_DIR/packages/surfgym-task/src/surfgym_task/data/spreadsheet}"
-GRANULARITY="${2:-COARSE}"
+SEED_DIR="$ROOT_DIR/packages/surfgym-task/src/surfgym_task/data/spreadsheet"
+GRANULARITY="COARSE"
+PROFILE="SNAPSHOT"
 
 cd "$ROOT_DIR"
 
-printf 'Running surfgym_task.main\n'
-printf '  seed dir: %s\n' "$TARGET_DIR"
-printf '  granularity: %s\n' "$GRANULARITY"
+COMMAND=(
+  python -m surfgym_task.main
+  "$SEED_DIR"
+  -g "$GRANULARITY"
+  -p "$PROFILE"
+)
 
-exec python -m surfgym_task.main \
-  --target-dir "$TARGET_DIR" \
-  --granularity "$GRANULARITY"
+printf 'Executing:'
+printf ' %q' "${COMMAND[@]}"
+printf '\n'
+
+exec "${COMMAND[@]}"

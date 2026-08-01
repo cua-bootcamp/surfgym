@@ -1,6 +1,5 @@
 import argparse
 import base64
-import os
 from contextlib import asynccontextmanager
 from functools import wraps
 from pathlib import Path
@@ -33,18 +32,8 @@ _P = ParamSpec("_P")
 _T = TypeVar("_T")
 
 
-def DEV_MODE() -> bool:
-    value = os.getenv("DEV", "0")
-    if value == "1":
-        print("Launching Wavepool with DEV_MODE")
-        return True
-    return False
-
-
 def create_app(contexts_per_instance: int) -> FastAPI:
-    worker = PlaywrightBrowserWorker(
-        contexts_per_instance=contexts_per_instance, DEV_MODE=DEV_MODE()
-    )
+    worker = PlaywrightBrowserWorker(contexts_per_instance=contexts_per_instance)
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
@@ -62,7 +51,7 @@ def create_app(contexts_per_instance: int) -> FastAPI:
         context_id: str,
         request: Annotated[MasterAllocateRequest, Body()],
     ):
-        await worker.allocate(context_id, request.websites, request.allocate_hooks)
+        await worker.allocate(context_id, request.websites, request.hooks)
         return InstanceAllocateResponse()
 
     @handle_instance_errors
@@ -70,7 +59,7 @@ def create_app(contexts_per_instance: int) -> FastAPI:
         context_id: str,
         request: Annotated[MasterReleaseRequest, Body()],
     ):
-        await worker.release(context_id)
+        await worker.release(context_id, request.hooks)
         return InsatnceReleaseResponse()
 
     @handle_instance_errors
@@ -103,7 +92,7 @@ def create_app(contexts_per_instance: int) -> FastAPI:
     ):
 
         return ObserveResponse(
-            observation=await worker.observe(context_id, request.criteria, request.observe_hooks)
+            observation=await worker.observe(context_id, request.criteria, request.hooks)
         )
 
     app = FastAPI(lifespan=lifespan)

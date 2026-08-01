@@ -74,7 +74,7 @@ class LeaseRegistry:
             self._pending_releases[context_id] = PendingRelease(
                 context_id=lease.context_id,
                 port=lease.port_slot.port,
-                release_request=request or GatewayReleaseRequest(release_hooks=[]),
+                release_request=request or GatewayReleaseRequest(hooks=[]),
             )
 
     async def pending_releases(self) -> list[PendingRelease]:

@@ -145,10 +145,16 @@ class LifecycleHooks(FrozenBaseModel):
     release: list[Hook] = []
 
 
-class TaskCore(FrozenBaseModel):
+class Task(FrozenBaseModel):
     task_id: str
     instruction: str
     website: Annotated[list[Website], Field(min_length=1, max_length=4)]
+
+    evaluation: Evaluation
+    complexity: int
+    lifecycle_hooks: LifecycleHooks = LifecycleHooks()
+
+    include_reward_image: bool = False
 
     @field_validator("website", mode="before")
     @classmethod
@@ -158,13 +164,6 @@ class TaskCore(FrozenBaseModel):
         if isinstance(value, str):
             return [Website(url=value)]
         return value
-
-
-class Task(TaskCore):
-    evaluation: Evaluation
-    complexity: int
-
-    lifecycle_hooks: LifecycleHooks = LifecycleHooks()
 
 
 TaskRowsAdapter: TypeAdapter[list[Task]] = TypeAdapter(list[Task])

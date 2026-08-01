@@ -3,8 +3,9 @@ from __future__ import annotations
 import json
 from functools import cached_property
 from typing import Annotated, Literal, Optional
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
-from pydantic import BaseModel, ConfigDict, Field, JsonValue, TypeAdapter
+from pydantic import BaseModel, ConfigDict, Field, JsonValue, TypeAdapter, model_validator
 from surfgym_contracts.task import ConsoleCriteria, CriteriaCore
 
 
@@ -51,14 +52,42 @@ type States = Annotated[list[State], Field(min_length=1)]
 type Domain = Literal["vlc", "gimp", "impress", "spreadsheet", "word"]
 
 
+class RawSeedWebsite(FrozenBaseModel):
+    base: str
+    param: dict[str, str] = Field(default_factory=dict)
+
+    @model_validator(mode="before")
+    @classmethod
+    def normalize(cls, value: object) -> object:
+        if isinstance(value, str):
+            return {"base": value}
+
+        return value
+
+    def to_url(self) -> str:
+        parsed = urlsplit(self.base)
+
+        query = dict(parse_qsl(parsed.query, keep_blank_values=True))
+        query.update(self.param)
+
+        return urlunsplit(
+            (
+                parsed.scheme,
+                parsed.netloc,
+                parsed.path,
+                urlencode(query),
+                parsed.fragment,
+            )
+        )
+
+
 class RawSeedTask(FrozenBaseModel):
     instruction: str
     states: States
+    website: RawSeedWebsite
     domain: Optional[Domain] = None
     empty_start: Optional[bool] = None
     accumulation: Optional[Accumulation] = None
-    website: Optional[str] = None
-    setup_file: Optional[str] = None
 
 
 class SeedTask(FrozenBaseModel):
@@ -71,7 +100,7 @@ class SeedTask(FrozenBaseModel):
 
 type Granularity = Literal["COARSE", "FINE"]
 type Accumulation = Literal["DELTA", "CUMULATIVE"]
-
+type Profile = Literal["ROLLOUT", "SNAPSHOT"]
 
 TaskRowsAdapter: TypeAdapter[list[SeedTask]] = TypeAdapter(list[SeedTask])
 HoareStateInstructionRowAdapter: TypeAdapter[dict[str, str]] = TypeAdapter(dict[str, str])

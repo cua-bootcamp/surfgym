@@ -1,19 +1,10 @@
 import argparse
-import os
 from pathlib import Path
 
 import uvicorn
 
 from surfgym_runtime.gateway.server import create_app
 from surfgym_runtime.support import gateway_logger, load_config, setup_logging
-
-
-def DEV_MODE() -> bool:
-    value = os.getenv("DEV", "0")
-    if value == "1":
-        print("Launching Gateway with DEV_MODE")
-        return True
-    return False
 
 
 def _parse_args():
@@ -29,7 +20,7 @@ def launch() -> None:
     setup_logging(gateway_logger, config.log_path, component="gateway")
 
     uvicorn.run(
-        create_app(config, DEV_MODE=DEV_MODE()),
+        create_app(config),
         host=config.gateway_config.host,
         port=config.gateway_config.port,
     )

@@ -1,6 +1,7 @@
 {
   "instruction": "Arrange the finished tab strip as \"Exhibit Catalog\", \"Exhibit Catalog - Curator\", \"Loan Register\", and \"Reference\". The existing \"Catalog\" tab becomes \"Exhibit Catalog\" first; give that whole tab an exact twin titled \"Exhibit Catalog - Curator\" immediately after it. Keep the existing \"Loan Notes\" contents unchanged while titling that third tab \"Loan Register\", and leave \"Reference\" untouched at the end.",
   "accumulation": "DELTA",
+  "website": "http://localhost:3000/spreadsheet",
   "states": [
     [
       { "spec": { "kind": "sheet", "sheet": { "index": 0, "name": "Catalog" }, "property": "name" }, "value": "Catalog" },

@@ -1,5 +1,6 @@
 {
   "instruction": "The firing queue is already in loading order. Give the first batch the Load Tag KILN-01, then continue that tag series one step at a time down to KILN-28. Preserve the ware, clay, glaze, and temperature entries exactly as recorded.",
+  "website": "http://localhost:3000/spreadsheet",
   "states": [
     [
       { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A1", "property": "value" }, "value": "Load Tag" },
