@@ -2,11 +2,22 @@ from __future__ import annotations
 
 import json
 from functools import cached_property
-from typing import Annotated, Literal, Optional
+from typing import Annotated, Literal, Optional, cast
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
-from pydantic import BaseModel, ConfigDict, Field, JsonValue, TypeAdapter, model_validator
-from surfgym_contracts.task import ConsoleCriteria, CriteriaCore
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    JsonValue,
+    model_validator,
+)
+from surfgym_contracts.task import (
+    ConsoleCriteria,
+    CriteriaCore,
+    CriteriaEvaluation,
+    LLMJudgeEvaluation,
+)
 
 
 class FrozenBaseModel(BaseModel):
@@ -14,6 +25,10 @@ class FrozenBaseModel(BaseModel):
 
 
 class StateAtom(CriteriaCore):
+    """
+    Converted into a single `ConsoleCriteria`.
+    """
+
     spec: dict[str, JsonValue]
 
     @cached_property
@@ -45,7 +60,27 @@ class StateAtom(CriteriaCore):
         )
 
 
-type State = list[StateAtom]
+class State(FrozenBaseModel):
+    atoms: list[StateAtom]
+
+    @model_validator(mode="before")
+    @classmethod
+    def normalize(cls, value: object) -> object:
+        if isinstance(value, list):
+            atoms = cast(list[object], value)
+            return {"atoms": atoms}
+        return value
+
+    def to_criteria_evaluation(self) -> CriteriaEvaluation:
+        if not self.atoms:
+            raise ValueError("Cannot evaluate an empty state.")
+
+        return CriteriaEvaluation(
+            operator="and",
+            criteria=[atom.to_console_criteria() for atom in self.atoms],
+        )
+
+
 type States = Annotated[list[State], Field(min_length=1)]
 
 
@@ -81,26 +116,43 @@ class RawSeedWebsite(FrozenBaseModel):
         )
 
 
-class RawSeedTask(FrozenBaseModel):
+class _RawSeedTask(FrozenBaseModel):
     instruction: str
-    states: States
     website: RawSeedWebsite
     domain: Optional[Domain] = None
+
+
+class RawLLMJudgeSeedTask(_RawSeedTask):
+    evaluation: LLMJudgeEvaluation
+
+
+class RawCriteriaSeedTask(_RawSeedTask):
+    states: States
     empty_start: Optional[bool] = None
     accumulation: Optional[Accumulation] = None
 
 
-class SeedTask(FrozenBaseModel):
+type RawSeedTask = RawCriteriaSeedTask | RawLLMJudgeSeedTask
+
+
+class _SeedTask(FrozenBaseModel):
     website: str
     domain: Domain
     instruction: str
+
+
+class LLMJudgeSeedTask(_SeedTask):
+    evaluation: LLMJudgeEvaluation
+
+
+class CriteriaSeedTask(_SeedTask):
     states: States
     accumulation: Accumulation
+
+
+type SeedTask = CriteriaSeedTask | LLMJudgeSeedTask
 
 
 type Granularity = Literal["COARSE", "FINE"]
 type Accumulation = Literal["DELTA", "CUMULATIVE"]
 type Profile = Literal["ROLLOUT", "SNAPSHOT"]
-
-TaskRowsAdapter: TypeAdapter[list[SeedTask]] = TypeAdapter(list[SeedTask])
-HoareStateInstructionRowAdapter: TypeAdapter[dict[str, str]] = TypeAdapter(dict[str, str])

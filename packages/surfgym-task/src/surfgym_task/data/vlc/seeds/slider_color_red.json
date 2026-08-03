@@ -1,0 +1,5 @@
+{
+  "instruction": "Can you change the color of the volume slider controller to red?",
+  "website": "http://localhost:53001/vlc",
+  "evaluation": { "mode": "llm", "model": "gpt-5.4-mini", "image_detail": "high", "max_frames": 12 }
+}

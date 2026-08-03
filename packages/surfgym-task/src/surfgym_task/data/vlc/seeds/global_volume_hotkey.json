@@ -1,0 +1,5 @@
+{
+  "instruction": "Could you set up a global keyboard shortcut for adjusting the volume, so it works even when another window is focused?",
+  "website": { "base": "http://localhost:53001/vlc", "param": { "setup_file": "psyc110_01.mp3", "start_time": "283" } },
+  "states": [[{ "spec": { "file": ".config/vlc/vlcrc", "format": "key_value", "key": "global-key-vol-up", "default": "" }, "value": ".+", "match": "regex" }]]
+}

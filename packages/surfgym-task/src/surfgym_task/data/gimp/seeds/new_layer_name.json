@@ -1,0 +1,5 @@
+{
+  "instruction": "Could you add a new layer and name it 'new layer'?",
+  "website": { "base": "http://localhost:53001/gimp", "param": { "setup_file": "white background.xcf" } },
+  "states": [[{ "spec": { "file": ".config/GIMP/2.10/gimprc", "format": "sexpr", "key": "layer-new-name", "default": "\"Layer\"" }, "value": "\"new layer\"" }]]
+}

@@ -5,7 +5,7 @@ from typing import Iterator
 
 from pydantic import BaseModel, ConfigDict
 
-from surfgym_task.seed import Accumulation, Granularity, SeedTask, State, StateAtom, States
+from surfgym_task.seed import Accumulation, CriteriaSeedTask, Granularity, State, StateAtom, States
 
 
 class FrozenBaseModel(BaseModel):
@@ -38,23 +38,25 @@ class HoareState(FrozenBaseModel):
 
     @cached_property
     def diff(self) -> State:
-        start_by_target = {atom.cannoncial: atom for atom in self.start_state}
-        return [
-            end_atom
-            for end_atom in self.end_state
-            if start_by_target.get(end_atom.cannoncial) != end_atom
-        ]
+        start_by_target = {atom.cannoncial: atom for atom in self.start_state.atoms}
+        return State(
+            atoms=[
+                end_atom
+                for end_atom in self.end_state.atoms
+                if start_by_target.get(end_atom.cannoncial) != end_atom
+            ]
+        )
 
 
 class HoareStateGenerator:
     def __init__(self, granularity: Granularity):
         self.granularity = granularity
 
-    def generate(self, seed: SeedTask) -> Iterator[HoareState]:
+    def generate(self, seed: CriteriaSeedTask) -> Iterator[HoareState]:
         for start_idx, end_idx in self._iter_windows(seed):
             yield self._build_hoare_state(seed.states, start_idx, end_idx, seed.accumulation)
 
-    def _iter_windows(self, seed: SeedTask) -> Iterator[tuple[int, int]]:
+    def _iter_windows(self, seed: CriteriaSeedTask) -> Iterator[tuple[int, int]]:
         for end_idx in range(1, len(seed.states)):
             if self.granularity == "COARSE":
                 yield (0, end_idx)
@@ -91,7 +93,7 @@ class HoareStateGenerator:
 
         keep_fresh_state: dict[str, StateAtom] = {}
         for state in states[: idx + 1]:
-            for atom in state:
+            for atom in state.atoms:
                 keep_fresh_state[atom.cannoncial] = atom
 
-        return list(keep_fresh_state.values())
+        return State(atoms=list(keep_fresh_state.values()))

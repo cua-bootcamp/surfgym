@@ -2,11 +2,11 @@ import argparse
 from pathlib import Path
 from typing import get_args
 
-from surfgym_contracts.task import CriteriaEvaluation, Hook, LifecycleHooks, Task, Website
+from surfgym_contracts.task import Hook, LifecycleHooks, Task, Website
 
 from surfgym_task.hoare import HoareStateGenerator
 from surfgym_task.io import DetailWriter, InstructionWriter, SeedReader, Summary, TaskWriter
-from surfgym_task.seed import Domain, Granularity, Profile
+from surfgym_task.seed import CriteriaSeedTask, Domain, Granularity, LLMJudgeSeedTask, Profile
 
 _DOCKER_FIXTURE_DOMAINS: frozenset[Domain] = frozenset(
     {
@@ -41,47 +41,57 @@ def augment(seed_dir: Path, granularity: Granularity, profile: Profile):
         for seed, seed_name in SeedReader(path["seeds"]).get_seed():
             summary.seed_count += 1
 
-            for hoare_state in hoare_state_generator.generate(seed):
-                is_full_task = (
-                    hoare_state.origin_start_idx == 0
-                    and hoare_state.origin_end_idx == len(seed.states) - 1
-                )
-                instruction = (
-                    seed.instruction
-                    if is_full_task
-                    else instruction_writer.get(hoare_state.hash, seed, hoare_state)
-                )
+            match seed:
+                case LLMJudgeSeedTask():
+                    task = Task(
+                        task_id=f"{seed_name}",
+                        instruction=seed.instruction,
+                        website=[Website(url=seed.website)],
+                        evaluation=seed.evaluation,
+                    )
 
-                task = Task(
-                    task_id=f"{seed_name}_{hoare_state.origin_start_idx}_{hoare_state.origin_end_idx}",
-                    instruction=instruction,
-                    website=[Website(url=seed.website)],
-                    complexity=hoare_state.complexity,
-                    evaluation=CriteriaEvaluation(
-                        criteria=[atom.to_console_criteria() for atom in hoare_state.end_state]
-                    ),
-                    lifecycle_hooks=LifecycleHooks(
-                        allocate=[
-                            Hook(script=atom.to_set(), timing="after")
-                            for atom in hoare_state.start_state
-                        ],
-                        observe=[
-                            Hook(script=atom.to_set(), timing="before")
-                            for atom in hoare_state.end_state
-                        ]
-                        if profile == "SNAPSHOT"
-                        else [],
-                        release=[_DOCKER_RELEASE_HOOK]
-                        if seed.domain in _DOCKER_FIXTURE_DOMAINS
-                        else [],
-                    ),
-                    include_reward_image=profile == "SNAPSHOT",
-                )
+                    summary.task_count += 1
+                    detail_writer.write_task(task)
+                    task_writer.write(task)
+                case CriteriaSeedTask():
+                    for hoare_state in hoare_state_generator.generate(seed):
+                        is_full_task = (
+                            hoare_state.origin_start_idx == 0
+                            and hoare_state.origin_end_idx == len(seed.states) - 1
+                        )
+                        instruction = (
+                            seed.instruction
+                            if is_full_task
+                            else instruction_writer.get(hoare_state.hash, seed, hoare_state)
+                        )
 
-                summary.task_count += 1
+                        task = Task(
+                            task_id=f"{seed_name}_{hoare_state.origin_start_idx}_{hoare_state.origin_end_idx}",
+                            instruction=instruction,
+                            website=[Website(url=seed.website)],
+                            complexity=hoare_state.complexity,
+                            evaluation=hoare_state.end_state.to_criteria_evaluation(),
+                            lifecycle_hooks=LifecycleHooks(
+                                allocate=[
+                                    Hook(script=atom.to_set(), timing="after")
+                                    for atom in hoare_state.start_state.atoms
+                                ],
+                                observe=[
+                                    Hook(script=atom.to_set(), timing="before")
+                                    for atom in hoare_state.end_state.atoms
+                                ]
+                                if profile == "SNAPSHOT"
+                                else [],
+                                release=[_DOCKER_RELEASE_HOOK]
+                                if seed.domain in _DOCKER_FIXTURE_DOMAINS
+                                else [],
+                            ),
+                            include_reward_image=profile == "SNAPSHOT",
+                        )
 
-                detail_writer.write_task(task)
-                task_writer.write(task)
+                        summary.task_count += 1
+                        detail_writer.write_task(task)
+                        task_writer.write(task)
 
 
 def parse_args() -> argparse.Namespace:

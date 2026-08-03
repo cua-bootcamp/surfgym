@@ -11,7 +11,15 @@ from surfgym_contracts.task import Task
 
 from surfgym_task.hoare import HoareState
 from surfgym_task.instruction_generator import InstructionGenerator
-from surfgym_task.seed import RawSeedTask, SeedTask
+from surfgym_task.seed import (
+    CriteriaSeedTask,
+    Domain,
+    LLMJudgeSeedTask,
+    RawLLMJudgeSeedTask,
+    RawSeedTask,
+    SeedTask,
+    State,
+)
 
 T = TypeVar("T")
 
@@ -29,11 +37,6 @@ class JsonIO:
     def read(path: Path) -> object:
         with path.open("r", encoding="utf-8") as stream:
             return json.load(stream)
-
-    @staticmethod
-    def validate(path: Path, schema: type[T]) -> T:
-        payload = JsonIO.read(path)
-        return TypeAdapter(schema).validate_python(payload)
 
     @staticmethod
     def write(path: Path, value: object) -> None:
@@ -113,49 +116,56 @@ class SeedReader:
 
     def get_seed(self) -> Iterator[Tuple[SeedTask, str]]:
         for seed_path in self.seeds_dir.glob("*.json"):
-            raw_seed = JsonIO.validate(seed_path, RawSeedTask)
+            raw_seed = TypeAdapter[RawSeedTask](RawSeedTask).validate_python(JsonIO.read(seed_path))
             yield (self._adhoc_transformation(raw_seed), seed_path.stem)
 
     def _adhoc_transformation(self, raw_seed: RawSeedTask) -> SeedTask:
-        domain = raw_seed.domain or self.seeds_dir.parent.name
+        domain = (
+            raw_seed.domain
+            if raw_seed.domain is not None
+            else TypeAdapter[Domain](Domain).validate_python(self.seeds_dir.parent.name)
+        )
 
-        if domain == "spreadsheet" or domain == "word":
-            empty_start = raw_seed.empty_start or False
-            if empty_start:
-                raw_seed.states.insert(0, [])
-
-            return SeedTask(
+        if isinstance(raw_seed, RawLLMJudgeSeedTask):
+            return LLMJudgeSeedTask(
                 domain=domain,
                 instruction=raw_seed.instruction,
-                states=raw_seed.states,
-                accumulation=raw_seed.accumulation or "CUMULATIVE",
+                evaluation=raw_seed.evaluation,
                 website=raw_seed.website.to_url(),
             )
 
-        if domain == "impress":
-            empty_start = raw_seed.empty_start or True
-            if empty_start:
-                raw_seed.states.insert(0, [])
+        match domain:
+            case "spreadsheet" | "word":
+                empty_start = False if raw_seed.empty_start is None else raw_seed.empty_start
+            case "impress" | "gimp" | "vlc":
+                empty_start = True if raw_seed.empty_start is None else raw_seed.empty_start
 
-            return SeedTask(
-                domain=domain,
-                instruction=raw_seed.instruction,
-                states=raw_seed.states,
-                accumulation=raw_seed.accumulation or "CUMULATIVE",
-                website=raw_seed.website.to_url(),
-            )
+        states = list(raw_seed.states)
+        if empty_start:
+            states.insert(0, State(atoms=[]))
 
-        else:
-            raise ValueError("Unimplemented")
+        return CriteriaSeedTask(
+            domain=domain,
+            instruction=raw_seed.instruction,
+            states=states,
+            accumulation=raw_seed.accumulation or "CUMULATIVE",
+            website=raw_seed.website.to_url(),
+        )
 
 
 class DetailWriter:
     def __init__(self, out_directory: Path):
         self._detail_directory = out_directory / "detail"
 
-    def write_task(self, task: Task):
-        seed_name, idx1, idx2 = task.task_id.rsplit("_", 2)
-        path = self._detail_directory / seed_name / f"{idx1}_{idx2}.json"
+    def write_task(self, task: Task) -> None:
+        parts = task.task_id.rsplit("_", 2)
+
+        if len(parts) == 3 and parts[1].isdigit() and parts[2].isdigit():
+            seed_name, start_idx, end_idx = parts
+            path = self._detail_directory / seed_name / f"{start_idx}_{end_idx}.json"
+        else:
+            path = self._detail_directory / f"{task.task_id}.json"
+
         JsonIO.write(path, task)
 
     def write_summary(self, summary: Summary):
@@ -196,7 +206,7 @@ CREATE TABLE IF NOT EXISTS instructions (
     def get(
         self,
         task_hash: str,
-        seed: SeedTask,
+        seed: CriteriaSeedTask,
         hoare_state: HoareState,
     ) -> str:
         instruction = self._get_instruction(task_hash)

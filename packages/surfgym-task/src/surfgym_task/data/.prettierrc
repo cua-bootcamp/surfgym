@@ -3,7 +3,7 @@
     {
       "files": "*.json",
       "options": {
-        "printWidth": 999,
+        "printWidth": 200,
         "objectWrap": "collapse"
       }
     }

@@ -1,0 +1,5 @@
+{
+  "instruction": "Could you play the music video on my desktop and set it to loop continuously?",
+  "website": { "base": "http://localhost:53001/vlc", "param": { "setup_file": "Rudy_Mancuso_&_Maia_Mitchell_-_Magic_(Official_Music_Video).webm" } },
+  "evaluation": { "mode": "llm", "model": "gpt-5.4-mini", "image_detail": "high", "max_frames": 12 }
+}

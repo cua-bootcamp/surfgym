@@ -151,7 +151,7 @@ class Task(FrozenBaseModel):
     website: Annotated[list[Website], Field(min_length=1, max_length=4)]
 
     evaluation: Evaluation
-    complexity: int
+    complexity: Optional[int] = None
     lifecycle_hooks: LifecycleHooks = LifecycleHooks()
 
     include_reward_image: bool = False

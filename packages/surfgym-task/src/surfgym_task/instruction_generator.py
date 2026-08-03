@@ -9,7 +9,7 @@ from pydantic import JsonValue
 from surfgym_contracts.task import Value
 
 from surfgym_task.hoare import HoareState
-from surfgym_task.seed import SeedTask
+from surfgym_task.seed import CriteriaSeedTask
 
 MODULE_DIR = Path(__file__).resolve().parent
 REPO_ROOT = MODULE_DIR.parents[3]
@@ -41,7 +41,7 @@ class InstructionGenerator:
         self.client: Any = OpenAI(api_key=api_key)
         self.model = "gpt-5.4-mini"
 
-    def generate(self, seed_task: SeedTask, hoare_state: HoareState) -> str:
+    def generate(self, seed_task: CriteriaSeedTask, hoare_state: HoareState) -> str:
         payload = self._build_instruction_payload(seed_task, hoare_state)
 
         response: Any = self.client.responses.create(
@@ -69,7 +69,7 @@ class InstructionGenerator:
 
     def _build_instruction_payload(
         self,
-        seed_task: SeedTask,
+        seed_task: CriteriaSeedTask,
         hoare_state: HoareState,
     ) -> InstructionPayload:
         current: list[CurrentStatePayload] = [

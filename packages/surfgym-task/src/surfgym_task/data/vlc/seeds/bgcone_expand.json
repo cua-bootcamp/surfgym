@@ -1,0 +1,5 @@
+{
+  "instruction": "Could you make the background cone/art image expand to fill the window?",
+  "website": "http://localhost:53001/vlc",
+  "states": [[{ "spec": { "file": ".config/vlc/vlcrc", "format": "key_value", "key": "qt-bgcone-expands", "default": "0" }, "value": "1" }]]
+}

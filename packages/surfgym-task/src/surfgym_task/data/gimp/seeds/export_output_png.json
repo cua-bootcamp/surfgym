@@ -1,0 +1,5 @@
+{
+  "instruction": "Could you export my photo to the desktop and name it \"output.png\"?",
+  "website": { "base": "http://localhost:53001/gimp", "param": { "setup_file": "Landscape-Nature.jpg" } },
+  "states": [[{ "spec": { "file": "output.png", "format": "file_magic", "offset": 0, "length": 8, "default": "" }, "value": "89504E470D0A1A0A" }]]
+}

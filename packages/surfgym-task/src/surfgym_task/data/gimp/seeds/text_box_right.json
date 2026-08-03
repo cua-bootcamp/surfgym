@@ -1,0 +1,5 @@
+{
+  "instruction": "Can you shift the text box to the right? I keep accidentally selecting the image layer beneath it.",
+  "website": { "base": "http://localhost:53001/gimp", "param": { "setup_file": "text & backgound.xcf" } },
+  "evaluation": { "mode": "llm", "model": "gpt-5.4-mini", "image_detail": "high", "max_frames": 12 }
+}

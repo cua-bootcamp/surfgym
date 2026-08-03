@@ -1,0 +1,5 @@
+{
+  "instruction": "Help me choose the image of moon and position it at the top-left corner of my picture.",
+  "website": { "base": "http://localhost:53001/gimp", "param": { "setup_file": "moon & background.xcf" } },
+  "evaluation": { "mode": "llm", "model": "gpt-5.4-mini", "image_detail": "high", "max_frames": 12 }
+}

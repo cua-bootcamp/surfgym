@@ -1,0 +1,5 @@
+{
+  "instruction": "Could you fill the background layer with red color, leaving the object layer as is?",
+  "website": { "base": "http://localhost:53001/gimp", "param": { "setup_file": "subject & background.xcf" } },
+  "evaluation": { "mode": "llm", "model": "gpt-5.4-mini", "image_detail": "high", "max_frames": 12 }
+}
