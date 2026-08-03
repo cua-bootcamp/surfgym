@@ -1,16 +1,7 @@
 import { LocaleType, createUniver, mergeLocales } from "@univerjs/presets";
 import { UniverDocsCorePreset } from "@univerjs/preset-docs-core";
 import UniverPresetDocsCoreEnUS from "@univerjs/preset-docs-core/locales/en-US";
-import {
-  body,
-  document as documentQuery,
-  footer,
-  get,
-  paragraph,
-  set,
-  table,
-  text
-} from "./external";
+import { get, set } from "./external";
 import { WordRuntimeStore } from "./internal";
 import { renderWordMockToolbar } from "./word-ui";
 
@@ -38,12 +29,12 @@ WordRuntimeStore.runtime = { univer, univerAPI, document };
 
 renderWordMockToolbar({
   containerId: "word-custom-toolbar",
-  getLineSpacing: () => Number(get({ query: [["paragraph", 0]], path: ["lineSpacing"] }) ?? 1),
+  getLineSpacing: () => Number(get({ kind: "paragraph", index: 0, property: "lineSpacing" }) ?? 1),
   setLineSpacing: (lineSpacing) => {
-    set({ query: [["paragraph", 0]], path: ["lineSpacing"], value: lineSpacing });
+    set({ kind: "paragraph", index: 0, property: "lineSpacing" }, lineSpacing);
   },
   insertTable: (rows, columns) => {
-    set({ query: [["table", 0]], path: ["shape"], value: `${rows}x${columns}` });
+    set({ kind: "table", index: 0, property: "shape" }, `${rows}x${columns}`);
   },
   univerAPI: univerAPI as unknown as NonNullable<
     Parameters<typeof renderWordMockToolbar>[0]["univerAPI"]
@@ -55,23 +46,11 @@ const wordGlobal = window as unknown as {
   surfgym: {
     get: typeof get;
     set: typeof set;
-    body: typeof body;
-    text: typeof text;
-    paragraph: typeof paragraph;
-    table: typeof table;
-    footer: typeof footer;
-    document: typeof documentQuery;
   };
 };
 
 wordGlobal.univerAPI = univerAPI;
 wordGlobal.surfgym = {
   get,
-  set,
-  body,
-  text,
-  paragraph,
-  table,
-  footer,
-  document: documentQuery
+  set
 };

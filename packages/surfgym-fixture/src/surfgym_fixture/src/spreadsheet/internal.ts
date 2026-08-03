@@ -128,6 +128,10 @@ function isCellValue(value: Value): value is string | number | boolean {
   return typeof value === "string" || typeof value === "number" || typeof value === "boolean";
 }
 
+function isCellMetaPath(path: Path[], expected: Path[]) {
+  return path.length === expected.length && path.every((key, index) => key === expected[index]);
+}
+
 function resolveCell(address: string) {
   const match = address.trim().match(/^\$?([A-Z]+)\$?(\d+)$/i);
   if (!match) throw new Error(`Invalid cell address: ${address}`);
@@ -784,7 +788,33 @@ export function _setCellMeta(
         continue;
       }
 
-      const data = range.getCellData() ?? {};
+      if (isCellMetaPath(path, ["s", "bg", "rgb"])) {
+        if (typeof value !== "string") {
+          throw new Error("backgroundColor must be a string.");
+        }
+
+        range.setBackgroundColor(value);
+        continue;
+      }
+
+      if (isCellMetaPath(path, ["s", "cl", "rgb"])) {
+        if (value !== null && typeof value !== "string") {
+          throw new Error("fontColor must be a string or null.");
+        }
+
+        range.setFontColor(value);
+        continue;
+      }
+
+      if (isCellMetaPath(path, ["s", "bl"])) {
+        if (value === true || value === 1) range.setFontWeight("bold");
+        else if (value === false || value === 0) range.setFontWeight("normal");
+        else if (value === null) range.setFontWeight(null);
+        else throw new Error("bold must be 0, 1, true, false, or null.");
+        continue;
+      }
+
+      const data = { ...(worksheet.getSheet().getCellRaw(row, column) ?? {}) };
       let target = data as Record<PropertyKey, unknown>;
 
       for (const key of path.slice(0, -1)) {

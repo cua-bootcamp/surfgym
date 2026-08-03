@@ -77,14 +77,14 @@ class InstructionGenerator:
                 "target": atom.spec,
                 "current_value": atom.value,
             }
-            for atom in hoare_state.start_state
+            for atom in hoare_state.start_state.atoms
         ]
         required: list[RequiredStatePayload] = [
             {
                 "target": atom.spec,
                 "expected_value": atom.value,
             }
-            for atom in hoare_state.diff
+            for atom in hoare_state.diff.atoms
         ]
 
         return {

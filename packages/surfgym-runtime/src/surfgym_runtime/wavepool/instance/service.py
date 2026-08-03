@@ -1,6 +1,7 @@
 import asyncio
 import math
 from io import BytesIO
+from itertools import groupby
 from typing import Literal, cast
 
 from PIL import Image
@@ -182,12 +183,25 @@ class PlaywrightBrowserWorker:
         *,
         timing: Literal["before", "after"],
     ):
-        for hook in (h for h in hooks if h.timing == timing):
-            page, _ = self.ctx_manager.require_page(
-                context_id,
-                hook.website_id,
+        selected_hooks = (hook for hook in hooks if hook.timing == timing)
+
+        for website_id, website_hooks in groupby(
+            selected_hooks,
+            key=lambda hook: hook.website_id,
+        ):
+            page, _ = self.ctx_manager.require_page(context_id, website_id)
+            scripts = [hook.script for hook in website_hooks]
+
+            await page.evaluate(
+                """
+                async (scripts) => {
+                    for (const script of scripts) {
+                        await eval(script);
+                    }
+                }
+                """,
+                scripts,
             )
-            await page.evaluate(hook.script)
 
 
 ########################################

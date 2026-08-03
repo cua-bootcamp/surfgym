@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal, cast
@@ -116,11 +117,15 @@ def _match(
     if observation is None:
         return False
 
-    answer = _normalize_value(
-        answer, normalize_space=normalize_space, case_sensitive=case_sensitive
+    answer = (
+        _normalize_value(answer, normalize_space=normalize_space, case_sensitive=case_sensitive)
+        if match_mode != "regex"
+        else answer
     )
     observation = _normalize_value(
-        observation, normalize_space=normalize_space, case_sensitive=case_sensitive
+        observation,
+        normalize_space=normalize_space,
+        case_sensitive=case_sensitive if match_mode != "regex" else True,
     )
 
     match match_mode:
@@ -129,7 +134,7 @@ def _match(
         case "contains":
             return _match_contains(observation, answer)
         case "regex":
-            return _match_regex(observation, answer)
+            return _match_regex(observation, answer, case_sensitive=case_sensitive)
 
 
 def _normalize_value(value: Value, *, normalize_space: bool, case_sensitive: bool) -> Value:
@@ -211,14 +216,35 @@ def _match_contains(
     observation: Observation,
     answer: Value,
 ):
-    raise Unexpected("match contains is currently not supported")
+    match observation, answer:
+        case str(), str():
+            return answer in observation
+
+        case _:
+            return False
 
 
 def _match_regex(
     observation: Observation,
     answer: Value,
-):
-    raise Unexpected("match regex is currently not supported")
+    *,
+    case_sensitive: bool,
+) -> bool:
+    flags = re.NOFLAG if case_sensitive else re.IGNORECASE
+
+    match observation, answer:
+        case str(), str():
+            return (
+                re.search(
+                    answer,
+                    observation,
+                    flags=flags,
+                )
+                is not None
+            )
+
+        case _:
+            return False
 
 
 def _build_request_payload(

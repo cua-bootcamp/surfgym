@@ -1,4 +1,5 @@
 import json
+import shutil
 import sqlite3
 from collections.abc import Iterator
 from dataclasses import dataclass
@@ -156,6 +157,8 @@ class SeedReader:
 class DetailWriter:
     def __init__(self, out_directory: Path):
         self._detail_directory = out_directory / "detail"
+        if self._detail_directory.exists():
+            shutil.rmtree(self._detail_directory)
 
     def write_task(self, task: Task) -> None:
         parts = task.task_id.rsplit("_", 2)
