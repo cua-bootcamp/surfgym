@@ -60,7 +60,7 @@ class _WebsiteDependent(FrozenBaseModel):
     website_id: str = "_"
 
 
-type Value = str | bool | int | float | list[Value] | dict[str, Value]
+type Value = None | str | bool | int | float | list[Value] | dict[str, Value]
 type Observation = Optional[Value]
 type MatchMode = Literal["contains", "exact", "regex"]
 
