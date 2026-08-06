@@ -1,0 +1,139 @@
+{
+  "instruction": "Center the main heading “EMERGENCY COMMUNICATION BRIEF.” Keep every word, paragraph break, color, emphasis, link, and all remaining formatting unchanged.",
+  "website": "http://localhost:3000/word",
+  "states": [
+    [
+      {
+        "spec": { "kind": "body", "property": "text" },
+        "value": "EMERGENCY COMMUNICATION BRIEF\nNorth River Operations Center | Severe Weather Procedure\nThis brief gives the duty team a common sequence for issuing public updates when weather, access, or utility conditions change quickly. It is a field reference, not a substitute for the incident command plan.\nACTIVATION THRESHOLD\nOpen the emergency channel when two verified reports describe the same disruption, when the control room declares a site restriction, or when the on-call manager requests coordinated messaging. A single unconfirmed social post is not enough to activate the brief.\nMESSAGE ORDER\nState what happened, identify the affected location, explain the immediate action, give the time of the next update, and name the source that confirmed the information. Put the safety instruction before background detail.\nCONFIRMATION RULE\nTwo staff members must review every external message. The first reviewer checks facts and time stamps; the second checks contact details, plain language, and whether the audience has a clear next step.\nPRIORITY WORDING\nUSE THE PHRASE “MOVE TO THE EAST ASSEMBLY AREA” ONLY AFTER THE FLOOR WARDEN CONFIRMS THAT ROUTE. If the safe route changes, replace the full instruction instead of adding a correction underneath it.\nPUBLIC CHANNELS\nPost approved notices to the status page at https://status.northriver-ops.example, then repeat the same wording on the lobby display and recorded phone line. Do not shorten evacuation directions for social media.\nHANDOVER RECORD\nThe outgoing coordinator records the message version, approval time, reviewer names, distribution channels, and any unanswered question. The incoming coordinator reads the most recent approved message aloud before assuming the desk.\nQUICK CONTACTS\nDuty manager: +1 555 018 2400\nFacilities control: +1 555 018 2416\nAccessibility relay: relay@northriver-ops.example\nFINAL CHECK\nDO NOT publish a draft that contains brackets, placeholder times, or an unverified room number. Confirm the next-update time before releasing the message.\nDocument control: Communications Desk • Revision 4.2 • Current through October"
+      },
+      { "spec": { "kind": "paragraph", "index": 0, "property": "namedStyleType" }, "value": "title" },
+      { "spec": { "kind": "paragraph", "index": 0, "property": "horizontalAlign" }, "value": "left" },
+      { "spec": { "kind": "paragraph", "index": 1, "property": "namedStyleType" }, "value": "subtitle" },
+      { "spec": { "kind": "paragraph", "index": 1, "property": "horizontalAlign" }, "value": "left" },
+      { "spec": { "kind": "text", "text": "EMERGENCY COMMUNICATION BRIEF", "property": "fontSize" }, "value": 22 },
+      { "spec": { "kind": "text", "text": "EMERGENCY COMMUNICATION BRIEF", "property": "bold" }, "value": true },
+      { "spec": { "kind": "text", "text": "EMERGENCY COMMUNICATION BRIEF", "property": "color" }, "value": "#1D4ED8" },
+      { "spec": { "kind": "text", "text": "North River Operations Center | Severe Weather Procedure", "property": "fontSize" }, "value": 11 },
+      { "spec": { "kind": "text", "text": "North River Operations Center | Severe Weather Procedure", "property": "bold" }, "value": true },
+      { "spec": { "kind": "text", "text": "North River Operations Center | Severe Weather Procedure", "property": "color" }, "value": "#64748B" },
+      { "spec": { "kind": "paragraph", "index": 3, "property": "namedStyleType" }, "value": "heading2" },
+      { "spec": { "kind": "text", "text": "ACTIVATION THRESHOLD", "property": "fontSize" }, "value": 11 },
+      { "spec": { "kind": "text", "text": "ACTIVATION THRESHOLD", "property": "bold" }, "value": true },
+      { "spec": { "kind": "text", "text": "ACTIVATION THRESHOLD", "property": "color" }, "value": "#0F766E" },
+      { "spec": { "kind": "paragraph", "index": 5, "property": "namedStyleType" }, "value": "heading2" },
+      { "spec": { "kind": "text", "text": "MESSAGE ORDER", "property": "fontSize" }, "value": 11 },
+      { "spec": { "kind": "text", "text": "MESSAGE ORDER", "property": "bold" }, "value": true },
+      { "spec": { "kind": "text", "text": "MESSAGE ORDER", "property": "color" }, "value": "#0F766E" },
+      { "spec": { "kind": "paragraph", "index": 7, "property": "namedStyleType" }, "value": "heading2" },
+      { "spec": { "kind": "text", "text": "CONFIRMATION RULE", "property": "fontSize" }, "value": 11 },
+      { "spec": { "kind": "text", "text": "CONFIRMATION RULE", "property": "bold" }, "value": true },
+      { "spec": { "kind": "text", "text": "CONFIRMATION RULE", "property": "color" }, "value": "#0F766E" },
+      { "spec": { "kind": "paragraph", "index": 9, "property": "namedStyleType" }, "value": "heading2" },
+      { "spec": { "kind": "text", "text": "PRIORITY WORDING", "property": "fontSize" }, "value": 11 },
+      { "spec": { "kind": "text", "text": "PRIORITY WORDING", "property": "bold" }, "value": true },
+      { "spec": { "kind": "text", "text": "PRIORITY WORDING", "property": "color" }, "value": "#0F766E" },
+      { "spec": { "kind": "paragraph", "index": 11, "property": "namedStyleType" }, "value": "heading2" },
+      { "spec": { "kind": "text", "text": "PUBLIC CHANNELS", "property": "fontSize" }, "value": 11 },
+      { "spec": { "kind": "text", "text": "PUBLIC CHANNELS", "property": "bold" }, "value": true },
+      { "spec": { "kind": "text", "text": "PUBLIC CHANNELS", "property": "color" }, "value": "#0F766E" },
+      { "spec": { "kind": "paragraph", "index": 13, "property": "namedStyleType" }, "value": "heading2" },
+      { "spec": { "kind": "text", "text": "HANDOVER RECORD", "property": "fontSize" }, "value": 11 },
+      { "spec": { "kind": "text", "text": "HANDOVER RECORD", "property": "bold" }, "value": true },
+      { "spec": { "kind": "text", "text": "HANDOVER RECORD", "property": "color" }, "value": "#0F766E" },
+      { "spec": { "kind": "paragraph", "index": 15, "property": "namedStyleType" }, "value": "heading2" },
+      { "spec": { "kind": "text", "text": "QUICK CONTACTS", "property": "fontSize" }, "value": 11 },
+      { "spec": { "kind": "text", "text": "QUICK CONTACTS", "property": "bold" }, "value": true },
+      { "spec": { "kind": "text", "text": "QUICK CONTACTS", "property": "color" }, "value": "#0F766E" },
+      { "spec": { "kind": "paragraph", "index": 19, "property": "namedStyleType" }, "value": "heading2" },
+      { "spec": { "kind": "text", "text": "FINAL CHECK", "property": "fontSize" }, "value": 11 },
+      { "spec": { "kind": "text", "text": "FINAL CHECK", "property": "bold" }, "value": true },
+      { "spec": { "kind": "text", "text": "FINAL CHECK", "property": "color" }, "value": "#0F766E" },
+      {
+        "spec": {
+          "kind": "text",
+          "text": "This brief gives the duty team a common sequence for issuing public updates when weather, access, or utility conditions change quickly. It is a field reference, not a substitute for the incident command plan.",
+          "property": "fontSize"
+        },
+        "value": 10
+      },
+      {
+        "spec": {
+          "kind": "text",
+          "text": "Open the emergency channel when two verified reports describe the same disruption, when the control room declares a site restriction, or when the on-call manager requests coordinated messaging. A single unconfirmed social post is not enough to activate the brief.",
+          "property": "fontSize"
+        },
+        "value": 10
+      },
+      {
+        "spec": {
+          "kind": "text",
+          "text": "State what happened, identify the affected location, explain the immediate action, give the time of the next update, and name the source that confirmed the information. Put the safety instruction before background detail.",
+          "property": "fontSize"
+        },
+        "value": 10
+      },
+      {
+        "spec": {
+          "kind": "text",
+          "text": "Two staff members must review every external message. The first reviewer checks facts and time stamps; the second checks contact details, plain language, and whether the audience has a clear next step.",
+          "property": "fontSize"
+        },
+        "value": 10
+      },
+      {
+        "spec": {
+          "kind": "text",
+          "text": "USE THE PHRASE “MOVE TO THE EAST ASSEMBLY AREA” ONLY AFTER THE FLOOR WARDEN CONFIRMS THAT ROUTE. If the safe route changes, replace the full instruction instead of adding a correction underneath it.",
+          "property": "fontSize"
+        },
+        "value": 10
+      },
+      {
+        "spec": {
+          "kind": "text",
+          "text": "Post approved notices to the status page at https://status.northriver-ops.example, then repeat the same wording on the lobby display and recorded phone line. Do not shorten evacuation directions for social media.",
+          "property": "fontSize"
+        },
+        "value": 10
+      },
+      {
+        "spec": {
+          "kind": "text",
+          "text": "The outgoing coordinator records the message version, approval time, reviewer names, distribution channels, and any unanswered question. The incoming coordinator reads the most recent approved message aloud before assuming the desk.",
+          "property": "fontSize"
+        },
+        "value": 10
+      },
+      { "spec": { "kind": "text", "text": "Duty manager: +1 555 018 2400", "property": "fontSize" }, "value": 10 },
+      { "spec": { "kind": "text", "text": "Facilities control: +1 555 018 2416", "property": "fontSize" }, "value": 10 },
+      { "spec": { "kind": "text", "text": "Accessibility relay: relay@northriver-ops.example", "property": "fontSize" }, "value": 10 },
+      {
+        "spec": {
+          "kind": "text",
+          "text": "DO NOT publish a draft that contains brackets, placeholder times, or an unverified room number. Confirm the next-update time before releasing the message.",
+          "property": "fontSize"
+        },
+        "value": 10
+      },
+      { "spec": { "kind": "text", "text": "USE THE PHRASE “MOVE TO THE EAST ASSEMBLY AREA” ONLY AFTER THE FLOOR WARDEN CONFIRMS THAT ROUTE.", "property": "bold" }, "value": true },
+      { "spec": { "kind": "text", "text": "USE THE PHRASE “MOVE TO THE EAST ASSEMBLY AREA” ONLY AFTER THE FLOOR WARDEN CONFIRMS THAT ROUTE.", "property": "backgroundColor" }, "value": "#FACC15" },
+      { "spec": { "kind": "text", "text": "https://status.northriver-ops.example", "property": "color" }, "value": "#2563EB" },
+      { "spec": { "kind": "text", "text": "https://status.northriver-ops.example", "property": "underline" }, "value": true },
+      { "spec": { "kind": "text", "text": "relay@northriver-ops.example", "property": "color" }, "value": "#2563EB" },
+      { "spec": { "kind": "text", "text": "relay@northriver-ops.example", "property": "underline" }, "value": true },
+      {
+        "spec": {
+          "kind": "text",
+          "text": "DO NOT publish a draft that contains brackets, placeholder times, or an unverified room number. Confirm the next-update time before releasing the message.",
+          "property": "bold"
+        },
+        "value": true
+      },
+      { "spec": { "kind": "text", "text": "DO NOT", "property": "color" }, "value": "#B91C1C" },
+      { "spec": { "kind": "text", "text": "Document control: Communications Desk • Revision 4.2 • Current through October", "property": "fontSize" }, "value": 9 },
+      { "spec": { "kind": "text", "text": "Document control: Communications Desk • Revision 4.2 • Current through October", "property": "color" }, "value": "#64748B" }
+    ],
+    [{ "spec": { "kind": "paragraph", "index": 0, "property": "horizontalAlign" }, "value": "center" }]
+  ]
+}

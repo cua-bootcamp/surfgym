@@ -1,5 +1,5 @@
 {
-  "task_file_path": "packages/surfgym-task/src/surfgym_task/data/spreadsheet/out/tasks.sqlite3",
+  "task_file_path": "packages/surfgym-task/src/surfgym_task/data/word/out/tasks.sqlite3",
   "log_path": "logs/",
   "gateway": {
     "host": "127.0.0.1",

@@ -1,4 +1,9 @@
 import { ChartTypeBits } from '@univerjs/presets/preset-sheets-advanced';
+import {
+  mergeChartSourceMatrixInfo,
+  registerLogicalChartSourceRange,
+  splitChartSourceRanges,
+} from './chart-range';
 
 const setFilterRangeCommandId = 'sheet.command.set-filter-range';
 const removeSheetFilterCommandId = 'sheet.command.remove-sheet-filter';
@@ -60,6 +65,7 @@ type SpreadsheetRange = {
   getValue?: () => unknown;
   getValues?: () => unknown[][];
   getCellData?: () => unknown;
+  getRange?: () => SelectionRange;
 };
 
 type SpreadsheetSelection = {
@@ -68,7 +74,9 @@ type SpreadsheetSelection = {
 
 type SpreadsheetWorkbook = {
   getId: () => string;
+  getSheetByName?: (name: string) => SpreadsheetWorksheet | null;
   insertSheet?: (name?: string, options?: SpreadsheetInsertSheetOptions) => SpreadsheetWorksheet;
+  setActiveSheet?: (worksheet: SpreadsheetWorksheet | string) => unknown;
 };
 
 type SpreadsheetWorksheet = {
@@ -77,7 +85,8 @@ type SpreadsheetWorksheet = {
   getMaxRows: () => number;
   getMaxColumns: () => number;
   getSelection: () => SpreadsheetSelection | null | undefined;
-  getRange: (row: number, column: number, numRows: number, numColumns: number) => SpreadsheetRange;
+  getRange(a1Notation: string): SpreadsheetRange;
+  getRange(row: number, column: number, numRows: number, numColumns: number): SpreadsheetRange;
   hideSheet?: () => SpreadsheetWorksheet;
   newChart: () => SpreadsheetChartBuilder;
   insertChart: (chartInfo: unknown) => Promise<SpreadsheetChart | unknown> | SpreadsheetChart | unknown;
@@ -272,6 +281,25 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
         const cellRange = worksheet.getRange(range.startRow + rowOffset, range.startColumn + columnOffset, 1, 1);
         return readCellValue(cellRange.getValue?.() ?? cellRange.getCellData?.());
       }),
+    );
+  }
+
+  function readA1RangeValues(worksheet: SpreadsheetWorksheet, rangeA1: string) {
+    const facadeRange = worksheet.getRange(rangeA1);
+    const range = facadeRange.getRange?.();
+    const values = facadeRange.getValues?.();
+
+    if (!range || !Array.isArray(values)) {
+      throw new Error(`Unable to read chart source range: ${rangeA1}`);
+    }
+
+    const rowCount = range.endRow - range.startRow + 1;
+    const columnCount = range.endColumn - range.startColumn + 1;
+
+    return Array.from({ length: rowCount }, (_, rowIndex) =>
+      Array.from({ length: columnCount }, (_, columnIndex) =>
+        readCellValue(values[rowIndex]?.[columnIndex])
+      )
     );
   }
 
@@ -490,8 +518,11 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
 
   function uniqueChartDataSheetName() {
     const suffix = Math.floor(Date.now() % 100_000).toString().padStart(5, '0');
+    let candidate = `_SurfgymChartData${suffix}`;
 
-    return `_SurfgymChartData${suffix}`;
+    while (workbook.getSheetByName?.(candidate)) candidate += '_';
+
+    return candidate;
   }
 
   function createChartSourceRange(
@@ -502,19 +533,36 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
   ) {
     const selectionA1 = selectionRangeToA1(chartTarget.range);
     const requestedRangeA1 = config.rangeA1?.trim();
+    const sourceRangeA1 = requestedRangeA1 || selectionA1;
+    const sourceRanges = splitChartSourceRanges(sourceRangeA1);
+    const needsMultiRangeHelper = sourceRanges.length > 1;
     const canRewriteSource = !requestedRangeA1 || requestedRangeA1 === selectionA1;
     const needsHelperSource = config.useFirstRowAsHeader === false || config.useFirstColumnAsLabel === false;
 
-    if (!canRewriteSource || !needsHelperSource || !chartTarget.workbook.insertSheet) {
+    if (!needsMultiRangeHelper && (!canRewriteSource || !needsHelperSource)) {
       return {
         contextConfig: config,
         columnCount,
-        rangeA1: requestedRangeA1 || selectionA1,
+        isRowDirection: null,
+        logicalRangeA1: sourceRangeA1,
+        rangeA1: sourceRangeA1,
         rowCount,
       };
     }
 
-    const helperMatrix = buildChartHelperMatrix(readRangeValues(chartTarget.worksheet, chartTarget.range), config);
+    if (!chartTarget.workbook.insertSheet) {
+      throw new Error('Chart helper sheets are unavailable.');
+    }
+
+    const mergedSource = needsMultiRangeHelper
+      ? mergeChartSourceMatrixInfo(
+          sourceRanges.map((sourceRange) => readA1RangeValues(chartTarget.worksheet, sourceRange)),
+        )
+      : {
+          isRowDirection: null,
+          matrix: readRangeValues(chartTarget.worksheet, chartTarget.range),
+        };
+    const helperMatrix = buildChartHelperMatrix(mergedSource.matrix, config);
     const helperRowCount = helperMatrix.length;
     const helperColumnCount = helperMatrix[0]?.length ?? 0;
 
@@ -522,6 +570,8 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
       return {
         contextConfig: config,
         columnCount,
+        isRowDirection: null,
+        logicalRangeA1: sourceRangeA1,
         rangeA1: selectionA1,
         rowCount,
       };
@@ -531,7 +581,12 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
     const helperWorksheet = chartTarget.workbook.insertSheet(helperSheetName, {
       sheet: matrixToSheetData(helperMatrix),
     });
-    helperWorksheet.hideSheet?.();
+
+    try {
+      helperWorksheet.hideSheet?.();
+    } finally {
+      chartTarget.workbook.setActiveSheet?.(chartTarget.worksheet);
+    }
 
     return {
       contextConfig: {
@@ -540,6 +595,8 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
         useFirstRowAsHeader: true,
       },
       columnCount: helperColumnCount,
+      isRowDirection: mergedSource.isRowDirection,
+      logicalRangeA1: sourceRangeA1,
       rangeA1: `${helperSheetName}!A1:${columnIndexToName(helperColumnCount - 1)}${helperRowCount}`,
       rowCount: helperRowCount,
     };
@@ -607,23 +664,33 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
     const yAxisTitle = config.yAxisTitle?.trim();
     const dataOrientation = config.dataOrientation ?? 'Column';
     const chartSource = createChartSourceRange(chartTarget, config, rowCount, columnCount);
-    const isRowDirection = chartSource.rowCount === 1 || dataOrientation === 'Column';
+    const isRowDirection =
+      chartSource.isRowDirection ?? (chartSource.rowCount === 1 || dataOrientation === 'Column');
+    const effectiveDataOrientation =
+      chartSource.isRowDirection === null
+        ? dataOrientation
+        : isRowDirection
+          ? 'Row'
+          : 'Column';
     const chartContext = buildChartContext(
       chartSource.contextConfig,
       chartSource.rowCount,
       chartSource.columnCount,
       isRowDirection,
     );
-    let chartBuilder = chartTarget.worksheet.newChart()
+    let chartBuilder = chartTarget.worksheet
+      .newChart()
       .setChartType(config.chartType)
-      .addRange(chartSource.rangeA1)
+      .addRange(chartSource.rangeA1);
+
+    chartBuilder = chartBuilder
       .setPosition(range.startRow, chartColumn, 20, 20)
       .setWidth(config.width ?? 560)
       .setHeight(config.height ?? 360);
 
     chartBuilder = setChartOption(chartBuilder, 'title.content', title);
     chartBuilder = setChartOption(chartBuilder, 'legend.position', config.legendPosition ?? 'right');
-    chartBuilder = setChartOption(chartBuilder, 'orient', dataOrientation);
+    chartBuilder = setChartOption(chartBuilder, 'orient', effectiveDataOrientation);
 
     if (chartBuilder.setTransposeRowsAndColumns) {
       chartBuilder = chartBuilder.setTransposeRowsAndColumns(isRowDirection);
@@ -642,6 +709,11 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
     const chartId = getChartId(insertedChart);
 
     if (chartId) {
+      registerLogicalChartSourceRange(
+        chartId,
+        chartSource.logicalRangeA1,
+        chartSource.rangeA1,
+      );
       await univerAPI.executeCommand(chartUpdateConfigCommandId, {
         unitId: chartTarget.workbook.getId(),
         chartModelId: chartId,

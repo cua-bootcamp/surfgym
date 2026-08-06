@@ -146,16 +146,86 @@ export function _setTextMeta(target: TextTarget, path: Path[], value: Value): An
   if (!range) throw new Error(`Text target not found: ${targetInfo.value}`);
 
   const textStyle = styleForTextPath(path, value);
-  const textRuns = Array.isArray(body.textRuns) ? body.textRuns : [];
-  textRuns.push({
-    st: range.start,
-    ed: range.end + 1,
-    ts: textStyle
-  });
-  body.textRuns = textRuns;
+  mergeTextStyle(body, dataStream, range.start, range.end + 1, textStyle);
 
   resetDocument(snapshot);
   return _getTextMeta(target);
+}
+
+function mergeTextStyle(
+  body: AnyRecord,
+  dataStream: string,
+  start: number,
+  end: number,
+  textStyle: AnyRecord
+) {
+  const textRuns = Array.isArray(body.textRuns)
+    ? body.textRuns.filter((run): run is AnyRecord => isRecordValue(run))
+    : [];
+  const maxIndex = dataStream.length;
+  const clampIndex = (value: unknown, fallback: number): number =>
+    Math.max(0, Math.min(maxIndex, safeInteger(value, fallback)));
+  const rangeStart = clampIndex(start, 0);
+  const rangeEnd = clampIndex(end, rangeStart);
+  if (rangeStart >= rangeEnd) return;
+
+  const boundaries = new Set<number>([rangeStart, rangeEnd]);
+  textRuns.forEach((run) => {
+    const runStart = clampIndex(run.st, 0);
+    const runEnd = clampIndex(run.ed, runStart);
+    if (runStart >= runEnd) return;
+
+    boundaries.add(runStart);
+    boundaries.add(runEnd);
+  });
+
+  const sortedBoundaries = Array.from(boundaries).sort((left, right) => left - right);
+  const mergedTextRuns: AnyRecord[] = [];
+
+  for (let index = 0; index < sortedBoundaries.length - 1; index += 1) {
+    const segmentStart = sortedBoundaries[index];
+    const segmentEnd = sortedBoundaries[index + 1];
+    if (segmentStart === undefined || segmentEnd === undefined || segmentStart >= segmentEnd) {
+      continue;
+    }
+
+    const currentStyle = styleRunForIndex(textRuns, segmentStart);
+    const segmentStyle =
+      segmentStart < rangeEnd && rangeStart < segmentEnd
+        ? mergeStyle(currentStyle, textStyle)
+        : currentStyle;
+    if (Object.keys(segmentStyle).length === 0) continue;
+
+    const styleId = textRuns.reduce<unknown>((currentStyleId, run) => {
+      const runStart = clampIndex(run.st, 0);
+      const runEnd = clampIndex(run.ed, runStart);
+      if (runStart <= segmentStart && segmentStart < runEnd && run.sId !== undefined) {
+        return clone(run.sId);
+      }
+
+      return currentStyleId;
+    }, undefined);
+    const segment: AnyRecord = {
+      st: segmentStart,
+      ed: segmentEnd,
+      ts: segmentStyle
+    };
+    if (styleId !== undefined) segment.sId = styleId;
+
+    const previous = mergedTextRuns.at(-1);
+    if (
+      previous &&
+      Number(previous.ed) === segmentStart &&
+      styleValuesEqual(previous.ts, segment.ts) &&
+      styleValuesEqual(previous.sId, segment.sId)
+    ) {
+      previous.ed = segmentEnd;
+    } else {
+      mergedTextRuns.push(segment);
+    }
+  }
+
+  body.textRuns = mergedTextRuns;
 }
 
 export function _getParagraphMeta(index: number): AnyRecord {
@@ -298,13 +368,9 @@ export function _setDocumentMeta(path: Path[], value: Value): AnyRecord {
   const snapshot = getMutableSnapshot();
   const body = ensureBody(snapshot);
   const dataStream = String(body.dataStream ?? "\r\n");
-  const textRuns = Array.isArray(body.textRuns) ? body.textRuns : [];
-  textRuns.push({
-    st: 0,
-    ed: dataStream.length,
-    ts: { fs: normalizeNumber(value, "fontSizeOnly") }
+  mergeTextStyle(body, dataStream, 0, dataStream.length, {
+    fs: normalizeNumber(value, "fontSizeOnly")
   });
-  body.textRuns = textRuns;
 
   resetDocument(snapshot);
   return _getDocumentMeta();
@@ -1068,7 +1134,7 @@ function buildTextMeta(style: AnyRecord): AnyRecord {
     fontFamily: typeof style.ff === "string" ? style.ff : null,
     fontSize: readNumber(style.fs, null),
     color: readColor(style.cl),
-    backgroundColor: readColor(style.bg),
+    backgroundColor: readBackgroundColor(style.bg),
     verticalAlign: verticalAlignToString(style.va)
   };
 }
@@ -1086,7 +1152,7 @@ function styleForTextPath(path: Path[], value: Value): AnyRecord {
   if (key === "fontFamily") return { ff: value == null ? null : String(value) };
   if (key === "fontSize") return { fs: normalizeNumber(value, "fontSize") };
   if (key === "color") return { cl: colorValue(value) };
-  if (key === "backgroundColor") return { bg: colorValue(value) };
+  if (key === "backgroundColor") return { bg: backgroundColorValue(value) };
   if (key === "verticalAlign") return { va: normalizeVerticalAlign(value) };
 
   throw new Error(`Unsupported text style path: ${String(key)}`);
@@ -1119,8 +1185,18 @@ function colorValue(value: Value): { rgb: string } | null {
   return { rgb: value };
 }
 
+function backgroundColorValue(value: Value): { rgb: string } | null {
+  if (typeof value === "string" && value.trim().toLowerCase() === "none") return null;
+
+  return colorValue(value);
+}
+
 function readColor(value: unknown): string | null {
   return isRecordValue(value) && typeof value.rgb === "string" ? value.rgb : null;
+}
+
+function readBackgroundColor(value: unknown): string {
+  return readColor(value) ?? "none";
 }
 
 function readNumber(value: unknown, fallback: number): number;

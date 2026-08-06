@@ -2,6 +2,14 @@ import { ChartTypeBits, SheetsChartService } from "@univerjs/presets/preset-shee
 import { checkCellValueType, type FWorksheet } from "@univerjs/preset-sheets-core";
 import type { FChart } from "@univerjs/presets/lib/types/preset-sheets-advanced/index.js";
 import type { Path, Value } from "../external";
+import {
+  ChartSourceRangeError,
+  clearLogicalChartSourceRanges,
+  getLogicalChartSourceRange,
+  mergeChartSourceMatrixInfo,
+  registerLogicalChartSourceRange,
+  splitChartSourceRanges
+} from "./chart-range";
 import { SpreadsheetRuntimeStore } from "./runtime";
 
 type WorksheetLike = FWorksheet;
@@ -29,11 +37,18 @@ type RangeLike = {
 type ResolveSheetOptions = {
   create?: boolean;
 };
+type SpreadsheetCellValue = string | number | boolean | null;
+type SpreadsheetSheetData = {
+  cellData: Record<number, Record<number, { v: SpreadsheetCellValue }>>;
+};
 type WorkbookWithSheetMutation = {
   getSheets?: () => WorksheetLike[];
   getSheetByName?: (sheetName: string) => WorksheetLike | null | undefined;
   getSheetBySheetId?: (sheetId: string) => WorksheetLike | null | undefined;
-  insertSheet?: (name?: string, options?: { index?: number }) => WorksheetLike;
+  insertSheet?: (
+    name?: string,
+    options?: { index?: number; sheet?: Partial<SpreadsheetSheetData> }
+  ) => WorksheetLike;
   moveSheet?: (sheet: WorksheetLike, index: number) => unknown;
 };
 type ChartBuilderLike = {
@@ -54,6 +69,7 @@ type WorksheetWithCharts = WorksheetLike & {
   insertChart?: (chartInfo: unknown) => Promise<unknown> | unknown;
   setName?: (name: string) => unknown;
   getMaxColumns?: () => number;
+  hideSheet?: () => WorksheetLike;
 };
 type ChartRuntimeConfig = {
   unitId: string;
@@ -193,6 +209,110 @@ function selectionRangeToA1(range: RangeLike) {
     columnIndexToName(range.endColumn),
     range.endRow + 1
   ].join("");
+}
+
+function normalizeChartSourceCellValue(value: unknown): SpreadsheetCellValue {
+  if (value === null || value === undefined) return null;
+  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+    return value;
+  }
+
+  return String(value);
+}
+
+function readChartSourceRangeMatrix(worksheet: WorksheetLike, sourceRange: string) {
+  const facadeRange = worksheet.getRange(sourceRange);
+  const range = facadeRange.getRange();
+  const values = facadeRange.getValues();
+  const rowCount = range.endRow - range.startRow + 1;
+  const columnCount = range.endColumn - range.startColumn + 1;
+
+  return Array.from({ length: rowCount }, (_, rowIndex) =>
+    Array.from({ length: columnCount }, (_, columnIndex) =>
+      normalizeChartSourceCellValue(values[rowIndex]?.[columnIndex])
+    )
+  );
+}
+
+function chartSourceMatrixToSheetData(matrix: SpreadsheetCellValue[][]): SpreadsheetSheetData {
+  return {
+    cellData: matrix.reduce<Record<number, Record<number, { v: SpreadsheetCellValue }>>>(
+      (rows, row, rowIndex) => {
+        rows[rowIndex] = row.reduce<Record<number, { v: SpreadsheetCellValue }>>(
+          (columns, value, columnIndex) => {
+            columns[columnIndex] = { v: value };
+            return columns;
+          },
+          {}
+        );
+        return rows;
+      },
+      {}
+    )
+  };
+}
+
+function uniqueChartDataSheetName(workbook: WorkbookWithSheetMutation) {
+  const suffix = Math.floor(Date.now() % 100_000)
+    .toString()
+    .padStart(5, "0");
+  let candidate = `_SurfgymChartData${suffix}`;
+
+  while (workbook.getSheetByName?.(candidate)) candidate += "_";
+
+  return candidate;
+}
+
+function createContiguousChartSourceRange(worksheet: WorksheetLike, sourceRange: string) {
+  const sourceRanges = splitChartSourceRanges(sourceRange);
+  if (sourceRanges.length === 1) {
+    const rangeA1 = sourceRanges[0]!;
+    const facadeRange = worksheet.getRange(rangeA1);
+
+    return {
+      isRowDirection: null,
+      rangeA1,
+      rangeInfo: {
+        range: facadeRange.getRange(),
+        subUnitId: facadeRange.getSheetId(),
+        unitId: facadeRange.getUnitId()
+      }
+    };
+  }
+
+  const { workbook } = SpreadsheetRuntimeStore.runtime;
+  const workbookWithSheets = workbook as unknown as WorkbookWithSheetMutation;
+  if (typeof workbookWithSheets.insertSheet !== "function") {
+    throw new ChartSourceRangeError("Chart helper sheets are unavailable.");
+  }
+
+  const { isRowDirection, matrix } = mergeChartSourceMatrixInfo(
+    sourceRanges.map((rangeA1) => readChartSourceRangeMatrix(worksheet, rangeA1))
+  );
+  const spreadsheetMatrix = matrix as SpreadsheetCellValue[][];
+  const rowCount = spreadsheetMatrix.length;
+  const columnCount = spreadsheetMatrix[0]?.length ?? 0;
+  const helperSheetName = uniqueChartDataSheetName(workbookWithSheets);
+  const helperWorksheet = workbookWithSheets.insertSheet(helperSheetName, {
+    sheet: chartSourceMatrixToSheetData(spreadsheetMatrix)
+  });
+  const helperRange = helperWorksheet.getRange(0, 0, rowCount, columnCount);
+
+  try {
+    (helperWorksheet as WorksheetWithCharts).hideSheet?.();
+  } finally {
+    workbook.setActiveSheet(worksheet);
+  }
+
+  return {
+    isRowDirection,
+    rangeA1: `${helperSheetName}!A1:${columnIndexToName(columnCount - 1)}${rowCount}`,
+    rangeInfo: {
+      range: helperRange.getRange(),
+      subUnitId: helperRange.getSheetId(),
+      unitId: helperRange.getUnitId()
+    }
+  };
 }
 
 function getSelectionRangeFromUnknown(value: unknown): RangeLike | null {
@@ -438,20 +558,20 @@ function mergeChartMeta(base: ChartMeta, registered?: ChartMeta): ChartMeta {
 
   return {
     ...base,
-    chartType: registered.chartType ?? base.chartType,
-    sourceRange: registered.sourceRange ?? base.sourceRange,
-    range: registered.range ?? base.range,
-    title: registered.title ?? base.title,
-    xAxisTitle: registered.xAxisTitle ?? base.xAxisTitle,
-    yAxisTitle: registered.yAxisTitle ?? base.yAxisTitle,
-    legendPosition: registered.legendPosition ?? base.legendPosition,
-    dataOrientation: registered.dataOrientation ?? base.dataOrientation,
-    width: registered.width ?? base.width,
-    height: registered.height ?? base.height,
+    chartType: base.chartType ?? registered.chartType,
+    sourceRange: base.sourceRange ?? registered.sourceRange,
+    range: base.range ?? registered.range,
+    title: base.title ?? registered.title,
+    xAxisTitle: base.xAxisTitle ?? registered.xAxisTitle,
+    yAxisTitle: base.yAxisTitle ?? registered.yAxisTitle,
+    legendPosition: base.legendPosition ?? registered.legendPosition,
+    dataOrientation: base.dataOrientation ?? registered.dataOrientation,
+    width: base.width ?? registered.width,
+    height: base.height ?? registered.height,
     position: registered.position ?? base.position,
-    context: registered.context ?? base.context,
-    seriesData: registered.seriesData ?? base.seriesData,
-    categoryData: registered.categoryData ?? base.categoryData
+    context: base.context ?? registered.context,
+    seriesData: base.seriesData ?? registered.seriesData,
+    categoryData: base.categoryData ?? registered.categoryData
   };
 }
 
@@ -664,13 +784,120 @@ async function updateChartRuntimeConfig(meta: ChartMeta) {
   await univerAPI.executeCommand(chartUpdateConfigCommandId, params);
 }
 
-async function syncChartMetaToWorksheet(worksheet: WorksheetLike, meta: ChartMeta) {
+function resolveChartRowDirection(
+  meta: ChartMeta,
+  inferredDirection: boolean | null,
+  fallbackDirection?: boolean
+) {
+  if (meta.dataOrientation === "Row") return true;
+  if (meta.dataOrientation === "Column") return false;
+
+  return inferredDirection ?? fallbackDirection;
+}
+
+function refreshChartMetaFromFacade(meta: ChartMeta, chart: FChart) {
+  meta.range = chart.getRange?.() ?? meta.range;
+  meta.seriesData = chart.getSeriesData?.() ?? meta.seriesData;
+  meta.categoryData = chart.getCategoryData?.() ?? meta.categoryData;
+}
+
+type FChartRange = NonNullable<ReturnType<FChart["getRange"]>>;
+
+function buildChartContextForRange(meta: ChartMeta, chartRange: FChartRange) {
+  const { workbook } = SpreadsheetRuntimeStore.runtime;
+  const sourceWorksheet = workbook.getSheetBySheetId?.(chartRange.rangeInfo.subUnitId);
+  if (!sourceWorksheet) return meta.context;
+
+  const range = chartRange.rangeInfo.range;
+  const rowCount = range.endRow - range.startRow + 1;
+  const columnCount = range.endColumn - range.startColumn + 1;
+  const values = sourceWorksheet
+    .getRange(range.startRow, range.startColumn, rowCount, columnCount)
+    .getValues();
+  const headers = (chartRange.isRowDirection ? (values[0] ?? []) : values.map((row) => row[0])).map(
+    (value) => String(normalizeChartSourceCellValue(value) ?? "")
+  );
+  const seriesIndexes = Array.from(
+    { length: Math.max(0, headers.length - 1) },
+    (_, index) => index + 1
+  );
+
+  return {
+    ...(isRecord(meta.context) ? meta.context : {}),
+    categoryIndex: 0,
+    categoryResourceIndexes: [0],
+    headers,
+    seriesIndexes,
+    seriesResourceIndexes: seriesIndexes,
+    transform: undefined
+  };
+}
+
+async function syncExistingChartSource(
+  worksheet: WorksheetLike,
+  meta: ChartMeta,
+  changedProperty: Path | undefined
+) {
+  if (!meta.id || (changedProperty !== "sourceRange" && changedProperty !== "dataOrientation")) {
+    return;
+  }
+
+  const chart = getWorksheetCharts(worksheet).find((item) => item.getChartId?.() === meta.id);
+  if (!chart) return;
+
+  if (changedProperty === "sourceRange" && meta.sourceRange) {
+    const chartSource = createContiguousChartSourceRange(worksheet, meta.sourceRange);
+    const currentRange = chart.getRange?.();
+    const currentDirection = currentRange?.isRowDirection;
+    const isRowDirection = resolveChartRowDirection(
+      meta,
+      chartSource.isRowDirection,
+      currentDirection
+    );
+    const nextRange =
+      isRowDirection === undefined
+        ? { rangeInfo: chartSource.rangeInfo }
+        : { rangeInfo: chartSource.rangeInfo, isRowDirection };
+    const updated = await chart.updateRange(nextRange);
+
+    if (!updated) throw new Error(`Failed to update chart source range: ${meta.sourceRange}`);
+
+    meta.context = buildChartContextForRange(meta, nextRange);
+    registerLogicalChartSourceRange(meta.id, meta.sourceRange, chartSource.rangeA1);
+    refreshChartMetaFromFacade(meta, chart);
+    return;
+  }
+
+  const currentRange = chart.getRange?.();
+  if (!currentRange) return;
+
+  const isRowDirection = resolveChartRowDirection(meta, null, currentRange.isRowDirection);
+  if (isRowDirection === undefined) return;
+
+  const nextRange = { ...currentRange, isRowDirection };
+  const updated = await chart.updateRange(nextRange);
+  if (!updated)
+    throw new Error(`Failed to update chart data orientation: ${String(meta.dataOrientation)}`);
+
+  meta.context = buildChartContextForRange(meta, nextRange);
+  refreshChartMetaFromFacade(meta, chart);
+}
+
+async function syncChartMetaToWorksheet(
+  worksheet: WorksheetLike,
+  meta: ChartMeta,
+  changedProperty?: Path
+) {
   const worksheetWithCharts = worksheet as WorksheetWithCharts;
 
   if (meta.id) {
     try {
+      await syncExistingChartSource(worksheet, meta, changedProperty);
       await updateChartRuntimeConfig(meta);
-    } catch {
+    } catch (error) {
+      if (changedProperty === "sourceRange" || changedProperty === "dataOrientation") {
+        throw error;
+      }
       // Registry-backed evaluation should still work if visual chart update is unavailable.
     }
     return;
@@ -689,10 +916,23 @@ async function syncChartMetaToWorksheet(worksheet: WorksheetLike, meta: ChartMet
     const position = getChartPosition(meta, worksheetWithCharts);
     const width = readPositiveNumber(meta.width, 560);
     const height = readPositiveNumber(meta.height, 360);
+    const chartSource = createContiguousChartSourceRange(worksheet, meta.sourceRange);
     let builder: ChartBuilderLike = worksheetWithCharts
       .newChart()
       .setChartType(resolveChartTypeBits(meta.chartType))
-      .addRange(meta.sourceRange)
+      .addRange(chartSource.rangeA1);
+
+    const isRowDirection = resolveChartRowDirection(meta, chartSource.isRowDirection);
+
+    if (
+      isRowDirection !== null &&
+      isRowDirection !== undefined &&
+      builder.setTransposeRowsAndColumns
+    ) {
+      builder = builder.setTransposeRowsAndColumns(isRowDirection);
+    }
+
+    builder = builder
       .setPosition(position.row, position.column, position.offsetX, position.offsetY)
       .setWidth(width)
       .setHeight(height);
@@ -704,14 +944,13 @@ async function syncChartMetaToWorksheet(worksheet: WorksheetLike, meta: ChartMet
 
     if (id) {
       meta.id = id;
-      meta.range = (insertedChart as FChart | undefined)?.getRange?.() ?? meta.range;
-      meta.seriesData = (insertedChart as FChart | undefined)?.getSeriesData?.() ?? meta.seriesData;
-      meta.categoryData =
-        (insertedChart as FChart | undefined)?.getCategoryData?.() ?? meta.categoryData;
+      registerLogicalChartSourceRange(id, meta.sourceRange, chartSource.rangeA1);
+      refreshChartMetaFromFacade(meta, insertedChart as FChart);
       upsertChartMeta(meta);
       await updateChartRuntimeConfig(meta);
     }
-  } catch {
+  } catch (error) {
+    if (error instanceof ChartSourceRangeError) throw error;
     // Some chart APIs are unavailable on headless/older worksheet facades; keep meta for evaluation.
   }
 }
@@ -906,6 +1145,7 @@ export function _resetSpreadsheetState() {
   runtime.defaultWorksheet = resetWorksheet;
   runtime.initializeWorksheet(resetWorksheet);
   chartMetaRegistry.length = 0;
+  clearLogicalChartSourceRanges();
 
   return resetWorksheet;
 }
@@ -1036,17 +1276,20 @@ export function _setIndexedSheetName(sheetRef: IndexedSheetRef, value: Value) {
 
 function buildChartMeta(worksheet: WorksheetLike, charts: FChart[], chart: FChart): ChartMeta {
   const sheetId = worksheet.getSheetId?.() ?? null;
+  const id = chart.getChartId?.() ?? null;
   const model = getChartModel(chart);
   const style = model?.style;
   const range = getChartModelRange(model) ?? chart.getRange?.() ?? null;
+  const physicalSourceRange = getChartSourceRangeA1(range, sheetId);
 
   return {
-    id: chart.getChartId?.() ?? null,
+    id,
     sheetId,
     sheetName: getSheetName(worksheet),
     index: charts.indexOf(chart),
     chartType: normalizeChartType(model?.chartType),
-    sourceRange: getChartSourceRangeA1(range, sheetId),
+    sourceRange:
+      (id ? getLogicalChartSourceRange(id, physicalSourceRange) : null) ?? physicalSourceRange,
     range,
     title: readFirstString(style, [
       ["titles", "title", "content"],
@@ -1095,7 +1338,7 @@ export async function _setChartMeta(
   meta.sheetName = getSheetName(worksheet);
   upsertChartMeta(meta);
 
-  await syncChartMetaToWorksheet(worksheet, meta);
+  await syncChartMetaToWorksheet(worksheet, meta, path[0]);
 
   activateSheetAfterExplicitSet(sheetRef, worksheet);
   return meta;

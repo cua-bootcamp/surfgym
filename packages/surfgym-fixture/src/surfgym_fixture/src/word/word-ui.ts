@@ -42,6 +42,7 @@ const wordCommandIds = {
   fontSize: 'doc.command.set-inline-format-fontsize',
   textColor: 'doc.command.set-inline-format-text-color',
   highlightColor: 'doc.command.set-inline-format-text-background-color',
+  resetHighlightColor: 'doc.command.reset-inline-format-text-background-color',
   alignLeft: 'doc.command.align-left',
   alignCenter: 'doc.command.align-center',
   alignRight: 'doc.command.align-right',
@@ -459,6 +460,22 @@ const createColorButton = (
   return button;
 };
 
+const createNoHighlightButton = (univerAPI: WordToolbarApi | undefined) => {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'word-mock-color-palette-clear';
+  button.textContent = 'No Highlight';
+  button.title = 'Remove Highlight';
+  button.setAttribute('aria-label', 'Remove Highlight');
+  button.addEventListener('click', (event) => {
+    event.preventDefault();
+    executeToolbarCommand(univerAPI, wordCommandIds.resetHighlightColor);
+    closeWordColorPalette();
+  });
+
+  return button;
+};
+
 const openWordColorPalette = (
   univerAPI: WordToolbarApi | undefined,
   anchor: HTMLElement,
@@ -488,6 +505,9 @@ const openWordColorPalette = (
   menu.querySelector<HTMLElement>('.word-mock-color-palette-grid')?.append(
     ...wordPaletteColors.map((color) => createColorButton(univerAPI, commandId, color)),
   );
+  if (action === 'highlightColor') {
+    menu.querySelector('.word-mock-color-palette-title')?.after(createNoHighlightButton(univerAPI));
+  }
 
   document.body.appendChild(menu);
   window.setTimeout(() => {
