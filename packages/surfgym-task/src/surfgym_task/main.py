@@ -48,6 +48,11 @@ def augment(seed_dir: Path, granularity: Granularity, profile: Profile):
                         instruction=seed.instruction,
                         website=[Website(url=seed.website)],
                         evaluation=seed.evaluation,
+                        lifecycle_hooks=LifecycleHooks(
+                            release=[_DOCKER_RELEASE_HOOK]
+                            if seed.domain in _DOCKER_FIXTURE_DOMAINS
+                            else [],
+                        ),
                     )
 
                     summary.task_count += 1
