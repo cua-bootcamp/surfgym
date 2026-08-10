@@ -8,6 +8,8 @@ import {
 const setFilterRangeCommandId = 'sheet.command.set-filter-range';
 const removeSheetFilterCommandId = 'sheet.command.remove-sheet-filter';
 const chartUpdateConfigCommandId = 'sheet.command.chart-update-config';
+const mergeCellsCommandId = 'sheet.command.add-worksheet-merge-all';
+const unmergeCellsCommandId = 'sheet.command.remove-worksheet-merge';
 
 export type SelectionRange = {
   startRow: number;
@@ -405,6 +407,25 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
     const { range, worksheet } = inputTarget;
 
     worksheet.getRange(range.startRow, range.startColumn, 1, 1).setValue(value);
+  }
+
+  async function applySelectionMerge() {
+    const mergeTarget = getSelectionRangeTarget({ allowSingleRow: true });
+    if (!mergeTarget) return false;
+
+    const { range } = mergeTarget;
+    const rowCount = range.endRow - range.startRow + 1;
+    const columnCount = range.endColumn - range.startColumn + 1;
+    if (rowCount === 1 && columnCount === 1) return false;
+
+    return univerAPI.executeCommand(mergeCellsCommandId);
+  }
+
+  async function applySelectionUnmerge() {
+    const mergeTarget = getSelectionRangeTarget({ allowSingleRow: true });
+    if (!mergeTarget) return false;
+
+    return univerAPI.executeCommand(unmergeCellsCommandId);
   }
 
   async function applySelectionFilter(filterTarget: SelectionRangeTarget | null = getSelectionRangeTarget()) {
@@ -889,10 +910,12 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
     applySelectionFontFamily,
     applySelectionFontSize,
     applySelectionInputValue,
+    applySelectionMerge,
     applySelectionNumberFormat,
     applySelectionPercentFormat,
     applySelectionPivotTable,
     applySelectionSort,
+    applySelectionUnmerge,
     columnIndexToName,
     getSelectionPivotSource,
     getSelectionRangeTarget,

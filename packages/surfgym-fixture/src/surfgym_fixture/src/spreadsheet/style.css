@@ -204,6 +204,7 @@ body {
   height: 22px;
 }
 
+.spreadsheet-mock-merge-icon,
 .spreadsheet-mock-decimal-icon,
 .spreadsheet-mock-indent-icon,
 .spreadsheet-mock-border-icon,
@@ -230,6 +231,7 @@ body {
 .spreadsheet-mock-format-button[data-format-label="Mid"],
 .spreadsheet-mock-format-button[data-format-label="Bot"],
 .spreadsheet-mock-format-button[data-format-label="Merge"],
+.spreadsheet-mock-format-button[data-format-label="Unmerge"],
 .spreadsheet-mock-format-button[data-format-label="Date"],
 .spreadsheet-mock-format-button[data-format-label="Dec-"],
 .spreadsheet-mock-format-button[data-format-label="Dec+"],

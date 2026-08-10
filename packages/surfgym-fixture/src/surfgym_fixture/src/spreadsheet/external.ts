@@ -1,6 +1,7 @@
 import type { Path, Value } from "../external";
 import {
   _getCellMetaValue,
+  _getCellMerged,
   _getChartMeta,
   _getIndexedSheetName,
   _getRowHidden,
@@ -8,6 +9,7 @@ import {
   _getSheetZoom,
   _resetSpreadsheetState,
   _setCellMeta,
+  _setCellMerged,
   _setCellNumberFormat,
   _setChartMeta,
   _setIndexedSheetName,
@@ -47,7 +49,7 @@ const CHART_PROPERTIES = [
 ] as const;
 
 type SheetSelector = string | number | null;
-type CellProperty = keyof typeof CELL_PATHS | "rowHidden";
+type CellProperty = keyof typeof CELL_PATHS | "merged" | "rowHidden";
 type SheetProperty = "name" | "zoom";
 type ChartProperty = (typeof CHART_PROPERTIES)[number];
 
@@ -83,6 +85,7 @@ export type ApplyState = typeof applyState;
 export function get(spec: SpreadsheetSpec): unknown {
   switch (spec.kind) {
     case "cell":
+      if (spec.property === "merged") return _getCellMerged(sheetRef(spec.sheet), spec.cell);
       if (spec.property === "rowHidden") return _getRowHidden(sheetRef(spec.sheet), spec.cell);
       return _getCellMetaValue(sheetRef(spec.sheet), spec.cell, getCellPath(spec.property));
     case "sheet":
@@ -103,6 +106,7 @@ export function get(spec: SpreadsheetSpec): unknown {
 export function set(spec: SpreadsheetSpec, value: Value) {
   switch (spec.kind) {
     case "cell":
+      if (spec.property === "merged") return _setCellMerged(sheetRef(spec.sheet), spec.cell, value);
       if (spec.property === "rowHidden")
         return _setRowHidden(sheetRef(spec.sheet), spec.cell, value);
       if (spec.property === "numberFormat") {

@@ -30,6 +30,10 @@ const pivotDataFieldDialogId = 'spreadsheet-pivot-data-field-dialog';
 const sortDirectionMenuId = 'spreadsheet-sort-direction-menu';
 const createConditionalFormattingRuleOperation = 1;
 const openNumberFormatPanelCommandId = 'sheet.operation.open.numfmt.panel';
+const mergeCellsCommandId = 'sheet.command.add-worksheet-merge-all';
+const unmergeCellsCommandId = 'sheet.command.remove-worksheet-merge';
+const mergeCellsContextMenuItemId = 'surfgym.context-menu.merge-cells';
+const unmergeCellsContextMenuItemId = 'surfgym.context-menu.unmerge-cells';
 const headerMenuButtonClassName = [
   'univer-relative',
   'univer-flex',
@@ -61,7 +65,7 @@ type MockToolbarItem = {
 type MockFormattingItem = {
   label: string;
   title: string;
-  action?: 'dateFormat' | 'numberFormat' | 'percentFormat';
+  action?: 'dateFormat' | 'mergeCells' | 'numberFormat' | 'percentFormat' | 'unmergeCells';
   commandId?: string;
   colorCommandId?: string;
   icon?: string;
@@ -83,10 +87,12 @@ type SpreadsheetMockToolbarOptions = {
     | 'applySelectionFontSize'
     | 'applySelectionHeaderlessFilter'
     | 'applySelectionInputValue'
+    | 'applySelectionMerge'
     | 'applySelectionNumberFormat'
     | 'applySelectionPercentFormat'
     | 'applySelectionPivotTable'
     | 'applySelectionSort'
+    | 'applySelectionUnmerge'
     | 'columnIndexToName'
     | 'getSelectionPivotSource'
     | 'getSelectionRangeTarget'
@@ -278,6 +284,22 @@ const mockToolbarIcon = {
   alignBottom: `
     <svg class="spreadsheet-mock-vertical-align-icon" viewBox="0 0 24 24" aria-hidden="true">
       <path fill="currentColor" d="M8 6h8v2H8zm0 4h8v2H8zm0 4h8v2H8zm-3 4h14v2H5z" />
+    </svg>
+  `,
+  mergeCells: `
+    <svg class="spreadsheet-mock-merge-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="3.5" y="5.5" width="17" height="13" rx=".8" fill="none" stroke="currentColor" stroke-width="1.4" />
+      <path d="M12 5.5v13" stroke="#8f98a3" stroke-width="1.2" stroke-dasharray="2 1.5" />
+      <path d="M5.5 12H10m0 0-2-2m2 2-2 2" fill="none" stroke="#2e6eea" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M18.5 12H14m0 0 2-2m-2 2 2 2" fill="none" stroke="#2e6eea" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  `,
+  unmergeCells: `
+    <svg class="spreadsheet-mock-merge-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="3.5" y="5.5" width="17" height="13" rx=".8" fill="none" stroke="currentColor" stroke-width="1.4" />
+      <path d="M12 5.5v13" stroke="#2e6eea" stroke-width="1.4" stroke-dasharray="2 1.5" />
+      <path d="M10 12H5.5m0 0 2-2m-2 2 2 2" fill="none" stroke="#2e6eea" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M14 12h4.5m0 0-2-2m2 2-2 2" fill="none" stroke="#2e6eea" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
   `,
   fillBucket: `
@@ -576,7 +598,8 @@ const mockFormattingGroups: readonly (readonly MockFormattingItem[])[] = [
     { label: 'Top', title: 'Align Top', icon: mockToolbarIcon.alignTop },
     { label: 'Mid', title: 'Align Middle', icon: mockToolbarIcon.alignMiddle },
     { label: 'Bot', title: 'Align Bottom', icon: mockToolbarIcon.alignBottom },
-    // { label: 'Merge', title: 'Merge Cells' },
+    { label: 'Merge', title: 'Merge Cells', action: 'mergeCells', icon: mockToolbarIcon.mergeCells },
+    { label: 'Unmerge', title: 'Unmerge Cells', action: 'unmergeCells', icon: mockToolbarIcon.unmergeCells },
   ],
   [
     { label: '%', title: 'Percent Format', action: 'percentFormat' },
@@ -1778,8 +1801,10 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
       event.preventDefault();
 
       if (action === 'dateFormat') actions?.applySelectionDateFormat();
+      if (action === 'mergeCells') void actions?.applySelectionMerge();
       if (action === 'numberFormat') actions?.applySelectionNumberFormat();
       if (action === 'percentFormat') actions?.applySelectionPercentFormat();
+      if (action === 'unmergeCells') void actions?.applySelectionUnmerge();
     });
   });
 
@@ -1960,8 +1985,22 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
   });
 }
 
+type SpreadsheetUiMenu = {
+  appendTo: (path: string | string[]) => void;
+};
+
+type SpreadsheetUiMenuItem = {
+  action: string | (() => void);
+  icon?: string;
+  id: string;
+  order?: number;
+  title: string;
+  tooltip?: string;
+};
+
 type SpreadsheetUiContext = {
   univerAPI: {
+    createMenu: (item: SpreadsheetUiMenuItem) => SpreadsheetUiMenu;
     executeCommand: <P extends object = object, R = boolean>(id: string, params?: P) => Promise<R>;
   };
   actions: Pick<
@@ -1970,8 +2009,10 @@ type SpreadsheetUiContext = {
     | 'applySelectionBarChart'
     | 'applySelectionFilter'
     | 'applySelectionHeaderlessFilter'
+    | 'applySelectionMerge'
     | 'applySelectionPivotTable'
     | 'applySelectionSort'
+    | 'applySelectionUnmerge'
     | 'columnIndexToName'
     | 'getSelectionPivotSource'
     | 'getSelectionRangeTarget'
@@ -1984,6 +2025,24 @@ export function setupSpreadsheetUi({
   actions,
   conditionalFormattingCommandId,
 }: SpreadsheetUiContext) {
+  univerAPI.createMenu({
+    id: mergeCellsContextMenuItemId,
+    title: 'Merge Cells',
+    tooltip: 'Merge Cells',
+    icon: 'MergeAllIcon',
+    action: mergeCellsCommandId,
+    order: 4,
+  }).appendTo(['contextMenu.mainArea', 'contextMenu.layout']);
+
+  univerAPI.createMenu({
+    id: unmergeCellsContextMenuItemId,
+    title: 'Unmerge Cells',
+    tooltip: 'Unmerge Cells',
+    icon: 'CancelMergeIcon',
+    action: unmergeCellsCommandId,
+    order: 5,
+  }).appendTo(['contextMenu.mainArea', 'contextMenu.layout']);
+
   function closeSortDirectionMenu() {
     document.getElementById(sortDirectionMenuId)?.remove();
     document.removeEventListener('pointerdown', closeSortDirectionMenuOnOutsideClick, true);

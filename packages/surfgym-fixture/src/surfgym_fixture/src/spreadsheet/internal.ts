@@ -1089,6 +1089,44 @@ export function _setCellNumberFormat(
   activateSheetAfterExplicitSet(sheetRef, worksheet);
 }
 
+export function _getCellMerged(sheetRef: SheetRef | undefined, cellRefStr: string) {
+  const worksheet = resolveSheet(sheetRef);
+  const cellRange = resolveCellRange(cellRefStr);
+  const rowCount = cellRange.endRow - cellRange.startRow + 1;
+  const columnCount = cellRange.endColumn - cellRange.startColumn + 1;
+
+  return worksheet
+    .getRange(cellRange.startRow, cellRange.startColumn, rowCount, columnCount)
+    .isMerged();
+}
+
+export function _setCellMerged(sheetRef: SheetRef | undefined, cellRefStr: string, value: Value) {
+  if (typeof value !== "boolean") throw new Error("merged must be a boolean.");
+
+  const worksheet = resolveSheet(sheetRef);
+  const cellRange = resolveCellRange(cellRefStr);
+  const rowCount = cellRange.endRow - cellRange.startRow + 1;
+  const columnCount = cellRange.endColumn - cellRange.startColumn + 1;
+  const range = worksheet.getRange(
+    cellRange.startRow,
+    cellRange.startColumn,
+    rowCount,
+    columnCount
+  );
+
+  if (value) range.merge({ defaultMerge: true, isForceMerge: true });
+  else range.breakApart();
+
+  activateSheetAfterExplicitSet(sheetRef, worksheet);
+
+  const actual = range.isMerged();
+  if (actual !== value) {
+    throw new Error(`Merged range mismatch after set: expected=${value}, actual=${actual}.`);
+  }
+
+  return actual;
+}
+
 export function _getRowHidden(sheetRef: SheetRef | undefined, cellRefStr: string) {
   const worksheet = resolveSheet(sheetRef);
   const cellRange = resolveCellRange(cellRefStr);
