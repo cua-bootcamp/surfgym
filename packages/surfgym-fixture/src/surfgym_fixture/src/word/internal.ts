@@ -1,4 +1,8 @@
-import { IUniverInstanceService, UniverInstanceType } from "@univerjs/presets";
+import {
+  IUniverInstanceService,
+  SectionType,
+  UniverInstanceType
+} from "@univerjs/presets";
 import {
   DocRenderController,
   DocSkeletonManagerService,
@@ -98,7 +102,7 @@ export function _getBodyMeta() {
   return {
     rawText: getBodyDataStream(),
     text: getBodyText(),
-    textWithPageBreak: getBodyText()
+    textWithPageBreak: getBodyText(true)
   };
 }
 
@@ -109,7 +113,8 @@ export function _setBodyMeta(path: Path[], value: Value): AnyRecord {
 
   const snapshot = getMutableSnapshot();
   const text = value == null ? "" : String(value);
-  const dataStream = textToDataStream(text);
+  const hasPageBreak = path[0] === "textWithPageBreak";
+  const dataStream = textToDataStream(text, hasPageBreak);
 
   snapshot.body = {
     ...(isRecordValue(snapshot.body) ? snapshot.body : {}),
@@ -118,7 +123,9 @@ export function _setBodyMeta(path: Path[], value: Value): AnyRecord {
     customBlocks: [],
     tables: [],
     paragraphs: buildParagraphs(dataStream),
-    sectionBreaks: buildSectionBreaks(dataStream)
+    sectionBreaks: hasPageBreak
+      ? buildPageBreakSectionBreaks(dataStream)
+      : buildSectionBreaks(dataStream)
   };
   snapshot.tableSource = {};
 
@@ -577,16 +584,54 @@ function createTextBody(text: string): AnyRecord {
   };
 }
 
-function textToDataStream(text: string): string {
-  const normalized = text.replaceAll("\r\n", "\n").replaceAll("\r", "\n").replaceAll("\n", "\r");
+function textToDataStream(text: string, convertPageBreaks = false): string {
+  let normalized = text.replaceAll("\r\n", "\n").replaceAll("\r", "\n").replaceAll("\n", "\r");
+  if (convertPageBreaks) normalized = normalized.replaceAll("\f", "\n");
+
   return `${normalized}\r\n`;
 }
 
-function getBodyText(): string {
-  let dataStream = getBodyDataStream();
-  if (dataStream.endsWith("\r\n")) dataStream = dataStream.slice(0, -2);
+function getBodyText(includePageBreaks = false): string {
+  const stripped = stripTableContent(getBodyDataStream());
+  let dataStream = stripped.dataStream;
+  while (dataStream.endsWith("\r\n")) dataStream = dataStream.slice(0, -2);
+  if (stripped.removedTable && dataStream.endsWith("\r")) {
+    dataStream = dataStream.slice(0, -1);
+  }
 
-  return dataStream.replaceAll("\r", "\n");
+  return Array.from(dataStream, (char) => {
+    if (char === "\r") return "\n";
+    if (char === "\n") return includePageBreaks ? "\f" : "\n";
+    return char;
+  }).join("");
+}
+
+function stripTableContent(dataStream: string): { dataStream: string; removedTable: boolean } {
+  let tableDepth = 0;
+  let removedTable = false;
+  let text = "";
+
+  for (let index = 0; index < dataStream.length; index += 1) {
+    const char = dataStream[index] ?? "";
+    if (char === TABLE_START) {
+      tableDepth += 1;
+      removedTable = true;
+      continue;
+    }
+
+    if (char === TABLE_END && tableDepth > 0) {
+      tableDepth -= 1;
+      if (tableDepth === 0 && dataStream[index + 1] === "\r") {
+        index += 1;
+        if (dataStream[index + 1] === "\n") index += 1;
+      }
+      continue;
+    }
+
+    if (tableDepth === 0) text += char;
+  }
+
+  return { dataStream: text, removedTable };
 }
 
 function buildParagraphs(dataStream: string): AnyRecord[] {
@@ -605,6 +650,14 @@ function buildSectionBreaks(dataStream: string): AnyRecord[] {
   }
 
   return sectionBreaks;
+}
+
+function buildPageBreakSectionBreaks(dataStream: string): AnyRecord[] {
+  return buildSectionBreaks(dataStream).map((sectionBreak, index) =>
+    index === 0
+      ? sectionBreak
+      : { ...sectionBreak, sectionType: SectionType.NEXT_PAGE }
+  );
 }
 
 function getFooterText(snapshot: AnyRecord): string {
@@ -685,20 +738,100 @@ function readLooseTableSpecs(dataStream: string): TableSpec[] {
 function writeTableSpecs(snapshot: AnyRecord, specs: TableSpec[]) {
   const builtBody = buildTablesBody(specs);
   const previousBody = isRecordValue(snapshot.body) ? snapshot.body : {};
+  const prefix = preserveBodyPrefix(previousBody);
+  const tableOffset = prefix.dataStream.length;
+  const dataStream = `${prefix.dataStream}${builtBody.dataStream}`;
+  const builtSectionBreaks = offsetStartIndices(builtBody.sectionBreaks, tableOffset);
+  const builtTables = offsetStartIndices(builtBody.tables, tableOffset);
+  const lastBuiltSectionBreak = builtSectionBreaks.at(-1);
+
+  if (lastBuiltSectionBreak && prefix.trailingSectionBreak) {
+    const { startIndex: _previousStartIndex, ...trailingConfig } = prefix.trailingSectionBreak;
+    Object.assign(lastBuiltSectionBreak, clone(trailingConfig));
+  }
 
   snapshot.body = {
     ...previousBody,
-    dataStream: builtBody.dataStream,
-    textRuns: builtBody.dataStream.length > 0 ? [{ st: 0, ed: builtBody.dataStream.length, ts: {} }] : [],
-    customBlocks: [],
-    tables: builtBody.tables,
-    paragraphs: builtBody.paragraphs,
-    sectionBreaks: builtBody.sectionBreaks
+    dataStream,
+    textRuns: [
+      ...prefix.textRuns,
+      ...builtTables.map((table, index) => ({
+        st: safeInteger(table.startIndex, tableOffset),
+        ed: safeInteger(table.endIndex, tableOffset),
+        ts: { fs: (specs[index]?.columns ?? 1) <= 5 ? 13.5 : 9 }
+      }))
+    ],
+    customBlocks: prefix.customBlocks,
+    tables: builtTables,
+    paragraphs: [
+      ...prefix.paragraphs,
+      ...offsetStartIndices(builtBody.paragraphs, tableOffset)
+    ],
+    sectionBreaks: [
+      ...prefix.sectionBreaks,
+      ...builtSectionBreaks
+    ]
   };
   snapshot.tableSource = specs.reduce<AnyRecord>((tableSource, spec) => {
     tableSource[spec.tableId] = buildTableSource(spec, getPageContentWidth(snapshot));
     return tableSource;
   }, {});
+}
+
+function preserveBodyPrefix(body: AnyRecord): {
+  dataStream: string;
+  textRuns: AnyRecord[];
+  customBlocks: AnyRecord[];
+  paragraphs: AnyRecord[];
+  sectionBreaks: AnyRecord[];
+  trailingSectionBreak: AnyRecord | null;
+} {
+  const dataStream = String(body.dataStream ?? "\r\n");
+  const allSectionBreaks = Array.isArray(body.sectionBreaks)
+    ? body.sectionBreaks.filter((record): record is AnyRecord => isRecordValue(record))
+    : [];
+  const trailingSectionBreak = allSectionBreaks.find(
+    (record) => safeInteger(record.startIndex, -1) === dataStream.length - 1
+  );
+  const tables = Array.isArray(body.tables)
+    ? body.tables.filter((table): table is AnyRecord => isRecordValue(table))
+    : [];
+  const firstTableStart = tables.reduce(
+    (start, table) => Math.min(start, safeInteger(table.startIndex, dataStream.length)),
+    dataStream.length
+  );
+
+  let prefix = dataStream.slice(0, firstTableStart);
+  if (tables.length === 0 && prefix === "\r\n") prefix = "";
+  else if (tables.length === 0 && prefix.endsWith("\r\n")) prefix = prefix.slice(0, -1);
+
+  const prefixLength = prefix.length;
+  const recordsBeforePrefixEnd = (value: unknown): AnyRecord[] =>
+    Array.isArray(value)
+      ? value
+          .filter((record): record is AnyRecord => isRecordValue(record))
+          .filter((record) => safeInteger(record.startIndex, prefixLength) < prefixLength)
+          .map((record) => clone(record))
+      : [];
+  const textRuns = Array.isArray(body.textRuns)
+    ? body.textRuns
+        .filter((run): run is AnyRecord => isRecordValue(run))
+        .map((run) => {
+          const start = Math.max(0, safeInteger(run.st, 0));
+          const end = Math.min(prefixLength, safeInteger(run.ed, start));
+          return { ...clone(run), st: start, ed: end };
+        })
+        .filter((run) => run.st < run.ed)
+    : [];
+
+  return {
+    dataStream: prefix,
+    textRuns,
+    customBlocks: recordsBeforePrefixEnd(body.customBlocks),
+    paragraphs: recordsBeforePrefixEnd(body.paragraphs),
+    sectionBreaks: recordsBeforePrefixEnd(body.sectionBreaks),
+    trailingSectionBreak: trailingSectionBreak ? clone(trailingSectionBreak) : null
+  };
 }
 
 function buildTablesBody(specs: TableSpec[]): BuiltTablesBody {
@@ -716,7 +849,7 @@ function buildTablesBody(specs: TableSpec[]): BuiltTablesBody {
   const sectionBreaks: AnyRecord[] = [];
   const tables: AnyRecord[] = [];
 
-  specs.forEach((spec) => {
+  specs.forEach((spec, specIndex) => {
     const tableStartIndex = dataStream.length;
     const tableBody = buildSingleTableBody(spec);
 
@@ -729,9 +862,10 @@ function buildTablesBody(specs: TableSpec[]): BuiltTablesBody {
       tableId: spec.tableId
     });
 
-    dataStream += "\r\n";
-    paragraphs.push({ startIndex: dataStream.length - 2 });
-    sectionBreaks.push({ startIndex: dataStream.length - 1 });
+    const isLastTable = specIndex === specs.length - 1;
+    dataStream += isLastTable ? "\r\n" : "\r";
+    paragraphs.push({ startIndex: dataStream.length - (isLastTable ? 2 : 1) });
+    if (isLastTable) sectionBreaks.push({ startIndex: dataStream.length - 1 });
   });
 
   return {
@@ -756,8 +890,8 @@ function buildSingleTableBody(spec: TableSpec): Pick<BuiltTablesBody, "dataStrea
       paragraphs.push({
         startIndex: dataStream.length - 3,
         paragraphStyle: {
-          spaceAbove: { v: 3 },
-          lineSpacing: 2,
+          spaceAbove: { v: 0 },
+          lineSpacing: 1,
           spaceBelow: { v: 0 }
         }
       });
@@ -783,7 +917,7 @@ function buildTableSource(spec: TableSpec, pageContentWidth: number): AnyRecord 
   const tableRow = {
     tableCells: Array.from({ length: spec.columns }, () => clone(tableCell)),
     trHeight: {
-      val: { v: 30 },
+      val: { v: spec.columns <= 5 ? 30 : 22 },
       hRule: 0
     }
   };
@@ -921,10 +1055,18 @@ function readTableSourceColumns(source: AnyRecord): number {
 }
 
 function offsetStartIndices(records: AnyRecord[], offset: number): AnyRecord[] {
-  return records.map((record) => ({
-    ...clone(record),
-    startIndex: Number(record.startIndex ?? 0) + offset
-  }));
+  return records.map((record) => {
+    const shifted: AnyRecord = {
+      ...clone(record),
+      startIndex: Number(record.startIndex ?? 0) + offset
+    };
+
+    if (record.endIndex !== undefined) {
+      shifted.endIndex = Number(record.endIndex ?? 0) + offset;
+    }
+
+    return shifted;
+  });
 }
 
 function normalizeCellTextForDataStream(text: string): string {
