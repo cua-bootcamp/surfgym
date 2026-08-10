@@ -7,6 +7,7 @@ import {
   _getRowHidden,
   _getSheetName,
   _getSheetZoom,
+  _getSparklineMeta,
   _resetSpreadsheetState,
   _setCellMeta,
   _setCellMerged,
@@ -16,6 +17,7 @@ import {
   _setRowHidden,
   _setSheetName,
   _setSheetZoom,
+  _setSparklineMeta,
   type ChartRef,
   type IndexedSheetRef
 } from "./internal";
@@ -48,10 +50,13 @@ const CHART_PROPERTIES = [
   "yAxisTitle"
 ] as const;
 
+const SPARKLINE_PROPERTIES = ["sourceRange", "type"] as const;
+
 type SheetSelector = string | number | null;
 type CellProperty = keyof typeof CELL_PATHS | "merged" | "rowHidden";
 type SheetProperty = "name" | "zoom";
 type ChartProperty = (typeof CHART_PROPERTIES)[number];
+type SparklineProperty = (typeof SPARKLINE_PROPERTIES)[number];
 
 type CellSpec = {
   kind: "cell";
@@ -73,7 +78,14 @@ type ChartSpec = {
   property: ChartProperty;
 };
 
-export type SpreadsheetSpec = CellSpec | SheetSpec | ChartSpec;
+type SparklineSpec = {
+  kind: "sparkline";
+  sheet: SheetSelector;
+  cell: string;
+  property: SparklineProperty;
+};
+
+export type SpreadsheetSpec = CellSpec | SheetSpec | ChartSpec | SparklineSpec;
 export type SpreadsheetStateAtom = {
   spec: SpreadsheetSpec;
   value: Value;
@@ -98,6 +110,9 @@ export function get(spec: SpreadsheetSpec): unknown {
     case "chart":
       assertChartProperty(spec.property);
       return _getChartMeta(sheetRef(spec.sheet), spec.chart)[spec.property];
+    case "sparkline":
+      assertSparklineProperty(spec.property);
+      return _getSparklineMeta(sheetRef(spec.sheet), spec.cell)[spec.property];
   }
 
   throw unsupportedSpec(spec);
@@ -123,6 +138,9 @@ export function set(spec: SpreadsheetSpec, value: Value) {
     case "chart":
       assertChartProperty(spec.property);
       return _setChartMeta(sheetRef(spec.sheet), spec.chart, [spec.property], value);
+    case "sparkline":
+      assertSparklineProperty(spec.property);
+      return _setSparklineMeta(sheetRef(spec.sheet), spec.cell, spec.property, value);
   }
 
   throw unsupportedSpec(spec);
@@ -166,6 +184,12 @@ function resolveSheetRef(sheet: SheetSelector | IndexedSheetRef): string | numbe
 function assertChartProperty(property: string): asserts property is ChartProperty {
   if (!CHART_PROPERTIES.includes(property as ChartProperty)) {
     throw new Error(`Unsupported chart property: ${property}`);
+  }
+}
+
+function assertSparklineProperty(property: string): asserts property is SparklineProperty {
+  if (!SPARKLINE_PROPERTIES.includes(property as SparklineProperty)) {
+    throw new Error(`Unsupported sparkline property: ${property}`);
   }
 }
 

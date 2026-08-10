@@ -1,4 +1,8 @@
-import { ChartTypeBits, SheetsChartService } from "@univerjs/presets/preset-sheets-advanced";
+import {
+  ChartTypeBits,
+  SheetsChartService,
+  SparklineTypeEnum
+} from "@univerjs/presets/preset-sheets-advanced";
 import { checkCellValueType, type FWorksheet } from "@univerjs/preset-sheets-core";
 import type { FChart } from "@univerjs/presets/lib/types/preset-sheets-advanced/index.js";
 import type { Path, Value } from "../external";
@@ -70,6 +74,26 @@ type WorksheetWithCharts = WorksheetLike & {
   setName?: (name: string) => unknown;
   getMaxColumns?: () => number;
   hideSheet?: () => WorksheetLike;
+};
+type SparklineGroupDataLike = {
+  config?: {
+    type?: unknown;
+  };
+  sparklines?: {
+    getValue?: (row: number, column: number) => RangeLike | null | undefined;
+  };
+};
+type WorksheetWithSparklines = WorksheetLike & {
+  addSparkline?: (
+    sourceRanges: RangeLike[],
+    targetRanges: RangeLike[],
+    type: SparklineTypeEnum
+  ) => unknown;
+  getAllSubSparkline?: () => Map<string, SparklineGroupDataLike> | undefined;
+  getSparklineGroupByCell?: (
+    row: number,
+    column: number
+  ) => { setConfig: (config: { type: SparklineTypeEnum }) => unknown } | undefined;
 };
 type ChartRuntimeConfig = {
   unitId: string;
@@ -209,6 +233,65 @@ function selectionRangeToA1(range: RangeLike) {
     columnIndexToName(range.endColumn),
     range.endRow + 1
   ].join("");
+}
+
+function normalizeSparklineType(type: unknown) {
+  if (type === null || type === undefined) return "line";
+
+  switch (type) {
+    case SparklineTypeEnum.LINE_CHART:
+      return "line";
+    case SparklineTypeEnum.BAR_CHART:
+      return "column";
+    case SparklineTypeEnum.PROFIT_AND_LOSS_CHART:
+      return "stacked";
+    case SparklineTypeEnum.PIE_CHART:
+      return "pie";
+    default:
+      return type;
+  }
+}
+
+function resolveSparklineType(type: Value) {
+  if (typeof type === "number") {
+    if (Object.values(SparklineTypeEnum).includes(type)) return type as SparklineTypeEnum;
+    throw new Error(`Unsupported sparkline type: ${String(type)}`);
+  }
+
+  if (typeof type !== "string") {
+    throw new Error("Sparkline type must be a string or numeric enum value.");
+  }
+
+  switch (type.trim().toLowerCase()) {
+    case "line":
+      return SparklineTypeEnum.LINE_CHART;
+    case "bar":
+    case "column":
+      return SparklineTypeEnum.BAR_CHART;
+    case "stacked":
+    case "profit-and-loss":
+      return SparklineTypeEnum.PROFIT_AND_LOSS_CHART;
+    case "pie":
+      return SparklineTypeEnum.PIE_CHART;
+    default:
+      throw new Error(`Unsupported sparkline type: ${type}`);
+  }
+}
+
+function getSparklineGroupData(
+  worksheet: WorksheetLike,
+  row: number,
+  column: number
+) {
+  const groups = (worksheet as WorksheetWithSparklines).getAllSubSparkline?.();
+  if (!groups) return null;
+
+  for (const group of groups.values()) {
+    const sourceRange = group.sparklines?.getValue?.(row, column);
+    if (sourceRange) return { group, sourceRange };
+  }
+
+  return null;
 }
 
 function normalizeChartSourceCellValue(value: unknown): SpreadsheetCellValue {
@@ -1150,6 +1233,78 @@ export function _setRowHidden(sheetRef: SheetRef | undefined, cellRefStr: string
   if (value) worksheet.hideRows(cellRange.startRow, rowCount);
   else worksheet.showRows(cellRange.startRow, rowCount);
   activateSheetAfterExplicitSet(sheetRef, worksheet);
+}
+
+export function _getSparklineMeta(sheetRef: SheetRef | undefined, cellRefStr: string) {
+  const worksheet = resolveSheet(sheetRef);
+  const target = resolveCell(cellRefStr);
+  const sparkline = getSparklineGroupData(worksheet, target.row, target.column);
+
+  return {
+    sourceRange: sparkline ? selectionRangeToA1(sparkline.sourceRange) : null,
+    type: sparkline ? normalizeSparklineType(sparkline.group.config?.type) : null
+  };
+}
+
+export function _setSparklineMeta(
+  sheetRef: SheetRef | undefined,
+  cellRefStr: string,
+  property: "sourceRange" | "type",
+  value: Value
+) {
+  const worksheet = resolveSheet(sheetRef, { create: true });
+  const worksheetWithSparklines = worksheet as WorksheetWithSparklines;
+  const target = resolveCell(cellRefStr);
+  activateSheetAfterExplicitSet(sheetRef, worksheet);
+
+  if (property === "sourceRange") {
+    if (typeof value !== "string" || value.trim() === "") {
+      throw new Error("Sparkline sourceRange must be a non-empty A1 range.");
+    }
+    if (typeof worksheetWithSparklines.addSparkline !== "function") {
+      throw new Error("Adding sparklines is not supported by this spreadsheet runtime.");
+    }
+
+    const sourceRangeAddress = value.trim();
+    const source = resolveCellRange(sourceRangeAddress);
+    const existing = getSparklineGroupData(worksheet, target.row, target.column);
+    const existingType = existing?.group.config?.type;
+    const sparklineType =
+      typeof existingType === "number"
+        ? (existingType as SparklineTypeEnum)
+        : SparklineTypeEnum.LINE_CHART;
+
+    const sourceRange = worksheet
+      .getRange(
+        source.startRow,
+        source.startColumn,
+        source.endRow - source.startRow + 1,
+        source.endColumn - source.startColumn + 1
+      )
+      .getRange();
+    const targetRange = worksheet.getRange(target.row, target.column).getRange();
+    const added = worksheetWithSparklines.addSparkline(
+      [sourceRange],
+      [targetRange],
+      sparklineType
+    );
+
+    if (!added) {
+      throw new Error(`Failed to add sparkline at ${cellRefStr}.`);
+    }
+  } else {
+    const group = worksheetWithSparklines.getSparklineGroupByCell?.(
+      target.row,
+      target.column
+    );
+    if (!group) {
+      throw new Error(`Sparkline not found at ${cellRefStr}; set sourceRange first.`);
+    }
+
+    group.setConfig({ type: resolveSparklineType(value) });
+  }
+
+  return _getSparklineMeta(sheetRef, cellRefStr);
 }
 
 export function _getSheetName(sheetRef?: SheetRef) {

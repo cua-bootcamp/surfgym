@@ -16,6 +16,7 @@ const startToolbarGroupId = 'spreadsheet-start-toolbar-group';
 const startFilterToolbarButtonId = 'spreadsheet-start-filter-toolbar-button';
 const startSortToolbarButtonId = 'spreadsheet-start-sort-toolbar-button';
 const startBarChartToolbarButtonId = 'spreadsheet-start-bar-chart-toolbar-button';
+const startSparklineToolbarButtonId = 'spreadsheet-start-sparkline-toolbar-button';
 const startPivotTableToolbarButtonId = 'spreadsheet-start-pivot-table-toolbar-button';
 const startConditionalFormattingToolbarButtonId = 'spreadsheet-start-conditional-formatting-toolbar-button';
 const formattingSidebarRailId = 'spreadsheet-formatting-sidebar-rail';
@@ -30,6 +31,7 @@ const pivotDataFieldDialogId = 'spreadsheet-pivot-data-field-dialog';
 const sortDirectionMenuId = 'spreadsheet-sort-direction-menu';
 const createConditionalFormattingRuleOperation = 1;
 const openNumberFormatPanelCommandId = 'sheet.operation.open.numfmt.panel';
+const openSparklineSelectorOperationId = 'sheet.operation.open-sparkline-selector';
 const mergeCellsCommandId = 'sheet.command.add-worksheet-merge-all';
 const unmergeCellsCommandId = 'sheet.command.remove-worksheet-merge';
 const mergeCellsContextMenuItemId = 'surfgym.context-menu.merge-cells';
@@ -59,6 +61,7 @@ type MockToolbarItem = {
   chart?: boolean;
   filter?: boolean;
   pivotTable?: boolean;
+  sparkline?: boolean;
   sortAscending?: boolean;
 };
 
@@ -501,6 +504,12 @@ const mockToolbarIcon = {
       <path fill="#49a4df" d="M16 3h4v18h-4z" />
     </svg>
   `,
+  sparkline: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#eef5ff" stroke="#9aa8bd" d="M3.5 4.5h17v15h-17z" />
+      <path fill="none" stroke="#2f70d8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m5.5 15 3.2-4 3.1 2.5 3.2-6 3.5 3" />
+    </svg>
+  `,
   pivotTable: `
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <rect x="3.5" y="3.5" width="17" height="17" fill="#f8f8f8" stroke="#8f98a3" stroke-width="1.4" />
@@ -570,6 +579,7 @@ const mockToolbarTopGroups: readonly (readonly MockToolbarItem[])[] = [
     { label: 'Auto Filter', icon: mockToolbarIcon.filter, filter: true },
     { label: 'Insert Image', icon: mockToolbarIcon.image },
     { label: 'Insert Chart', icon: mockToolbarIcon.chart, chart: true },
+    { label: 'Insert Sparkline', icon: mockToolbarIcon.sparkline, sparkline: true },
     { label: 'Pivot Table', icon: mockToolbarIcon.pivotTable, pivotTable: true },
   ],
   [
@@ -1653,7 +1663,7 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
   if (!container || container.dataset.mockToolbarRendered === 'true') return;
 
   const disabledFontControls = actions ? '' : 'disabled aria-disabled="true"';
-  const canClickMockButton = (item: MockToolbarItem) => actions && (item.chart || item.filter || item.pivotTable || item.sortAscending !== undefined);
+  const canClickMockButton = (item: MockToolbarItem) => actions && (item.chart || item.filter || item.pivotTable || item.sparkline || item.sortAscending !== undefined);
   const canClickFormattingButton = (item: MockFormattingItem) => item.action || item.commandId || item.colorCommandId;
 
   container.dataset.mockToolbarRendered = 'true';
@@ -1677,6 +1687,7 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
                           aria-label="${item.label}"
                           ${item.filter ? 'data-spreadsheet-filter="true"' : ''}
                           ${item.chart ? 'data-spreadsheet-chart="true"' : ''}
+                          ${item.sparkline ? 'data-spreadsheet-sparkline="true"' : ''}
                           ${item.pivotTable ? 'data-spreadsheet-pivot-table="true"' : ''}
                           ${item.sortAscending !== undefined ? `data-spreadsheet-sort-direction="${item.sortAscending ? 'ascending' : 'descending'}"` : ''}
                         >
@@ -1827,6 +1838,13 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
     if (!actions) return;
 
     openChartWizardDialog(actions);
+  });
+
+  container.querySelector<HTMLButtonElement>('[data-spreadsheet-sparkline]')?.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (!univerAPI) return;
+
+    void univerAPI.executeCommand(openSparklineSelectorOperationId);
   });
 
   container.querySelector<HTMLButtonElement>('[data-spreadsheet-pivot-table]')?.addEventListener('click', (event) => {
@@ -2358,6 +2376,15 @@ export function setupSpreadsheetUi({
         },
       );
 
+      const sparklineButton = createStartToolbarButton(
+        startSparklineToolbarButtonId,
+        'Sparkline',
+        mockToolbarIcon.sparkline,
+        () => {
+          void univerAPI.executeCommand(openSparklineSelectorOperationId);
+        },
+      );
+
       const pivotTableButton = createStartToolbarButton(
         startPivotTableToolbarButtonId,
         'Pivot Table',
@@ -2384,7 +2411,7 @@ export function setupSpreadsheetUi({
         },
       );
 
-      buttonGroup.append(filterButton, sortButton, barChartButton, pivotTableButton, conditionalFormattingButton);
+      buttonGroup.append(filterButton, sortButton, barChartButton, sparklineButton, pivotTableButton, conditionalFormattingButton);
       toolbar.appendChild(buttonGroup);
     });
   }

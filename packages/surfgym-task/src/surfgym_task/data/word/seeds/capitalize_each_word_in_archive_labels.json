@@ -1,0 +1,25 @@
+{
+  "instruction": "Each line in the archive label is lowercase. Make the first letter of every word uppercase, preserving the line breaks, word order, numbers, and other characters.",
+  "website": "http://localhost:3000/word",
+  "accumulation": "CUMULATIVE",
+  "states": [
+    [
+      {
+        "spec": {
+          "kind": "body",
+          "property": "text"
+        },
+        "value": "coastal records transfer\nnorth pier storage room\nreview cycle august 2026"
+      }
+    ],
+    [
+      {
+        "spec": {
+          "kind": "body",
+          "property": "text"
+        },
+        "value": "Coastal Records Transfer\nNorth Pier Storage Room\nReview Cycle August 2026"
+      }
+    ]
+  ]
+}

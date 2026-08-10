@@ -1,0 +1,46 @@
+{
+  "instruction": "In the opening safety paragraph directly below the subtitle, place one empty line after each of its four sentences so every sentence stands alone with a blank paragraph following it. Keep every word and the rest of the note unchanged.",
+  "website": "http://localhost:3000/word",
+  "accumulation": "CUMULATIVE",
+  "states": [
+    [
+      {
+        "spec": { "kind": "body", "property": "text" },
+        "value": "SITE ARRIVAL SAFETY NOTE\nCedar Point Research Annex | Visitor Orientation\nPause at the marked entry gate. Check in with the floor warden before crossing the service lane. Keep the east stairwell clear for response crews. Report any damaged barrier to the control desk.\nWHY THIS MATTERS\nThe arrival route separates visitors from active deliveries and gives the response team an unobstructed path through the building.\nCONTACT\nControl desk: +1 555 016 4408 | access@cedarpoint-annex.example\nDocument control: Safety Office | Orientation note 3.1"
+      },
+      { "spec": { "kind": "paragraph", "index": 0, "property": "namedStyleType" }, "value": "title" },
+      { "spec": { "kind": "paragraph", "index": 0, "property": "horizontalAlign" }, "value": "left" },
+      { "spec": { "kind": "paragraph", "index": 1, "property": "namedStyleType" }, "value": "subtitle" },
+      { "spec": { "kind": "paragraph", "index": 1, "property": "horizontalAlign" }, "value": "left" },
+      { "spec": { "kind": "text", "text": "SITE ARRIVAL SAFETY NOTE", "property": "fontSize" }, "value": 22 },
+      { "spec": { "kind": "text", "text": "SITE ARRIVAL SAFETY NOTE", "property": "bold" }, "value": true },
+      { "spec": { "kind": "text", "text": "SITE ARRIVAL SAFETY NOTE", "property": "color" }, "value": "#16324F" },
+      { "spec": { "kind": "text", "text": "Cedar Point Research Annex | Visitor Orientation", "property": "fontSize" }, "value": 11 },
+      { "spec": { "kind": "text", "text": "Cedar Point Research Annex | Visitor Orientation", "property": "bold" }, "value": true },
+      { "spec": { "kind": "text", "text": "Cedar Point Research Annex | Visitor Orientation", "property": "color" }, "value": "#0F766E" },
+      { "spec": { "kind": "text", "text": "Pause at the marked entry gate.", "property": "fontSize" }, "value": 10 },
+      { "spec": { "kind": "text", "text": "Check in with the floor warden before crossing the service lane.", "property": "fontSize" }, "value": 10 },
+      { "spec": { "kind": "text", "text": "Keep the east stairwell clear for response crews.", "property": "fontSize" }, "value": 10 },
+      { "spec": { "kind": "text", "text": "Report any damaged barrier to the control desk.", "property": "fontSize" }, "value": 10 },
+      { "spec": { "kind": "text", "text": "WHY THIS MATTERS", "property": "fontSize" }, "value": 13 },
+      { "spec": { "kind": "text", "text": "WHY THIS MATTERS", "property": "bold" }, "value": true },
+      { "spec": { "kind": "text", "text": "WHY THIS MATTERS", "property": "color" }, "value": "#2E74B5" },
+      { "spec": { "kind": "text", "text": "The arrival route separates visitors from active deliveries and gives the response team an unobstructed path through the building.", "property": "fontSize" }, "value": 10 },
+      { "spec": { "kind": "text", "text": "CONTACT", "property": "fontSize" }, "value": 13 },
+      { "spec": { "kind": "text", "text": "CONTACT", "property": "bold" }, "value": true },
+      { "spec": { "kind": "text", "text": "CONTACT", "property": "color" }, "value": "#2E74B5" },
+      { "spec": { "kind": "text", "text": "Control desk: +1 555 016 4408 | access@cedarpoint-annex.example", "property": "fontSize" }, "value": 10 },
+      { "spec": { "kind": "text", "text": "access@cedarpoint-annex.example", "property": "color" }, "value": "#2563EB" },
+      { "spec": { "kind": "text", "text": "access@cedarpoint-annex.example", "property": "underline" }, "value": true },
+      { "spec": { "kind": "text", "text": "Document control: Safety Office | Orientation note 3.1", "property": "fontSize" }, "value": 9 },
+      { "spec": { "kind": "text", "text": "Document control: Safety Office | Orientation note 3.1", "property": "color" }, "value": "#64748B" },
+      { "spec": { "kind": "footer", "property": "text" }, "value": "Site Arrival Safety Note | Visitor Copy | Revision 3.1" }
+    ],
+    [
+      {
+        "spec": { "kind": "body", "property": "text" },
+        "value": "SITE ARRIVAL SAFETY NOTE\nCedar Point Research Annex | Visitor Orientation\nPause at the marked entry gate.\n\nCheck in with the floor warden before crossing the service lane.\n\nKeep the east stairwell clear for response crews.\n\nReport any damaged barrier to the control desk.\n\nWHY THIS MATTERS\nThe arrival route separates visitors from active deliveries and gives the response team an unobstructed path through the building.\nCONTACT\nControl desk: +1 555 016 4408 | access@cedarpoint-annex.example\nDocument control: Safety Office | Orientation note 3.1"
+      }
+    ]
+  ]
+}
