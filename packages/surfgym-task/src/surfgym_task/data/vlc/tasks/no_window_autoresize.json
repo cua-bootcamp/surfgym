@@ -1,0 +1,24 @@
+{
+  "task_id": "vlc_no_window_autoresize",
+  "hash": "vlc_no_window_autoresize",
+  "instruction": "Stop VLC from resizing its window every time I open a new video.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "param": {
+      "setup_file": "sky.mp4"
+    }
+  },
+  "complexity": 1,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'qt-video-autoresize', default: '1' } ] }); return data[0]; }",
+        "value": "0",
+        "match": "exact"
+      }
+    ]
+  }
+}

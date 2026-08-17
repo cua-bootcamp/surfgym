@@ -1,0 +1,25 @@
+{
+  "task_id": "vlc_global_volume_hotkey",
+  "hash": "vlc_global_volume_hotkey",
+  "instruction": "Could you set up a global keyboard shortcut for adjusting the volume, so it works even when another window is focused?",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "param": {
+      "setup_file": "psyc110_01.mp3",
+      "start_time": "283"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'global-key-vol-up', default: '' } ] }); return data[0]; }",
+        "value": ".+",
+        "match": "regex"
+      }
+    ]
+  }
+}

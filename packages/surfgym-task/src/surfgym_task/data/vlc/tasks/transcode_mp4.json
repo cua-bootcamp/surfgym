@@ -1,0 +1,24 @@
+{
+  "task_id": "vlc_transcode_mp4",
+  "hash": "vlc_transcode_mp4",
+  "instruction": "Re-encode this video to H.264 MP4 and save the result on the desktop as \"encoded.mp4\".",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "param": {
+      "setup_file": "sky.mp4"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: 'Desktop/encoded.mp4', format: 'file_magic', offset: 4, length: 4, default: '' } ] }); return data[0]; }",
+        "value": "66747970",
+        "match": "exact"
+      }
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "task_id": "vlc_equalizer_rock_preset",
+  "hash": "vlc_equalizer_rock_preset",
+  "instruction": "Turn on the equalizer and switch it to the Rock preset.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "param": {
+      "setup_file": "sky.mp4"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'audio-filter', default: '' } ] }); return data[0]; }",
+        "value": "equalizer",
+        "match": "contains"
+      },
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'equalizer-preset', default: 'flat' } ] }); return data[0]; }",
+        "value": "rock",
+        "match": "exact"
+      }
+    ]
+  }
+}

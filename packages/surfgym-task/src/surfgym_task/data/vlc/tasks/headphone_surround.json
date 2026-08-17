@@ -1,0 +1,24 @@
+{
+  "task_id": "vlc_headphone_surround",
+  "hash": "vlc_headphone_surround",
+  "instruction": "Turn on VLC's headphone virtual surround effect.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "param": {
+      "setup_file": "tree.mp4"
+    }
+  },
+  "complexity": 1,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'audio-filter', default: '' } ] }); return data[0]; }",
+        "value": "headphone",
+        "match": "contains"
+      }
+    ]
+  }
+}

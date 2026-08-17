@@ -1,0 +1,24 @@
+{
+  "task_id": "vlc_loop_whole_playlist",
+  "hash": "vlc_loop_whole_playlist",
+  "instruction": "When the last item in the playlist finishes, have VLC start the whole playlist over from the beginning.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "param": {
+      "setup_file": "lake.mp4"
+    }
+  },
+  "complexity": 1,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'loop', default: '0' } ] }); return data[0]; }",
+        "value": "1",
+        "match": "exact"
+      }
+    ]
+  }
+}

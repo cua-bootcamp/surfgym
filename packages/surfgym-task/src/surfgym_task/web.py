@@ -49,10 +49,6 @@ def _load_tasks(tasks_dir: Path, *, task_kind: str, release_hook: Hook) -> list[
     return tasks
 
 
-def _normalize_web_task(raw_payload: object) -> Task:
-    return _normalize_task(raw_payload, release_hook=WEB_STATE_RESET_HOOK)
-
-
 def _normalize_task(raw_payload: object, *, release_hook: Hook) -> Task:
     if not isinstance(raw_payload, Mapping):
         raise ValueError("web task payload must be an object")

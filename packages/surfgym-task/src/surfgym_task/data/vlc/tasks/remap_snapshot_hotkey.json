@@ -1,0 +1,24 @@
+{
+  "task_id": "vlc_remap_snapshot_hotkey",
+  "hash": "vlc_remap_snapshot_hotkey",
+  "instruction": "Remap the take-snapshot shortcut to Ctrl+Alt+S.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "param": {
+      "setup_file": "sky.mp4"
+    }
+  },
+  "complexity": 3,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'key-snapshot', default: 'Shift+s' } ] }); return data[0]; }",
+        "value": "^Ctrl\\+Alt\\+[sS]$",
+        "match": "regex"
+      }
+    ]
+  }
+}

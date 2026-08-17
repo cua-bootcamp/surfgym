@@ -1,0 +1,30 @@
+{
+  "task_id": "vlc_deinterlace_yadif",
+  "hash": "vlc_deinterlace_yadif",
+  "instruction": "Turn on deinterlacing and set the method to Yadif.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "param": {
+      "setup_file": "tree.mp4"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'deinterlace', default: '-1' } ] }); return data[0]; }",
+        "value": "1",
+        "match": "exact"
+      },
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'deinterlace-mode', default: 'auto' } ] }); return data[0]; }",
+        "value": "yadif",
+        "match": "exact"
+      }
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "task_id": "vlc_pause_on_minimize",
+  "hash": "vlc_pause_on_minimize",
+  "instruction": "Make VLC automatically pause playback whenever I minimize the window.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "param": {
+      "setup_file": "lake.mp4"
+    }
+  },
+  "complexity": 3,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'qt-pause-minimized', default: '0' } ] }); return data[0]; }",
+        "value": "1",
+        "match": "exact"
+      }
+    ]
+  }
+}

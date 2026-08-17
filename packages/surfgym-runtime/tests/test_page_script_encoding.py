@@ -3,7 +3,6 @@ from pathlib import Path
 from typing import TextIO
 
 from pytest import MonkeyPatch
-
 from surfgym_runtime.wavepool.instance.session import ContextManager
 
 

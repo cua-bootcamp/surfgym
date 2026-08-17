@@ -1,0 +1,24 @@
+{
+  "task_id": "vlc_replay_gain_track",
+  "hash": "vlc_replay_gain_track",
+  "instruction": "My tracks are all at wildly different volumes — turn on per-track replay gain.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "param": {
+      "setup_file": "psyc110_01.mp3"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'audio-replay-gain-mode', default: 'none' } ] }); return data[0]; }",
+        "value": "track",
+        "match": "exact"
+      }
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "task_id": "vlc_marquee_overlay_text",
+  "hash": "vlc_marquee_overlay_text",
+  "instruction": "Turn on the marquee text overlay and set its text to \"Preview\".",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "param": {
+      "setup_file": "tree.mp4"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'sub-source', default: '' } ] }); return data[0]; }",
+        "value": "marq",
+        "match": "contains"
+      },
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'marq-marquee', default: 'VLC' } ] }); return data[0]; }",
+        "value": "Preview",
+        "match": "exact"
+      }
+    ]
+  }
+}

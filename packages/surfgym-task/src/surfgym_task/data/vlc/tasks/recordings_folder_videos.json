@@ -1,0 +1,21 @@
+{
+  "task_id": "vlc_recordings_folder_videos",
+  "hash": "vlc_recordings_folder_videos",
+  "instruction": "Change where VLC saves recordings — I want them going into my Videos folder (~/Videos) from now on.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "complexity": 1,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'input-record-path', default: '' } ] }); return data[0]; }",
+        "value": "/config/Videos",
+        "match": "exact"
+      }
+    ]
+  }
+}

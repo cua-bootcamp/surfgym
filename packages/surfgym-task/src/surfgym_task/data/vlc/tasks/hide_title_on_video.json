@@ -1,0 +1,24 @@
+{
+  "task_id": "vlc_hide_title_on_video",
+  "hash": "vlc_hide_title_on_video",
+  "instruction": "Stop VLC from showing the file name over the video when playback starts.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "param": {
+      "setup_file": "tree.mp4"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'video-title-show', default: '1' } ] }); return data[0]; }",
+        "value": "0",
+        "match": "exact"
+      }
+    ]
+  }
+}

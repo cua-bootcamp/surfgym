@@ -1,0 +1,24 @@
+{
+  "task_id": "vlc_disable_hw_decoding",
+  "hash": "vlc_disable_hw_decoding",
+  "instruction": "Turn off hardware-accelerated video decoding.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "param": {
+      "setup_file": "sky.mp4"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'avcodec-hw', default: 'any' } ] }); return data[0]; }",
+        "value": "none",
+        "match": "exact"
+      }
+    ]
+  }
+}

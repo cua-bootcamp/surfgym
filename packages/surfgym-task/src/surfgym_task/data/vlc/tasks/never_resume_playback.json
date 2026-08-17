@@ -1,0 +1,24 @@
+{
+  "task_id": "vlc_never_resume_playback",
+  "hash": "vlc_never_resume_playback",
+  "instruction": "Stop VLC from ever asking to resume playback — it should always start videos from the beginning.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "param": {
+      "setup_file": "sky.mp4"
+    }
+  },
+  "complexity": 1,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'qt-continue', default: '1' } ] }); return data[0]; }",
+        "value": "0",
+        "match": "exact"
+      }
+    ]
+  }
+}

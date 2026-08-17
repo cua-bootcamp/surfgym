@@ -1,0 +1,24 @@
+{
+  "task_id": "vlc_sepia_effect_on",
+  "hash": "vlc_sepia_effect_on",
+  "instruction": "Turn on the sepia video effect.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "param": {
+      "setup_file": "tree.mp4"
+    }
+  },
+  "complexity": 1,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/vlc/vlcrc', format: 'key_value', key: 'video-filter', default: '' } ] }); return data[0]; }",
+        "value": "sepia",
+        "match": "contains"
+      }
+    ]
+  }
+}
