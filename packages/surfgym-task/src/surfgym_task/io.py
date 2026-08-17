@@ -15,7 +15,9 @@ from surfgym_task.instruction_generator import InstructionGenerator
 from surfgym_task.seed import (
     CriteriaSeedTask,
     Domain,
+    InfeasibleSeedTask,
     LLMJudgeSeedTask,
+    RawInfeasibleSeedTask,
     RawLLMJudgeSeedTask,
     RawSeedTask,
     SeedTask,
@@ -129,6 +131,14 @@ class SeedReader:
 
         if isinstance(raw_seed, RawLLMJudgeSeedTask):
             return LLMJudgeSeedTask(
+                domain=domain,
+                instruction=raw_seed.instruction,
+                evaluation=raw_seed.evaluation,
+                website=raw_seed.website.to_url(),
+            )
+
+        if isinstance(raw_seed, RawInfeasibleSeedTask):
+            return InfeasibleSeedTask(
                 domain=domain,
                 instruction=raw_seed.instruction,
                 evaluation=raw_seed.evaluation,

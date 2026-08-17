@@ -16,6 +16,7 @@ from surfgym_contracts.task import (
     ConsoleCriteria,
     CriteriaCore,
     CriteriaEvaluation,
+    InfeasibleEvaluation,
     LLMJudgeEvaluation,
 )
 
@@ -126,13 +127,17 @@ class RawLLMJudgeSeedTask(_RawSeedTask):
     evaluation: LLMJudgeEvaluation
 
 
+class RawInfeasibleSeedTask(_RawSeedTask):
+    evaluation: InfeasibleEvaluation
+
+
 class RawCriteriaSeedTask(_RawSeedTask):
     states: States
     empty_start: Optional[bool] = None
     accumulation: Optional[Accumulation] = None
 
 
-type RawSeedTask = RawCriteriaSeedTask | RawLLMJudgeSeedTask
+type RawSeedTask = RawCriteriaSeedTask | RawLLMJudgeSeedTask | RawInfeasibleSeedTask
 
 
 class _SeedTask(FrozenBaseModel):
@@ -145,12 +150,16 @@ class LLMJudgeSeedTask(_SeedTask):
     evaluation: LLMJudgeEvaluation
 
 
+class InfeasibleSeedTask(_SeedTask):
+    evaluation: InfeasibleEvaluation
+
+
 class CriteriaSeedTask(_SeedTask):
     states: States
     accumulation: Accumulation
 
 
-type SeedTask = CriteriaSeedTask | LLMJudgeSeedTask
+type SeedTask = CriteriaSeedTask | LLMJudgeSeedTask | InfeasibleSeedTask
 
 
 type Granularity = Literal["COARSE", "FINE"]

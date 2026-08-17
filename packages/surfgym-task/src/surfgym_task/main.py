@@ -6,7 +6,14 @@ from surfgym_contracts.task import Hook, LifecycleHooks, Task, Website
 
 from surfgym_task.hoare import HoareStateGenerator
 from surfgym_task.io import DetailWriter, InstructionWriter, SeedReader, Summary, TaskWriter
-from surfgym_task.seed import CriteriaSeedTask, Domain, Granularity, LLMJudgeSeedTask, Profile
+from surfgym_task.seed import (
+    CriteriaSeedTask,
+    Domain,
+    Granularity,
+    InfeasibleSeedTask,
+    LLMJudgeSeedTask,
+    Profile,
+)
 
 _DOCKER_FIXTURE_DOMAINS: frozenset[Domain] = frozenset(
     {
@@ -53,6 +60,23 @@ def augment(seed_dir: Path, granularity: Granularity, profile: Profile):
                             if seed.domain in _DOCKER_FIXTURE_DOMAINS
                             else [],
                         ),
+                    )
+
+                    summary.task_count += 1
+                    detail_writer.write_task(task)
+                    task_writer.write(task)
+                case InfeasibleSeedTask():
+                    task = Task(
+                        task_id=f"{seed_name}",
+                        instruction=seed.instruction,
+                        website=[Website(url=seed.website)],
+                        evaluation=seed.evaluation,
+                        lifecycle_hooks=LifecycleHooks(
+                            release=[_DOCKER_RELEASE_HOOK]
+                            if seed.domain in _DOCKER_FIXTURE_DOMAINS
+                            else [],
+                        ),
+                        include_reward_image=profile == "SNAPSHOT",
                     )
 
                     summary.task_count += 1
