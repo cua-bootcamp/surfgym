@@ -83,6 +83,7 @@ class State(FrozenBaseModel):
 
 
 type States = Annotated[list[State], Field(min_length=1)]
+type InitialStates = Annotated[list[State], Field(min_length=1, max_length=1)]
 
 
 type Domain = Literal["vlc", "gimp", "impress", "spreadsheet", "word"]
@@ -129,6 +130,7 @@ class RawLLMJudgeSeedTask(_RawSeedTask):
 
 class RawInfeasibleSeedTask(_RawSeedTask):
     evaluation: InfeasibleEvaluation
+    states: Optional[InitialStates] = None
 
 
 class RawCriteriaSeedTask(_RawSeedTask):
@@ -152,6 +154,7 @@ class LLMJudgeSeedTask(_SeedTask):
 
 class InfeasibleSeedTask(_SeedTask):
     evaluation: InfeasibleEvaluation
+    states: Optional[InitialStates] = None
 
 
 class CriteriaSeedTask(_SeedTask):

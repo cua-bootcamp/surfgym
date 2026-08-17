@@ -579,7 +579,7 @@ const mockToolbarTopGroups: readonly (readonly MockToolbarItem[])[] = [
     { label: 'Auto Filter', icon: mockToolbarIcon.filter, filter: true },
     { label: 'Insert Image', icon: mockToolbarIcon.image },
     { label: 'Insert Chart', icon: mockToolbarIcon.chart, chart: true },
-    { label: 'Insert Sparkline', icon: mockToolbarIcon.sparkline, sparkline: true },
+    // { label: 'Insert Sparkline', icon: mockToolbarIcon.sparkline, sparkline: true },
     { label: 'Pivot Table', icon: mockToolbarIcon.pivotTable, pivotTable: true },
   ],
   [

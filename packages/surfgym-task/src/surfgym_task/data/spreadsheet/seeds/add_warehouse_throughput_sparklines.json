@@ -1,7 +1,9 @@
 {
   "instruction": "Complete the \"Trend\" column with one line sparkline per warehouse, using that row's Week 1 through Week 3 throughput values. Leave the warehouse labels and source readings unchanged.",
   "website": "http://localhost:3000/spreadsheet",
-  "accumulation": "CUMULATIVE",
+  "evaluation": {
+    "mode": "infeasible"
+  },
   "states": [
     [
       { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B1", "property": "value" }, "value": "Warehouse" },
@@ -44,24 +46,6 @@
       { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "E9", "property": "value" }, "value": 118 },
 
       { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "C2:E9", "property": "numberFormat" }, "value": "0" }
-    ],
-    [
-      { "spec": { "kind": "sparkline", "sheet": "Sheet1", "cell": "F2", "property": "sourceRange" }, "value": "C2:E2" },
-      { "spec": { "kind": "sparkline", "sheet": "Sheet1", "cell": "F2", "property": "type" }, "value": "line" },
-      { "spec": { "kind": "sparkline", "sheet": "Sheet1", "cell": "F3", "property": "sourceRange" }, "value": "C3:E3" },
-      { "spec": { "kind": "sparkline", "sheet": "Sheet1", "cell": "F3", "property": "type" }, "value": "line" },
-      { "spec": { "kind": "sparkline", "sheet": "Sheet1", "cell": "F4", "property": "sourceRange" }, "value": "C4:E4" },
-      { "spec": { "kind": "sparkline", "sheet": "Sheet1", "cell": "F4", "property": "type" }, "value": "line" },
-      { "spec": { "kind": "sparkline", "sheet": "Sheet1", "cell": "F5", "property": "sourceRange" }, "value": "C5:E5" },
-      { "spec": { "kind": "sparkline", "sheet": "Sheet1", "cell": "F5", "property": "type" }, "value": "line" },
-      { "spec": { "kind": "sparkline", "sheet": "Sheet1", "cell": "F6", "property": "sourceRange" }, "value": "C6:E6" },
-      { "spec": { "kind": "sparkline", "sheet": "Sheet1", "cell": "F6", "property": "type" }, "value": "line" },
-      { "spec": { "kind": "sparkline", "sheet": "Sheet1", "cell": "F7", "property": "sourceRange" }, "value": "C7:E7" },
-      { "spec": { "kind": "sparkline", "sheet": "Sheet1", "cell": "F7", "property": "type" }, "value": "line" },
-      { "spec": { "kind": "sparkline", "sheet": "Sheet1", "cell": "F8", "property": "sourceRange" }, "value": "C8:E8" },
-      { "spec": { "kind": "sparkline", "sheet": "Sheet1", "cell": "F8", "property": "type" }, "value": "line" },
-      { "spec": { "kind": "sparkline", "sheet": "Sheet1", "cell": "F9", "property": "sourceRange" }, "value": "C9:E9" },
-      { "spec": { "kind": "sparkline", "sheet": "Sheet1", "cell": "F9", "property": "type" }, "value": "line" }
     ]
   ]
 }

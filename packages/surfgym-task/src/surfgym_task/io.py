@@ -142,6 +142,7 @@ class SeedReader:
                 domain=domain,
                 instruction=raw_seed.instruction,
                 evaluation=raw_seed.evaluation,
+                states=raw_seed.states,
                 website=raw_seed.website.to_url(),
             )
 
