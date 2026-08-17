@@ -1,37 +1,12 @@
-import {
-  ChartTypeBits,
-  SheetsChartService,
-  SparklineTypeEnum
-} from "@univerjs/presets/preset-sheets-advanced";
 import { checkCellValueType, type FWorksheet } from "@univerjs/preset-sheets-core";
-import type { FChart } from "@univerjs/presets/lib/types/preset-sheets-advanced/index.js";
 import type { Path, Value } from "../external";
-import {
-  ChartSourceRangeError,
-  clearLogicalChartSourceRanges,
-  getLogicalChartSourceRange,
-  mergeChartSourceMatrixInfo,
-  registerLogicalChartSourceRange,
-  splitChartSourceRanges
-} from "./chart-range";
+import { resetTaskScopedCharts } from "./surfgym-chart";
+import { resetTaskScopedSparklines } from "./surfgym-sparkline";
 import { SpreadsheetRuntimeStore } from "./runtime";
 
 type WorksheetLike = FWorksheet;
-const chartUpdateConfigCommandId = "sheet.command.chart-update-config";
 const setZoomRatioCommandId = "sheet.command.set-zoom-ratio";
 
-type InjectorLike = {
-  get: <T>(token: unknown) => T;
-};
-type ChartWithInjector = {
-  _injector?: InjectorLike;
-};
-type ChartModelLike = {
-  chartType?: unknown;
-  context?: unknown;
-  dataSource?: unknown;
-  style?: unknown;
-};
 type RangeLike = {
   startRow: number;
   endRow: number;
@@ -41,69 +16,116 @@ type RangeLike = {
 type ResolveSheetOptions = {
   create?: boolean;
 };
-type SpreadsheetCellValue = string | number | boolean | null;
-type SpreadsheetSheetData = {
-  cellData: Record<number, Record<number, { v: SpreadsheetCellValue }>>;
-};
 type WorkbookWithSheetMutation = {
   getSheets?: () => WorksheetLike[];
   getSheetByName?: (sheetName: string) => WorksheetLike | null | undefined;
   getSheetBySheetId?: (sheetId: string) => WorksheetLike | null | undefined;
-  insertSheet?: (
-    name?: string,
-    options?: { index?: number; sheet?: Partial<SpreadsheetSheetData> }
-  ) => WorksheetLike;
+  insertSheet?: (name?: string, options?: { index?: number }) => WorksheetLike;
   moveSheet?: (sheet: WorksheetLike, index: number) => unknown;
 };
-type ChartBuilderLike = {
-  setChartType: (chartType: ChartTypeBits) => ChartBuilderLike;
-  addRange: (range: string) => ChartBuilderLike;
-  setPosition: (row: number, column: number, offsetX: number, offsetY: number) => ChartBuilderLike;
-  setWidth: (width: number) => ChartBuilderLike;
-  setHeight: (height: number) => ChartBuilderLike;
-  setOptions: (path: string, value: unknown) => ChartBuilderLike;
-  setTransposeRowsAndColumns?: (transposeRowsAndColumns: boolean) => ChartBuilderLike;
-  setXAxisTitle?: (title: string) => ChartBuilderLike;
-  setYAxisTitle?: (title: string) => ChartBuilderLike;
-  build: () => unknown;
-};
-type WorksheetWithCharts = WorksheetLike & {
-  getCharts?: () => FChart[];
-  newChart?: () => ChartBuilderLike;
-  insertChart?: (chartInfo: unknown) => Promise<unknown> | unknown;
+type WorksheetWithMutation = WorksheetLike & {
   setName?: (name: string) => unknown;
-  getMaxColumns?: () => number;
-  hideSheet?: () => WorksheetLike;
-};
-type SparklineGroupDataLike = {
-  config?: {
-    type?: unknown;
-  };
-  sparklines?: {
-    getValue?: (row: number, column: number) => RangeLike | null | undefined;
-  };
-};
-type WorksheetWithSparklines = WorksheetLike & {
-  addSparkline?: (
-    sourceRanges: RangeLike[],
-    targetRanges: RangeLike[],
-    type: SparklineTypeEnum
-  ) => unknown;
-  getAllSubSparkline?: () => Map<string, SparklineGroupDataLike> | undefined;
-  getSparklineGroupByCell?: (
-    row: number,
-    column: number
-  ) => { setConfig: (config: { type: SparklineTypeEnum }) => unknown } | undefined;
-};
-type ChartRuntimeConfig = {
-  unitId: string;
-  chartModelId: string;
-  chartType?: ChartTypeBits;
-  style?: Record<string, unknown>;
-  context?: unknown;
 };
 
-const chartMetaRegistry: ChartMeta[] = [];
+export type PivotMeta = {
+  sourceRange: string;
+  rowFields: number[];
+  columnFields: number[];
+  dataFields: { fieldIndex: number; function: string; displayAs: 'value' | 'percentOfGrandTotal' }[];
+  targetSheet: string;
+  startRow: number;
+  startColumn: number;
+};
+
+export type SpreadsheetValidationList = {
+  values: string[];
+  allowBlank: boolean;
+};
+
+const pivotMetaRegistry = new Map<string, PivotMeta>();
+const validationListRegistry = new Map<string, SpreadsheetValidationList>();
+
+function pivotKey(targetSheet: string, startRow: number, startColumn: number) {
+  return `${targetSheet}\u0001${startRow}\u0001${startColumn}`;
+}
+function validationListKey(worksheet: WorksheetLike, row: number, column: number) {
+  return `${worksheet.getSheetId?.() ?? getSheetName(worksheet)}\u0001${row}\u0001${column}`;
+}
+
+function cloneValidationList(value: SpreadsheetValidationList | null) {
+  return value === null ? null : { values: [...value.values], allowBlank: value.allowBlank };
+}
+
+function sameValidationList(left: SpreadsheetValidationList | null, right: SpreadsheetValidationList | null) {
+  return left === right || (
+    left !== null && right !== null &&
+    left.allowBlank === right.allowBlank &&
+    left.values.length === right.values.length &&
+    left.values.every((value, index) => value === right.values[index])
+  );
+}
+
+function requireValidationList(value: Value): SpreadsheetValidationList | null {
+  if (value === null) return null;
+  if (!isRecord(value) || Array.isArray(value) || !Array.isArray(value.values) || typeof value.allowBlank !== "boolean") {
+    throw new Error("validationList must be { values: string[], allowBlank: boolean } or null.");
+  }
+
+  const values = value.values.map((item) => {
+    if (typeof item !== "string") throw new Error("validationList values must be strings.");
+    const normalized = item.trim();
+    if (!normalized) throw new Error("validationList values cannot be empty or whitespace-only.");
+    return normalized;
+  });
+  if (!values.length) throw new Error("validationList values cannot be empty.");
+  if (new Set(values).size !== values.length) throw new Error("validationList values cannot contain duplicates.");
+  return { values, allowBlank: value.allowBlank };
+}
+
+export function _registerPivotMeta(meta: PivotMeta) {
+  pivotMetaRegistry.set(pivotKey(meta.targetSheet, meta.startRow, meta.startColumn), structuredClone(meta));
+  return _getPivotMeta(meta.targetSheet, meta.startRow, meta.startColumn);
+}
+
+export function _getPivotMeta(targetSheet: string, startRow: number, startColumn: number) {
+  const meta = pivotMetaRegistry.get(pivotKey(targetSheet, startRow, startColumn));
+  if (!meta) throw new Error(`Pivot not found: ${targetSheet}!R${startRow + 1}C${startColumn + 1}`);
+  return structuredClone(meta);
+}
+
+export function _setPivotMeta(targetSheet: string, startRow: number, startColumn: number, value: Value) {
+  if (!isRecord(value) || Array.isArray(value)) throw new Error('Pivot metadata must be an object.');
+  const meta = value as Partial<PivotMeta>;
+  if (meta.targetSheet !== targetSheet || meta.startRow !== startRow || meta.startColumn !== startColumn ||
+    typeof meta.sourceRange !== 'string' || !isA1Range(meta.sourceRange) ||
+    !isNonNegativeIntegerList(meta.rowFields) || !isNonNegativeIntegerList(meta.columnFields) ||
+    !Array.isArray(meta.dataFields) || !meta.dataFields.every(isPivotDataField)) {
+    throw new Error('Pivot metadata is invalid or does not match its atom address.');
+  }
+  return _registerPivotMeta({
+    ...meta,
+    rowFields: [...meta.rowFields],
+    columnFields: [...meta.columnFields],
+    dataFields: meta.dataFields.map((field) => ({ ...field, displayAs: field.displayAs ?? 'value' })),
+  } as PivotMeta);
+}
+
+function isNonNegativeIntegerList(value: unknown): value is number[] {
+  return Array.isArray(value) && value.every((item) => Number.isInteger(item) && item >= 0);
+}
+
+function isA1Range(value: string) {
+  return /^\$?[A-Z]+\$?[1-9]\d*(?::\$?[A-Z]+\$?[1-9]\d*)?$/i.test(value.trim());
+}
+
+function isPivotDataField(value: unknown): value is PivotMeta['dataFields'][number] {
+  const fieldIndex = isRecord(value) ? value.fieldIndex : undefined;
+  if (!isRecord(value) || !Number.isInteger(fieldIndex) || (fieldIndex as number) < 0 ||
+    typeof value.function !== 'string' || !pivotDataFunctions.has(value.function)) return false;
+  return value.displayAs === undefined || value.displayAs === 'value' || value.displayAs === 'percentOfGrandTotal';
+}
+
+const pivotDataFunctions = new Set(['sum', 'count', 'average', 'median', 'max', 'min', 'product', 'countNumbers']);
 
 function getWorkbookSheets() {
   const { workbook, defaultWorksheet } = SpreadsheetRuntimeStore.runtime;
@@ -212,255 +234,8 @@ function resolveCellRange(address: string): RangeLike {
   };
 }
 
-function columnIndexToName(columnIndex: number) {
-  let columnNumber = columnIndex + 1;
-  let columnName = "";
-
-  while (columnNumber > 0) {
-    const remainder = (columnNumber - 1) % 26;
-    columnName = String.fromCharCode(65 + remainder) + columnName;
-    columnNumber = Math.floor((columnNumber - 1) / 26);
-  }
-
-  return columnName;
-}
-
-function selectionRangeToA1(range: RangeLike) {
-  return [
-    columnIndexToName(range.startColumn),
-    range.startRow + 1,
-    ":",
-    columnIndexToName(range.endColumn),
-    range.endRow + 1
-  ].join("");
-}
-
-function normalizeSparklineType(type: unknown) {
-  if (type === null || type === undefined) return "line";
-
-  switch (type) {
-    case SparklineTypeEnum.LINE_CHART:
-      return "line";
-    case SparklineTypeEnum.BAR_CHART:
-      return "column";
-    case SparklineTypeEnum.PROFIT_AND_LOSS_CHART:
-      return "stacked";
-    case SparklineTypeEnum.PIE_CHART:
-      return "pie";
-    default:
-      return type;
-  }
-}
-
-function resolveSparklineType(type: Value) {
-  if (typeof type === "number") {
-    if (Object.values(SparklineTypeEnum).includes(type)) return type as SparklineTypeEnum;
-    throw new Error(`Unsupported sparkline type: ${String(type)}`);
-  }
-
-  if (typeof type !== "string") {
-    throw new Error("Sparkline type must be a string or numeric enum value.");
-  }
-
-  switch (type.trim().toLowerCase()) {
-    case "line":
-      return SparklineTypeEnum.LINE_CHART;
-    case "bar":
-    case "column":
-      return SparklineTypeEnum.BAR_CHART;
-    case "stacked":
-    case "profit-and-loss":
-      return SparklineTypeEnum.PROFIT_AND_LOSS_CHART;
-    case "pie":
-      return SparklineTypeEnum.PIE_CHART;
-    default:
-      throw new Error(`Unsupported sparkline type: ${type}`);
-  }
-}
-
-function getSparklineGroupData(
-  worksheet: WorksheetLike,
-  row: number,
-  column: number
-) {
-  const groups = (worksheet as WorksheetWithSparklines).getAllSubSparkline?.();
-  if (!groups) return null;
-
-  for (const group of groups.values()) {
-    const sourceRange = group.sparklines?.getValue?.(row, column);
-    if (sourceRange) return { group, sourceRange };
-  }
-
-  return null;
-}
-
-function normalizeChartSourceCellValue(value: unknown): SpreadsheetCellValue {
-  if (value === null || value === undefined) return null;
-  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
-    return value;
-  }
-
-  return String(value);
-}
-
-function readChartSourceRangeMatrix(worksheet: WorksheetLike, sourceRange: string) {
-  const facadeRange = worksheet.getRange(sourceRange);
-  const range = facadeRange.getRange();
-  const values = facadeRange.getValues();
-  const rowCount = range.endRow - range.startRow + 1;
-  const columnCount = range.endColumn - range.startColumn + 1;
-
-  return Array.from({ length: rowCount }, (_, rowIndex) =>
-    Array.from({ length: columnCount }, (_, columnIndex) =>
-      normalizeChartSourceCellValue(values[rowIndex]?.[columnIndex])
-    )
-  );
-}
-
-function chartSourceMatrixToSheetData(matrix: SpreadsheetCellValue[][]): SpreadsheetSheetData {
-  return {
-    cellData: matrix.reduce<Record<number, Record<number, { v: SpreadsheetCellValue }>>>(
-      (rows, row, rowIndex) => {
-        rows[rowIndex] = row.reduce<Record<number, { v: SpreadsheetCellValue }>>(
-          (columns, value, columnIndex) => {
-            columns[columnIndex] = { v: value };
-            return columns;
-          },
-          {}
-        );
-        return rows;
-      },
-      {}
-    )
-  };
-}
-
-function uniqueChartDataSheetName(workbook: WorkbookWithSheetMutation) {
-  const suffix = Math.floor(Date.now() % 100_000)
-    .toString()
-    .padStart(5, "0");
-  let candidate = `_SurfgymChartData${suffix}`;
-
-  while (workbook.getSheetByName?.(candidate)) candidate += "_";
-
-  return candidate;
-}
-
-function createContiguousChartSourceRange(worksheet: WorksheetLike, sourceRange: string) {
-  const sourceRanges = splitChartSourceRanges(sourceRange);
-  if (sourceRanges.length === 1) {
-    const rangeA1 = sourceRanges[0]!;
-    const facadeRange = worksheet.getRange(rangeA1);
-
-    return {
-      isRowDirection: null,
-      rangeA1,
-      rangeInfo: {
-        range: facadeRange.getRange(),
-        subUnitId: facadeRange.getSheetId(),
-        unitId: facadeRange.getUnitId()
-      }
-    };
-  }
-
-  const { workbook } = SpreadsheetRuntimeStore.runtime;
-  const workbookWithSheets = workbook as unknown as WorkbookWithSheetMutation;
-  if (typeof workbookWithSheets.insertSheet !== "function") {
-    throw new ChartSourceRangeError("Chart helper sheets are unavailable.");
-  }
-
-  const { isRowDirection, matrix } = mergeChartSourceMatrixInfo(
-    sourceRanges.map((rangeA1) => readChartSourceRangeMatrix(worksheet, rangeA1))
-  );
-  const spreadsheetMatrix = matrix as SpreadsheetCellValue[][];
-  const rowCount = spreadsheetMatrix.length;
-  const columnCount = spreadsheetMatrix[0]?.length ?? 0;
-  const helperSheetName = uniqueChartDataSheetName(workbookWithSheets);
-  const helperWorksheet = workbookWithSheets.insertSheet(helperSheetName, {
-    sheet: chartSourceMatrixToSheetData(spreadsheetMatrix)
-  });
-  const helperRange = helperWorksheet.getRange(0, 0, rowCount, columnCount);
-
-  try {
-    (helperWorksheet as WorksheetWithCharts).hideSheet?.();
-  } finally {
-    workbook.setActiveSheet(worksheet);
-  }
-
-  return {
-    isRowDirection,
-    rangeA1: `${helperSheetName}!A1:${columnIndexToName(columnCount - 1)}${rowCount}`,
-    rangeInfo: {
-      range: helperRange.getRange(),
-      subUnitId: helperRange.getSheetId(),
-      unitId: helperRange.getUnitId()
-    }
-  };
-}
-
-function getSelectionRangeFromUnknown(value: unknown): RangeLike | null {
-  if (!isRecord(value)) return null;
-
-  if (
-    typeof value.startRow === "number" &&
-    typeof value.endRow === "number" &&
-    typeof value.startColumn === "number" &&
-    typeof value.endColumn === "number"
-  ) {
-    return value as RangeLike;
-  }
-
-  if (isRecord(value.range)) return getSelectionRangeFromUnknown(value.range);
-
-  return null;
-}
-
-function quoteSheetNameForA1(sheetName: string) {
-  if (/^[A-Za-z_][A-Za-z0-9_]*$/.test(sheetName)) return sheetName;
-  return `'${sheetName.replace(/'/g, "''")}'`;
-}
-
 function getSheetName(worksheet: WorksheetLike) {
   return worksheet.getSheetName?.() ?? worksheet.getSheet?.().getName?.() ?? null;
-}
-
-function getSheetNameById(sheetId: string) {
-  const { workbook } = SpreadsheetRuntimeStore.runtime;
-  const sheet = workbook.getSheetBySheetId?.(sheetId);
-
-  return sheet ? getSheetName(sheet) : null;
-}
-
-function formatChartRangeItemA1(value: unknown, chartSheetId: string | null) {
-  if (!isRecord(value)) return null;
-
-  const range = getSelectionRangeFromUnknown(value.range);
-  if (!range) return null;
-
-  const rangeA1 = selectionRangeToA1(range);
-  const sourceSheetId = typeof value.subUnitId === "string" ? value.subUnitId : null;
-  if (!sourceSheetId || !chartSheetId || sourceSheetId === chartSheetId) return rangeA1;
-
-  const sourceSheetName = getSheetNameById(sourceSheetId);
-  return sourceSheetName ? `${quoteSheetNameForA1(sourceSheetName)}!${rangeA1}` : rangeA1;
-}
-
-function getChartSourceRangeA1(chartRange: unknown, chartSheetId: string | null) {
-  if (Array.isArray(chartRange)) {
-    const ranges = chartRange
-      .flatMap((rangePair) => (Array.isArray(rangePair) ? rangePair : [rangePair]))
-      .map((rangeItem) => formatChartRangeItemA1(rangeItem, chartSheetId))
-      .filter((rangeItem): rangeItem is string => typeof rangeItem === "string");
-
-    return ranges.length > 0 ? ranges.join(",") : null;
-  }
-
-  if (isRecord(chartRange) && isRecord(chartRange.rangeInfo)) {
-    return formatChartRangeItemA1(chartRange.rangeInfo, chartSheetId);
-  }
-
-  const range = getSelectionRangeFromUnknown(chartRange);
-  return range ? selectionRangeToA1(range) : null;
 }
 
 function readPath(value: unknown, path: PropertyKey[]): unknown {
@@ -472,570 +247,6 @@ function readPath(value: unknown, path: PropertyKey[]): unknown {
   }
 
   return current;
-}
-
-function readString(value: unknown) {
-  return typeof value === "string" ? value : null;
-}
-
-function readNumber(value: unknown) {
-  return typeof value === "number" && Number.isFinite(value) ? value : null;
-}
-
-function readFirstString(value: unknown, paths: PropertyKey[][]) {
-  for (const path of paths) {
-    const pathValue = readString(readPath(value, path));
-    if (pathValue !== null) return pathValue;
-  }
-
-  return null;
-}
-
-function normalizeChartType(chartType: unknown) {
-  if (typeof chartType === "string") return chartType.trim().toLowerCase();
-
-  switch (chartType) {
-    case ChartTypeBits.Line:
-      return "line";
-    case ChartTypeBits.Column:
-      return "column";
-    case ChartTypeBits.Bar:
-      return "bar";
-    case ChartTypeBits.Area:
-      return "area";
-    case ChartTypeBits.Pie:
-      return "pie";
-    case ChartTypeBits.Doughnut:
-      return "doughnut";
-    case ChartTypeBits.Scatter:
-      return "scatter";
-    case ChartTypeBits.Bubble:
-      return "bubble";
-    case ChartTypeBits.Radar:
-      return "radar";
-    default:
-      return chartType ?? null;
-  }
-}
-
-function resolveChartTypeBits(chartType: unknown, fallback = ChartTypeBits.Column): ChartTypeBits {
-  if (chartType == null) return fallback;
-  if (typeof chartType === "number") return chartType as ChartTypeBits;
-
-  switch (normalizeChartType(chartType)) {
-    case "line":
-      return ChartTypeBits.Line;
-    case "column":
-      return ChartTypeBits.Column;
-    case "bar":
-      return ChartTypeBits.Bar;
-    case "area":
-      return ChartTypeBits.Area;
-    case "pie":
-      return ChartTypeBits.Pie;
-    case "doughnut":
-      return ChartTypeBits.Doughnut;
-    case "scatter":
-      return ChartTypeBits.Scatter;
-    case "bubble":
-      return ChartTypeBits.Bubble;
-    case "radar":
-      return ChartTypeBits.Radar;
-    default:
-      throw new Error(`Unsupported chart type: ${String(chartType)}`);
-  }
-}
-
-function getChartModel(chart: FChart): ChartModelLike | null {
-  const chartId = chart.getChartId?.();
-  const injector = (chart as unknown as ChartWithInjector)._injector;
-  if (!chartId || typeof injector?.get !== "function") return null;
-
-  try {
-    const service = injector.get<SheetsChartService>(SheetsChartService);
-    return service.getChartModel(chartId) ?? null;
-  } catch {
-    return null;
-  }
-}
-
-function getChartModelRange(model: ChartModelLike | null) {
-  const dataSource = model?.dataSource;
-  const getRangeInfo = isRecord(dataSource) ? dataSource.getRangeInfo : undefined;
-
-  return typeof getRangeInfo === "function" ? getRangeInfo.call(dataSource) : null;
-}
-
-function getDataOrientation(range: unknown, style: unknown) {
-  if (isRecord(range) && typeof range.isRowDirection === "boolean") {
-    return range.isRowDirection ? "Row" : "Column";
-  }
-
-  const orient = readPath(style, ["orient"]);
-  return typeof orient === "string" ? orient : null;
-}
-
-function writePath(target: Record<PropertyKey, unknown>, path: Path[], value: unknown) {
-  if (path.length === 0) throw new Error("Path must not be empty.");
-
-  let current = target;
-  for (const key of path.slice(0, -1)) {
-    if (!isRecord(current[key])) current[key] = {};
-    current = current[key] as Record<PropertyKey, unknown>;
-  }
-
-  current[path[path.length - 1]!] = value;
-}
-
-function writeStringPath(target: Record<string, unknown>, path: string[], value: unknown) {
-  if (value === undefined || value === null || value === "") return;
-
-  let current = target;
-  for (const key of path.slice(0, -1)) {
-    if (!isRecord(current[key])) current[key] = {};
-    current = current[key] as Record<string, unknown>;
-  }
-
-  current[path[path.length - 1]!] = value;
-}
-
-function normalizeChartSetValue(path: Path[], value: Value) {
-  const last = path[path.length - 1];
-
-  if (last === "chartType") return normalizeChartType(value);
-  if (last === "sourceRange" && typeof value === "string") return value.trim();
-  if (
-    (last === "title" || last === "xAxisTitle" || last === "yAxisTitle") &&
-    typeof value === "string"
-  ) {
-    return value.trim();
-  }
-
-  return value;
-}
-
-function getChartId(chart: unknown) {
-  if (!isRecord(chart)) return null;
-
-  const getChartIdMethod = chart.getChartId;
-  if (typeof getChartIdMethod !== "function") return null;
-
-  const id = getChartIdMethod.call(chart);
-  return typeof id === "string" ? id : null;
-}
-
-function getWorksheetCharts(worksheet: WorksheetLike): FChart[] {
-  const getCharts = (worksheet as WorksheetWithCharts).getCharts;
-  if (typeof getCharts !== "function") return [];
-
-  try {
-    const charts = getCharts.call(worksheet);
-    return Array.isArray(charts) ? charts : [];
-  } catch {
-    return [];
-  }
-}
-
-function mergeChartMeta(base: ChartMeta, registered?: ChartMeta): ChartMeta {
-  if (!registered) return base;
-
-  return {
-    ...base,
-    chartType: base.chartType ?? registered.chartType,
-    sourceRange: base.sourceRange ?? registered.sourceRange,
-    range: base.range ?? registered.range,
-    title: base.title ?? registered.title,
-    xAxisTitle: base.xAxisTitle ?? registered.xAxisTitle,
-    yAxisTitle: base.yAxisTitle ?? registered.yAxisTitle,
-    legendPosition: base.legendPosition ?? registered.legendPosition,
-    dataOrientation: base.dataOrientation ?? registered.dataOrientation,
-    width: base.width ?? registered.width,
-    height: base.height ?? registered.height,
-    position: registered.position ?? base.position,
-    context: base.context ?? registered.context,
-    seriesData: base.seriesData ?? registered.seriesData,
-    categoryData: base.categoryData ?? registered.categoryData
-  };
-}
-
-function getChartMetasForWorksheet(worksheet: WorksheetLike) {
-  const sheetId = worksheet.getSheetId?.() ?? null;
-  const charts = getWorksheetCharts(worksheet);
-  const registeredForSheet = chartMetaRegistry.filter((item) => item.sheetId === sheetId);
-  const registeredById = new Map(
-    registeredForSheet
-      .filter((item) => item.id)
-      .map((item) => [item.id, item] as [string, ChartMeta])
-  );
-  const actualMetas = charts.map((chart) =>
-    mergeChartMeta(
-      buildChartMeta(worksheet, charts, chart),
-      registeredById.get(chart.getChartId?.() ?? "")
-    )
-  );
-  const actualIds = new Set(actualMetas.map((item) => item.id).filter(Boolean));
-  const registeredOnly = registeredForSheet.filter((item) => !item.id || !actualIds.has(item.id));
-
-  return [...actualMetas, ...registeredOnly].map((item, index) => ({ ...item, index }));
-}
-
-function chartMetaMatches(meta: ChartMeta, index: number, chartRef: ChartRef) {
-  if (typeof chartRef === "number") return index === chartRef || meta.index === chartRef;
-
-  if (chartRef.index !== undefined && chartRef.index !== index && chartRef.index !== meta.index)
-    return false;
-  if (chartRef.id !== undefined && meta.id !== chartRef.id) return false;
-  if (chartRef.title !== undefined && meta.title !== chartRef.title) return false;
-  if (chartRef.sourceRange !== undefined && meta.sourceRange !== chartRef.sourceRange) return false;
-  if (
-    chartRef.chartType !== undefined &&
-    meta.chartType !== normalizeChartType(chartRef.chartType)
-  ) {
-    return false;
-  }
-
-  return true;
-}
-
-function findMatchingChartMetas(chartMetas: ChartMeta[], chartRef?: ChartRef) {
-  if (chartRef === undefined) return chartMetas;
-
-  return chartMetas.filter((meta, index) => chartMetaMatches(meta, index, chartRef));
-}
-
-function resolveChartMeta(chartMetas: ChartMeta[], chartRef?: ChartRef) {
-  const matched = findMatchingChartMetas(chartMetas, chartRef);
-
-  if (matched.length !== 1)
-    throw new Error(`Expected exactly one matching chart, found ${matched.length}.`);
-
-  return matched[0]!;
-}
-
-function createChartMeta(worksheet: WorksheetLike, chartRef?: ChartRef): ChartMeta {
-  const sheetId = worksheet.getSheetId?.() ?? null;
-  const chartRefRecord = isRecord(chartRef) ? chartRef : {};
-  const index =
-    typeof chartRef === "number" ? chartRef : getChartMetasForWorksheet(worksheet).length;
-  const chartType =
-    chartRefRecord.chartType !== undefined ? normalizeChartType(chartRefRecord.chartType) : null;
-
-  return {
-    id: typeof chartRefRecord.id === "string" ? chartRefRecord.id : null,
-    sheetId,
-    sheetName: getSheetName(worksheet),
-    index,
-    chartType,
-    sourceRange:
-      typeof chartRefRecord.sourceRange === "string" ? chartRefRecord.sourceRange.trim() : null,
-    range: null,
-    title: typeof chartRefRecord.title === "string" ? chartRefRecord.title.trim() : null,
-    xAxisTitle: null,
-    yAxisTitle: null,
-    legendPosition: null,
-    dataOrientation: null,
-    width: null,
-    height: null,
-    position: null,
-    context: null,
-    seriesData: null,
-    categoryData: null
-  };
-}
-
-function upsertChartMeta(meta: ChartMeta) {
-  let existingIndex = -1;
-
-  if (meta.id) {
-    existingIndex = chartMetaRegistry.findIndex(
-      (item) => item.sheetId === meta.sheetId && item.id === meta.id
-    );
-  }
-
-  if (existingIndex < 0 && meta.sourceRange) {
-    existingIndex = chartMetaRegistry.findIndex(
-      (item) => item.sheetId === meta.sheetId && item.sourceRange === meta.sourceRange
-    );
-  }
-
-  if (existingIndex < 0 && meta.title) {
-    existingIndex = chartMetaRegistry.findIndex(
-      (item) => item.sheetId === meta.sheetId && item.title === meta.title
-    );
-  }
-
-  if (existingIndex >= 0) {
-    Object.assign(chartMetaRegistry[existingIndex]!, meta);
-  } else {
-    chartMetaRegistry.push(meta);
-  }
-}
-
-function getMutableChartMeta(worksheet: WorksheetLike, chartRef?: ChartRef) {
-  const sheetId = worksheet.getSheetId?.() ?? null;
-  const registeredMatches = findMatchingChartMetas(
-    chartMetaRegistry.filter((item) => item.sheetId === sheetId),
-    chartRef
-  );
-
-  if (registeredMatches.length === 1) return registeredMatches[0]!;
-  if (registeredMatches.length > 1)
-    throw new Error(
-      `Expected exactly one matching registered chart, found ${registeredMatches.length}.`
-    );
-
-  const existingMatches = findMatchingChartMetas(getChartMetasForWorksheet(worksheet), chartRef);
-  if (existingMatches.length > 1)
-    throw new Error(`Expected exactly one matching chart, found ${existingMatches.length}.`);
-
-  const meta = existingMatches[0]
-    ? { ...existingMatches[0] }
-    : createChartMeta(worksheet, chartRef);
-  upsertChartMeta(meta);
-
-  return meta;
-}
-
-function readPositiveNumber(value: unknown, fallback: number) {
-  return typeof value === "number" && Number.isFinite(value) && value > 0 ? value : fallback;
-}
-
-function getChartPosition(meta: ChartMeta, worksheet: WorksheetWithCharts) {
-  const position = isRecord(meta.position) ? meta.position : {};
-  const maxColumns =
-    typeof worksheet.getMaxColumns === "function" ? Math.max(1, worksheet.getMaxColumns()) : 2;
-
-  return {
-    row: readNumber(position.row) ?? 0,
-    column: readNumber(position.column) ?? Math.min(1, maxColumns - 1),
-    offsetX: readNumber(position.offsetX) ?? 20,
-    offsetY: readNumber(position.offsetY) ?? 20
-  };
-}
-
-function setChartOption(builder: ChartBuilderLike, path: string, value: unknown) {
-  if (value === undefined || value === null || value === "") return builder;
-
-  return builder.setOptions(path, value);
-}
-
-function applyChartBuilderOptions(builder: ChartBuilderLike, meta: ChartMeta) {
-  let nextBuilder = setChartOption(builder, "title.content", meta.title);
-  nextBuilder = setChartOption(nextBuilder, "legend.position", meta.legendPosition);
-  nextBuilder = setChartOption(nextBuilder, "orient", meta.dataOrientation);
-
-  if (typeof meta.xAxisTitle === "string" && meta.xAxisTitle && nextBuilder.setXAxisTitle) {
-    nextBuilder = nextBuilder.setXAxisTitle(meta.xAxisTitle);
-  }
-
-  if (typeof meta.yAxisTitle === "string" && meta.yAxisTitle && nextBuilder.setYAxisTitle) {
-    nextBuilder = nextBuilder.setYAxisTitle(meta.yAxisTitle);
-  }
-
-  return nextBuilder;
-}
-
-function buildChartStyle(meta: ChartMeta) {
-  const style: Record<string, unknown> = {};
-
-  writeStringPath(style, ["title", "content"], meta.title);
-  writeStringPath(style, ["titles", "title", "content"], meta.title);
-  writeStringPath(style, ["xAxisTitle", "content"], meta.xAxisTitle);
-  writeStringPath(style, ["titles", "xAxisTitle", "content"], meta.xAxisTitle);
-  writeStringPath(style, ["yAxisTitle", "content"], meta.yAxisTitle);
-  writeStringPath(style, ["titles", "yAxisTitle", "content"], meta.yAxisTitle);
-  writeStringPath(style, ["legend", "position"], meta.legendPosition);
-  writeStringPath(style, ["orient"], meta.dataOrientation);
-
-  return style;
-}
-
-async function updateChartRuntimeConfig(meta: ChartMeta) {
-  if (!meta.id) return;
-
-  const { workbook, univerAPI } = SpreadsheetRuntimeStore.runtime;
-  const style = buildChartStyle(meta);
-  const params: ChartRuntimeConfig = {
-    unitId: workbook.getId(),
-    chartModelId: meta.id
-  };
-
-  if (meta.chartType != null) params.chartType = resolveChartTypeBits(meta.chartType);
-  if (Object.keys(style).length > 0) params.style = style;
-  if (meta.context !== null) params.context = meta.context;
-
-  await univerAPI.executeCommand(chartUpdateConfigCommandId, params);
-}
-
-function resolveChartRowDirection(
-  meta: ChartMeta,
-  inferredDirection: boolean | null,
-  fallbackDirection?: boolean
-) {
-  if (meta.dataOrientation === "Row") return true;
-  if (meta.dataOrientation === "Column") return false;
-
-  return inferredDirection ?? fallbackDirection;
-}
-
-function refreshChartMetaFromFacade(meta: ChartMeta, chart: FChart) {
-  meta.range = chart.getRange?.() ?? meta.range;
-  meta.seriesData = chart.getSeriesData?.() ?? meta.seriesData;
-  meta.categoryData = chart.getCategoryData?.() ?? meta.categoryData;
-}
-
-type FChartRange = NonNullable<ReturnType<FChart["getRange"]>>;
-
-function buildChartContextForRange(meta: ChartMeta, chartRange: FChartRange) {
-  const { workbook } = SpreadsheetRuntimeStore.runtime;
-  const sourceWorksheet = workbook.getSheetBySheetId?.(chartRange.rangeInfo.subUnitId);
-  if (!sourceWorksheet) return meta.context;
-
-  const range = chartRange.rangeInfo.range;
-  const rowCount = range.endRow - range.startRow + 1;
-  const columnCount = range.endColumn - range.startColumn + 1;
-  const values = sourceWorksheet
-    .getRange(range.startRow, range.startColumn, rowCount, columnCount)
-    .getValues();
-  const headers = (chartRange.isRowDirection ? (values[0] ?? []) : values.map((row) => row[0])).map(
-    (value) => String(normalizeChartSourceCellValue(value) ?? "")
-  );
-  const seriesIndexes = Array.from(
-    { length: Math.max(0, headers.length - 1) },
-    (_, index) => index + 1
-  );
-
-  return {
-    ...(isRecord(meta.context) ? meta.context : {}),
-    categoryIndex: 0,
-    categoryResourceIndexes: [0],
-    headers,
-    seriesIndexes,
-    seriesResourceIndexes: seriesIndexes,
-    transform: undefined
-  };
-}
-
-async function syncExistingChartSource(
-  worksheet: WorksheetLike,
-  meta: ChartMeta,
-  changedProperty: Path | undefined
-) {
-  if (!meta.id || (changedProperty !== "sourceRange" && changedProperty !== "dataOrientation")) {
-    return;
-  }
-
-  const chart = getWorksheetCharts(worksheet).find((item) => item.getChartId?.() === meta.id);
-  if (!chart) return;
-
-  if (changedProperty === "sourceRange" && meta.sourceRange) {
-    const chartSource = createContiguousChartSourceRange(worksheet, meta.sourceRange);
-    const currentRange = chart.getRange?.();
-    const currentDirection = currentRange?.isRowDirection;
-    const isRowDirection = resolveChartRowDirection(
-      meta,
-      chartSource.isRowDirection,
-      currentDirection
-    );
-    const nextRange =
-      isRowDirection === undefined
-        ? { rangeInfo: chartSource.rangeInfo }
-        : { rangeInfo: chartSource.rangeInfo, isRowDirection };
-    const updated = await chart.updateRange(nextRange);
-
-    if (!updated) throw new Error(`Failed to update chart source range: ${meta.sourceRange}`);
-
-    meta.context = buildChartContextForRange(meta, nextRange);
-    registerLogicalChartSourceRange(meta.id, meta.sourceRange, chartSource.rangeA1);
-    refreshChartMetaFromFacade(meta, chart);
-    return;
-  }
-
-  const currentRange = chart.getRange?.();
-  if (!currentRange) return;
-
-  const isRowDirection = resolveChartRowDirection(meta, null, currentRange.isRowDirection);
-  if (isRowDirection === undefined) return;
-
-  const nextRange = { ...currentRange, isRowDirection };
-  const updated = await chart.updateRange(nextRange);
-  if (!updated)
-    throw new Error(`Failed to update chart data orientation: ${String(meta.dataOrientation)}`);
-
-  meta.context = buildChartContextForRange(meta, nextRange);
-  refreshChartMetaFromFacade(meta, chart);
-}
-
-async function syncChartMetaToWorksheet(
-  worksheet: WorksheetLike,
-  meta: ChartMeta,
-  changedProperty?: Path
-) {
-  const worksheetWithCharts = worksheet as WorksheetWithCharts;
-
-  if (meta.id) {
-    try {
-      await syncExistingChartSource(worksheet, meta, changedProperty);
-      await updateChartRuntimeConfig(meta);
-    } catch (error) {
-      if (changedProperty === "sourceRange" || changedProperty === "dataOrientation") {
-        throw error;
-      }
-      // Registry-backed evaluation should still work if visual chart update is unavailable.
-    }
-    return;
-  }
-
-  if (
-    !meta.sourceRange ||
-    meta.chartType == null ||
-    typeof worksheetWithCharts.newChart !== "function" ||
-    typeof worksheetWithCharts.insertChart !== "function"
-  ) {
-    return;
-  }
-
-  try {
-    const position = getChartPosition(meta, worksheetWithCharts);
-    const width = readPositiveNumber(meta.width, 560);
-    const height = readPositiveNumber(meta.height, 360);
-    const chartSource = createContiguousChartSourceRange(worksheet, meta.sourceRange);
-    let builder: ChartBuilderLike = worksheetWithCharts
-      .newChart()
-      .setChartType(resolveChartTypeBits(meta.chartType))
-      .addRange(chartSource.rangeA1);
-
-    const isRowDirection = resolveChartRowDirection(meta, chartSource.isRowDirection);
-
-    if (
-      isRowDirection !== null &&
-      isRowDirection !== undefined &&
-      builder.setTransposeRowsAndColumns
-    ) {
-      builder = builder.setTransposeRowsAndColumns(isRowDirection);
-    }
-
-    builder = builder
-      .setPosition(position.row, position.column, position.offsetX, position.offsetY)
-      .setWidth(width)
-      .setHeight(height);
-
-    builder = applyChartBuilderOptions(builder, meta);
-
-    const insertedChart = await worksheetWithCharts.insertChart(builder.build());
-    const id = getChartId(insertedChart);
-
-    if (id) {
-      meta.id = id;
-      registerLogicalChartSourceRange(id, meta.sourceRange, chartSource.rangeA1);
-      refreshChartMetaFromFacade(meta, insertedChart as FChart);
-      upsertChartMeta(meta);
-      await updateChartRuntimeConfig(meta);
-    }
-  } catch (error) {
-    if (error instanceof ChartSourceRangeError) throw error;
-    // Some chart APIs are unavailable on headless/older worksheet facades; keep meta for evaluation.
-  }
 }
 
 export function _getCellMeta(sheetRef: SheetRef | undefined, cellRefStr: string) {
@@ -1172,6 +383,45 @@ export function _setCellNumberFormat(
   activateSheetAfterExplicitSet(sheetRef, worksheet);
 }
 
+export function _getCellValidationList(sheetRef: SheetRef | undefined, cellRefStr: string) {
+  const worksheet = resolveSheet(sheetRef);
+  const cellRange = resolveCellRange(cellRefStr);
+  const values: (SpreadsheetValidationList | null)[][] = [];
+
+  for (let row = cellRange.startRow; row <= cellRange.endRow; row += 1) {
+    const rowValues: (SpreadsheetValidationList | null)[] = [];
+    for (let column = cellRange.startColumn; column <= cellRange.endColumn; column += 1) {
+      rowValues.push(cloneValidationList(validationListRegistry.get(validationListKey(worksheet, row, column)) ?? null));
+    }
+    values.push(rowValues);
+  }
+
+  const firstValue = values[0]?.[0] ?? null;
+  const hasUniformValue = values.every((row) => row.every((value) => sameValidationList(value, firstValue)));
+  return hasUniformValue ? cloneValidationList(firstValue) : values;
+}
+
+export function _setCellValidationList(
+  sheetRef: SheetRef | undefined,
+  cellRefStr: string,
+  value: Value,
+) {
+  const validationList = requireValidationList(value);
+  const worksheet = resolveSheet(sheetRef);
+  const cellRange = resolveCellRange(cellRefStr);
+
+  for (let row = cellRange.startRow; row <= cellRange.endRow; row += 1) {
+    for (let column = cellRange.startColumn; column <= cellRange.endColumn; column += 1) {
+      const key = validationListKey(worksheet, row, column);
+      if (validationList === null) validationListRegistry.delete(key);
+      else validationListRegistry.set(key, cloneValidationList(validationList)!);
+    }
+  }
+
+  activateSheetAfterExplicitSet(sheetRef, worksheet);
+  return _getCellValidationList(sheetRef, cellRefStr);
+}
+
 export function _getCellMerged(sheetRef: SheetRef | undefined, cellRefStr: string) {
   const worksheet = resolveSheet(sheetRef);
   const cellRange = resolveCellRange(cellRefStr);
@@ -1235,84 +485,44 @@ export function _setRowHidden(sheetRef: SheetRef | undefined, cellRefStr: string
   activateSheetAfterExplicitSet(sheetRef, worksheet);
 }
 
-export function _getSparklineMeta(sheetRef: SheetRef | undefined, cellRefStr: string) {
-  const worksheet = resolveSheet(sheetRef);
-  const target = resolveCell(cellRefStr);
-  const sparkline = getSparklineGroupData(worksheet, target.row, target.column);
-
-  return {
-    sourceRange: sparkline ? selectionRangeToA1(sparkline.sourceRange) : null,
-    type: sparkline ? normalizeSparklineType(sparkline.group.config?.type) : null
-  };
-}
-
-export function _setSparklineMeta(
-  sheetRef: SheetRef | undefined,
-  cellRefStr: string,
-  property: "sourceRange" | "type",
-  value: Value
-) {
-  const worksheet = resolveSheet(sheetRef, { create: true });
-  const worksheetWithSparklines = worksheet as WorksheetWithSparklines;
-  const target = resolveCell(cellRefStr);
-  activateSheetAfterExplicitSet(sheetRef, worksheet);
-
-  if (property === "sourceRange") {
-    if (typeof value !== "string" || value.trim() === "") {
-      throw new Error("Sparkline sourceRange must be a non-empty A1 range.");
-    }
-    if (typeof worksheetWithSparklines.addSparkline !== "function") {
-      throw new Error("Adding sparklines is not supported by this spreadsheet runtime.");
-    }
-
-    const sourceRangeAddress = value.trim();
-    const source = resolveCellRange(sourceRangeAddress);
-    const existing = getSparklineGroupData(worksheet, target.row, target.column);
-    const existingType = existing?.group.config?.type;
-    const sparklineType =
-      typeof existingType === "number"
-        ? (existingType as SparklineTypeEnum)
-        : SparklineTypeEnum.LINE_CHART;
-
-    const sourceRange = worksheet
-      .getRange(
-        source.startRow,
-        source.startColumn,
-        source.endRow - source.startRow + 1,
-        source.endColumn - source.startColumn + 1
-      )
-      .getRange();
-    const targetRange = worksheet.getRange(target.row, target.column).getRange();
-    const added = worksheetWithSparklines.addSparkline(
-      [sourceRange],
-      [targetRange],
-      sparklineType
-    );
-
-    if (!added) {
-      throw new Error(`Failed to add sparkline at ${cellRefStr}.`);
-    }
-  } else {
-    const group = worksheetWithSparklines.getSparklineGroupByCell?.(
-      target.row,
-      target.column
-    );
-    if (!group) {
-      throw new Error(`Sparkline not found at ${cellRefStr}; set sourceRange first.`);
-    }
-
-    group.setConfig({ type: resolveSparklineType(value) });
-  }
-
-  return _getSparklineMeta(sheetRef, cellRefStr);
-}
-
 export function _getSheetName(sheetRef?: SheetRef) {
   return getSheetName(resolveSheet(sheetRef));
 }
 
 export function _getSheetZoom(sheetRef?: SheetRef) {
   return resolveSheet(sheetRef).getZoom();
+}
+
+export function _getFrozenRows(sheetRef?: SheetRef) {
+  return resolveSheet(sheetRef).getFrozenRows();
+}
+
+export function _setFrozenRows(sheetRef: SheetRef | undefined, value: Value) {
+  if (typeof value !== "number" || !Number.isFinite(value) || value < 0) {
+    throw new Error("Frozen row count must be a non-negative finite number.");
+  }
+
+  const worksheet = resolveSheet(sheetRef, { create: true });
+  activateSheetAfterExplicitSet(sheetRef, worksheet);
+  worksheet.setFrozenRows(value);
+
+  return worksheet.getFrozenRows();
+}
+
+export function _getFrozenColumns(sheetRef?: SheetRef) {
+  return resolveSheet(sheetRef).getFrozenColumns();
+}
+
+export function _setFrozenColumns(sheetRef: SheetRef | undefined, value: Value) {
+  if (typeof value !== "number" || !Number.isFinite(value) || value < 0) {
+    throw new Error("Frozen column count must be a non-negative finite number.");
+  }
+
+  const worksheet = resolveSheet(sheetRef, { create: true });
+  activateSheetAfterExplicitSet(sheetRef, worksheet);
+  worksheet.setFrozenColumns(value);
+
+  return worksheet.getFrozenColumns();
 }
 
 export function _resetSpreadsheetState() {
@@ -1337,8 +547,10 @@ export function _resetSpreadsheetState() {
   workbook.setActiveSheet(resetWorksheet);
   runtime.defaultWorksheet = resetWorksheet;
   runtime.initializeWorksheet(resetWorksheet);
-  chartMetaRegistry.length = 0;
-  clearLogicalChartSourceRanges();
+  pivotMetaRegistry.clear();
+  validationListRegistry.clear();
+  resetTaskScopedCharts();
+  resetTaskScopedSparklines();
 
   return resetWorksheet;
 }
@@ -1347,7 +559,7 @@ export function _setSheetName(sheetRef: SheetRef | undefined, value: Value) {
   const name = requireSheetName(value);
   const worksheet = resolveSheet(sheetRef, { create: true });
 
-  const setName = (worksheet as WorksheetWithCharts).setName;
+  const setName = (worksheet as WorksheetWithMutation).setName;
   if (typeof setName === "function" && getSheetName(worksheet) !== name) {
     setName.call(worksheet, name);
   }
@@ -1439,7 +651,7 @@ export function _setIndexedSheetName(sheetRef: IndexedSheetRef, value: Value) {
   } else {
     worksheet = sheets[normalized.index];
     if (worksheet) {
-      const setName = (worksheet as WorksheetWithCharts).setName;
+      const setName = (worksheet as WorksheetWithMutation).setName;
       if (typeof setName !== "function") throw new Error("Renaming sheets is not supported.");
       setName.call(worksheet, normalized.name);
     } else {
@@ -1467,76 +679,6 @@ export function _setIndexedSheetName(sheetRef: IndexedSheetRef, value: Value) {
   return actualName;
 }
 
-function buildChartMeta(worksheet: WorksheetLike, charts: FChart[], chart: FChart): ChartMeta {
-  const sheetId = worksheet.getSheetId?.() ?? null;
-  const id = chart.getChartId?.() ?? null;
-  const model = getChartModel(chart);
-  const style = model?.style;
-  const range = getChartModelRange(model) ?? chart.getRange?.() ?? null;
-  const physicalSourceRange = getChartSourceRangeA1(range, sheetId);
-
-  return {
-    id,
-    sheetId,
-    sheetName: getSheetName(worksheet),
-    index: charts.indexOf(chart),
-    chartType: normalizeChartType(model?.chartType),
-    sourceRange:
-      (id ? getLogicalChartSourceRange(id, physicalSourceRange) : null) ?? physicalSourceRange,
-    range,
-    title: readFirstString(style, [
-      ["titles", "title", "content"],
-      ["title", "content"]
-    ]),
-    xAxisTitle: readFirstString(style, [
-      ["titles", "xAxisTitle", "content"],
-      ["xAxisTitle", "content"]
-    ]),
-    yAxisTitle: readFirstString(style, [
-      ["titles", "yAxisTitle", "content"],
-      ["yAxisTitle", "content"]
-    ]),
-    legendPosition: readPath(style, ["legend", "position"]) ?? null,
-    dataOrientation: getDataOrientation(range, style),
-    width: readNumber(readPath(style, ["width"])),
-    height: readNumber(readPath(style, ["height"])),
-    position: null,
-    context: model?.context ?? null,
-    seriesData: chart.getSeriesData?.() ?? null,
-    categoryData: chart.getCategoryData?.() ?? null
-  };
-}
-
-export function _getChartMeta(sheetRef?: SheetRef, chartRef?: ChartRef) {
-  const worksheet = resolveSheet(sheetRef);
-
-  return resolveChartMeta(getChartMetasForWorksheet(worksheet), chartRef);
-}
-
-export async function _setChartMeta(
-  sheetRef: SheetRef | undefined,
-  chartRef: ChartRef | undefined,
-  path: Path[],
-  value: Value
-) {
-  const worksheet = resolveSheet(sheetRef, { create: true });
-  const meta = getMutableChartMeta(worksheet, chartRef);
-
-  writePath(
-    meta as unknown as Record<PropertyKey, unknown>,
-    path,
-    normalizeChartSetValue(path, value)
-  );
-  meta.sheetId = worksheet.getSheetId?.() ?? meta.sheetId;
-  meta.sheetName = getSheetName(worksheet);
-  upsertChartMeta(meta);
-
-  await syncChartMetaToWorksheet(worksheet, meta, path[0]);
-
-  activateSheetAfterExplicitSet(sheetRef, worksheet);
-  return meta;
-}
-
 export type SheetRef = string | number;
 export type IndexedSheetRef = {
   index: number;
@@ -1546,15 +688,6 @@ export type CellRef = {
   row: number;
   column: number;
 };
-export type ChartRef =
-  | number
-  | {
-      index?: number;
-      id?: string;
-      title?: string;
-      sourceRange?: string;
-      chartType?: unknown;
-    };
 
 type NormalizedIndexedSheetRef = {
   index: number;
@@ -1581,28 +714,3 @@ function normalizeIndexedSheetRef(sheetRef: IndexedSheetRef): NormalizedIndexedS
     name: sheetRef.name
   };
 }
-
-// ######################################
-// #                Meta                #
-// ######################################
-
-export type ChartMeta = {
-  id: string | null;
-  sheetId: string | null;
-  sheetName: string | null;
-  index: number;
-  chartType: unknown;
-  sourceRange: string | null;
-  range: unknown;
-  title: string | null;
-  xAxisTitle: string | null;
-  yAxisTitle: string | null;
-  legendPosition: unknown;
-  dataOrientation: unknown;
-  width: number | null;
-  height: number | null;
-  position: unknown;
-  context: unknown;
-  seriesData: unknown;
-  categoryData: unknown;
-};

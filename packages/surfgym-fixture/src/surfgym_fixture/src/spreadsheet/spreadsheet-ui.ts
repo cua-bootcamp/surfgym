@@ -1,4 +1,3 @@
-import { ChartTypeBits } from '@univerjs/presets/preset-sheets-advanced';
 import type {
   ChartWizardConfig,
   PivotTableDataFieldConfig,
@@ -25,13 +24,14 @@ const mockColorPaletteMenuId = 'spreadsheet-mock-color-palette-menu';
 const mockNativeColorInputClassName = 'spreadsheet-mock-native-color-input';
 const filterHeaderDialogId = 'spreadsheet-filter-header-dialog';
 const chartWizardDialogId = 'spreadsheet-chart-wizard-dialog';
+const sparklineDialogId = 'spreadsheet-line-sparkline-dialog';
 const pivotSourceDialogId = 'spreadsheet-pivot-source-dialog';
 const pivotLayoutDialogId = 'spreadsheet-pivot-layout-dialog';
 const pivotDataFieldDialogId = 'spreadsheet-pivot-data-field-dialog';
+const validationListDialogId = 'spreadsheet-validation-list-dialog';
 const sortDirectionMenuId = 'spreadsheet-sort-direction-menu';
 const createConditionalFormattingRuleOperation = 1;
 const openNumberFormatPanelCommandId = 'sheet.operation.open.numfmt.panel';
-const openSparklineSelectorOperationId = 'sheet.operation.open-sparkline-selector';
 const mergeCellsCommandId = 'sheet.command.add-worksheet-merge-all';
 const unmergeCellsCommandId = 'sheet.command.remove-worksheet-merge';
 const mergeCellsContextMenuItemId = 'surfgym.context-menu.merge-cells';
@@ -63,12 +63,13 @@ type MockToolbarItem = {
   pivotTable?: boolean;
   sparkline?: boolean;
   sortAscending?: boolean;
+  validationList?: boolean;
 };
 
 type MockFormattingItem = {
   label: string;
   title: string;
-  action?: 'dateFormat' | 'mergeCells' | 'numberFormat' | 'percentFormat' | 'unmergeCells';
+  action?: 'dateFormat' | 'freeze' | 'mergeCells' | 'numberFormat' | 'percentFormat' | 'unmergeCells';
   commandId?: string;
   colorCommandId?: string;
   icon?: string;
@@ -86,8 +87,11 @@ type SpreadsheetMockToolbarOptions = {
     | 'applySelectionDateFormat'
     | 'applySelectionFilter'
     | 'applySelectionChart'
+    | 'applySelectionLineSparklines'
+    | 'applySelectionValidationList'
     | 'applySelectionFontFamily'
     | 'applySelectionFontSize'
+    | 'applySelectionFreeze'
     | 'applySelectionHeaderlessFilter'
     | 'applySelectionInputValue'
     | 'applySelectionMerge'
@@ -99,13 +103,17 @@ type SpreadsheetMockToolbarOptions = {
     | 'columnIndexToName'
     | 'getSelectionPivotSource'
     | 'getSelectionRangeTarget'
+    | 'getSelectionValidationList'
+    | 'removeSelectionValidationList'
   >;
 };
 
 type FilterHeaderPreference = 'unknown' | 'use-first-line' | 'headerless';
 type FilterActions = Pick<SpreadsheetActions, 'applySelectionFilter' | 'applySelectionHeaderlessFilter' | 'getSelectionRangeTarget'>;
 type ChartWizardActions = Pick<SpreadsheetActions, 'applySelectionChart' | 'columnIndexToName' | 'getSelectionRangeTarget'>;
+type LineSparklineActions = Pick<SpreadsheetActions, 'applySelectionLineSparklines' | 'getSelectionRangeTarget' | 'columnIndexToName'>;
 type PivotTableActions = Pick<SpreadsheetActions, 'applySelectionPivotTable' | 'getSelectionPivotSource'>;
+type ValidationListActions = Pick<SpreadsheetActions, 'applySelectionValidationList' | 'getSelectionValidationList' | 'removeSelectionValidationList'>;
 
 const formatCommandIds = {
   bold: 'sheet.command.set-range-bold',
@@ -130,23 +138,11 @@ const standardPaletteColors = [
 type ChartWizardStep = 0 | 1 | 2 | 3;
 type ChartWizardDataOrientation = NonNullable<ChartWizardConfig['dataOrientation']>;
 type ChartWizardLegendPosition = NonNullable<ChartWizardConfig['legendPosition']>;
-type ChartWizardIconKind =
-  | 'area'
-  | 'bar'
-  | 'bubble'
-  | 'column'
-  | 'combination'
-  | 'funnel'
-  | 'heatmap'
-  | 'line'
-  | 'other'
-  | 'pie'
-  | 'radar'
-  | 'scatter';
+type ChartWizardIconKind = string;
 
 type ChartWizardSubtype = {
   label: string;
-  chartType: ChartTypeBits;
+  chartType: 'line';
   icon: ChartWizardIconKind;
 };
 
@@ -161,97 +157,11 @@ const chartWizardSteps = ['Chart Type', 'Data Range', 'Data Series', 'Chart Elem
 
 const chartWizardTypeGroups: readonly ChartWizardTypeGroup[] = [
   {
-    key: 'column',
-    label: 'Column',
-    icon: 'column',
-    subtypes: [
-      { label: 'Normal Column', chartType: ChartTypeBits.Column, icon: 'column' },
-      { label: 'Stacked Column', chartType: ChartTypeBits.ColumnStacked, icon: 'column' },
-      { label: 'Percent Stacked Column', chartType: ChartTypeBits.ColumnPercentStacked, icon: 'column' },
-    ],
-  },
-  {
-    key: 'bar',
-    label: 'Bar',
-    icon: 'bar',
-    subtypes: [
-      { label: 'Normal Bar', chartType: ChartTypeBits.Bar, icon: 'bar' },
-      { label: 'Stacked Bar', chartType: ChartTypeBits.BarStacked, icon: 'bar' },
-      { label: 'Percent Stacked Bar', chartType: ChartTypeBits.BarPercentStacked, icon: 'bar' },
-    ],
-  },
-  {
-    key: 'pie',
-    label: 'Pie',
-    icon: 'pie',
-    subtypes: [
-      { label: 'Pie', chartType: ChartTypeBits.Pie, icon: 'pie' },
-      { label: 'Doughnut', chartType: ChartTypeBits.Doughnut, icon: 'pie' },
-    ],
-  },
-  {
-    key: 'area',
-    label: 'Area',
-    icon: 'area',
-    subtypes: [
-      { label: 'Area', chartType: ChartTypeBits.Area, icon: 'area' },
-      { label: 'Stacked Area', chartType: ChartTypeBits.AreaStacked, icon: 'area' },
-      { label: 'Percent Stacked Area', chartType: ChartTypeBits.AreaPercentStacked, icon: 'area' },
-    ],
-  },
-  {
     key: 'line',
     label: 'Line',
     icon: 'line',
     subtypes: [
-      { label: 'Line', chartType: ChartTypeBits.Line, icon: 'line' },
-    ],
-  },
-  {
-    key: 'scatter',
-    label: 'XY (Scatter)',
-    icon: 'scatter',
-    subtypes: [
-      { label: 'Scatter', chartType: ChartTypeBits.Scatter, icon: 'scatter' },
-    ],
-  },
-  {
-    key: 'bubble',
-    label: 'Bubble',
-    icon: 'bubble',
-    subtypes: [
-      { label: 'Bubble', chartType: ChartTypeBits.Bubble, icon: 'bubble' },
-    ],
-  },
-  {
-    key: 'radar',
-    label: 'Net',
-    icon: 'radar',
-    subtypes: [
-      { label: 'Radar', chartType: ChartTypeBits.Radar, icon: 'radar' },
-    ],
-  },
-  {
-    key: 'combination',
-    label: 'Column and Line',
-    icon: 'combination',
-    subtypes: [
-      { label: 'Column and Line', chartType: ChartTypeBits.Combination, icon: 'combination' },
-    ],
-  },
-  {
-    key: 'advanced',
-    label: 'More',
-    icon: 'other',
-    subtypes: [
-      { label: 'Waterfall', chartType: ChartTypeBits.Waterfall, icon: 'column' },
-      { label: 'Pareto', chartType: ChartTypeBits.Pareto, icon: 'combination' },
-      { label: 'Funnel', chartType: ChartTypeBits.Funnel, icon: 'funnel' },
-      { label: 'Heatmap', chartType: ChartTypeBits.Heatmap, icon: 'heatmap' },
-      { label: 'Boxplot', chartType: ChartTypeBits.Boxplot, icon: 'other' },
-      { label: 'Word Cloud', chartType: ChartTypeBits.WordCloud, icon: 'other' },
-      { label: 'Sankey', chartType: ChartTypeBits.Sankey, icon: 'other' },
-      { label: 'Relation', chartType: ChartTypeBits.Relation, icon: 'other' },
+      { label: 'Line', chartType: 'line', icon: 'line' },
     ],
   },
 ] as const;
@@ -354,6 +264,14 @@ const mockToolbarIcon = {
       <rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" />
       <path d="M12 5v14M5 12h14" stroke="#8f98a3" stroke-width="1.3" />
       <path d="M5 5h14v14H5z" fill="none" stroke="#2e6eea" stroke-width="1.2" stroke-dasharray="2 1.5" />
+    </svg>
+  `,
+  freeze: `
+    <svg class="spreadsheet-mock-freeze-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="4" y="4" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" />
+      <path d="M4 9h16M9 4v16" stroke="currentColor" stroke-width="1" opacity="0.5" />
+      <path d="M4 9h16" stroke="#2e6eea" stroke-width="2.2" />
+      <path d="M9 4v16" stroke="#2e6eea" stroke-width="2.2" />
     </svg>
   `,
   wrap: `
@@ -581,6 +499,7 @@ const mockToolbarTopGroups: readonly (readonly MockToolbarItem[])[] = [
     { label: 'Insert Chart', icon: mockToolbarIcon.chart, chart: true },
     // { label: 'Insert Sparkline', icon: mockToolbarIcon.sparkline, sparkline: true },
     { label: 'Pivot Table', icon: mockToolbarIcon.pivotTable, pivotTable: true },
+    { label: 'Data Validation', icon: mockToolbarIcon.table, validationList: true },
   ],
   [
     { label: 'Special Character', icon: mockToolbarIcon.omega },
@@ -610,6 +529,7 @@ const mockFormattingGroups: readonly (readonly MockFormattingItem[])[] = [
     { label: 'Bot', title: 'Align Bottom', icon: mockToolbarIcon.alignBottom },
     { label: 'Merge', title: 'Merge Cells', action: 'mergeCells', icon: mockToolbarIcon.mergeCells },
     { label: 'Unmerge', title: 'Unmerge Cells', action: 'unmergeCells', icon: mockToolbarIcon.unmergeCells },
+    { label: 'Freeze', title: 'Freeze Panes', action: 'freeze', icon: mockToolbarIcon.freeze },
   ],
   [
     { label: '%', title: 'Percent Format', action: 'percentFormat' },
@@ -631,7 +551,6 @@ function closeFilterHeaderDialog() {
   document.getElementById(filterHeaderDialogId)?.remove();
   document.removeEventListener('keydown', closeFilterHeaderDialogOnEscape, true);
 }
-
 function closeFilterHeaderDialogOnEscape(event: KeyboardEvent) {
   if (event.key !== 'Escape') return;
 
@@ -1015,16 +934,6 @@ function openChartWizardDialog(actions: ChartWizardActions) {
               .join('')}
           </div>
           <div class="spreadsheet-chart-wizard-subtype-name">${subtype.label}</div>
-          <label class="spreadsheet-chart-wizard-disabled-check">
-            <input type="checkbox" disabled>
-            <span>3D Look</span>
-          </label>
-          <div class="spreadsheet-chart-wizard-shape-list" aria-label="Shape">
-            <div class="is-active">Bar</div>
-            <div>Cylinder</div>
-            <div>Cone</div>
-            <div>Pyramid</div>
-          </div>
         </div>
       </div>
     `;
@@ -1280,6 +1189,66 @@ function getDefaultPivotDataFunction(field: PivotTableFieldInfo): PivotTableData
   return field.isNumeric ? 'sum' : 'count';
 }
 
+function closeLineSparklineDialog() {
+  document.getElementById(sparklineDialogId)?.remove();
+}
+
+function openLineSparklineDialog(actions: LineSparklineActions) {
+  closeLineSparklineDialog();
+  const target = actions.getSelectionRangeTarget({ allowSingleRow: true });
+  const range = target?.range;
+  const targetColumn = range ? actions.columnIndexToName(range.startColumn) : 'F';
+  const firstRow = range ? range.startRow + 1 : 2;
+  const lastRow = range ? range.endRow + 1 : 9;
+  const dialog = document.createElement('div');
+  dialog.id = sparklineDialogId;
+  dialog.className = 'spreadsheet-chart-wizard-backdrop';
+  dialog.innerHTML = `
+    <section class="spreadsheet-chart-wizard-dialog" role="dialog" aria-modal="true" aria-labelledby="line-sparkline-title">
+      <div class="spreadsheet-chart-wizard-titlebar">
+        <strong id="line-sparkline-title">Line Sparkline</strong>
+        <button type="button" aria-label="Close" data-line-sparkline-close>x</button>
+      </div>
+      <div class="spreadsheet-chart-wizard-form">
+        <p>Target: ${targetColumn}${firstRow}:${targetColumn}${lastRow}</p>
+        <label class="spreadsheet-chart-wizard-field"><span>Source range</span><input type="text" data-line-sparkline-source value="C${firstRow}:E${lastRow}" aria-label="Sparkline source range"></label>
+        <p>Type: Line</p>
+      </div>
+      <div class="spreadsheet-chart-wizard-footer">
+        <button type="button" data-line-sparkline-cancel>Cancel</button>
+        <button type="button" class="spreadsheet-chart-wizard-button-primary" data-line-sparkline-apply>Apply</button>
+      </div>
+    </section>
+  `;
+  const close = () => closeLineSparklineDialog();
+  dialog.querySelectorAll<HTMLButtonElement>('[data-line-sparkline-close], [data-line-sparkline-cancel]').forEach((button) => button.addEventListener('click', close));
+  dialog.querySelector<HTMLButtonElement>('[data-line-sparkline-apply]')?.addEventListener('click', async () => {
+    const sourceRange = dialog.querySelector<HTMLInputElement>('[data-line-sparkline-source]')?.value.trim() ?? '';
+    try {
+      if (await actions.applySelectionLineSparklines({ sourceRange })) close();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Could not create line sparklines.';
+      const existing = dialog.querySelector<HTMLElement>('[data-line-sparkline-error]');
+      if (existing) existing.textContent = message;
+      else dialog.querySelector('.spreadsheet-chart-wizard-form')?.insertAdjacentHTML('beforeend', `<p data-line-sparkline-error role="alert">${escapeChartWizardAttribute(message)}</p>`);
+    }
+  });
+  dialog.addEventListener('click', (event) => { if (event.target === dialog) close(); });
+  document.body.appendChild(dialog);
+  dialog.querySelector<HTMLInputElement>('[data-line-sparkline-source]')?.focus();
+}
+
+function pivotColumnIndexToName(columnIndex: number) {
+  let value = columnIndex + 1;
+  let name = '';
+  while (value > 0) {
+    const remainder = (value - 1) % 26;
+    name = String.fromCharCode(65 + remainder) + name;
+    value = Math.floor((value - 1) / 26);
+  }
+  return name;
+}
+
 function renderPivotAssignedField(source: PivotTableSourceInfo, area: PivotTableArea, fieldIndex: number, dataField?: PivotTableDataFieldConfig) {
   const field = getPivotTableField(source, fieldIndex);
   const label = dataField ? `${getPivotTableFunctionLabel(dataField.function)} - ${field.name}` : field.name;
@@ -1307,11 +1276,12 @@ function openPivotDataFieldDialog({
 }: {
   dataField: PivotTableDataFieldConfig;
   field: PivotTableFieldInfo;
-  onSave: (dataFunction: PivotTableDataFunction) => void;
+  onSave: (dataFunction: PivotTableDataFunction, displayAs: 'value' | 'percentOfGrandTotal') => void;
 }) {
   closePivotDataFieldDialog();
 
   let selectedFunction = dataField.function;
+  let selectedDisplayAs = dataField.displayAs ?? 'value';
   const dialog = document.createElement('div');
   dialog.id = pivotDataFieldDialogId;
   dialog.className = 'spreadsheet-pivot-data-field-backdrop';
@@ -1350,6 +1320,12 @@ function openPivotDataFieldDialog({
         </div>
         <details class="spreadsheet-pivot-details">
           <summary>Displayed Value</summary>
+          <label>Display values as
+            <select data-pivot-display-as aria-label="Display values as">
+              <option value="value" ${selectedDisplayAs === 'value' ? 'selected' : ''}>Value</option>
+              <option value="percentOfGrandTotal" ${selectedDisplayAs === 'percentOfGrandTotal' ? 'selected' : ''}>% of Grand Total</option>
+            </select>
+          </label>
         </details>
       </div>
       <div class="spreadsheet-pivot-footer">
@@ -1368,10 +1344,13 @@ function openPivotDataFieldDialog({
       button.classList.add('is-active');
     });
   });
+  dialog.querySelector<HTMLSelectElement>('[data-pivot-display-as]')?.addEventListener('change', (event) => {
+    selectedDisplayAs = (event.currentTarget as HTMLSelectElement).value === 'percentOfGrandTotal' ? 'percentOfGrandTotal' : 'value';
+  });
 
   dialog.querySelector<HTMLButtonElement>('[data-pivot-data-cancel]')?.addEventListener('click', closePivotDataFieldDialog);
   dialog.querySelector<HTMLButtonElement>('[data-pivot-data-ok]')?.addEventListener('click', () => {
-    onSave(selectedFunction);
+    onSave(selectedFunction, selectedDisplayAs);
     closePivotDataFieldDialog();
   });
 
@@ -1386,10 +1365,14 @@ function openPivotLayoutDialog(actions: PivotTableActions, source: PivotTableSou
     columnFields: [],
     dataFields: [],
     destination: 'new-sheet',
+    destinationSheetName: 'Pivot Table',
+    destinationStartRow: 0,
+    destinationStartColumn: 0,
     filterFields: [],
     rowFields: [],
   };
   let errorMessage = '';
+  let destinationA1Error = '';
   const dialog = document.createElement('div');
   dialog.id = pivotLayoutDialogId;
   dialog.className = 'spreadsheet-pivot-layout-backdrop';
@@ -1428,6 +1411,7 @@ function openPivotLayoutDialog(actions: PivotTableActions, source: PivotTableSou
       config.dataFields.push({
         fieldIndex,
         function: getDefaultPivotDataFunction(getPivotTableField(source, fieldIndex)),
+        displayAs: 'value',
       });
     }
 
@@ -1498,8 +1482,10 @@ function openPivotLayoutDialog(actions: PivotTableActions, source: PivotTableSou
               </label>
               <label class="spreadsheet-pivot-radio">
                 <input type="radio" name="spreadsheet-pivot-destination" value="existing-sheet" ${config.destination === 'existing-sheet' ? 'checked' : ''}>
-                <span>Current sheet</span>
+                <span>Existing sheet</span>
               </label>
+              <label>Target sheet <input type="text" data-pivot-destination-sheet value="${escapeChartWizardAttribute(config.destinationSheetName)}" aria-label="Target sheet"></label>
+              <label>Target A1 cell <input type="text" data-pivot-destination-a1 value="${pivotColumnIndexToName(config.destinationStartColumn)}${config.destinationStartRow + 1}" aria-label="Target A1 cell"></label>
             </div>
           </details>
           ${errorMessage ? `<div class="spreadsheet-pivot-error">${escapeChartWizardAttribute(errorMessage)}</div>` : ''}
@@ -1517,6 +1503,20 @@ function openPivotLayoutDialog(actions: PivotTableActions, source: PivotTableSou
       input.addEventListener('change', () => {
         config.destination = input.value === 'existing-sheet' ? 'existing-sheet' : 'new-sheet';
       });
+    });
+    dialog.querySelector<HTMLInputElement>('[data-pivot-destination-sheet]')?.addEventListener('input', (event) => {
+      config.destinationSheetName = (event.currentTarget as HTMLInputElement).value;
+    });
+    dialog.querySelector<HTMLInputElement>('[data-pivot-destination-a1]')?.addEventListener('input', (event) => {
+      const match = (event.currentTarget as HTMLInputElement).value.trim().match(/^([A-Za-z]+)([1-9]\d*)$/);
+      if (!match) {
+        destinationA1Error = 'Enter a valid A1 target cell.';
+        return;
+      }
+      const [, columnName, rowName] = match;
+      config.destinationStartColumn = columnName!.toUpperCase().split('').reduce((value, letter) => value * 26 + letter.charCodeAt(0) - 64, 0) - 1;
+      config.destinationStartRow = Number(rowName) - 1;
+      destinationA1Error = '';
     });
 
     dialog.querySelectorAll<HTMLElement>('[data-pivot-drop-area]').forEach((zone) => {
@@ -1569,8 +1569,9 @@ function openPivotLayoutDialog(actions: PivotTableActions, source: PivotTableSou
         openPivotDataFieldDialog({
           dataField,
           field: getPivotTableField(source, fieldIndex),
-          onSave: (dataFunction) => {
+          onSave: (dataFunction, displayAs) => {
             dataField.function = dataFunction;
+            dataField.displayAs = displayAs;
             render();
           },
         });
@@ -1579,6 +1580,11 @@ function openPivotLayoutDialog(actions: PivotTableActions, source: PivotTableSou
 
     dialog.querySelector<HTMLButtonElement>('[data-pivot-layout-cancel]')?.addEventListener('click', closePivotLayoutDialog);
     dialog.querySelector<HTMLButtonElement>('[data-pivot-layout-ok]')?.addEventListener('click', async () => {
+      if (destinationA1Error) {
+        errorMessage = destinationA1Error;
+        render();
+        return;
+      }
       const result = await actions.applySelectionPivotTable(config);
       if (result.ok) {
         closePivotLayoutDialog();
@@ -1658,12 +1664,77 @@ function openPivotSourceDialog(actions: PivotTableActions) {
   dialog.querySelector<HTMLButtonElement>('[data-pivot-source-ok]')?.focus();
 }
 
+function closeValidationListDialog() {
+  document.getElementById(validationListDialogId)?.remove();
+}
+
+function openValidationListDialog(actions: ValidationListActions) {
+  closeValidationListDialog();
+  const dialog = document.createElement('div');
+  dialog.id = validationListDialogId;
+  dialog.className = 'spreadsheet-pivot-layout-backdrop';
+  const selectedValidation = actions.getSelectionValidationList();
+  const initialValidation = selectedValidation !== null && !Array.isArray(selectedValidation)
+    ? selectedValidation
+    : null;
+
+  function render(errorMessage = '') {
+    dialog.innerHTML = `
+      <div class="spreadsheet-pivot-window spreadsheet-pivot-layout-dialog" role="dialog" aria-modal="true" aria-labelledby="spreadsheet-validation-list-title">
+        <div class="spreadsheet-pivot-titlebar">
+          <strong id="spreadsheet-validation-list-title">Data Validation</strong>
+        </div>
+        <div class="spreadsheet-pivot-layout-content">
+          <label>List values
+            <input type="text" data-validation-list-values aria-label="List values" placeholder="Pass, Fail, Held" value="${escapeChartWizardAttribute(initialValidation?.values.join(', ') ?? '')}">
+          </label>
+          <label>
+            <input type="checkbox" data-validation-allow-blank ${initialValidation?.allowBlank ?? true ? 'checked' : ''}>
+            Allow blank
+          </label>
+          ${errorMessage ? `<div class="spreadsheet-pivot-error">${escapeChartWizardAttribute(errorMessage)}</div>` : ''}
+        </div>
+        <div class="spreadsheet-pivot-footer">
+          <button class="spreadsheet-pivot-button" type="button" data-validation-remove>Remove</button>
+          <span class="spreadsheet-pivot-footer-spacer"></span>
+          <button class="spreadsheet-pivot-button" type="button" data-validation-cancel>Cancel</button>
+          <button class="spreadsheet-pivot-button spreadsheet-pivot-button-primary" type="button" data-validation-apply>Apply</button>
+        </div>
+      </div>
+    `;
+
+    dialog.querySelector<HTMLButtonElement>('[data-validation-cancel]')?.addEventListener('click', closeValidationListDialog);
+    dialog.querySelector<HTMLButtonElement>('[data-validation-remove]')?.addEventListener('click', () => {
+      actions.removeSelectionValidationList();
+      closeValidationListDialog();
+    });
+    dialog.querySelector<HTMLButtonElement>('[data-validation-apply]')?.addEventListener('click', () => {
+      const valuesInput = dialog.querySelector<HTMLInputElement>('[data-validation-list-values]');
+      const allowBlank = dialog.querySelector<HTMLInputElement>('[data-validation-allow-blank]');
+      const values = valuesInput?.value.split(',').map((value) => value.trim()) ?? [];
+      try {
+        actions.applySelectionValidationList({ values, allowBlank: allowBlank?.checked ?? true });
+        closeValidationListDialog();
+      } catch (error) {
+        render(error instanceof Error ? error.message : 'Could not apply data validation.');
+      }
+    });
+  }
+
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) closeValidationListDialog();
+  });
+  document.body.appendChild(dialog);
+  render();
+  dialog.querySelector<HTMLInputElement>('[data-validation-list-values]')?.focus();
+}
+
 export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }: SpreadsheetMockToolbarOptions) {
   const container = document.getElementById(containerId);
   if (!container || container.dataset.mockToolbarRendered === 'true') return;
 
   const disabledFontControls = actions ? '' : 'disabled aria-disabled="true"';
-  const canClickMockButton = (item: MockToolbarItem) => actions && (item.chart || item.filter || item.pivotTable || item.sparkline || item.sortAscending !== undefined);
+  const canClickMockButton = (item: MockToolbarItem) => actions && (item.chart || item.filter || item.pivotTable || item.sparkline || item.sortAscending !== undefined || item.validationList);
   const canClickFormattingButton = (item: MockFormattingItem) => item.action || item.commandId || item.colorCommandId;
 
   container.dataset.mockToolbarRendered = 'true';
@@ -1689,6 +1760,7 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
                           ${item.chart ? 'data-spreadsheet-chart="true"' : ''}
                           ${item.sparkline ? 'data-spreadsheet-sparkline="true"' : ''}
                           ${item.pivotTable ? 'data-spreadsheet-pivot-table="true"' : ''}
+                          ${item.validationList ? 'data-spreadsheet-data-validation="true"' : ''}
                           ${item.sortAscending !== undefined ? `data-spreadsheet-sort-direction="${item.sortAscending ? 'ascending' : 'descending'}"` : ''}
                         >
                           ${item.icon}
@@ -1744,7 +1816,7 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
         </div>
         <div class="spreadsheet-mock-formula-row">
           <button class="spreadsheet-mock-name-box" type="button" tabindex="-1" aria-disabled="true">
-            A23:B23
+            <span data-spreadsheet-name-box-value>A1</span>
             <span class="spreadsheet-mock-select-arrow" aria-hidden="true"></span>
           </button>
           <span class="spreadsheet-mock-formula-fx" aria-hidden="true">fx</span>
@@ -1758,6 +1830,7 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
             autocomplete="off"
             spellcheck="false"
           />
+          <div class="spreadsheet-validation-input-error" data-spreadsheet-input-error role="alert" hidden></div>
           <span class="spreadsheet-mock-formula-drop" aria-hidden="true"></span>
         </div>
       </div>
@@ -1765,14 +1838,43 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
   `;
 
   const formulaInput = container.querySelector<HTMLInputElement>('[data-spreadsheet-formula-input]');
+  const inputError = container.querySelector<HTMLElement>('[data-spreadsheet-input-error]');
   let formulaInputDirty = false;
+
+  function showInputValidationError(message: string) {
+    formulaInput?.setAttribute('aria-invalid', 'true');
+    if (inputError) {
+      inputError.textContent = message;
+      inputError.hidden = false;
+    }
+  }
+
+  function clearInputValidationError() {
+    formulaInput?.removeAttribute('aria-invalid');
+    if (inputError) {
+      inputError.textContent = '';
+      inputError.hidden = true;
+    }
+  }
 
   function commitFormulaInputValue() {
     if (!formulaInput || !formulaInputDirty) return;
 
-    actions?.applySelectionInputValue(formulaInput.value);
+    const result = actions?.applySelectionInputValue(formulaInput.value);
+    if (result && !result.ok) {
+      showInputValidationError(result.message ?? 'Input was rejected.');
+      formulaInputDirty = false;
+      return;
+    }
+    clearInputValidationError();
     formulaInputDirty = false;
   }
+
+  window.addEventListener('surfgym:spreadsheet-input-error', (event) => {
+    if (event instanceof CustomEvent && typeof event.detail === 'string') {
+      showInputValidationError(event.detail);
+    }
+  });
 
   formulaInput?.addEventListener('input', () => {
     formulaInputDirty = true;
@@ -1812,6 +1914,7 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
       event.preventDefault();
 
       if (action === 'dateFormat') actions?.applySelectionDateFormat();
+      if (action === 'freeze') actions?.applySelectionFreeze();
       if (action === 'mergeCells') void actions?.applySelectionMerge();
       if (action === 'numberFormat') actions?.applySelectionNumberFormat();
       if (action === 'percentFormat') actions?.applySelectionPercentFormat();
@@ -1842,9 +1945,8 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
 
   container.querySelector<HTMLButtonElement>('[data-spreadsheet-sparkline]')?.addEventListener('click', (event) => {
     event.preventDefault();
-    if (!univerAPI) return;
-
-    void univerAPI.executeCommand(openSparklineSelectorOperationId);
+    if (!actions) return;
+    openLineSparklineDialog(actions);
   });
 
   container.querySelector<HTMLButtonElement>('[data-spreadsheet-pivot-table]')?.addEventListener('click', (event) => {
@@ -1852,6 +1954,13 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
     if (!actions) return;
 
     openPivotSourceDialog(actions);
+  });
+
+  container.querySelector<HTMLButtonElement>('[data-spreadsheet-data-validation]')?.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (!actions) return;
+
+    openValidationListDialog(actions);
   });
 
   if (!univerAPI) return;
@@ -2025,6 +2134,7 @@ type SpreadsheetUiContext = {
     SpreadsheetActions,
     | 'applySelectionChart'
     | 'applySelectionBarChart'
+    | 'applySelectionLineSparklines'
     | 'applySelectionFilter'
     | 'applySelectionHeaderlessFilter'
     | 'applySelectionMerge'
@@ -2376,12 +2486,12 @@ export function setupSpreadsheetUi({
         },
       );
 
-      const sparklineButton = createStartToolbarButton(
+  const sparklineButton = createStartToolbarButton(
         startSparklineToolbarButtonId,
         'Sparkline',
         mockToolbarIcon.sparkline,
         () => {
-          void univerAPI.executeCommand(openSparklineSelectorOperationId);
+    openLineSparklineDialog(actions);
         },
       );
 

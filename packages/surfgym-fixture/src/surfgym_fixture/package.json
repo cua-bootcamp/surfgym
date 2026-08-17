@@ -8,16 +8,24 @@
     "build:vite": "tsc && vite build",
     "build": "bash build-main.sh",
     "serve": "caddy run --config Caddyfile --adapter caddyfile",
-    "build-serve": "pnpm run build:all && pnpm run serve "
+    "build-serve": "pnpm run build:all && pnpm run serve ",
+    "test": "vitest run"
   },
   "devDependencies": {
+    "jsdom": "^26.1.0",
     "prettier": "^3.8.4",
     "typescript": "~6.0.2",
-    "vite": "^8.0.10"
+    "vite": "^8.0.10",
+    "vitest": "4.1.1"
   },
   "dependencies": {
+    "@univerjs/core": "0.21.1",
     "@univerjs/preset-docs-core": "0.21.1",
+    "@univerjs/preset-sheets-conditional-formatting": "0.21.1",
     "@univerjs/preset-sheets-core": "0.21.1",
+    "@univerjs/preset-sheets-drawing": "0.21.1",
+    "@univerjs/preset-sheets-filter": "0.21.1",
+    "@univerjs/preset-sheets-sort": "0.21.1",
     "@univerjs/presets": "0.21.1"
   }
 }

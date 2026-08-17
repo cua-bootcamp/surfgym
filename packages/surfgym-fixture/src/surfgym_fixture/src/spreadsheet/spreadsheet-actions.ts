@@ -1,13 +1,14 @@
-import { ChartTypeBits } from '@univerjs/presets/preset-sheets-advanced';
 import {
   mergeChartSourceMatrixInfo,
-  registerLogicalChartSourceRange,
   splitChartSourceRanges,
 } from './chart-range';
+import { _getCellValidationList, _registerPivotMeta, _setCellValidationList } from './internal';
+import { taskScopedLineCharts, type TaskScopedLineChartUpdate } from './surfgym-chart';
+import { taskScopedLineSparklines } from './surfgym-sparkline';
+import { validationMessageForValue } from './spreadsheet-validation-guard';
 
 const setFilterRangeCommandId = 'sheet.command.set-filter-range';
 const removeSheetFilterCommandId = 'sheet.command.remove-sheet-filter';
-const chartUpdateConfigCommandId = 'sheet.command.chart-update-config';
 const mergeCellsCommandId = 'sheet.command.add-worksheet-merge-all';
 const unmergeCellsCommandId = 'sheet.command.remove-worksheet-merge';
 
@@ -19,44 +20,6 @@ export type SelectionRange = {
   __surfgymHeaderless?: boolean;
 };
 
-type SpreadsheetChartBuilder = {
-  setChartType: (chartType: ChartTypeBits) => SpreadsheetChartBuilder;
-  addRange: (range: string) => SpreadsheetChartBuilder;
-  setPosition: (row: number, column: number, offsetX: number, offsetY: number) => SpreadsheetChartBuilder;
-  setWidth: (width: number) => SpreadsheetChartBuilder;
-  setHeight: (height: number) => SpreadsheetChartBuilder;
-  setOptions: (path: string, value: unknown) => SpreadsheetChartBuilder;
-  setTransposeRowsAndColumns?: (transposeRowsAndColumns: boolean) => SpreadsheetChartBuilder;
-  setXAxisTitle?: (title: string) => SpreadsheetChartBuilder;
-  setYAxisTitle?: (title: string) => SpreadsheetChartBuilder;
-  build: () => unknown;
-};
-
-type SpreadsheetChart = {
-  getChartId?: () => string;
-};
-
-type SpreadsheetChartContext = {
-  headers?: string[];
-  categoryIndex?: number;
-  seriesIndexes?: number[];
-  transform?: {
-    categoryIndex?: number;
-    seriesIndexes?: number[];
-  };
-};
-
-type SpreadsheetCellValue = string | number | boolean | null;
-type SpreadsheetCellData = {
-  v: SpreadsheetCellValue;
-};
-type SpreadsheetSheetData = {
-  cellData: Record<number, Record<number, SpreadsheetCellData>>;
-};
-type SpreadsheetInsertSheetOptions = {
-  index?: number;
-  sheet?: Partial<SpreadsheetSheetData>;
-};
 
 type SpreadsheetRange = {
   sort: (options: { column: number; ascending: boolean }) => unknown;
@@ -76,8 +39,9 @@ type SpreadsheetSelection = {
 
 type SpreadsheetWorkbook = {
   getId: () => string;
+  getSheets?: () => SpreadsheetWorksheet[];
   getSheetByName?: (name: string) => SpreadsheetWorksheet | null;
-  insertSheet?: (name?: string, options?: SpreadsheetInsertSheetOptions) => SpreadsheetWorksheet;
+  insertSheet?: (name?: string) => SpreadsheetWorksheet;
   setActiveSheet?: (worksheet: SpreadsheetWorksheet | string) => unknown;
 };
 
@@ -90,8 +54,8 @@ type SpreadsheetWorksheet = {
   getRange(a1Notation: string): SpreadsheetRange;
   getRange(row: number, column: number, numRows: number, numColumns: number): SpreadsheetRange;
   hideSheet?: () => SpreadsheetWorksheet;
-  newChart: () => SpreadsheetChartBuilder;
-  insertChart: (chartInfo: unknown) => Promise<SpreadsheetChart | unknown> | SpreadsheetChart | unknown;
+  setFrozenRows: (rows: number) => unknown;
+  setFrozenColumns: (columns: number) => unknown;
 };
 
 type SpreadsheetUniverApi = {
@@ -120,7 +84,7 @@ export type ChartWizardLegendPosition = 'top' | 'right' | 'bottom' | 'left' | 'h
 export type ChartWizardDataOrientation = 'Row' | 'Column';
 
 export type ChartWizardConfig = {
-  chartType: ChartTypeBits;
+  chartType: 'line';
   chartLabel?: string;
   rangeA1?: string;
   title?: string;
@@ -154,6 +118,7 @@ export type PivotTableDestination = 'new-sheet' | 'existing-sheet';
 export type PivotTableDataFieldConfig = {
   fieldIndex: number;
   function: PivotTableDataFunction;
+  displayAs?: 'value' | 'percentOfGrandTotal';
 };
 
 export type PivotTableLayoutConfig = {
@@ -162,12 +127,24 @@ export type PivotTableLayoutConfig = {
   columnFields: number[];
   dataFields: PivotTableDataFieldConfig[];
   destination: PivotTableDestination;
+  destinationSheetName: string;
+  destinationStartRow: number;
+  destinationStartColumn: number;
 };
 
 export type PivotTableApplyResult = {
   ok: boolean;
   message?: string;
   sheetName?: string;
+};
+
+export type LineSparklineConfig = {
+  sourceRange: string;
+};
+
+export type SpreadsheetValidationListConfig = {
+  values: string[];
+  allowBlank: boolean;
 };
 
 export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksheet }: SpreadsheetActionsContext) {
@@ -402,11 +379,42 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
 
   function applySelectionInputValue(value: string) {
     const inputTarget = getSelectionRangeTarget({ allowSingleRow: true });
-    if (!inputTarget) return;
+    if (!inputTarget) return { ok: false, message: 'Select a cell before entering a value.' };
 
     const { range, worksheet } = inputTarget;
+    const cellAddress = `${columnIndexToName(range.startColumn)}${range.startRow + 1}`;
+    const validation = _getCellValidationList(worksheet.getSheetId(), cellAddress);
+    if (validation !== null && !Array.isArray(validation)) {
+      const message = validationMessageForValue(value, validation);
+      if (message !== null) return { ok: false, message };
+    }
 
     worksheet.getRange(range.startRow, range.startColumn, 1, 1).setValue(value);
+    return { ok: true };
+  }
+
+  function applySelectionValidationList(config: SpreadsheetValidationListConfig) {
+    const validationTarget = getSelectionRangeTarget({ allowSingleRow: true });
+    if (!validationTarget) return null;
+
+    const { range, worksheet } = validationTarget;
+    return _setCellValidationList(worksheet.getSheetId(), selectionRangeToA1(range), config);
+  }
+
+  function getSelectionValidationList() {
+    const validationTarget = getSelectionRangeTarget({ allowSingleRow: true });
+    if (!validationTarget) return null;
+
+    const { range, worksheet } = validationTarget;
+    return _getCellValidationList(worksheet.getSheetId(), selectionRangeToA1(range));
+  }
+
+  function removeSelectionValidationList() {
+    const validationTarget = getSelectionRangeTarget({ allowSingleRow: true });
+    if (!validationTarget) return null;
+
+    const { range, worksheet } = validationTarget;
+    return _setCellValidationList(worksheet.getSheetId(), selectionRangeToA1(range), null);
   }
 
   async function applySelectionMerge() {
@@ -426,6 +434,17 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
     if (!mergeTarget) return false;
 
     return univerAPI.executeCommand(unmergeCellsCommandId);
+  }
+
+  function applySelectionFreeze() {
+    const freezeTarget = getSelectionRangeTarget({ allowSingleRow: true });
+    if (!freezeTarget) return false;
+
+    const { range, worksheet } = freezeTarget;
+    worksheet.setFrozenRows(range.startRow);
+    worksheet.setFrozenColumns(range.startColumn);
+
+    return true;
   }
 
   async function applySelectionFilter(filterTarget: SelectionRangeTarget | null = getSelectionRangeTarget()) {
@@ -486,262 +505,102 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
       .sort({ column: sortColumn, ascending });
   }
 
-  function setChartOption(builder: SpreadsheetChartBuilder, path: string, value: unknown) {
-    if (value === undefined || value === null || value === '') return builder;
-
-    return builder.setOptions(path, value);
-  }
-
-  function normalizeChartCellValue(value: unknown): SpreadsheetCellValue {
-    const rawValue = readCellValue(value);
-    if (rawValue === null || rawValue === undefined) return null;
-    if (typeof rawValue === 'string' || typeof rawValue === 'number' || typeof rawValue === 'boolean') return rawValue;
-
-    return String(rawValue);
-  }
-
-  function buildChartHelperMatrix(values: unknown[][], config: ChartWizardConfig) {
-    let matrix = values.map((row) => row.map(normalizeChartCellValue));
-    const originalColumnCount = matrix[0]?.length ?? 0;
-
-    if (config.useFirstRowAsHeader === false) {
-      const generatedHeader = Array.from({ length: originalColumnCount }, (_, columnIndex) => {
-        if (columnIndex === 0 && config.useFirstColumnAsLabel) return 'Category';
-
-        return `Series ${config.useFirstColumnAsLabel ? columnIndex : columnIndex + 1}`;
-      });
-      matrix = [generatedHeader, ...matrix];
-    }
-
-    if (config.useFirstColumnAsLabel === false) {
-      matrix = matrix.map((row, rowIndex) => [
-        rowIndex === 0 ? 'Category' : `Item ${rowIndex}`,
-        ...row,
-      ]);
-    }
-
-    return matrix;
-  }
-
-  function matrixToSheetData(matrix: SpreadsheetCellValue[][]): SpreadsheetSheetData {
-    return {
-      cellData: matrix.reduce<Record<number, Record<number, SpreadsheetCellData>>>((rows, row, rowIndex) => {
-        rows[rowIndex] = row.reduce<Record<number, SpreadsheetCellData>>((columns, value, columnIndex) => {
-          columns[columnIndex] = { v: value };
-
-          return columns;
-        }, {});
-
-        return rows;
-      }, {}),
-    };
-  }
-
-  function uniqueChartDataSheetName() {
-    const suffix = Math.floor(Date.now() % 100_000).toString().padStart(5, '0');
-    let candidate = `_SurfgymChartData${suffix}`;
-
-    while (workbook.getSheetByName?.(candidate)) candidate += '_';
-
-    return candidate;
-  }
-
-  function createChartSourceRange(
-    chartTarget: SelectionRangeTarget,
-    config: ChartWizardConfig,
-    rowCount: number,
-    columnCount: number,
-  ) {
-    const selectionA1 = selectionRangeToA1(chartTarget.range);
-    const requestedRangeA1 = config.rangeA1?.trim();
-    const sourceRangeA1 = requestedRangeA1 || selectionA1;
-    const sourceRanges = splitChartSourceRanges(sourceRangeA1);
-    const needsMultiRangeHelper = sourceRanges.length > 1;
-    const canRewriteSource = !requestedRangeA1 || requestedRangeA1 === selectionA1;
-    const needsHelperSource = config.useFirstRowAsHeader === false || config.useFirstColumnAsLabel === false;
-
-    if (!needsMultiRangeHelper && (!canRewriteSource || !needsHelperSource)) {
-      return {
-        contextConfig: config,
-        columnCount,
-        isRowDirection: null,
-        logicalRangeA1: sourceRangeA1,
-        rangeA1: sourceRangeA1,
-        rowCount,
-      };
-    }
-
-    if (!chartTarget.workbook.insertSheet) {
-      throw new Error('Chart helper sheets are unavailable.');
-    }
-
-    const mergedSource = needsMultiRangeHelper
-      ? mergeChartSourceMatrixInfo(
-          sourceRanges.map((sourceRange) => readA1RangeValues(chartTarget.worksheet, sourceRange)),
-        )
-      : {
-          isRowDirection: null,
-          matrix: readRangeValues(chartTarget.worksheet, chartTarget.range),
-        };
-    const helperMatrix = buildChartHelperMatrix(mergedSource.matrix, config);
-    const helperRowCount = helperMatrix.length;
-    const helperColumnCount = helperMatrix[0]?.length ?? 0;
-
-    if (helperRowCount === 0 || helperColumnCount === 0) {
-      return {
-        contextConfig: config,
-        columnCount,
-        isRowDirection: null,
-        logicalRangeA1: sourceRangeA1,
-        rangeA1: selectionA1,
-        rowCount,
-      };
-    }
-
-    const helperSheetName = uniqueChartDataSheetName();
-    const helperWorksheet = chartTarget.workbook.insertSheet(helperSheetName, {
-      sheet: matrixToSheetData(helperMatrix),
-    });
-
-    try {
-      helperWorksheet.hideSheet?.();
-    } finally {
-      chartTarget.workbook.setActiveSheet?.(chartTarget.worksheet);
-    }
-
-    return {
-      contextConfig: {
-        ...config,
-        useFirstColumnAsLabel: true,
-        useFirstRowAsHeader: true,
-      },
-      columnCount: helperColumnCount,
-      isRowDirection: mergedSource.isRowDirection,
-      logicalRangeA1: sourceRangeA1,
-      rangeA1: `${helperSheetName}!A1:${columnIndexToName(helperColumnCount - 1)}${helperRowCount}`,
-      rowCount: helperRowCount,
-    };
-  }
-
-  function buildChartContext(
-    config: ChartWizardConfig,
-    rowCount: number,
-    columnCount: number,
-    isRowDirection: boolean,
-  ): SpreadsheetChartContext {
-    const dimensionCount = isRowDirection ? columnCount : rowCount;
-    const seriesStartIndex = config.useFirstColumnAsLabel ? 1 : 0;
-    const seriesIndexes = Array.from(
-      { length: Math.max(0, dimensionCount - seriesStartIndex) },
-      (_, index) => index + seriesStartIndex,
-    );
-    const context: SpreadsheetChartContext = {};
-
-    if (config.useFirstColumnAsLabel) {
-      context.categoryIndex = 0;
-      context.transform = { categoryIndex: 0 };
-    }
-
-    if (seriesIndexes.length > 0) {
-      context.seriesIndexes = seriesIndexes;
-      context.transform = {
-        ...(context.transform ?? {}),
-        seriesIndexes,
-      };
-    }
-
-    if (config.useFirstRowAsHeader === false) {
-      context.headers = seriesIndexes.map((_, index) => `Series ${index + 1}`);
-    }
-
-    return context;
-  }
-
-  function getChartId(chart: SpreadsheetChart | unknown) {
-    if (!chart || typeof chart !== 'object') return undefined;
-
-    const getChartIdMethod = (chart as SpreadsheetChart).getChartId;
-    if (!getChartIdMethod) return undefined;
-
-    return getChartIdMethod.call(chart);
-  }
-
   async function applySelectionChart(config: ChartWizardConfig) {
     const chartTarget = getSelectionRangeTarget({ allowSingleRow: true });
     if (!chartTarget) return false;
 
-    const { range } = chartTarget;
-    const rowCount = range.endRow - range.startRow + 1;
-    const columnCount = range.endColumn - range.startColumn + 1;
-    const hasOnlyOneCell = rowCount === 1 && columnCount === 1;
-    const hasOnlyOneColumn = columnCount === 1;
+    if (config.chartType !== 'line') throw new Error('Only line charts are supported by this fixture.');
 
-    if (hasOnlyOneCell || hasOnlyOneColumn) return false;
-
-    const maxColumn = chartTarget.worksheet.getMaxColumns() - 1;
-    const chartColumn = range.endColumn < maxColumn ? range.endColumn + 1 : range.startColumn;
-    const title = config.title?.trim() || config.chartLabel || 'Chart';
-    const xAxisTitle = config.xAxisTitle?.trim();
-    const yAxisTitle = config.yAxisTitle?.trim();
-    const dataOrientation = config.dataOrientation ?? 'Column';
-    const chartSource = createChartSourceRange(chartTarget, config, rowCount, columnCount);
-    const isRowDirection =
-      chartSource.isRowDirection ?? (chartSource.rowCount === 1 || dataOrientation === 'Column');
-    const effectiveDataOrientation =
-      chartSource.isRowDirection === null
-        ? dataOrientation
-        : isRowDirection
-          ? 'Row'
-          : 'Column';
-    const chartContext = buildChartContext(
-      chartSource.contextConfig,
-      chartSource.rowCount,
-      chartSource.columnCount,
-      isRowDirection,
+    const sourceRange = config.rangeA1?.trim() || selectionRangeToA1(chartTarget.range);
+    const sourceRanges = splitChartSourceRanges(sourceRange);
+    const sourceInfo = mergeChartSourceMatrixInfo(
+      sourceRanges.map((rangeA1) => readA1RangeValues(chartTarget.worksheet, rangeA1)),
     );
-    let chartBuilder = chartTarget.worksheet
-      .newChart()
-      .setChartType(config.chartType)
-      .addRange(chartSource.rangeA1);
+    const maxColumn = chartTarget.worksheet.getMaxColumns() - 1;
+    const chartColumn = chartTarget.range.endColumn < maxColumn
+      ? chartTarget.range.endColumn + 1
+      : chartTarget.range.startColumn;
+    const orientation = config.dataOrientation ?? (sourceInfo.isRowDirection ? 'Row' : 'Column');
 
-    chartBuilder = chartBuilder
-      .setPosition(range.startRow, chartColumn, 20, 20)
-      .setWidth(config.width ?? 560)
-      .setHeight(config.height ?? 360);
+    taskScopedLineCharts.create(chartTarget.worksheet.getSheetName?.() ?? chartTarget.worksheet.getSheetId(), {
+      sourceRange,
+      dataOrientation: orientation,
+      title: config.title?.trim() || config.chartLabel || 'Line chart',
+      xAxisTitle: config.xAxisTitle?.trim() ?? '',
+      yAxisTitle: config.yAxisTitle?.trim() ?? '',
+      legendPosition: config.legendPosition ?? 'right',
+      position: { row: chartTarget.range.startRow, column: chartColumn, offsetX: 20, offsetY: 20 },
+      width: config.width ?? 560,
+      height: config.height ?? 360,
+      context: {
+        useFirstColumnAsLabel: config.useFirstColumnAsLabel ?? true,
+        useFirstRowAsHeader: config.useFirstRowAsHeader ?? true,
+      },
+    }, sourceInfo.matrix);
 
-    chartBuilder = setChartOption(chartBuilder, 'title.content', title);
-    chartBuilder = setChartOption(chartBuilder, 'legend.position', config.legendPosition ?? 'right');
-    chartBuilder = setChartOption(chartBuilder, 'orient', effectiveDataOrientation);
+    return true;
+  }
 
-    if (chartBuilder.setTransposeRowsAndColumns) {
-      chartBuilder = chartBuilder.setTransposeRowsAndColumns(isRowDirection);
+  async function updateTaskScopedChart(chartId: string, config: TaskScopedLineChartUpdate) {
+    const current = taskScopedLineCharts.listAll().find((chart) => chart.id === chartId);
+    if (!current) throw new Error(`Chart was not found: ${chartId}`);
+    const worksheet = workbook.getSheetByName?.(current.sheet)
+      ?? getSelectionRangeTarget({ allowSingleRow: true })?.worksheet;
+    if (!worksheet) throw new Error(`Chart sheet was not found: ${current.sheet}`);
+    const sourceRange = config.sourceRange ?? current.sourceRange;
+    const sourceInfo = mergeChartSourceMatrixInfo(
+      splitChartSourceRanges(sourceRange).map((rangeA1) => readA1RangeValues(worksheet, rangeA1)),
+    );
+    taskScopedLineCharts.update(current.sheet, { id: chartId }, config, sourceInfo.matrix);
+    return true;
+  }
+
+  function deleteTaskScopedChart(chartId: string) {
+    const current = taskScopedLineCharts.listAll().find((chart) => chart.id === chartId);
+    return current ? taskScopedLineCharts.delete(current.sheet, { id: chartId }) : false;
+  }
+
+  function columnNameToIndex(columnName: string) {
+    return [...columnName].reduce((index, character) => index * 26 + character.charCodeAt(0) - 64, 0) - 1;
+  }
+
+  function parseRectangularA1Range(rangeA1: string) {
+    const match = /^([A-Z]+)([1-9]\d*):([A-Z]+)([1-9]\d*)$/i.exec(rangeA1.trim());
+    if (!match) throw new Error('Sparkline source must be one rectangular A1 range.');
+    const startColumn = columnNameToIndex(match[1]!.toUpperCase());
+    const endColumn = columnNameToIndex(match[3]!.toUpperCase());
+    const startRow = Number(match[2]) - 1;
+    const endRow = Number(match[4]) - 1;
+    if (endColumn < startColumn || endRow < startRow) {
+      throw new Error('Sparkline source range is reversed.');
     }
+    return { startColumn, endColumn, startRow, endRow };
+  }
 
-    if (xAxisTitle && chartBuilder.setXAxisTitle) {
-      chartBuilder = chartBuilder.setXAxisTitle(xAxisTitle);
+  async function applySelectionLineSparklines(config: LineSparklineConfig) {
+    const target = getSelectionRangeTarget({ allowSingleRow: true });
+    if (!target) return false;
+    if (target.range.startColumn !== target.range.endColumn) {
+      throw new Error('Select one target column for line sparklines.');
     }
-
-    if (yAxisTitle && chartBuilder.setYAxisTitle) {
-      chartBuilder = chartBuilder.setYAxisTitle(yAxisTitle);
+    const source = parseRectangularA1Range(config.sourceRange);
+    const targetRowCount = target.range.endRow - target.range.startRow + 1;
+    const sourceRowCount = source.endRow - source.startRow + 1;
+    if (sourceRowCount !== targetRowCount) {
+      throw new Error('Sparkline source and target rows must have matching counts.');
     }
+    const sheet = target.worksheet.getSheetName?.() ?? target.worksheet.getSheetId();
+    const sourceStartColumn = columnIndexToName(source.startColumn);
+    const sourceEndColumn = columnIndexToName(source.endColumn);
+    const targetColumn = columnIndexToName(target.range.startColumn);
 
-    const chartInfo = chartBuilder.build();
-    const insertedChart = await chartTarget.worksheet.insertChart(chartInfo);
-    const chartId = getChartId(insertedChart);
-
-    if (chartId) {
-      registerLogicalChartSourceRange(
-        chartId,
-        chartSource.logicalRangeA1,
-        chartSource.rangeA1,
-      );
-      await univerAPI.executeCommand(chartUpdateConfigCommandId, {
-        unitId: chartTarget.workbook.getId(),
-        chartModelId: chartId,
-        context: chartContext,
-      });
+    for (let offset = 0; offset < targetRowCount; offset += 1) {
+      const sourceRow = source.startRow + offset + 1;
+      const targetRow = target.range.startRow + offset + 1;
+      const targetCell = `${targetColumn}${targetRow}`;
+      taskScopedLineSparklines.set(sheet, targetCell, 'sourceRange', `${sourceStartColumn}${sourceRow}:${sourceEndColumn}${sourceRow}`);
+      taskScopedLineSparklines.set(sheet, targetCell, 'type', 'line');
     }
-
     return true;
   }
 
@@ -796,16 +655,18 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
     });
   }
 
-  function uniquePivotSheetName(baseName = 'Pivot Table') {
-    const suffix = Math.floor(Date.now() % 100_000).toString().padStart(5, '0');
-
-    return `${baseName} ${suffix}`;
-  }
-
-  function writePivotMatrix(worksheet: SpreadsheetWorksheet, matrix: (string | number)[][], startRow = 0, startColumn = 0) {
+  function writePivotMatrix(
+    worksheet: SpreadsheetWorksheet,
+    matrix: (string | number)[][],
+    startRow: number,
+    startColumn: number,
+    percentageCells: Set<string>,
+  ) {
     matrix.forEach((row, rowOffset) => {
       row.forEach((value, columnOffset) => {
-        worksheet.getRange(startRow + rowOffset, startColumn + columnOffset, 1, 1).setValue(value);
+        const target = worksheet.getRange(startRow + rowOffset, startColumn + columnOffset, 1, 1);
+        target.setValue(value);
+        if (percentageCells.has(`${rowOffset}:${columnOffset}`) && value !== '') target.setNumberFormat('0.00%');
       });
     });
   }
@@ -825,6 +686,21 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
 
     if (config.dataFields.length === 0) {
       return { ok: false, message: 'Add at least one field to Data Fields.' };
+    }
+
+    const destinationSheetName = config.destinationSheetName.trim();
+    if (!destinationSheetName) return { ok: false, message: 'Choose a destination sheet.' };
+    if (!Number.isInteger(config.destinationStartRow) || config.destinationStartRow < 0 ||
+      !Number.isInteger(config.destinationStartColumn) || config.destinationStartColumn < 0) {
+      return { ok: false, message: 'Destination cell must be a non-negative A1 position.' };
+    }
+
+    const outputWorksheet = config.destination === 'new-sheet'
+      ? (workbook.insertSheet?.(destinationSheetName) ?? null)
+      : (workbook.getSheetByName?.(destinationSheetName) ?? null);
+    if (!outputWorksheet) return { ok: false, message: `Destination sheet not found: ${destinationSheetName}` };
+    if (config.destinationStartRow >= outputWorksheet.getMaxRows() || config.destinationStartColumn >= outputWorksheet.getMaxColumns()) {
+      return { ok: false, message: 'Destination cell is outside the target sheet.' };
     }
 
     const dataRows = values.slice(1);
@@ -864,6 +740,7 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
         return columnName ? `${columnName} ${valueName}` : valueName;
       }),
     );
+    const percentageCells = new Set<string>();
     const matrix: (string | number)[][] = [
       [...rowHeaders, ...valueHeaders],
       ...rowGroups.map((rowGroup) => [
@@ -873,39 +750,57 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
             ? rowGroup.rows.filter((row) => fieldKey(row, columnFields).join('\u0001') === columnKey)
             : rowGroup.rows;
 
-          return dataFields.map((dataField) => aggregatePivotValues(
-            matchingRows.map((row) => row[dataField.fieldIndex]),
-            dataField.function,
-          ));
+          return dataFields.map((dataField, dataFieldIndex) => {
+            const aggregate = aggregatePivotValues(matchingRows.map((row) => row[dataField.fieldIndex]), dataField.function);
+            if (dataField.displayAs !== 'percentOfGrandTotal') return aggregate;
+            const grandTotal = aggregatePivotValues(dataRows.map((row) => row[dataField.fieldIndex]), dataField.function);
+            const matrixColumn = rowFields.length + columnGroups.findIndex(([key]) => key === columnKey) * dataFields.length + dataFieldIndex;
+            percentageCells.add(`${rowGroups.indexOf(rowGroup) + 1}:${matrixColumn}`);
+            return typeof aggregate === 'number' && typeof grandTotal === 'number' && Number.isFinite(grandTotal) && grandTotal !== 0
+              ? aggregate / grandTotal
+              : '';
+          });
         }),
       ]),
     ];
-
-    const outputSheetName = config.destination === 'new-sheet' ? uniquePivotSheetName() : sourceWorksheet.getSheetName?.();
-    const outputWorksheet = config.destination === 'new-sheet' && workbook.insertSheet
-      ? workbook.insertSheet(outputSheetName)
-      : sourceWorksheet;
-    const startRow = config.destination === 'new-sheet' ? 0 : range.startRow;
-    const startColumn = config.destination === 'new-sheet' ? 0 : Math.min(sourceWorksheet.getMaxColumns() - 1, range.endColumn + 2);
-
-    writePivotMatrix(outputWorksheet, matrix, startRow, startColumn);
-
-    return outputSheetName ? { ok: true, sheetName: outputSheetName } : { ok: true };
+    const startRow = config.destinationStartRow;
+    const startColumn = config.destinationStartColumn;
+    const endRow = startRow + matrix.length - 1;
+    const endColumn = startColumn + Math.max(...matrix.map((row) => row.length)) - 1;
+    if (endRow >= outputWorksheet.getMaxRows() || endColumn >= outputWorksheet.getMaxColumns()) {
+      return { ok: false, message: 'Pivot output does not fit in the target sheet.' };
+    }
+    for (let row = startRow; row <= endRow; row += 1) for (let column = startColumn; column <= endColumn; column += 1) {
+      const existingValue = outputWorksheet.getRange(row, column, 1, 1).getValue?.();
+      if (existingValue !== undefined && existingValue !== null && existingValue !== '') {
+        return { ok: false, message: 'Pivot output would overwrite existing cells.' };
+      }
+    }
+    writePivotMatrix(outputWorksheet, matrix, startRow, startColumn, percentageCells);
+    _registerPivotMeta({
+      sourceRange: sourceInfo.rangeA1, rowFields, columnFields,
+      dataFields: dataFields.map((field) => ({ ...field, displayAs: field.displayAs ?? 'value' })),
+      targetSheet: destinationSheetName, startRow, startColumn,
+    });
+    return { ok: true, sheetName: destinationSheetName };
   }
 
   async function applySelectionBarChart() {
     await applySelectionChart({
-      chartType: ChartTypeBits.Bar,
-      chartLabel: 'Bar Chart',
-      title: 'Bar Chart',
+      chartType: 'line',
+      chartLabel: 'Line Chart',
+      title: 'Line Chart',
     });
   }
 
   return {
     applySelectionBarChart,
     applySelectionChart,
+    applySelectionLineSparklines,
+    deleteTaskScopedChart,
     applySelectionDateFormat,
     applySelectionFilter,
+    applySelectionFreeze,
     applySelectionHeaderlessFilter,
     applySelectionFontFamily,
     applySelectionFontSize,
@@ -916,9 +811,13 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
     applySelectionPivotTable,
     applySelectionSort,
     applySelectionUnmerge,
+    applySelectionValidationList,
     columnIndexToName,
     getSelectionPivotSource,
     getSelectionRangeTarget,
+    getSelectionValidationList,
+    removeSelectionValidationList,
+    updateTaskScopedChart,
   };
 }
 
