@@ -70,7 +70,11 @@ class ContextManager:
         self._b: Browser | None = None
         self._contexts: dict[str, Context] = {}
 
-        with open(Path(__file__).parent / "_page_script.js", "rt") as fh:
+        with open(
+            Path(__file__).parent / "_page_script.js",
+            "rt",
+            encoding="utf-8",
+        ) as fh:
             self.page_script = fh.read()
 
     async def open(self) -> None:
