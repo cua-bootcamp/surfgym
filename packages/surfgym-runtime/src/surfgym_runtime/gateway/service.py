@@ -110,10 +110,21 @@ class Service:
             request.session_id, request.task_id
         )
 
+        if session_state.action_history and session_state.action_history[-1] in {"FAIL", "DONE"}:
+            raise InvalidRequest("Cannot submit an action after a terminal action.")
+
+        terminal_actions = [
+            action for action in request.actions if isinstance(action, (FailAction, DoneAction))
+        ]
+        if terminal_actions and len(request.actions) != 1:
+            raise InvalidRequest("Terminal action must be the only action in a request.")
+
         for action in request.actions:
             if isinstance(action, (FailAction, DoneAction)):
+                session_state.action_history.append(action.action_type)
                 continue
             self._execute(deadline, session_state.lease, action.to_commands())
+            session_state.action_history.append(action.action_type)
 
         (screenshot_b64, media_type) = self._screenshot(deadline, session_state.lease)
         session_state.append_frame(kind="action", image_b64=screenshot_b64, media_type=media_type)

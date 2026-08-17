@@ -18,12 +18,17 @@ def empty_trace() -> list[Frame]:
     return []
 
 
+def empty_action_history() -> list[str]:
+    return []
+
+
 @dataclass(frozen=True)
 class SessionState:
     task_id: str
     lease: Lease
     release_hooks: list[Hook]
     trace: list[Frame] = field(default_factory=empty_trace)
+    action_history: list[str] = field(default_factory=empty_action_history)
 
     def append_frame(
         self,
