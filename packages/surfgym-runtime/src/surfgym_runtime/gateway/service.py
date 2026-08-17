@@ -22,6 +22,7 @@ from surfgym_contracts.task import (
     Criteria,
     CriteriaEvaluation,
     Hook,
+    InfeasibleEvaluation,
     LLMJudgeEvaluation,
     Task,
     Website,
@@ -187,6 +188,14 @@ class Service:
         session_state: SessionState,
         deadline: Callable[[str], Deadline],
     ) -> float:
+        last_action = session_state.action_history[-1] if session_state.action_history else None
+
+        if isinstance(task.evaluation, InfeasibleEvaluation):
+            return 1.0 if last_action == "FAIL" else 0.0
+
+        if last_action == "FAIL":
+            return 0.0
+
         match task.evaluation:
             case CriteriaEvaluation():
                 response = self._observe(
