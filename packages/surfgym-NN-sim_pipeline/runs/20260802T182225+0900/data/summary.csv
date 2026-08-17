@@ -1,0 +1,1 @@
+model,domain,n_ours,cross_floor_median,lower_median,ours_median,upper_median,ours_max,ours_p90,ours_p95,ours_p99,auc_vs_lower,auc_vs_upper,n_eval_items,eval_max_sim_to_training,flag_threshold,n_flagged

@@ -1,0 +1,65 @@
+{
+  "run_id": "20260730T212423+0900",
+  "generated_at": "2026-07-30T21:46:56.602096+09:00",
+  "pipeline_version": "0.1.0",
+  "device": "cpu",
+  "domain_mapping": {
+    "gimp": "gimp",
+    "vlc": "vlc",
+    "travel-ad-hub": "chrome"
+  },
+  "domains_compared": [
+    "chrome",
+    "gimp",
+    "vlc"
+  ],
+  "models": {
+    "uae-large-v1": {
+      "name": "uae-large-v1",
+      "repo_id": "WhereIsAI/UAE-Large-V1",
+      "revision": "9c9b2c999b3350cfb3171ed429320668e39b00b8",
+      "backend": "sentence-transformers",
+      "pooling": "cls",
+      "query_prefix": "",
+      "trust_remote_code": false
+    },
+    "bge-large-en-v1.5": {
+      "name": "bge-large-en-v1.5",
+      "repo_id": "BAAI/bge-large-en-v1.5",
+      "revision": "d4aa6901d3a41ba39fb536a557fa166f842b0e09",
+      "backend": "sentence-transformers",
+      "pooling": "cls",
+      "query_prefix": "",
+      "trust_remote_code": false
+    },
+    "gte-large": {
+      "name": "gte-large",
+      "repo_id": "thenlper/gte-large",
+      "revision": "4bef63f39fcc5e2d6b0aae83089f307af4970164",
+      "backend": "sentence-transformers",
+      "pooling": "mean",
+      "query_prefix": "",
+      "trust_remote_code": false
+    }
+  },
+  "osworld_source": {
+    "repo": "https://github.com/xlang-ai/OSWorld.git",
+    "commit": "b7db4d8c85d9e95e0b1db44de5bec954cf37f0cf",
+    "vendored_extracted_at": "2026-07-29T18:35:16.297176+09:00"
+  },
+  "input_hashes": {
+    "surfgym_seeds": {
+      "gimp": "c4e496ff09a8b082c180a4dd8b4e47a7f0fc1817e41f6420a3230fb29dad0469",
+      "vlc": "6069511512c39c9f23ded0b2f710050f5473bf9515bf01c12b273ca11d790457",
+      "travel-ad-hub": "9331f55a34d648d8334a7ca90e98010967299ac87776ffa755c90c6efac9cd21"
+    },
+    "osworld_vendored": "71c6e0863686631ee85a0239344fdd96e1ad6a15ff8b52eef4b16f74dbed1b54",
+    "paraphrases": "5d9759dc6fe44701acf3b97f2722551172f340e17d392866541e3e1c61a73ba3"
+  },
+  "paraphrases_available": true,
+  "paraphrase_generation": {
+    "model": "claude-sonnet-5 (manual)",
+    "prompt_version": "v1-manual-1x",
+    "generated_at": "2026-07-30T01:53:17.223789+09:00"
+  }
+}

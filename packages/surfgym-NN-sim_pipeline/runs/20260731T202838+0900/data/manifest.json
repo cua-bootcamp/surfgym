@@ -1,0 +1,66 @@
+{
+  "run_id": "20260731T202838+0900",
+  "generated_at": "2026-07-31T20:52:43.493435+09:00",
+  "pipeline_version": "0.1.0",
+  "device": "cpu",
+  "domain_mapping": {
+    "gimp": "gimp",
+    "vlc": "vlc",
+    "travel-ad-hub": "chrome"
+  },
+  "domains_compared": [
+    "chrome",
+    "gimp",
+    "vlc"
+  ],
+  "models": {
+    "uae-large-v1": {
+      "name": "uae-large-v1",
+      "repo_id": "WhereIsAI/UAE-Large-V1",
+      "revision": "9c9b2c999b3350cfb3171ed429320668e39b00b8",
+      "backend": "sentence-transformers",
+      "pooling": "cls",
+      "query_prefix": "",
+      "trust_remote_code": false
+    },
+    "bge-large-en-v1.5": {
+      "name": "bge-large-en-v1.5",
+      "repo_id": "BAAI/bge-large-en-v1.5",
+      "revision": "d4aa6901d3a41ba39fb536a557fa166f842b0e09",
+      "backend": "sentence-transformers",
+      "pooling": "cls",
+      "query_prefix": "",
+      "trust_remote_code": false
+    },
+    "gte-large": {
+      "name": "gte-large",
+      "repo_id": "thenlper/gte-large",
+      "revision": "4bef63f39fcc5e2d6b0aae83089f307af4970164",
+      "backend": "sentence-transformers",
+      "pooling": "mean",
+      "query_prefix": "",
+      "trust_remote_code": false
+    }
+  },
+  "osworld_source": {
+    "repo": "https://github.com/xlang-ai/OSWorld.git",
+    "commit": "b7db4d8c85d9e95e0b1db44de5bec954cf37f0cf",
+    "vendored_extracted_at": "2026-07-29T09:35:16.297176+00:00"
+  },
+  "input_hashes": {
+    "surfgym_seeds": {
+      "gimp": "22068b9a526734e48d36cb50b28b20e9d2a2ab471c419ba629cdcfd600be1ac7",
+      "vlc": "ae6cb1f529b9dd5c9dcd98af149e019cc99a76f9914a78435e4e333ac23ffffb",
+      "travel-ad-hub": "c0c2bcfb5d540fdce783b184ad33ba304d93f3c7898abfd3084bea6345c7d768"
+    },
+    "osworld_vendored": "71c6e0863686631ee85a0239344fdd96e1ad6a15ff8b52eef4b16f74dbed1b54",
+    "paraphrases": "042f8fda5cd64bd4c9d18d27c9fb7dba8e473fe91f3cb52340c0b3f7069ee4bc"
+  },
+  "paraphrases_available": true,
+  "paraphrase_generation": {
+    "model": "gemini-3.6-flash",
+    "prompt_version": "v2-multi-5x",
+    "generated_at": "2026-07-31T17:08:17+09:00",
+    "variants_per_task": 5
+  }
+}
