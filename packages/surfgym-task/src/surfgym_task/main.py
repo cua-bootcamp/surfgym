@@ -14,6 +14,7 @@ from surfgym_task.seed import (
     LLMJudgeSeedTask,
     Profile,
 )
+from surfgym_task.web import DOCKER_FIXTURE_RELEASE_HOOK
 
 _DOCKER_FIXTURE_DOMAINS: frozenset[Domain] = frozenset(
     {
@@ -21,11 +22,6 @@ _DOCKER_FIXTURE_DOMAINS: frozenset[Domain] = frozenset(
         "vlc",
         "gimp",
     }
-)
-
-_DOCKER_RELEASE_HOOK = Hook(
-    timing="before",
-    script='window.surfgym.get({"$surfgym":{"type":"release"}})',
 )
 
 
@@ -56,7 +52,7 @@ def augment(seed_dir: Path, granularity: Granularity, profile: Profile):
                         website=[Website(url=seed.website)],
                         evaluation=seed.evaluation,
                         lifecycle_hooks=LifecycleHooks(
-                            release=[_DOCKER_RELEASE_HOOK]
+                            release=[DOCKER_FIXTURE_RELEASE_HOOK]
                             if seed.domain in _DOCKER_FIXTURE_DOMAINS
                             else [],
                         ),
@@ -78,7 +74,7 @@ def augment(seed_dir: Path, granularity: Granularity, profile: Profile):
                             ]
                             if seed.states
                             else [],
-                            release=[_DOCKER_RELEASE_HOOK]
+                            release=[DOCKER_FIXTURE_RELEASE_HOOK]
                             if seed.domain in _DOCKER_FIXTURE_DOMAINS
                             else [],
                         ),
@@ -117,7 +113,7 @@ def augment(seed_dir: Path, granularity: Granularity, profile: Profile):
                                 ]
                                 if profile == "SNAPSHOT"
                                 else [],
-                                release=[_DOCKER_RELEASE_HOOK]
+                                release=[DOCKER_FIXTURE_RELEASE_HOOK]
                                 if seed.domain in _DOCKER_FIXTURE_DOMAINS
                                 else [],
                             ),

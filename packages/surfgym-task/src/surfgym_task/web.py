@@ -11,24 +11,49 @@ WEB_STATE_RESET_HOOK = Hook(
     script="(async () => { await fetch('/api/state', { method: 'DELETE' }); })()",
 )
 
+DOCKER_FIXTURE_RELEASE_HOOK = Hook(
+    timing="before",
+    script='window.surfgym.get({"$surfgym":{"type":"release"}})',
+)
+
 
 def load_web_tasks(tasks_dir: Path) -> list[Task]:
+    return _load_tasks(tasks_dir, task_kind="web", release_hook=WEB_STATE_RESET_HOOK)
+
+
+def load_fixture_tasks(tasks_dir: Path) -> list[Task]:
+    return _load_tasks(
+        tasks_dir,
+        task_kind="fixture",
+        release_hook=DOCKER_FIXTURE_RELEASE_HOOK,
+    )
+
+
+def _load_tasks(tasks_dir: Path, *, task_kind: str, release_hook: Hook) -> list[Task]:
     task_paths = sorted(tasks_dir.glob("*.json"))
     if not task_paths:
-        raise FileNotFoundError(f"no web task json files found under {tasks_dir}")
+        raise FileNotFoundError(
+            f"no {task_kind} task json files found under {tasks_dir}"
+        )
 
     tasks: list[Task] = []
     for task_path in task_paths:
         try:
             payload: object = json.loads(task_path.read_text(encoding="utf-8"))
-            tasks.append(_normalize_web_task(payload))
+            tasks.append(_normalize_task(payload, release_hook=release_hook))
         except Exception as exc:
-            raise ValueError(f"invalid web task json {task_path}: {exc}") from exc
+            raise ValueError(
+                f"invalid {task_kind} task json {task_path}: {exc}"
+            ) from exc
 
     return tasks
 
 
 def _normalize_web_task(raw_payload: object) -> Task:
+    return _normalize_task(raw_payload, release_hook=WEB_STATE_RESET_HOOK)
+
+
+def _normalize_task(raw_payload: object, *, release_hook: Hook) -> Task:
     if not isinstance(raw_payload, Mapping):
         raise ValueError("web task payload must be an object")
 
@@ -41,8 +66,8 @@ def _normalize_web_task(raw_payload: object) -> Task:
 
     hooks = LifecycleHooks.model_validate(payload.get("lifecycle_hooks", {}))
     release_hooks = list(hooks.release)
-    if WEB_STATE_RESET_HOOK not in release_hooks:
-        release_hooks.append(WEB_STATE_RESET_HOOK)
+    if release_hook not in release_hooks:
+        release_hooks.append(release_hook)
     payload["lifecycle_hooks"] = hooks.model_copy(update={"release": release_hooks})
 
     return Task.model_validate(payload)
