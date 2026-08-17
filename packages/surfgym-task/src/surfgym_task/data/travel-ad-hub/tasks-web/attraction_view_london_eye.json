@@ -1,0 +1,23 @@
+{
+  "task_id": "attraction_view_london_eye",
+  "hash": "attraction_view_london_eye",
+  "instruction": "Find the London Eye attraction listing in London and open its detail page.",
+  "website": {
+    "base": "http://localhost:3200/attractions/searchresults.en-gb.html",
+    "param": {
+      "dest_id": "london",
+      "dest_name": "London"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "operator": "and",
+    "criteria": [
+      {
+        "target": "url",
+        "match": "contains",
+        "value": "/attractions/detail/attr-002"
+      }
+    ]
+  }
+}

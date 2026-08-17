@@ -1,0 +1,28 @@
+{
+  "task_id": "package_free_cancellation_filter",
+  "hash": "package_free_cancellation_filter",
+  "instruction": "I might change my plans — only show me packages with free cancellation.",
+  "website": {
+    "base": "http://localhost:3200/flight-hotel/search",
+    "param": {
+      "origin": "London",
+      "destination": "Barcelona",
+      "checkin": "2026-08-07",
+      "checkout": "2026-08-14",
+      "adults": "2",
+      "children": "0",
+      "rooms": "1"
+    }
+  },
+  "complexity": 1,
+  "evaluation": {
+    "operator": "and",
+    "criteria": [
+      {
+        "script": "(()=>{const l=[...document.querySelectorAll('label')].find(x=>x.textContent.trim()==='Free cancellation');return l?l.querySelector('input[type=checkbox]').checked:false;})()",
+        "value": true,
+        "match": "exact"
+      }
+    ]
+  }
+}

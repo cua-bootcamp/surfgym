@@ -1,0 +1,19 @@
+{
+  "task_id": "trips_signin_email",
+  "hash": "trips_signin_email",
+  "instruction": "Sign into the trips page using the email address alex.traveler@example.com.",
+  "website": {
+    "base": "http://localhost:3200/trips"
+  },
+  "complexity": 1,
+  "evaluation": {
+    "operator": "and",
+    "criteria": [
+      {
+        "script": "(async()=>{const r=await fetch('/api/state');const d=await r.json();const a=d.state && d.state.data && d.state.data.auth;return a && a.isAuthenticated===true && a.email;})()",
+        "value": "alex.traveler@example.com",
+        "match": "exact"
+      }
+    ]
+  }
+}

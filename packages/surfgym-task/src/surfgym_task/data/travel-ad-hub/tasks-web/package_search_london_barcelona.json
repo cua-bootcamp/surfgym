@@ -1,0 +1,24 @@
+{
+  "task_id": "package_search_london_barcelona",
+  "hash": "package_search_london_barcelona",
+  "instruction": "Search for a Flight + Hotel package from London to Barcelona.",
+  "website": {
+    "base": "http://localhost:3200/flight-hotel"
+  },
+  "complexity": 2,
+  "evaluation": {
+    "operator": "and",
+    "criteria": [
+      {
+        "target": "url",
+        "match": "contains",
+        "value": "origin=London"
+      },
+      {
+        "target": "url",
+        "match": "contains",
+        "value": "destination=Barcelona"
+      }
+    ]
+  }
+}
