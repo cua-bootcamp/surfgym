@@ -1,0 +1,25 @@
+[project]
+name = "surfgym-nn-sim-pipeline"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=1.26",
+]
+
+[project.optional-dependencies]
+models = [
+    "sentence-transformers>=3.0.0",
+    "model2vec>=0.3.0",
+]
+report = [
+    "matplotlib>=3.8",
+    "scipy>=1.11",  # gaussian_kde for the pooled ratio-density figure
+]
+paraphrase = [
+    "dotenv>=0.9.9",
+    "openai>=2.44.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.15,<0.12"]
+build-backend = "uv_build"

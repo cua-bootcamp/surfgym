@@ -26,6 +26,7 @@ surfgym-runtime = { workspace = true }
 surfgym-task = { workspace = true }
 surfgym-fixture = { workspace = true }
 surfgym-travel-ad-hub = { workspace = true }
+surfgym-nn-sim-pipeline = { workspace = true }
 
 [dependency-groups]
 dev = [
