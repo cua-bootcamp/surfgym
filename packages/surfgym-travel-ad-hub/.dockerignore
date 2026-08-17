@@ -1,0 +1,4 @@
+src/surfgym_travel_ad_hub/.next
+src/surfgym_travel_ad_hub/node_modules
+src/surfgym_travel_ad_hub/coverage
+src/surfgym_travel_ad_hub/*.log

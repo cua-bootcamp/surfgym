@@ -8,6 +8,7 @@ members = [
     "surfgym-fixture",
     "surfgym-runtime",
     "surfgym-task",
+    "surfgym-travel-ad-hub",
 ]
 
 [manifest.dependency-groups]
@@ -770,6 +771,11 @@ requires-dist = [{ name = "pydantic", specifier = ">=2.13.4" }]
 name = "surfgym-fixture"
 version = "0.1.0"
 source = { editable = "packages/surfgym-fixture" }
+
+[[package]]
+name = "surfgym-travel-ad-hub"
+version = "0.1.0"
+source = { editable = "packages/surfgym-travel-ad-hub" }
 
 [[package]]
 name = "surfgym-runtime"

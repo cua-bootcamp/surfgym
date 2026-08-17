@@ -1,0 +1,10 @@
+services:
+  travelhub:
+    build: .
+    ports:
+      - "3200:3000"
+    environment:
+      NODE_ENV: production
+      COOKIE_NAME: user_id
+      COOKIE_MAX_AGE: "2592000"
+      NEXT_PUBLIC_TASK052_AD_ENABLED: "false"
