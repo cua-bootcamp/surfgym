@@ -1,0 +1,24 @@
+{
+  "task_id": "gimp_convert_webp",
+  "hash": "gimp_convert_webp",
+  "instruction": "Could you convert this image to \".webp\" format and save the result as \"Seoul.webp\"?",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "Landscape-Seoul.jpg"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: 'Desktop/Seoul.webp', format: 'file_magic', offset: 0, length: 12, default: '' } ] }); return data[0]; }",
+        "value": "^52494646[0-9A-F]{8}57454250$",
+        "match": "regex"
+      }
+    ]
+  }
+}

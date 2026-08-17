@@ -1,0 +1,18 @@
+{
+  "task_id": "gimp_reduce_saturation",
+  "hash": "gimp_reduce_saturation",
+  "instruction": "Could you assist me in reducing the color saturation of my photo by -50 to give it a muted look?",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "Landscape-Swiss.jpg"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "task_id": "gimp_scriptfu_export",
+  "hash": "gimp_scriptfu_export",
+  "instruction": "Open the Script-Fu console and use it to flatten this image, then export the flattened result to the Desktop as fu.png.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "subject & background.xcf"
+    }
+  },
+  "complexity": 3,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: 'Desktop/fu.png', format: 'file_magic', offset: 0, length: 8, default: '' } ] }); return data[0]; }",
+        "value": "89504E470D0A1A0A",
+        "match": "exact"
+      }
+    ]
+  }
+}

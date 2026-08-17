@@ -1,0 +1,18 @@
+{
+  "task_id": "gimp_indexed_color_mode",
+  "hash": "gimp_indexed_color_mode",
+  "instruction": "Could you turn my image into Indexed color mode within GIMP?",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "Landscape-Nature.jpg"
+    }
+  },
+  "complexity": 1,
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

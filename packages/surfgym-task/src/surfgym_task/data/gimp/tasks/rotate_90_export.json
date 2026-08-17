@@ -1,0 +1,24 @@
+{
+  "task_id": "gimp_rotate_90_export",
+  "hash": "gimp_rotate_90_export",
+  "instruction": "Rotate this image 90 degrees clockwise and export the result to the Desktop as turned.png.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "rock.png"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: 'Desktop/turned.png', format: 'file_magic', offset: 16, length: 8, default: '' } ] }); return data[0]; }",
+        "value": "000002BC0000020D",
+        "match": "exact"
+      }
+    ]
+  }
+}

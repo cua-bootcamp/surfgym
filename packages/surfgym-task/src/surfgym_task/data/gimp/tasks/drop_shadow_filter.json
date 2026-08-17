@@ -1,0 +1,18 @@
+{
+  "task_id": "gimp_drop_shadow_filter",
+  "hash": "gimp_drop_shadow_filter",
+  "instruction": "Apply a drop shadow behind the subject layer so it looks like it's lifted off the background.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "subject & background.xcf"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

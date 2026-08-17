@@ -1,0 +1,15 @@
+{
+  "task_id": "gimp_hide_right_docks",
+  "hash": "gimp_hide_right_docks",
+  "instruction": "Could you help me hide the dockable panels on the right side of the screen in GIMP?",
+  "website": {
+    "base": "http://localhost:53001/gimp"
+  },
+  "complexity": 1,
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

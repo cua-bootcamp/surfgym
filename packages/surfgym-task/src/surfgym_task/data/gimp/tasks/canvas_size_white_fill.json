@@ -1,0 +1,30 @@
+{
+  "task_id": "gimp_canvas_size_white_fill",
+  "hash": "gimp_canvas_size_white_fill",
+  "instruction": "Enlarge the canvas, fill the new margin with white, and resize all layers to match.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "Centered-subject.jpg"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/GIMP/2.10/gimprc', format: 'sexpr', key: 'image-resize-fill-type', default: 'transparent' } ] }); return data[0]; }",
+        "value": "white",
+        "match": "exact"
+      },
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/GIMP/2.10/gimprc', format: 'sexpr', key: 'image-resize-layer-set', default: 'none' } ] }); return data[0]; }",
+        "value": "all",
+        "match": "exact"
+      }
+    ]
+  }
+}

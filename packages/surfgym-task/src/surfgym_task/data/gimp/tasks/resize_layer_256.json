@@ -1,0 +1,18 @@
+{
+  "task_id": "gimp_resize_layer_256",
+  "hash": "gimp_resize_layer_256",
+  "instruction": "I need the subject layer resized — set its height to 256 pixels and keep the aspect ratio locked.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "subject & background2.xcf"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

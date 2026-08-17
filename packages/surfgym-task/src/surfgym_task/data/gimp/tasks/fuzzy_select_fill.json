@@ -1,0 +1,18 @@
+{
+  "task_id": "gimp_fuzzy_select_fill",
+  "hash": "gimp_fuzzy_select_fill",
+  "instruction": "Use the Fuzzy Select tool to click the background and select it, then fill that selection with solid blue.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "moon & background.xcf"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "task_id": "gimp_alpha_channel_erase",
+  "hash": "gimp_alpha_channel_erase",
+  "instruction": "Add an alpha channel to this layer, then erase a chunk of the corner so the checkerboard transparency shows through.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "subject.jpg"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "task_id": "gimp_red_background_layer",
+  "hash": "gimp_red_background_layer",
+  "instruction": "The background layer needs to be solid red — fill it in, but don't touch the object layer sitting on top.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "subject & background.xcf"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

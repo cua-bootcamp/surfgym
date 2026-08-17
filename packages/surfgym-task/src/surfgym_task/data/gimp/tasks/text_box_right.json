@@ -1,0 +1,18 @@
+{
+  "task_id": "gimp_text_box_right",
+  "hash": "gimp_text_box_right",
+  "instruction": "The text box sits too close to the image layer underneath and I keep grabbing the wrong one by mistake — move the text box over toward the right edge.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "text & backgound.xcf"
+    }
+  },
+  "complexity": 2,
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

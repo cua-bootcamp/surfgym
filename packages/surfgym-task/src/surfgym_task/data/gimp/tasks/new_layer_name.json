@@ -1,0 +1,24 @@
+{
+  "task_id": "gimp_new_layer_name",
+  "hash": "gimp_new_layer_name",
+  "instruction": "Add a new layer for me and give it the name 'new layer'.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "white background.xcf"
+    }
+  },
+  "complexity": 1,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/GIMP/2.10/gimprc', format: 'sexpr', key: 'layer-new-name', default: '\"Layer\"' } ] }); return data[0]; }",
+        "value": "\"new layer\"",
+        "match": "exact"
+      }
+    ]
+  }
+}

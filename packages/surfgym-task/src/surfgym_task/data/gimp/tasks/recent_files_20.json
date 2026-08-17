@@ -1,0 +1,21 @@
+{
+  "task_id": "gimp_recent_files_20",
+  "hash": "gimp_recent_files_20",
+  "instruction": "I want GIMP to remember 20 recent files instead of the current 10.",
+  "website": {
+    "base": "http://localhost:53001/gimp"
+  },
+  "complexity": 1,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/GIMP/2.10/gimprc', format: 'sexpr', key: 'last-opened-size', default: '10' } ] }); return data[0]; }",
+        "value": "20",
+        "match": "exact"
+      }
+    ]
+  }
+}

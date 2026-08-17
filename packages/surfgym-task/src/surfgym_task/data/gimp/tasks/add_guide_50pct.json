@@ -1,0 +1,18 @@
+{
+  "task_id": "gimp_add_guide_50pct",
+  "hash": "gimp_add_guide_50pct",
+  "instruction": "Add a horizontal guide line at the vertical center of the image, so I can line things up against it.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "Landscape-Nature.jpg"
+    }
+  },
+  "complexity": 1,
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

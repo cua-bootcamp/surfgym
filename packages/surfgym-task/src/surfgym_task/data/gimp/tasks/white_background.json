@@ -1,0 +1,18 @@
+{
+  "task_id": "gimp_white_background",
+  "hash": "gimp_white_background",
+  "instruction": "Could you replace the background with a solid white background, keeping the subject intact?",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "Centered-subject.jpg"
+    }
+  },
+  "complexity": 3,
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

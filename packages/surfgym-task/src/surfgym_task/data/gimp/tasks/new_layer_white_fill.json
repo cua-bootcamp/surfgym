@@ -1,0 +1,24 @@
+{
+  "task_id": "gimp_new_layer_white_fill",
+  "hash": "gimp_new_layer_white_fill",
+  "instruction": "Make a new layer that comes in filled with white instead of transparent.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "white background.xcf"
+    }
+  },
+  "complexity": 1,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/GIMP/2.10/gimprc', format: 'sexpr', key: 'layer-new-fill-type', default: 'transparent' } ] }); return data[0]; }",
+        "value": "white",
+        "match": "exact"
+      }
+    ]
+  }
+}

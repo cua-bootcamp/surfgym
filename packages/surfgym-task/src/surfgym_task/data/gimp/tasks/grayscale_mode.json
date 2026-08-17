@@ -1,0 +1,18 @@
+{
+  "task_id": "gimp_grayscale_mode",
+  "hash": "gimp_grayscale_mode",
+  "instruction": "Could you help me set the image to Grayscale mode?",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "Landscape-Seoul.jpg"
+    }
+  },
+  "complexity": 1,
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

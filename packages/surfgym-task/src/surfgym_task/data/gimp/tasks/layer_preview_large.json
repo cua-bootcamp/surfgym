@@ -1,0 +1,21 @@
+{
+  "task_id": "gimp_layer_preview_large",
+  "hash": "gimp_layer_preview_large",
+  "instruction": "The layer thumbnails are too small to make out — set them to large.",
+  "website": {
+    "base": "http://localhost:53001/gimp"
+  },
+  "complexity": 1,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: '.config/GIMP/2.10/gimprc', format: 'sexpr', key: 'layer-preview-size', default: 'medium' } ] }); return data[0]; }",
+        "value": "large",
+        "match": "exact"
+      }
+    ]
+  }
+}

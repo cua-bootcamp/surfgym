@@ -1,0 +1,18 @@
+{
+  "task_id": "gimp_toggle_multi_window_mode",
+  "hash": "gimp_toggle_multi_window_mode",
+  "instruction": "Switch GIMP out of single-window mode into the classic separate-windows layout.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "Dark.jpg"
+    }
+  },
+  "complexity": 1,
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

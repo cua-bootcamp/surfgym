@@ -1,0 +1,24 @@
+{
+  "task_id": "gimp_export_pdf",
+  "hash": "gimp_export_pdf",
+  "instruction": "Export this image as a PDF named sheet.pdf on the Desktop.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "Landscape-Seoul.jpg"
+    }
+  },
+  "complexity": 1,
+  "evaluation": {
+    "mode": "criteria",
+    "operator": "and",
+    "criteria": [
+      {
+        "mode": "console",
+        "script": "async () => { const data = await window.surfgym.get_configs({ criteria: [ { file: 'Desktop/sheet.pdf', format: 'file_magic', offset: 0, length: 4, default: '' } ] }); return data[0]; }",
+        "value": "25504446",
+        "match": "exact"
+      }
+    ]
+  }
+}
