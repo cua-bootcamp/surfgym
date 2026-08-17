@@ -116,10 +116,17 @@ class LLMJudgeEvaluation(FrozenBaseModel):
     max_frames: int = Field(default=12, ge=2)
 
 
+class InfeasibleEvaluation(FrozenBaseModel):
+    """Evaluate whether an infeasible task was explicitly failed."""
+
+    mode: Literal["infeasible"] = "infeasible"
+
+
 Evaluation = Annotated[
     Union[
         Annotated[CriteriaEvaluation, Tag("criteria")],
         Annotated[LLMJudgeEvaluation, Tag("llm")],
+        Annotated[InfeasibleEvaluation, Tag("infeasible")],
     ],
     Discriminator(infer_evaluation()),
 ]
