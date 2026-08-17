@@ -1,0 +1,178 @@
+{
+  "instruction": "Create two pivot tables from the Summer Sales source data. Put both outputs on Sheet2, beginning at A1 and A8. Keep the two pivot outputs separate.",
+  "website": "http://localhost:3000/spreadsheet",
+  "states": [
+    [
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A1",
+          "property": "value"
+        },
+        "value": "Region"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B1",
+          "property": "value"
+        },
+        "value": "Sales"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A2",
+          "property": "value"
+        },
+        "value": "North"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B2",
+          "property": "value"
+        },
+        "value": 20
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A3",
+          "property": "value"
+        },
+        "value": "South"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B3",
+          "property": "value"
+        },
+        "value": 30
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A4",
+          "property": "value"
+        },
+        "value": "North"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B4",
+          "property": "value"
+        },
+        "value": 50
+      },
+      {
+        "spec": {
+          "kind": "sheet",
+          "sheet": "Sheet2",
+          "property": "name"
+        },
+        "value": "Sheet2"
+      }
+    ],
+    [
+      {
+        "spec": {
+          "kind": "pivot",
+          "sheet": "Sheet2",
+          "startRow": 0,
+          "startColumn": 0,
+          "property": "definition"
+        },
+        "value": {
+          "sourceRange": "A1:B4",
+          "rowFields": [
+            0
+          ],
+          "columnFields": [],
+          "dataFields": [
+            {
+              "fieldIndex": 1,
+              "function": "sum",
+              "displayAs": "value"
+            }
+          ],
+          "targetSheet": "Sheet2",
+          "startRow": 0,
+          "startColumn": 0
+        }
+      },
+      {
+        "spec": {
+          "kind": "pivot",
+          "sheet": "Sheet2",
+          "startRow": 7,
+          "startColumn": 0,
+          "property": "definition"
+        },
+        "value": {
+          "sourceRange": "A1:B4",
+          "rowFields": [
+            0
+          ],
+          "columnFields": [],
+          "dataFields": [
+            {
+              "fieldIndex": 1,
+              "function": "sum",
+              "displayAs": "value"
+            }
+          ],
+          "targetSheet": "Sheet2",
+          "startRow": 7,
+          "startColumn": 0
+        }
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "B2",
+          "property": "value"
+        },
+        "value": 70
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "B3",
+          "property": "value"
+        },
+        "value": 30
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "B9",
+          "property": "value"
+        },
+        "value": 70
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet2",
+          "cell": "B10",
+          "property": "value"
+        },
+        "value": 30
+      }
+    ]
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "instruction": "Make Times New Roman the document default font. Preserve the document text and any direct text formatting.",
+  "website": "http://localhost:3000/word",
+  "domain": "word",
+  "states": [
+    [
+      {
+        "spec": {
+          "kind": "body",
+          "property": "text"
+        },
+        "value": "Sealand submission notes\nKeep the findings concise and retain direct formatting where it is already present."
+      }
+    ],
+    [
+      {
+        "spec": {
+          "kind": "document",
+          "property": "defaultFontFamily"
+        },
+        "value": "Times New Roman"
+      }
+    ]
+  ]
+}

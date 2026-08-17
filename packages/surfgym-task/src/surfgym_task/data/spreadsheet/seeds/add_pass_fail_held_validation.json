@@ -1,0 +1,116 @@
+{
+  "instruction": "In the Pass/Fail/Held column, add a list data validation for D2:D29 with the choices Pass, Fail, and Held. Keep the order data unchanged.",
+  "website": "http://localhost:3000/spreadsheet",
+  "states": [
+    [
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A1",
+          "property": "value"
+        },
+        "value": "Order ID"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B1",
+          "property": "value"
+        },
+        "value": "Customer"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C1",
+          "property": "value"
+        },
+        "value": "Amount"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D1",
+          "property": "value"
+        },
+        "value": "Pass/Fail/Held"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A2",
+          "property": "value"
+        },
+        "value": "ORD-1001"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B2",
+          "property": "value"
+        },
+        "value": "Northwind"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C2",
+          "property": "value"
+        },
+        "value": 125
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A29",
+          "property": "value"
+        },
+        "value": "ORD-1028"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B29",
+          "property": "value"
+        },
+        "value": "Contoso"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C29",
+          "property": "value"
+        },
+        "value": 275
+      }
+    ],
+    [
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "D2:D29",
+          "property": "validationList"
+        },
+        "value": {
+          "values": [
+            "Pass",
+            "Fail",
+            "Held"
+          ],
+          "allowBlank": true
+        }
+      }
+    ]
+  ]
+}

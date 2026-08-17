@@ -1,0 +1,80 @@
+{
+  "instruction": "Freeze the first row and the first two columns so the A1:B1 header area stays visible while you work in the sheet.",
+  "website": "http://localhost:3000/spreadsheet",
+  "states": [
+    [
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A1",
+          "property": "value"
+        },
+        "value": "Record"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B1",
+          "property": "value"
+        },
+        "value": "Status"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C1",
+          "property": "value"
+        },
+        "value": "Owner"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "A2",
+          "property": "value"
+        },
+        "value": "REC-101"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "B2",
+          "property": "value"
+        },
+        "value": "Open"
+      },
+      {
+        "spec": {
+          "kind": "cell",
+          "sheet": "Sheet1",
+          "cell": "C2",
+          "property": "value"
+        },
+        "value": "Mina"
+      }
+    ],
+    [
+      {
+        "spec": {
+          "kind": "sheet",
+          "sheet": "Sheet1",
+          "property": "frozenRows"
+        },
+        "value": 1
+      },
+      {
+        "spec": {
+          "kind": "sheet",
+          "sheet": "Sheet1",
+          "property": "frozenColumns"
+        },
+        "value": 2
+      }
+    ]
+  ]
+}

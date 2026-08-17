@@ -1,0 +1,80 @@
+{
+  "instruction": "Format this three-paragraph essay with single spacing for the introduction, double spacing for the body, and one-and-a-half spacing for the conclusion. Set the whole essay to 12 pt.",
+  "website": "http://localhost:3000/word",
+  "domain": "word",
+  "states": [
+    [
+      {
+        "spec": {
+          "kind": "body",
+          "property": "text"
+        },
+        "value": "Introduction: Define the purpose of the report and name the decision it will support.\nBody: Present the evidence in a clear sequence, distinguishing observed facts from recommendations.\nConclusion: Restate the decision and identify the next accountable action."
+      },
+      {
+        "spec": {
+          "kind": "paragraph",
+          "index": 0,
+          "property": "lineSpacing"
+        },
+        "value": 1
+      },
+      {
+        "spec": {
+          "kind": "paragraph",
+          "index": 1,
+          "property": "lineSpacing"
+        },
+        "value": 1
+      },
+      {
+        "spec": {
+          "kind": "paragraph",
+          "index": 2,
+          "property": "lineSpacing"
+        },
+        "value": 1
+      },
+      {
+        "spec": {
+          "kind": "document",
+          "property": "fontSizeOnly"
+        },
+        "value": 10
+      }
+    ],
+    [
+      {
+        "spec": {
+          "kind": "paragraph",
+          "index": 0,
+          "property": "lineSpacing"
+        },
+        "value": 1
+      },
+      {
+        "spec": {
+          "kind": "paragraph",
+          "index": 1,
+          "property": "lineSpacing"
+        },
+        "value": 2
+      },
+      {
+        "spec": {
+          "kind": "paragraph",
+          "index": 2,
+          "property": "lineSpacing"
+        },
+        "value": 1.5
+      },
+      {
+        "spec": {
+          "kind": "document",
+          "property": "fontSizeOnly"
+        },
+        "value": 12
+      }
+    ]
+  ]
+}
