@@ -25,7 +25,6 @@
     "@univerjs/preset-sheets-core": "0.21.1",
     "@univerjs/preset-sheets-drawing": "0.21.1",
     "@univerjs/preset-sheets-filter": "0.21.1",
-    "@univerjs/preset-sheets-sort": "0.21.1",
-    "@univerjs/presets": "0.21.1"
+    "@univerjs/preset-sheets-sort": "0.21.1"
   }
 }

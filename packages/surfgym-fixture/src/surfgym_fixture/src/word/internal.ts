@@ -2,7 +2,7 @@ import {
   IUniverInstanceService,
   SectionType,
   UniverInstanceType
-} from "@univerjs/presets";
+} from "@univerjs/core";
 import {
   DocRenderController,
   DocSkeletonManagerService,
@@ -363,24 +363,42 @@ export function _getDocumentMeta(): AnyRecord {
   return {
     style: {
       fontSizeOnly: readUniformBodyFontSize()
-    }
+    },
+    defaultFontFamily: readDocumentDefaultFont()
   };
 }
 
 export function _setDocumentMeta(path: Path[], value: Value): AnyRecord {
-  if (path.length !== 2 || path[0] !== "style" || path[1] !== "fontSizeOnly") {
-    throw new Error(`Unsupported document path: ${path.map(String).join(".")}`);
+  const snapshot = getMutableSnapshot();
+
+  if (path.length === 1 && path[0] === "defaultFontFamily") {
+    const fontFamily = normalizeDefaultFontFamily(value);
+    const documentStyle = isRecordValue(snapshot.documentStyle) ? snapshot.documentStyle : {};
+    const textStyle = isRecordValue(documentStyle.textStyle) ? documentStyle.textStyle : {};
+
+    snapshot.documentStyle = {
+      ...documentStyle,
+      textStyle: {
+        ...textStyle,
+        ff: fontFamily
+      }
+    };
+    resetDocument(snapshot);
+    return _getDocumentMeta();
   }
 
-  const snapshot = getMutableSnapshot();
-  const body = ensureBody(snapshot);
-  const dataStream = String(body.dataStream ?? "\r\n");
-  mergeTextStyle(body, dataStream, 0, dataStream.length, {
-    fs: normalizeNumber(value, "fontSizeOnly")
-  });
+  if (path.length === 2 && path[0] === "style" && path[1] === "fontSizeOnly") {
+    const body = ensureBody(snapshot);
+    const dataStream = String(body.dataStream ?? "\r\n");
+    mergeTextStyle(body, dataStream, 0, dataStream.length, {
+      fs: normalizeNumber(value, "fontSizeOnly")
+    });
 
-  resetDocument(snapshot);
-  return _getDocumentMeta();
+    resetDocument(snapshot);
+    return _getDocumentMeta();
+  }
+
+  throw new Error(`Unsupported document path: ${path.map(String).join(".")}`);
 }
 
 const normalizeTargetForDataStream = (target: string): string => target.replaceAll("\n", "\r");
@@ -1273,12 +1291,29 @@ function buildTextMeta(style: AnyRecord): AnyRecord {
     italic: style.it === 1,
     underline: isRecordValue(style.ul) ? style.ul.s === 1 : false,
     strikethrough: isRecordValue(style.st) ? style.st.s === 1 : false,
-    fontFamily: typeof style.ff === "string" ? style.ff : null,
+    fontFamily: typeof style.ff === "string" ? style.ff : readDocumentDefaultFont(),
     fontSize: readNumber(style.fs, null),
     color: readColor(style.cl),
     backgroundColor: readBackgroundColor(style.bg),
     verticalAlign: verticalAlignToString(style.va)
   };
+}
+
+function readDocumentDefaultFont(): string | undefined {
+  const snapshot = getReadableSnapshot();
+  const documentStyle = isRecordValue(snapshot.documentStyle) ? snapshot.documentStyle : {};
+  const textStyle = isRecordValue(documentStyle.textStyle) ? documentStyle.textStyle : {};
+  const fontFamily = textStyle.ff;
+
+  return typeof fontFamily === "string" && fontFamily.trim() !== "" ? fontFamily : undefined;
+}
+
+function normalizeDefaultFontFamily(value: Value): string {
+  if (typeof value !== "string" || value.trim() === "") {
+    throw new Error(`Invalid defaultFontFamily: ${String(value)}`);
+  }
+
+  return value.trim();
 }
 
 function styleForTextPath(path: Path[], value: Value): AnyRecord {

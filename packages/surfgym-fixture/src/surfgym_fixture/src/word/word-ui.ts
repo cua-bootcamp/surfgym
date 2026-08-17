@@ -9,6 +9,8 @@ type WordToolbarOptions = {
   getLineSpacing?: () => number;
   setLineSpacing?: (lineSpacing: number) => void;
   insertTable?: (rows: number, columns: number) => void;
+  getDocumentDefaultFont?: () => string | undefined;
+  setDocumentDefaultFont?: (fontFamily: string) => void;
   univerAPI?: WordToolbarApi;
 };
 
@@ -935,10 +937,14 @@ export function renderWordMockToolbar({
   getLineSpacing,
   setLineSpacing,
   insertTable,
+  getDocumentDefaultFont,
+  setDocumentDefaultFont,
   univerAPI,
 }: WordToolbarOptions) {
   const container = document.getElementById(containerId);
   if (!container || container.dataset.mockToolbarRendered === 'true') return;
+
+  const documentDefaultFont = getDocumentDefaultFont?.();
 
   const canClickAction = (action: WordToolbarAction | undefined) =>
     Boolean(action && (action !== 'lineSpacing' || setLineSpacing));
@@ -1003,6 +1009,16 @@ export function renderWordMockToolbar({
                 .join('')}
             </select>
           </div>
+          <div class="word-mock-toolbar-group">
+            <label class="word-mock-document-default-font-label">
+              Document default font
+              <select class="word-mock-select word-mock-select-document-default-font" data-word-document-default-font aria-label="Document default font">
+                ${wordFontFamilyOptions
+                  .map((fontFamily) => `<option value="${fontFamily}" ${fontFamily === documentDefaultFont ? 'selected' : ''}>${fontFamily}</option>`)
+                  .join('')}
+              </select>
+            </label>
+          </div>
           ${wordFormattingGroups
             .map(
               (group) => `
@@ -1063,6 +1079,12 @@ export function renderWordMockToolbar({
     executeToolbarCommand(univerAPI, wordCommandIds.fontSize, {
       value: Number(event.currentTarget.value),
     });
+  });
+
+  container.querySelector<HTMLSelectElement>('[data-word-document-default-font]')?.addEventListener('change', (event) => {
+    if (!(event.currentTarget instanceof HTMLSelectElement) || !setDocumentDefaultFont) return;
+
+    setDocumentDefaultFont(event.currentTarget.value);
   });
 
   container.querySelectorAll<HTMLButtonElement>('[data-word-command]').forEach((button) => {

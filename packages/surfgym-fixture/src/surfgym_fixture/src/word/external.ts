@@ -48,7 +48,8 @@ const FOOTER_PATHS = {
 } as const;
 
 const DOCUMENT_PATHS = {
-  fontSizeOnly: ["style", "fontSizeOnly"]
+  fontSizeOnly: ["style", "fontSizeOnly"],
+  defaultFontFamily: ["defaultFontFamily"]
 } as const;
 
 type BodySpec = {
