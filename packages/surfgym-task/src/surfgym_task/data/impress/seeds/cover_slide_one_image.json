@@ -1,0 +1,12 @@
+{
+  "instruction": "Turn the image on Slide 1 into a centered cover image that fills the entire page while preserving its proportion.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",1],["image",1]],"path":["layout","cover"]},"value":true}]
+  ]
+}

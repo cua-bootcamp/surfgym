@@ -1,25 +1,13 @@
 {
   "instruction": "On slide 16, underline only the \"Dark red 2\" swatch label and increase its font size to 22 pt.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
   "states": [
-    [
-      {
-        "query": [
-          ["slide", 16],
-          ["textbox", "Dark red 2"]
-        ],
-        "path": ["style", "underline"],
-        "value": true
-      }
-    ],
-    [
-      {
-        "query": [
-          ["slide", 16],
-          ["textbox", "Dark red 2"]
-        ],
-        "path": ["style", "fontSize"],
-        "value": 22
-      }
-    ]
+    [{"spec":{"query":[["slide",16],["textbox","Dark red 2"]],"path":["style","underline"]},"value":true}],
+    [{"spec":{"query":[["slide",16],["textbox","Dark red 2"]],"path":["style","fontSize"]},"value":22}]
   ]
 }

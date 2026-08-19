@@ -1,5 +1,9 @@
 {
   "instruction": "Please change GIMP's icon theme from Symbolic to Legacy.",
-  "website": "http://localhost:53001/gimp",
-  "states": [[{ "spec": { "file": ".config/GIMP/2.10/gimprc", "format": "sexpr", "key": "icon-theme", "default": "\"Symbolic\"" }, "value": "\"Legacy\"" }]]
+  "website": {
+    "base": "http://localhost:53001/gimp"
+  },
+  "states": [
+    [{"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"icon-theme","default":"\"Symbolic\""},"value":"\"Legacy\""}]
+  ]
 }

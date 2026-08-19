@@ -1,25 +1,13 @@
 {
   "instruction": "On slide 4, underline the title \"Concept Map\" and change its font color to green. Use exactly green.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
   "states": [
-    [
-      {
-        "query": [
-          ["slide", 4],
-          ["textbox", "Concept Map"]
-        ],
-        "path": ["style", "underline"],
-        "value": true
-      }
-    ],
-    [
-      {
-        "query": [
-          ["slide", 4],
-          ["textbox", "Concept Map"]
-        ],
-        "path": ["style", "color"],
-        "value": "green"
-      }
-    ]
+    [{"spec":{"query":[["slide",4],["textbox","Concept Map"]],"path":["style","underline"]},"value":true}],
+    [{"spec":{"query":[["slide",4],["textbox","Concept Map"]],"path":["style","color"]},"value":"green"}]
   ]
 }

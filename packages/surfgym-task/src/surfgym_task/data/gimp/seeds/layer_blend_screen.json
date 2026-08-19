@@ -1,0 +1,15 @@
+{
+  "instruction": "Change the top layer's blend mode to Screen so it lightens what's underneath.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "text & backgound.xcf"
+    }
+  },
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

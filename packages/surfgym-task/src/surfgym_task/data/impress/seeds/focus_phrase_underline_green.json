@@ -1,25 +1,13 @@
 {
   "instruction": "On slide 14, underline the first text box and change its font color to green. Use exactly green.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
   "states": [
-    [
-      {
-        "query": [
-          ["slide", 14],
-          ["textbox", "FOCUS PHRASE"]
-        ],
-        "path": ["style", "underline"],
-        "value": true
-      }
-    ],
-    [
-      {
-        "query": [
-          ["slide", 14],
-          ["textbox", "FOCUS PHRASE"]
-        ],
-        "path": ["style", "color"],
-        "value": "green"
-      }
-    ]
+    [{"spec":{"query":[["slide",14],["textbox","FOCUS PHRASE"]],"path":["style","underline"]},"value":true}],
+    [{"spec":{"query":[["slide",14],["textbox","FOCUS PHRASE"]],"path":["style","color"]},"value":"green"}]
   ]
 }

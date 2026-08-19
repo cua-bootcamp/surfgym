@@ -1,0 +1,12 @@
+{
+  "instruction": "Add the Dissolve transition to slide 1.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",1]],"path":["transition","type"]},"value":"dissolve"}]
+  ]
+}

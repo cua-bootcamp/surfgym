@@ -1,0 +1,12 @@
+{
+  "instruction": "Export this image as a Photoshop file named artwork.psd on the Desktop.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "Centered-subject.jpg"
+    }
+  },
+  "states": [
+    [{"spec":{"file":"Desktop/artwork.psd","format":"file_magic","offset":0,"length":4,"default":""},"value":"38425053"}]
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "instruction": "Give the photograph slide a yellow background and rename the title on Slide 2 to Let's start.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",3]],"path":["background","color"]},"value":"yellow"}],
+    [{"spec":{"query":[["slide",2],["textboxIndex",1]],"path":["style","text"]},"value":"Let's start"}]
+  ]
+}

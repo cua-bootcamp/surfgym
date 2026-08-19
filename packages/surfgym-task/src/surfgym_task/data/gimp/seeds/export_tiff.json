@@ -1,0 +1,12 @@
+{
+  "instruction": "Export this image as a TIFF named scan.tiff on the Desktop.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "High contrast.jpg"
+    }
+  },
+  "states": [
+    [{"spec":{"file":"Desktop/scan.tiff","format":"file_magic","offset":0,"length":4,"default":""},"value":"^(49492A00|4D4D002A)$","match":"regex"}]
+  ]
+}

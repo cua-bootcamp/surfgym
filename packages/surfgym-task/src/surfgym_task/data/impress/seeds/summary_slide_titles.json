@@ -1,0 +1,12 @@
+{
+  "instruction": "Create a summary slide that lists these presentation topics: Building Better Outlines, Planning with intent, and Review and refine.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "2.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",1]],"path":["slides","summaryTitles"]},"value":["Building Better Outlines","Planning with intent","Review and refine"]}]
+  ]
+}

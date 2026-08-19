@@ -1,0 +1,12 @@
+{
+  "instruction": "On Slide 2, rename the title Online Shopping and retain the specified title styling.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",2],["textboxIndex",1]],"path":["style","text"]},"value":"Online Shopping"},{"spec":{"query":[["slide",2],["textboxIndex",1]],"path":["style","copyFromPreviousTitle"]},"value":true}]
+  ]
+}

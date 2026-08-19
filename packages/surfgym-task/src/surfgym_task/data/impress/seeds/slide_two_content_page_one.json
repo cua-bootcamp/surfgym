@@ -1,0 +1,12 @@
+{
+  "instruction": "Put Page 1 in the Slide 2 content textbox.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",2],["textboxIndex",2]],"path":["style","text"]},"value":"Page 1"}]
+  ]
+}

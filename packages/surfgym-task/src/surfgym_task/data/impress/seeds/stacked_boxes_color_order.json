@@ -1,0 +1,14 @@
+{
+  "instruction": "On slide 12, work down the three stacked boxes and set their text color to yellow, then red, then green, from top to bottom. Use exactly these named colors, no near-matches.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",12],["textbox","TOP BOX\nSet this text first."]],"path":["style","color"]},"value":"yellow"}],
+    [{"spec":{"query":[["slide",12],["textbox","MIDDLE BOX\nSet this text second."]],"path":["style","color"]},"value":"red"}],
+    [{"spec":{"query":[["slide",12],["textbox","BOTTOM BOX\nSet this text third."]],"path":["style","color"]},"value":"green"}]
+  ]
+}

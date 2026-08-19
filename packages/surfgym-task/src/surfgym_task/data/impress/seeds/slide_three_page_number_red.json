@@ -1,0 +1,13 @@
+{
+  "instruction": "On slide 3, make the native page number red.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx",
+      "setup_operations": "[{\"query\":[[\"slide\",3]],\"path\":[\"slideNumber\",\"color\"],\"value\":\"black\"}]"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",3]],"path":["slideNumber","color"]},"value":"red"}]
+  ]
+}

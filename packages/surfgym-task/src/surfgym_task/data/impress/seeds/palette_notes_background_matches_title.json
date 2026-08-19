@@ -1,0 +1,13 @@
+{
+  "instruction": "On slide 16, change the 'Navy title' label to purple, then make the slide's background the same purple.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",16],["textbox","Navy title"]],"path":["style","color"]},"value":"purple"}],
+    [{"spec":{"query":[["slide",16]],"path":["background","color"]},"value":"purple"}]
+  ]
+}

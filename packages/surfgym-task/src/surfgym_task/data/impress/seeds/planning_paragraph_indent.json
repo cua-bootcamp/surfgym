@@ -1,0 +1,12 @@
+{
+  "instruction": "On slide 2, indent the paragraph beginning 'Planning does not have to be formal.' by 1.5 cm.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",2],["textbox","Planning does not have to be formal. A simple list, concept map, or one-page scratch outline can help writers see which parts are strong and which parts still need evidence."]],"path":["paragraph","indentCm"]},"value":1.5}]
+  ]
+}

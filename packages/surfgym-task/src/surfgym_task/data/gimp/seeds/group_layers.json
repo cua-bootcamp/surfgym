@@ -1,0 +1,15 @@
+{
+  "instruction": "Select both layers and group them together into a single layer group.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "subject & background2.xcf"
+    }
+  },
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

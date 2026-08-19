@@ -1,0 +1,14 @@
+{
+  "instruction": "On slide 21, change the paragraph alignment so the box labeled LEFT ALIGNED becomes right-aligned, the box labeled CENTER ALIGNED becomes left-aligned, and the box labeled RIGHT ALIGNED becomes center-aligned.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",21],["textbox","LEFT ALIGNED\nThis text begins from the left edge."]],"path":["style","horizontalAlign"]},"value":"right"}],
+    [{"spec":{"query":[["slide",21],["textbox","CENTER ALIGNED\nThis text sits in the middle."]],"path":["style","horizontalAlign"]},"value":"left"}],
+    [{"spec":{"query":[["slide",21],["textbox","RIGHT ALIGNED\nThis text ends on the right edge."]],"path":["style","horizontalAlign"]},"value":"middle"}]
+  ]
+}

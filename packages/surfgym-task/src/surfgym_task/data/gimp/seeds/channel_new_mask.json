@@ -1,0 +1,12 @@
+{
+  "instruction": "Create a new channel and name it Mask.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "subject & background.xcf"
+    }
+  },
+  "states": [
+    [{"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"channel-new-name","default":"\"Channel\""},"value":"\"Mask\""}]
+  ]
+}

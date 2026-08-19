@@ -1,77 +1,15 @@
 {
   "instruction": "On slide 9, make all four audience cards bold and change their font size to 12 pt.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
   "states": [
-    [
-      {
-        "query": [
-          ["slide", 9],
-          ["textbox", "Reader knowledge\nWhat can you assume?"]
-        ],
-        "path": ["style", "bold"],
-        "value": true
-      },
-      {
-        "query": [
-          ["slide", 9],
-          ["textbox", "Reader knowledge\nWhat can you assume?"]
-        ],
-        "path": ["style", "fontSize"],
-        "value": 12
-      }
-    ],
-    [
-      {
-        "query": [
-          ["slide", 9],
-          ["textbox", "Reader values\nWhat concerns matter most?"]
-        ],
-        "path": ["style", "bold"],
-        "value": true
-      },
-      {
-        "query": [
-          ["slide", 9],
-          ["textbox", "Reader values\nWhat concerns matter most?"]
-        ],
-        "path": ["style", "fontSize"],
-        "value": 12
-      }
-    ],
-    [
-      {
-        "query": [
-          ["slide", 9],
-          ["textbox", "Purpose\nInform, persuade, analyze, or reflect?"]
-        ],
-        "path": ["style", "bold"],
-        "value": true
-      },
-      {
-        "query": [
-          ["slide", 9],
-          ["textbox", "Purpose\nInform, persuade, analyze, or reflect?"]
-        ],
-        "path": ["style", "fontSize"],
-        "value": 12
-      }
-    ],
-    [
-      {
-        "query": [
-          ["slide", 9],
-          ["textbox", "Tone\nHow formal should the voice be?"]
-        ],
-        "path": ["style", "bold"],
-        "value": true
-      },
-      {
-        "query": [
-          ["slide", 9],
-          ["textbox", "Tone\nHow formal should the voice be?"]
-        ],
-        "path": ["style", "fontSize"],
-        "value": 12
-      }
-    ]
+    [{"spec":{"query":[["slide",9],["textbox","Reader knowledge\nWhat can you assume?"]],"path":["style","bold"]},"value":true},{"spec":{"query":[["slide",9],["textbox","Reader knowledge\nWhat can you assume?"]],"path":["style","fontSize"]},"value":12}],
+    [{"spec":{"query":[["slide",9],["textbox","Reader values\nWhat concerns matter most?"]],"path":["style","bold"]},"value":true},{"spec":{"query":[["slide",9],["textbox","Reader values\nWhat concerns matter most?"]],"path":["style","fontSize"]},"value":12}],
+    [{"spec":{"query":[["slide",9],["textbox","Purpose\nInform, persuade, analyze, or reflect?"]],"path":["style","bold"]},"value":true},{"spec":{"query":[["slide",9],["textbox","Purpose\nInform, persuade, analyze, or reflect?"]],"path":["style","fontSize"]},"value":12}],
+    [{"spec":{"query":[["slide",9],["textbox","Tone\nHow formal should the voice be?"]],"path":["style","bold"]},"value":true},{"spec":{"query":[["slide",9],["textbox","Tone\nHow formal should the voice be?"]],"path":["style","fontSize"]},"value":12}]
   ]
 }

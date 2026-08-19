@@ -1,85 +1,19 @@
 {
   "instruction": "On slide 13, change the font of all eight checklist cards to Liberation Sans Narrow, but do not change the footer.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
   "states": [
-    [
-      {
-        "query": [
-          ["slide", 13],
-          ["textbox", "Title names the focus"]
-        ],
-        "path": ["style", "fontFamily"],
-        "value": "Liberation Sans Narrow"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["slide", 13],
-          ["textbox", "Evidence is cited"]
-        ],
-        "path": ["style", "fontFamily"],
-        "value": "Liberation Sans Narrow"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["slide", 13],
-          ["textbox", "Intro sets context"]
-        ],
-        "path": ["style", "fontFamily"],
-        "value": "Liberation Sans Narrow"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["slide", 13],
-          ["textbox", "Analysis explains why"]
-        ],
-        "path": ["style", "fontFamily"],
-        "value": "Liberation Sans Narrow"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["slide", 13],
-          ["textbox", "Thesis makes a claim"]
-        ],
-        "path": ["style", "fontFamily"],
-        "value": "Liberation Sans Narrow"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["slide", 13],
-          ["textbox", "Transitions guide readers"]
-        ],
-        "path": ["style", "fontFamily"],
-        "value": "Liberation Sans Narrow"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["slide", 13],
-          ["textbox", "Paragraph order is clear"]
-        ],
-        "path": ["style", "fontFamily"],
-        "value": "Liberation Sans Narrow"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["slide", 13],
-          ["textbox", "Conclusion looks forward"]
-        ],
-        "path": ["style", "fontFamily"],
-        "value": "Liberation Sans Narrow"
-      }
-    ]
+    [{"spec":{"query":[["slide",13],["textbox","Title names the focus"]],"path":["style","fontFamily"]},"value":"Liberation Sans Narrow"}],
+    [{"spec":{"query":[["slide",13],["textbox","Evidence is cited"]],"path":["style","fontFamily"]},"value":"Liberation Sans Narrow"}],
+    [{"spec":{"query":[["slide",13],["textbox","Intro sets context"]],"path":["style","fontFamily"]},"value":"Liberation Sans Narrow"}],
+    [{"spec":{"query":[["slide",13],["textbox","Analysis explains why"]],"path":["style","fontFamily"]},"value":"Liberation Sans Narrow"}],
+    [{"spec":{"query":[["slide",13],["textbox","Thesis makes a claim"]],"path":["style","fontFamily"]},"value":"Liberation Sans Narrow"}],
+    [{"spec":{"query":[["slide",13],["textbox","Transitions guide readers"]],"path":["style","fontFamily"]},"value":"Liberation Sans Narrow"}],
+    [{"spec":{"query":[["slide",13],["textbox","Paragraph order is clear"]],"path":["style","fontFamily"]},"value":"Liberation Sans Narrow"}],
+    [{"spec":{"query":[["slide",13],["textbox","Conclusion looks forward"]],"path":["style","fontFamily"]},"value":"Liberation Sans Narrow"}]
   ]
 }

@@ -1,0 +1,12 @@
+{
+  "instruction": "Make a new layer that comes in filled with white instead of transparent.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "white background.xcf"
+    }
+  },
+  "states": [
+    [{"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"layer-new-fill-type","default":"transparent"},"value":"white"}]
+  ]
+}

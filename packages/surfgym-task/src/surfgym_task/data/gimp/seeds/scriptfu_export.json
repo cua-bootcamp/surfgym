@@ -1,0 +1,12 @@
+{
+  "instruction": "Open the Script-Fu console and use it to flatten this image, then export the flattened result to the Desktop as fu.png.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "subject & background.xcf"
+    }
+  },
+  "states": [
+    [{"spec":{"file":"Desktop/fu.png","format":"file_magic","offset":0,"length":8,"default":""},"value":"89504E470D0A1A0A"}]
+  ]
+}

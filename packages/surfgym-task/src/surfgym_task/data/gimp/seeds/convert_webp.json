@@ -1,5 +1,12 @@
 {
   "instruction": "Could you convert this image to \".webp\" format and save the result as \"Seoul.webp\"?",
-  "website": { "base": "http://localhost:53001/gimp", "param": { "setup_file": "Landscape-Seoul.jpg" } },
-  "states": [[{ "spec": { "file": "Seoul.webp", "format": "file_magic", "offset": 0, "length": 12, "default": "" }, "value": "^52494646[0-9A-F]{8}57454250$", "match": "regex" }]]
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "Landscape-Seoul.jpg"
+    }
+  },
+  "states": [
+    [{"spec":{"file":"Desktop/Seoul.webp","format":"file_magic","offset":0,"length":12,"default":""},"value":"^52494646[0-9A-F]{8}57454250$","match":"regex"}]
+  ]
 }

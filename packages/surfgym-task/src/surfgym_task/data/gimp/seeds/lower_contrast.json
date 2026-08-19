@@ -1,5 +1,15 @@
 {
-  "instruction": "I'd like to soften the picture — could you assist me in lowering the contrast?",
-  "website": { "base": "http://localhost:53001/gimp", "param": { "setup_file": "High contrast.jpg" } },
-  "evaluation": { "mode": "llm", "model": "gpt-5.4-mini", "image_detail": "high", "max_frames": 12 }
+  "instruction": "The picture looks too harsh — dial back the contrast a bit for me.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "High contrast.jpg"
+    }
+  },
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
 }

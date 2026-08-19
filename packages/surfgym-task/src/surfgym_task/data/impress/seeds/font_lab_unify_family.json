@@ -1,0 +1,17 @@
+{
+  "instruction": "On slide 15, without selecting each sample individually, change the font of all six labeled text boxes to Verdana.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",15],["textbox","Liberation Sans\nPlain workshop note: revise topic sentences first."]],"path":["style","fontFamily"]},"value":"Verdana"}],
+    [{"spec":{"query":[["slide",15],["textbox","Liberation Sans Narrow\nCondensed sample: useful when space is tight."]],"path":["style","fontFamily"]},"value":"Verdana"}],
+    [{"spec":{"query":[["slide",15],["textbox","Times New Roman\nSerif sample: formal reflection language."]],"path":["style","fontFamily"]},"value":"Verdana"}],
+    [{"spec":{"query":[["slide",15],["textbox","Arial\nCommon sans sample: simple and readable."]],"path":["style","fontFamily"]},"value":"Verdana"}],
+    [{"spec":{"query":[["slide",15],["textbox","Microsoft JhengHei\nMultilingual sample: Happy Family / 練習文字"]],"path":["style","fontFamily"]},"value":"Verdana"}],
+    [{"spec":{"query":[["slide",15],["textbox","Liberation Serif\nQuotation sample: evidence should support analysis."]],"path":["style","fontFamily"]},"value":"Verdana"}]
+  ]
+}

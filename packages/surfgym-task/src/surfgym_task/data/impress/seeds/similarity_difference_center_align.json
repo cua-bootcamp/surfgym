@@ -1,25 +1,13 @@
 {
   "instruction": "On slide 11, center-align both the \"Similarity\" and \"Difference\" headings.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
   "states": [
-    [
-      {
-        "query": [
-          ["slide", 11],
-          ["textbox", "Similarity"]
-        ],
-        "path": ["style", "horizontalAlign"],
-        "value": "middle"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["slide", 11],
-          ["textbox", "Difference"]
-        ],
-        "path": ["style", "horizontalAlign"],
-        "value": "middle"
-      }
-    ]
+    [{"spec":{"query":[["slide",11],["textbox","Similarity"]],"path":["style","horizontalAlign"]},"value":"middle"}],
+    [{"spec":{"query":[["slide",11],["textbox","Difference"]],"path":["style","horizontalAlign"]},"value":"middle"}]
   ]
 }

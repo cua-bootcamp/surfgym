@@ -1,0 +1,9 @@
+{
+  "instruction": "Change the pointer so it shows only a crosshair, with no tool icon.",
+  "website": {
+    "base": "http://localhost:53001/gimp"
+  },
+  "states": [
+    [{"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"cursor-mode","default":"tool-crosshair"},"value":"crosshair"}]
+  ]
+}

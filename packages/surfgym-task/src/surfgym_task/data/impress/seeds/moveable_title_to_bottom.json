@@ -1,0 +1,12 @@
+{
+  "instruction": "On slide 17, move the heading 'Moveable title practice' to the bottom of the slide.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",17],["textbox","Moveable title practice"]],"path":["layout","verticalRegion"]},"value":"bottom"}]
+  ]
+}

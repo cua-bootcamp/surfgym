@@ -1,5 +1,15 @@
 {
   "instruction": "Could you replace the background with a solid white background, keeping the subject intact?",
-  "website": { "base": "http://localhost:53001/gimp", "param": { "setup_file": "Centered-subject.jpg" } },
-  "evaluation": { "mode": "llm", "model": "gpt-5.4-mini", "image_detail": "high", "max_frames": 12 }
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "Centered-subject.jpg"
+    }
+  },
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
 }

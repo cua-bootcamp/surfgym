@@ -1,0 +1,12 @@
+{
+  "instruction": "Set the picture height to 20 cm on Slide 3 and every text box to 40 pt on Slide 6.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",3],["image",1]],"path":["layout","heightCm"]},"value":20.0},{"spec":{"query":[["slide",6]],"path":["slideText","fontSize"]},"value":40}]
+  ]
+}

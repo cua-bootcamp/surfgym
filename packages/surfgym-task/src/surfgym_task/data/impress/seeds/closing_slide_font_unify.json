@@ -1,0 +1,16 @@
+{
+  "instruction": "On the last slide, unify every text box's font to Georgia.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",24],["textbox","Closing Reflection"]],"path":["style","fontFamily"]},"value":"Georgia"}],
+    [{"spec":{"query":[["slide",24],["textbox","Clarify the claim"]],"path":["style","fontFamily"]},"value":"Georgia"}],
+    [{"spec":{"query":[["slide",24],["textbox","Reorder evidence"]],"path":["style","fontFamily"]},"value":"Georgia"}],
+    [{"spec":{"query":[["slide",24],["textbox","Strengthen transitions"]],"path":["style","fontFamily"]},"value":"Georgia"}],
+    [{"spec":{"query":[["slide",24],["textbox","Thank you"]],"path":["style","fontFamily"]},"value":"Georgia"}]
+  ]
+}

@@ -1,25 +1,13 @@
 {
   "instruction": "On slide 3, change the small label \"workspace cue\" to orange and make it bold.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
   "states": [
-    [
-      {
-        "query": [
-          ["slide", 3],
-          ["textbox", "workspace cue"]
-        ],
-        "path": ["style", "color"],
-        "value": "orange"
-      }
-    ],
-    [
-      {
-        "query": [
-          ["slide", 3],
-          ["textbox", "workspace cue"]
-        ],
-        "path": ["style", "bold"],
-        "value": true
-      }
-    ]
+    [{"spec":{"query":[["slide",3],["textbox","workspace cue"]],"path":["style","color"]},"value":"orange"}],
+    [{"spec":{"query":[["slide",3],["textbox","workspace cue"]],"path":["style","bold"]},"value":true}]
   ]
 }

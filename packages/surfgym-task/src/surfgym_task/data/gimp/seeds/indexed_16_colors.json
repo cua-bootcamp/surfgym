@@ -1,0 +1,12 @@
+{
+  "instruction": "Convert to indexed color, capped at 16 colors.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "Landscape-Swiss.jpg"
+    }
+  },
+  "states": [
+    [{"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"image-convert-indexed-max-colors","default":"256"},"value":"16"}]
+  ]
+}

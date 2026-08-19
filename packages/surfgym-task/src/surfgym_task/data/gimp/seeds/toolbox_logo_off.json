@@ -1,0 +1,9 @@
+{
+  "instruction": "That GIMP logo sitting in the empty part of the toolbox is wasted space for me — get rid of it.",
+  "website": {
+    "base": "http://localhost:53001/gimp"
+  },
+  "states": [
+    [{"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"toolbox-wilber","default":"yes"},"value":"no"}]
+  ]
+}

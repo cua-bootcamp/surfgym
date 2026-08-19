@@ -1,0 +1,12 @@
+{
+  "instruction": "Give Slide 2 the right-aligned title, Note.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",2],["textboxIndex",1]],"path":["style","text"]},"value":"Note"},{"spec":{"query":[["slide",2],["textboxIndex",1]],"path":["style","horizontalAlign"]},"value":"right"}]
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "instruction": "On slide 1, create a four-column table and set its first row to T1, T2, T3, and T4.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",1]],"path":["table","create"]},"value":{"rows":2,"columns":4}},{"spec":{"query":[["slide",1],["table",1]],"path":["table","cellText",0,0]},"value":"T1"},{"spec":{"query":[["slide",1],["table",1]],"path":["table","cellText",0,1]},"value":"T2"},{"spec":{"query":[["slide",1],["table",1]],"path":["table","cellText",0,2]},"value":"T3"},{"spec":{"query":[["slide",1],["table",1]],"path":["table","cellText",0,3]},"value":"T4"}]
+  ]
+}

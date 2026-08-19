@@ -1,0 +1,12 @@
+{
+  "instruction": "On slide 1, format 'Building Better Outlines' as a bulleted paragraph.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",1],["textbox","Building Better Outlines"]],"path":["paragraph","bullet"]},"value":true}]
+  ]
+}

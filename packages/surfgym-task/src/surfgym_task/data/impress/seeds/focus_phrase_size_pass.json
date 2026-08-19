@@ -1,0 +1,13 @@
+{
+  "instruction": "On slide 14, set FOCUS PHRASE to 40 pt while the second text box on that slide becomes 18 pt.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",14],["textbox","FOCUS PHRASE"]],"path":["style","fontSize"]},"value":40}],
+    [{"spec":{"query":[["slide",14],["textbox","Use this second text box for size, color, alignment, or font family changes."]],"path":["style","fontSize"]},"value":18}]
+  ]
+}

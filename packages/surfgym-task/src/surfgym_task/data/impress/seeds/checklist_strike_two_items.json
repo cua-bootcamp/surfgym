@@ -1,0 +1,13 @@
+{
+  "instruction": "On slide 13, add a strike-through to the first two checklist items, 'Title names the focus' and 'Intro sets context', to mark them done.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",13],["textbox","Title names the focus"]],"path":["style","strikethrough"]},"value":true}],
+    [{"spec":{"query":[["slide",13],["textbox","Intro sets context"]],"path":["style","strikethrough"]},"value":true}]
+  ]
+}

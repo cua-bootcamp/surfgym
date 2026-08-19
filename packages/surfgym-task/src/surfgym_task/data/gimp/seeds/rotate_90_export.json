@@ -1,0 +1,12 @@
+{
+  "instruction": "Rotate this image 90 degrees clockwise and export the result to the Desktop as turned.png.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "rock.png"
+    }
+  },
+  "states": [
+    [{"spec":{"file":"Desktop/turned.png","format":"file_magic","offset":16,"length":8,"default":""},"value":"000002BC0000020D"}]
+  ]
+}

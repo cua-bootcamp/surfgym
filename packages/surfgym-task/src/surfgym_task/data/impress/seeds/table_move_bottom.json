@@ -1,0 +1,12 @@
+{
+  "instruction": "On slide 1, create a table and move it to the bottom region of the slide.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",1]],"path":["table","create"]},"value":{"rows":2,"columns":2}},{"spec":{"query":[["slide",1],["table",1]],"path":["layout","verticalRegion"]},"value":"bottom"}]
+  ]
+}

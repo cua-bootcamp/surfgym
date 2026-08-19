@@ -1,31 +1,13 @@
 {
   "instruction": "On slide 5, make the text inside the \"Revision check\" box 24 pt and center-aligned.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
   "states": [
-    [
-      {
-        "query": [
-          ["slide", 5],
-          [
-            "textbox",
-            "Revision check\nCan every paragraph explain how it supports the thesis?"
-          ]
-        ],
-        "path": ["style", "fontSize"],
-        "value": 24
-      }
-    ],
-    [
-      {
-        "query": [
-          ["slide", 5],
-          [
-            "textbox",
-            "Revision check\nCan every paragraph explain how it supports the thesis?"
-          ]
-        ],
-        "path": ["style", "horizontalAlign"],
-        "value": "middle"
-      }
-    ]
+    [{"spec":{"query":[["slide",5],["textbox","Revision check\nCan every paragraph explain how it supports the thesis?"]],"path":["style","fontSize"]},"value":24}],
+    [{"spec":{"query":[["slide",5],["textbox","Revision check\nCan every paragraph explain how it supports the thesis?"]],"path":["style","horizontalAlign"]},"value":"middle"}]
   ]
 }

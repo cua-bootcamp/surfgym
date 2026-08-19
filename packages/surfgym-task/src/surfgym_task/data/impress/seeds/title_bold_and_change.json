@@ -1,25 +1,13 @@
 {
   "instruction": "On slide 2, make the title \"Why plan before drafting?\" bold and change its font color to purple. Use exactly purple.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
   "states": [
-    [
-      {
-        "query": [
-          ["slide", 2],
-          ["textbox", "Why plan before drafting?"]
-        ],
-        "path": ["style", "bold"],
-        "value": true
-      }
-    ],
-    [
-      {
-        "query": [
-          ["slide", 2],
-          ["textbox", "Why plan before drafting?"]
-        ],
-        "path": ["style", "color"],
-        "value": "purple"
-      }
-    ]
+    [{"spec":{"query":[["slide",2],["textbox","Why plan before drafting?"]],"path":["style","bold"]},"value":true}],
+    [{"spec":{"query":[["slide",2],["textbox","Why plan before drafting?"]],"path":["style","color"]},"value":"purple"}]
   ]
 }

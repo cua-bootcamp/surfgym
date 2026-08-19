@@ -1,0 +1,12 @@
+{
+  "instruction": "Export this image as a GIF named anim.gif on the Desktop.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "Landscape-Nature.jpg"
+    }
+  },
+  "states": [
+    [{"spec":{"file":"Desktop/anim.gif","format":"file_magic","offset":0,"length":4,"default":""},"value":"47494638"}]
+  ]
+}

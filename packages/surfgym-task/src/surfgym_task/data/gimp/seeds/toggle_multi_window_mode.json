@@ -1,0 +1,15 @@
+{
+  "instruction": "Switch GIMP out of single-window mode into the classic separate-windows layout.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "Dark.jpg"
+    }
+  },
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

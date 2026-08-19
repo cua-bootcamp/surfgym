@@ -1,5 +1,12 @@
 {
   "instruction": "Could you help me hide the dockable panels on the right side of the screen in GIMP?",
-  "website": "http://localhost:53001/gimp",
-  "evaluation": { "mode": "llm", "model": "gpt-5.4-mini", "image_detail": "high", "max_frames": 12 }
+  "website": {
+    "base": "http://localhost:53001/gimp"
+  },
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
 }

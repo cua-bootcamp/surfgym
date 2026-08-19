@@ -1,0 +1,9 @@
+{
+  "instruction": "I want GIMP to remember 20 recent files instead of the current 10.",
+  "website": {
+    "base": "http://localhost:53001/gimp"
+  },
+  "states": [
+    [{"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"last-opened-size","default":"10"},"value":"20"}]
+  ]
+}

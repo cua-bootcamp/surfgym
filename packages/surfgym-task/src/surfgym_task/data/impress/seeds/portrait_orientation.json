@@ -1,0 +1,12 @@
+{
+  "instruction": "Set the presentation page orientation to portrait.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",1]],"path":["slides","orientation"]},"value":"portrait"}]
+  ]
+}

@@ -1,5 +1,15 @@
 {
-  "instruction": "Could you fill the background layer with red color, leaving the object layer as is?",
-  "website": { "base": "http://localhost:53001/gimp", "param": { "setup_file": "subject & background.xcf" } },
-  "evaluation": { "mode": "llm", "model": "gpt-5.4-mini", "image_detail": "high", "max_frames": 12 }
+  "instruction": "The background layer needs to be solid red — fill it in, but don't touch the object layer sitting on top.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "param": {
+      "setup_file": "subject & background.xcf"
+    }
+  },
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
 }

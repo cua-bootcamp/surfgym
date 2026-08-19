@@ -1,0 +1,12 @@
+{
+  "instruction": "Disable the Presenter Console so presentations use only one screen.",
+  "website": {
+    "base": "http://localhost:53001/impress",
+    "param": {
+      "setup_file": "1.pptx"
+    }
+  },
+  "states": [
+    [{"spec":{"query":[["slide",1]],"path":["config","presenterConsoleEnabled"]},"value":false}]
+  ]
+}
