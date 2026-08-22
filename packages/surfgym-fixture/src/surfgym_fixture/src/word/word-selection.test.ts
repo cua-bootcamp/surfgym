@@ -25,6 +25,7 @@ describe("paragraph selection tracking", () => {
     });
 
     expect(onCommandExecuted).toHaveBeenCalledOnce();
+    expect(tracker.getActiveTextRange()).toEqual({ startOffset: 7, endOffset: 7 });
     expect(tracker.getSelectedParagraphIndexes(threeParagraphSnapshot)).toEqual([1]);
 
     const setAtom = vi.fn();
@@ -52,5 +53,23 @@ describe("paragraph selection tracking", () => {
     });
 
     expect(tracker.getSelectedParagraphIndexes(threeParagraphSnapshot)).toEqual([1, 2]);
+  });
+
+  it("clears a stale range when the native selection command is malformed", () => {
+    let listener: ((event: unknown) => void) | undefined;
+    const tracker = createParagraphSelectionTracker({
+      onCommandExecuted: (nextListener) => {
+        listener = nextListener;
+      },
+    });
+
+    listener?.({
+      id: "doc.operation.set-selections",
+      params: { ranges: [{ startOffset: 2, endOffset: 2, isActive: true }] },
+    });
+    expect(tracker.getActiveTextRange()).toEqual({ startOffset: 2, endOffset: 2 });
+
+    listener?.({ id: "doc.operation.set-selections", params: { ranges: [{}] } });
+    expect(tracker.getActiveTextRange()).toBeUndefined();
   });
 });

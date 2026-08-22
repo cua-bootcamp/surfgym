@@ -13,6 +13,12 @@ import {
   _setTableMeta,
   _setTextMeta
 } from "./internal";
+import {
+  getTaskScopedWordImageRequest,
+  getTaskScopedWordPageNumberRequest,
+  getTaskScopedWordReferenceHistory,
+  getTaskScopedWordTabStopRequest,
+} from "./surfgym-word-interactions";
 
 const BODY_PATHS = {
   text: ["text"],
@@ -49,7 +55,8 @@ const FOOTER_PATHS = {
 
 const DOCUMENT_PATHS = {
   fontSizeOnly: ["style", "fontSizeOnly"],
-  defaultFontFamily: ["defaultFontFamily"]
+  defaultFontFamily: ["defaultFontFamily"],
+  pdfExportRequest: ["pdfExportRequest"]
 } as const;
 
 type BodySpec = {
@@ -86,7 +93,28 @@ type DocumentSpec = {
   property: keyof typeof DOCUMENT_PATHS;
 };
 
-export type WordSpec = BodySpec | TextSpec | ParagraphSpec | TableSpec | FooterSpec | DocumentSpec;
+type PageNumberRequestSpec = {
+  kind: "pageNumber";
+  property: "request";
+};
+
+type TabStopRequestSpec = {
+  kind: "tabStop";
+  property: "request";
+};
+
+type ImageRequestSpec = {
+  kind: "image";
+  property: "request";
+};
+
+type ReferenceHistorySpec = {
+  kind: "reference";
+  property: "history";
+};
+
+export type WordSpec = BodySpec | TextSpec | ParagraphSpec | TableSpec | FooterSpec | DocumentSpec |
+  PageNumberRequestSpec | TabStopRequestSpec | ImageRequestSpec | ReferenceHistorySpec;
 
 export type WordStateAtom = {
   spec: WordSpec;
@@ -119,6 +147,18 @@ export function get(spec: WordSpec): unknown {
       return readPath(_getFooterMeta(), resolvePath(FOOTER_PATHS, spec.property, spec.kind));
     case "document":
       return readPath(_getDocumentMeta(), resolvePath(DOCUMENT_PATHS, spec.property, spec.kind));
+    case "pageNumber":
+      assertInteractionRequestProperty(spec);
+      return getTaskScopedWordPageNumberRequest();
+    case "tabStop":
+      assertInteractionRequestProperty(spec);
+      return getTaskScopedWordTabStopRequest();
+    case "image":
+      assertInteractionRequestProperty(spec);
+      return getTaskScopedWordImageRequest();
+    case "reference":
+      assertInteractionRequestProperty(spec);
+      return getTaskScopedWordReferenceHistory();
   }
 
   throw unsupportedSpec(spec);
@@ -150,9 +190,21 @@ export function set(spec: WordSpec, value: Value) {
       return _setFooterMeta(resolvePath(FOOTER_PATHS, spec.property, spec.kind), value);
     case "document":
       return _setDocumentMeta(resolvePath(DOCUMENT_PATHS, spec.property, spec.kind), value);
+    case "pageNumber":
+    case "tabStop":
+    case "image":
+    case "reference":
+      throw new Error(`${spec.kind} request is read-only and must be recorded through the user interaction.`);
   }
 
   throw unsupportedSpec(spec);
+}
+
+function assertInteractionRequestProperty(
+  spec: PageNumberRequestSpec | TabStopRequestSpec | ImageRequestSpec | ReferenceHistorySpec,
+) {
+  const expected = spec.kind === "reference" ? "history" : "request";
+  if (spec.property !== expected) throw new Error(`Unsupported ${spec.kind} property: ${String(spec.property)}`);
 }
 
 function resolveTextTarget(spec: TextSpec): Value {

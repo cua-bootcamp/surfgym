@@ -1,8 +1,23 @@
 import { get, set } from "./external";
-import { WordRuntimeStore } from "./internal";
+import { _insertBodyPageBreakAt, _recordPdfExportRequest, WordRuntimeStore } from "./internal";
 import { createWordFixtureRuntime } from "./word-bootstrap";
-import { createParagraphSelectionTracker, setSelectedParagraphLineSpacing } from "./word-selection";
+import {
+  createParagraphSelectionTracker,
+  insertPageBreakAtCurrentSelection,
+  recordCrossReferenceAtCurrentSelection,
+  recordImageAtCurrentSelection,
+  recordTabStopAtCurrentSelection,
+  setSelectedParagraphLineSpacing
+} from "./word-selection";
 import { renderWordMockToolbar } from "./word-ui";
+import {
+  listTaskScopedWordReferences,
+  recordTaskScopedWordCrossReference,
+  recordTaskScopedWordImageRequest,
+  recordTaskScopedWordPageNumberRequest,
+  recordTaskScopedWordReference,
+  recordTaskScopedWordTabStopRequest,
+} from "./surfgym-word-interactions";
 
 import "@univerjs/preset-docs-core/lib/index.css";
 import "./style.css";
@@ -37,6 +52,35 @@ renderWordMockToolbar({
   insertTable: (rows, columns) => {
     set({ kind: "table", index: 0, property: "shape" }, `${rows}x${columns}`);
   },
+  insertPageBreak: () => {
+    insertPageBreakAtCurrentSelection(paragraphSelectionTracker, _insertBodyPageBreakAt);
+  },
+  recordPageNumberRequest: recordTaskScopedWordPageNumberRequest,
+  recordTabStopRequest: (request) => {
+    recordTabStopAtCurrentSelection(
+      paragraphSelectionTracker,
+      document.getSnapshot(),
+      request,
+      recordTaskScopedWordTabStopRequest,
+    );
+  },
+  recordImageRequest: (request) => {
+    recordImageAtCurrentSelection(
+      paragraphSelectionTracker,
+      request,
+      recordTaskScopedWordImageRequest,
+    );
+  },
+  recordReferenceRequest: recordTaskScopedWordReference,
+  listRecordedReferences: listTaskScopedWordReferences,
+  recordCrossReferenceRequest: (request) => {
+    recordCrossReferenceAtCurrentSelection(
+      paragraphSelectionTracker,
+      request,
+      recordTaskScopedWordCrossReference,
+    );
+  },
+  recordPdfExportRequest: _recordPdfExportRequest,
   univerAPI: univerAPI as unknown as NonNullable<
     Parameters<typeof renderWordMockToolbar>[0]["univerAPI"]
   >

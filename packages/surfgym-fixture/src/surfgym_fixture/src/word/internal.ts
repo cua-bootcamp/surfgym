@@ -39,6 +39,11 @@ type BuiltTablesBody = {
   tables: AnyRecord[];
 };
 
+type PdfExportRequest = {
+  format: "pdf";
+  fileName: string;
+};
+
 export class WordRuntimeStore {
   private static _runtime: WordRuntime | null = null;
 
@@ -128,6 +133,49 @@ export function _setBodyMeta(path: Path[], value: Value): AnyRecord {
       : buildSectionBreaks(dataStream)
   };
   snapshot.tableSource = {};
+
+  resetDocument(snapshot);
+  return _getBodyMeta();
+}
+
+export function _insertBodyPageBreakAt(offset: number): AnyRecord {
+  if (!Number.isInteger(offset)) {
+    throw new Error(`Invalid Word page-break selection offset: ${String(offset)}`);
+  }
+
+  const snapshot = getMutableSnapshot();
+  const body = ensureBody(snapshot);
+  const dataStream = String(body.dataStream ?? "\r\n");
+  const contentEnd = dataStream.endsWith("\r\n") ? dataStream.length - 2 : dataStream.length;
+  if (offset < 0 || offset > contentEnd) {
+    throw new Error(
+      `Word page-break selection offset is outside the document body: ${offset}`
+    );
+  }
+
+  const tables = Array.isArray(body.tables)
+    ? body.tables.filter((table): table is AnyRecord => isRecordValue(table))
+    : [];
+  const containingTable = tables.find((table) => {
+    const startIndex = safeInteger(table.startIndex, -1);
+    const endIndex = safeInteger(table.endIndex, -1);
+    return startIndex < offset && offset < endIndex;
+  });
+  if (containingTable) {
+    throw new Error("Cannot insert a Word page break inside a table.");
+  }
+
+  body.dataStream = `${dataStream.slice(0, offset)}\n${dataStream.slice(offset)}`;
+  body.textRuns = shiftTextRunsForInsertion(body.textRuns, offset);
+  body.paragraphs = shiftIndexedRecordsForInsertion(body.paragraphs, offset);
+  body.customBlocks = shiftIndexedRecordsForInsertion(body.customBlocks, offset);
+  body.tables = shiftIndexedRecordsForInsertion(body.tables, offset);
+  body.customRanges = shiftIndexedRecordsForInsertion(body.customRanges, offset);
+  body.customDecorations = shiftIndexedRecordsForInsertion(body.customDecorations, offset);
+  body.sectionBreaks = [
+    ...shiftIndexedRecordsForInsertion(body.sectionBreaks, offset),
+    { startIndex: offset, sectionType: SectionType.NEXT_PAGE }
+  ].sort((left, right) => safeInteger(left.startIndex, 0) - safeInteger(right.startIndex, 0));
 
   resetDocument(snapshot);
   return _getBodyMeta();
@@ -364,8 +412,26 @@ export function _getDocumentMeta(): AnyRecord {
     style: {
       fontSizeOnly: readUniformBodyFontSize()
     },
-    defaultFontFamily: readDocumentDefaultFont()
+    defaultFontFamily: readDocumentDefaultFont(),
+    pdfExportRequest: getPdfExportRequest()
   };
+}
+
+export function _recordPdfExportRequest(fileName: string): PdfExportRequest {
+  const normalizedFileName = normalizePdfExportFileName(fileName);
+  const snapshot = getMutableSnapshot();
+  const taskState = isRecordValue(snapshot.surfgymTaskState) ? snapshot.surfgymTaskState : {};
+  const request: PdfExportRequest = {
+    format: "pdf",
+    fileName: normalizedFileName
+  };
+
+  snapshot.surfgymTaskState = {
+    ...taskState,
+    pdfExportRequest: request
+  };
+  resetDocument(snapshot);
+  return clone(request);
 }
 
 export function _setDocumentMeta(path: Path[], value: Value): AnyRecord {
@@ -385,6 +451,10 @@ export function _setDocumentMeta(path: Path[], value: Value): AnyRecord {
     };
     resetDocument(snapshot);
     return _getDocumentMeta();
+  }
+
+  if (path.length === 1 && path[0] === "pdfExportRequest") {
+    throw new Error("Word PDF export requests are read-only and must be confirmed through the UI.");
   }
 
   if (path.length === 2 && path[0] === "style" && path[1] === "fontSizeOnly") {
@@ -590,6 +660,41 @@ function ensureBody(snapshot: AnyRecord): AnyRecord {
   return body;
 }
 
+function shiftTextRunsForInsertion(value: unknown, offset: number): AnyRecord[] {
+  if (!Array.isArray(value)) return [];
+
+  return value
+    .filter((run): run is AnyRecord => isRecordValue(run))
+    .map((run) => {
+      const shifted = clone(run);
+      const start = safeInteger(run.st, 0);
+      const end = safeInteger(run.ed, start);
+
+      if (start >= offset) shifted.st = start + 1;
+      if (end > offset) shifted.ed = end + 1;
+      return shifted;
+    });
+}
+
+function shiftIndexedRecordsForInsertion(value: unknown, offset: number): AnyRecord[] {
+  if (!Array.isArray(value)) return [];
+
+  return value
+    .filter((record): record is AnyRecord => isRecordValue(record))
+    .map((record) => {
+      const shifted = clone(record);
+      const startIndex = safeInteger(record.startIndex, 0);
+      if (startIndex >= offset) shifted.startIndex = startIndex + 1;
+
+      if (record.endIndex !== undefined) {
+        const endIndex = safeInteger(record.endIndex, startIndex);
+        if (endIndex > offset) shifted.endIndex = endIndex + 1;
+      }
+
+      return shifted;
+    });
+}
+
 function createTextBody(text: string): AnyRecord {
   const dataStream = textToDataStream(text);
   return {
@@ -600,6 +705,28 @@ function createTextBody(text: string): AnyRecord {
     paragraphs: buildParagraphs(dataStream),
     sectionBreaks: buildSectionBreaks(dataStream)
   };
+}
+
+function getPdfExportRequest(): PdfExportRequest | null {
+  const snapshot = getReadableSnapshot();
+  const taskState = isRecordValue(snapshot.surfgymTaskState) ? snapshot.surfgymTaskState : {};
+  const request = isRecordValue(taskState.pdfExportRequest) ? taskState.pdfExportRequest : null;
+  if (request?.format !== "pdf" || typeof request.fileName !== "string") return null;
+
+  return {
+    format: "pdf",
+    fileName: request.fileName
+  };
+}
+
+function normalizePdfExportFileName(value: unknown): string {
+  const fileName = String(value ?? "").trim();
+  if (!fileName) throw new Error("PDF export file name is required.");
+  if (/[<>:"/\\|?*\u0000-\u001F]/.test(fileName) || fileName === "." || fileName === "..") {
+    throw new Error(`Invalid PDF export file name: ${fileName}`);
+  }
+
+  return fileName.toLowerCase().endsWith(".pdf") ? fileName : `${fileName}.pdf`;
 }
 
 function textToDataStream(text: string, convertPageBreaks = false): string {

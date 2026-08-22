@@ -1,14 +1,25 @@
+import { WORD_FIXTURE_TASK_ASSETS } from "./surfgym-word-interactions";
+
 type WordToolbarApi = {
   executeCommand: <P extends object = object, R = boolean>(id: string, params?: P) => Promise<R>;
 };
 
-type WordToolbarAction = 'print' | 'textColor' | 'highlightColor' | 'lineSpacing' | 'table';
+type WordToolbarAction = 'print' | 'textColor' | 'highlightColor' | 'lineSpacing' | 'table' | 'pageBreak' |
+  'pageNumber' | 'tabStop' | 'image' | 'addReference' | 'crossReference' | 'exportPdf';
 
 type WordToolbarOptions = {
   containerId: string;
   getLineSpacing?: () => number;
   setLineSpacing?: (lineSpacing: number) => void;
   insertTable?: (rows: number, columns: number) => void;
+  insertPageBreak?: () => void;
+  recordPageNumberRequest?: (request: { location: 'footer'; alignment: 'left'; applyTo: 'all'; startAt: number }) => unknown;
+  recordTabStopRequest?: (request: { alignment: 'end' | 'right'; offset: number }) => unknown;
+  recordImageRequest?: (request: { assetId: string; width?: number; height?: number }) => unknown;
+  recordReferenceRequest?: (citation: string) => unknown;
+  listRecordedReferences?: () => Array<{ refId: string; citation: string }>;
+  recordCrossReferenceRequest?: (request: { refId: string; display: 'number' }) => unknown;
+  recordPdfExportRequest?: (fileName: string) => unknown;
   getDocumentDefaultFont?: () => string | undefined;
   setDocumentDefaultFont?: (fontFamily: string) => void;
   univerAPI?: WordToolbarApi;
@@ -329,7 +340,7 @@ const wordTopGroups: readonly (readonly WordToolbarItem[])[] = [
     { label: 'Save', icon: icon.save },
   ],
   [
-    { label: 'Export Directly as PDF', icon: icon.pdf },
+    { label: 'Export Directly as PDF', icon: icon.pdf, action: 'exportPdf' },
     { label: 'Print', icon: icon.print, action: 'print' },
     { label: 'Find', icon: icon.search },
   ],
@@ -348,14 +359,18 @@ const wordTopGroups: readonly (readonly WordToolbarItem[])[] = [
   ],
   [
     { label: 'Insert Table', icon: icon.table, action: 'table' },
-    { label: 'Insert Image', icon: icon.image },
+    { label: 'Insert Image', icon: icon.image, action: 'image' },
     { label: 'Insert Chart', icon: icon.chart },
     { label: 'Text Box', icon: icon.paragraph },
     { label: 'Horizontal Line', icon: icon.shapes, commandId: wordCommandIds.horizontalLine },
+    { label: 'Insert Page Break', icon: icon.copyPages, action: 'pageBreak' },
+    { label: 'Insert Page Number', icon: icon.blankPage, action: 'pageNumber' },
   ],
   [
     { label: 'Hyperlink', icon: icon.link },
     { label: 'Special Character', icon: icon.omega },
+    { label: 'Add Reference', icon: icon.copyPages, action: 'addReference' },
+    { label: 'Insert Cross-reference', icon: icon.link, action: 'crossReference' },
     { label: 'Header and Footer', icon: icon.blankPage, commandId: wordCommandIds.headerFooter },
     { label: 'Page Settings', icon: icon.copyPages, commandId: wordCommandIds.pageSetup },
     { label: 'Online', icon: icon.globe },
@@ -391,6 +406,7 @@ const wordFormattingGroups: readonly (readonly WordFormattingItem[])[] = [
   [
     { label: 'Indent-', title: 'Decrease Indent', icon: icon.indentDecrease },
     { label: 'Indent+', title: 'Increase Indent', icon: icon.indentIncrease },
+    { label: 'Tab Stops', title: 'Tab Stops', icon: icon.alignRight, action: 'tabStop' },
     { label: 'Line', title: 'Line Spacing', icon: icon.lineSpacing, action: 'lineSpacing' },
     { label: 'Marks', title: 'Show Formatting Marks', icon: icon.showFormatting },
   ],
@@ -427,6 +443,31 @@ const closeWordTablePickerMenu = () => {
 const closeWordTableOptionsDialog = () => {
   document.getElementById('word-mock-table-options-dialog')?.remove();
   document.removeEventListener('keydown', closeWordTableOptionsOnEscape, true);
+};
+
+const closeWordExportPdfDialog = () => {
+  document.getElementById('word-mock-export-pdf-dialog')?.remove();
+  document.removeEventListener('keydown', closeWordExportPdfOnEscape, true);
+};
+
+const closeWordPageNumberDialog = () => {
+  document.getElementById('word-mock-page-number-dialog')?.remove();
+};
+
+const closeWordTabStopDialog = () => {
+  document.getElementById('word-mock-tab-stop-dialog')?.remove();
+};
+
+const closeWordImageDialog = () => {
+  document.getElementById('word-mock-image-dialog')?.remove();
+};
+
+const closeWordReferenceDialog = () => {
+  document.getElementById('word-mock-reference-dialog')?.remove();
+};
+
+const closeWordCrossReferenceDialog = () => {
+  document.getElementById('word-mock-cross-reference-dialog')?.remove();
 };
 
 function closeWordColorPaletteOnOutsideClick(event: PointerEvent) {
@@ -673,6 +714,249 @@ function closeWordTableOptionsOnEscape(event: KeyboardEvent) {
 
   closeWordTableOptionsDialog();
 }
+
+function closeWordExportPdfOnEscape(event: KeyboardEvent) {
+  if (event.key !== 'Escape') return;
+
+  closeWordExportPdfDialog();
+}
+
+const openWordPageNumberDialog = (
+  recordRequest: NonNullable<WordToolbarOptions['recordPageNumberRequest']>,
+) => {
+  closeWordPageNumberDialog();
+  const dialog = document.createElement('div');
+  dialog.id = 'word-mock-page-number-dialog';
+  dialog.className = 'word-mock-table-options-backdrop';
+  dialog.innerHTML = `
+    <div class="word-mock-table-options-window" role="dialog" aria-modal="true" aria-labelledby="word-page-number-title">
+      <div class="word-mock-table-options-titlebar"><div id="word-page-number-title">Insert Page Number</div></div>
+      <div class="word-mock-table-options-body">
+        <label class="word-mock-table-options-field"><span>Location</span><select data-word-page-number-location><option value="footer">Footer</option></select></label>
+        <label class="word-mock-table-options-field"><span>Alignment</span><select data-word-page-number-alignment><option value="left">Left</option></select></label>
+        <label class="word-mock-table-options-field"><span>Apply to</span><select data-word-page-number-apply-to><option value="all">All pages</option></select></label>
+        <label class="word-mock-table-options-field"><span>Start at</span><input type="number" min="1" step="1" value="1" data-word-page-number-start></label>
+        <div role="alert" data-word-page-number-error hidden></div>
+      </div>
+      <div class="word-mock-table-options-actions"><span></span><button type="button" data-word-page-number-cancel>Cancel</button><button type="button" data-word-page-number-apply>Apply</button></div>
+    </div>`;
+  const apply = () => {
+    const startAt = Number(dialog.querySelector<HTMLInputElement>('[data-word-page-number-start]')?.value);
+    const error = dialog.querySelector<HTMLElement>('[data-word-page-number-error]');
+    if (!Number.isInteger(startAt) || startAt <= 0) {
+      if (error) { error.hidden = false; error.textContent = 'Start at must be a positive integer.'; }
+      return;
+    }
+    try {
+      recordRequest({ location: 'footer', alignment: 'left', applyTo: 'all', startAt });
+      closeWordPageNumberDialog();
+    } catch (cause) {
+      if (error) { error.hidden = false; error.textContent = cause instanceof Error ? cause.message : String(cause); }
+    }
+  };
+  dialog.querySelector('[data-word-page-number-cancel]')?.addEventListener('click', closeWordPageNumberDialog);
+  dialog.querySelector('[data-word-page-number-apply]')?.addEventListener('click', apply);
+  document.body.append(dialog);
+};
+
+const openWordTabStopDialog = (
+  recordRequest: NonNullable<WordToolbarOptions['recordTabStopRequest']>,
+) => {
+  closeWordTabStopDialog();
+  const dialog = document.createElement('div');
+  dialog.id = 'word-mock-tab-stop-dialog';
+  dialog.className = 'word-mock-table-options-backdrop';
+  dialog.innerHTML = `
+    <div class="word-mock-table-options-window" role="dialog" aria-modal="true" aria-labelledby="word-tab-stop-title">
+      <div class="word-mock-table-options-titlebar"><div id="word-tab-stop-title">Tab Stops</div></div>
+      <div class="word-mock-table-options-body">
+        <label class="word-mock-table-options-field"><span>Alignment</span><select data-word-tab-stop-alignment><option value="end">End</option><option value="right">Right</option></select></label>
+        <label class="word-mock-table-options-field"><span>Offset</span><input type="number" min="0.01" step="0.01" value="6" data-word-tab-stop-offset></label>
+        <div role="alert" data-word-tab-stop-error hidden></div>
+      </div>
+      <div class="word-mock-table-options-actions"><span></span><button type="button" data-word-tab-stop-cancel>Cancel</button><button type="button" data-word-tab-stop-apply>Apply</button></div>
+    </div>`;
+  const apply = () => {
+    const alignment = dialog.querySelector<HTMLSelectElement>('[data-word-tab-stop-alignment]')?.value === 'right' ? 'right' : 'end';
+    const offset = Number(dialog.querySelector<HTMLInputElement>('[data-word-tab-stop-offset]')?.value);
+    const error = dialog.querySelector<HTMLElement>('[data-word-tab-stop-error]');
+    if (!Number.isFinite(offset) || offset <= 0) {
+      if (error) { error.hidden = false; error.textContent = 'Offset must be positive.'; }
+      return;
+    }
+    try {
+      recordRequest({ alignment, offset });
+      closeWordTabStopDialog();
+    } catch (cause) {
+      if (error) { error.hidden = false; error.textContent = cause instanceof Error ? cause.message : String(cause); }
+    }
+  };
+  dialog.querySelector('[data-word-tab-stop-cancel]')?.addEventListener('click', closeWordTabStopDialog);
+  dialog.querySelector('[data-word-tab-stop-apply]')?.addEventListener('click', apply);
+  document.body.append(dialog);
+};
+
+const openWordImageDialog = (recordRequest: NonNullable<WordToolbarOptions['recordImageRequest']>) => {
+  closeWordImageDialog();
+  const dialog = document.createElement('div');
+  dialog.id = 'word-mock-image-dialog';
+  dialog.className = 'word-mock-table-options-backdrop';
+  dialog.innerHTML = `
+    <div class="word-mock-table-options-window" role="dialog" aria-modal="true" aria-labelledby="word-image-title">
+      <div class="word-mock-table-options-titlebar"><div id="word-image-title">Insert Image</div></div>
+      <div class="word-mock-table-options-body">
+        <label class="word-mock-table-options-field"><span>Task asset</span><select data-word-image-asset>${WORD_FIXTURE_TASK_ASSETS.map((asset) => `<option value="${asset.assetId}">${asset.label}</option>`).join('')}</select></label>
+        <label class="word-mock-table-options-field"><span>Width (optional)</span><input type="number" min="0.01" step="0.01" data-word-image-width></label>
+        <label class="word-mock-table-options-field"><span>Height (optional)</span><input type="number" min="0.01" step="0.01" data-word-image-height></label>
+        <div role="alert" data-word-image-error hidden></div>
+      </div>
+      <div class="word-mock-table-options-actions"><span></span><button type="button" data-word-image-cancel>Cancel</button><button type="button" data-word-image-insert>Insert</button></div>
+    </div>`;
+  const apply = () => {
+    const assetId = dialog.querySelector<HTMLSelectElement>('[data-word-image-asset]')?.value ?? '';
+    const widthText = dialog.querySelector<HTMLInputElement>('[data-word-image-width]')?.value.trim() ?? '';
+    const heightText = dialog.querySelector<HTMLInputElement>('[data-word-image-height]')?.value.trim() ?? '';
+    const width = widthText ? Number(widthText) : undefined;
+    const height = heightText ? Number(heightText) : undefined;
+    const error = dialog.querySelector<HTMLElement>('[data-word-image-error]');
+    if (!assetId || (width !== undefined && (!Number.isFinite(width) || width <= 0)) ||
+      (height !== undefined && (!Number.isFinite(height) || height <= 0))) {
+      if (error) { error.hidden = false; error.textContent = 'Choose an asset and use only positive dimensions.'; }
+      return;
+    }
+    try {
+      recordRequest({ assetId, ...(width === undefined ? {} : { width }), ...(height === undefined ? {} : { height }) });
+      closeWordImageDialog();
+    } catch (cause) {
+      if (error) { error.hidden = false; error.textContent = cause instanceof Error ? cause.message : String(cause); }
+    }
+  };
+  dialog.querySelector('[data-word-image-cancel]')?.addEventListener('click', closeWordImageDialog);
+  dialog.querySelector('[data-word-image-insert]')?.addEventListener('click', apply);
+  document.body.append(dialog);
+};
+
+const openWordReferenceDialog = (recordRequest: NonNullable<WordToolbarOptions['recordReferenceRequest']>) => {
+  closeWordReferenceDialog();
+  const dialog = document.createElement('div');
+  dialog.id = 'word-mock-reference-dialog';
+  dialog.className = 'word-mock-table-options-backdrop';
+  dialog.innerHTML = `
+    <div class="word-mock-table-options-window" role="dialog" aria-modal="true" aria-labelledby="word-reference-title">
+      <div class="word-mock-table-options-titlebar"><div id="word-reference-title">Add Reference</div></div>
+      <div class="word-mock-table-options-body"><label class="word-mock-table-options-field"><span>Citation</span><textarea data-word-reference-citation></textarea></label><div role="alert" data-word-reference-error hidden></div></div>
+      <div class="word-mock-table-options-actions"><span></span><button type="button" data-word-reference-cancel>Cancel</button><button type="button" data-word-reference-confirm>Add</button></div>
+    </div>`;
+  const confirm = () => {
+    const citation = dialog.querySelector<HTMLTextAreaElement>('[data-word-reference-citation]')?.value ?? '';
+    const error = dialog.querySelector<HTMLElement>('[data-word-reference-error]');
+    if (!citation.trim()) {
+      if (error) { error.hidden = false; error.textContent = 'Citation must not be empty.'; }
+      return;
+    }
+    try { recordRequest(citation); closeWordReferenceDialog(); } catch (cause) {
+      if (error) { error.hidden = false; error.textContent = cause instanceof Error ? cause.message : String(cause); }
+    }
+  };
+  dialog.querySelector('[data-word-reference-cancel]')?.addEventListener('click', closeWordReferenceDialog);
+  dialog.querySelector('[data-word-reference-confirm]')?.addEventListener('click', confirm);
+  document.body.append(dialog);
+};
+
+const openWordCrossReferenceDialog = (
+  listReferences: NonNullable<WordToolbarOptions['listRecordedReferences']>,
+  recordRequest: NonNullable<WordToolbarOptions['recordCrossReferenceRequest']>,
+) => {
+  closeWordCrossReferenceDialog();
+  const references = listReferences();
+  const dialog = document.createElement('div');
+  dialog.id = 'word-mock-cross-reference-dialog';
+  dialog.className = 'word-mock-table-options-backdrop';
+  dialog.innerHTML = `
+    <div class="word-mock-table-options-window" role="dialog" aria-modal="true" aria-labelledby="word-cross-reference-title">
+      <div class="word-mock-table-options-titlebar"><div id="word-cross-reference-title">Insert Cross-reference</div></div>
+      <div class="word-mock-table-options-body">
+        <label class="word-mock-table-options-field"><span>Reference</span><select data-word-cross-reference-id>${references.map((reference) => `<option value="${reference.refId}">${reference.refId}</option>`).join('')}</select></label>
+        <label class="word-mock-table-options-field"><span>Display</span><select data-word-cross-reference-display><option value="number">Reference number</option></select></label>
+        <div role="alert" data-word-cross-reference-error ${references.length ? 'hidden' : ''}>${references.length ? '' : 'Add a reference first.'}</div>
+      </div>
+      <div class="word-mock-table-options-actions"><span></span><button type="button" data-word-cross-reference-cancel>Cancel</button><button type="button" data-word-cross-reference-insert ${references.length ? '' : 'disabled'}>Insert</button></div>
+    </div>`;
+  const insert = () => {
+    const refId = dialog.querySelector<HTMLSelectElement>('[data-word-cross-reference-id]')?.value ?? '';
+    const error = dialog.querySelector<HTMLElement>('[data-word-cross-reference-error]');
+    if (!refId) return;
+    try { recordRequest({ refId, display: 'number' }); closeWordCrossReferenceDialog(); } catch (cause) {
+      if (error) { error.hidden = false; error.textContent = cause instanceof Error ? cause.message : String(cause); }
+    }
+  };
+  dialog.querySelector('[data-word-cross-reference-cancel]')?.addEventListener('click', closeWordCrossReferenceDialog);
+  dialog.querySelector('[data-word-cross-reference-insert]')?.addEventListener('click', insert);
+  document.body.append(dialog);
+};
+
+const openWordExportPdfDialog = (recordPdfExportRequest: (fileName: string) => unknown) => {
+  closeWordColorPalette();
+  closeWordLineSpacingMenu();
+  closeWordTablePickerMenu();
+  closeWordTableOptionsDialog();
+  closeWordExportPdfDialog();
+
+  const dialog = document.createElement('div');
+  dialog.id = 'word-mock-export-pdf-dialog';
+  dialog.className = 'word-mock-table-options-backdrop';
+  dialog.innerHTML = `
+    <div class="word-mock-table-options-window word-mock-export-pdf-window" role="dialog" aria-modal="true" aria-labelledby="word-mock-export-pdf-title">
+      <div class="word-mock-table-options-titlebar">
+        <span class="word-mock-table-options-traffic" aria-hidden="true"></span>
+        <span class="word-mock-table-options-traffic" aria-hidden="true"></span>
+        <span class="word-mock-table-options-traffic" aria-hidden="true"></span>
+        <div class="word-mock-table-options-window-title" id="word-mock-export-pdf-title">Export Directly as PDF</div>
+      </div>
+      <div class="word-mock-table-options-body">
+        <label class="word-mock-table-options-field word-mock-table-options-name">
+          <span>File name:</span>
+          <input data-word-export-pdf-filename type="text" value="document.pdf" aria-label="PDF file name" />
+        </label>
+        <div class="word-mock-export-pdf-error" data-word-export-pdf-error role="alert" hidden></div>
+      </div>
+      <div class="word-mock-table-options-actions word-mock-export-pdf-actions">
+        <span></span>
+        <button class="word-mock-table-options-button" type="button" data-word-export-pdf-cancel>Cancel</button>
+        <button class="word-mock-table-options-button" type="button" data-word-export-pdf-confirm>Export</button>
+      </div>
+    </div>
+  `;
+
+  const fileNameInput = dialog.querySelector<HTMLInputElement>('[data-word-export-pdf-filename]');
+  const errorMessage = dialog.querySelector<HTMLElement>('[data-word-export-pdf-error]');
+  const confirm = () => {
+    try {
+      recordPdfExportRequest(fileNameInput?.value ?? '');
+      closeWordExportPdfDialog();
+    } catch (error) {
+      if (errorMessage) {
+        errorMessage.hidden = false;
+        errorMessage.textContent = error instanceof Error ? error.message : String(error);
+      }
+    }
+  };
+
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) closeWordExportPdfDialog();
+  });
+  dialog.querySelector<HTMLButtonElement>('[data-word-export-pdf-cancel]')?.addEventListener('click', closeWordExportPdfDialog);
+  dialog.querySelector<HTMLButtonElement>('[data-word-export-pdf-confirm]')?.addEventListener('click', confirm);
+  fileNameInput?.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter') return;
+    event.preventDefault();
+    confirm();
+  });
+
+  document.body.appendChild(dialog);
+  document.addEventListener('keydown', closeWordExportPdfOnEscape, true);
+  fileNameInput?.select();
+};
 
 const normalizeTableDimension = (value: number): number => {
   if (!Number.isFinite(value)) return 1;
@@ -937,6 +1221,14 @@ export function renderWordMockToolbar({
   getLineSpacing,
   setLineSpacing,
   insertTable,
+  insertPageBreak,
+  recordPageNumberRequest,
+  recordTabStopRequest,
+  recordImageRequest,
+  recordReferenceRequest,
+  listRecordedReferences,
+  recordCrossReferenceRequest,
+  recordPdfExportRequest,
   getDocumentDefaultFont,
   setDocumentDefaultFont,
   univerAPI,
@@ -947,7 +1239,17 @@ export function renderWordMockToolbar({
   const documentDefaultFont = getDocumentDefaultFont?.();
 
   const canClickAction = (action: WordToolbarAction | undefined) =>
-    Boolean(action && (action !== 'lineSpacing' || setLineSpacing));
+    Boolean(
+      action &&
+      (action !== 'lineSpacing' || setLineSpacing) &&
+      (action !== 'pageBreak' || insertPageBreak) &&
+      (action !== 'pageNumber' || recordPageNumberRequest) &&
+      (action !== 'tabStop' || recordTabStopRequest) &&
+      (action !== 'image' || recordImageRequest) &&
+      (action !== 'addReference' || recordReferenceRequest) &&
+      (action !== 'crossReference' || (listRecordedReferences && recordCrossReferenceRequest)) &&
+      (action !== 'exportPdf' || recordPdfExportRequest),
+    );
   const canClickTopItem = (item: WordToolbarItem) => Boolean(item.commandId || canClickAction(item.action));
   const canClickFormatItem = (item: WordFormattingItem) => Boolean(item.commandId || canClickAction(item.action));
 
@@ -1119,6 +1421,27 @@ export function renderWordMockToolbar({
         if (insertTable) tableOptions.insertTable = insertTable;
         if (univerAPI) tableOptions.univerAPI = univerAPI;
         openWordTablePickerMenu(tableOptions, button);
+      }
+      if (action === 'pageBreak' && insertPageBreak) {
+        insertPageBreak();
+      }
+      if (action === 'pageNumber' && recordPageNumberRequest) {
+        openWordPageNumberDialog(recordPageNumberRequest);
+      }
+      if (action === 'tabStop' && recordTabStopRequest) {
+        openWordTabStopDialog(recordTabStopRequest);
+      }
+      if (action === 'image' && recordImageRequest) {
+        openWordImageDialog(recordImageRequest);
+      }
+      if (action === 'addReference' && recordReferenceRequest) {
+        openWordReferenceDialog(recordReferenceRequest);
+      }
+      if (action === 'crossReference' && listRecordedReferences && recordCrossReferenceRequest) {
+        openWordCrossReferenceDialog(listRecordedReferences, recordCrossReferenceRequest);
+      }
+      if (action === 'exportPdf' && recordPdfExportRequest) {
+        openWordExportPdfDialog(recordPdfExportRequest);
       }
     });
   });

@@ -64,13 +64,18 @@ export function createParagraphSelectionTracker(commandEvents: CommandEventSourc
       return;
     }
 
-    const nextSelection = activeTextRange(event);
-    if (nextSelection) {
-      selection = nextSelection;
+    if (event.id !== "doc.operation.set-selections") {
+      return;
     }
+
+    const nextSelection = activeTextRange(event);
+    selection = nextSelection;
   });
 
   return {
+    getActiveTextRange(): { startOffset: number; endOffset: number } | undefined {
+      return selection ? { ...selection } : undefined;
+    },
     getSelectedParagraphIndexes(snapshot: DocumentSnapshot): number[] {
       const paragraphs = snapshot.body?.paragraphs ?? [];
       const paragraphEnds = paragraphs.map((paragraph) => paragraph.startIndex).filter(
@@ -91,6 +96,79 @@ export function createParagraphSelectionTracker(commandEvents: CommandEventSourc
       return indexes.length > 0 ? indexes : [Math.max(0, paragraphEnds.length - 1)];
     },
   };
+}
+
+export function insertPageBreakAtCurrentSelection(
+  tracker: ReturnType<typeof createParagraphSelectionTracker>,
+  insertAt: (offset: number) => void,
+) {
+  const selection = tracker.getActiveTextRange();
+  if (!selection) {
+    throw new Error("Cannot insert a Word page break without an active text selection.");
+  }
+  if (selection.startOffset !== selection.endOffset) {
+    throw new Error("Cannot insert a Word page break into a non-collapsed text selection.");
+  }
+
+  insertAt(selection.startOffset);
+}
+
+export function recordTabStopAtCurrentSelection(
+  tracker: ReturnType<typeof createParagraphSelectionTracker>,
+  snapshot: DocumentSnapshot,
+  config: { alignment: "end" | "right"; offset: number },
+  recordRequest: (request: {
+    alignment: "end" | "right";
+    offset: number;
+    paragraphIndexes: number[];
+    range: { startOffset: number; endOffset: number };
+  }) => unknown,
+) {
+  const range = tracker.getActiveTextRange();
+  if (!range) throw new Error("Cannot record a Word tab stop without an active text selection.");
+
+  return recordRequest({
+    ...config,
+    paragraphIndexes: tracker.getSelectedParagraphIndexes(snapshot),
+    range,
+  });
+}
+
+export function recordImageAtCurrentSelection(
+  tracker: ReturnType<typeof createParagraphSelectionTracker>,
+  config: { assetId: string; width?: number; height?: number },
+  recordRequest: (request: {
+    assetId: string;
+    anchor: "inline";
+    insertionOffset: number;
+    width?: number;
+    height?: number;
+  }) => unknown,
+) {
+  const range = tracker.getActiveTextRange();
+  if (!range) throw new Error("Cannot record a Word image insertion without an active text selection.");
+  if (range.startOffset !== range.endOffset) {
+    throw new Error("Word image insertion requires a collapsed text selection.");
+  }
+  return recordRequest({
+    ...config,
+    anchor: "inline",
+    insertionOffset: range.startOffset,
+  });
+}
+
+export function recordCrossReferenceAtCurrentSelection(
+  tracker: ReturnType<typeof createParagraphSelectionTracker>,
+  config: { refId: string; display: "number" },
+  recordRequest: (request: {
+    refId: string;
+    display: "number";
+    range: { startOffset: number; endOffset: number };
+  }) => unknown,
+) {
+  const range = tracker.getActiveTextRange();
+  if (!range) throw new Error("Cannot record a Word cross-reference without an active text selection.");
+  return recordRequest({ ...config, range });
 }
 
 export function setSelectedParagraphLineSpacing(
