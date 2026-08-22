@@ -352,6 +352,8 @@ export default function ManageTripsPage() {
             <button
               key={filter}
               onClick={() => setActiveFilter(filter)}
+              data-trip-filter={filter}
+              aria-pressed={activeFilter === filter}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 activeFilter === filter
                   ? 'bg-booking-blue text-white'
@@ -381,7 +383,11 @@ export default function ManageTripsPage() {
         ) : (
           <div className="space-y-4">
             {filteredTrips.map((trip) => (
-              <div key={trip.id} className="bg-white rounded-lg shadow overflow-hidden">
+              <div
+                key={trip.id}
+                data-trip-status={trip.status}
+                className="bg-white rounded-lg shadow overflow-hidden"
+              >
                 <div className="flex flex-col md:flex-row">
                   {/* Image */}
                   {trip.image && (

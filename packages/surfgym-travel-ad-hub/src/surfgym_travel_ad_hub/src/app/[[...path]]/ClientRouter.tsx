@@ -2,6 +2,7 @@
 
 import Router from "@/Router";
 import { setTask052PageToken } from "@/lib/task052-client";
+import "@/lib/surfgym-bridge";
 
 interface ClientRouterProps {
   task052PageToken: string | null;
