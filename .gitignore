@@ -19,3 +19,5 @@ nohup.out
 # Local project notes and agent guidance are maintained outside Git.
 /AGENTS.md
 /docs/
+/packages/surfgym-task/src/surfgym_task/data/impress/COVERAGE.md
+/packages/surfgym-task/src/surfgym_task/data/impress/ORIGINAL_TASK_AUDIT.md
