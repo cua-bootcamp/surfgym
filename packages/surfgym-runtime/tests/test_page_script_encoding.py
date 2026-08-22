@@ -27,6 +27,13 @@ def test_context_manager_reads_page_script_as_utf8(monkeypatch: MonkeyPatch):
     assert manager.page_script == script
 
 
+def test_docker_fixture_urls_do_not_receive_the_generic_page_script() -> None:
+    manager = ContextManager(contexts_per_instance=1, vw=1280, vh=720)
+
+    assert not manager.should_inject_page_script(["http://localhost:53001/gimp"])
+    assert manager.should_inject_page_script(["http://127.0.0.1:3000/word"])
+
+
 def test_context_manager_can_opt_into_https_certificate_errors() -> None:
     class FakeContext:
         async def add_init_script(self, *, script: str) -> None:
