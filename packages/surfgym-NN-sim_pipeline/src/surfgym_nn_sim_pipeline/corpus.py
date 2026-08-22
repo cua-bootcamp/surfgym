@@ -22,19 +22,20 @@ PARAPHRASE_PATH = MODULE_DIR / "data" / "osworld_1_0_paraphrases_v2.json"
 EXHAUSTED_SOURCES_PATH = MODULE_DIR / "data" / "exhausted_sources.json"
 
 # surfgym seed directory name -> OSWorld domain name it is compared against.
-# This mapping is a design decision (travelhub is compared to chrome only,
+# This mapping is a design decision (web is compared to chrome only,
 # not the broader multi_apps pool), not a code detail. Change it here only.
 DOMAIN_MAP = {
     "gimp": "gimp",
     "vlc": "vlc",
-    "travel-ad-hub": "chrome",
+    "web": "chrome",
 }
 
-# Where each surfgym domain's seed instructions live, relative to a data root.
+# Where each surfgym domain's corpus instructions live, relative to a data root.
+# All active corpus inputs use their canonical seeds.
 SURFGYM_TASK_GLOBS = {
-    "gimp": "gimp/tasks/*.json",
-    "vlc": "vlc/tasks/*.json",
-    "travel-ad-hub": "travel-ad-hub/tasks-web/*.json",
+    "gimp": "gimp/seeds/*.json",
+    "vlc": "vlc/seeds/*.json",
+    "web": "web/seeds/*.json",
 }
 
 
@@ -47,15 +48,27 @@ class Instruction:
 
 
 def load_surfgym_instructions(data_dir: Path) -> list[Instruction]:
-    """Read our seed instructions from packages/surfgym-task's data/ directory."""
+    """Read our corpus instructions from packages/surfgym-task's data directory.
+
+    Canonical seeds do not carry ``task_id``. Desktop-app historical IDs were
+    ``<domain>_<filename>``. The 36 former Travel Ad Hub IDs were already equal
+    to their filenames, so web seeds retain that shape without storing IDs.
+    """
     items = []
     for surfgym_domain, glob_pattern in SURFGYM_TASK_GLOBS.items():
         domain = DOMAIN_MAP[surfgym_domain]
         for path in sorted(data_dir.glob(glob_pattern)):
             raw = json.loads(path.read_text(encoding="utf-8"))
+            task_id = raw.get("task_id")
+            if not isinstance(task_id, str) or not task_id.strip():
+                task_id = (
+                    path.stem
+                    if surfgym_domain == "web"
+                    else f"{surfgym_domain}_{path.stem}"
+                )
             items.append(
                 Instruction(
-                    id=raw["task_id"],
+                    id=task_id,
                     text=raw["instruction"],
                     domain=domain,
                     source="surfgym",

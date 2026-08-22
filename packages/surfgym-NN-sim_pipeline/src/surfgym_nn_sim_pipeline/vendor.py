@@ -7,12 +7,10 @@ Not part of the runtime path. Run manually whenever the reference commit changes
 The output feeds corpus.load_osworld_instructions() so a teammate can reproduce
 a run without a local OSWorld clone.
 
-Cross-check: packages/surfgym-travel-ad-hub's
-surfgym_task/data/travel-ad-hub/reference/osworld/COVERAGE.md vendors a separate,
-unmodified copy of the 22 chrome tasks it audited for coverage, pinned to the same
-xlang-ai/OSWorld commit recorded below. If that file's commit ever disagrees with
-OSWORLD_COMMIT here, the two vendored snapshots have drifted apart and both should
-be refreshed together.
+Cross-check: data/exhausted_sources.json records the 22 chrome source IDs used by
+the Web task design. The curated rationale lives in the OSWorld vault note
+``OSWorld 파생 소스 매핑``; the deleted Travel Ad Hub reference mirror is not a
+runtime or provenance authority.
 """
 
 import argparse

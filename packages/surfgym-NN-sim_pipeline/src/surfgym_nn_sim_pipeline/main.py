@@ -521,7 +521,7 @@ def main() -> None:
         "--data-dir",
         type=Path,
         default=DEFAULT_DATA_DIR,
-        help="surfgym-task data directory containing gimp/, vlc/, travel-ad-hub/ (default: %(default)s)",
+        help="surfgym-task data directory containing gimp/, vlc/, web/ (default: %(default)s)",
     )
     parser.add_argument(
         "--model",

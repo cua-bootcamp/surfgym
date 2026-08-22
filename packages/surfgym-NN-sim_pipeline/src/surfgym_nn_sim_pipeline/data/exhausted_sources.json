@@ -3,7 +3,7 @@
   "provenance": {
     "gimp": "vault 260720_GIMP_태스크_변형 mapping table (18 rows)",
     "vlc": "vault 260720_VLC_태스크_변형 mapping table (15 live rows; 7882ed6e and cb130f0d are struck through = dropped, not used)",
-    "chrome": "packages/surfgym-task/.../travel-ad-hub/reference/osworld/xlang-ai_OSWorld/*.json -- one vendored file per source task"
+    "chrome": "vault OSWorld 파생 소스 매핑 chrome table (22 rows)"
   },
   "verified_at": "2026-08-02",
   "exhausted": {
