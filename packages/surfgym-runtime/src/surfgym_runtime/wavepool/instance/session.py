@@ -69,11 +69,13 @@ class ContextManager:
         vw: int,
         vh: int,
         headed: bool = False,
+        ignore_https_errors: bool = False,
     ):
         self.contexts_per_instance = contexts_per_instance
         self.vw = vw
         self.vh = vh
         self.headed = headed
+        self.ignore_https_errors = ignore_https_errors
 
         self._p: Playwright | None = None
         self._b: Browser | None = None
@@ -102,7 +104,8 @@ class ContextManager:
 
     async def create(self, context_id: str, websites: list[Website]):
         browser_context = await self._require_browser().new_context(
-            viewport={"width": self.vw, "height": self.vh}
+            viewport={"width": self.vw, "height": self.vh},
+            ignore_https_errors=self.ignore_https_errors,
         )
         if self.should_inject_page_script([website.url for website in websites]):
             await browser_context.add_init_script(script=self.page_script)

@@ -21,7 +21,13 @@ from surfgym_runtime.wavepool.instance.session import ContextManager, ScreenCurs
 
 
 class PlaywrightBrowserWorker:
-    def __init__(self, *, contexts_per_instance: int, headed: bool = False) -> None:
+    def __init__(
+        self,
+        *,
+        contexts_per_instance: int,
+        headed: bool = False,
+        ignore_https_errors: bool = False,
+    ) -> None:
         self.viewport_width = 1920
         self.viewport_height = 1080
         self.ctx_manager = ContextManager(
@@ -29,6 +35,7 @@ class PlaywrightBrowserWorker:
             vw=self.viewport_width,
             vh=self.viewport_height,
             headed=headed,
+            ignore_https_errors=ignore_https_errors,
         )
 
     async def open(self) -> None:

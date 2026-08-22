@@ -33,10 +33,15 @@ _P = ParamSpec("_P")
 _T = TypeVar("_T")
 
 
-def create_app(contexts_per_instance: int, headed: bool = False) -> FastAPI:
+def create_app(
+    contexts_per_instance: int,
+    headed: bool = False,
+    ignore_https_errors: bool = False,
+) -> FastAPI:
     worker = PlaywrightBrowserWorker(
         contexts_per_instance=contexts_per_instance,
         headed=headed,
+        ignore_https_errors=ignore_https_errors,
     )
 
     @asynccontextmanager
@@ -169,6 +174,7 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--log-path", type=Path, required=True)
     parser.add_argument("--contexts-per-instance", type=int, default=1)
     parser.add_argument("--headed", action="store_true")
+    parser.add_argument("--ignore-https-errors", action="store_true")
     return parser.parse_args()
 
 
@@ -176,7 +182,11 @@ def launch():
     args = _parse_args()
     setup_logging(instance_logger, args.log_path, component=f"instances/{args.port}")
     uvicorn.run(
-        create_app(args.contexts_per_instance, headed=args.headed),
+        create_app(
+            args.contexts_per_instance,
+            headed=args.headed,
+            ignore_https_errors=args.ignore_https_errors,
+        ),
         host=args.host,
         port=args.port,
     )
