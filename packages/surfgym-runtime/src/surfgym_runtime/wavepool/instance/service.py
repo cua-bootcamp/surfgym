@@ -21,13 +21,14 @@ from surfgym_runtime.wavepool.instance.session import ContextManager, ScreenCurs
 
 
 class PlaywrightBrowserWorker:
-    def __init__(self, *, contexts_per_instance: int) -> None:
+    def __init__(self, *, contexts_per_instance: int, headed: bool = False) -> None:
         self.viewport_width = 1920
         self.viewport_height = 1080
         self.ctx_manager = ContextManager(
             contexts_per_instance=contexts_per_instance,
             vw=self.viewport_width,
             vh=self.viewport_height,
+            headed=headed,
         )
 
     async def open(self) -> None:
@@ -54,6 +55,9 @@ class PlaywrightBrowserWorker:
         await self._run_hooks(context_id, hooks, timing="after")
 
     async def release(self, context_id: str, hooks: list[Hook]):
+        # A Docker release hook is the acknowledgement that the fixture reset
+        # was accepted.  Preserve the browser context on failure so the Master
+        # can retry this exact release instead of retrying a missing context.
         await self._run_hooks(context_id, hooks, timing="before")
         await self.ctx_manager.delete(context_id)
 

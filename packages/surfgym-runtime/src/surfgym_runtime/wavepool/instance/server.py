@@ -10,6 +10,7 @@ from fastapi import Body, FastAPI, status
 from fastapi.responses import JSONResponse
 from surfgym_contracts.protocol.gateway_to_upstream import (
     ExecuteRequest,
+    LiveContextsResponse,
     MasterAllocateRequest,
     MasterReleaseRequest,
     ObserveRequest,
@@ -32,8 +33,11 @@ _P = ParamSpec("_P")
 _T = TypeVar("_T")
 
 
-def create_app(contexts_per_instance: int) -> FastAPI:
-    worker = PlaywrightBrowserWorker(contexts_per_instance=contexts_per_instance)
+def create_app(contexts_per_instance: int, headed: bool = False) -> FastAPI:
+    worker = PlaywrightBrowserWorker(
+        contexts_per_instance=contexts_per_instance,
+        headed=headed,
+    )
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
@@ -45,6 +49,9 @@ def create_app(contexts_per_instance: int) -> FastAPI:
 
     async def health():
         return {"status": "ok"}
+
+    async def contexts() -> LiveContextsResponse:
+        return LiveContextsResponse(context_ids=worker.ctx_manager.live_context_ids())
 
     @handle_instance_errors
     async def allocate(
@@ -97,6 +104,7 @@ def create_app(contexts_per_instance: int) -> FastAPI:
 
     app = FastAPI(lifespan=lifespan)
     app.add_api_route("/health", health, methods=["GET"])
+    app.add_api_route("/contexts", contexts, methods=["GET"])
     app.add_api_route("/allocate", allocate, methods=["POST"])
     app.add_api_route("/release", release, methods=["POST"])
     app.add_api_route("/execute", execute, methods=["POST"])
@@ -160,6 +168,7 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--port", type=int, required=True)
     parser.add_argument("--log-path", type=Path, required=True)
     parser.add_argument("--contexts-per-instance", type=int, default=1)
+    parser.add_argument("--headed", action="store_true")
     return parser.parse_args()
 
 
@@ -167,7 +176,7 @@ def launch():
     args = _parse_args()
     setup_logging(instance_logger, args.log_path, component=f"instances/{args.port}")
     uvicorn.run(
-        create_app(args.contexts_per_instance),
+        create_app(args.contexts_per_instance, headed=args.headed),
         host=args.host,
         port=args.port,
     )

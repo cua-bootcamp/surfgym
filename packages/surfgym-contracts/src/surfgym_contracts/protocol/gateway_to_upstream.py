@@ -48,3 +48,7 @@ class ObserveRequest(_FrozenBaseModel):
 
 class ScreenshotRequest(_FrozenBaseModel):
     pass
+
+
+class LiveContextsResponse(_FrozenBaseModel):
+    context_ids: tuple[str, ...]

@@ -55,8 +55,25 @@ class MasterService:
                 await self.client.release(pending.context_id, pending.port, pending.release_request)
                 await self.registry.complete_release(pending.context_id)
             except Exception:
+                try:
+                    live_context_ids = await self.client.live_context_ids(pending.port)
+                except Exception:
+                    master_logger.warning(
+                        "Failed releasing %s; instance context state is unavailable",
+                        pending.context_id,
+                        exc_info=True,
+                    )
+                    continue
+
+                if pending.context_id not in live_context_ids:
+                    # The release reply can be lost after the Instance has run
+                    # the hook and closed the context.  In that narrow case the
+                    # instance is authoritative and the lease may be completed.
+                    await self.registry.complete_release(pending.context_id)
+                    continue
+
                 master_logger.warning(
-                    "Failed releasing %s",
+                    "Failed releasing %s; context remains live",
                     pending.context_id,
                     exc_info=True,
                 )

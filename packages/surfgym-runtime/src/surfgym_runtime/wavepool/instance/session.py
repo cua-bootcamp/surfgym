@@ -4,6 +4,7 @@ import asyncio
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Tuple
+from urllib.parse import urlsplit
 
 from playwright.async_api import Browser, BrowserContext, Page, Playwright, async_playwright
 from surfgym_contracts.task import Website
@@ -61,10 +62,18 @@ class Context:
 
 
 class ContextManager:
-    def __init__(self, *, contexts_per_instance: int, vw: int, vh: int):
+    def __init__(
+        self,
+        *,
+        contexts_per_instance: int,
+        vw: int,
+        vh: int,
+        headed: bool = False,
+    ):
         self.contexts_per_instance = contexts_per_instance
         self.vw = vw
         self.vh = vh
+        self.headed = headed
 
         self._p: Playwright | None = None
         self._b: Browser | None = None
@@ -79,7 +88,7 @@ class ContextManager:
 
     async def open(self) -> None:
         self._p = await async_playwright().start()
-        self._b = await self._p.chromium.launch()
+        self._b = await self._p.chromium.launch(headless=not self.headed)
 
     async def close(self) -> None:
         await self.delete_all()
@@ -95,7 +104,8 @@ class ContextManager:
         browser_context = await self._require_browser().new_context(
             viewport={"width": self.vw, "height": self.vh}
         )
-        await browser_context.add_init_script(script=self.page_script)
+        if self.should_inject_page_script([website.url for website in websites]):
+            await browser_context.add_init_script(script=self.page_script)
         try:
             pages = {
                 website.website_id: (
@@ -122,6 +132,9 @@ class ContextManager:
         await ctx.close()
         self._contexts.pop(context_id, None)
 
+    def live_context_ids(self) -> tuple[str, ...]:
+        return tuple(sorted(self._contexts))
+
     async def delete_all(self) -> None:
         context_ids = list(self._contexts)
         await asyncio.gather(*(self.delete(context_id) for context_id in context_ids))
@@ -144,6 +157,10 @@ class ContextManager:
         if self._b is None:
             raise UnexpectedError("?")
         return self._b
+
+    @staticmethod
+    def should_inject_page_script(urls: list[str]) -> bool:
+        return all(urlsplit(url).port != 53001 for url in urls)
 
     #  * Single                * Double
     #  +-----+-----+           +-----+-----+

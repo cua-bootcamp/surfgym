@@ -6,6 +6,7 @@ from pydantic import BaseModel, ValidationError
 from surfgym_contracts.protocol.gateway_to_upstream import (
     GatewayAllocateRequest,
     GatewayReleaseRequest,
+    LiveContextsResponse,
 )
 from surfgym_contracts.protocol.upstream_to_gateway import (
     ErrorResponse,
@@ -86,6 +87,23 @@ class InstanceClient:
             timeout=self.timeouts.release - self.timeouts.layer_gap,
         )
         return _handle_response(response, MasterReleaseResponse, "release", port)
+
+    async def live_context_ids(self, port: int) -> tuple[str, ...]:
+        try:
+            response = await self.client.get(
+                f"{self.base_url(port)}/contexts",
+                timeout=self.timeouts.release - self.timeouts.layer_gap,
+            )
+        except httpx.TimeoutException as exc:
+            raise InstanceRequestFailed(
+                f"Instance request timed out: operation=contexts port={port}"
+            ) from exc
+        except httpx.RequestError as exc:
+            raise InstanceRequestFailed(
+                f"Instance request failed: operation=contexts port={port} "
+                f"error={type(exc).__name__}"
+            ) from exc
+        return _handle_response(response, LiveContextsResponse, "contexts", port).context_ids
 
 
 ################################################
