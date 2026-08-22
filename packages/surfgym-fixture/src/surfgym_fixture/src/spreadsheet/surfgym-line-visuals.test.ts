@@ -30,6 +30,7 @@ describe("task-scoped line visual mount", () => {
     const dispose = mountTaskScopedLineVisuals({
       container: root,
       readValues: (_sheet, sourceRange) => sourceRange === "C2:E2" ? [[2, 4, 3]] : [],
+      getActiveSheetName: () => "Sheet1",
       getGridGeometry: () => ({ originX: 45, originY: 20, columnWidth: 136, rowHeight: 24 }),
       layoutEvents,
     });
@@ -64,6 +65,7 @@ describe("task-scoped line visual mount", () => {
     mountTaskScopedLineVisuals({
       container: root,
       readValues: () => [],
+      getActiveSheetName: () => "Sheet1",
       getGridGeometry: () => ({ originX: 45, originY: 20, columnWidth: 136, rowHeight: 24 }),
       layoutEvents: new EventTarget(),
       onEditChart: (id, update) => edited.push({ id, title: String(update.title) }),
@@ -96,6 +98,7 @@ describe("task-scoped line visual mount", () => {
     mountTaskScopedLineVisuals({
       container: root,
       readValues: () => [[2, 4, 3]],
+      getActiveSheetName: () => "Sheet1",
       getGridGeometry: () => ({ originX, originY: 20, columnWidth: 136, rowHeight: 24 }),
       layoutEvents,
     } as never);
@@ -108,5 +111,57 @@ describe("task-scoped line visual mount", () => {
 
     expect(root.querySelector<HTMLElement>("[data-surfgym-line-chart]")?.style.left).toBe("-91px");
     expect(root.querySelector<HTMLElement>("[data-surfgym-line-sparkline]")?.style.left).toBe("183px");
+  });
+
+  it("renders later same-anchor charts below the first chart", () => {
+    taskScopedLineCharts.create("Sheet1", {
+      sourceRange: "A1:B2",
+      title: "First",
+      position: { row: 2, column: 3 },
+    }, [["Time", "Pallets"], ["08:00", 20]]);
+    taskScopedLineCharts.create("Sheet1", {
+      sourceRange: "A1:B2",
+      title: "Second",
+      position: { row: 2, column: 3 },
+    }, [["Time", "Pallets"], ["09:00", 30]]);
+
+    const root = document.createElement("div");
+    document.body.append(root);
+    mountTaskScopedLineVisuals({
+      container: root,
+      readValues: () => [],
+      getActiveSheetName: () => "Sheet1",
+      getGridGeometry: () => ({ originX: 45, originY: 20, columnWidth: 136, rowHeight: 24 }),
+      layoutEvents: new EventTarget(),
+    });
+
+    const charts = [...root.querySelectorAll<HTMLElement>("[data-surfgym-line-chart]")];
+    expect(charts).toHaveLength(2);
+    expect(charts[0]!.style.top).not.toBe(charts[1]!.style.top);
+  });
+
+  it("renders charts only for the active sheet and refreshes after a sheet change", () => {
+    const sheet1Chart = taskScopedLineCharts.create("Sheet1", { sourceRange: "A1:B2", title: "One" }, [["X", "Y"], [1, 2]]);
+    const sheet2Chart = taskScopedLineCharts.create("Sheet2", { sourceRange: "A1:B2", title: "Two" }, [["X", "Y"], [1, 3]]);
+    let activeSheet = "Sheet1";
+    const layoutEvents = new EventTarget();
+    const root = document.createElement("div");
+    document.body.append(root);
+    mountTaskScopedLineVisuals({
+      container: root,
+      readValues: () => [],
+      getActiveSheetName: () => activeSheet,
+      getGridGeometry: () => ({ originX: 45, originY: 20, columnWidth: 136, rowHeight: 24 }),
+      layoutEvents,
+    });
+
+    expect(root.querySelector(`[data-surfgym-line-chart='${sheet1Chart.id}']`)).not.toBeNull();
+    expect(root.querySelector(`[data-surfgym-line-chart='${sheet2Chart.id}']`)).toBeNull();
+
+    activeSheet = "Sheet2";
+    layoutEvents.dispatchEvent(new Event("active-sheet-change"));
+
+    expect(root.querySelector(`[data-surfgym-line-chart='${sheet1Chart.id}']`)).toBeNull();
+    expect(root.querySelector(`[data-surfgym-line-chart='${sheet2Chart.id}']`)).not.toBeNull();
   });
 });

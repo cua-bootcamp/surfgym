@@ -1,12 +1,13 @@
 import { taskScopedLineCharts } from "./surfgym-chart";
 import type { TaskScopedLineChartUpdate } from "./surfgym-chart";
-import { renderLineChartSvg } from "./surfgym-chart-renderer";
+import { renderChartSvg } from "./surfgym-chart-renderer";
 import { taskScopedLineSparklines } from "./surfgym-sparkline";
 import { renderLineSparklineSvg } from "./surfgym-sparkline-renderer";
 
 type TaskScopedLineVisualMountOptions = {
   container: HTMLElement;
   readValues: (sheet: string, sourceRange: string) => unknown[][];
+  getActiveSheetName: () => string;
   getGridGeometry: () => GridGeometry;
   layoutEvents: EventTarget;
   onEditChart?: (chartId: string, update: TaskScopedLineChartUpdate) => unknown | Promise<unknown>;
@@ -34,6 +35,7 @@ function numericSourceValues(values: unknown[][]) {
 export function mountTaskScopedLineVisuals({
   container,
   readValues,
+  getActiveSheetName,
   getGridGeometry,
   layoutEvents,
   onEditChart,
@@ -52,9 +54,10 @@ export function mountTaskScopedLineVisuals({
     layer.replaceChildren();
     const geometry = getGridGeometry();
 
-    for (const chart of taskScopedLineCharts.listAll()) {
+    for (const chart of taskScopedLineCharts.list(getActiveSheetName())) {
       const chartElement = document.createElement("div");
       chartElement.dataset.surfgymLineChart = chart.id;
+      chartElement.dataset.surfgymChartType = chart.chartType;
       chartElement.style.cssText = [
         "position:absolute",
         `left:${geometry.originX + chart.position.column * geometry.columnWidth + chart.position.offsetX}px`,
@@ -69,7 +72,7 @@ export function mountTaskScopedLineVisuals({
           <button type="button" data-surfgym-chart-edit="${chart.id}">Edit</button>
           <button type="button" data-surfgym-chart-delete="${chart.id}">Delete</button>
         </div>
-        <div data-surfgym-chart-content>${renderLineChartSvg(chart)}</div>
+        <div data-surfgym-chart-content>${renderChartSvg(chart)}</div>
       `;
       chartElement.querySelector<HTMLButtonElement>("[data-surfgym-chart-edit]")?.addEventListener("click", () => {
         if (!onEditChart) return;
@@ -123,6 +126,7 @@ export function mountTaskScopedLineVisuals({
   const unsubscribeCharts = taskScopedLineCharts.onChange(render);
   const unsubscribeSparklines = taskScopedLineSparklines.onChange(render);
   layoutEvents.addEventListener("scroll", render);
+  layoutEvents.addEventListener("active-sheet-change", render);
   window.addEventListener("resize", render);
   render();
 
@@ -130,6 +134,7 @@ export function mountTaskScopedLineVisuals({
     unsubscribeCharts();
     unsubscribeSparklines();
     layoutEvents.removeEventListener("scroll", render);
+    layoutEvents.removeEventListener("active-sheet-change", render);
     window.removeEventListener("resize", render);
     layer.remove();
   };

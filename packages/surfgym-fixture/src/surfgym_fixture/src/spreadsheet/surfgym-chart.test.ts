@@ -46,6 +46,18 @@ describe("task-scoped line chart canonical state", () => {
     });
   });
 
+  it("places a later chart below an occupied initial anchor", () => {
+    const charts = new TaskScopedLineChartRegistry();
+
+    const first = charts.create("Sheet1", canonicalChart);
+    const second = charts.create("Sheet1", { ...canonicalChart, title: "Second" });
+    const otherSheet = charts.create("Sheet2", { ...canonicalChart, title: "Other sheet" });
+
+    expect(first.position).toEqual({ row: 12, column: 0, offsetX: 0, offsetY: 0 });
+    expect(second.position).toEqual({ row: 12, column: 0, offsetX: 0, offsetY: 336 });
+    expect(otherSheet.position).toEqual({ row: 12, column: 0, offsetX: 0, offsetY: 0 });
+  });
+
   it("updates and deletes only the indexed chart on a sheet", () => {
     const charts = new TaskScopedLineChartRegistry();
     charts.create("Sheet1", canonicalChart, [["Scan Time", "Pallets"], ["08:00", 20]]);

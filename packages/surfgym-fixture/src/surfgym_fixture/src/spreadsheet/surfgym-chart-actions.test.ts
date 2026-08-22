@@ -52,6 +52,15 @@ describe("task-scoped line chart action", () => {
       categoryData: ["08:00", "09:00", "10:00"],
       seriesData: [{ name: "Pallets", values: [20, 30, 50] }],
     });
+
+    await expect(actions.applySelectionChart({
+      chartType: "line" as never,
+      rangeA1: "A1:A4,B1:B4",
+      dataOrientation: "Row",
+      title: "Second dispatch volume",
+    })).resolves.toBe(true);
+    expect(taskScopedLineCharts.get("Sheet1", { index: 1 }).position.offsetY)
+      .toBeGreaterThan(taskScopedLineCharts.get("Sheet1", { index: 0 }).position.offsetY);
   });
 
   it("edits supported line-chart metadata and deletes the deterministic chart id", async () => {
@@ -96,5 +105,50 @@ describe("task-scoped line chart action", () => {
     });
     expect(actions.deleteTaskScopedChart(id)).toBe(true);
     expect(() => taskScopedLineCharts.get("Sheet1", { id })).toThrow("not found");
+  });
+
+  it("creates a canonical chart on an existing destination sheet while retaining its source sheet", async () => {
+    const selectedRange = { startRow: 0, endRow: 2, startColumn: 0, endColumn: 1 };
+    const sheet1 = {
+      getSheetId: () => "sheet-1",
+      getSheetName: () => "Sheet1",
+      getMaxRows: () => 100,
+      getMaxColumns: () => 26,
+      getSelection: () => ({ getActiveRange: () => ({ getRange: () => selectedRange }) }),
+      getRange: () => ({
+        getRange: () => selectedRange,
+        getValues: () => [["Month", "Sales"], ["Jan", 10], ["Feb", 20]],
+      }),
+      setFrozenRows: () => undefined,
+      setFrozenColumns: () => undefined,
+    };
+    const sheet2 = { ...sheet1, getSheetId: () => "sheet-2", getSheetName: () => "Sheet2" };
+    const workbook = {
+      getId: () => "book-1",
+      getSheets: () => [sheet1, sheet2],
+      getSheetByName: (name: string) => name === "Sheet1" ? sheet1 : name === "Sheet2" ? sheet2 : null,
+    };
+    const actions = createSpreadsheetActions({
+      univerAPI: { executeCommand: async () => true, getActiveSheet: () => ({ workbook, worksheet: sheet1 }) },
+      workbook,
+      getDefaultWorksheet: () => sheet1,
+    } as never);
+
+    await expect(actions.applySelectionChart({
+      chartType: "column",
+      rangeA1: "A1:B3",
+      destinationSheet: "Sheet2",
+    })).resolves.toBe(true);
+
+    expect(taskScopedLineCharts.list("Sheet1")).toEqual([]);
+    expect(taskScopedLineCharts.get("Sheet2", { index: 0 })).toMatchObject({
+      chartType: "column",
+      sheet: "Sheet2",
+      sourceSheet: "Sheet1",
+      sourceRange: "A1:B3",
+      position: { row: 0, column: 0, offsetX: 20, offsetY: 20 },
+    });
+    await expect(actions.applySelectionChart({ chartType: "line", destinationSheet: "Missing" })).resolves.toBe(false);
+    expect(taskScopedLineCharts.listAll()).toHaveLength(1);
   });
 });

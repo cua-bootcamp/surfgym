@@ -7,6 +7,7 @@ import type {
   PivotTableSourceInfo,
   SpreadsheetActions,
 } from './spreadsheet-actions';
+import { requestTaskScopedSpreadsheetExport } from './surfgym-export';
 
 const fillColorCommandId = 'sheet.command.set-background-color';
 const textColorCommandId = 'sheet.command.set-range-text-color';
@@ -15,7 +16,7 @@ const startToolbarGroupId = 'spreadsheet-start-toolbar-group';
 const startFilterToolbarButtonId = 'spreadsheet-start-filter-toolbar-button';
 const startSortToolbarButtonId = 'spreadsheet-start-sort-toolbar-button';
 const startBarChartToolbarButtonId = 'spreadsheet-start-bar-chart-toolbar-button';
-const startSparklineToolbarButtonId = 'spreadsheet-start-sparkline-toolbar-button';
+// const startSparklineToolbarButtonId = 'spreadsheet-start-sparkline-toolbar-button';
 const startPivotTableToolbarButtonId = 'spreadsheet-start-pivot-table-toolbar-button';
 const startConditionalFormattingToolbarButtonId = 'spreadsheet-start-conditional-formatting-toolbar-button';
 const formattingSidebarRailId = 'spreadsheet-formatting-sidebar-rail';
@@ -29,6 +30,8 @@ const pivotSourceDialogId = 'spreadsheet-pivot-source-dialog';
 const pivotLayoutDialogId = 'spreadsheet-pivot-layout-dialog';
 const pivotDataFieldDialogId = 'spreadsheet-pivot-data-field-dialog';
 const validationListDialogId = 'spreadsheet-validation-list-dialog';
+const exportDialogId = 'spreadsheet-export-dialog';
+const transposeDialogId = 'spreadsheet-transpose-dialog';
 const sortDirectionMenuId = 'spreadsheet-sort-direction-menu';
 const createConditionalFormattingRuleOperation = 1;
 const openNumberFormatPanelCommandId = 'sheet.operation.open.numfmt.panel';
@@ -59,10 +62,12 @@ type MockToolbarItem = {
   label: string;
   icon: string;
   chart?: boolean;
+  exportRequest?: boolean;
   filter?: boolean;
   pivotTable?: boolean;
   sparkline?: boolean;
   sortAscending?: boolean;
+  transpose?: boolean;
   validationList?: boolean;
 };
 
@@ -99,6 +104,7 @@ type SpreadsheetMockToolbarOptions = {
     | 'applySelectionPercentFormat'
     | 'applySelectionPivotTable'
     | 'applySelectionSort'
+    | 'applySelectionTranspose'
     | 'applySelectionUnmerge'
     | 'columnIndexToName'
     | 'getSelectionPivotSource'
@@ -110,10 +116,12 @@ type SpreadsheetMockToolbarOptions = {
 
 type FilterHeaderPreference = 'unknown' | 'use-first-line' | 'headerless';
 type FilterActions = Pick<SpreadsheetActions, 'applySelectionFilter' | 'applySelectionHeaderlessFilter' | 'getSelectionRangeTarget'>;
-type ChartWizardActions = Pick<SpreadsheetActions, 'applySelectionChart' | 'columnIndexToName' | 'getSelectionRangeTarget'>;
+type ChartWizardActions = Pick<SpreadsheetActions, 'applySelectionChart' | 'columnIndexToName' | 'getSelectionRangeTarget'>
+  & Partial<Pick<SpreadsheetActions, 'getChartDestinationSheets'>>;
 type LineSparklineActions = Pick<SpreadsheetActions, 'applySelectionLineSparklines' | 'getSelectionRangeTarget' | 'columnIndexToName'>;
 type PivotTableActions = Pick<SpreadsheetActions, 'applySelectionPivotTable' | 'getSelectionPivotSource'>;
 type ValidationListActions = Pick<SpreadsheetActions, 'applySelectionValidationList' | 'getSelectionValidationList' | 'removeSelectionValidationList'>;
+type TransposeActions = Pick<SpreadsheetActions, 'applySelectionTranspose'>;
 
 const formatCommandIds = {
   bold: 'sheet.command.set-range-bold',
@@ -142,7 +150,7 @@ type ChartWizardIconKind = string;
 
 type ChartWizardSubtype = {
   label: string;
-  chartType: 'line';
+  chartType: ChartWizardConfig['chartType'];
   icon: ChartWizardIconKind;
 };
 
@@ -162,6 +170,22 @@ const chartWizardTypeGroups: readonly ChartWizardTypeGroup[] = [
     icon: 'line',
     subtypes: [
       { label: 'Line', chartType: 'line', icon: 'line' },
+    ],
+  },
+  {
+    key: 'column',
+    label: 'Column',
+    icon: 'column',
+    subtypes: [
+      { label: 'Clustered Column', chartType: 'column', icon: 'column' },
+    ],
+  },
+  {
+    key: 'bar',
+    label: 'Bar',
+    icon: 'bar',
+    subtypes: [
+      { label: 'Clustered Bar', chartType: 'bar', icon: 'bar' },
     ],
   },
 ] as const;
@@ -474,7 +498,7 @@ const mockToolbarTopGroups: readonly (readonly MockToolbarItem[])[] = [
     { label: 'Save', icon: mockToolbarIcon.save },
   ],
   [
-    { label: 'Export PDF', icon: mockToolbarIcon.pdf },
+    { label: 'Export', icon: mockToolbarIcon.pdf, exportRequest: true },
     { label: 'Print', icon: mockToolbarIcon.print },
     { label: 'Find', icon: mockToolbarIcon.search },
   ],
@@ -482,6 +506,7 @@ const mockToolbarTopGroups: readonly (readonly MockToolbarItem[])[] = [
     { label: 'Cut', icon: mockToolbarIcon.cut },
     { label: 'Copy', icon: mockToolbarIcon.copy },
     { label: 'Paste', icon: mockToolbarIcon.paste },
+    { label: 'Paste Special: Transpose', icon: mockToolbarIcon.paste, transpose: true },
     { label: 'Format Paintbrush', icon: mockToolbarIcon.brush },
   ],
   [
@@ -799,6 +824,8 @@ function openChartWizardDialog(actions: ChartWizardActions) {
   let legendPosition: ChartWizardLegendPosition = 'right';
   let width = 560;
   let height = 360;
+  let destinationSheet = 'current-sheet';
+  const destinationSheets = actions.getChartDestinationSheets?.() ?? [];
 
   const dialog = document.createElement('div');
   dialog.id = chartWizardDialogId;
@@ -849,6 +876,7 @@ function openChartWizardDialog(actions: ChartWizardActions) {
     const legendInput = dialog.querySelector<HTMLSelectElement>('[data-chart-wizard-legend]');
     const widthInput = dialog.querySelector<HTMLInputElement>('[data-chart-wizard-width]');
     const heightInput = dialog.querySelector<HTMLInputElement>('[data-chart-wizard-height]');
+    const destinationInput = dialog.querySelector<HTMLSelectElement>('[data-chart-wizard-destination]');
 
     if (rangeInput) rangeA1 = rangeInput.value.trim();
     if (orientationInput) dataOrientation = orientationInput.value === 'Row' ? 'Row' : 'Column';
@@ -861,6 +889,7 @@ function openChartWizardDialog(actions: ChartWizardActions) {
     if (legendInput) legendPosition = legendInput.value as ChartWizardLegendPosition;
     if (widthInput) width = Number(widthInput.value) || 560;
     if (heightInput) height = Number(heightInput.value) || 360;
+    if (destinationInput) destinationSheet = destinationInput.value;
   }
 
   function renderChartWizardSteps() {
@@ -1043,6 +1072,13 @@ function openChartWizardDialog(actions: ChartWizardActions) {
             <option value="hide" ${legendPosition === 'hide' ? 'selected' : ''}>Hide</option>
           </select>
         </label>
+        <label class="spreadsheet-chart-wizard-field">
+          <span>Destination</span>
+          <select data-chart-wizard-destination>
+            <option value="current-sheet" ${destinationSheet === 'current-sheet' ? 'selected' : ''}>Current sheet</option>
+            ${destinationSheets.map((sheet) => `<option value="${escapeChartWizardAttribute(sheet)}" ${destinationSheet === sheet ? 'selected' : ''}>${escapeChartWizardAttribute(sheet)}</option>`).join('')}
+          </select>
+        </label>
         <div class="spreadsheet-chart-wizard-size-fields">
           <label class="spreadsheet-chart-wizard-field">
             <span>Width</span>
@@ -1104,6 +1140,7 @@ function openChartWizardDialog(actions: ChartWizardActions) {
     const config: ChartWizardConfig = {
       chartType: subtype.chartType,
       chartLabel: subtype.label,
+      destinationSheet,
       dataOrientation,
       height,
       legendPosition,
@@ -1668,6 +1705,54 @@ function closeValidationListDialog() {
   document.getElementById(validationListDialogId)?.remove();
 }
 
+function closeTransposeDialog() {
+  document.getElementById(transposeDialogId)?.remove();
+}
+
+function openTransposeDialog(actions: TransposeActions) {
+  closeTransposeDialog();
+  const dialog = document.createElement('div');
+  dialog.id = transposeDialogId;
+  dialog.dataset.spreadsheetTransposeDialog = 'true';
+  dialog.className = 'spreadsheet-pivot-layout-backdrop';
+  let targetCell = 'B8';
+
+  function render(errorMessage = '') {
+    dialog.innerHTML = `
+      <div class="spreadsheet-pivot-window spreadsheet-pivot-layout-dialog" role="dialog" aria-modal="true" aria-labelledby="spreadsheet-transpose-title">
+        <div class="spreadsheet-pivot-titlebar"><strong id="spreadsheet-transpose-title">Paste Special: Transpose</strong></div>
+        <div class="spreadsheet-pivot-layout-content">
+          <label>Target cell <input type="text" data-spreadsheet-transpose-target aria-label="Target cell" value="${escapeChartWizardAttribute(targetCell)}" autocomplete="off"></label>
+          ${errorMessage ? `<div class="spreadsheet-pivot-error" role="alert">${escapeChartWizardAttribute(errorMessage)}</div>` : ''}
+        </div>
+        <div class="spreadsheet-pivot-footer">
+          <span class="spreadsheet-pivot-footer-spacer"></span>
+          <button class="spreadsheet-pivot-button" type="button" data-spreadsheet-transpose-cancel>Cancel</button>
+          <button class="spreadsheet-pivot-button spreadsheet-pivot-button-primary" type="button" data-spreadsheet-transpose-apply>Apply</button>
+        </div>
+      </div>
+    `;
+    dialog.querySelector<HTMLButtonElement>('[data-spreadsheet-transpose-cancel]')?.addEventListener('click', closeTransposeDialog);
+    dialog.querySelector<HTMLButtonElement>('[data-spreadsheet-transpose-apply]')?.addEventListener('click', async () => {
+      targetCell = dialog.querySelector<HTMLInputElement>('[data-spreadsheet-transpose-target]')?.value ?? '';
+      try {
+        const applied = await actions.applySelectionTranspose({ targetCell });
+        if (applied) closeTransposeDialog();
+        else render('Could not transpose the selected cells.');
+      } catch (error) {
+        render(error instanceof Error ? error.message : 'Could not transpose the selected cells.');
+      }
+    });
+  }
+
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) closeTransposeDialog();
+  });
+  document.body.appendChild(dialog);
+  render();
+  dialog.querySelector<HTMLInputElement>('[data-spreadsheet-transpose-target]')?.focus();
+}
+
 function openValidationListDialog(actions: ValidationListActions) {
   closeValidationListDialog();
   const dialog = document.createElement('div');
@@ -1729,12 +1814,84 @@ function openValidationListDialog(actions: ValidationListActions) {
   dialog.querySelector<HTMLInputElement>('[data-validation-list-values]')?.focus();
 }
 
+function closeSpreadsheetExportDialog() {
+  document.getElementById(exportDialogId)?.remove();
+}
+
+function openSpreadsheetExportDialog() {
+  closeSpreadsheetExportDialog();
+  const backdrop = document.createElement('div');
+  backdrop.id = exportDialogId;
+  backdrop.className = 'spreadsheet-pivot-layout-backdrop';
+  backdrop.dataset.spreadsheetExportDialog = 'true';
+  backdrop.innerHTML = `
+    <div class="spreadsheet-pivot-window spreadsheet-pivot-layout-dialog" role="dialog" aria-modal="true" aria-labelledby="spreadsheet-export-title">
+      <div class="spreadsheet-pivot-titlebar">
+        <strong id="spreadsheet-export-title">Export Spreadsheet</strong>
+      </div>
+      <div class="spreadsheet-pivot-layout-content">
+        <label class="spreadsheet-chart-wizard-field">Format
+          <select data-spreadsheet-export-format aria-label="Export format">
+            <option value="pdf">PDF</option>
+            <option value="csv">CSV</option>
+          </select>
+        </label>
+        <label class="spreadsheet-chart-wizard-field">Filename
+          <input type="text" value="spreadsheet.pdf" data-spreadsheet-export-filename aria-label="Export filename" autocomplete="off">
+        </label>
+        <label class="spreadsheet-pivot-check">
+          <input type="checkbox" data-spreadsheet-export-fit-to-one-page>
+          Fit sheet to one page
+        </label>
+        <div class="spreadsheet-pivot-error" data-spreadsheet-export-error role="alert" hidden></div>
+      </div>
+      <div class="spreadsheet-pivot-footer">
+        <span class="spreadsheet-pivot-footer-spacer"></span>
+        <button class="spreadsheet-pivot-button" type="button" data-spreadsheet-export-cancel>Cancel</button>
+        <button class="spreadsheet-pivot-button spreadsheet-pivot-button-primary" type="button" data-spreadsheet-export-confirm>Export</button>
+      </div>
+    </div>
+  `;
+
+  const format = backdrop.querySelector<HTMLSelectElement>('[data-spreadsheet-export-format]');
+  const filename = backdrop.querySelector<HTMLInputElement>('[data-spreadsheet-export-filename]');
+  const fitToOnePage = backdrop.querySelector<HTMLInputElement>('[data-spreadsheet-export-fit-to-one-page]');
+  const error = backdrop.querySelector<HTMLElement>('[data-spreadsheet-export-error]');
+  format?.addEventListener('change', () => {
+    const isPdf = format.value === 'pdf';
+    if (!fitToOnePage) return;
+    fitToOnePage.disabled = !isPdf;
+    if (!isPdf) fitToOnePage.checked = false;
+  });
+  backdrop.querySelector<HTMLButtonElement>('[data-spreadsheet-export-cancel]')?.addEventListener('click', closeSpreadsheetExportDialog);
+  backdrop.querySelector<HTMLButtonElement>('[data-spreadsheet-export-confirm]')?.addEventListener('click', () => {
+    const result = requestTaskScopedSpreadsheetExport(
+      format?.value ?? '',
+      filename?.value ?? '',
+      fitToOnePage?.checked ?? false,
+    );
+    if (result.ok) {
+      closeSpreadsheetExportDialog();
+      return;
+    }
+    if (error) {
+      error.textContent = result.message;
+      error.hidden = false;
+    }
+  });
+  backdrop.addEventListener('click', (event) => {
+    if (event.target === backdrop) closeSpreadsheetExportDialog();
+  });
+  document.body.appendChild(backdrop);
+  filename?.focus();
+}
+
 export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }: SpreadsheetMockToolbarOptions) {
   const container = document.getElementById(containerId);
   if (!container || container.dataset.mockToolbarRendered === 'true') return;
 
   const disabledFontControls = actions ? '' : 'disabled aria-disabled="true"';
-  const canClickMockButton = (item: MockToolbarItem) => actions && (item.chart || item.filter || item.pivotTable || item.sparkline || item.sortAscending !== undefined || item.validationList);
+  const canClickMockButton = (item: MockToolbarItem) => item.exportRequest || (actions && (item.chart || item.filter || item.pivotTable || item.sparkline || item.sortAscending !== undefined || item.transpose || item.validationList));
   const canClickFormattingButton = (item: MockFormattingItem) => item.action || item.commandId || item.colorCommandId;
 
   container.dataset.mockToolbarRendered = 'true';
@@ -1758,7 +1915,9 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
                           aria-label="${item.label}"
                           ${item.filter ? 'data-spreadsheet-filter="true"' : ''}
                           ${item.chart ? 'data-spreadsheet-chart="true"' : ''}
+                          ${item.exportRequest ? 'data-spreadsheet-export="true"' : ''}
                           ${item.sparkline ? 'data-spreadsheet-sparkline="true"' : ''}
+                          ${item.transpose ? 'data-spreadsheet-transpose="true"' : ''}
                           ${item.pivotTable ? 'data-spreadsheet-pivot-table="true"' : ''}
                           ${item.validationList ? 'data-spreadsheet-data-validation="true"' : ''}
                           ${item.sortAscending !== undefined ? `data-spreadsheet-sort-direction="${item.sortAscending ? 'ascending' : 'descending'}"` : ''}
@@ -1961,6 +2120,17 @@ export function renderSpreadsheetMockToolbar({ containerId, univerAPI, actions }
     if (!actions) return;
 
     openValidationListDialog(actions);
+  });
+
+  container.querySelector<HTMLButtonElement>('[data-spreadsheet-transpose]')?.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (!actions) return;
+    openTransposeDialog(actions);
+  });
+
+  container.querySelector<HTMLButtonElement>('[data-spreadsheet-export]')?.addEventListener('click', (event) => {
+    event.preventDefault();
+    openSpreadsheetExportDialog();
   });
 
   if (!univerAPI) return;
@@ -2486,14 +2656,14 @@ export function setupSpreadsheetUi({
         },
       );
 
-  const sparklineButton = createStartToolbarButton(
-        startSparklineToolbarButtonId,
-        'Sparkline',
-        mockToolbarIcon.sparkline,
-        () => {
-    openLineSparklineDialog(actions);
-        },
-      );
+      // Keep the internal line-sparkline state implementation for regression coverage,
+      // but do not expose an agent-facing entry point: the mapped OSWorld task is infeasible.
+      // const sparklineButton = createStartToolbarButton(
+      //   startSparklineToolbarButtonId,
+      //   'Sparkline',
+      //   mockToolbarIcon.sparkline,
+      //   () => openLineSparklineDialog(actions),
+      // );
 
       const pivotTableButton = createStartToolbarButton(
         startPivotTableToolbarButtonId,
@@ -2521,7 +2691,7 @@ export function setupSpreadsheetUi({
         },
       );
 
-      buttonGroup.append(filterButton, sortButton, barChartButton, sparklineButton, pivotTableButton, conditionalFormattingButton);
+      buttonGroup.append(filterButton, sortButton, barChartButton, pivotTableButton, conditionalFormattingButton);
       toolbar.appendChild(buttonGroup);
     });
   }

@@ -33,6 +33,10 @@ import {
   getTaskScopedSparklineMeta as _getSparklineMeta,
   setTaskScopedSparklineMeta as _setSparklineMeta
 } from "./surfgym-sparkline";
+import {
+  getTaskScopedSpreadsheetExportRequest as _getExportRequest,
+  setTaskScopedSpreadsheetExportRequest as _setExportRequest,
+} from "./surfgym-export";
 import { SpreadsheetRuntimeStore } from "./runtime";
 
 const CELL_PATHS = {
@@ -105,7 +109,12 @@ type PivotSpec = {
   property: "definition";
 };
 
-export type SpreadsheetSpec = CellSpec | SheetSpec | ChartSpec | SparklineSpec | PivotSpec;
+type ExportSpec = {
+  kind: "export";
+  property: "request";
+};
+
+export type SpreadsheetSpec = CellSpec | SheetSpec | ChartSpec | SparklineSpec | PivotSpec | ExportSpec;
 export type SpreadsheetStateAtom = {
   spec: SpreadsheetSpec;
   value: Value;
@@ -139,6 +148,9 @@ export function get(spec: SpreadsheetSpec): unknown {
     case "pivot":
       assertPivotSpec(spec);
       return _getPivotMeta(spec.sheet, spec.startRow, spec.startColumn);
+    case "export":
+      assertExportSpec(spec);
+      return _getExportRequest();
   }
 
   throw unsupportedSpec(spec);
@@ -172,6 +184,9 @@ export function set(spec: SpreadsheetSpec, value: Value) {
     case "pivot":
       assertPivotSpec(spec);
       return _setPivotMeta(spec.sheet, spec.startRow, spec.startColumn, value);
+    case "export":
+      assertExportSpec(spec);
+      return _setExportRequest(value);
   }
 
   throw unsupportedSpec(spec);
@@ -240,6 +255,10 @@ function assertPivotSpec(spec: PivotSpec) {
     !Number.isInteger(spec.startColumn) || spec.startColumn < 0) {
     throw new Error("Invalid pivot atom address.");
   }
+}
+
+function assertExportSpec(spec: ExportSpec) {
+  if (spec.property !== "request") throw new Error("Invalid export atom property.");
 }
 
 function unsupportedSpec(spec: never): Error {

@@ -158,6 +158,7 @@ function waitForSpreadsheetRendered(timeoutMs = 10_000) {
 }
 
 const rendered = waitForSpreadsheetRendered();
+const lineVisualLayoutEvents = new EventTarget();
 
 SpreadsheetRuntimeStore.runtime = {
   workbook,
@@ -181,7 +182,6 @@ void rendered.then(
 
     let scrollX = 0;
     let scrollY = 0;
-    const lineVisualLayoutEvents = new EventTarget();
     univerAPI.addEvent(univerAPI.Event.Scroll, (event) => {
       scrollX = event.scrollX;
       scrollY = event.scrollY;
@@ -192,6 +192,7 @@ void rendered.then(
       container: fixtureContainer,
       readValues: (sheetName, sourceRange) =>
         workbook.getSheetByName(sheetName)?.getRange(sourceRange).getValues() ?? [],
+      getActiveSheetName: () => workbook.getActiveSheet().getSheetName(),
       getGridGeometry: () => {
         const viewportRect = gridViewport.getBoundingClientRect();
         const containerRect = fixtureContainer.getBoundingClientRect();
@@ -243,7 +244,10 @@ function refreshSpreadsheetNameBox() {
 }
 
 refreshSpreadsheetNameBox();
-univerAPI.onCommandExecuted(refreshSpreadsheetNameBox);
+univerAPI.onCommandExecuted(() => {
+  refreshSpreadsheetNameBox();
+  lineVisualLayoutEvents.dispatchEvent(new Event("active-sheet-change"));
+});
 
 setupSpreadsheetUi({
   univerAPI,

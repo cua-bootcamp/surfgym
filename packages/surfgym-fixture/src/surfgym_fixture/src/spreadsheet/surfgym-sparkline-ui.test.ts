@@ -1,9 +1,10 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { renderSpreadsheetMockToolbar } from "./spreadsheet-ui";
+import { renderSpreadsheetMockToolbar, setupSpreadsheetUi } from "./spreadsheet-ui";
 
 describe("task-scoped line sparkline UI", () => {
   afterEach(() => {
+    vi.useRealTimers();
     document.body.innerHTML = "";
   });
 
@@ -24,5 +25,25 @@ describe("task-scoped line sparkline UI", () => {
 
     expect(document.querySelector('[data-spreadsheet-sparkline]')).toBeNull();
     expect(applySelectionLineSparklines).not.toHaveBeenCalled();
+  });
+
+  it("does not append Sparkline to the actual Start toolbar", () => {
+    vi.useFakeTimers();
+    document.body.innerHTML = '<div id="spreadsheet-body"></div><div data-u-comp="ribbon-toolbar" aria-label="Start"></div>';
+    const appendTo = vi.fn();
+
+    setupSpreadsheetUi({
+      univerAPI: {
+        createMenu: vi.fn(() => ({ appendTo })),
+        executeCommand: vi.fn(async () => true) as never,
+      },
+      actions: { getSelectionRangeTarget: vi.fn(() => null) } as never,
+      conditionalFormattingCommandId: "test.conditional-formatting",
+    });
+    vi.runAllTimers();
+
+    const startToolbar = document.querySelector('[data-u-comp="ribbon-toolbar"]');
+    expect(startToolbar?.querySelector('[aria-label="Chart Wizard"]')).not.toBeNull();
+    expect(startToolbar?.querySelector('[aria-label="Sparkline"]')).toBeNull();
   });
 });

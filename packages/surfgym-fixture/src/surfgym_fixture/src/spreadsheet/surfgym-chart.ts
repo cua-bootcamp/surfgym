@@ -1,6 +1,7 @@
 import { splitChartSourceRanges } from "./chart-range";
 
 export type ChartRef = { id?: string; index?: number };
+export type TaskScopedChartType = "line" | "column" | "bar";
 export type TaskScopedChartOrientation = "Row" | "Column";
 export type TaskScopedChartLegendPosition = "top" | "right" | "bottom" | "left" | "hide";
 export type TaskScopedChartCellValue = string | number | boolean | null;
@@ -14,8 +15,9 @@ export type TaskScopedLineChart = {
   id: string;
   index: number;
   sheet: string;
+  sourceSheet: string;
   categoryData: TaskScopedChartCellValue[];
-  chartType: "line";
+  chartType: TaskScopedChartType;
   context: Record<string, unknown>;
   dataOrientation: TaskScopedChartOrientation;
   height: number;
@@ -31,7 +33,9 @@ export type TaskScopedLineChart = {
 };
 
 export type TaskScopedLineChartConfig = {
+  chartType?: TaskScopedChartType;
   sourceRange: string;
+  sourceSheet?: string;
   dataOrientation?: TaskScopedChartOrientation;
   title?: string;
   xAxisTitle?: string;
@@ -55,6 +59,7 @@ const CHART_DEFAULTS = {
   width: 480,
   height: 320,
 };
+const CHART_PLACEMENT_GAP = 16;
 
 function cloneChart(chart: TaskScopedLineChart): TaskScopedLineChart {
   return {
@@ -67,8 +72,10 @@ function cloneChart(chart: TaskScopedLineChart): TaskScopedLineChart {
   };
 }
 
-function requireLineChartType(value: unknown): asserts value is "line" {
-  if (value !== "line") throw new Error("Only the seed-required line chart type is supported.");
+function requireChartType(value: unknown): asserts value is TaskScopedChartType {
+  if (value !== "line" && value !== "column" && value !== "bar") {
+    throw new Error("Chart type must be line, column, or bar.");
+  }
 }
 
 function requireOrientation(value: unknown): asserts value is TaskScopedChartOrientation {
@@ -94,6 +101,26 @@ function normalizePosition(position: Partial<TaskScopedLineChart["position"]> | 
     if (!Number.isFinite(value)) throw new Error(`Chart ${name} must be finite.`);
   }
   return next;
+}
+
+function placeCreatedChart(
+  charts: TaskScopedLineChart[],
+  requested: Partial<TaskScopedLineChart["position"]> | undefined,
+) {
+  const base = normalizePosition(requested);
+  const anchored = charts.filter((chart) =>
+    chart.position.row === base.row &&
+    chart.position.column === base.column &&
+    chart.position.offsetX === base.offsetX,
+  );
+  if (!anchored.length) return base;
+  return {
+    ...base,
+    offsetY: Math.max(
+      base.offsetY,
+      ...anchored.map((chart) => chart.position.offsetY + chart.height + CHART_PLACEMENT_GAP),
+    ),
+  };
 }
 
 function positiveNumber(value: number | undefined, fallback: number, field: string) {
@@ -176,22 +203,25 @@ export class TaskScopedLineChartRegistry {
 
   create(sheet: string | number | undefined, config: TaskScopedLineChartConfig, sourceMatrix: unknown[][] = []) {
     requireSourceRange(config.sourceRange);
+    const chartType = config.chartType ?? "line";
+    requireChartType(chartType);
     const dataOrientation = config.dataOrientation ?? CHART_DEFAULTS.dataOrientation;
     requireOrientation(dataOrientation);
     const sourceRange = normalizeSourceRange(config.sourceRange);
     const { categoryData, seriesData } = deriveLineChartData(sourceMatrix, dataOrientation);
     const charts = this.chartsFor(sheet, true);
     const chart: TaskScopedLineChart = {
-      id: `surfgym-line-chart-${this.nextId++}`,
+      id: `surfgym-${chartType}-chart-${this.nextId++}`,
       index: charts.length,
       sheet: normalizeSheet(sheet),
+      sourceSheet: normalizeSheet(config.sourceSheet ?? sheet),
       categoryData,
-      chartType: "line",
+      chartType,
       context: { sourceRange, ...(config.context ?? {}) },
       dataOrientation,
       height: positiveNumber(config.height, CHART_DEFAULTS.height, "height"),
       legendPosition: config.legendPosition ?? CHART_DEFAULTS.legendPosition,
-      position: normalizePosition(config.position),
+      position: placeCreatedChart(charts, config.position),
       range: splitChartSourceRanges(sourceRange),
       seriesData,
       sourceRange,
@@ -232,10 +262,10 @@ export class TaskScopedLineChartRegistry {
       chart = this.resolve(sheet, chartRef);
     }
     if (!chart) throw new Error("Chart was not found.");
-    if (property === "id" || property === "index" || property === "sheet") {
+    if (property === "id" || property === "index" || property === "sheet" || property === "sourceSheet") {
       throw new Error(`Chart ${property} is immutable.`);
     }
-    if (property === "chartType") requireLineChartType(value);
+    if (property === "chartType") requireChartType(value);
     if (property === "dataOrientation") requireOrientation(value);
     if (property === "sourceRange") {
       requireSourceRange(value);
@@ -266,6 +296,13 @@ export class TaskScopedLineChartRegistry {
       chart.sourceRange = normalizeSourceRange(config.sourceRange);
       chart.range = splitChartSourceRanges(chart.sourceRange);
       chart.context = { ...chart.context, sourceRange: chart.sourceRange };
+    }
+    if (config.sourceSheet !== undefined && normalizeSheet(config.sourceSheet) !== chart.sourceSheet) {
+      throw new Error("Chart sourceSheet is immutable.");
+    }
+    if (config.chartType !== undefined) {
+      requireChartType(config.chartType);
+      chart.chartType = config.chartType;
     }
     if (config.dataOrientation !== undefined) {
       requireOrientation(config.dataOrientation);

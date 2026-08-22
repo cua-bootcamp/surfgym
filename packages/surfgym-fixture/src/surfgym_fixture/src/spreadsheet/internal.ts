@@ -1,6 +1,7 @@
 import { checkCellValueType, type FWorksheet } from "@univerjs/preset-sheets-core";
 import type { Path, Value } from "../external";
 import { resetTaskScopedCharts } from "./surfgym-chart";
+import { resetTaskScopedSpreadsheetExportRequest } from "./surfgym-export";
 import { resetTaskScopedSparklines } from "./surfgym-sparkline";
 import { SpreadsheetRuntimeStore } from "./runtime";
 
@@ -550,6 +551,7 @@ export function _resetSpreadsheetState() {
   pivotMetaRegistry.clear();
   validationListRegistry.clear();
   resetTaskScopedCharts();
+  resetTaskScopedSpreadsheetExportRequest();
   resetTaskScopedSparklines();
 
   return resetWorksheet;

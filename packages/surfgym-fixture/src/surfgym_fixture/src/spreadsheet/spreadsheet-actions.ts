@@ -27,6 +27,7 @@ type SpreadsheetRange = {
   setFontSize: (fontSize: number | null) => unknown;
   setNumberFormat: (pattern: string) => unknown;
   setValue: (value: string | number | boolean | null) => unknown;
+  setValues: (values: unknown[][]) => unknown;
   getValue?: () => unknown;
   getValues?: () => unknown[][];
   getCellData?: () => unknown;
@@ -84,7 +85,8 @@ export type ChartWizardLegendPosition = 'top' | 'right' | 'bottom' | 'left' | 'h
 export type ChartWizardDataOrientation = 'Row' | 'Column';
 
 export type ChartWizardConfig = {
-  chartType: 'line';
+  chartType: 'line' | 'column' | 'bar';
+  destinationSheet?: 'current-sheet' | string;
   chartLabel?: string;
   rangeA1?: string;
   title?: string;
@@ -140,6 +142,10 @@ export type PivotTableApplyResult = {
 
 export type LineSparklineConfig = {
   sourceRange: string;
+};
+
+export type SpreadsheetTransposeConfig = {
+  targetCell: string;
 };
 
 export type SpreadsheetValidationListConfig = {
@@ -509,27 +515,36 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
     const chartTarget = getSelectionRangeTarget({ allowSingleRow: true });
     if (!chartTarget) return false;
 
-    if (config.chartType !== 'line') throw new Error('Only line charts are supported by this fixture.');
-
     const sourceRange = config.rangeA1?.trim() || selectionRangeToA1(chartTarget.range);
     const sourceRanges = splitChartSourceRanges(sourceRange);
     const sourceInfo = mergeChartSourceMatrixInfo(
       sourceRanges.map((rangeA1) => readA1RangeValues(chartTarget.worksheet, rangeA1)),
     );
+    const sourceSheet = chartTarget.worksheet.getSheetName?.() ?? chartTarget.worksheet.getSheetId();
+    const requestedDestination = config.destinationSheet?.trim();
+    const destinationWorksheet = !requestedDestination || requestedDestination === 'current-sheet'
+      ? chartTarget.worksheet
+      : workbook.getSheetByName?.(requestedDestination);
+    if (!destinationWorksheet) return false;
+    const destinationSheet = destinationWorksheet.getSheetName?.() ?? destinationWorksheet.getSheetId();
     const maxColumn = chartTarget.worksheet.getMaxColumns() - 1;
     const chartColumn = chartTarget.range.endColumn < maxColumn
       ? chartTarget.range.endColumn + 1
       : chartTarget.range.startColumn;
     const orientation = config.dataOrientation ?? (sourceInfo.isRowDirection ? 'Row' : 'Column');
 
-    taskScopedLineCharts.create(chartTarget.worksheet.getSheetName?.() ?? chartTarget.worksheet.getSheetId(), {
+    taskScopedLineCharts.create(destinationSheet, {
+      chartType: config.chartType,
       sourceRange,
+      sourceSheet,
       dataOrientation: orientation,
-      title: config.title?.trim() || config.chartLabel || 'Line chart',
+      title: config.title?.trim() || config.chartLabel || `${config.chartType[0]!.toUpperCase()}${config.chartType.slice(1)} chart`,
       xAxisTitle: config.xAxisTitle?.trim() ?? '',
       yAxisTitle: config.yAxisTitle?.trim() ?? '',
       legendPosition: config.legendPosition ?? 'right',
-      position: { row: chartTarget.range.startRow, column: chartColumn, offsetX: 20, offsetY: 20 },
+      position: destinationSheet === sourceSheet
+        ? { row: chartTarget.range.startRow, column: chartColumn, offsetX: 20, offsetY: 20 }
+        : { row: 0, column: 0, offsetX: 20, offsetY: 20 },
       width: config.width ?? 560,
       height: config.height ?? 360,
       context: {
@@ -544,9 +559,9 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
   async function updateTaskScopedChart(chartId: string, config: TaskScopedLineChartUpdate) {
     const current = taskScopedLineCharts.listAll().find((chart) => chart.id === chartId);
     if (!current) throw new Error(`Chart was not found: ${chartId}`);
-    const worksheet = workbook.getSheetByName?.(current.sheet)
+    const worksheet = workbook.getSheetByName?.(current.sourceSheet)
       ?? getSelectionRangeTarget({ allowSingleRow: true })?.worksheet;
-    if (!worksheet) throw new Error(`Chart sheet was not found: ${current.sheet}`);
+    if (!worksheet) throw new Error(`Chart source sheet was not found: ${current.sourceSheet}`);
     const sourceRange = config.sourceRange ?? current.sourceRange;
     const sourceInfo = mergeChartSourceMatrixInfo(
       splitChartSourceRanges(sourceRange).map((rangeA1) => readA1RangeValues(worksheet, rangeA1)),
@@ -558,6 +573,12 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
   function deleteTaskScopedChart(chartId: string) {
     const current = taskScopedLineCharts.listAll().find((chart) => chart.id === chartId);
     return current ? taskScopedLineCharts.delete(current.sheet, { id: chartId }) : false;
+  }
+
+  function getChartDestinationSheets() {
+    return (workbook.getSheets?.() ?? [])
+      .map((sheet) => sheet.getSheetName?.() ?? sheet.getSheetId())
+      .filter((name, index, names) => Boolean(name) && names.indexOf(name) === index);
   }
 
   function columnNameToIndex(columnName: string) {
@@ -575,6 +596,51 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
       throw new Error('Sparkline source range is reversed.');
     }
     return { startColumn, endColumn, startRow, endRow };
+  }
+
+  function parseSingleA1Target(targetCell: string) {
+    const match = /^([A-Z]+)([1-9]\d*)$/i.exec(targetCell.trim());
+    if (!match) throw new Error('Transpose target must be one A1 cell.');
+    return { column: columnNameToIndex(match[1]!.toUpperCase()), row: Number(match[2]) - 1 };
+  }
+
+  function rangesIntersect(left: SelectionRange, right: SelectionRange) {
+    return left.startRow <= right.endRow && right.startRow <= left.endRow &&
+      left.startColumn <= right.endColumn && right.startColumn <= left.endColumn;
+  }
+
+  async function applySelectionTranspose(config: SpreadsheetTransposeConfig) {
+    const source = getSelectionRangeTarget({ allowSingleRow: true });
+    if (!source) throw new Error('Select a source range before transposing.');
+
+    const target = parseSingleA1Target(config.targetCell);
+    const sourceRowCount = source.range.endRow - source.range.startRow + 1;
+    const sourceColumnCount = source.range.endColumn - source.range.startColumn + 1;
+    const destinationRange: SelectionRange = {
+      startRow: target.row,
+      endRow: target.row + sourceColumnCount - 1,
+      startColumn: target.column,
+      endColumn: target.column + sourceRowCount - 1,
+    };
+    if (destinationRange.endRow >= source.worksheet.getMaxRows() || destinationRange.endColumn >= source.worksheet.getMaxColumns()) {
+      throw new Error('Transpose target is outside the worksheet bounds.');
+    }
+    if (rangesIntersect(source.range, destinationRange)) {
+      throw new Error('Transpose target overlaps the selected source range.');
+    }
+
+    const sourceValues = readRangeValues(source.worksheet, source.range);
+    const transposed = Array.from(
+      { length: sourceColumnCount },
+      (_, columnOffset) => Array.from(
+        { length: sourceRowCount },
+        (_, rowOffset) => sourceValues[rowOffset]?.[columnOffset] ?? null,
+      ),
+    );
+    source.worksheet
+      .getRange(target.row, target.column, sourceColumnCount, sourceRowCount)
+      .setValues(transposed);
+    return true;
   }
 
   async function applySelectionLineSparklines(config: LineSparklineConfig) {
@@ -787,9 +853,9 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
 
   async function applySelectionBarChart() {
     await applySelectionChart({
-      chartType: 'line',
-      chartLabel: 'Line Chart',
-      title: 'Line Chart',
+      chartType: 'bar',
+      chartLabel: 'Bar Chart',
+      title: 'Bar Chart',
     });
   }
 
@@ -810,10 +876,12 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
     applySelectionPercentFormat,
     applySelectionPivotTable,
     applySelectionSort,
+    applySelectionTranspose,
     applySelectionUnmerge,
     applySelectionValidationList,
     columnIndexToName,
     getSelectionPivotSource,
+    getChartDestinationSheets,
     getSelectionRangeTarget,
     getSelectionValidationList,
     removeSelectionValidationList,

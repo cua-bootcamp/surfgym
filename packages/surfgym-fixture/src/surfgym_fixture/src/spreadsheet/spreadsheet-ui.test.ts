@@ -5,6 +5,43 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
+describe('transpose UI', () => {
+  it('dispatches the transpose target only on Apply', async () => {
+    document.body.innerHTML = '<div id="toolbar"></div>';
+    const applySelectionTranspose = vi.fn().mockResolvedValue(true);
+    renderSpreadsheetMockToolbar({
+      containerId: 'toolbar',
+      univerAPI: { executeCommand: async () => true },
+      actions: { applySelectionTranspose },
+    } as never);
+
+    document.querySelector<HTMLButtonElement>('[data-spreadsheet-transpose]')!.click();
+    const target = document.querySelector<HTMLInputElement>('[data-spreadsheet-transpose-target]')!;
+    target.value = 'B8';
+    document.querySelector<HTMLButtonElement>('[data-spreadsheet-transpose-apply]')!.click();
+
+    await vi.waitFor(() => expect(applySelectionTranspose).toHaveBeenCalledWith({ targetCell: 'B8' }));
+    expect(document.querySelector('[data-spreadsheet-transpose-dialog]')).toBeNull();
+  });
+
+  it('keeps the transpose dialog open when the action rejects', async () => {
+    document.body.innerHTML = '<div id="toolbar"></div>';
+    const applySelectionTranspose = vi.fn().mockRejectedValueOnce(new Error('Target overlaps source.'));
+    renderSpreadsheetMockToolbar({
+      containerId: 'toolbar',
+      univerAPI: { executeCommand: async () => true },
+      actions: { applySelectionTranspose },
+    } as never);
+
+    document.querySelector<HTMLButtonElement>('[data-spreadsheet-transpose]')!.click();
+    document.querySelector<HTMLInputElement>('[data-spreadsheet-transpose-target]')!.value = 'C3';
+    document.querySelector<HTMLButtonElement>('[data-spreadsheet-transpose-apply]')!.click();
+
+    await vi.waitFor(() => expect(document.querySelector('[data-spreadsheet-transpose-dialog] [role="alert"]')?.textContent).toContain('overlaps'));
+    expect(document.querySelector('[data-spreadsheet-transpose-dialog]')).not.toBeNull();
+  });
+});
+
 describe('pivot destination UI', () => {
   it('passes the selected sheet, A1 target, and display mode to the pivot action', async () => {
     document.body.innerHTML = '<div id="toolbar"></div>';
@@ -53,14 +90,15 @@ describe('pivot destination UI', () => {
   });
 });
 
-describe('task-scoped line chart wizard UI', () => {
-  it('shows only the supported line chart choice without unsupported 3D or shape controls', () => {
+describe('task-scoped chart wizard UI', () => {
+  it('shows the supported line, column, and bar choices without unsupported 3D or shape controls', () => {
     document.body.innerHTML = '<div id="toolbar"></div>';
     renderSpreadsheetMockToolbar({
       containerId: 'toolbar',
       actions: {
         applySelectionChart: vi.fn(async () => true),
         columnIndexToName: (index: number) => String.fromCharCode(65 + index),
+        getChartDestinationSheets: () => ['Sheet1', 'Sheet2'],
         getSelectionRangeTarget: () => ({
           range: { startRow: 0, endRow: 3, startColumn: 0, endColumn: 1 },
           worksheet: {},
@@ -72,8 +110,9 @@ describe('task-scoped line chart wizard UI', () => {
 
     const dialog = document.querySelector('#spreadsheet-chart-wizard-dialog')!;
     expect(dialog.textContent).toContain('Line');
+    expect(dialog.textContent).toContain('Column');
+    expect(dialog.textContent).toContain('Bar');
     expect(dialog.textContent).not.toContain('3D Look');
-    expect(dialog.textContent).not.toContain('Bar');
     expect(dialog.textContent).not.toContain('Cylinder');
     expect(dialog.textContent).not.toContain('Cone');
     expect(dialog.textContent).not.toContain('Pyramid');
