@@ -15,3 +15,7 @@ nohup.out
 **/.ms-playwright/*
 **/dist/*
 **/out/*
+
+# Local project notes and agent guidance are maintained outside Git.
+/AGENTS.md
+/docs/
