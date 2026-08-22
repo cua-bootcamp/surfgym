@@ -2,9 +2,13 @@
   "instruction": "Crop this image down to a 512 by 512 pixel square and export it to the Desktop as square.png.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "Landscape-Swiss.jpg"
-    }
+    "setup_files": [
+      {
+        "source": "Landscape-Swiss.jpg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "Landscape-Swiss.jpg"
   },
   "states": [
     [{"spec":{"file":"Desktop/square.png","format":"file_magic","offset":16,"length":8,"default":""},"value":"0000020000000200"}]

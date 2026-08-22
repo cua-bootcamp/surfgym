@@ -1,0 +1,16 @@
+{
+  "instruction": "Hide every .pytest_cache folder from the VS Code Explorer by adding the appropriate files.exclude rule.",
+  "website": {
+    "base": "http://localhost:53001/vscode",
+    "setup_files": [
+      {
+        "source": "python-cache-lab",
+        "target": "fixtures"
+      }
+    ],
+    "open_file": "python-cache-lab"
+  },
+  "states": [
+    [{"spec":{"file":".config/Code/User/settings.json","format":"json_value","path":["files.exclude","**/.pytest_cache"],"default":null},"value":true}]
+  ]
+}

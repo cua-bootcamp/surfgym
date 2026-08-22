@@ -2,9 +2,13 @@
   "instruction": "On slide 15, without selecting each sample individually, change the font of all six labeled text boxes to Verdana.",
   "website": {
     "base": "http://localhost:53001/impress",
-    "param": {
-      "setup_file": "1.pptx"
-    }
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "1.pptx"
   },
   "states": [
     [{"spec":{"query":[["slide",15],["textbox","Liberation Sans\nPlain workshop note: revise topic sentences first."]],"path":["style","fontFamily"]},"value":"Verdana"}],

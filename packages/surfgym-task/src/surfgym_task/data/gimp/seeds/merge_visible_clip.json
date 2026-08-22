@@ -2,9 +2,13 @@
   "instruction": "Merge the visible layers, clipping the result to the image rather than expanding it.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "text & backgound.xcf"
-    }
+    "setup_files": [
+      {
+        "source": "text & backgound.xcf",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "text & backgound.xcf"
   },
   "states": [
     [{"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"layer-merge-type","default":"expand-as-necessary"},"value":"clip-to-image"}]

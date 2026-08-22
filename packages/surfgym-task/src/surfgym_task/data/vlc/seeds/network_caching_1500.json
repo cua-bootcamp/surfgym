@@ -1,0 +1,9 @@
+{
+  "instruction": "Streaming keeps stuttering — raise the network caching buffer to 1500 milliseconds.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"network-caching","default":"1000"},"value":"1500"}]
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "instruction": "Force every video to play back at a 16:9 aspect ratio.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"aspect-ratio","default":""},"value":"16:9"}]
+  ]
+}

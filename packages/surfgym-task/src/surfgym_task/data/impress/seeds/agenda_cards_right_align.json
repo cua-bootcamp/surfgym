@@ -2,9 +2,13 @@
   "instruction": "On slide 3, right-align the text inside the four agenda cards: \"Gather ideas,\" \"Cluster evidence,\" \"Draft paragraphs,\" and \"Revise for flow.\" Do not change the numbered circles.",
   "website": {
     "base": "http://localhost:53001/impress",
-    "param": {
-      "setup_file": "1.pptx"
-    }
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "1.pptx"
   },
   "states": [
     [{"spec":{"query":[["slide",3],["textbox","Gather ideas"]],"path":["style","horizontalAlign"]},"value":"right"}],

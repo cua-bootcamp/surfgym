@@ -1,0 +1,12 @@
+{
+  "instruction": "Find a large car in Geneva and sort the results by lowest price.",
+  "website": {
+    "base": "http://localhost:3200/cars/search",
+    "param": {
+      "pickup": "Geneva"
+    }
+  },
+  "states": [
+    [{"spec":{"script":"(()=>{const h=[...document.querySelectorAll('h3')].find(x=>x.textContent.trim()==='Car category');if(!h)return false;const l=[...h.parentElement.querySelectorAll('label')].find(x=>x.textContent.trim().startsWith('Large'));return l?l.querySelector('input[type=checkbox]').checked:false;})()"},"value":true},{"spec":{"target":"attr","selector":"select","attr":"value"},"value":"price-low"}]
+  ]
+}

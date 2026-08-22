@@ -2,9 +2,13 @@
   "instruction": "Select the whole image, then expand the selection outward by 10 pixels.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "Landscape-Nature.jpg"
-    }
+    "setup_files": [
+      {
+        "source": "Landscape-Nature.jpg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "Landscape-Nature.jpg"
   },
   "states": [
     [{"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"selection-grow-radius","default":"1.000000"},"value":"^10(\\.0*)?$","match":"regex"}]

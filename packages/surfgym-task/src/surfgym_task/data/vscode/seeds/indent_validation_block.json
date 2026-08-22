@@ -1,0 +1,16 @@
+{
+  "instruction": "Indent lines 3 through 8 of validation.py by one additional tab, without changing any other text, and save the result as /config/Desktop/validation_indented.py.",
+  "website": {
+    "base": "http://localhost:53001/vscode",
+    "setup_files": [
+      {
+        "source": "validation.py",
+        "target": "fixtures"
+      }
+    ],
+    "open_file": "validation.py"
+  },
+  "states": [
+    [{"spec":{"file":"Desktop/validation_indented.py","format":"text","default":null},"value":"def validate(records):\n    accepted = []\n        for record in records:\n            if record.get(\"enabled\"):\n                score = record.get(\"score\", 0)\n                if score >= 70:\n                    accepted.append(record[\"name\"])\n        return accepted\n    return []\n"}]
+  ]
+}

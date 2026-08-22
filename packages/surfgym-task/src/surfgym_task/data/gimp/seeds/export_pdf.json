@@ -2,9 +2,13 @@
   "instruction": "Export this image as a PDF named sheet.pdf on the Desktop.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "Landscape-Seoul.jpg"
-    }
+    "setup_files": [
+      {
+        "source": "Landscape-Seoul.jpg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "Landscape-Seoul.jpg"
   },
   "states": [
     [{"spec":{"file":"Desktop/sheet.pdf","format":"file_magic","offset":0,"length":4,"default":""},"value":"25504446"}]

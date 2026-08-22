@@ -1,0 +1,7 @@
+{
+  "instruction": "Turn on Auto Save after a delay and set that delay to 1250 milliseconds in the user settings.",
+  "website": "http://localhost:53001/vscode",
+  "states": [
+    [{"spec":{"file":".config/Code/User/settings.json","format":"json_value","path":["files.autoSave"],"default":null},"value":"afterDelay"},{"spec":{"file":".config/Code/User/settings.json","format":"json_value","path":["files.autoSaveDelay"],"default":null},"value":1250}]
+  ]
+}

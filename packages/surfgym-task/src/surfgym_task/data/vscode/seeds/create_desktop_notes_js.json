@@ -1,0 +1,7 @@
+{
+  "instruction": "Create a new JavaScript file named notes.js in /config/Desktop using VS Code, and save it there.",
+  "website": "http://localhost:53001/vscode",
+  "states": [
+    [{"spec":{"file":"Desktop/notes.js","format":"text","default":"__missing__"},"value":""}]
+  ]
+}

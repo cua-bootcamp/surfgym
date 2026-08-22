@@ -1,0 +1,18 @@
+{
+  "instruction": "Sort these Flight + Hotel packages by lowest price first.",
+  "website": {
+    "base": "http://localhost:3200/flight-hotel/search",
+    "param": {
+      "origin": "London",
+      "destination": "Barcelona",
+      "checkin": "2026-08-07",
+      "checkout": "2026-08-14",
+      "adults": "2",
+      "children": "0",
+      "rooms": "1"
+    }
+  },
+  "states": [
+    [{"spec":{"target":"attr","selector":"select","attr":"value"},"value":"price-low"}]
+  ]
+}

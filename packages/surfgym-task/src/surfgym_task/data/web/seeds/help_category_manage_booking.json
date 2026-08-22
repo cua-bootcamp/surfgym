@@ -1,0 +1,9 @@
+{
+  "instruction": "In the Help Centre, open the 'Manage your booking' category and view its articles.",
+  "website": {
+    "base": "http://localhost:3200/help"
+  },
+  "states": [
+    [{"spec":{"target":"text"},"value":"How do I change my booking dates?","match":"contains"},{"spec":{"target":"text"},"value":"Back to Help Centre","match":"contains"}]
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "instruction": "Fill columns B and C with the Parameter values expressed in millions and billions, rounded half up to one decimal place with a space before M or B.",
+  "website": "http://localhost:3000/spreadsheet",
+  "states": [
+    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Parameter"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Millions"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C1","property":"value"},"value":"Billions"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":1250000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A3","property":"value"},"value":2450000000}],
+    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":"1.3 M"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"formula"},"value":"=TEXT(ROUND(A2/1000000,1),\"0.0\")&\" M\""},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C2","property":"value"},"value":"0.0 B"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C2","property":"formula"},"value":"=TEXT(ROUND(A2/1000000000,1),\"0.0\")&\" B\""},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":"2450.0 M"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"formula"},"value":"=TEXT(ROUND(A3/1000000,1),\"0.0\")&\" M\""},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C3","property":"value"},"value":"2.5 B"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C3","property":"formula"},"value":"=TEXT(ROUND(A3/1000000000,1),\"0.0\")&\" B\""}]
+  ]
+}

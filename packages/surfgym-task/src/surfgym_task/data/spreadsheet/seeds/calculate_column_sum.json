@@ -2,56 +2,9 @@
   "instruction": "Create a new sheet called \"Sheet2\". Put the sum of \"Orders Received\" and \"Orders Fulfilled\" under two columns named \"Total Orders Received\" and \"Total Orders Fulfilled\" of \"Sheet2\".",
   "website": "http://localhost:3000/spreadsheet",
   "states": [
-    [
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A1", "property": "value" }, "value": "Orders Received" },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B1", "property": "value" }, "value": "Orders Fulfilled" },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A2", "property": "value" }, "value": 1842 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B2", "property": "value" }, "value": 1765 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A3", "property": "value" }, "value": 2567 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B3", "property": "value" }, "value": 2488 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A4", "property": "value" }, "value": 2314 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B4", "property": "value" }, "value": 2196 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A5", "property": "value" }, "value": 1989 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B5", "property": "value" }, "value": 1904 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A6", "property": "value" }, "value": 1673 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B6", "property": "value" }, "value": 1598 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A7", "property": "value" }, "value": 1428 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B7", "property": "value" }, "value": 1360 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A8", "property": "value" }, "value": 2741 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B8", "property": "value" }, "value": 2622 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A9", "property": "value" }, "value": 2496 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B9", "property": "value" }, "value": 2415 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A10", "property": "value" }, "value": 1817 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B10", "property": "value" }, "value": 1739 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A11", "property": "value" }, "value": 1264 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B11", "property": "value" }, "value": 1198 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A12", "property": "value" }, "value": 1539 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B12", "property": "value" }, "value": 1481 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A13", "property": "value" }, "value": 2895 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B13", "property": "value" }, "value": 2784 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A14", "property": "value" }, "value": 2058 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B14", "property": "value" }, "value": 1987 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A15", "property": "value" }, "value": 2633 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B15", "property": "value" }, "value": 2546 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A16", "property": "value" }, "value": 1726 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B16", "property": "value" }, "value": 1650 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A17", "property": "value" }, "value": 2384 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B17", "property": "value" }, "value": 2293 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A18", "property": "value" }, "value": 1961 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B18", "property": "value" }, "value": 1886 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A19", "property": "value" }, "value": 2147 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B19", "property": "value" }, "value": 2075 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A20", "property": "value" }, "value": 2812 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B20", "property": "value" }, "value": 2701 }
-    ],
-    [{ "spec": { "kind": "sheet", "sheet": "Sheet2", "property": "name" }, "value": "Sheet2" }],
-    [
-      { "spec": { "kind": "cell", "sheet": "Sheet2", "cell": "A1", "property": "value" }, "value": "Total Orders Received" },
-      { "spec": { "kind": "cell", "sheet": "Sheet2", "cell": "A2", "property": "value" }, "value": 40286 }
-    ],
-    [
-      { "spec": { "kind": "cell", "sheet": "Sheet2", "cell": "B1", "property": "value" }, "value": "Total Orders Fulfilled" },
-      { "spec": { "kind": "cell", "sheet": "Sheet2", "cell": "B2", "property": "value" }, "value": 38688 }
-    ]
+    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Orders Received"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Orders Fulfilled"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":1842},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":1765},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A3","property":"value"},"value":2567},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":2488},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A4","property":"value"},"value":2314},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B4","property":"value"},"value":2196},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A5","property":"value"},"value":1989},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B5","property":"value"},"value":1904},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A6","property":"value"},"value":1673},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B6","property":"value"},"value":1598},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A7","property":"value"},"value":1428},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B7","property":"value"},"value":1360},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A8","property":"value"},"value":2741},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B8","property":"value"},"value":2622},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A9","property":"value"},"value":2496},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B9","property":"value"},"value":2415},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A10","property":"value"},"value":1817},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B10","property":"value"},"value":1739},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A11","property":"value"},"value":1264},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B11","property":"value"},"value":1198},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A12","property":"value"},"value":1539},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B12","property":"value"},"value":1481},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A13","property":"value"},"value":2895},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B13","property":"value"},"value":2784},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A14","property":"value"},"value":2058},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B14","property":"value"},"value":1987},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A15","property":"value"},"value":2633},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B15","property":"value"},"value":2546},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A16","property":"value"},"value":1726},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B16","property":"value"},"value":1650},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A17","property":"value"},"value":2384},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B17","property":"value"},"value":2293},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A18","property":"value"},"value":1961},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B18","property":"value"},"value":1886},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A19","property":"value"},"value":2147},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B19","property":"value"},"value":2075},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A20","property":"value"},"value":2812},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B20","property":"value"},"value":2701}],
+    [{"spec":{"kind":"sheet","sheet":"Sheet2","property":"name"},"value":"Sheet2"}],
+    [{"spec":{"kind":"cell","sheet":"Sheet2","cell":"A1","property":"value"},"value":"Total Orders Received"},{"spec":{"kind":"cell","sheet":"Sheet2","cell":"A2","property":"value"},"value":40286}],
+    [{"spec":{"kind":"cell","sheet":"Sheet2","cell":"B1","property":"value"},"value":"Total Orders Fulfilled"},{"spec":{"kind":"cell","sheet":"Sheet2","cell":"B2","property":"value"},"value":38688}]
   ]
 }

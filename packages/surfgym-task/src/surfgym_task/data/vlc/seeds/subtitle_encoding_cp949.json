@@ -1,0 +1,9 @@
+{
+  "instruction": "My Korean subtitles show up as broken characters — set the subtitle text encoding to CP949.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"subsdec-encoding","default":""},"value":"CP949"}]
+  ]
+}

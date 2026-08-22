@@ -2,9 +2,13 @@
   "instruction": "My figure is upside down — flip it along the vertical axis so it's right side up.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "Updown-Paris.jpg"
-    }
+    "setup_files": [
+      {
+        "source": "Updown-Paris.jpg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "Updown-Paris.jpg"
   },
   "evaluation": {
     "mode": "llm",

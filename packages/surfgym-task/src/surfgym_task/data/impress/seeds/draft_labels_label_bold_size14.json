@@ -2,9 +2,13 @@
   "instruction": "On slide 8, make the text in the label \"draft labels become movable cards\" bold and change its font size to 14 pt.",
   "website": {
     "base": "http://localhost:53001/impress",
-    "param": {
-      "setup_file": "1.pptx"
-    }
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "1.pptx"
   },
   "states": [
     [{"spec":{"query":[["slide",8],["textbox","draft labels become movable cards"]],"path":["style","bold"]},"value":true}],

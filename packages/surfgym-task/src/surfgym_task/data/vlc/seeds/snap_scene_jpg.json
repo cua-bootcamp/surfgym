@@ -1,5 +1,23 @@
 {
-  "instruction": "Snap a photo of the current scene, save it as 'scene.jpg', and put it on the Desktop.",
-  "website": { "base": "http://localhost:53001/vlc", "param": { "setup_file": "lake.mp4", "start_time": "3", "start_paused": "true" } },
-  "evaluation": { "mode": "llm", "model": "gpt-5.4-mini", "image_detail": "high", "max_frames": 12 }
+  "instruction": "Grab a snapshot of what's currently playing, save it as 'scene.jpg', and drop it on the Desktop.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "setup_files": [
+      {
+        "source": "lake.mp4",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "lake.mp4",
+    "param": {
+      "start_time": "3",
+      "start_paused": "true"
+    }
+  },
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
 }

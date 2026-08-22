@@ -2,9 +2,13 @@
   "instruction": "On slide 11, change the title \"Compare & Contrast Notes\" to 44 pt and change its font color to purple.",
   "website": {
     "base": "http://localhost:53001/impress",
-    "param": {
-      "setup_file": "1.pptx"
-    }
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "1.pptx"
   },
   "states": [
     [{"spec":{"query":[["slide",11],["textbox","Compare & Contrast Notes"]],"path":["style","fontSize"]},"value":44}],

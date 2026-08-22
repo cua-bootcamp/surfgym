@@ -1,0 +1,9 @@
+{
+  "instruction": "Stop VLC from resizing its window every time I open a new video.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"qt-video-autoresize","default":"1"},"value":"0"}]
+  ]
+}

@@ -1,5 +1,9 @@
 {
-  "instruction": "Can you increase the max volume to 150% of the original volume?",
-  "website": "http://localhost:53001/vlc",
-  "states": [[{ "spec": { "file": ".config/vlc/vlcrc", "format": "key_value", "key": "qt-max-volume", "default": "125" }, "value": "150" }]]
+  "instruction": "Bump VLC's maximum volume cap up to 150% of the normal level.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"qt-max-volume","default":"125"},"value":"150"}]
+  ]
 }

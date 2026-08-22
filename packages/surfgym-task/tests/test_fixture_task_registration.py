@@ -3,6 +3,8 @@ import json
 from pathlib import Path
 
 import pytest
+from surfgym_task.main import _release_hooks
+from surfgym_task.web import DOCKER_FIXTURE_RELEASE_HOOK, WEB_STATE_RESET_HOOK
 
 
 def _fixture_task_payload(**overrides: object) -> dict[str, object]:
@@ -83,3 +85,11 @@ def test_load_fixture_tasks_is_sorted_deduplicates_release_and_rejects_empty(
         task.lifecycle_hooks.release.count(web.DOCKER_FIXTURE_RELEASE_HOOK) == 1
         for task in tasks
     )
+
+
+def test_seed_generation_uses_domain_specific_release_hooks() -> None:
+    assert _release_hooks("web") == [WEB_STATE_RESET_HOOK]
+    assert _release_hooks("gimp") == [DOCKER_FIXTURE_RELEASE_HOOK]
+    assert _release_hooks("vlc") == [DOCKER_FIXTURE_RELEASE_HOOK]
+    assert "window.surfgym.get" in DOCKER_FIXTURE_RELEASE_HOOK.script
+    assert "for (let attempt = 0; attempt < 120; attempt += 1)" in DOCKER_FIXTURE_RELEASE_HOOK.script

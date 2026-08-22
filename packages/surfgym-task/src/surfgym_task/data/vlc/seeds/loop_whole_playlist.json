@@ -1,0 +1,16 @@
+{
+  "instruction": "When the last item in the playlist finishes, have VLC start the whole playlist over from the beginning.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "setup_files": [
+      {
+        "source": "lake.mp4",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "lake.mp4"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"loop","default":"0"},"value":"1"}]
+  ]
+}

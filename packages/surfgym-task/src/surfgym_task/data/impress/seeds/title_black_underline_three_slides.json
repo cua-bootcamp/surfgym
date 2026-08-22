@@ -2,9 +2,13 @@
   "instruction": "Set the titles on slides 5, 6, and 9 to black and underline each of them.",
   "website": {
     "base": "http://localhost:53001/impress",
-    "param": {
-      "setup_file": "1.pptx"
-    }
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "1.pptx"
   },
   "states": [
     [{"spec":{"query":[["slide",5],["textbox","From Topic to Thesis"]],"path":["style","color"]},"value":"black"},{"spec":{"query":[["slide",5],["textbox","From Topic to Thesis"]],"path":["style","underline"]},"value":true}],

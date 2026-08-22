@@ -1,0 +1,9 @@
+{
+  "instruction": "My tracks are all at wildly different volumes — turn on per-track replay gain.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"audio-replay-gain-mode","default":"none"},"value":"track"}]
+  ]
+}

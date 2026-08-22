@@ -1,0 +1,19 @@
+{
+  "instruction": "Use VS Code to open /data/fixtures/vscode/project-opening-lab/orchard-dashboard as the current folder, and leave its Explorer visible.",
+  "website": {
+    "base": "http://localhost:53001/vscode",
+    "setup_files": [
+      {
+        "source": "project-opening-lab",
+        "target": "fixtures"
+      }
+    ],
+    "open_file": "project-opening-lab"
+  },
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

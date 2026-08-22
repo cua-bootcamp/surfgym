@@ -2,9 +2,13 @@
   "instruction": "Select the whole image, then soften the selection edge by 25 pixels.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "Landscape-Seoul.jpg"
-    }
+    "setup_files": [
+      {
+        "source": "Landscape-Seoul.jpg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "Landscape-Seoul.jpg"
   },
   "states": [
     [{"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"selection-feather-radius","default":"5.000000"},"value":"^25(\\.0*)?$","match":"regex"}]

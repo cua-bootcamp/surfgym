@@ -2,9 +2,13 @@
   "instruction": "On Slide 1, set the title to Happy Family and use Microsoft JhengHei.",
   "website": {
     "base": "http://localhost:53001/impress",
-    "param": {
-      "setup_file": "1.pptx"
-    }
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "1.pptx"
   },
   "states": [
     [{"spec":{"query":[["slide",1],["textboxIndex",1]],"path":["style","text"]},"value":"Happy Family"},{"spec":{"query":[["slide",1],["textboxIndex",1]],"path":["style","fontFamily"]},"value":"Microsoft JhengHei"}]

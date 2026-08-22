@@ -2,9 +2,13 @@
   "instruction": "Help me open up the Gaussian Blur filter window.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "Dark.jpg"
-    }
+    "setup_files": [
+      {
+        "source": "Dark.jpg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "Dark.jpg"
   },
   "evaluation": {
     "mode": "llm",

@@ -1,0 +1,9 @@
+{
+  "instruction": "Look up a flight from Frankfurt to Barcelona for next Monday.",
+  "website": {
+    "base": "http://localhost:3200/flights"
+  },
+  "states": [
+    [{"spec":{"target":"url"},"value":"originCode=FRA","match":"contains"},{"spec":{"target":"url"},"value":"destCode=BCN","match":"contains"},{"spec":{"script":"(()=>{const p=new URL(location.href).searchParams.get('depart');const d=new Date();let a=(1-d.getDay()+7)%7;if(a===0)a=7;d.setDate(d.getDate()+a);const t=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');return p===t;})()"},"value":true}]
+  ]
+}

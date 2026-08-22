@@ -2,9 +2,13 @@
   "instruction": "The picture looks too harsh — dial back the contrast a bit for me.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "High contrast.jpg"
-    }
+    "setup_files": [
+      {
+        "source": "High contrast.jpg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "High contrast.jpg"
   },
   "evaluation": {
     "mode": "llm",

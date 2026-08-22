@@ -1,0 +1,12 @@
+{
+  "instruction": "Open the hotel with the highest number of reviews among the hotels listed for London.",
+  "website": {
+    "base": "http://localhost:3200/search",
+    "param": {
+      "destination": "London"
+    }
+  },
+  "states": [
+    [{"spec":{"target":"url"},"value":"/hotel/hotel-002","match":"contains"}]
+  ]
+}

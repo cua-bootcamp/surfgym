@@ -2,31 +2,7 @@
   "instruction": "I recorded the duration of several parking sessions and calculated the total parking time. I also have an hourly parking rate. However, directly multiplying the total parking time by the hourly rate does not give the correct fee because the parking duration is stored as a time value. Please calculate the correct product of them in the \"Total Parking Fee\" cell. Do not modify any unrelated cells or blank regions.",
   "website": "http://localhost:3000/spreadsheet",
   "states": [
-    [
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A2", "property": "value" }, "value": "Date" },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B2", "property": "value" }, "value": "Hours" },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "D2", "property": "value" }, "value": "Total Hours" },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "E2", "property": "value" }, "value": "Total Parking Fee" },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "F2", "property": "value" }, "value": "Hourly Rate" },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A3", "property": "value" }, "value": 4 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B3", "property": "value" }, "value": 0.05555555555555555 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B3", "property": "numberFormat" }, "value": "h:mm" },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "D3", "property": "formula" }, "value": "=SUM(B3:B7)" },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "D3", "property": "numberFormat" }, "value": "h:mm" },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "F3", "property": "value" }, "value": 4.5 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A4", "property": "value" }, "value": 8 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B4", "property": "value" }, "value": 0.09027777777777778 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B4", "property": "numberFormat" }, "value": "h:mm" },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A5", "property": "value" }, "value": 10 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B5", "property": "value" }, "value": 0.034722222222222224 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B5", "property": "numberFormat" }, "value": "h:mm" },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A6", "property": "value" }, "value": 17 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B6", "property": "value" }, "value": 0.13541666666666666 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B6", "property": "numberFormat" }, "value": "h:mm" },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "A7", "property": "value" }, "value": 19 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B7", "property": "value" }, "value": 0.06597222222222222 },
-      { "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "B7", "property": "numberFormat" }, "value": "h:mm" }
-    ],
-    [{ "spec": { "kind": "cell", "sheet": "Sheet1", "cell": "E3", "property": "value" }, "value": 41.25 }]
+    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":"Date"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":"Hours"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D2","property":"value"},"value":"Total Hours"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E2","property":"value"},"value":"Total Parking Fee"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"F2","property":"value"},"value":"Hourly Rate"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A3","property":"value"},"value":4},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":0.05555555555555555},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"numberFormat"},"value":"h:mm"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D3","property":"formula"},"value":"=SUM(B3:B7)"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D3","property":"numberFormat"},"value":"h:mm"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"F3","property":"value"},"value":4.5},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A4","property":"value"},"value":8},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B4","property":"value"},"value":0.09027777777777778},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B4","property":"numberFormat"},"value":"h:mm"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A5","property":"value"},"value":10},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B5","property":"value"},"value":0.034722222222222224},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B5","property":"numberFormat"},"value":"h:mm"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A6","property":"value"},"value":17},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B6","property":"value"},"value":0.13541666666666666},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B6","property":"numberFormat"},"value":"h:mm"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A7","property":"value"},"value":19},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B7","property":"value"},"value":0.06597222222222222},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B7","property":"numberFormat"},"value":"h:mm"}],
+    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E3","property":"value"},"value":41.25}]
   ]
 }

@@ -1,0 +1,16 @@
+{
+  "instruction": "Turn on the marquee text overlay and set its text to \"Preview\".",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "setup_files": [
+      {
+        "source": "tree.mp4",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "tree.mp4"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"sub-source","default":""},"value":"marq","match":"contains"},{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"marq-marquee","default":"VLC"},"value":"Preview"}]
+  ]
+}

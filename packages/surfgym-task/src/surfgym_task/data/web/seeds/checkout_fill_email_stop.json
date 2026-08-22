@@ -1,0 +1,12 @@
+{
+  "instruction": "On the London to Paris flight checkout page, fill in the email james.smith@gmail.com, but do not complete the booking.",
+  "website": {
+    "base": "http://localhost:3200/flights/checkout",
+    "param": {
+      "flight_id": "flight-1"
+    }
+  },
+  "states": [
+    [{"spec":{"target":"url"},"value":"/checkout","match":"contains"},{"spec":{"target":"attr","selector":"input[type=email]","attr":"value"},"value":"james.smith@gmail.com"}]
+  ]
+}

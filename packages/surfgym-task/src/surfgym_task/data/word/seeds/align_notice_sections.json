@@ -1,0 +1,8 @@
+{
+  "instruction": "Center the notice title, right-align the publication date, and left-align both notice paragraphs. Preserve all wording and paragraph breaks.",
+  "website": "http://localhost:3000/word",
+  "states": [
+    [{"spec":{"kind":"body","property":"text"},"value":"PUBLIC LIBRARY SERVICE NOTICE\nPublished 17 August 2026\nThe west reading room will close at 18:00 on Thursday while electricians test the emergency lighting circuit.\nStudy desks on the ground floor remain available, and staff will direct visitors to quiet alternatives during the work."}],
+    [{"spec":{"kind":"paragraph","index":0,"property":"horizontalAlign"},"value":"center"},{"spec":{"kind":"paragraph","index":1,"property":"horizontalAlign"},"value":"right"},{"spec":{"kind":"paragraph","index":2,"property":"horizontalAlign"},"value":"left"},{"spec":{"kind":"paragraph","index":3,"property":"horizontalAlign"},"value":"left"}]
+  ]
+}

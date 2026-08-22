@@ -2,9 +2,13 @@
   "instruction": "Add the cover title 'Building Better Outlines' to the speaker notes for slide 1.",
   "website": {
     "base": "http://localhost:53001/impress",
-    "param": {
-      "setup_file": "1.pptx"
-    }
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "1.pptx"
   },
   "states": [
     [{"spec":{"query":[["slide",1]],"path":["notes","text"]},"value":"Building Better Outlines"}]

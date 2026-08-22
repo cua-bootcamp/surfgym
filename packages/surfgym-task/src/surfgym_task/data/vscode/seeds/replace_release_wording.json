@@ -1,0 +1,16 @@
+{
+  "instruction": "In the open release note, replace every occurrence of \"draft\" with \"final\", then save the result as /config/Desktop/final-release-note.txt.",
+  "website": {
+    "base": "http://localhost:53001/vscode",
+    "setup_files": [
+      {
+        "source": "release-note.txt",
+        "target": "fixtures"
+      }
+    ],
+    "open_file": "release-note.txt"
+  },
+  "states": [
+    [{"spec":{"file":"Desktop/final-release-note.txt","format":"text","default":null},"value":"Release status: final\nThe final checklist is ready.\nOnly final items may ship.\n"}]
+  ]
+}

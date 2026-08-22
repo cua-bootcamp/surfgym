@@ -2,9 +2,13 @@
   "instruction": "Enlarge the canvas, fill the new margin with white, and resize all layers to match.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "Centered-subject.jpg"
-    }
+    "setup_files": [
+      {
+        "source": "Centered-subject.jpg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "Centered-subject.jpg"
   },
   "states": [
     [{"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"image-resize-fill-type","default":"transparent"},"value":"white"},{"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"image-resize-layer-set","default":"none"},"value":"all"}]

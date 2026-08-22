@@ -1,0 +1,9 @@
+{
+  "instruction": "Stop VLC from showing the file name over the video when playback starts.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"video-title-show","default":"1"},"value":"0"}]
+  ]
+}

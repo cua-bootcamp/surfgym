@@ -1,0 +1,9 @@
+{
+  "instruction": "Turn on VLC's headphone virtual surround effect.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"audio-filter","default":""},"value":"headphone","match":"contains"}]
+  ]
+}

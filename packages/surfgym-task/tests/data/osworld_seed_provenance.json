@@ -1,0 +1,38 @@
+[
+  {
+    "domain": "spreadsheet",
+    "osworld_id": "4188d3a4-077d-46b7-9c86-23e1a036f6c1",
+    "seed_name": "freeze_first_row_and_two_columns",
+    "relation": "capability_match"
+  },
+  {
+    "domain": "spreadsheet",
+    "osworld_id": "ecb0df7a-4e8d-4a03-b162-053391d3afaf",
+    "seed_name": "add_pass_fail_held_validation",
+    "relation": "capability_match"
+  },
+  {
+    "domain": "spreadsheet",
+    "osworld_id": "535364ea-05bd-46ea-9937-9f55c68507e8",
+    "seed_name": "create_two_pivot_tables_on_sheet2",
+    "relation": "capability_adaptation"
+  },
+  {
+    "domain": "spreadsheet",
+    "osworld_id": "30e3e107-1cfb-46ee-a755-2cd080d7ba6a",
+    "seed_name": "create_percent_of_grand_total_pivot_tables",
+    "relation": "capability_adaptation"
+  },
+  {
+    "domain": "word",
+    "osworld_id": "b21acd93-60fd-4127-8a43-2f5178f4a830",
+    "seed_name": "format_essay_spacing_and_size",
+    "relation": "capability_match"
+  },
+  {
+    "domain": "word",
+    "osworld_id": "f178a4a9-d090-4b56-bc4c-4b72a61a035d",
+    "seed_name": "set_default_font_times_new_roman",
+    "relation": "scope_normalized_adaptation"
+  }
+]

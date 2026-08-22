@@ -1,0 +1,12 @@
+{
+  "instruction": "Cancel my Grand Plaza Hotel booking.",
+  "website": {
+    "base": "http://localhost:3200/trips"
+  },
+  "states": [
+    [{"spec":{"target":"api_state","path":"data"},"value":{"auth":{"isAuthenticated":true,"email":"seed@example.com","authenticatedAt":"2026-08-19T06:49:57.002Z"},"bookings":[{"id":"BK00000001","confirmationNumber":"CONF00001","type":"hotel","propertyName":"Grand Plaza Hotel","location":"Paris, France","checkIn":"2026-08-10","checkOut":"2026-08-14","status":"confirmed","totalPrice":640,"currency":"GBP","guestName":"Alex Kim"}]}}],
+    [{"spec":{"script":"(async()=>{const r=await fetch('/api/bookings/BK00000001');const d=await r.json();return d.booking && d.booking.status;})()"},"value":"cancelled"}]
+  ],
+  "empty_start": false,
+  "accumulation": "DELTA"
+}

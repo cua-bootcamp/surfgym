@@ -1,0 +1,7 @@
+{
+  "instruction": "Set the Python analysis diagnostic severity for unused imports to warning in VS Code user settings.",
+  "website": "http://localhost:53001/vscode",
+  "states": [
+    [{"spec":{"file":".config/Code/User/settings.json","format":"json_value","path":["python.analysis.diagnosticSeverityOverrides","reportUnusedImport"],"default":null},"value":"warning"}]
+  ]
+}

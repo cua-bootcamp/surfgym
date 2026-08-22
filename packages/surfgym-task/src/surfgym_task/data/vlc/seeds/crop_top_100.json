@@ -1,0 +1,16 @@
+{
+  "instruction": "Turn on the crop/pad filter and crop 100 pixels off the top of the video.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "setup_files": [
+      {
+        "source": "sky.mp4",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "sky.mp4"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"video-filter","default":""},"value":"croppadd","match":"contains"},{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"croppadd-croptop","default":"0"},"value":"100"}]
+  ]
+}

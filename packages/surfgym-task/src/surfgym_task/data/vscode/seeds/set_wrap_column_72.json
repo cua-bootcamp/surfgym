@@ -1,0 +1,7 @@
+{
+  "instruction": "Set the user-level word wrap column in VS Code to 72 characters.",
+  "website": "http://localhost:53001/vscode",
+  "states": [
+    [{"spec":{"file":".config/Code/User/settings.json","format":"json_value","path":["editor.wordWrapColumn"],"default":null},"value":72}]
+  ]
+}

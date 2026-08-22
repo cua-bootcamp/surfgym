@@ -3,23 +3,7 @@
   "website": "http://localhost:3000/word",
   "accumulation": "CUMULATIVE",
   "states": [
-    [
-      {
-        "spec": {
-          "kind": "body",
-          "property": "text"
-        },
-        "value": "NORTH QUAY ROUTING NOTE\nDOCK 4 OPENS AT 06:30.\nUSE GATE B FOR ALL CARTS.\nREPORT DELAYS TO EXTENSION 214."
-      }
-    ],
-    [
-      {
-        "spec": {
-          "kind": "body",
-          "property": "text"
-        },
-        "value": "north quay routing note\ndock 4 opens at 06:30.\nuse gate b for all carts.\nreport delays to extension 214."
-      }
-    ]
+    [{"spec":{"kind":"body","property":"text"},"value":"NORTH QUAY ROUTING NOTE\nDOCK 4 OPENS AT 06:30.\nUSE GATE B FOR ALL CARTS.\nREPORT DELAYS TO EXTENSION 214."}],
+    [{"spec":{"kind":"body","property":"text"},"value":"north quay routing note\ndock 4 opens at 06:30.\nuse gate b for all carts.\nreport delays to extension 214."}]
   ]
 }

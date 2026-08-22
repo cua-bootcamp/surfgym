@@ -2,9 +2,17 @@
   "instruction": "Embed the supplied Baseball.mp3 introduction audio in slide 1.",
   "website": {
     "base": "http://localhost:53001/impress",
-    "param": {
-      "setup_file": "1.pptx"
-    }
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop"
+      },
+      {
+        "source": "media/Baseball.mp3",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "1.pptx"
   },
   "states": [
     [{"spec":{"query":[["slide",1]],"path":["media","audio"]},"value":"Baseball.mp3"}]

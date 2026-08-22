@@ -2,9 +2,13 @@
   "instruction": "On slide 2, make the title \"Why plan before drafting?\" bold and change its font color to purple. Use exactly purple.",
   "website": {
     "base": "http://localhost:53001/impress",
-    "param": {
-      "setup_file": "1.pptx"
-    }
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "1.pptx"
   },
   "states": [
     [{"spec":{"query":[["slide",2],["textbox","Why plan before drafting?"]],"path":["style","bold"]},"value":true}],

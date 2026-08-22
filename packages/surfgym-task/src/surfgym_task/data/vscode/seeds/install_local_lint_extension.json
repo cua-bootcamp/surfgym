@@ -1,0 +1,15 @@
+{
+  "instruction": "Install the local VSIX package at /data/fixtures/vscode/acme-lint-tools.vsix in VS Code.",
+  "website": {
+    "base": "http://localhost:53001/vscode",
+    "setup_files": [
+      {
+        "source": "acme-lint-tools.vsix",
+        "target": "fixtures"
+      }
+    ]
+  },
+  "states": [
+    [{"spec":{"file":".vscode/extensions/extensions.json","format":"json_find","path":[],"where":{"identifier":{"id":"surfgym.acme-lint-tools"}},"select":["identifier","id"],"default":null},"value":"surfgym.acme-lint-tools"}]
+  ]
+}

@@ -2,9 +2,13 @@
   "instruction": "The text box sits too close to the image layer underneath and I keep grabbing the wrong one by mistake — move the text box over toward the right edge.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "text & backgound.xcf"
-    }
+    "setup_files": [
+      {
+        "source": "text & backgound.xcf",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "text & backgound.xcf"
   },
   "evaluation": {
     "mode": "llm",

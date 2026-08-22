@@ -1,0 +1,8 @@
+{
+  "instruction": "Select the entire paragraph and use the Tab Stops dialog to request an End tab stop at offset 6. Complete the dialog with Apply; this task evaluates the confirmed request rather than rendered tab-stop layout.",
+  "website": "http://localhost:3000/word",
+  "states": [
+    [{"spec":{"kind":"body","property":"text"},"value":"NORTH FIELD TEAM Monday afternoon"}],
+    [{"spec":{"kind":"tabStop","property":"request"},"value":{"alignment":"end","offset":6,"paragraphIndexes":[0],"range":{"startOffset":0,"endOffset":33}}}]
+  ]
+}

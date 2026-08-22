@@ -2,9 +2,13 @@
   "instruction": "Apply a drop shadow behind the subject layer so it looks like it's lifted off the background.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "subject & background.xcf"
-    }
+    "setup_files": [
+      {
+        "source": "subject & background.xcf",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "subject & background.xcf"
   },
   "evaluation": {
     "mode": "llm",

@@ -1,0 +1,9 @@
+{
+  "instruction": "The audio always plays ahead of the video on my system — set VLC to permanently delay audio by 200 milliseconds.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"audio-desync","default":"0"},"value":"200"}]
+  ]
+}

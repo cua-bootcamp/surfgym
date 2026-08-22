@@ -1,0 +1,7 @@
+{
+  "instruction": "Using only built-in VS Code settings, make every future launch automatically create and open a new file named daily.js.",
+  "website": "http://localhost:53001/vscode",
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

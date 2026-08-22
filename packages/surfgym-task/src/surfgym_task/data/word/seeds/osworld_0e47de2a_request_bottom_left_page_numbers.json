@@ -1,0 +1,8 @@
+{
+  "instruction": "Use the page-number dialog to request page numbers in the bottom-left footer on all pages, starting at 1. Complete the dialog with Apply; this task evaluates the confirmed request rather than rendered footer fields.",
+  "website": "http://localhost:3000/word",
+  "states": [
+    [{"spec":{"kind":"body","property":"textWithPageBreak"},"value":"QUARTERLY FIELD REPORT\nPage one summary.\n\fAPPENDIX\nPage two notes."}],
+    [{"spec":{"kind":"pageNumber","property":"request"},"value":{"location":"footer","alignment":"left","applyTo":"all","startAt":1}}]
+  ]
+}

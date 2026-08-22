@@ -1,0 +1,13 @@
+{
+  "instruction": "Find a hotel in Rome for 3 adults, sort the results by lowest price, and stay on the results page.",
+  "website": {
+    "base": "http://localhost:3200/search",
+    "param": {
+      "destination": "Rome",
+      "adults": "3"
+    }
+  },
+  "states": [
+    [{"spec":{"script":"(()=>{const L=['Our top picks','Lowest price first','Star rating and price','Top reviewed'];const b=[...document.querySelectorAll('button')].filter(x=>L.includes(x.textContent.trim())).find(x=>x.className.includes('bg-booking-blue'));return b?b.textContent.trim():null;})()"},"value":"Lowest price first"}]
+  ]
+}

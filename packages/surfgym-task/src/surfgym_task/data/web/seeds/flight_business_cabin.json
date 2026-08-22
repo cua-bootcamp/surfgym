@@ -1,0 +1,9 @@
+{
+  "instruction": "Find business-class flights from Munich to Dubai on the 5th of next month.",
+  "website": {
+    "base": "http://localhost:3200/flights"
+  },
+  "states": [
+    [{"spec":{"target":"url"},"value":"originCode=MUC","match":"contains"},{"spec":{"target":"url"},"value":"destCode=DXB","match":"contains"},{"spec":{"target":"url"},"value":"cabin=business","match":"contains"},{"spec":{"script":"(()=>{const p=new URL(location.href).searchParams.get('depart');const n=new Date();const d=new Date(n.getFullYear(),n.getMonth()+1,5);const t=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');return p===t;})()"},"value":true}]
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "instruction": "Starting from the country list, navigate to Italy, then to Rome, to reach the Rome hotel search.",
+  "website": {
+    "base": "http://localhost:3200/countries"
+  },
+  "states": [
+    [{"spec":{"target":"url"},"value":"/city/it/rome","match":"contains"}]
+  ]
+}

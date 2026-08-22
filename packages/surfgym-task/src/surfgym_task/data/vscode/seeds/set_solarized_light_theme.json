@@ -1,0 +1,7 @@
+{
+  "instruction": "Change the VS Code color theme to Solarized Light.",
+  "website": "http://localhost:53001/vscode",
+  "states": [
+    [{"spec":{"file":".config/Code/User/settings.json","format":"json_value","path":["workbench.colorTheme"],"default":null},"value":"Solarized Light"}]
+  ]
+}

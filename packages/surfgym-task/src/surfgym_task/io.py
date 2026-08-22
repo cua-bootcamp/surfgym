@@ -149,7 +149,7 @@ class SeedReader:
         match domain:
             case "spreadsheet" | "word":
                 empty_start = False if raw_seed.empty_start is None else raw_seed.empty_start
-            case "impress" | "gimp" | "vlc":
+            case "impress" | "gimp" | "vlc" | "vscode" | "web":
                 empty_start = True if raw_seed.empty_start is None else raw_seed.empty_start
 
         states = list(raw_seed.states)

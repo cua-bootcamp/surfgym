@@ -2,9 +2,13 @@
   "instruction": "Add an alpha channel to this layer, then erase a chunk of the corner so the checkerboard transparency shows through.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "subject.jpg"
-    }
+    "setup_files": [
+      {
+        "source": "subject.jpg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "subject.jpg"
   },
   "evaluation": {
     "mode": "llm",

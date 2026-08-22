@@ -2,9 +2,13 @@
   "instruction": "On slide 10, change the heading \"Transition checks\" to Times New Roman and underline it.",
   "website": {
     "base": "http://localhost:53001/impress",
-    "param": {
-      "setup_file": "1.pptx"
-    }
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "1.pptx"
   },
   "states": [
     [{"spec":{"query":[["slide",10],["textbox","Transition checks"]],"path":["style","fontFamily"]},"value":"Times New Roman"}],

@@ -2,9 +2,17 @@
   "instruction": "Add the supplied none.png image to slide 2 and set both its width and height to 1 cm.",
   "website": {
     "base": "http://localhost:53001/impress",
-    "param": {
-      "setup_file": "1.pptx"
-    }
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop"
+      },
+      {
+        "source": "media/none.png",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "1.pptx"
   },
   "states": [
     [{"spec":{"query":[["slide",2]],"path":["media","image"]},"value":"none.png"},{"spec":{"query":[["slide",2],["image",1]],"path":["layout","widthCm"]},"value":1.0},{"spec":{"query":[["slide",2],["image",1]],"path":["layout","heightCm"]},"value":1.0}]

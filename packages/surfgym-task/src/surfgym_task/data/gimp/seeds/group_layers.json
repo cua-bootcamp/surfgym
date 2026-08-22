@@ -2,9 +2,13 @@
   "instruction": "Select both layers and group them together into a single layer group.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "subject & background2.xcf"
-    }
+    "setup_files": [
+      {
+        "source": "subject & background2.xcf",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "subject & background2.xcf"
   },
   "evaluation": {
     "mode": "llm",

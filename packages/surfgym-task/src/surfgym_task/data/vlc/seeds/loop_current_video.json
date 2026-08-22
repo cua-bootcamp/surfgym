@@ -1,5 +1,16 @@
 {
   "instruction": "Could you make VLC loop the current video instead of stopping when it ends?",
-  "website": "http://localhost:53001/vlc",
-  "states": [[{ "spec": { "file": ".config/vlc/vlcrc", "format": "key_value", "key": "repeat", "default": "0" }, "value": "1" }]]
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "setup_files": [
+      {
+        "source": "lake.mp4",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "lake.mp4"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"repeat","default":"0"},"value":"1"}]
+  ]
 }

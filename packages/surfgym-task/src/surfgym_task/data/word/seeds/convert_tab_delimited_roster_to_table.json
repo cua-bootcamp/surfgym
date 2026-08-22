@@ -1,0 +1,9 @@
+{
+  "instruction": "Convert the eight tab-delimited roster lines into an 8-row by 3-column table. Use each tab to begin the next cell, retain the Name, Team, and Shift header and every row in its original order, and preserve the surrounding document text.",
+  "website": "http://localhost:3000/word",
+  "accumulation": "CUMULATIVE",
+  "states": [
+    [{"spec":{"kind":"body","property":"text"},"value":"COMMUNITY GARDEN OPENING ROSTER\nSaturday Volunteer Coordination\nUse this roster to confirm where each opening-day volunteer begins. Keep the briefing and closing reminder in place while converting the tab-delimited assignments.\nSHIFT ASSIGNMENTS\nName\tTeam\tShift\nAvery Brooks\tWelcome Desk\t07:30-10:00\nMina Patel\tTool Shed\t07:30-10:00\nLeo Martin\tPlanting Crew\t08:00-10:30\nSofia Reyes\tPlanting Crew\t08:00-10:30\nNoah Kim\tCompost Station\t09:00-11:30\nGrace Allen\tChildren's Activities\t09:00-11:30\nEthan Clark\tRefreshments\t10:00-12:00\nArrive ten minutes before your shift and check in with the site coordinator at the east gate."}],
+    [{"spec":{"kind":"body","property":"text"},"value":"COMMUNITY GARDEN OPENING ROSTER\nSaturday Volunteer Coordination\nUse this roster to confirm where each opening-day volunteer begins. Keep the briefing and closing reminder in place while converting the tab-delimited assignments.\nSHIFT ASSIGNMENTS\nArrive ten minutes before your shift and check in with the site coordinator at the east gate."},{"spec":{"kind":"table","index":0,"property":"shape"},"value":"8x3"},{"spec":{"kind":"table","index":0,"property":"cellsText"},"value":"Name|Team|Shift|Avery Brooks|Welcome Desk|07:30-10:00|Mina Patel|Tool Shed|07:30-10:00|Leo Martin|Planting Crew|08:00-10:30|Sofia Reyes|Planting Crew|08:00-10:30|Noah Kim|Compost Station|09:00-11:30|Grace Allen|Children's Activities|09:00-11:30|Ethan Clark|Refreshments|10:00-12:00"}]
+  ]
+}

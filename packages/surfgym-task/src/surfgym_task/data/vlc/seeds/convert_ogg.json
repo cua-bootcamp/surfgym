@@ -1,0 +1,19 @@
+{
+  "instruction": "Pull the audio out of this music video as an OGG file and drop it on the desktop named \"track.ogg\".",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "setup_files": [
+      {
+        "source": "Rudy_Mancuso_&_Maia_Mitchell_-_Magic_(Official_Music_Video).webm",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "Rudy_Mancuso_&_Maia_Mitchell_-_Magic_(Official_Music_Video).webm",
+    "param": {
+      "start_time": "50"
+    }
+  },
+  "states": [
+    [{"spec":{"file":"Desktop/track.ogg","format":"file_magic","offset":0,"length":4,"default":""},"value":"4F676753"}]
+  ]
+}

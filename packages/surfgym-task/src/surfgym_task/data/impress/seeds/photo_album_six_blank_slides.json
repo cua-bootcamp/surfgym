@@ -2,9 +2,37 @@
   "instruction": "Create a new presentation with six blank slides. Insert pic1.png through pic6.png so each slide contains exactly one image, in that order.",
   "website": {
     "base": "http://localhost:53001/impress",
-    "param": {
-      "setup_file": "1.pptx"
-    }
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop"
+      },
+      {
+        "source": "media/pic1.png",
+        "target": "desktop"
+      },
+      {
+        "source": "media/pic2.png",
+        "target": "desktop"
+      },
+      {
+        "source": "media/pic3.png",
+        "target": "desktop"
+      },
+      {
+        "source": "media/pic4.png",
+        "target": "desktop"
+      },
+      {
+        "source": "media/pic5.png",
+        "target": "desktop"
+      },
+      {
+        "source": "media/pic6.png",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "1.pptx"
   },
   "states": [
     [{"spec":{"query":[["slide",1]],"path":["slides","photoAlbum"]},"value":["pic1.png","pic2.png","pic3.png","pic4.png","pic5.png","pic6.png"]}]

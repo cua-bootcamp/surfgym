@@ -1,5 +1,23 @@
 {
   "instruction": "Make this video frame my desktop wallpaper, set to \"fit screen\" mode.",
-  "website": { "base": "http://localhost:53001/vlc", "param": { "setup_file": "tree.mp4", "start_time": "5", "start_paused": "true" } },
-  "evaluation": { "mode": "llm", "model": "gpt-5.4-mini", "image_detail": "high", "max_frames": 12 }
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "setup_files": [
+      {
+        "source": "tree.mp4",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "tree.mp4",
+    "param": {
+      "start_time": "5",
+      "start_paused": "true"
+    }
+  },
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
 }

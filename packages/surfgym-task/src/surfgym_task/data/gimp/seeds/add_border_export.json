@@ -2,9 +2,13 @@
   "instruction": "Add a 20 pixel border around this image and export the result to the Desktop as framed.png.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "rock.png"
-    }
+    "setup_files": [
+      {
+        "source": "rock.png",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "rock.png"
   },
   "states": [
     [{"spec":{"file":"Desktop/framed.png","format":"file_magic","offset":16,"length":8,"default":""},"value":"00000235000002E4"}]

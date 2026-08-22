@@ -1,0 +1,16 @@
+{
+  "instruction": "Turn on the equalizer and switch it to the Rock preset.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "setup_files": [
+      {
+        "source": "sky.mp4",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "sky.mp4"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"audio-filter","default":""},"value":"equalizer","match":"contains"},{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"equalizer-preset","default":"flat"},"value":"rock"}]
+  ]
+}

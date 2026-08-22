@@ -1,0 +1,9 @@
+{
+  "instruction": "Make VLC automatically pause playback whenever I minimize the window.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"qt-pause-minimized","default":"0"},"value":"1"}]
+  ]
+}

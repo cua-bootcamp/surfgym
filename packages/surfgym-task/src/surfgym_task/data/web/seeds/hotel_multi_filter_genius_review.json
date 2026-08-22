@@ -1,0 +1,12 @@
+{
+  "instruction": "Show hotels in Paris with Genius discounts enabled and a review score of Superb: 9+.",
+  "website": {
+    "base": "http://localhost:3200/search",
+    "param": {
+      "destination": "Paris"
+    }
+  },
+  "states": [
+    [{"spec":{"script":"(()=>{const l=[...document.querySelectorAll('label')].find(x=>x.textContent.includes('Genius'));return l?l.querySelector('input[type=checkbox]').checked:false;})()"},"value":true},{"spec":{"script":"(()=>{const r=[...document.querySelectorAll('input[type=radio]')].find(x=>x.checked);return r?(r.closest('label')?.textContent.trim()||null):null;})()"},"value":"Superb: 9+"}]
+  ]
+}

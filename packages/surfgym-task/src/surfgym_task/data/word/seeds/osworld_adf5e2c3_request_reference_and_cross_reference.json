@@ -1,0 +1,8 @@
+{
+  "instruction": "Add the supplied Steinberg reference through the Add Reference dialog. Then select exactly <add here> and request a numbered cross-reference to that new reference. This task evaluates the ordered interaction history rather than rendered bibliography or field content. Reference: Steinberg, F. M., Bearden, M. M., & Keen, C. L. (2003). Cocoa and chocolate flavonoids: Implications for cardiovascular health. Journal of the American Dietetic Association, 103(2), 215-223. doi: 10.1053/jada.2003.50028",
+  "website": "http://localhost:3000/word",
+  "states": [
+    [{"spec":{"kind":"body","property":"text"},"value":"ESSAY NOTES\nParagraph one.\nParagraph two.\nParagraph three.\nParagraph four cites <add here>.\nREFERENCES"}],
+    [{"spec":{"kind":"reference","property":"history"},"value":[{"sequence":1,"type":"addReference","refId":"ref-1","citation":"Steinberg, F. M., Bearden, M. M., & Keen, C. L. (2003). Cocoa and chocolate flavonoids: Implications for cardiovascular health. Journal of the American Dietetic Association, 103(2), 215-223. doi: 10.1053/jada.2003.50028"},{"sequence":2,"type":"insertCrossReference","refId":"ref-1","display":"number","range":{"startOffset":80,"endOffset":90}}]}]
+  ]
+}

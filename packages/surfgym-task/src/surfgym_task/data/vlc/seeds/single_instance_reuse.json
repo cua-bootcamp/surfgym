@@ -1,5 +1,9 @@
 {
   "instruction": "Make VLC always reuse a single instance when I open a new file.",
-  "website": "http://localhost:53001/vlc",
-  "states": [[{ "spec": { "file": ".config/vlc/vlcrc", "format": "key_value", "key": "one-instance-when-started-from-file", "default": "1" }, "value": "0" }]]
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"one-instance-when-started-from-file","default":"1"},"value":"0"}]
+  ]
 }

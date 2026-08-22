@@ -2,9 +2,13 @@
   "instruction": "This photo came out too dark — could you punch up the brightness a little?",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "Dark.jpg"
-    }
+    "setup_files": [
+      {
+        "source": "Dark.jpg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "Dark.jpg"
   },
   "evaluation": {
     "mode": "llm",

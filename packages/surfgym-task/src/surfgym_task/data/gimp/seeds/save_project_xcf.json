@@ -2,9 +2,13 @@
   "instruction": "Save this as an actual GIMP project file named project.xcf on the Desktop — not an exported copy, the editable project itself.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "Dark.jpg"
-    }
+    "setup_files": [
+      {
+        "source": "Dark.jpg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "Dark.jpg"
   },
   "states": [
     [{"spec":{"file":"Desktop/project.xcf","format":"file_magic","offset":0,"length":8,"default":""},"value":"67696D7020786366"}]

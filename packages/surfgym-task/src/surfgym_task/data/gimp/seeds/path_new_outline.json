@@ -2,9 +2,13 @@
   "instruction": "Create a new path and name it Outline.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "subject & background2.xcf"
-    }
+    "setup_files": [
+      {
+        "source": "subject & background2.xcf",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "subject & background2.xcf"
   },
   "states": [
     [{"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"path-new-name","default":"\"Path\""},"value":"\"Outline\""}]

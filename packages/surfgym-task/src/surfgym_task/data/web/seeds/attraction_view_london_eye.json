@@ -1,0 +1,13 @@
+{
+  "instruction": "Find the London Eye attraction listing in London and open its detail page.",
+  "website": {
+    "base": "http://localhost:3200/attractions/searchresults.en-gb.html",
+    "param": {
+      "dest_id": "london",
+      "dest_name": "London"
+    }
+  },
+  "states": [
+    [{"spec":{"target":"url"},"value":"/attractions/detail/attr-002","match":"contains"}]
+  ]
+}

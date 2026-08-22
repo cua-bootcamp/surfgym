@@ -2,10 +2,32 @@
   "instruction": "Change the picture height to 20, 30, and 25 cm on slides 3, 4, and 6 respectively.",
   "website": {
     "base": "http://localhost:53001/impress",
-    "param": {
-      "setup_file": "1.pptx",
-      "setup_operations": "[{\"query\":[[\"slide\",6]],\"path\":[\"media\",\"image\"],\"value\":\"none.png\"}]"
-    }
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop"
+      },
+      {
+        "source": "media/none.png",
+        "target": "fixtures"
+      }
+    ],
+    "open_file": "1.pptx",
+    "setup_operations": [
+      {
+        "query": [
+          [
+            "slide",
+            6
+          ]
+        ],
+        "path": [
+          "media",
+          "image"
+        ],
+        "value": "none.png"
+      }
+    ]
   },
   "states": [
     [{"spec":{"query":[["slide",3],["image",1]],"path":["layout","heightCm"]},"value":20.0},{"spec":{"query":[["slide",4],["image",1]],"path":["layout","heightCm"]},"value":30.0},{"spec":{"query":[["slide",6],["image",1]],"path":["layout","heightCm"]},"value":25.0}]

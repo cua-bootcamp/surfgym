@@ -1,5 +1,9 @@
 {
   "instruction": "Stop VLC from showing the currently playing file name in the window title bar, and make sure the setting persists across restarts.",
-  "website": "http://localhost:53001/vlc",
-  "states": [[{ "spec": { "file": ".config/vlc/vlcrc", "format": "key_value", "key": "qt-name-in-title", "default": "1" }, "value": "0" }]]
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"qt-name-in-title","default":"1"},"value":"0"}]
+  ]
 }

@@ -1,0 +1,16 @@
+{
+  "instruction": "Convert this audio track to FLAC and save it on the desktop as \"lecture.flac\".",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "setup_files": [
+      {
+        "source": "psyc110_01.mp3",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "psyc110_01.mp3"
+  },
+  "states": [
+    [{"spec":{"file":"Desktop/lecture.flac","format":"file_magic","offset":0,"length":4,"default":""},"value":"664C6143"}]
+  ]
+}

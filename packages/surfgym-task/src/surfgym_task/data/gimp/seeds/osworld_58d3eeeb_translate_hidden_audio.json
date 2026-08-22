@@ -1,0 +1,16 @@
+{
+  "instruction": "Based on the image above, translate the hidden audio conversation into French.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "setup_files": [
+      {
+        "source": "heron.jpeg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "heron.jpeg"
+  },
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

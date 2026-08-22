@@ -1,0 +1,9 @@
+{
+  "instruction": "Remap the take-snapshot shortcut to Ctrl+Alt+S.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"key-snapshot","default":"Shift+s"},"value":"^Ctrl\\+Alt\\+[sS]$","match":"regex"}]
+  ]
+}

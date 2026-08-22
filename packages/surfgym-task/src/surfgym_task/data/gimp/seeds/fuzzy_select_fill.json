@@ -2,9 +2,13 @@
   "instruction": "Use the Fuzzy Select tool to click the background and select it, then fill that selection with solid blue.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "moon & background.xcf"
-    }
+    "setup_files": [
+      {
+        "source": "moon & background.xcf",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "moon & background.xcf"
   },
   "evaluation": {
     "mode": "llm",

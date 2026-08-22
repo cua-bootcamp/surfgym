@@ -1,0 +1,7 @@
+{
+  "instruction": "Configure VS Code so the editor receives focus whenever the debugger pauses at a breakpoint.",
+  "website": "http://localhost:53001/vscode",
+  "states": [
+    [{"spec":{"file":".config/Code/User/settings.json","format":"json_value","path":["debug.focusEditorOnBreak"],"default":null},"value":true}]
+  ]
+}

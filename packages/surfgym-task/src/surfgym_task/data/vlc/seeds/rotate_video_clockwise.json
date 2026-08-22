@@ -1,5 +1,19 @@
 {
   "instruction": "Could you rotate this video 90 degrees clockwise and save it as 'rotated_clip.mp4' on the desktop?",
-  "website": { "base": "http://localhost:53001/vlc", "param": { "setup_file": "lake_rotated.mp4" } },
-  "evaluation": { "mode": "llm", "model": "gpt-5.4-mini", "image_detail": "high", "max_frames": 12 }
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "setup_files": [
+      {
+        "source": "lake_rotated.mp4",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "lake_rotated.mp4"
+  },
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
 }

@@ -2,9 +2,13 @@
   "instruction": "Save this presentation as pre.pptx on the Desktop.",
   "website": {
     "base": "http://localhost:53001/impress",
-    "param": {
-      "setup_file": "1.pptx"
-    }
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "1.pptx"
   },
   "states": [
     [{"spec":{"query":[["slide",1]],"path":["artifact","saveAsPptx"]},"value":"pre.pptx"}]

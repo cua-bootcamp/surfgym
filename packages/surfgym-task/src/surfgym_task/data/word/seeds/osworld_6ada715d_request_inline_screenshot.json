@@ -1,0 +1,8 @@
+{
+  "instruction": "Place the caret immediately before END and submit an inline image insertion request for the task asset 1.png without setting dimensions. This task evaluates the confirmed request rather than an inserted drawing.",
+  "website": "http://localhost:3000/word",
+  "states": [
+    [{"spec":{"kind":"body","property":"text"},"value":"CLASS SCHEDULE\nInsert the screenshot below this line.\nEND"}],
+    [{"spec":{"kind":"image","property":"request"},"value":{"assetId":"1.png","anchor":"inline","insertionOffset":54}}]
+  ]
+}

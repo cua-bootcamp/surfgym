@@ -2,9 +2,13 @@
   "instruction": "Change the top layer's blend mode to Screen so it lightens what's underneath.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "text & backgound.xcf"
-    }
+    "setup_files": [
+      {
+        "source": "text & backgound.xcf",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "text & backgound.xcf"
   },
   "evaluation": {
     "mode": "llm",

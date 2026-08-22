@@ -1,0 +1,8 @@
+{
+  "instruction": "Use the value in B2 in the message in C2 and always show exactly two decimal places.",
+  "website": "http://localhost:3000/spreadsheet",
+  "states": [
+    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":"Average duration"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":2.3},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C2","property":"value"},"value":"Average: pending"}],
+    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C2","property":"value"},"value":"Average: 2.30"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C2","property":"formula"},"value":"=\"Average: \"&TEXT(B2,\"0.00\")"}]
+  ]
+}

@@ -1,22 +1,24 @@
 from pathlib import Path
 
-from surfgym_task.web import WEB_STATE_RESET_HOOK, load_web_tasks
+from surfgym_task.io import SeedReader
+from surfgym_task.seed import CriteriaSeedTask, InfeasibleSeedTask
 
 
-def test_travelhub_json_corpus_registers_without_building_a_database():
-    data_dir = (
-        Path(__file__).parents[1]
-        / "src"
-        / "surfgym_task"
-        / "data"
-        / "travel-ad-hub"
-    )
+def test_web_seed_corpus_registers_without_building_a_database():
+    data_dir = Path(__file__).parents[1] / "src" / "surfgym_task" / "data" / "web"
 
-    tasks = load_web_tasks(data_dir / "tasks-web")
+    seeds = list(SeedReader(data_dir / "seeds").get_seed())
 
-    assert len(tasks) == 36
-    assert len({task.task_id for task in tasks}) == 36
-    assert all(task.website[0].url.startswith("http://localhost:3200/") for task in tasks)
-    assert all(WEB_STATE_RESET_HOOK in task.lifecycle_hooks.release for task in tasks)
-    assert len([task for task in tasks if task.lifecycle_hooks.allocate]) == 3
+    assert len(seeds) == 38
+    assert len({name for _, name in seeds}) == 38
+    assert all(seed.domain == "web" for seed, _ in seeds)
+    assert all(seed.website.startswith("http://localhost:3200/") for seed, _ in seeds)
+    assert sum(isinstance(seed, CriteriaSeedTask) for seed, _ in seeds) == 36
+    assert sum(isinstance(seed, InfeasibleSeedTask) for seed, _ in seeds) == 2
+    assert sum(bool(seed.states and seed.states[0].atoms) for seed, _ in seeds) == 3
+    setup_criteria = [
+        seed for seed, _ in seeds if isinstance(seed, CriteriaSeedTask) and seed.states[0].atoms
+    ]
+    assert len(setup_criteria) == 3
+    assert all(seed.accumulation == "DELTA" for seed in setup_criteria)
     assert not (data_dir / "out" / "tasks.sqlite3").exists()

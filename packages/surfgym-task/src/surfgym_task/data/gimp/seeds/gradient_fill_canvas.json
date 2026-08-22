@@ -2,9 +2,13 @@
   "instruction": "Use the Gradient tool to drag a blue-to-white gradient across the whole canvas.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "white background.xcf"
-    }
+    "setup_files": [
+      {
+        "source": "white background.xcf",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "white background.xcf"
   },
   "evaluation": {
     "mode": "llm",

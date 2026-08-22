@@ -1,0 +1,7 @@
+{
+  "instruction": "Switch the entire VS Code interface to Klingon using only built-in settings; do not install a language pack or any extension.",
+  "website": "http://localhost:53001/vscode",
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

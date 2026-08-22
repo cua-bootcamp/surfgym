@@ -1,0 +1,16 @@
+{
+  "instruction": "Can you enhance this low-resolution photo to high-resolution without increasing the file size?",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "setup_files": [
+      {
+        "source": "low_resolution.jpeg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "low_resolution.jpeg"
+  },
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

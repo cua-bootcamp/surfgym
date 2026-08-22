@@ -2,9 +2,13 @@
   "instruction": "Underline only the body text while keeping the title and table un-underlined, then set all slide and table text to Dark Red 2.",
   "website": {
     "base": "http://localhost:53001/impress",
-    "param": {
-      "setup_file": "1.pptx"
-    }
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "1.pptx"
   },
   "states": [
     [{"spec":{"query":[["slide",2],["textboxIndex",6]],"path":["style","underline"]},"value":true},{"spec":{"query":[["slide",2],["textboxIndex",1]],"path":["style","underline"]},"value":false},{"spec":{"query":[["slide",2]],"path":["slideText","color"]},"value":"darkred2"},{"spec":{"query":[["slide",2]],"path":["table","create"]},"value":{"rows":2,"columns":2}},{"spec":{"query":[["slide",2],["table",1]],"path":["table","allTextColor"]},"value":"darkred2"}]

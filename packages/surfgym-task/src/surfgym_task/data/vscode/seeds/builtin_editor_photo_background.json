@@ -1,0 +1,7 @@
+{
+  "instruction": "Use only built-in VS Code settings to place a local photo behind every editor as a persistent background, without installing an extension or changing application files.",
+  "website": "http://localhost:53001/vscode",
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "instruction": "Re-encode this video to H.264 MP4 and save the result on the desktop as \"encoded.mp4\".",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "setup_files": [
+      {
+        "source": "sky.mp4",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "sky.mp4"
+  },
+  "states": [
+    [{"spec":{"file":"Desktop/encoded.mp4","format":"file_magic","offset":4,"length":4,"default":""},"value":"66747970"}]
+  ]
+}

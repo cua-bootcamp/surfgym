@@ -2,9 +2,13 @@
   "instruction": "Could you replace the background with a solid white background, keeping the subject intact?",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "Centered-subject.jpg"
-    }
+    "setup_files": [
+      {
+        "source": "Centered-subject.jpg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "Centered-subject.jpg"
   },
   "evaluation": {
     "mode": "llm",

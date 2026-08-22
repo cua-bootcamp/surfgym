@@ -1,0 +1,8 @@
+{
+  "instruction": "Export the current sheet as Harbor_Inventory.csv using the CSV option and confirm the export.",
+  "website": "http://localhost:3000/spreadsheet",
+  "states": [
+    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Item"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Quantity"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":"Mooring rope"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":18},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A3","property":"value"},"value":"Safety vest"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":24}],
+    [{"spec":{"kind":"export","property":"request"},"value":{"format":"csv","filename":"Harbor_Inventory.csv"}}]
+  ]
+}

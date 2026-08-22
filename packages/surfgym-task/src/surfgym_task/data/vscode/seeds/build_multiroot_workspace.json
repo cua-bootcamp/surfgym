@@ -1,0 +1,16 @@
+{
+  "instruction": "Create and save /config/Desktop/field-lab.code-workspace with both the core and research folders from the open multiroot-lab folder added to it.",
+  "website": {
+    "base": "http://localhost:53001/vscode",
+    "setup_files": [
+      {
+        "source": "multiroot-lab",
+        "target": "fixtures"
+      }
+    ],
+    "open_file": "multiroot-lab"
+  },
+  "states": [
+    [{"spec":{"file":"Desktop/field-lab.code-workspace","format":"text","default":""},"value":"core","match":"contains"},{"spec":{"file":"Desktop/field-lab.code-workspace","format":"text","default":""},"value":"research","match":"contains"}]
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "instruction": "Turn off hardware-accelerated video decoding.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"avcodec-hw","default":"any"},"value":"none"}]
+  ]
+}

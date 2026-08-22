@@ -1,34 +1,39 @@
 from pathlib import Path
 
-from surfgym_task.web import (
-    DOCKER_FIXTURE_RELEASE_HOOK,
-    WEB_STATE_RESET_HOOK,
-    load_fixture_tasks,
-)
+from surfgym_task.io import SeedReader
+from surfgym_task.seed import CriteriaSeedTask, InfeasibleSeedTask, LLMJudgeSeedTask
 
 
-def test_vlc_json_corpus_registers_without_building_a_database():
-    data_dir = (
+def _website_base(seed: CriteriaSeedTask | LLMJudgeSeedTask) -> str:
+    return seed.website if isinstance(seed.website, str) else seed.website.base
+
+
+def test_vlc_canonical_seed_corpus_has_expected_evaluation_split() -> None:
+    seeds_dir = (
         Path(__file__).parents[1]
         / "src"
         / "surfgym_task"
         / "data"
         / "vlc"
+        / "seeds"
     )
 
-    tasks = load_fixture_tasks(data_dir / "tasks")
+    seeds = [seed for seed, _name in SeedReader(seeds_dir).get_seed()]
 
-    assert len(tasks) == 48
-    assert len({task.task_id for task in tasks}) == 48
+    assert len(seeds) == 51
+    assert sum(isinstance(seed, CriteriaSeedTask) for seed in seeds) == 40
+    assert sum(isinstance(seed, LLMJudgeSeedTask) for seed in seeds) == 9
+    assert sum(isinstance(seed, InfeasibleSeedTask) for seed in seeds) == 2
+    assert sum(
+        len(state.atoms)
+        for seed in seeds
+        if isinstance(seed, CriteriaSeedTask)
+        for state in seed.states
+    ) == 47
+    assert all(seed.domain == "vlc" for seed in seeds)
     assert all(
-        task.website[0].url.startswith("http://localhost:53001/vlc")
-        for task in tasks
+        _website_base(seed).startswith("http://localhost:53001/vlc")
+        for seed in seeds
     )
-    assert all(
-        DOCKER_FIXTURE_RELEASE_HOOK in task.lifecycle_hooks.release
-        for task in tasks
-    )
-    assert all(
-        WEB_STATE_RESET_HOOK not in task.lifecycle_hooks.release for task in tasks
-    )
-    assert not (data_dir / "out" / "tasks.sqlite3").exists()
+    assert not (seeds_dir.parent / "tasks").exists()
+    assert not (seeds_dir.parent / "out" / "tasks.sqlite3").exists()

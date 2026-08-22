@@ -1,5 +1,9 @@
 {
-  "instruction": "Can you set VLC to always start in fullscreen mode?",
-  "website": { "base": "http://localhost:53001/vlc", "param": { "setup_file": "sky.mp4", "start_time": "8" } },
-  "states": [[{ "spec": { "file": ".config/vlc/vlcrc", "format": "key_value", "key": "fullscreen", "default": "0" }, "value": "1" }]]
+  "instruction": "Whenever I open VLC I want it to launch already in fullscreen — can you make that the default?",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"fullscreen","default":"0"},"value":"1"}]
+  ]
 }

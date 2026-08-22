@@ -2,9 +2,13 @@
   "instruction": "Help me choose the image of moon and position it at the top-left corner of my picture.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "moon & background.xcf"
-    }
+    "setup_files": [
+      {
+        "source": "moon & background.xcf",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "moon & background.xcf"
   },
   "evaluation": {
     "mode": "llm",

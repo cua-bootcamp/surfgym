@@ -1,0 +1,16 @@
+{
+  "instruction": "Turn on the sharpen video effect and set its sigma to 1.0.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "setup_files": [
+      {
+        "source": "sky.mp4",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "sky.mp4"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"video-filter","default":""},"value":"sharpen","match":"contains"},{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"sharpen-sigma","default":"0.050000"},"value":"^1(\\.0*)?$","match":"regex"}]
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "instruction": "My Seaside Resort booking needs to move — change the check-in date to August 12, 2026.",
+  "website": {
+    "base": "http://localhost:3200/trips"
+  },
+  "states": [
+    [{"spec":{"target":"api_state","path":"data"},"value":{"auth":{"isAuthenticated":true,"email":"seed@example.com","authenticatedAt":"2026-08-19T06:49:57.002Z"},"bookings":[{"id":"BK00000002","confirmationNumber":"CONF00002","type":"hotel","propertyName":"Seaside Resort","location":"Nice, France","checkIn":"2026-08-10","checkOut":"2026-08-14","status":"confirmed","totalPrice":820,"currency":"GBP","guestName":"Alex Kim"}]}}],
+    [{"spec":{"script":"(async()=>{const r=await fetch('/api/bookings/BK00000002');const d=await r.json();return d.booking && d.booking.checkIn;})()"},"value":"2026-08-12"}]
+  ],
+  "empty_start": false,
+  "accumulation": "DELTA"
+}

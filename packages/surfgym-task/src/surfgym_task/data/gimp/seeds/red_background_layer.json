@@ -2,9 +2,13 @@
   "instruction": "The background layer needs to be solid red — fill it in, but don't touch the object layer sitting on top.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "subject & background.xcf"
-    }
+    "setup_files": [
+      {
+        "source": "subject & background.xcf",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "subject & background.xcf"
   },
   "evaluation": {
     "mode": "llm",

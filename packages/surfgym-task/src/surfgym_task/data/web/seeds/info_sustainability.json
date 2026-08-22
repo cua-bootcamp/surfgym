@@ -1,0 +1,9 @@
+{
+  "instruction": "Open TravelHub's Sustainability information page.",
+  "website": {
+    "base": "http://localhost:3200/about"
+  },
+  "states": [
+    [{"spec":{"target":"url"},"value":"/sustainability","match":"contains"}]
+  ]
+}

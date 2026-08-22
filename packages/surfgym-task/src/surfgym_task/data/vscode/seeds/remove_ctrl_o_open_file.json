@@ -1,0 +1,7 @@
+{
+  "instruction": "Remove the Ctrl+O keybinding for the Open File command by adding its removal entry to VS Code keyboard shortcuts.",
+  "website": "http://localhost:53001/vscode",
+  "states": [
+    [{"spec":{"file":".config/Code/User/keybindings.json","format":"json_find","path":[],"where":{"key":"ctrl+o","command":"-workbench.action.files.openFile"},"select":["command"],"default":null},"value":"-workbench.action.files.openFile"}]
+  ]
+}

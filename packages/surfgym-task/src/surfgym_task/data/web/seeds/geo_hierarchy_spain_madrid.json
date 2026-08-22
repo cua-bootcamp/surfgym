@@ -1,0 +1,9 @@
+{
+  "instruction": "From the country list, browse to Spain and then to Madrid.",
+  "website": {
+    "base": "http://localhost:3200/countries"
+  },
+  "states": [
+    [{"spec":{"target":"url"},"value":"/city/es/madrid","match":"contains"}]
+  ]
+}

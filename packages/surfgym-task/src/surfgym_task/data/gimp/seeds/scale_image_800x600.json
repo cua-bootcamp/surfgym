@@ -2,9 +2,13 @@
   "instruction": "Scale this image down to 800 by 600 pixels and export it to the Desktop as scaled.png.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "Landscape-Nature.jpg"
-    }
+    "setup_files": [
+      {
+        "source": "Landscape-Nature.jpg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "Landscape-Nature.jpg"
   },
   "states": [
     [{"spec":{"file":"Desktop/scaled.png","format":"file_magic","offset":16,"length":8,"default":""},"value":"0000032000000258"}]

@@ -1,0 +1,16 @@
+{
+  "instruction": "Save the currently open field-notes project as a VS Code workspace named field-notes.code-workspace in /config/Desktop.",
+  "website": {
+    "base": "http://localhost:53001/vscode",
+    "setup_files": [
+      {
+        "source": "field-notes",
+        "target": "fixtures"
+      }
+    ],
+    "open_file": "field-notes"
+  },
+  "states": [
+    [{"spec":{"file":"Desktop/field-notes.code-workspace","format":"text","default":""},"value":"\"folders\"","match":"contains"},{"spec":{"file":"Desktop/field-notes.code-workspace","format":"text","default":""},"value":"field-notes","match":"contains"}]
+  ]
+}

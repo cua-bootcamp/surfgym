@@ -1,0 +1,15 @@
+{
+  "instruction": "Could you help me trim the video located at \"/home/user/fullvideo.mp4\" within GIMP, since I only want the second to fourth second part of this video?",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "setup_files": [
+      {
+        "source": "fullvideo.mp4",
+        "target": "desktop"
+      }
+    ]
+  },
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

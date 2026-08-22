@@ -1,0 +1,23 @@
+{
+  "instruction": "Please batch process all images on the desktop by increasing their brightness to 50, instead of adjusting them individually within GIMP.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "setup_files": [
+      {
+        "source": "squirrel.jpeg",
+        "target": "desktop"
+      },
+      {
+        "source": "panda.jpeg",
+        "target": "desktop"
+      },
+      {
+        "source": "heron.jpeg",
+        "target": "desktop"
+      }
+    ]
+  },
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

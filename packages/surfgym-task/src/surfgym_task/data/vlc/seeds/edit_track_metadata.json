@@ -1,0 +1,19 @@
+{
+  "instruction": "Open the media information for this track and edit the title to \"My Track\", then save it.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "setup_files": [
+      {
+        "source": "psyc110_01.mp3",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "psyc110_01.mp3"
+  },
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

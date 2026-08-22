@@ -1,0 +1,9 @@
+{
+  "instruction": "Switch the site currency to Euros.",
+  "website": {
+    "base": "http://localhost:3200/"
+  },
+  "states": [
+    [{"spec":{"script":"(async()=>{const r=await fetch('/api/preferences');const d=await r.json();return d.preferences && d.preferences.currency;})()"},"value":"EUR"}]
+  ]
+}

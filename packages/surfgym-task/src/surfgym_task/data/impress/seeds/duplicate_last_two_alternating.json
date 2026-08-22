@@ -2,9 +2,13 @@
   "instruction": "Duplicate the last two slides so their copies follow in A, B, A', B' order.",
   "website": {
     "base": "http://localhost:53001/impress",
-    "param": {
-      "setup_file": "1.pptx"
-    }
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "1.pptx"
   },
   "states": [
     [{"spec":{"query":[["slide",1]],"path":["slides","duplicateLastTwoAlternating"]},"value":true}]

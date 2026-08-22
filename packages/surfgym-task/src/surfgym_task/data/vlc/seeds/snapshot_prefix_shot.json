@@ -1,0 +1,9 @@
+{
+  "instruction": "Change the filename prefix VLC uses for snapshots to \"shot\" instead of the default.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"snapshot-prefix","default":"vlcsnap-"},"value":"shot"}]
+  ]
+}

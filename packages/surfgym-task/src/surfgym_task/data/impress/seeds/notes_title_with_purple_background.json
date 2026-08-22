@@ -2,9 +2,13 @@
   "instruction": "On slide 20, set the speaker notes to 'Slide Notes Area' and change the slide background to purple.",
   "website": {
     "base": "http://localhost:53001/impress",
-    "param": {
-      "setup_file": "1.pptx"
-    }
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "1.pptx"
   },
   "states": [
     [{"spec":{"query":[["slide",20]],"path":["notes","text"]},"value":"Slide Notes Area"}],

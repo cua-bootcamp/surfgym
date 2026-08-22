@@ -1,0 +1,12 @@
+{
+  "instruction": "Show cars available in Barcelona, sorted by customer rating (highest first).",
+  "website": {
+    "base": "http://localhost:3200/cars/search",
+    "param": {
+      "pickup": "Barcelona"
+    }
+  },
+  "states": [
+    [{"spec":{"target":"attr","selector":"select","attr":"value"},"value":"rating"}]
+  ]
+}

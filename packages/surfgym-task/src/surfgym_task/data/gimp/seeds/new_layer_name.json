@@ -2,9 +2,13 @@
   "instruction": "Add a new layer for me and give it the name 'new layer'.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "white background.xcf"
-    }
+    "setup_files": [
+      {
+        "source": "white background.xcf",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "white background.xcf"
   },
   "states": [
     [{"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"layer-new-name","default":"\"Layer\""},"value":"\"new layer\""}]

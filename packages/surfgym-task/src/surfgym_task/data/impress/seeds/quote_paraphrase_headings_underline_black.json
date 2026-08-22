@@ -2,9 +2,13 @@
   "instruction": "On slide 6, underline both section headings, \"Quote bank\" and \"Paraphrase bank,\" and change their font color to black.",
   "website": {
     "base": "http://localhost:53001/impress",
-    "param": {
-      "setup_file": "1.pptx"
-    }
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "1.pptx"
   },
   "states": [
     [{"spec":{"query":[["slide",6],["textbox","Quote bank"]],"path":["style","underline"]},"value":true},{"spec":{"query":[["slide",6],["textbox","Quote bank"]],"path":["style","color"]},"value":"black"}],

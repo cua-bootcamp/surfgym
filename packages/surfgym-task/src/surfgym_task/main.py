@@ -13,8 +13,9 @@ from surfgym_task.seed import (
     InfeasibleSeedTask,
     LLMJudgeSeedTask,
     Profile,
+    StateAtom,
 )
-from surfgym_task.web import DOCKER_FIXTURE_RELEASE_HOOK
+from surfgym_task.web import DOCKER_FIXTURE_RELEASE_HOOK, WEB_STATE_RESET_HOOK
 
 _DOCKER_FIXTURE_DOMAINS: frozenset[Domain] = frozenset(
     {
@@ -23,6 +24,34 @@ _DOCKER_FIXTURE_DOMAINS: frozenset[Domain] = frozenset(
         "gimp",
     }
 )
+
+
+def _release_hooks(domain: Domain) -> list[Hook]:
+    if domain == "web":
+        return [WEB_STATE_RESET_HOOK]
+    if domain in _DOCKER_FIXTURE_DOMAINS:
+        return [DOCKER_FIXTURE_RELEASE_HOOK]
+    return []
+
+
+def _validate_profile(domain: Domain, profile: Profile) -> None:
+    if domain == "web" and profile == "SNAPSHOT":
+        raise ValueError("Web seeds support only the ROLLOUT profile.")
+
+
+def _allocate_hooks(domain: Domain, atoms: list[StateAtom]) -> list[Hook]:
+    if not atoms:
+        return []
+    if domain != "web":
+        return [Hook(script=atom.to_set(), timing="after") for atom in atoms]
+
+    setters = "".join(f"await {atom.to_set()};" for atom in atoms)
+    return [
+        Hook(
+            script=f"(async()=>{{{setters}location.reload();}})()",
+            timing="after",
+        )
+    ]
 
 
 def augment(seed_dir: Path, granularity: Granularity, profile: Profile):
@@ -36,12 +65,15 @@ def augment(seed_dir: Path, granularity: Granularity, profile: Profile):
     summary = Summary()
     hoare_state_generator = HoareStateGenerator(granularity=granularity)
     detail_writer = DetailWriter(path["out"])
+    seed_entries = list(SeedReader(path["seeds"]).get_seed())
+    for seed, _ in seed_entries:
+        _validate_profile(seed.domain, profile)
 
     with (
         InstructionWriter(path["instructions"]) as instruction_writer,
         TaskWriter(path["tasks"]) as task_writer,
     ):
-        for seed, seed_name in SeedReader(path["seeds"]).get_seed():
+        for seed, seed_name in seed_entries:
             summary.seed_count += 1
 
             match seed:
@@ -52,9 +84,7 @@ def augment(seed_dir: Path, granularity: Granularity, profile: Profile):
                         website=[Website(url=seed.website)],
                         evaluation=seed.evaluation,
                         lifecycle_hooks=LifecycleHooks(
-                            release=[DOCKER_FIXTURE_RELEASE_HOOK]
-                            if seed.domain in _DOCKER_FIXTURE_DOMAINS
-                            else [],
+                            release=_release_hooks(seed.domain),
                         ),
                     )
 
@@ -68,15 +98,11 @@ def augment(seed_dir: Path, granularity: Granularity, profile: Profile):
                         website=[Website(url=seed.website)],
                         evaluation=seed.evaluation,
                         lifecycle_hooks=LifecycleHooks(
-                            allocate=[
-                                Hook(script=atom.to_set(), timing="after")
-                                for atom in seed.states[0].atoms
-                            ]
-                            if seed.states
-                            else [],
-                            release=[DOCKER_FIXTURE_RELEASE_HOOK]
-                            if seed.domain in _DOCKER_FIXTURE_DOMAINS
-                            else [],
+                            allocate=_allocate_hooks(
+                                seed.domain,
+                                seed.states[0].atoms if seed.states else [],
+                            ),
+                            release=_release_hooks(seed.domain),
                         ),
                         include_reward_image=profile == "SNAPSHOT",
                     )
@@ -103,19 +129,17 @@ def augment(seed_dir: Path, granularity: Granularity, profile: Profile):
                             complexity=hoare_state.complexity,
                             evaluation=hoare_state.end_state.to_criteria_evaluation(),
                             lifecycle_hooks=LifecycleHooks(
-                                allocate=[
-                                    Hook(script=atom.to_set(), timing="after")
-                                    for atom in hoare_state.start_state.atoms
-                                ],
+                                allocate=_allocate_hooks(
+                                    seed.domain,
+                                    hoare_state.start_state.atoms,
+                                ),
                                 observe=[
                                     Hook(script=atom.to_set(), timing="before")
                                     for atom in hoare_state.end_state.atoms
                                 ]
                                 if profile == "SNAPSHOT"
                                 else [],
-                                release=[DOCKER_FIXTURE_RELEASE_HOOK]
-                                if seed.domain in _DOCKER_FIXTURE_DOMAINS
-                                else [],
+                                release=_release_hooks(seed.domain),
                             ),
                             include_reward_image=profile == "SNAPSHOT",
                         )

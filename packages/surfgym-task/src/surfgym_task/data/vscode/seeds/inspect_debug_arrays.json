@@ -1,0 +1,19 @@
+{
+  "instruction": "Debug array-report.js, pause on the final console.log line, and leave the VARIABLES section expanded so batchIds, scores, and activeMask are visibly available.",
+  "website": {
+    "base": "http://localhost:53001/vscode",
+    "setup_files": [
+      {
+        "source": "array-inspection-lab",
+        "target": "fixtures"
+      }
+    ],
+    "open_file": "array-inspection-lab"
+  },
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

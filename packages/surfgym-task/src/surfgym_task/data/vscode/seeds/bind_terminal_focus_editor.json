@@ -1,0 +1,7 @@
+{
+  "instruction": "Add a Ctrl+Alt+E keyboard shortcut that focuses the active editor group when the integrated terminal has focus.",
+  "website": "http://localhost:53001/vscode",
+  "states": [
+    [{"spec":{"file":".config/Code/User/keybindings.json","format":"json_find","path":[],"where":{"key":"ctrl+alt+e","command":"workbench.action.focusActiveEditorGroup","when":"terminalFocus"},"select":["command"],"default":null},"value":"workbench.action.focusActiveEditorGroup"}]
+  ]
+}

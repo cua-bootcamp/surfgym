@@ -1,5 +1,9 @@
 {
-  "instruction": "Help me modify the folder used to store my recordings to my Videos folder (~/Videos).",
-  "website": "http://localhost:53001/vlc",
-  "states": [[{ "spec": { "file": ".config/vlc/vlcrc", "format": "key_value", "key": "input-record-path", "default": "" }, "value": "/config/Videos" }]]
+  "instruction": "Change where VLC saves recordings — I want them going into my Videos folder (~/Videos) from now on.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"input-record-path","default":""},"value":"/config/Videos"}]
+  ]
 }

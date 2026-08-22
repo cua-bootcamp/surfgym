@@ -1,0 +1,16 @@
+{
+  "instruction": "Keep both alpha.code-workspace and beta.code-workspace simultaneously active as separate workspaces inside one VS Code window, without merging their folders into a new workspace.",
+  "website": {
+    "base": "http://localhost:53001/vscode",
+    "setup_files": [
+      {
+        "source": "dual-workspaces",
+        "target": "fixtures"
+      }
+    ],
+    "open_file": "dual-workspaces"
+  },
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

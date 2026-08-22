@@ -1,0 +1,9 @@
+{
+  "instruction": "Stop VLC from popping up a notification whenever the track changes.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"qt-notification","default":"1"},"value":"0"}]
+  ]
+}

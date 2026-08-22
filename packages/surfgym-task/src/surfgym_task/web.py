@@ -13,7 +13,12 @@ WEB_STATE_RESET_HOOK = Hook(
 
 DOCKER_FIXTURE_RELEASE_HOOK = Hook(
     timing="before",
-    script='window.surfgym.get({"$surfgym":{"type":"release"}})',
+    script=(
+        "(async () => { for (let attempt = 0; attempt < 120; attempt += 1) { "
+        "if (window.surfgym) return window.surfgym.get({\"$surfgym\":{\"type\":\"release\"}}); "
+        "await new Promise((resolve) => setTimeout(resolve, 250)); "
+        "} throw new Error('fixture release bridge was unavailable'); })()"
+    ),
 )
 
 

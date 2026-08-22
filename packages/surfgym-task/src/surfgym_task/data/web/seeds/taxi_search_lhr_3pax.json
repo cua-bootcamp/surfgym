@@ -1,0 +1,9 @@
+{
+  "instruction": "Search for an airport taxi from LHR to Central London for 3 passengers.",
+  "website": {
+    "base": "http://localhost:3200/airport-taxis"
+  },
+  "states": [
+    [{"spec":{"target":"url"},"value":"pickup=LHR","match":"contains"},{"spec":{"target":"url"},"value":"passengers=3","match":"contains"}]
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "instruction": "Change the subtitle text color to yellow.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"freetype-color","default":"16777215"},"value":"16776960"}]
+  ]
+}

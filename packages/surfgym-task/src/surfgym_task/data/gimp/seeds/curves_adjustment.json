@@ -2,9 +2,13 @@
   "instruction": "This photo is too flat — open the Curves tool and pull the midtones up to add more contrast and punch.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "High contrast.jpg"
-    }
+    "setup_files": [
+      {
+        "source": "High contrast.jpg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "High contrast.jpg"
   },
   "evaluation": {
     "mode": "llm",

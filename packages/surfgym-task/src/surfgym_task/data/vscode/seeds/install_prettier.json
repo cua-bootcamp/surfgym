@@ -1,0 +1,7 @@
+{
+  "instruction": "Install the Prettier - Code formatter extension from the VS Code marketplace.",
+  "website": "http://localhost:53001/vscode",
+  "states": [
+    [{"spec":{"file":".vscode/extensions/extensions.json","format":"json_find","path":[],"where":{"identifier":{"id":"esbenp.prettier-vscode"}},"select":["identifier","id"],"default":null},"value":"esbenp.prettier-vscode"}]
+  ]
+}

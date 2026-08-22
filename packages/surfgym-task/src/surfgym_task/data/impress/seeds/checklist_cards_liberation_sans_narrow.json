@@ -2,9 +2,13 @@
   "instruction": "On slide 13, change the font of all eight checklist cards to Liberation Sans Narrow, but do not change the footer.",
   "website": {
     "base": "http://localhost:53001/impress",
-    "param": {
-      "setup_file": "1.pptx"
-    }
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "1.pptx"
   },
   "states": [
     [{"spec":{"query":[["slide",13],["textbox","Title names the focus"]],"path":["style","fontFamily"]},"value":"Liberation Sans Narrow"}],

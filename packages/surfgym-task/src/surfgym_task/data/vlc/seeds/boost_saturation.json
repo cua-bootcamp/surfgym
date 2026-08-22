@@ -1,0 +1,16 @@
+{
+  "instruction": "Turn on the video color adjustment filter and set the saturation to 2.0.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "setup_files": [
+      {
+        "source": "lake.mp4",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "lake.mp4"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"video-filter","default":""},"value":"adjust","match":"contains"},{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"saturation","default":"1.000000"},"value":"^2(\\.0*)?$","match":"regex"}]
+  ]
+}

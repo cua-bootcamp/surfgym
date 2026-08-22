@@ -1,0 +1,19 @@
+{
+  "instruction": "Turn on an audio visualization so I have something to look at while this song plays.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "setup_files": [
+      {
+        "source": "psyc110_01.mp3",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "psyc110_01.mp3"
+  },
+  "evaluation": {
+    "mode": "llm",
+    "model": "gpt-5.4-mini",
+    "image_detail": "high",
+    "max_frames": 12
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "instruction": "Open the detail page of one of the hotels listed for London.",
+  "website": {
+    "base": "http://localhost:3200/search",
+    "param": {
+      "destination": "London"
+    }
+  },
+  "states": [
+    [{"spec":{"target":"url"},"value":"/hotel/","match":"contains"}]
+  ]
+}

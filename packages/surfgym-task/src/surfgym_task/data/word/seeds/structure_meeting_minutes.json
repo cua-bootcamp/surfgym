@@ -1,0 +1,8 @@
+{
+  "instruction": "Format the meeting minutes: make the document title a Title style, make the three agenda labels Heading 1 style, and set each prose paragraph to 1.15 line spacing. Preserve all text and paragraph breaks.",
+  "website": "http://localhost:3000/word",
+  "states": [
+    [{"spec":{"kind":"body","property":"text"},"value":"PROGRAMME BOARD MEETING MINUTES\nThe programme board met on 17 August to confirm the autumn workshop schedule and assign publication checks.\nOPENING ITEMS\nThe chair confirmed that venue access and captioning support must be checked before invitations are issued.\nDECISIONS RECORDED\nMembers agreed to publish the draft schedule only after each session owner verifies its learning outcomes and contact details.\nFOLLOW-UP ACTIONS\nThe secretariat will circulate the revised agenda on Friday and collect outstanding accessibility notes by the following Tuesday."}],
+    [{"spec":{"kind":"paragraph","index":0,"property":"namedStyleType"},"value":"title"},{"spec":{"kind":"paragraph","index":2,"property":"namedStyleType"},"value":"heading1"},{"spec":{"kind":"paragraph","index":4,"property":"namedStyleType"},"value":"heading1"},{"spec":{"kind":"paragraph","index":6,"property":"namedStyleType"},"value":"heading1"},{"spec":{"kind":"paragraph","index":1,"property":"lineSpacing"},"value":1.15},{"spec":{"kind":"paragraph","index":3,"property":"lineSpacing"},"value":1.15},{"spec":{"kind":"paragraph","index":5,"property":"lineSpacing"},"value":1.15},{"spec":{"kind":"paragraph","index":7,"property":"lineSpacing"},"value":1.15}]
+  ]
+}

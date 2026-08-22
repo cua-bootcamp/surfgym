@@ -1,0 +1,16 @@
+{
+  "instruction": "Only show me the Luxury vehicles in these taxi results.",
+  "website": {
+    "base": "http://localhost:3200/airport-taxis/search",
+    "param": {
+      "pickup": "LHR",
+      "dropoff": "Central London",
+      "date": "2026-08-07",
+      "time": "10:00",
+      "passengers": "2"
+    }
+  },
+  "states": [
+    [{"spec":{"script":"(()=>{const b=[...document.querySelectorAll('button')].find(x=>x.textContent.trim()==='Luxury');return b?b.className.includes('bg-booking-blue'):false;})()"},"value":true}]
+  ]
+}

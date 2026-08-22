@@ -1,0 +1,8 @@
+{
+  "instruction": "Use Export Directly as PDF and confirm the file name View_Person_Organizational_Summary.pdf. This task evaluates the confirmed export request; no PDF file is created or compared.",
+  "website": "http://localhost:3000/word",
+  "states": [
+    [{"spec":{"kind":"body","property":"text"},"value":"ORGANIZATIONAL SUMMARY\nReview the current reporting structure before distribution."}],
+    [{"spec":{"kind":"document","property":"pdfExportRequest"},"value":{"format":"pdf","fileName":"View_Person_Organizational_Summary.pdf"}}]
+  ]
+}

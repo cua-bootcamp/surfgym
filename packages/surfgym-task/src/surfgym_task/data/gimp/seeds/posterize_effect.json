@@ -2,9 +2,13 @@
   "instruction": "Posterize this image down to just 4 levels per channel for a flat, poster-like look.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "Landscape-Seoul.jpg"
-    }
+    "setup_files": [
+      {
+        "source": "Landscape-Seoul.jpg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "Landscape-Seoul.jpg"
   },
   "evaluation": {
     "mode": "llm",

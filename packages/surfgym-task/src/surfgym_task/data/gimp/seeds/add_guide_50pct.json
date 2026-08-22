@@ -2,9 +2,13 @@
   "instruction": "Add a horizontal guide line at the vertical center of the image, so I can line things up against it.",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "Landscape-Nature.jpg"
-    }
+    "setup_files": [
+      {
+        "source": "Landscape-Nature.jpg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "Landscape-Nature.jpg"
   },
   "evaluation": {
     "mode": "llm",

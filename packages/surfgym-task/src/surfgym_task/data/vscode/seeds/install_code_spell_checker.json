@@ -1,0 +1,7 @@
+{
+  "instruction": "Find and install the Code Spell Checker extension from the VS Code Extensions view.",
+  "website": "http://localhost:53001/vscode",
+  "states": [
+    [{"spec":{"file":".vscode/extensions/extensions.json","format":"json_find","path":[],"where":{"identifier":{"id":"streetsidesoftware.code-spell-checker"}},"select":["identifier","id"],"default":null},"value":"streetsidesoftware.code-spell-checker"}]
+  ]
+}

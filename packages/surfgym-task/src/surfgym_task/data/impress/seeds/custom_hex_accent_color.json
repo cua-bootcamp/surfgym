@@ -2,9 +2,13 @@
   "instruction": "On slide 19, underline the note about exact-color testing and set its font color to the exact hex value #C9211E, not the nearest named color.",
   "website": {
     "base": "http://localhost:53001/impress",
-    "param": {
-      "setup_file": "1.pptx"
-    }
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "1.pptx"
   },
   "states": [
     [{"spec":{"query":[["slide",19],["textbox","Dark red 2 is useful for testing exact-color instructions."]],"path":["style","underline"]},"value":true}],

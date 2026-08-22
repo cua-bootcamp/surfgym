@@ -1,0 +1,9 @@
+{
+  "instruction": "Stop VLC from ever asking to resume playback — it should always start videos from the beginning.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "states": [
+    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"qt-continue","default":"1"},"value":"0"}]
+  ]
+}

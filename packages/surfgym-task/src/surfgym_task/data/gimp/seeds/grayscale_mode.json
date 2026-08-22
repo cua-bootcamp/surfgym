@@ -2,9 +2,13 @@
   "instruction": "Could you help me set the image to Grayscale mode?",
   "website": {
     "base": "http://localhost:53001/gimp",
-    "param": {
-      "setup_file": "Landscape-Seoul.jpg"
-    }
+    "setup_files": [
+      {
+        "source": "Landscape-Seoul.jpg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "Landscape-Seoul.jpg"
   },
   "evaluation": {
     "mode": "llm",

@@ -1,0 +1,8 @@
+{
+  "instruction": "Set Times New Roman as the document default font. Keep the phrase “Safety Exception” in Arial, and preserve all wording and paragraph breaks.",
+  "website": "http://localhost:3000/word",
+  "states": [
+    [{"spec":{"kind":"body","property":"text"},"value":"Operations Bulletin\nUse the standard briefing template for routine notices, incident summaries, and handover records.\nSafety Exception\nThis exception label identifies instructions that require an immediate supervisor review before distribution."},{"spec":{"kind":"text","text":"Safety Exception","property":"fontFamily"},"value":"Arial"}],
+    [{"spec":{"kind":"document","property":"defaultFontFamily"},"value":"Times New Roman"}]
+  ]
+}

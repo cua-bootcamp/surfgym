@@ -1,0 +1,15 @@
+{
+  "instruction": "Could you help me convert the image located at \"/home/user/logo.png\" to \".svg\" format by GIMP?",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "setup_files": [
+      {
+        "source": "logo.png",
+        "target": "desktop"
+      }
+    ]
+  },
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

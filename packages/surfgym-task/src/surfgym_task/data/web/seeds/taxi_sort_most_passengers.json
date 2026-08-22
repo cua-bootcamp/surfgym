@@ -1,0 +1,16 @@
+{
+  "instruction": "I need the biggest vehicle available for this airport transfer — sort the results by most passengers.",
+  "website": {
+    "base": "http://localhost:3200/airport-taxis/search",
+    "param": {
+      "pickup": "LHR",
+      "dropoff": "Central London",
+      "date": "2026-08-07",
+      "time": "10:00",
+      "passengers": "2"
+    }
+  },
+  "states": [
+    [{"spec":{"target":"attr","selector":"select","attr":"value"},"value":"passengers"}]
+  ]
+}
