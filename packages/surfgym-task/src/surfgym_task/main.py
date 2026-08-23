@@ -22,6 +22,7 @@ _DOCKER_FIXTURE_DOMAINS: frozenset[Domain] = frozenset(
         "impress",
         "vlc",
         "gimp",
+        "vscode",
     }
 )
 
