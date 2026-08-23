@@ -34,7 +34,10 @@ class MasterService:
         try:
             await self.client.allocate(lease.port_slot.port, lease.context_id, request)
         except Exception:
-            await self.registry.enqueue_release(lease.context_id)
+            await self.registry.enqueue_release(
+                lease.context_id,
+                GatewayReleaseRequest(hooks=request.release_hooks),
+            )
             self._release_wakeup.set()
             raise
 

@@ -79,7 +79,12 @@ class Service:
 
         try:
             task = self._require_task(request.task_id)
-            context_id, port = self._allocate(deadline, task.website, task.lifecycle_hooks.allocate)
+            context_id, port = self._allocate(
+                deadline,
+                task.website,
+                task.lifecycle_hooks.allocate,
+                task.lifecycle_hooks.release,
+            )
             session_state = SessionState(
                 task_id=request.task_id,
                 lease=Lease(context_id=context_id, port=port),
@@ -225,13 +230,17 @@ class Service:
         deadline: Callable[[str], Deadline],
         websites: list[Website],
         allocate_hooks: list[Hook],
+        release_hooks: list[Hook],
     ) -> tuple[str, int]:
         d = deadline("allocate")
         response = self._run_with_retry(
-            min_attempt_time=self.process_timeout.allocate,
+            min_attempt_time=0.0,
             deadline=d,
             func=lambda: self.transport.allocate(
-                deadline=d, websites=websites, allocate_hooks=allocate_hooks
+                deadline=d,
+                websites=websites,
+                allocate_hooks=allocate_hooks,
+                release_hooks=release_hooks,
             ),
         )
         return (response.context_id, response.instance_port)

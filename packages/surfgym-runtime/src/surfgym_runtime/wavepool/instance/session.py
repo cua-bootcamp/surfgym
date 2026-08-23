@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import asyncio
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Tuple
 from urllib.parse import urlsplit
@@ -52,6 +52,7 @@ class Context:
     context: BrowserContext
     pages: dict[Website_ID, Page_Meta]
     active_page_id: Website_ID
+    entered_page_ids: set[Website_ID] = field(default_factory=lambda: set[Website_ID]())
     cursor: PageCursor = PageCursor(0, 0)
 
     async def close(self):

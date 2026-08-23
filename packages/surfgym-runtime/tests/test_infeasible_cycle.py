@@ -54,6 +54,7 @@ class RecordingTransport:
         deadline: Deadline,
         websites: list[Website],
         allocate_hooks: list[Hook],
+        release_hooks: list[Hook],
     ) -> MasterAllocateResponse:
         return MasterAllocateResponse(
             context_id="context-id",

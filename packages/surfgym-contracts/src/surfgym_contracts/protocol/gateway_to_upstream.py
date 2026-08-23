@@ -16,6 +16,7 @@ class _FrozenBaseModel(BaseModel):
 class GatewayAllocateRequest(_FrozenBaseModel):
     websites: list[Website] = Field(min_length=1)
     hooks: list[Hook]
+    release_hooks: list[Hook] = Field(default_factory=lambda: list[Hook]())
 
 
 class GatewayReleaseRequest(_FrozenBaseModel):

@@ -17,6 +17,7 @@ from surfgym_contracts.task import (
     Website,
 )
 
+from surfgym_runtime.wavepool.instance.error import InstanceError
 from surfgym_runtime.wavepool.instance.session import ContextManager, ScreenCursor
 
 
@@ -55,9 +56,35 @@ class PlaywrightBrowserWorker:
 
         async def load_website(website: Website) -> None:
             page, _ = self.ctx_manager.require_page(ctx.context_id, website.website_id)
-            await page.goto(website.url, wait_until="domcontentloaded")
+            response = await page.goto(website.url, wait_until="domcontentloaded")
+            if response is not None and not 200 <= response.status < 300:
+                retryable = response.status == 429 or 500 <= response.status < 600
+                raise InstanceError(
+                    f"Initial navigation failed with HTTP {response.status}: {website.url}",
+                    response.status,
+                    retryable=retryable,
+                )
+            ctx.entered_page_ids.add(website.website_id)
 
-        await asyncio.gather(*(load_website(website) for website in websites))
+        navigation_results = await asyncio.gather(
+            *(load_website(website) for website in websites),
+            return_exceptions=True,
+        )
+        navigation_errors = [
+            result for result in navigation_results if isinstance(result, BaseException)
+        ]
+        non_retryable_error = next(
+            (
+                error
+                for error in navigation_errors
+                if isinstance(error, InstanceError) and not error.retryable
+            ),
+            None,
+        )
+        if non_retryable_error is not None:
+            raise non_retryable_error
+        if navigation_errors:
+            raise navigation_errors[0]
 
         await self._run_hooks(context_id, hooks, timing="after")
 
@@ -65,7 +92,7 @@ class PlaywrightBrowserWorker:
         # A Docker release hook is the acknowledgement that the fixture reset
         # was accepted.  Preserve the browser context on failure so the Master
         # can retry this exact release instead of retrying a missing context.
-        await self._run_hooks(context_id, hooks, timing="before")
+        await self._run_hooks(context_id, hooks, timing="before", entered_only=True)
         await self.ctx_manager.delete(context_id)
 
     async def execute(self, context_id: str, command: Command):
@@ -193,8 +220,14 @@ class PlaywrightBrowserWorker:
         hooks: list[Hook],
         *,
         timing: Literal["before", "after"],
+        entered_only: bool = False,
     ):
         selected_hooks = (hook for hook in hooks if hook.timing == timing)
+        if entered_only:
+            entered_page_ids = self.ctx_manager.require_context(context_id).entered_page_ids
+            selected_hooks = (
+                hook for hook in selected_hooks if hook.website_id in entered_page_ids
+            )
 
         for website_id, website_hooks in groupby(
             selected_hooks,

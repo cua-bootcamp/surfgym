@@ -51,10 +51,14 @@ class GatewayTransport:
         deadline: Deadline,
         websites: list[Website],
         allocate_hooks: list[Hook],
+        release_hooks: list[Hook],
     ) -> MasterAllocateResponse:
         timeout = deadline.timeout_for(self._timeouts.allocate)
         return self._master_client.allocate(
-            websites=websites, allocate_hooks=allocate_hooks, timeout=timeout
+            websites=websites,
+            allocate_hooks=allocate_hooks,
+            release_hooks=release_hooks,
+            timeout=timeout,
         )
 
     def release(self, *, deadline: Deadline, context_id: str, release_hooks: list[Hook]):
@@ -110,15 +114,18 @@ class MasterClient:
         *,
         websites: list[Website],
         allocate_hooks: list[Hook],
+        release_hooks: list[Hook],
         timeout: float,
     ):
         return _request_model(
             f"{self._get_base_url()}/allocate",
             MasterAllocateResponse,
             operation="master.allocate",
-            json=GatewayAllocateRequest(websites=websites, hooks=allocate_hooks).model_dump(
-                mode="json"
-            ),
+            json=GatewayAllocateRequest(
+                websites=websites,
+                hooks=allocate_hooks,
+                release_hooks=release_hooks,
+            ).model_dump(mode="json"),
             timeout=timeout,
         )
 
