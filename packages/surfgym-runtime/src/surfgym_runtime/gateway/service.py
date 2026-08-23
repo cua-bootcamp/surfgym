@@ -1,4 +1,5 @@
 import base64
+import json
 import random
 import time
 from io import BytesIO
@@ -19,8 +20,11 @@ from surfgym_contracts.protocol.gateway_to_agent import (
     RewardResponse,
 )
 from surfgym_contracts.task import (
+    ConsoleCriteria,
     Criteria,
     CriteriaEvaluation,
+    CuaEvaluation,
+    CuaStateSource,
     Hook,
     InfeasibleEvaluation,
     LLMJudgeEvaluation,
@@ -38,6 +42,7 @@ from surfgym_runtime.gateway.registry import Lease, SessionRegistry, SessionStat
 from surfgym_runtime.gateway.transport import GatewayTransport
 from surfgym_runtime.gateway.worker import ReleaseWorker
 from surfgym_runtime.support import Evaluator, TaskStore, WavepoolConfig
+from surfgym_runtime.support.cua_evaluator import CuaSnapshot, evaluate_cua_reward
 
 _T = TypeVar("_T")
 
@@ -222,8 +227,52 @@ class Service:
                     task.evaluation,
                     judge_deadline.timeout_for(60.0),
                 )
+            case CuaEvaluation():
+                reward = self._compute_cua_reward(
+                    evaluation=task.evaluation,
+                    session_state=session_state,
+                    deadline=deadline,
+                )
 
         return reward
+
+    def _compute_cua_reward(
+        self,
+        *,
+        evaluation: CuaEvaluation,
+        session_state: SessionState,
+        deadline: Callable[[str], Deadline],
+    ) -> float:
+        criteria: list[Criteria] = [
+            _cua_snapshot_criteria(state) for state in evaluation.states
+        ]
+        response = self._observe(
+            deadline=deadline,
+            lease=session_state.lease,
+            criteria=criteria,
+            observe_hooks=[],
+        )
+
+        snapshots: dict[str, CuaSnapshot] = {}
+        for state, observation in zip(evaluation.states, response.observation):
+            if not isinstance(observation, dict):
+                raise InvalidRequest(
+                    f"CUA state observation for {state.app_base} must be an object"
+                )
+            snapshots[state.app_base] = CuaSnapshot(
+                initial_state=observation.get("initial_state"),
+                current_state=observation.get("current_state"),
+            )
+
+        reward_deadline = deadline("cua_reward")
+        result = evaluate_cua_reward(
+            evaluation.reward_script,
+            source_task_id=evaluation.source_task_id,
+            sid=evaluation.states[0].sid,
+            snapshots=snapshots,
+            timeout=reward_deadline.timeout_for(30.0),
+        )
+        return result.reward
 
     def _allocate(
         self,
@@ -321,6 +370,22 @@ def jittered_backoff():
         yield random.uniform(delay_min, delay_max)
         delay_min = delay_max
         delay_max = min(delay_max * 2, 8)
+
+
+def _cua_snapshot_criteria(state: CuaStateSource) -> ConsoleCriteria:
+    current_key = json.dumps(state.current_state_key)
+    initial_key = json.dumps(state.initial_state_key)
+    return ConsoleCriteria(
+        website_id=state.website_id,
+        value=None,
+        script=(
+            "() => {"
+            "const read = (key) => { const raw = localStorage.getItem(key); "
+            "return raw === null ? null : JSON.parse(raw); };"
+            f"return {{initial_state: read({initial_key}), current_state: read({current_key})}};"
+            "}"
+        ),
+    )
 
 
 def draw_cursor_on_screenshot(

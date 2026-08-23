@@ -116,6 +116,24 @@ class LLMJudgeEvaluation(FrozenBaseModel):
     max_frames: int = Field(default=12, ge=2)
 
 
+class CuaStateSource(_WebsiteDependent):
+    """Browser state captured from one direct CUA web application."""
+
+    app_base: str
+    sid: str
+    current_state_key: str
+    initial_state_key: str
+
+
+class CuaEvaluation(FrozenBaseModel):
+    """Evaluate a CUA-Gym task against privileged browser-state snapshots."""
+
+    mode: Literal["cua"] = "cua"
+    source_task_id: str
+    reward_script: str
+    states: Annotated[list[CuaStateSource], Field(min_length=1, max_length=4)]
+
+
 class InfeasibleEvaluation(FrozenBaseModel):
     """Evaluate whether an infeasible task was explicitly failed."""
 
@@ -126,6 +144,7 @@ Evaluation = Annotated[
     Union[
         Annotated[CriteriaEvaluation, Tag("criteria")],
         Annotated[LLMJudgeEvaluation, Tag("llm")],
+        Annotated[CuaEvaluation, Tag("cua")],
         Annotated[InfeasibleEvaluation, Tag("infeasible")],
     ],
     Discriminator(infer_evaluation()),
