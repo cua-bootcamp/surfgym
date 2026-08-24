@@ -14,21 +14,21 @@ SEEDS_DIR = (
 )
 
 EXPECTED_SEEDS = {
-    "osworld_7e429b8d_assign_branch_officers",
-    "osworld_d681960f_assign_student_grades",
-    "osworld_1954cced_count_invoice_occurrences_pivot",
-    "osworld_1de60575_summarize_promotion_revenue_columns",
-    "osworld_4f07fbe9_embed_two_decimal_value_in_text",
-    "osworld_21df9241_format_millions_and_billions",
-    "osworld_eb03d19a_transpose_training_matrix",
-    "osworld_035f41ba_build_year_profit_labels",
-    "osworld_51719eea_calculate_revenue_and_pivot",
-    "osworld_0326d92d_chart_monthly_totals_and_growth",
-    "osworld_12382c62_chart_weekly_sales_and_cogs",
-    "osworld_347ef137_chart_two_year_cost_totals",
-    "osworld_3aaa4e37_request_csv_export",
-    "osworld_a01fbce3_format_decimal_values_two_places",
-    "osworld_aa3a8974_request_fit_to_one_page_pdf",
+    "assign_branch_officers",
+    "assign_student_grades",
+    "count_invoice_occurrences_pivot",
+    "summarize_promotion_revenue_columns",
+    "embed_two_decimal_value_in_text",
+    "format_millions_and_billions",
+    "transpose_training_matrix",
+    "build_year_profit_labels",
+    "calculate_revenue_and_pivot",
+    "chart_monthly_totals_and_growth",
+    "chart_weekly_sales_and_cogs",
+    "chart_two_year_cost_totals",
+    "request_csv_export",
+    "format_decimal_values_two_places",
+    "request_fit_to_one_page_pdf",
 }
 
 
@@ -61,7 +61,7 @@ class OSWorldSpreadsheetVariantSeedTests(unittest.TestCase):
         seed = next(
             seed
             for seed, seed_name in SeedReader(SEEDS_DIR).get_seed()
-            if seed_name == "osworld_1de60575_summarize_promotion_revenue_columns"
+            if seed_name == "summarize_promotion_revenue_columns"
         )
         observed = {
             (atom.spec["cell"], atom.spec["property"]): atom.value
@@ -83,7 +83,7 @@ class OSWorldSpreadsheetVariantSeedTests(unittest.TestCase):
         seed = next(
             seed
             for seed, seed_name in SeedReader(SEEDS_DIR).get_seed()
-            if seed_name == "osworld_0326d92d_chart_monthly_totals_and_growth"
+            if seed_name == "chart_monthly_totals_and_growth"
         )
         observed = {
             atom.spec["cell"]: atom.value
@@ -109,12 +109,12 @@ class OSWorldSpreadsheetVariantSeedTests(unittest.TestCase):
             seed_name: seed
             for seed, seed_name in SeedReader(SEEDS_DIR).get_seed()
             if seed_name in {
-                "osworld_a01fbce3_format_decimal_values_two_places",
-                "osworld_aa3a8974_request_fit_to_one_page_pdf",
+                "format_decimal_values_two_places",
+                "request_fit_to_one_page_pdf",
             }
         }
-        decimal_seed = parsed["osworld_a01fbce3_format_decimal_values_two_places"]
-        pdf_seed = parsed["osworld_aa3a8974_request_fit_to_one_page_pdf"]
+        decimal_seed = parsed["format_decimal_values_two_places"]
+        pdf_seed = parsed["request_fit_to_one_page_pdf"]
 
         self.assertEqual(
             [(atom.spec, atom.value) for atom in decimal_seed.states[1].atoms],

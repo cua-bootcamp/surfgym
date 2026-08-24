@@ -1,0 +1,7 @@
+{
+  "instruction": "Move Chrome's tab strip to a permanent vertical sidebar on the left and keep it there after restart, using only Chrome's built-in settings and no extension.",
+  "website": "http://localhost:53001/chrome",
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

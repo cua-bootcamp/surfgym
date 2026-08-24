@@ -90,8 +90,8 @@ class ValidationPlan(_FrozenModel):
 
 def default_validation_plan(*, base_session_id: int) -> ValidationPlan:
     """Return the fixed, visible-GUI smoke controls for the Chrome task corpus."""
-    password_task_id = "12086550-11c0-466b-b367-1d9e75b3910e_0_1"
-    infeasible_task_id = "3720f614-37fd-4d04-8a6b-76f54f8c222d"
+    password_task_id = "open_etsy_password_entry_0_1"
+    infeasible_task_id = "set_chrome_interface_language_to_toki_pona"
     return ValidationPlan(
         cases=[
             ActionCase(

@@ -122,7 +122,7 @@ def _provenance() -> ChromeProvenance:
 
 def test_runner_serializes_password_manager_protocol_and_manifest(tmp_path: Path) -> None:
     """Fails if a CUA action is skipped, payload fields drift, or artifacts are not recorded."""
-    task_id = "12086550-11c0-466b-b367-1d9e75b3910e_0_1"
+    task_id = "open_etsy_password_entry_0_1"
     responses = [
         _action_response(100, task_id),
         _reward_response(100, task_id, 0.0),
@@ -429,7 +429,7 @@ def test_runner_records_infeasible_terminal_action_controls(
     expected_reward: float,
 ) -> None:
     """Fails if terminal action controls no longer preserve their expected reward semantics."""
-    task_id = "3720f614-37fd-4d04-8a6b-76f54f8c222d"
+    task_id = "set_chrome_interface_language_to_toki_pona"
     session_id = 3720 if terminal_action == "DONE" else 3721
     transport = RecordingTransport(
         [
@@ -547,13 +547,13 @@ def test_accepted_provenance_rejects_blank_final_fixture_digest() -> None:
 
 def test_default_plan_contains_password_manager_and_infeasible_controls() -> None:
     """Fails if the executable and terminal-control CUA scenarios drift from their protocol plan."""
-    plan = chrome_cua.default_validation_plan(base_session_id=1208655001)
+    plan = chrome_cua.default_validation_plan(base_session_id=240001)
 
     assert [(case.name, case.session_id, case.expected_reward) for case in plan.cases] == [
-        ("password-manager-initial", 1208655001, 0.0),
-        ("password-manager-action", 1208655002, 1.0),
-        ("infeasible-done", 1208655003, 0.0),
-        ("infeasible-fail", 1208655004, 1.0),
+        ("password-manager-initial", 240001, 0.0),
+        ("password-manager-action", 240002, 1.0),
+        ("infeasible-done", 240003, 0.0),
+        ("infeasible-fail", 240004, 1.0),
     ]
     assert plan.cases[1].actions == [
         [{"action_type": "HOTKEY", "keys": ["Control", "l"]}],

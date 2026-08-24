@@ -1,4 +1,5 @@
 import json
+import re
 import shutil
 import sqlite3
 from pathlib import Path
@@ -14,28 +15,36 @@ from surfgym_task.web import DOCKER_FIXTURE_RELEASE_HOOK
 CHROME_DATA = (
     Path(__file__).parents[1] / "src" / "surfgym_task" / "data" / "chrome"
 )
-EXECUTABLE_IDS = frozenset(
+TASK_DATA = CHROME_DATA.parent
+SEMANTIC_SEED_STEM = re.compile(r"^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$")
+EXECUTABLE_STEMS = frozenset(
     {
-        "030eeff7",
-        "06fe7178",
-        "12086550",
-        "2ad9387a",
-        "2ae9ba84",
-        "3299584d",
-        "35253b65",
-        "44ee5668",
-        "6766f2b8",
-        "7a5a7856",
-        "7b6c7e24",
-        "93eabf48",
-        "9656a811",
-        "99146c54",
-        "af630914",
-        "bb5e4c0d",
-        "e1e75309",
+        "bookmark_illustrated_transformer",
+        "clear_amazon_site_data",
+        "clear_browsing_data_on_exit",
+        "create_2048_desktop_shortcut",
+        "create_favorites_bookmark_folder",
+        "disable_chrome_dark_mode",
+        "enable_do_not_track",
+        "enable_safe_browsing",
+        "install_unpacked_hello_extension",
+        "open_etsy_password_entry",
+        "remove_funbrain_startup_page",
+        "remove_youtube_history",
+        "rename_chrome_profile_to_thomas",
+        "restore_closed_tripadvisor_tab",
+        "save_llm_agents_page_as_pdf",
+        "set_bing_as_default_search_engine",
+        "set_largest_default_font_size",
     }
 )
-INFEASIBLE_IDS = frozenset({"3720f614", "480bcfea", "ae78f875"})
+INFEASIBLE_STEMS = frozenset(
+    {
+        "enable_vertical_tabs_in_chrome",
+        "set_chrome_interface_language_to_toki_pona",
+        "set_global_search_results_page_size_to_seventy_five",
+    }
+)
 SUPPORTED_CHROME_FORMATS = frozenset(
     {
         "chrome_active_url",
@@ -110,8 +119,20 @@ def _read_source_seeds():
     return list(SeedReader(CHROME_DATA / "seeds").get_seed())
 
 
-def _read_raw_seed(prefix: str) -> dict[str, object]:
-    [path] = (CHROME_DATA / "seeds").glob(f"{prefix}*.json")
+def test_all_active_seed_filenames_are_semantic() -> None:
+    offenders = [
+        path.relative_to(TASK_DATA).as_posix()
+        for path in TASK_DATA.glob("*/seeds/*.json")
+        if not SEMANTIC_SEED_STEM.fullmatch(path.stem)
+        or path.stem.startswith("osworld_")
+        or re.search(r"(?:^|_)[0-9a-f]{8}(?:_|$)", path.stem)
+    ]
+
+    assert offenders == []
+
+
+def _read_raw_seed(stem: str) -> dict[str, object]:
+    path = CHROME_DATA / "seeds" / f"{stem}.json"
     return json.loads(path.read_text(encoding="utf-8"))
 
 
@@ -136,12 +157,12 @@ def _materialized_tasks(
     return [Task.model_validate_json(payload) for (payload,) in rows]
 
 
-def test_chrome_corpus_is_exactly_the_selected_original_ids() -> None:
+def test_chrome_corpus_uses_expected_semantic_stems() -> None:
     seed_paths = sorted((CHROME_DATA / "seeds").glob("*.json"))
 
     assert len(seed_paths) == 20
-    assert {path.stem.split("-", 1)[0] for path in seed_paths} == (
-        EXECUTABLE_IDS | INFEASIBLE_IDS
+    assert {path.stem for path in seed_paths} == (
+        EXECUTABLE_STEMS | INFEASIBLE_STEMS
     )
 
 
@@ -167,8 +188,8 @@ def test_every_chrome_criterion_uses_the_explicit_supported_format_contract() ->
 
 
 def test_source_weak_predicates_are_preserved_exactly() -> None:
-    startup_atom = _read_raw_seed("3299584d")["states"][0][0]
-    font_atom = _read_raw_seed("af630914")["states"][0][0]
+    startup_atom = _read_raw_seed("remove_funbrain_startup_page")["states"][0][0]
+    font_atom = _read_raw_seed("set_largest_default_font_size")["states"][0][0]
 
     assert startup_atom == {
         "spec": {"format": "chrome_startup_source_predicate"},

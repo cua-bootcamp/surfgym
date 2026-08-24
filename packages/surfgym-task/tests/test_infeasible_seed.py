@@ -90,7 +90,7 @@ def test_infeasible_seed_augment_preserves_id_instruction_and_profile(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ):
     seed_dir = tmp_path / "spreadsheet"
-    seed_path = seed_dir / "seeds" / "original-osworld-id.json"
+    seed_path = seed_dir / "seeds" / "unsupported-browser-setting.json"
     seed_path.parent.mkdir(parents=True)
     seed_path.write_text(
         json.dumps(
@@ -120,7 +120,7 @@ def test_infeasible_seed_augment_preserves_id_instruction_and_profile(
     detail_paths = list((seed_dir / "out" / "detail").glob("*.json"))
     assert len(detail_paths) == 1
     task = Task.model_validate_json(detail_paths[0].read_text(encoding="utf-8"))
-    assert task.task_id == "original-osworld-id"
+    assert task.task_id == "unsupported-browser-setting"
     assert task.instruction == "Create sparklines for every order ID."
     assert task.evaluation.mode == "infeasible"
     assert task.website[0].url == (
@@ -129,7 +129,7 @@ def test_infeasible_seed_augment_preserves_id_instruction_and_profile(
 
     with sqlite3.connect(seed_dir / "out" / "tasks.sqlite3") as connection:
         rows = connection.execute("SELECT task_id FROM tasks").fetchall()
-    assert rows == [("original-osworld-id",)]
+    assert rows == [("unsupported-browser-setting",)]
 
 
 def test_infeasible_seed_augment_uses_initial_state_for_allocate_hooks(

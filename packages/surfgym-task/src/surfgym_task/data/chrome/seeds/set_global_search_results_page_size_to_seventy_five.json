@@ -1,0 +1,7 @@
+{
+  "instruction": "Using Chrome's built-in settings only, make every search provider show exactly 75 results per page and keep that as the browser-wide default.",
+  "website": "http://localhost:53001/chrome",
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

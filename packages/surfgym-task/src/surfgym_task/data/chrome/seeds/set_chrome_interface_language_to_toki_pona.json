@@ -1,0 +1,7 @@
+{
+  "instruction": "Set Chrome's entire built-in interface language to Toki Pona and keep it as the default after restart, using only Chrome's own settings.",
+  "website": "http://localhost:53001/chrome",
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

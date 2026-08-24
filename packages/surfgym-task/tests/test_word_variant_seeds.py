@@ -7,7 +7,7 @@ SEEDS_DIR = (
 )
 
 EXPECTED_VARIANTS = {
-    "osworld_ecc2413d_insert_field_brief_page_break": {
+    "insert_field_brief_page_break": {
         "initial": {
             "spec": {"kind": "body", "property": "text"},
             "value": (
@@ -27,7 +27,7 @@ EXPECTED_VARIANTS = {
             ),
         },
     },
-    "osworld_0e47de2a_request_bottom_left_page_numbers": {
+    "request_bottom_left_page_numbers": {
         "initial": {
             "spec": {"kind": "body", "property": "textWithPageBreak"},
             "value": (
@@ -47,7 +47,7 @@ EXPECTED_VARIANTS = {
             },
         },
     },
-    "osworld_0a0faba3_request_end_tab_stop": {
+    "request_end_tab_stop": {
         "initial": {
             "spec": {"kind": "body", "property": "text"},
             "value": "NORTH FIELD TEAM Monday afternoon",
@@ -62,7 +62,7 @@ EXPECTED_VARIANTS = {
             },
         },
     },
-    "osworld_6ada715d_request_inline_screenshot": {
+    "request_inline_screenshot": {
         "initial": {
             "spec": {"kind": "body", "property": "text"},
             "value": (
@@ -80,7 +80,7 @@ EXPECTED_VARIANTS = {
             },
         },
     },
-    "osworld_adf5e2c3_request_reference_and_cross_reference": {
+    "request_reference_and_cross_reference": {
         "initial": {
             "spec": {"kind": "body", "property": "text"},
             "value": (
@@ -117,7 +117,7 @@ EXPECTED_VARIANTS = {
             ],
         },
     },
-    "osworld_4bcb1253_request_pdf_export": {
+    "request_pdf_export": {
         "initial": {
             "spec": {"kind": "body", "property": "text"},
             "value": (
@@ -136,7 +136,7 @@ EXPECTED_VARIANTS = {
 }
 
 
-def test_osworld_word_variants_parse_with_exact_supported_atom_contracts() -> None:
+def test_word_variants_parse_with_exact_supported_atom_contracts() -> None:
     variants = {
         name: seed
         for seed, name in SeedReader(SEEDS_DIR).get_seed()

@@ -29,7 +29,7 @@ def test_web_seed_corpus_registers_without_building_a_database():
     assert len(setup_criteria) == 4
     assert all(seed.accumulation == "DELTA" for seed in setup_criteria)
     pilot = dict((name, seed) for seed, name in seeds)[
-        "cua_3355ed6f_instacart_availability_cart"
+        "prepare_instacart_health_items_order"
     ]
     assert isinstance(pilot, CriteriaSeedTask)
     assert pilot.website == (
