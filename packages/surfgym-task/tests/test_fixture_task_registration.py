@@ -91,5 +91,6 @@ def test_seed_generation_uses_domain_specific_release_hooks() -> None:
     assert _release_hooks("web") == [WEB_STATE_RESET_HOOK]
     assert _release_hooks("gimp") == [DOCKER_FIXTURE_RELEASE_HOOK]
     assert _release_hooks("vlc") == [DOCKER_FIXTURE_RELEASE_HOOK]
+    assert _release_hooks("chrome") == [DOCKER_FIXTURE_RELEASE_HOOK]
     assert "window.surfgym.get" in DOCKER_FIXTURE_RELEASE_HOOK.script
     assert "for (let attempt = 0; attempt < 120; attempt += 1)" in DOCKER_FIXTURE_RELEASE_HOOK.script

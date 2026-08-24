@@ -1,0 +1,16 @@
+{
+  "instruction": "Please help me set Chrome to delete my browsing data automatically every time I close the browser.",
+  "website": "http://localhost:53001/chrome",
+  "states": [
+    [
+      {
+        "spec": {
+          "format": "chrome_preference_path_exists",
+          "document": "preferences",
+          "path": ["profile", "default_content_setting_values"]
+        },
+        "value": true
+      }
+    ]
+  ]
+}

@@ -62,6 +62,31 @@ def test_stage_only_setup_omits_open_file() -> None:
     }
 
 
+def test_operation_only_setup_is_serialized_for_chrome() -> None:
+    website = RawSeedWebsite.model_validate(
+        {
+            "base": "http://localhost:53001/chrome",
+            "setup_operations": [
+                {
+                    "kind": "chrome_open_tabs",
+                    "urls": ["https://example.test/"],
+                }
+            ],
+        }
+    )
+
+    setup = json.loads(parse_qs(urlsplit(website.to_url()).query)["setup"][0])
+
+    assert setup == {
+        "operations": [
+            {
+                "kind": "chrome_open_tabs",
+                "urls": ["https://example.test/"],
+            }
+        ]
+    }
+
+
 @pytest.mark.parametrize(
     "payload, message",
     [
@@ -95,7 +120,7 @@ def test_invalid_setup_contract_is_rejected(payload: dict, message: str) -> None
         RawSeedWebsite.model_validate(payload)
 
 
-@pytest.mark.parametrize("domain", ("gimp", "impress", "vlc", "vscode"))
+@pytest.mark.parametrize("domain", ("chrome", "gimp", "impress", "vlc", "vscode"))
 def test_existing_desktop_seed_corpus_uses_structured_setup(domain: str) -> None:
     adapter = TypeAdapter[RawSeedTask](RawSeedTask)
 

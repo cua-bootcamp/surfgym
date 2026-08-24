@@ -1,0 +1,34 @@
+{
+  "instruction": "Could you assist me in turning off the dark mode feature in Google Chrome? I've noticed that while dark mode is great for reducing glare, it actually makes it more challenging for me to read text clearly, especially with my astigmatism.",
+  "website": {
+    "base": "http://localhost:53001/chrome",
+    "setup_operations": [
+      {
+        "kind": "chrome_set_preference",
+        "document": "preferences",
+        "path": ["browser", "theme", "color_scheme"],
+        "value": 2
+      },
+      {
+        "kind": "chrome_set_preference",
+        "document": "preferences",
+        "path": ["browser", "theme", "color_scheme2"],
+        "value": 2
+      }
+    ]
+  },
+  "states": [
+    [
+      {
+        "spec": {"format": "chrome_appearance_mode"},
+        "value": "^(light|system)$",
+        "match": "regex"
+      },
+      {
+        "spec": {"format": "chrome_active_url"},
+        "value": "^chrome://settings/appearance/?$",
+        "match": "regex"
+      }
+    ]
+  ]
+}

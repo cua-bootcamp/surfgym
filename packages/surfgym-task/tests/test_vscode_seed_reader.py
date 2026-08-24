@@ -23,6 +23,10 @@ def test_vscode_is_a_supported_seed_domain() -> None:
     assert TypeAdapter[Domain](Domain).validate_python("vscode") == "vscode"
 
 
+def test_chrome_is_a_supported_seed_domain() -> None:
+    assert TypeAdapter[Domain](Domain).validate_python("chrome") == "chrome"
+
+
 def test_vscode_seed_reader_parses_all_evaluation_types(tmp_path: Path) -> None:
     seeds_dir = tmp_path / "vscode" / "seeds"
     website = "http://localhost:53001/vscode"

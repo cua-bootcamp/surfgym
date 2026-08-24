@@ -1,0 +1,23 @@
+{
+  "instruction": "Could you help me unzip the downloaded extension file from /home/user/Desktop/ to /home/user/Desktop/ and configure it in Chrome's extensions?",
+  "website": {
+    "base": "http://localhost:53001/chrome",
+    "setup_files": [
+      {
+        "source": "helloExtension",
+        "target": "desktop"
+      }
+    ]
+  },
+  "states": [
+    [
+      {
+        "spec": {
+          "format": "chrome_unpacked_extension_exists",
+          "path": "Desktop/helloExtension"
+        },
+        "value": true
+      }
+    ]
+  ]
+}

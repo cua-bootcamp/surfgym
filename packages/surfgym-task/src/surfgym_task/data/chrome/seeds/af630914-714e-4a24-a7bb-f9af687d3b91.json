@@ -1,0 +1,16 @@
+{
+  "instruction": "My grandmother has been using the Chrome lately and told me that the font size is way too small for her poor eyesight. Could you set the default font size to the largest for her?",
+  "website": "http://localhost:53001/chrome",
+  "states": [
+    [
+      {
+        "spec": {
+          "format": "chrome_font_size_source_predicate",
+          "min_exclusive": 16,
+          "max_exclusive": 99999
+        },
+        "value": true
+      }
+    ]
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "instruction": "I want Chrome to warn me whenever I visit a potentially harmful or unsafe website. Can you enable this safety feature?",
+  "website": {
+    "base": "http://localhost:53001/chrome",
+    "setup_operations": [
+      {
+        "kind": "chrome_set_preference",
+        "document": "preferences",
+        "path": ["safebrowsing", "enabled"],
+        "value": false
+      },
+      {
+        "kind": "chrome_set_preference",
+        "document": "preferences",
+        "path": ["safebrowsing", "enhanced"],
+        "value": false
+      }
+    ]
+  },
+  "states": [
+    [
+      {
+        "spec": {"format": "chrome_safe_browsing_enabled"},
+        "value": true
+      }
+    ]
+  ]
+}

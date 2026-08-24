@@ -1,0 +1,17 @@
+{
+  "instruction": "Can you enable the 'Do Not Track' feature in Chrome to enhance my online privacy?",
+  "website": "http://localhost:53001/chrome",
+  "states": [
+    [
+      {
+        "spec": {
+          "format": "chrome_preference",
+          "document": "preferences",
+          "path": ["enable_do_not_track"],
+          "default": false
+        },
+        "value": true
+      }
+    ]
+  ]
+}

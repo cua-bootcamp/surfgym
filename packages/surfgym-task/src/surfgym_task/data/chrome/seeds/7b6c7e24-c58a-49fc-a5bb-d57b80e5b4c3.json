@@ -1,0 +1,27 @@
+{
+  "instruction": "Can you help me clean up my computer by getting rid of all the tracking things that Amazon might have saved? I want to make sure my browsing is private and those sites don't remember me.",
+  "website": {
+    "base": "http://localhost:53001/chrome",
+    "setup_operations": [
+      {
+        "kind": "chrome_open_tabs",
+        "urls": [
+          "https://www.amazon.com",
+          "https://www.amazon.com/s?k=huggingface+transformers+book"
+        ]
+      }
+    ]
+  },
+  "states": [
+    [
+      {
+        "spec": {
+          "format": "chrome_sqlite_domain_absent",
+          "database": "cookies",
+          "domain": ".amazon.com"
+        },
+        "value": true
+      }
+    ]
+  ]
+}

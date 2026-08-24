@@ -88,6 +88,7 @@ type InitialStates = Annotated[list[State], Field(min_length=1, max_length=1)]
 
 
 type Domain = Literal[
+    "chrome",
     "vlc",
     "gimp",
     "impress",
@@ -140,7 +141,7 @@ class RawSeedWebsite(FrozenBaseModel):
             raise ValueError("setup file sources must be unique")
         if self.open_file is not None and self.open_file not in sources:
             raise ValueError("open_file must reference a declared setup file source")
-        if self.setup_operations and self.open_file is None:
+        if self.setup_operations and self.setup_files and self.open_file is None:
             raise ValueError("setup_operations requires open_file")
         return self
 
@@ -150,10 +151,12 @@ class RawSeedWebsite(FrozenBaseModel):
         query = dict(parse_qsl(parsed.query, keep_blank_values=True))
         query.update(self.param)
 
-        if self.setup_files:
-            setup: dict[str, JsonValue] = {
-                "files": [item.model_dump(mode="json") for item in self.setup_files],
-            }
+        if self.setup_files or self.setup_operations:
+            setup: dict[str, JsonValue] = {}
+            if self.setup_files:
+                setup["files"] = [
+                    item.model_dump(mode="json") for item in self.setup_files
+                ]
             if self.open_file is not None:
                 setup["open_file"] = self.open_file
             if self.setup_operations:

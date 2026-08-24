@@ -1,0 +1,26 @@
+{
+  "instruction": "Can you save this webpage I'm looking at to bookmarks bar so I can come back to it later?",
+  "website": {
+    "base": "http://localhost:53001/chrome",
+    "setup_operations": [
+      {
+        "kind": "chrome_open_tabs",
+        "urls": [
+          "https://blog.eleuther.ai/rotary-embeddings/",
+          "https://jalammar.github.io/illustrated-transformer/"
+        ]
+      }
+    ]
+  },
+  "states": [
+    [
+      {
+        "spec": {
+          "format": "chrome_bookmark_bar_urls_match",
+          "urls": ["https://jalammar.github.io/illustrated-transformer/"]
+        },
+        "value": true
+      }
+    ]
+  ]
+}

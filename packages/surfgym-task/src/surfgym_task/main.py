@@ -23,6 +23,7 @@ _DOCKER_FIXTURE_DOMAINS: frozenset[Domain] = frozenset(
         "vlc",
         "gimp",
         "vscode",
+        "chrome",
     }
 )
 

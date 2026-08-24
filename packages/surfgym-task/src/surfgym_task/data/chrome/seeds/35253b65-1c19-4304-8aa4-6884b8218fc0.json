@@ -1,0 +1,23 @@
+{
+  "instruction": "Hey, I need a quick way back to this site. Could you whip up a shortcut on my desktop for me using Chrome's built-in feature?",
+  "website": {
+    "base": "http://localhost:53001/chrome",
+    "setup_operations": [
+      {
+        "kind": "chrome_open_tabs",
+        "urls": ["https://www.mathsisfun.com/games/2048.html"]
+      }
+    ]
+  },
+  "states": [
+    [
+      {
+        "spec": {
+          "format": "chrome_desktop_shortcut_exists",
+          "name": "Play Puzzle Game 2048"
+        },
+        "value": true
+      }
+    ]
+  ]
+}
