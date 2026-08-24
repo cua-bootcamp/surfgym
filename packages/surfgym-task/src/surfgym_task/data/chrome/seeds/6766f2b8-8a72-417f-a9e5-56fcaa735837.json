@@ -10,14 +10,6 @@
     ]
   },
   "states": [
-    [
-      {
-        "spec": {
-          "format": "chrome_unpacked_extension_exists",
-          "path": "Desktop/helloExtension"
-        },
-        "value": true
-      }
-    ]
+    [{"spec":{"format":"chrome_unpacked_extension_exists","path":"Desktop/helloExtension"},"value":true}]
   ]
 }

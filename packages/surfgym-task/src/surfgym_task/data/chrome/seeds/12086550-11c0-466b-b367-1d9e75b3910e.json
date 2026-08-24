@@ -2,12 +2,6 @@
   "instruction": "Computer, please navigate to the area in my browser settings where my passwords are stored. I want to check my login information for Etsy without revealing it just yet.",
   "website": "http://localhost:53001/chrome",
   "states": [
-    [
-      {
-        "spec": {"format": "chrome_active_url"},
-        "value": "^chrome://password-manager/passwords(?:\\?.*)?$",
-        "match": "regex"
-      }
-    ]
+    [{"spec":{"format":"chrome_active_url"},"value":"^chrome://password-manager/passwords(?:\\?.*)?$","match":"regex"}]
   ]
 }

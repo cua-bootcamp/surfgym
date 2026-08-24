@@ -211,15 +211,6 @@
     ]
   },
   "states": [
-    [
-      {
-        "spec": {
-          "format": "chrome_sqlite_domain_absent",
-          "database": "history",
-          "domain": "youtube"
-        },
-        "value": true
-      }
-    ]
+    [{"spec":{"format":"chrome_sqlite_domain_absent","database":"history","domain":"youtube"},"value":true}]
   ]
 }

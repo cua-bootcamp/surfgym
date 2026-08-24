@@ -5,19 +5,13 @@
     "setup_operations": [
       {
         "kind": "chrome_open_tabs",
-        "urls": ["https://www.mathsisfun.com/games/2048.html"]
+        "urls": [
+          "https://www.mathsisfun.com/games/2048.html"
+        ]
       }
     ]
   },
   "states": [
-    [
-      {
-        "spec": {
-          "format": "chrome_desktop_shortcut_exists",
-          "name": "Play Puzzle Game 2048"
-        },
-        "value": true
-      }
-    ]
+    [{"spec":{"format":"chrome_desktop_shortcut_exists","name":"Play Puzzle Game 2048"},"value":true}]
   ]
 }

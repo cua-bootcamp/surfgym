@@ -13,14 +13,6 @@
     ]
   },
   "states": [
-    [
-      {
-        "spec": {
-          "format": "chrome_bookmark_bar_urls_match",
-          "urls": ["https://jalammar.github.io/illustrated-transformer/"]
-        },
-        "value": true
-      }
-    ]
+    [{"spec":{"format":"chrome_bookmark_bar_urls_match","urls":["https://jalammar.github.io/illustrated-transformer/"]},"value":true}]
   ]
 }

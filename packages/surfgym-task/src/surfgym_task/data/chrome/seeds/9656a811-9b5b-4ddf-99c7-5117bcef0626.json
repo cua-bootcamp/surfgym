@@ -6,23 +6,24 @@
       {
         "kind": "chrome_set_preference",
         "document": "preferences",
-        "path": ["safebrowsing", "enabled"],
+        "path": [
+          "safebrowsing",
+          "enabled"
+        ],
         "value": false
       },
       {
         "kind": "chrome_set_preference",
         "document": "preferences",
-        "path": ["safebrowsing", "enhanced"],
+        "path": [
+          "safebrowsing",
+          "enhanced"
+        ],
         "value": false
       }
     ]
   },
   "states": [
-    [
-      {
-        "spec": {"format": "chrome_safe_browsing_enabled"},
-        "value": true
-      }
-    ]
+    [{"spec":{"format":"chrome_safe_browsing_enabled"},"value":true}]
   ]
 }

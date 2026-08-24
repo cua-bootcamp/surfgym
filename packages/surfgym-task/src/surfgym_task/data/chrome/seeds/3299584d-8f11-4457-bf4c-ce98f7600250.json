@@ -6,23 +6,26 @@
       {
         "kind": "chrome_set_preference",
         "document": "preferences",
-        "path": ["session", "restore_on_startup"],
+        "path": [
+          "session",
+          "restore_on_startup"
+        ],
         "value": 4
       },
       {
         "kind": "chrome_set_preference",
         "document": "preferences",
-        "path": ["session", "startup_urls"],
-        "value": ["http://funbrain.com/"]
+        "path": [
+          "session",
+          "startup_urls"
+        ],
+        "value": [
+          "http://funbrain.com/"
+        ]
       }
     ]
   },
   "states": [
-    [
-      {
-        "spec": {"format": "chrome_startup_source_predicate"},
-        "value": true
-      }
-    ]
+    [{"spec":{"format":"chrome_startup_source_predicate"},"value":true}]
   ]
 }

@@ -5,20 +5,13 @@
     "setup_operations": [
       {
         "kind": "chrome_open_tabs",
-        "urls": ["https://lilianweng.github.io/posts/2023-06-23-agent/"]
+        "urls": [
+          "https://lilianweng.github.io/posts/2023-06-23-agent/"
+        ]
       }
     ]
   },
   "states": [
-    [
-      {
-        "spec": {
-          "format": "chrome_pdf_matches_reference",
-          "file": "Desktop/LLM Powered Autonomous Agents _ Lil'Log.pdf",
-          "reference": "LLM Powered Autonomous Agents _ Lil'Log_gold.pdf"
-        },
-        "value": true
-      }
-    ]
+    [{"spec":{"format":"chrome_pdf_matches_reference","file":"Desktop/LLM Powered Autonomous Agents _ Lil'Log.pdf","reference":"LLM Powered Autonomous Agents _ Lil'Log_gold.pdf"},"value":true}]
   ]
 }

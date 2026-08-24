@@ -13,15 +13,6 @@
     ]
   },
   "states": [
-    [
-      {
-        "spec": {
-          "format": "chrome_sqlite_domain_absent",
-          "database": "cookies",
-          "domain": ".amazon.com"
-        },
-        "value": true
-      }
-    ]
+    [{"spec":{"format":"chrome_sqlite_domain_absent","database":"cookies","domain":".amazon.com"},"value":true}]
   ]
 }
