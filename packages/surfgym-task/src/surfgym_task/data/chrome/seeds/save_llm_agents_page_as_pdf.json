@@ -1,5 +1,5 @@
 {
-  "instruction": "Computer, can you turn the webpage I'm looking at into a PDF file, save it to my Desktop with the default filename and set the margins to none?",
+  "instruction": "Print the open LLM agents webpage to a PDF on the Desktop, retaining the default filename and using no margins.",
   "website": {
     "base": "http://localhost:53001/chrome",
     "setup_operations": [

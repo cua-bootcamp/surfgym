@@ -1,5 +1,5 @@
 {
-  "instruction": "Hey, I need a quick way back to this site. Could you whip up a shortcut on my desktop for me using Chrome's built-in feature?",
+  "instruction": "Use Chrome's built-in Create shortcut option to place a desktop shortcut for the open 2048 page.",
   "website": {
     "base": "http://localhost:53001/chrome",
     "setup_operations": [

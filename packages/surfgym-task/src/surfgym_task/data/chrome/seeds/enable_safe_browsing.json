@@ -1,5 +1,5 @@
 {
-  "instruction": "I want Chrome to warn me whenever I visit a potentially harmful or unsafe website. Can you enable this safety feature?",
+  "instruction": "Enable Safe Browsing in Chrome so potentially dangerous sites trigger a warning.",
   "website": {
     "base": "http://localhost:53001/chrome",
     "setup_operations": [

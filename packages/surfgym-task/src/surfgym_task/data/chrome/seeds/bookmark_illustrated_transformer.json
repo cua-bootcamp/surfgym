@@ -1,5 +1,5 @@
 {
-  "instruction": "Can you save this webpage I'm looking at to bookmarks bar so I can come back to it later?",
+  "instruction": "Bookmark the currently open Illustrated Transformer page on Chrome's bookmarks bar for later.",
   "website": {
     "base": "http://localhost:53001/chrome",
     "setup_operations": [

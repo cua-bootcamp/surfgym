@@ -1,5 +1,5 @@
 {
-  "instruction": "Could you help me unzip the downloaded extension file from /home/user/Desktop/ to /home/user/Desktop/ and configure it in Chrome's extensions?",
+  "instruction": "Extract the downloaded extension archive in /home/user/Desktop/ into that same directory, then load the extracted folder as an unpacked Chrome extension.",
   "website": {
     "base": "http://localhost:53001/chrome",
     "setup_files": [

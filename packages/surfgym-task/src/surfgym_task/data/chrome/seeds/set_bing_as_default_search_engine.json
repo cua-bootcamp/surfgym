@@ -1,5 +1,5 @@
 {
-  "instruction": "Can you make Bing the main search engine when I look stuff up on the internet?",
+  "instruction": "Set Bing as Chrome's default search engine.",
   "website": "http://localhost:53001/chrome",
   "states": [
     [{"spec":{"format":"chrome_preference","document":"preferences","path":["default_search_provider_data","template_url_data","short_name"],"default":"Google"},"value":"^(Microsoft Bing|Bing)$","match":"regex"}]

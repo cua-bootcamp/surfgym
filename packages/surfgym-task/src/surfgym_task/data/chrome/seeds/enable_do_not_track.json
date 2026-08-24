@@ -1,5 +1,5 @@
 {
-  "instruction": "Can you enable the 'Do Not Track' feature in Chrome to enhance my online privacy?",
+  "instruction": "Turn on Chrome's setting that sends a 'Do Not Track' request with browsing traffic.",
   "website": "http://localhost:53001/chrome",
   "states": [
     [{"spec":{"format":"chrome_preference","document":"preferences","path":["enable_do_not_track"],"default":false},"value":true}]

@@ -1,5 +1,5 @@
 {
-  "instruction": "Can you help me clean up my computer by getting rid of all the tracking things that Amazon might have saved? I want to make sure my browsing is private and those sites don't remember me.",
+  "instruction": "Remove every cookie and other piece of stored site data belonging to Amazon from Chrome.",
   "website": {
     "base": "http://localhost:53001/chrome",
     "setup_operations": [

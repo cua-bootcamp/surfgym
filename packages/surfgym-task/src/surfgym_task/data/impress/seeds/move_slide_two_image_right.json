@@ -1,5 +1,5 @@
 {
-  "instruction": "Move the image to the right side on Slide 2.",
+  "instruction": "On slide 2, reposition the image so it sits in the right-hand region of the slide.",
   "website": {
     "base": "http://localhost:53001/impress",
     "setup_files": [

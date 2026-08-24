@@ -1,5 +1,5 @@
 {
-  "instruction": "Can you make a new folder for me on the bookmarks bar in my internet browser? Let's call it 'Favorites.'",
+  "instruction": "Add a folder named 'Favorites' to Chrome's bookmarks bar.",
   "website": "http://localhost:53001/chrome",
   "states": [
     [{"spec":{"format":"chrome_bookmark_bar_folders_match","names":["Favorites"]},"value":true}]
