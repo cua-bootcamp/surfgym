@@ -89,6 +89,7 @@ OSWORLD_DOMAIN_DIRS = {
     "word": "libreoffice_writer",
     "gimp": "gimp",
     "vlc": "vlc",
+    "chrome": "chrome",
     "web": "chrome",
 }
 

@@ -18,10 +18,10 @@ DATA_ROOT = (
 )
 DECISION_PATH = (
     REPO_ROOT
-    / "docs"
-    / "superpowers"
+    / "packages"
+    / "surfgym-task"
     / "audits"
-    / "2026-08-23-task-transformation-decisions.json"
+    / "task-transformation-decisions.json"
 )
 OSWORLD_ROOT = REPO_ROOT.parent / "OSWorld" / "evaluation_examples" / "examples"
 
@@ -126,6 +126,13 @@ APPROVED_REPLACEMENTS = {
 }
 
 
+DIRECT_OSWORLD_PORTS = {
+    ("chrome", "3720f614-37fd-4d04-8a6b-76f54f8c222d"),
+    ("chrome", "480bcfea-d68f-4aaa-a0a9-2589ef319381"),
+    ("chrome", "ae78f875-5b98-4907-bbb5-9c737fc68c03"),
+}
+
+
 def _load_decisions():
     sys.path.insert(0, str(SCRIPT_ROOT))
     from audit_task_transformations import load_decisions
@@ -133,26 +140,26 @@ def _load_decisions():
     return load_decisions
 
 
-def test_discovery_covers_the_114_seed_scope_exactly_once() -> None:
+def test_discovery_covers_the_117_seed_scope_exactly_once() -> None:
     sys.path.insert(0, str(SCRIPT_ROOT))
     from audit_task_transformations import discover_active_seeds
 
     rows = discover_active_seeds(DATA_ROOT)
     keys = {(row.key.domain, row.key.seed_stem) for row in rows}
 
-    assert len(rows) == len(keys) == 114
+    assert len(rows) == len(keys) == 117
     assert sum(row.key.domain == "spreadsheet" for row in rows) == 65
     assert sum(row.key.domain == "word" for row in rows) == 32
     assert sum(
         row.key.domain not in {"spreadsheet", "word"}
         and row.evaluation_mode == "infeasible"
         for row in rows
-    ) == 17
+    ) == 20
     assert {
         row.key.domain
         for row in rows
         if row.key.domain not in {"spreadsheet", "word"}
-    } == {"gimp", "vlc", "vscode", "web"}
+    } == {"chrome", "gimp", "vlc", "vscode", "web"}
 
 
 def test_decisions_use_the_closed_status_and_fidelity_vocabularies() -> None:
@@ -387,8 +394,8 @@ def test_inventory_rendering_is_deterministic_and_complete() -> None:
     markdown = render_markdown(first)
     assert json_text == render_json(second)
     assert markdown == render_markdown(second)
-    assert '"total": 114' in json_text
-    assert "| transformed_from_osworld | 83 |" in markdown
+    assert '"total": 117' in json_text
+    assert "| transformed_from_osworld | 86 |" in markdown
     assert "| independent_original | 31 |" in markdown
     assert "| untransformed_osworld | 0 |" in markdown
 
@@ -410,9 +417,9 @@ def test_rendered_inventory_json_round_trips_in_row_order() -> None:
         "needs_review": "Resolve before any seed edit.",
     }
 
-    assert payload["total"] == 114
+    assert payload["total"] == 117
     assert payload["counts"] == {
-        "transformed_from_osworld": 83,
+        "transformed_from_osworld": 86,
         "independent_original": 31,
         "untransformed_osworld": 0,
         "needs_review": 0,
@@ -615,7 +622,7 @@ def test_report_cli_resolves_relative_paths_before_building_inventory(
             "--data-root",
             "packages/surfgym-task/src/surfgym_task/data",
             "--decisions",
-            "docs/superpowers/audits/2026-08-23-task-transformation-decisions.json",
+            "packages/surfgym-task/audits/task-transformation-decisions.json",
             "--json-out",
             str(tmp_path / "inventory.json"),
             "--markdown-out",
@@ -660,7 +667,7 @@ def test_frozen_classification_counts_match_the_evidence_review() -> None:
     )
 
     assert counts == {
-        "transformed_from_osworld": 83,
+        "transformed_from_osworld": 86,
         "independent_original": 31,
         "untransformed_osworld": 0,
         "needs_review": 0,
@@ -674,6 +681,7 @@ def test_frozen_classification_counts_match_the_evidence_review() -> None:
         ("vlc", "transformed_from_osworld"): 2,
         ("vscode", "independent_original"): 4,
         ("web", "transformed_from_osworld"): 2,
+        ("chrome", "transformed_from_osworld"): 3,
     }
 
 
@@ -684,6 +692,7 @@ def test_transformed_decisions_record_row_specific_source_to_current_deltas() ->
         for key, decision in decisions.items()
         if decision.transformation_status == "transformed_from_osworld"
         and (key.domain, key.seed_stem) not in APPROVED_REPLACEMENTS
+        and (key.domain, key.seed_stem) not in DIRECT_OSWORLD_PORTS
     ]
     relation_fields = (
         "instruction_relation",
@@ -945,6 +954,26 @@ def test_osworld_derived_rows_have_resolvable_source_evidence() -> None:
     decisions = _load_decisions()(DECISION_PATH)
 
     validate_decisions(active, decisions, OSWORLD_ROOT)
+
+
+def test_direct_osworld_ports_preserve_exact_instructions() -> None:
+    decisions = decisions_by_tuple(_load_decisions()(DECISION_PATH))
+
+    for key in DIRECT_OSWORLD_PORTS:
+        decision = decisions[key]
+        source_id = key[1]
+        active_path = DATA_ROOT / key[0] / "seeds" / f"{source_id}.json"
+        original_path = OSWORLD_ROOT / "chrome" / f"{source_id}.json"
+        active = json.loads(active_path.read_text(encoding="utf-8"))
+        original = json.loads(original_path.read_text(encoding="utf-8"))
+
+        assert decision.osworld_source_id == source_id
+        assert decision.transformation_status == "transformed_from_osworld"
+        assert decision.fidelity_class == "infeasible"
+        assert decision.instruction_relation == "exact"
+        assert active["instruction"] == original["instruction"]
+        assert active["evaluation"]["mode"] == "infeasible"
+        assert original["evaluator"]["func"] == "infeasible"
 
 
 def test_approved_replacements_record_transformed_surface_and_exact_reference_bundles() -> None:
