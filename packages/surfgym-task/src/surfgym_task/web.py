@@ -8,7 +8,12 @@ from surfgym_contracts.task import Hook, LifecycleHooks, Task
 
 WEB_STATE_RESET_HOOK = Hook(
     timing="before",
-    script="(async () => { await fetch('/api/state', { method: 'DELETE' }); })()",
+    script=(
+        "(async () => { for (let attempt = 0; attempt < 120; attempt += 1) { "
+        "if (window.surfgym) return window.surfgym.get({\"$surfgym\":{\"type\":\"release\"}}); "
+        "await new Promise((resolve) => setTimeout(resolve, 250)); "
+        "} throw new Error('web release bridge was unavailable'); })()"
+    ),
 )
 
 DOCKER_FIXTURE_RELEASE_HOOK = Hook(

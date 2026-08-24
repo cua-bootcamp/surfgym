@@ -66,6 +66,25 @@ describe("SurfGym web bridge", () => {
     });
   });
 
+  it("accepts app_state as the backend-neutral state target", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(response({ state: { data: { auth: { email: "seed@example.com" } } } }))
+      .mockResolvedValueOnce(response({ state: { data: { auth: { email: "next@example.com" } } } }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    await expect(get({ target: "app_state", path: "data.auth.email" })).resolves.toBe(
+      "seed@example.com",
+    );
+    await set({ target: "app_state", path: ["data", "auth", "email"] }, "next@example.com");
+
+    expect(fetchMock).toHaveBeenNthCalledWith(2, "/api/state", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ data: { auth: { email: "next@example.com" } } }),
+    });
+  });
+
   it("resets server state through the shared release sentinel", async () => {
     const fetchMock = vi.fn().mockResolvedValue(response({ state: { data: {} } }));
     vi.stubGlobal("fetch", fetchMock);
@@ -80,7 +99,7 @@ describe("SurfGym web bridge", () => {
 
   it("rejects writes outside api state and failed state requests", async () => {
     await expect(set({ target: "url" }, "https://example.com")).rejects.toThrow(
-      "Only api_state web specs are settable.",
+      "Only app_state and legacy api_state web specs are settable.",
     );
 
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(response({}, 500)));

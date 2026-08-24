@@ -83,6 +83,8 @@ def test_web_criteria_seed_can_override_empty_start(tmp_path: Path) -> None:
 
 def test_web_uses_state_reset_release_hook() -> None:
     assert _release_hooks("web") == [WEB_STATE_RESET_HOOK]
+    assert '"$surfgym":{"type":"release"}' in WEB_STATE_RESET_HOOK.script
+    assert "/api/state" not in WEB_STATE_RESET_HOOK.script
     assert _release_hooks("gimp") == [DOCKER_FIXTURE_RELEASE_HOOK]
     assert _release_hooks("word") == []
 

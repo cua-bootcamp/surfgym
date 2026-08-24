@@ -15,8 +15,8 @@ type ScriptSpec = {
   script: string;
 };
 
-type ApiStateSpec = {
-  target: "api_state";
+type AppStateSpec = {
+  target: "api_state" | "app_state";
   path: string | string[];
 };
 
@@ -26,7 +26,7 @@ type ReleaseSpec = {
   };
 };
 
-export type WebStateSpec = PageSpec | AttributeSpec | ScriptSpec | ApiStateSpec | ReleaseSpec;
+export type WebStateSpec = PageSpec | AttributeSpec | ScriptSpec | AppStateSpec | ReleaseSpec;
 
 export type SurfGymBridge = {
   get: (spec: WebStateSpec) => Promise<unknown>;
@@ -53,6 +53,22 @@ function isReleaseSpec(spec: WebStateSpec): spec is ReleaseSpec {
 
 function isScriptSpec(spec: WebStateSpec): spec is ScriptSpec {
   return "script" in spec && typeof spec.script === "string";
+}
+
+function isAppStateSpec(spec: unknown): spec is AppStateSpec {
+  return (
+    isRecord(spec) &&
+    (spec.target === "api_state" || spec.target === "app_state") &&
+    (typeof spec.path === "string" || Array.isArray(spec.path))
+  );
+}
+
+function isDomSpec(spec: unknown): spec is PageSpec | AttributeSpec {
+  return (
+    isRecord(spec) &&
+    typeof spec.target === "string" &&
+    ["url", "title", "text", "html", "attr"].includes(spec.target)
+  );
 }
 
 function normalizePath(path: string | string[]): string[] {
@@ -125,21 +141,20 @@ export async function get(spec: WebStateSpec): Promise<unknown> {
     return evaluate(spec.script) as unknown;
   }
 
-  if (!("target" in spec)) throw new Error("Unsupported web state spec.");
-  if (spec.target === "api_state") {
+  if (isAppStateSpec(spec)) {
     const payload = await requestState("GET");
     const state = isRecord(payload) ? payload.state : undefined;
     return readPath(state, normalizePath(spec.path));
   }
-  if (["url", "title", "text", "html", "attr"].includes(spec.target)) {
+  if (isDomSpec(spec)) {
     return readDom(spec);
   }
-  throw new Error(`Unsupported web state target: ${String(spec.target)}`);
+  throw new Error("Unsupported web state spec.");
 }
 
 export async function set(spec: WebStateSpec, value: unknown): Promise<unknown> {
-  if (!isRecord(spec) || !("target" in spec) || spec.target !== "api_state") {
-    throw new Error("Only api_state web specs are settable.");
+  if (!isAppStateSpec(spec)) {
+    throw new Error("Only app_state and legacy api_state web specs are settable.");
   }
 
   const [root, ...path] = normalizePath(spec.path);
