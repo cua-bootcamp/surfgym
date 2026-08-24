@@ -1,0 +1,7 @@
+{
+  "instruction": "Use TravelHub’s own language selector to change the travel site interface to Arabic and leave Arabic selected for future searches.",
+  "website": "http://localhost:3200/",
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

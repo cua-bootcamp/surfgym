@@ -1,0 +1,9 @@
+{
+  "instruction": "Play my purchased CinemaCloud rental `Northern Lights — Season 2` directly in VLC while keeping its store DRM protection enabled; do not replace it with an unprotected local copy.",
+  "website": {
+    "base": "http://localhost:53001/vlc"
+  },
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

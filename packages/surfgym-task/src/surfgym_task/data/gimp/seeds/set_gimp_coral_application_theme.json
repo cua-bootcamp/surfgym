@@ -1,0 +1,9 @@
+{
+  "instruction": "Change all of GIMP’s application chrome—menus, docks, and dialogs—to a built-in color theme named `Coral`, and leave the image canvas content unchanged.",
+  "website": {
+    "base": "http://localhost:53001/gimp"
+  },
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

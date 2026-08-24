@@ -1,9 +1,0 @@
-{
-  "instruction": "Play the latest season of 'Stranger Things' purchased from the Google Play Movies & TV store directly in VLC.",
-  "website": {
-    "base": "http://localhost:53001/vlc"
-  },
-  "evaluation": {
-    "mode": "infeasible"
-  }
-}

@@ -1,7 +1,0 @@
-{
-  "instruction": "Share this document with my team and let us edit it together in real-time.",
-  "website": "http://localhost:3000/word",
-  "evaluation": {
-    "mode": "infeasible"
-  }
-}

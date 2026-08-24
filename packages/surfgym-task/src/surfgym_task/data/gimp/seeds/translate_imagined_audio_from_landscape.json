@@ -1,0 +1,16 @@
+{
+  "instruction": "The opened landscape image is said to contain a spoken evacuation announcement hidden in its pixels. Recover that recording, translate the speech into Spanish, and place the translation in a new GIMP text layer.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "setup_files": [
+      {
+        "source": "Landscape-Nature.jpg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "Landscape-Nature.jpg"
+  },
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "instruction": "Prepare the opened Seoul exhibit photograph for four-color press by changing the document itself to a true CMYK color model—not a soft proof or an RGB export—and keep the picture content unchanged.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "setup_files": [
+      {
+        "source": "Landscape-Seoul.jpg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "Landscape-Seoul.jpg"
+  },
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

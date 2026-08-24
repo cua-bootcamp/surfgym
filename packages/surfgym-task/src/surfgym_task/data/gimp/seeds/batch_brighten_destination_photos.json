@@ -1,0 +1,23 @@
+{
+  "instruction": "Prepare the three destination-scouting photos on the Desktop in one GIMP batch: add 35 brightness to Landscape-Nature.jpg, Landscape-Seoul.jpg, and Landscape-Swiss.jpg without opening and editing them one by one, and write `nature_review.jpg`, `seoul_review.jpg`, and `swiss_review.jpg`.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "setup_files": [
+      {
+        "source": "Landscape-Nature.jpg",
+        "target": "desktop"
+      },
+      {
+        "source": "Landscape-Seoul.jpg",
+        "target": "desktop"
+      },
+      {
+        "source": "Landscape-Swiss.jpg",
+        "target": "desktop"
+      }
+    ]
+  },
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "instruction": "While `lake.mp4` plays on the visitor kiosk, continuously sense the room’s light level and automatically adapt the video brightness and contrast whenever the ambient lighting changes.",
+  "website": {
+    "base": "http://localhost:53001/vlc",
+    "setup_files": [
+      {
+        "source": "lake.mp4",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "lake.mp4"
+  },
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

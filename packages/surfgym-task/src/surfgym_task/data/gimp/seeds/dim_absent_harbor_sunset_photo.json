@@ -1,0 +1,9 @@
+{
+  "instruction": "Open `Harbor-Sunset.jpg` from the Desktop, lower its brightness by 20, and save the adjusted copy as `Harbor-Sunset-dim.jpg`.",
+  "website": {
+    "base": "http://localhost:53001/gimp"
+  },
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

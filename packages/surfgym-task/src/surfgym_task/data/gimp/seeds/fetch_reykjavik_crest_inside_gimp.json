@@ -1,0 +1,9 @@
+{
+  "instruction": "Without opening a browser or another app, use only GIMP to find the official Reykjavík city crest on the municipality’s website and save it to the Desktop as a transparent PNG named `reykjavik_crest.png`.",
+  "website": {
+    "base": "http://localhost:53001/gimp"
+  },
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

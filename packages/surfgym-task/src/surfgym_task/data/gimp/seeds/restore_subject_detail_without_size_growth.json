@@ -1,0 +1,16 @@
+{
+  "instruction": "Create a four-times-larger-pixel version of the opened subject photo that genuinely restores missing fine detail, and save it as `subject_restored.jpg` without making the output file even one byte larger than the input.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "setup_files": [
+      {
+        "source": "subject.jpg",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "subject.jpg"
+  },
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

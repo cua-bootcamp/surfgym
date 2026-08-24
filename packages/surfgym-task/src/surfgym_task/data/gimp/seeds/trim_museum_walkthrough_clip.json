@@ -1,5 +1,5 @@
 {
-  "instruction": "Could you help me trim the video located at \"/home/user/fullvideo.mp4\" within GIMP, since I only want the second to fourth second part of this video?",
+  "instruction": "Use GIMP to extract only 00:01 through 00:03 from the Desktop file `fullvideo.mp4` for a museum lobby loop, and export that segment as `lobby_loop.mp4`.",
   "website": {
     "base": "http://localhost:53001/gimp",
     "setup_files": [

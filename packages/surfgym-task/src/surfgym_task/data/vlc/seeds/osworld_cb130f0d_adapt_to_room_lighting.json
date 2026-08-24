@@ -1,9 +1,0 @@
-{
-  "instruction": "Automatically adjust the brightness and contrast of this video to match my room's lighting.",
-  "website": {
-    "base": "http://localhost:53001/vlc"
-  },
-  "evaluation": {
-    "mode": "infeasible"
-  }
-}

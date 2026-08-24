@@ -1,0 +1,16 @@
+{
+  "instruction": "Turn the opened rock badge artwork into editable vector paths and save a true SVG named `rock_badge.svg`; embedding or wrapping the original raster pixels in an SVG does not count.",
+  "website": {
+    "base": "http://localhost:53001/gimp",
+    "setup_files": [
+      {
+        "source": "rock.png",
+        "target": "desktop"
+      }
+    ],
+    "open_file": "rock.png"
+  },
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

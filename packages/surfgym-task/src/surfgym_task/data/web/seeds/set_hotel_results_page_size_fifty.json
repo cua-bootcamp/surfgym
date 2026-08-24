@@ -1,0 +1,13 @@
+{
+  "instruction": "For this Rome hotel search, show exactly 50 hotel cards on each results page and save 50 as the default page size for future TravelHub hotel searches.",
+  "website": {
+    "base": "http://localhost:3200/search",
+    "param": {
+      "destination": "Rome",
+      "adults": "2"
+    }
+  },
+  "evaluation": {
+    "mode": "infeasible"
+  }
+}

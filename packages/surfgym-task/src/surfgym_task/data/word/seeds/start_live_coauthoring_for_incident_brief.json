@@ -1,0 +1,10 @@
+{
+  "instruction": "The incident-response brief is ready. Invite Mina Park and Devon Lee into a live coauthoring session so all three of us can edit this same document simultaneously and see one another’s changes as they type.",
+  "website": "http://localhost:3000/word",
+  "evaluation": {
+    "mode": "infeasible"
+  },
+  "states": [
+    [{"spec":{"kind":"body","property":"text"},"value":"INCIDENT RESPONSE BRIEF\nStatus: monitoring\nOwners: Mina Park, Devon Lee, and Operations\nNext review: 16:30"}]
+  ]
+}
