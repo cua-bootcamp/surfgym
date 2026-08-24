@@ -88,10 +88,10 @@ export const INITIAL_STATE = {
 const BASE_STORAGE_KEY = 'instacart_mock_state';
 const BASE_INITIAL_KEY = 'instacart_mock_initialState';
 
-function storageKey(sid) {
+export function storageKey(sid) {
   return sid ? `${BASE_STORAGE_KEY}_${sid}` : BASE_STORAGE_KEY;
 }
-function initialKey(sid) {
+export function initialKey(sid) {
   return sid ? `${BASE_INITIAL_KEY}_${sid}` : BASE_INITIAL_KEY;
 }
 

@@ -13,16 +13,31 @@ def test_web_seed_corpus_registers_without_building_a_database():
 
     seeds = list(SeedReader(data_dir / "seeds").get_seed())
 
-    assert len(seeds) == 38
-    assert len({name for _, name in seeds}) == 38
+    assert len(seeds) == 39
+    assert len({name for _, name in seeds}) == 39
     assert all(seed.domain == "web" for seed, _ in seeds)
-    assert all(_website_base(seed).startswith("http://localhost:3200/") for seed, _ in seeds)
-    assert sum(isinstance(seed, CriteriaSeedTask) for seed, _ in seeds) == 36
+    assert all(
+        _website_base(seed).startswith(("http://localhost:3200/", "http://127.0.0.1:8151/"))
+        for seed, _ in seeds
+    )
+    assert sum(isinstance(seed, CriteriaSeedTask) for seed, _ in seeds) == 37
     assert sum(isinstance(seed, InfeasibleSeedTask) for seed, _ in seeds) == 2
-    assert sum(bool(seed.states and seed.states[0].atoms) for seed, _ in seeds) == 3
+    assert sum(bool(seed.states and seed.states[0].atoms) for seed, _ in seeds) == 4
     setup_criteria = [
         seed for seed, _ in seeds if isinstance(seed, CriteriaSeedTask) and seed.states[0].atoms
     ]
-    assert len(setup_criteria) == 3
+    assert len(setup_criteria) == 4
     assert all(seed.accumulation == "DELTA" for seed in setup_criteria)
+    pilot = dict((name, seed) for seed, name in seeds)[
+        "cua_3355ed6f_instacart_availability_cart"
+    ]
+    assert isinstance(pilot, CriteriaSeedTask)
+    assert pilot.website == (
+        "http://127.0.0.1:8151/store/store_1"
+        "?sid=3355ed6f-3f01-5bf3-99ee-a2f1aaff9717"
+    )
+    assert {atom.spec.get("target") for atom in pilot.states[0].atoms} == {
+        "app_state"
+    }
+    assert len(pilot.states) == 2
     assert not (data_dir / "out" / "tasks.sqlite3").exists()
