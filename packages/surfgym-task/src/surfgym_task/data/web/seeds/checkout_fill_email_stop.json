@@ -7,6 +7,9 @@
     }
   },
   "states": [
-    [{"spec":{"target":"url"},"value":"/checkout","match":"contains"},{"spec":{"target":"attr","selector":"input[type=email]","attr":"value"},"value":"james.smith@gmail.com"}]
+  [
+    {"spec":{"target":"url"},"value":"/checkout","match":"contains"},
+    {"spec":{"target":"attr","selector":"input[type=email]","attr":"value"},"value":"james.smith@gmail.com"}
   ]
+]
 }

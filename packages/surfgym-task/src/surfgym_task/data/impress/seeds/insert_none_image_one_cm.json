@@ -15,6 +15,10 @@
     "open_file": "1.pptx"
   },
   "states": [
-    [{"spec":{"query":[["slide",2]],"path":["media","image"]},"value":"none.png"},{"spec":{"query":[["slide",2],["image",1]],"path":["layout","widthCm"]},"value":1.0},{"spec":{"query":[["slide",2],["image",1]],"path":["layout","heightCm"]},"value":1.0}]
+  [
+    {"spec":{"query":[["slide",2]],"path":["media","image"]},"value":"none.png"},
+    {"spec":{"query":[["slide",2],["image",1]],"path":["layout","widthCm"]},"value":1},
+    {"spec":{"query":[["slide",2],["image",1]],"path":["layout","heightCm"]},"value":1}
   ]
+]
 }

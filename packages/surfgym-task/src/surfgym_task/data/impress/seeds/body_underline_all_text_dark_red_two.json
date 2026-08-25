@@ -11,6 +11,12 @@
     "open_file": "1.pptx"
   },
   "states": [
-    [{"spec":{"query":[["slide",2],["textboxIndex",6]],"path":["style","underline"]},"value":true},{"spec":{"query":[["slide",2],["textboxIndex",1]],"path":["style","underline"]},"value":false},{"spec":{"query":[["slide",2]],"path":["slideText","color"]},"value":"darkred2"},{"spec":{"query":[["slide",2]],"path":["table","create"]},"value":{"rows":2,"columns":2}},{"spec":{"query":[["slide",2],["table",1]],"path":["table","allTextColor"]},"value":"darkred2"}]
+  [
+    {"spec":{"query":[["slide",2],["textboxIndex",6]],"path":["style","underline"]},"value":true},
+    {"spec":{"query":[["slide",2],["textboxIndex",1]],"path":["style","underline"]},"value":false},
+    {"spec":{"query":[["slide",2]],"path":["slideText","color"]},"value":"darkred2"},
+    {"spec":{"query":[["slide",2]],"path":["table","create"]},"value":{"rows":2,"columns":2}},
+    {"spec":{"query":[["slide",2],["table",1]],"path":["table","allTextColor"]},"value":"darkred2"}
   ]
+]
 }

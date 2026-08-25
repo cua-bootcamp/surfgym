@@ -26,6 +26,9 @@
     ]
   },
   "states": [
-    [{"spec":{"format":"chrome_appearance_mode"},"value":"^(light|system)$","match":"regex"},{"spec":{"format":"chrome_active_url"},"value":"^chrome://settings/appearance/?$","match":"regex"}]
+  [
+    {"spec":{"format":"chrome_appearance_mode"},"value":"^(light|system)$","match":"regex"},
+    {"spec":{"format":"chrome_active_url"},"value":"^chrome://settings/appearance/?$","match":"regex"}
   ]
+]
 }

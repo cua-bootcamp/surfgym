@@ -11,9 +11,12 @@
     "open_file": "1.pptx"
   },
   "states": [
-    [{"spec":{"query":[["slide",1],["textbox","A practical writing workshop for planning, drafting, and revising"]],"path":["style","bold"]},"value":true}],
-    [{"spec":{"query":[["slide",1],["textbox","Open Writing Lab  •  Spring practice deck"]],"path":["style","bold"]},"value":true}],
-    [{"spec":{"query":[["slide",1],["textbox","Building Better Outlines"]],"path":["style","bold"]},"value":true}],
-    [{"spec":{"query":[["slide",1],["textbox","Building Better Outlines"]],"path":["style","fontSize"]},"value":44},{"spec":{"query":[["slide",1],["textbox","Building Better Outlines"]],"path":["style","underline"]},"value":true}]
+  [{"spec":{"query":[["slide",1],["textbox","A practical writing workshop for planning, drafting, and revising"]],"path":["style","bold"]},"value":true}],
+  [{"spec":{"query":[["slide",1],["textbox","Open Writing Lab  •  Spring practice deck"]],"path":["style","bold"]},"value":true}],
+  [{"spec":{"query":[["slide",1],["textbox","Building Better Outlines"]],"path":["style","bold"]},"value":true}],
+  [
+    {"spec":{"query":[["slide",1],["textbox","Building Better Outlines"]],"path":["style","fontSize"]},"value":44},
+    {"spec":{"query":[["slide",1],["textbox","Building Better Outlines"]],"path":["style","underline"]},"value":true}
   ]
+]
 }

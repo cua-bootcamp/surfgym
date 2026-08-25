@@ -4,6 +4,9 @@
     "base": "http://localhost:3200/help"
   },
   "states": [
-    [{"spec":{"target":"text"},"value":"Search results for","match":"contains"},{"spec":{"target":"text"},"value":"If your booking has free cancellation, you will receive a full refund.","match":"contains"}]
+  [
+    {"spec":{"target":"text"},"value":"Search results for","match":"contains"},
+    {"spec":{"target":"text"},"value":"If your booking has free cancellation, you will receive a full refund.","match":"contains"}
   ]
+]
 }

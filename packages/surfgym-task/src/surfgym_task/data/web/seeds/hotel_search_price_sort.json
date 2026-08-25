@@ -4,6 +4,9 @@
     "base": "http://localhost:3200/search"
   },
   "states": [
-    [{"spec":{"target":"url"},"value":"destination=Lisbon","match":"contains"},{"spec":{"script":"(()=>{const L=['Our top picks','Lowest price first','Star rating and price','Top reviewed'];const b=[...document.querySelectorAll('button')].filter(x=>L.includes(x.textContent.trim())).find(x=>x.className.includes('bg-booking-blue'));return b?b.textContent.trim():null;})()"},"value":"Lowest price first"}]
+  [
+    {"spec":{"target":"url"},"value":"destination=Lisbon","match":"contains"},
+    {"spec":{"script":"(()=>{const L=['Our top picks','Lowest price first','Star rating and price','Top reviewed'];const b=[...document.querySelectorAll('button')].filter(x=>L.includes(x.textContent.trim())).find(x=>x.className.includes('bg-booking-blue'));return b?b.textContent.trim():null;})()"},"value":"Lowest price first"}
   ]
+]
 }

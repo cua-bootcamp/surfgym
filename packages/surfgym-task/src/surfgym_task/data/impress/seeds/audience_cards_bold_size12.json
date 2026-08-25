@@ -11,9 +11,21 @@
     "open_file": "1.pptx"
   },
   "states": [
-    [{"spec":{"query":[["slide",9],["textbox","Reader knowledge\nWhat can you assume?"]],"path":["style","bold"]},"value":true},{"spec":{"query":[["slide",9],["textbox","Reader knowledge\nWhat can you assume?"]],"path":["style","fontSize"]},"value":12}],
-    [{"spec":{"query":[["slide",9],["textbox","Reader values\nWhat concerns matter most?"]],"path":["style","bold"]},"value":true},{"spec":{"query":[["slide",9],["textbox","Reader values\nWhat concerns matter most?"]],"path":["style","fontSize"]},"value":12}],
-    [{"spec":{"query":[["slide",9],["textbox","Purpose\nInform, persuade, analyze, or reflect?"]],"path":["style","bold"]},"value":true},{"spec":{"query":[["slide",9],["textbox","Purpose\nInform, persuade, analyze, or reflect?"]],"path":["style","fontSize"]},"value":12}],
-    [{"spec":{"query":[["slide",9],["textbox","Tone\nHow formal should the voice be?"]],"path":["style","bold"]},"value":true},{"spec":{"query":[["slide",9],["textbox","Tone\nHow formal should the voice be?"]],"path":["style","fontSize"]},"value":12}]
+  [
+    {"spec":{"query":[["slide",9],["textbox","Reader knowledge\nWhat can you assume?"]],"path":["style","bold"]},"value":true},
+    {"spec":{"query":[["slide",9],["textbox","Reader knowledge\nWhat can you assume?"]],"path":["style","fontSize"]},"value":12}
+  ],
+  [
+    {"spec":{"query":[["slide",9],["textbox","Reader values\nWhat concerns matter most?"]],"path":["style","bold"]},"value":true},
+    {"spec":{"query":[["slide",9],["textbox","Reader values\nWhat concerns matter most?"]],"path":["style","fontSize"]},"value":12}
+  ],
+  [
+    {"spec":{"query":[["slide",9],["textbox","Purpose\nInform, persuade, analyze, or reflect?"]],"path":["style","bold"]},"value":true},
+    {"spec":{"query":[["slide",9],["textbox","Purpose\nInform, persuade, analyze, or reflect?"]],"path":["style","fontSize"]},"value":12}
+  ],
+  [
+    {"spec":{"query":[["slide",9],["textbox","Tone\nHow formal should the voice be?"]],"path":["style","bold"]},"value":true},
+    {"spec":{"query":[["slide",9],["textbox","Tone\nHow formal should the voice be?"]],"path":["style","fontSize"]},"value":12}
   ]
+]
 }

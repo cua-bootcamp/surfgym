@@ -11,6 +11,9 @@
     "open_file": "1.pptx"
   },
   "states": [
-    [{"spec":{"query":[["slide",1]],"path":["table","create"]},"value":{"rows":2,"columns":2}},{"spec":{"query":[["slide",1],["table",1]],"path":["layout","verticalRegion"]},"value":"bottom"}]
+  [
+    {"spec":{"query":[["slide",1]],"path":["table","create"]},"value":{"rows":2,"columns":2}},
+    {"spec":{"query":[["slide",1],["table",1]],"path":["layout","verticalRegion"]},"value":"bottom"}
   ]
+]
 }

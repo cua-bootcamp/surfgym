@@ -11,6 +11,9 @@
     "open_file": "tree.mp4"
   },
   "states": [
-    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"deinterlace","default":"-1"},"value":"1"},{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"deinterlace-mode","default":"auto"},"value":"yadif"}]
+  [
+    {"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"deinterlace","default":"-1"},"value":"1"},
+    {"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"deinterlace-mode","default":"auto"},"value":"yadif"}
   ]
+]
 }

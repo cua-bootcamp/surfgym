@@ -11,6 +11,9 @@
     "open_file": "Centered-subject.jpg"
   },
   "states": [
-    [{"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"image-resize-fill-type","default":"transparent"},"value":"white"},{"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"image-resize-layer-set","default":"none"},"value":"all"}]
+  [
+    {"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"image-resize-fill-type","default":"transparent"},"value":"white"},
+    {"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"image-resize-layer-set","default":"none"},"value":"all"}
   ]
+]
 }

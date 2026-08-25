@@ -11,6 +11,9 @@
     "open_file": "multiroot-lab"
   },
   "states": [
-    [{"spec":{"file":"Desktop/field-lab.code-workspace","format":"text","default":""},"value":"core","match":"contains"},{"spec":{"file":"Desktop/field-lab.code-workspace","format":"text","default":""},"value":"research","match":"contains"}]
+  [
+    {"spec":{"file":"Desktop/field-lab.code-workspace","format":"text","default":""},"value":"core","match":"contains"},
+    {"spec":{"file":"Desktop/field-lab.code-workspace","format":"text","default":""},"value":"research","match":"contains"}
   ]
+]
 }

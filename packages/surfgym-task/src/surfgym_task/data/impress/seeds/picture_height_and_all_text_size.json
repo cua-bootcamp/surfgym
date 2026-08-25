@@ -11,6 +11,9 @@
     "open_file": "1.pptx"
   },
   "states": [
-    [{"spec":{"query":[["slide",3],["image",1]],"path":["layout","heightCm"]},"value":20.0},{"spec":{"query":[["slide",6]],"path":["slideText","fontSize"]},"value":40}]
+  [
+    {"spec":{"query":[["slide",3],["image",1]],"path":["layout","heightCm"]},"value":20},
+    {"spec":{"query":[["slide",6]],"path":["slideText","fontSize"]},"value":40}
   ]
+]
 }

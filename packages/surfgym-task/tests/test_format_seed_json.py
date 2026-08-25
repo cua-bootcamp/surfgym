@@ -16,7 +16,9 @@ def _load_formatter() -> ModuleType:
     return module
 
 
-def test_formatter_compacts_each_state_and_preserves_json(tmp_path: Path) -> None:
+def test_formatter_expands_multi_spec_states_and_preserves_json(
+    tmp_path: Path,
+) -> None:
     formatter = _load_formatter()
     seeds_dir = tmp_path / "vscode" / "seeds"
     seeds_dir.mkdir(parents=True)
@@ -57,11 +59,15 @@ def test_formatter_compacts_each_state_and_preserves_json(tmp_path: Path) -> Non
 
     lines = formatted.splitlines()
     states_index = lines.index('  "states": [')
-    assert lines[states_index + 1].lstrip().startswith('[{"spec":')
+    assert lines[states_index + 1].startswith('  [{"spec":')
     assert lines[states_index + 1].rstrip().endswith("],")
-    assert lines[states_index + 2].lstrip().startswith('[{"spec":')
-    assert lines[states_index + 2].rstrip().endswith("]")
-    assert lines[states_index + 3] == "  ],"
+    assert lines[states_index + 2] == "  ["
+    assert lines[states_index + 3].startswith('    {"spec":')
+    assert lines[states_index + 3].rstrip().endswith("},")
+    assert lines[states_index + 4].startswith('    {"spec":')
+    assert lines[states_index + 4].rstrip().endswith("}")
+    assert lines[states_index + 5] == "  ]"
+    assert lines[states_index + 6] == "],"
 
     first_pass = formatted
     assert formatter.main([str(seed_path), "--check"]) == 0

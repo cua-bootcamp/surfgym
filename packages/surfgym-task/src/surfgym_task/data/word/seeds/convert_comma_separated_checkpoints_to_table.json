@@ -3,7 +3,29 @@
   "website": "http://localhost:3000/word",
   "accumulation": "CUMULATIVE",
   "states": [
-    [{"spec":{"kind":"body","property":"text"},"value":"TRAIL EVENT CHECKPOINT PLAN\nCanyon Loop Operations | Opening Crew\nThe checkpoint roster is stored as six comma-separated lines. Convert only that roster; keep the introduction and heading unchanged.\nCHECKPOINT ROSTER\nCheckpoint,Lead,Radio,Opening Time\nNorth Gate,Maya Chen,R-12,06:30\nRiver Bend,Jon Bell,R-07,06:45\nPine Ridge,Ana Ortiz,R-19,07:00\nEast Meadow,Samir Khan,R-03,07:15\nFinish Arch,Lena Park,R-15,07:30"},{"spec":{"kind":"paragraph","index":0,"property":"namedStyleType"},"value":"title"},{"spec":{"kind":"paragraph","index":0,"property":"horizontalAlign"},"value":"left"},{"spec":{"kind":"paragraph","index":1,"property":"namedStyleType"},"value":"subtitle"},{"spec":{"kind":"paragraph","index":1,"property":"horizontalAlign"},"value":"left"},{"spec":{"kind":"paragraph","index":3,"property":"namedStyleType"},"value":"heading2"},{"spec":{"kind":"text","text":"TRAIL EVENT CHECKPOINT PLAN","property":"fontSize"},"value":22},{"spec":{"kind":"text","text":"TRAIL EVENT CHECKPOINT PLAN","property":"bold"},"value":true},{"spec":{"kind":"text","text":"TRAIL EVENT CHECKPOINT PLAN","property":"color"},"value":"#16324F"},{"spec":{"kind":"text","text":"Canyon Loop Operations | Opening Crew","property":"fontSize"},"value":11},{"spec":{"kind":"text","text":"Canyon Loop Operations | Opening Crew","property":"bold"},"value":true},{"spec":{"kind":"text","text":"Canyon Loop Operations | Opening Crew","property":"color"},"value":"#0F766E"},{"spec":{"kind":"text","text":"The checkpoint roster is stored as six comma-separated lines. Convert only that roster; keep the introduction and heading unchanged.","property":"fontSize"},"value":10},{"spec":{"kind":"text","text":"CHECKPOINT ROSTER","property":"fontSize"},"value":13},{"spec":{"kind":"text","text":"CHECKPOINT ROSTER","property":"bold"},"value":true},{"spec":{"kind":"text","text":"CHECKPOINT ROSTER","property":"color"},"value":"#2E74B5"},{"spec":{"kind":"footer","property":"text"},"value":"Trail Event Checkpoint Plan | Opening Crew | Revision 1.4"}],
-    [{"spec":{"kind":"body","property":"text"},"value":"TRAIL EVENT CHECKPOINT PLAN\nCanyon Loop Operations | Opening Crew\nThe checkpoint roster is stored as six comma-separated lines. Convert only that roster; keep the introduction and heading unchanged.\nCHECKPOINT ROSTER"},{"spec":{"kind":"table","index":0,"property":"shape"},"value":"6x4"},{"spec":{"kind":"table","index":0,"property":"cellsText"},"value":"Checkpoint|Lead|Radio|Opening Time|North Gate|Maya Chen|R-12|06:30|River Bend|Jon Bell|R-07|06:45|Pine Ridge|Ana Ortiz|R-19|07:00|East Meadow|Samir Khan|R-03|07:15|Finish Arch|Lena Park|R-15|07:30"}]
+  [
+    {"spec":{"kind":"body","property":"text"},"value":"TRAIL EVENT CHECKPOINT PLAN\nCanyon Loop Operations | Opening Crew\nThe checkpoint roster is stored as six comma-separated lines. Convert only that roster; keep the introduction and heading unchanged.\nCHECKPOINT ROSTER\nCheckpoint,Lead,Radio,Opening Time\nNorth Gate,Maya Chen,R-12,06:30\nRiver Bend,Jon Bell,R-07,06:45\nPine Ridge,Ana Ortiz,R-19,07:00\nEast Meadow,Samir Khan,R-03,07:15\nFinish Arch,Lena Park,R-15,07:30"},
+    {"spec":{"kind":"paragraph","index":0,"property":"namedStyleType"},"value":"title"},
+    {"spec":{"kind":"paragraph","index":0,"property":"horizontalAlign"},"value":"left"},
+    {"spec":{"kind":"paragraph","index":1,"property":"namedStyleType"},"value":"subtitle"},
+    {"spec":{"kind":"paragraph","index":1,"property":"horizontalAlign"},"value":"left"},
+    {"spec":{"kind":"paragraph","index":3,"property":"namedStyleType"},"value":"heading2"},
+    {"spec":{"kind":"text","text":"TRAIL EVENT CHECKPOINT PLAN","property":"fontSize"},"value":22},
+    {"spec":{"kind":"text","text":"TRAIL EVENT CHECKPOINT PLAN","property":"bold"},"value":true},
+    {"spec":{"kind":"text","text":"TRAIL EVENT CHECKPOINT PLAN","property":"color"},"value":"#16324F"},
+    {"spec":{"kind":"text","text":"Canyon Loop Operations | Opening Crew","property":"fontSize"},"value":11},
+    {"spec":{"kind":"text","text":"Canyon Loop Operations | Opening Crew","property":"bold"},"value":true},
+    {"spec":{"kind":"text","text":"Canyon Loop Operations | Opening Crew","property":"color"},"value":"#0F766E"},
+    {"spec":{"kind":"text","text":"The checkpoint roster is stored as six comma-separated lines. Convert only that roster; keep the introduction and heading unchanged.","property":"fontSize"},"value":10},
+    {"spec":{"kind":"text","text":"CHECKPOINT ROSTER","property":"fontSize"},"value":13},
+    {"spec":{"kind":"text","text":"CHECKPOINT ROSTER","property":"bold"},"value":true},
+    {"spec":{"kind":"text","text":"CHECKPOINT ROSTER","property":"color"},"value":"#2E74B5"},
+    {"spec":{"kind":"footer","property":"text"},"value":"Trail Event Checkpoint Plan | Opening Crew | Revision 1.4"}
+  ],
+  [
+    {"spec":{"kind":"body","property":"text"},"value":"TRAIL EVENT CHECKPOINT PLAN\nCanyon Loop Operations | Opening Crew\nThe checkpoint roster is stored as six comma-separated lines. Convert only that roster; keep the introduction and heading unchanged.\nCHECKPOINT ROSTER"},
+    {"spec":{"kind":"table","index":0,"property":"shape"},"value":"6x4"},
+    {"spec":{"kind":"table","index":0,"property":"cellsText"},"value":"Checkpoint|Lead|Radio|Opening Time|North Gate|Maya Chen|R-12|06:30|River Bend|Jon Bell|R-07|06:45|Pine Ridge|Ana Ortiz|R-19|07:00|East Meadow|Samir Khan|R-03|07:15|Finish Arch|Lena Park|R-15|07:30"}
   ]
+]
 }

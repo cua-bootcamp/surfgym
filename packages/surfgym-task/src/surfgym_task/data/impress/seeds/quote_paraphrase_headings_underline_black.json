@@ -11,7 +11,13 @@
     "open_file": "1.pptx"
   },
   "states": [
-    [{"spec":{"query":[["slide",6],["textbox","Quote bank"]],"path":["style","underline"]},"value":true},{"spec":{"query":[["slide",6],["textbox","Quote bank"]],"path":["style","color"]},"value":"black"}],
-    [{"spec":{"query":[["slide",6],["textbox","Paraphrase bank"]],"path":["style","underline"]},"value":true},{"spec":{"query":[["slide",6],["textbox","Paraphrase bank"]],"path":["style","color"]},"value":"black"}]
+  [
+    {"spec":{"query":[["slide",6],["textbox","Quote bank"]],"path":["style","underline"]},"value":true},
+    {"spec":{"query":[["slide",6],["textbox","Quote bank"]],"path":["style","color"]},"value":"black"}
+  ],
+  [
+    {"spec":{"query":[["slide",6],["textbox","Paraphrase bank"]],"path":["style","underline"]},"value":true},
+    {"spec":{"query":[["slide",6],["textbox","Paraphrase bank"]],"path":["style","color"]},"value":"black"}
   ]
+]
 }

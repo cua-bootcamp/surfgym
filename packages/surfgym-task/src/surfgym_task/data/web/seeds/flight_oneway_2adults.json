@@ -4,6 +4,12 @@
     "base": "http://localhost:3200/flights"
   },
   "states": [
-    [{"spec":{"target":"url"},"value":"originCode=AMS","match":"contains"},{"spec":{"target":"url"},"value":"destCode=FCO","match":"contains"},{"spec":{"target":"url"},"value":"tripType=one-way","match":"contains"},{"spec":{"target":"url"},"value":"adults=2","match":"contains"},{"spec":{"script":"(()=>{const p=new URL(location.href).searchParams.get('depart');const n=new Date();const d=new Date(n.getFullYear(),n.getMonth()+1,20);const t=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');return p===t;})()"},"value":true}]
+  [
+    {"spec":{"target":"url"},"value":"originCode=AMS","match":"contains"},
+    {"spec":{"target":"url"},"value":"destCode=FCO","match":"contains"},
+    {"spec":{"target":"url"},"value":"tripType=one-way","match":"contains"},
+    {"spec":{"target":"url"},"value":"adults=2","match":"contains"},
+    {"spec":{"script":"(()=>{const p=new URL(location.href).searchParams.get('depart');const n=new Date();const d=new Date(n.getFullYear(),n.getMonth()+1,20);const t=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');return p===t;})()"},"value":true}
   ]
+]
 }

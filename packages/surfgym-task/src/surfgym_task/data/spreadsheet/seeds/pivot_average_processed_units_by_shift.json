@@ -2,7 +2,37 @@
   "instruction": "Create a pivot table on Sheet2 starting at A1 that shows the average Processed Units for each Shift.",
   "website": "http://localhost:3000/spreadsheet",
   "states": [
-    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Shift"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Processed Units"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":"Morning"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":124},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A3","property":"value"},"value":"Evening"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":110},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A4","property":"value"},"value":"Night"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B4","property":"value"},"value":96},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A5","property":"value"},"value":"Morning"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B5","property":"value"},"value":132},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A6","property":"value"},"value":"Evening"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B6","property":"value"},"value":116},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A7","property":"value"},"value":"Night"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B7","property":"value"},"value":102},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A8","property":"value"},"value":"Morning"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B8","property":"value"},"value":128},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A9","property":"value"},"value":"Evening"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B9","property":"value"},"value":118},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A10","property":"value"},"value":"Night"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B10","property":"value"},"value":99},{"spec":{"kind":"sheet","sheet":"Sheet2","property":"name"},"value":"Sheet2"}],
-    [{"spec":{"kind":"pivot","sheet":"Sheet2","startRow":0,"startColumn":0,"property":"definition"},"value":{"sourceRange":"A1:B10","rowFields":[0],"columnFields":[],"dataFields":[{"fieldIndex":1,"function":"average","displayAs":"value"}],"targetSheet":"Sheet2","startRow":0,"startColumn":0}},{"spec":{"kind":"cell","sheet":"Sheet2","cell":"A2","property":"value"},"value":"Morning"},{"spec":{"kind":"cell","sheet":"Sheet2","cell":"B2","property":"value"},"value":128},{"spec":{"kind":"cell","sheet":"Sheet2","cell":"A3","property":"value"},"value":"Evening"},{"spec":{"kind":"cell","sheet":"Sheet2","cell":"B3","property":"value"},"value":114.66666666666667},{"spec":{"kind":"cell","sheet":"Sheet2","cell":"A4","property":"value"},"value":"Night"},{"spec":{"kind":"cell","sheet":"Sheet2","cell":"B4","property":"value"},"value":99}]
+  [
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Shift"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Processed Units"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":"Morning"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":124},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A3","property":"value"},"value":"Evening"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":110},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A4","property":"value"},"value":"Night"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B4","property":"value"},"value":96},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A5","property":"value"},"value":"Morning"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B5","property":"value"},"value":132},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A6","property":"value"},"value":"Evening"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B6","property":"value"},"value":116},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A7","property":"value"},"value":"Night"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B7","property":"value"},"value":102},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A8","property":"value"},"value":"Morning"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B8","property":"value"},"value":128},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A9","property":"value"},"value":"Evening"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B9","property":"value"},"value":118},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A10","property":"value"},"value":"Night"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B10","property":"value"},"value":99},
+    {"spec":{"kind":"sheet","sheet":"Sheet2","property":"name"},"value":"Sheet2"}
+  ],
+  [
+    {"spec":{"kind":"pivot","sheet":"Sheet2","startRow":0,"startColumn":0,"property":"definition"},"value":{"sourceRange":"A1:B10","rowFields":[0],"columnFields":[],"dataFields":[{"fieldIndex":1,"function":"average","displayAs":"value"}],"targetSheet":"Sheet2","startRow":0,"startColumn":0}},
+    {"spec":{"kind":"cell","sheet":"Sheet2","cell":"A2","property":"value"},"value":"Morning"},
+    {"spec":{"kind":"cell","sheet":"Sheet2","cell":"B2","property":"value"},"value":128},
+    {"spec":{"kind":"cell","sheet":"Sheet2","cell":"A3","property":"value"},"value":"Evening"},
+    {"spec":{"kind":"cell","sheet":"Sheet2","cell":"B3","property":"value"},"value":114.66666666666667},
+    {"spec":{"kind":"cell","sheet":"Sheet2","cell":"A4","property":"value"},"value":"Night"},
+    {"spec":{"kind":"cell","sheet":"Sheet2","cell":"B4","property":"value"},"value":99}
   ]
+]
 }

@@ -11,6 +11,9 @@
     "open_file": "lake.mp4"
   },
   "states": [
-    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"video-filter","default":""},"value":"adjust","match":"contains"},{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"saturation","default":"1.000000"},"value":"^2(\\.0*)?$","match":"regex"}]
+  [
+    {"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"video-filter","default":""},"value":"adjust","match":"contains"},
+    {"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"saturation","default":"1.000000"},"value":"^2(\\.0*)?$","match":"regex"}
   ]
+]
 }

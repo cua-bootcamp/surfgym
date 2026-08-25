@@ -2,7 +2,32 @@
   "instruction": "Create two column charts from the monthly cost totals, one for 2019 and one for 2020.",
   "website": "http://localhost:3000/spreadsheet",
   "states": [
-    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Year"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Jan"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C1","property":"value"},"value":"Feb"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D1","property":"value"},"value":"Mar"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E1","property":"value"},"value":"Apr"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":2019},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":4200},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C2","property":"value"},"value":3900},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D2","property":"value"},"value":4500},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E2","property":"value"},"value":4700},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A3","property":"value"},"value":2020},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":4600},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C3","property":"value"},"value":4300},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D3","property":"value"},"value":4800},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E3","property":"value"},"value":5100}],
-    [{"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"sourceRange"},"value":"A1:E1,A2:E2"},{"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"dataOrientation"},"value":"Column"},{"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"chartType"},"value":"column"},{"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"title"},"value":"2019 Total Costs"},{"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":1},"property":"sourceRange"},"value":"A1:E1,A3:E3"},{"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":1},"property":"dataOrientation"},"value":"Column"},{"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":1},"property":"chartType"},"value":"column"},{"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":1},"property":"title"},"value":"2020 Total Costs"}]
+  [
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Year"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Jan"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C1","property":"value"},"value":"Feb"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D1","property":"value"},"value":"Mar"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E1","property":"value"},"value":"Apr"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":2019},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":4200},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C2","property":"value"},"value":3900},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D2","property":"value"},"value":4500},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E2","property":"value"},"value":4700},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A3","property":"value"},"value":2020},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":4600},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C3","property":"value"},"value":4300},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D3","property":"value"},"value":4800},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E3","property":"value"},"value":5100}
+  ],
+  [
+    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"sourceRange"},"value":"A1:E1,A2:E2"},
+    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"dataOrientation"},"value":"Column"},
+    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"chartType"},"value":"column"},
+    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"title"},"value":"2019 Total Costs"},
+    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":1},"property":"sourceRange"},"value":"A1:E1,A3:E3"},
+    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":1},"property":"dataOrientation"},"value":"Column"},
+    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":1},"property":"chartType"},"value":"column"},
+    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":1},"property":"title"},"value":"2020 Total Costs"}
   ]
+]
 }

@@ -2,7 +2,51 @@
   "instruction": "Sum sales for the West region in Q2. Enter the SUMIFS formula in H2 and do not modify the quarterly sales table.",
   "website": "http://localhost:3000/spreadsheet",
   "states": [
-    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Quarter"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Region"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C1","property":"value"},"value":"Sales"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":"Q1"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":"West"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C2","property":"value"},"value":85000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A3","property":"value"},"value":"Q1"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":"East"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C3","property":"value"},"value":94000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A4","property":"value"},"value":"Q2"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B4","property":"value"},"value":"West"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C4","property":"value"},"value":125000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A5","property":"value"},"value":"Q2"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B5","property":"value"},"value":"North"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C5","property":"value"},"value":102000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A6","property":"value"},"value":"Q2"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B6","property":"value"},"value":"West"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C6","property":"value"},"value":93000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A7","property":"value"},"value":"Q2"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B7","property":"value"},"value":"South"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C7","property":"value"},"value":110000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A8","property":"value"},"value":"Q3"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B8","property":"value"},"value":"West"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C8","property":"value"},"value":99000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A9","property":"value"},"value":"Q3"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B9","property":"value"},"value":"East"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C9","property":"value"},"value":118000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A10","property":"value"},"value":"Q4"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B10","property":"value"},"value":"West"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C10","property":"value"},"value":130000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A11","property":"value"},"value":"Q4"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B11","property":"value"},"value":"North"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C11","property":"value"},"value":115000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A12","property":"value"},"value":"Q2"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B12","property":"value"},"value":"West"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C12","property":"value"},"value":147500},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A13","property":"value"},"value":"Q1"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B13","property":"value"},"value":"South"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C13","property":"value"},"value":88000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"G2","property":"value"},"value":"Q2 West Sales"}],
-    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"H2","property":"value"},"value":365500},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"H2","property":"formula"},"value":"=SUMIFS(C2:C13,A2:A13,\"Q2\",B2:B13,\"West\")"}]
+  [
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Quarter"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Region"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C1","property":"value"},"value":"Sales"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":"Q1"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":"West"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C2","property":"value"},"value":85000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A3","property":"value"},"value":"Q1"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":"East"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C3","property":"value"},"value":94000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A4","property":"value"},"value":"Q2"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B4","property":"value"},"value":"West"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C4","property":"value"},"value":125000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A5","property":"value"},"value":"Q2"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B5","property":"value"},"value":"North"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C5","property":"value"},"value":102000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A6","property":"value"},"value":"Q2"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B6","property":"value"},"value":"West"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C6","property":"value"},"value":93000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A7","property":"value"},"value":"Q2"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B7","property":"value"},"value":"South"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C7","property":"value"},"value":110000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A8","property":"value"},"value":"Q3"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B8","property":"value"},"value":"West"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C8","property":"value"},"value":99000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A9","property":"value"},"value":"Q3"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B9","property":"value"},"value":"East"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C9","property":"value"},"value":118000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A10","property":"value"},"value":"Q4"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B10","property":"value"},"value":"West"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C10","property":"value"},"value":130000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A11","property":"value"},"value":"Q4"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B11","property":"value"},"value":"North"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C11","property":"value"},"value":115000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A12","property":"value"},"value":"Q2"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B12","property":"value"},"value":"West"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C12","property":"value"},"value":147500},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A13","property":"value"},"value":"Q1"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B13","property":"value"},"value":"South"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C13","property":"value"},"value":88000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"G2","property":"value"},"value":"Q2 West Sales"}
+  ],
+  [
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"H2","property":"value"},"value":365500},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"H2","property":"formula"},"value":"=SUMIFS(C2:C13,A2:A13,\"Q2\",B2:B13,\"West\")"}
   ]
+]
 }

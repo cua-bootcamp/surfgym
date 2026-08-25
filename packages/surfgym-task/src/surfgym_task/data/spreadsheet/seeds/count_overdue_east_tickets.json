@@ -2,7 +2,51 @@
   "instruction": "Count tickets in the East region that are more than seven days old. Enter the COUNTIFS formula in H2.",
   "website": "http://localhost:3000/spreadsheet",
   "states": [
-    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Region"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Age Days"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C1","property":"value"},"value":"Ticket ID"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":"East"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":8},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C2","property":"value"},"value":"T-501"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A3","property":"value"},"value":"West"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":5},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C3","property":"value"},"value":"T-502"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A4","property":"value"},"value":"East"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B4","property":"value"},"value":12},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C4","property":"value"},"value":"T-503"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A5","property":"value"},"value":"South"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B5","property":"value"},"value":9},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C5","property":"value"},"value":"T-504"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A6","property":"value"},"value":"East"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B6","property":"value"},"value":7},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C6","property":"value"},"value":"T-505"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A7","property":"value"},"value":"North"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B7","property":"value"},"value":11},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C7","property":"value"},"value":"T-506"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A8","property":"value"},"value":"East"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B8","property":"value"},"value":15},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C8","property":"value"},"value":"T-507"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A9","property":"value"},"value":"West"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B9","property":"value"},"value":13},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C9","property":"value"},"value":"T-508"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A10","property":"value"},"value":"East"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B10","property":"value"},"value":4},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C10","property":"value"},"value":"T-509"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A11","property":"value"},"value":"South"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B11","property":"value"},"value":8},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C11","property":"value"},"value":"T-510"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A12","property":"value"},"value":"East"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B12","property":"value"},"value":9},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C12","property":"value"},"value":"T-511"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A13","property":"value"},"value":"North"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B13","property":"value"},"value":6},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C13","property":"value"},"value":"T-512"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"G2","property":"value"},"value":"Overdue East Tickets"}],
-    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"H2","property":"value"},"value":4},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"H2","property":"formula"},"value":"=COUNTIFS(A2:A13,\"East\",B2:B13,\">7\")"}]
+  [
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Region"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Age Days"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C1","property":"value"},"value":"Ticket ID"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":"East"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":8},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C2","property":"value"},"value":"T-501"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A3","property":"value"},"value":"West"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":5},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C3","property":"value"},"value":"T-502"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A4","property":"value"},"value":"East"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B4","property":"value"},"value":12},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C4","property":"value"},"value":"T-503"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A5","property":"value"},"value":"South"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B5","property":"value"},"value":9},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C5","property":"value"},"value":"T-504"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A6","property":"value"},"value":"East"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B6","property":"value"},"value":7},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C6","property":"value"},"value":"T-505"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A7","property":"value"},"value":"North"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B7","property":"value"},"value":11},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C7","property":"value"},"value":"T-506"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A8","property":"value"},"value":"East"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B8","property":"value"},"value":15},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C8","property":"value"},"value":"T-507"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A9","property":"value"},"value":"West"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B9","property":"value"},"value":13},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C9","property":"value"},"value":"T-508"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A10","property":"value"},"value":"East"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B10","property":"value"},"value":4},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C10","property":"value"},"value":"T-509"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A11","property":"value"},"value":"South"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B11","property":"value"},"value":8},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C11","property":"value"},"value":"T-510"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A12","property":"value"},"value":"East"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B12","property":"value"},"value":9},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C12","property":"value"},"value":"T-511"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A13","property":"value"},"value":"North"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B13","property":"value"},"value":6},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C13","property":"value"},"value":"T-512"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"G2","property":"value"},"value":"Overdue East Tickets"}
+  ],
+  [
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"H2","property":"value"},"value":4},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"H2","property":"formula"},"value":"=COUNTIFS(A2:A13,\"East\",B2:B13,\">7\")"}
   ]
+]
 }

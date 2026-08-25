@@ -11,6 +11,9 @@
     "open_file": "sky.mp4"
   },
   "states": [
-    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"video-filter","default":""},"value":"croppadd","match":"contains"},{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"croppadd-croptop","default":"0"},"value":"100"}]
+  [
+    {"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"video-filter","default":""},"value":"croppadd","match":"contains"},
+    {"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"croppadd-croptop","default":"0"},"value":"100"}
   ]
+]
 }

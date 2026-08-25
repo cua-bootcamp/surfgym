@@ -4,6 +4,10 @@
     "base": "http://localhost:3200/flights"
   },
   "states": [
-    [{"spec":{"target":"url"},"value":"originCode=LHR","match":"contains"},{"spec":{"target":"url"},"value":"destCode=CDG","match":"contains"},{"spec":{"script":"(()=>{const p=new URL(location.href).searchParams.get('depart');const d=new Date();d.setDate(d.getDate()+1);const t=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');return p===t;})()"},"value":true}]
+  [
+    {"spec":{"target":"url"},"value":"originCode=LHR","match":"contains"},
+    {"spec":{"target":"url"},"value":"destCode=CDG","match":"contains"},
+    {"spec":{"script":"(()=>{const p=new URL(location.href).searchParams.get('depart');const d=new Date();d.setDate(d.getDate()+1);const t=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');return p===t;})()"},"value":true}
   ]
+]
 }

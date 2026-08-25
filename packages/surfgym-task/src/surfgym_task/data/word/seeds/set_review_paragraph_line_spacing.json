@@ -2,7 +2,11 @@
   "instruction": "Set the first review paragraph to single spacing (1.0), the second to double spacing (2.0), and the third to 1.5 line spacing. Preserve all text and paragraph breaks.",
   "website": "http://localhost:3000/word",
   "states": [
-    [{"spec":{"kind":"body","property":"text"},"value":"Reviewer One confirmed that the summary accurately names the tested workflow and its evidence source.\nReviewer Two requested a separate paragraph for limitations because the current observations do not cover overnight use.\nReviewer Three approved the revised conclusion after the team added the date of the final verification run."}],
-    [{"spec":{"kind":"paragraph","index":0,"property":"lineSpacing"},"value":1},{"spec":{"kind":"paragraph","index":1,"property":"lineSpacing"},"value":2},{"spec":{"kind":"paragraph","index":2,"property":"lineSpacing"},"value":1.5}]
+  [{"spec":{"kind":"body","property":"text"},"value":"Reviewer One confirmed that the summary accurately names the tested workflow and its evidence source.\nReviewer Two requested a separate paragraph for limitations because the current observations do not cover overnight use.\nReviewer Three approved the revised conclusion after the team added the date of the final verification run."}],
+  [
+    {"spec":{"kind":"paragraph","index":0,"property":"lineSpacing"},"value":1},
+    {"spec":{"kind":"paragraph","index":1,"property":"lineSpacing"},"value":2},
+    {"spec":{"kind":"paragraph","index":2,"property":"lineSpacing"},"value":1.5}
   ]
+]
 }

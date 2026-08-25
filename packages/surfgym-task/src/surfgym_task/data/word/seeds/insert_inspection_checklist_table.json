@@ -3,7 +3,11 @@
   "website": "http://localhost:3000/word",
   "accumulation": "CUMULATIVE",
   "states": [
-    [{"spec":{"kind":"body","property":"text"},"value":"WEEKLY FACILITY WALKTHROUGH\nOperations Team | Monday Preparation\nThis brief records the checks that should be assigned before the building opens for the week.\nInspection Checklist\nAdd the table here so supervisors can assign follow-up work during the walkthrough.\nReturn completed sheets to the operations desk before 15:00 on Monday."}],
-    [{"spec":{"kind":"body","property":"text"},"value":"WEEKLY FACILITY WALKTHROUGH\nOperations Team | Monday Preparation\nThis brief records the checks that should be assigned before the building opens for the week.\nInspection Checklist\nAdd the table here so supervisors can assign follow-up work during the walkthrough.\nReturn completed sheets to the operations desk before 15:00 on Monday."},{"spec":{"kind":"table","index":0,"property":"shape"},"value":"4x3"},{"spec":{"kind":"table","index":0,"property":"cellsText"},"value":"Item|Owner|Status|||||||||"}]
+  [{"spec":{"kind":"body","property":"text"},"value":"WEEKLY FACILITY WALKTHROUGH\nOperations Team | Monday Preparation\nThis brief records the checks that should be assigned before the building opens for the week.\nInspection Checklist\nAdd the table here so supervisors can assign follow-up work during the walkthrough.\nReturn completed sheets to the operations desk before 15:00 on Monday."}],
+  [
+    {"spec":{"kind":"body","property":"text"},"value":"WEEKLY FACILITY WALKTHROUGH\nOperations Team | Monday Preparation\nThis brief records the checks that should be assigned before the building opens for the week.\nInspection Checklist\nAdd the table here so supervisors can assign follow-up work during the walkthrough.\nReturn completed sheets to the operations desk before 15:00 on Monday."},
+    {"spec":{"kind":"table","index":0,"property":"shape"},"value":"4x3"},
+    {"spec":{"kind":"table","index":0,"property":"cellsText"},"value":"Item|Owner|Status|||||||||"}
   ]
+]
 }

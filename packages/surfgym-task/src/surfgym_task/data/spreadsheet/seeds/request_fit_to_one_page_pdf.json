@@ -2,7 +2,11 @@
   "instruction": "In the Export dialog, choose PDF, enable Fit sheet to one page, use Project_Budget.pdf, and confirm Export. This task evaluates the confirmed request and does not create a PDF file.",
   "website": "http://localhost:3000/spreadsheet",
   "states": [
-    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Project Budget"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":"Materials"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":1250}],
-    [{"spec":{"kind":"export","property":"request"},"value":{"format":"pdf","filename":"Project_Budget.pdf","fitToOnePage":true}}]
-  ]
+  [
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Project Budget"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":"Materials"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":1250}
+  ],
+  [{"spec":{"kind":"export","property":"request"},"value":{"format":"pdf","filename":"Project_Budget.pdf","fitToOnePage":true}}]
+]
 }

@@ -7,6 +7,9 @@
     }
   },
   "states": [
-    [{"spec":{"script":"(()=>{const h=[...document.querySelectorAll('h3')].find(x=>x.textContent.trim()==='Car category');if(!h)return false;const l=[...h.parentElement.querySelectorAll('label')].find(x=>x.textContent.trim().startsWith('Large'));return l?l.querySelector('input[type=checkbox]').checked:false;})()"},"value":true},{"spec":{"target":"attr","selector":"select","attr":"value"},"value":"price-low"}]
+  [
+    {"spec":{"script":"(()=>{const h=[...document.querySelectorAll('h3')].find(x=>x.textContent.trim()==='Car category');if(!h)return false;const l=[...h.parentElement.querySelectorAll('label')].find(x=>x.textContent.trim().startsWith('Large'));return l?l.querySelector('input[type=checkbox]').checked:false;})()"},"value":true},
+    {"spec":{"target":"attr","selector":"select","attr":"value"},"value":"price-low"}
   ]
+]
 }

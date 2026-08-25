@@ -7,6 +7,10 @@
     }
   },
   "states": [
-    [{"spec":{"target":"url"},"value":"/search","match":"contains"},{"spec":{"script":"(()=>{const r=[...document.querySelectorAll('input[type=radio]')].find(x=>x.checked);return r?(r.closest('label')?.textContent.trim()||null):null;})()"},"value":"Very good: 8+"},{"spec":{"script":"(()=>{const l=[...document.querySelectorAll('label')].find(x=>x.textContent.includes('Genius'));return l?l.querySelector('input[type=checkbox]').checked:false;})()"},"value":true}]
+  [
+    {"spec":{"target":"url"},"value":"/search","match":"contains"},
+    {"spec":{"script":"(()=>{const r=[...document.querySelectorAll('input[type=radio]')].find(x=>x.checked);return r?(r.closest('label')?.textContent.trim()||null):null;})()"},"value":"Very good: 8+"},
+    {"spec":{"script":"(()=>{const l=[...document.querySelectorAll('label')].find(x=>x.textContent.includes('Genius'));return l?l.querySelector('input[type=checkbox]').checked:false;})()"},"value":true}
   ]
+]
 }

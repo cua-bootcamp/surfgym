@@ -27,13 +27,25 @@ def _render_states(states: object, indent: int) -> list[str]:
         if not isinstance(state, list):
             raise ValueError("Each element of 'states' must be a state array.")
         suffix = "," if index < len(states) - 1 else ""
-        compact = json.dumps(
-            state,
-            ensure_ascii=False,
-            allow_nan=False,
-            separators=(",", ":"),
-        )
-        lines.append(f"{child_padding}{compact}{suffix}")
+        if len(state) <= 1:
+            compact = json.dumps(
+                state,
+                ensure_ascii=False,
+                allow_nan=False,
+                separators=(",", ":"),
+            )
+            lines.append(f"{child_padding}{compact}{suffix}")
+            continue
+
+        lines.append(f"{child_padding}[")
+        spec_padding = " " * (indent + 4)
+        for spec_index, spec in enumerate(state):
+            spec_suffix = "," if spec_index < len(state) - 1 else ""
+            compact_spec = json.dumps(
+                spec, ensure_ascii=False, allow_nan=False, separators=(",", ":")
+            )
+            lines.append(f"{spec_padding}{compact_spec}{spec_suffix}")
+        lines.append(f"{child_padding}]{suffix}")
     lines.append(f"{padding}]")
     return lines
 
@@ -49,11 +61,14 @@ def _render(value: object, indent: int = 0) -> list[str]:
         lines = [f"{padding}{{"]
         for index, (key, child) in enumerate(items):
             key_text = json.dumps(key, ensure_ascii=False)
-            child_lines = (
-                _render_states(child, indent + 2)
-                if key == "states"
-                else _render(child, indent + 2)
-            )
+            if key == "states":
+                has_multi_spec_state = isinstance(child, list) and any(
+                    isinstance(state, list) and len(state) > 1 for state in child
+                )
+                states_indent = indent if has_multi_spec_state else indent + 2
+                child_lines = _render_states(child, states_indent)
+            else:
+                child_lines = _render(child, indent + 2)
             first = child_lines[0].lstrip(" ")
             lines.append(f"{' ' * (indent + 2)}{key_text}: {first}")
             lines.extend(child_lines[1:])

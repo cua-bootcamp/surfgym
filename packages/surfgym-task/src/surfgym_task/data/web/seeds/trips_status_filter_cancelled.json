@@ -4,9 +4,12 @@
     "base": "http://localhost:3200/trips"
   },
   "states": [
-    [{"spec":{"target":"api_state","path":"data"},"value":{"auth":{"isAuthenticated":true,"email":"seed@example.com","authenticatedAt":"2026-08-19T06:49:57.002Z"},"bookings":[{"id":"BK00000003","confirmationNumber":"CONF00003","type":"hotel","propertyName":"Grand Plaza Hotel","location":"Paris, France","checkIn":"2026-08-10","checkOut":"2026-08-14","status":"confirmed","totalPrice":640,"currency":"GBP","guestName":"Alex Kim"},{"id":"BK00000004","confirmationNumber":"CONF00004","type":"hotel","propertyName":"Mountain Lodge","location":"Geneva, Switzerland","checkIn":"2026-07-01","checkOut":"2026-07-05","status":"cancelled","totalPrice":410,"currency":"GBP","guestName":"Alex Kim"}]}}],
-    [{"spec":{"target":"attr","selector":"[data-trip-filter=\"cancelled\"]","attr":"aria-pressed"},"value":"true"},{"spec":{"script":"(()=>{const trips=[...document.querySelectorAll('[data-trip-status]')];return trips.length>0&&trips.every(x=>x.getAttribute('data-trip-status')==='cancelled');})()"},"value":true}]
-  ],
+  [{"spec":{"target":"api_state","path":"data"},"value":{"auth":{"isAuthenticated":true,"email":"seed@example.com","authenticatedAt":"2026-08-19T06:49:57.002Z"},"bookings":[{"id":"BK00000003","confirmationNumber":"CONF00003","type":"hotel","propertyName":"Grand Plaza Hotel","location":"Paris, France","checkIn":"2026-08-10","checkOut":"2026-08-14","status":"confirmed","totalPrice":640,"currency":"GBP","guestName":"Alex Kim"},{"id":"BK00000004","confirmationNumber":"CONF00004","type":"hotel","propertyName":"Mountain Lodge","location":"Geneva, Switzerland","checkIn":"2026-07-01","checkOut":"2026-07-05","status":"cancelled","totalPrice":410,"currency":"GBP","guestName":"Alex Kim"}]}}],
+  [
+    {"spec":{"target":"attr","selector":"[data-trip-filter=\"cancelled\"]","attr":"aria-pressed"},"value":"true"},
+    {"spec":{"script":"(()=>{const trips=[...document.querySelectorAll('[data-trip-status]')];return trips.length>0&&trips.every(x=>x.getAttribute('data-trip-status')==='cancelled');})()"},"value":true}
+  ]
+],
   "empty_start": false,
   "accumulation": "DELTA"
 }

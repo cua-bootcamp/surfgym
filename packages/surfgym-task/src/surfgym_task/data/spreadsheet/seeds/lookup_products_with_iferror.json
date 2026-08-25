@@ -2,7 +2,41 @@
   "instruction": "Use IFERROR with an exact VLOOKUP to return each product name from the catalog. If a code is absent, return Check Code. Fill F2:F5.",
   "website": "http://localhost:3000/spreadsheet",
   "states": [
-    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Product Code"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Product"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C1","property":"value"},"value":"Unit Price"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":"PJ-100"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":"Projector"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C2","property":"value"},"value":850},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A3","property":"value"},"value":"PK-200"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":"Keyboard"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C3","property":"value"},"value":75},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A4","property":"value"},"value":"PL-300"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B4","property":"value"},"value":"Lamp"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C4","property":"value"},"value":45},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A5","property":"value"},"value":"PM-400"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B5","property":"value"},"value":"Monitor"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C5","property":"value"},"value":320},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A6","property":"value"},"value":"PN-500"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B6","property":"value"},"value":"Notebook"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C6","property":"value"},"value":12},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E1","property":"value"},"value":"Lookup Code"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"F1","property":"value"},"value":"Product Result"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E2","property":"value"},"value":"PJ-100"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E3","property":"value"},"value":"ZZ-999"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E4","property":"value"},"value":"PL-300"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E5","property":"value"},"value":"PN-500"}],
-    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"F2","property":"value"},"value":"Projector"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"F2","property":"formula"},"value":"=IFERROR(VLOOKUP(E2,$A$2:$C$6,2,FALSE),\"Check Code\")"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"F3","property":"value"},"value":"Check Code"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"F3","property":"formula"},"value":"=IFERROR(VLOOKUP(E3,$A$2:$C$6,2,FALSE),\"Check Code\")"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"F4","property":"value"},"value":"Lamp"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"F4","property":"formula"},"value":"=IFERROR(VLOOKUP(E4,$A$2:$C$6,2,FALSE),\"Check Code\")"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"F5","property":"value"},"value":"Notebook"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"F5","property":"formula"},"value":"=IFERROR(VLOOKUP(E5,$A$2:$C$6,2,FALSE),\"Check Code\")"}]
+  [
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Product Code"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Product"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C1","property":"value"},"value":"Unit Price"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":"PJ-100"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":"Projector"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C2","property":"value"},"value":850},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A3","property":"value"},"value":"PK-200"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":"Keyboard"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C3","property":"value"},"value":75},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A4","property":"value"},"value":"PL-300"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B4","property":"value"},"value":"Lamp"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C4","property":"value"},"value":45},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A5","property":"value"},"value":"PM-400"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B5","property":"value"},"value":"Monitor"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C5","property":"value"},"value":320},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A6","property":"value"},"value":"PN-500"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B6","property":"value"},"value":"Notebook"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C6","property":"value"},"value":12},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E1","property":"value"},"value":"Lookup Code"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"F1","property":"value"},"value":"Product Result"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E2","property":"value"},"value":"PJ-100"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E3","property":"value"},"value":"ZZ-999"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E4","property":"value"},"value":"PL-300"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E5","property":"value"},"value":"PN-500"}
+  ],
+  [
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"F2","property":"value"},"value":"Projector"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"F2","property":"formula"},"value":"=IFERROR(VLOOKUP(E2,$A$2:$C$6,2,FALSE),\"Check Code\")"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"F3","property":"value"},"value":"Check Code"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"F3","property":"formula"},"value":"=IFERROR(VLOOKUP(E3,$A$2:$C$6,2,FALSE),\"Check Code\")"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"F4","property":"value"},"value":"Lamp"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"F4","property":"formula"},"value":"=IFERROR(VLOOKUP(E4,$A$2:$C$6,2,FALSE),\"Check Code\")"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"F5","property":"value"},"value":"Notebook"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"F5","property":"formula"},"value":"=IFERROR(VLOOKUP(E5,$A$2:$C$6,2,FALSE),\"Check Code\")"}
   ]
+]
 }

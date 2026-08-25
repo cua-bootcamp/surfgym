@@ -11,8 +11,17 @@
     "open_file": "1.pptx"
   },
   "states": [
-    [{"spec":{"query":[["slide",5],["textbox","From Topic to Thesis"]],"path":["style","color"]},"value":"black"},{"spec":{"query":[["slide",5],["textbox","From Topic to Thesis"]],"path":["style","underline"]},"value":true}],
-    [{"spec":{"query":[["slide",6],["textbox","Working with Source Notes"]],"path":["style","color"]},"value":"black"},{"spec":{"query":[["slide",6],["textbox","Working with Source Notes"]],"path":["style","underline"]},"value":true}],
-    [{"spec":{"query":[["slide",9],["textbox","Audience & Purpose"]],"path":["style","color"]},"value":"black"},{"spec":{"query":[["slide",9],["textbox","Audience & Purpose"]],"path":["style","underline"]},"value":true}]
+  [
+    {"spec":{"query":[["slide",5],["textbox","From Topic to Thesis"]],"path":["style","color"]},"value":"black"},
+    {"spec":{"query":[["slide",5],["textbox","From Topic to Thesis"]],"path":["style","underline"]},"value":true}
+  ],
+  [
+    {"spec":{"query":[["slide",6],["textbox","Working with Source Notes"]],"path":["style","color"]},"value":"black"},
+    {"spec":{"query":[["slide",6],["textbox","Working with Source Notes"]],"path":["style","underline"]},"value":true}
+  ],
+  [
+    {"spec":{"query":[["slide",9],["textbox","Audience & Purpose"]],"path":["style","color"]},"value":"black"},
+    {"spec":{"query":[["slide",9],["textbox","Audience & Purpose"]],"path":["style","underline"]},"value":true}
   ]
+]
 }

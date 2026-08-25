@@ -7,9 +7,24 @@
     }
   },
   "states": [
-    [{"spec":{"target":"app_state","path":"stores"},"value":[{"id":"store_1","name":"Safeway","logo":"","hours":"8am - 10pm","deliveryFee":3.99,"minOrder":10}]},{"spec":{"target":"app_state","path":"departments"},"value":[{"id":"dept_health","storeId":"store_1","name":"Health & Beauty"}]},{"spec":{"target":"app_state","path":"products"},"value":[{"id":"prod_77","storeId":"store_1","departmentId":"dept_health","name":"Ibuprofen","price":9.99,"unit":"100 ct","image":"","inStock":true},{"id":"prod_80","storeId":"store_1","departmentId":"dept_health","name":"Toothpaste","price":4.99,"unit":"4.8 oz","image":"","inStock":true}]},{"spec":{"target":"app_state","path":"cart"},"value":[]},{"spec":{"target":"app_state","path":"deliverySlots"},"value":[{"id":"slot_0","date":"2026-03-23","dayLabel":"Today","windows":[{"id":"win_0_1","start":"9:00 AM","end":"11:00 AM","available":false,"fee":0},{"id":"win_0_2","start":"11:00 AM","end":"1:00 PM","available":true,"fee":0}]}]},{"spec":{"target":"app_state","path":"selectedStoreId"},"value":"store_1"},{"spec":{"target":"app_state","path":"currentStoreId"},"value":"store_1"},{"spec":{"target":"app_state","path":"deliveryAddressId"},"value":"addr_1"},{"spec":{"target":"app_state","path":"selectedDeliverySlot"},"value":null}],
-    [{"spec":{"script":"(()=>{const byId=id=>state.cart.find(item=>item.productId===id);const a=byId('prod_77');const b=byId('prod_80');return Boolean(a&&b&&a.storeId==='store_1'&&b.storeId==='store_1');})()"},"value":true},{"spec":{"script":"(()=>{const byId=id=>state.cart.find(item=>item.productId===id);const a=byId('prod_77');const b=byId('prod_80');return Boolean(a&&b&&a.replacementPreference==='refund'&&b.replacementPreference==='refund');})()"},"value":true},{"spec":{"target":"app_state","path":"selectedDeliverySlot"},"value":{"id":"slot_0","date":"2026-03-23","window":{"id":"win_0_2","start":"11:00 AM","end":"1:00 PM","available":true,"fee":0}}},{"spec":{"target":"app_state","path":"deliveryAddressId"},"value":"addr_1"}]
+  [
+    {"spec":{"target":"app_state","path":"stores"},"value":[{"id":"store_1","name":"Safeway","logo":"","hours":"8am - 10pm","deliveryFee":3.99,"minOrder":10}]},
+    {"spec":{"target":"app_state","path":"departments"},"value":[{"id":"dept_health","storeId":"store_1","name":"Health & Beauty"}]},
+    {"spec":{"target":"app_state","path":"products"},"value":[{"id":"prod_77","storeId":"store_1","departmentId":"dept_health","name":"Ibuprofen","price":9.99,"unit":"100 ct","image":"","inStock":true},{"id":"prod_80","storeId":"store_1","departmentId":"dept_health","name":"Toothpaste","price":4.99,"unit":"4.8 oz","image":"","inStock":true}]},
+    {"spec":{"target":"app_state","path":"cart"},"value":[]},
+    {"spec":{"target":"app_state","path":"deliverySlots"},"value":[{"id":"slot_0","date":"2026-03-23","dayLabel":"Today","windows":[{"id":"win_0_1","start":"9:00 AM","end":"11:00 AM","available":false,"fee":0},{"id":"win_0_2","start":"11:00 AM","end":"1:00 PM","available":true,"fee":0}]}]},
+    {"spec":{"target":"app_state","path":"selectedStoreId"},"value":"store_1"},
+    {"spec":{"target":"app_state","path":"currentStoreId"},"value":"store_1"},
+    {"spec":{"target":"app_state","path":"deliveryAddressId"},"value":"addr_1"},
+    {"spec":{"target":"app_state","path":"selectedDeliverySlot"},"value":null}
   ],
+  [
+    {"spec":{"script":"(()=>{const byId=id=>state.cart.find(item=>item.productId===id);const a=byId('prod_77');const b=byId('prod_80');return Boolean(a&&b&&a.storeId==='store_1'&&b.storeId==='store_1');})()"},"value":true},
+    {"spec":{"script":"(()=>{const byId=id=>state.cart.find(item=>item.productId===id);const a=byId('prod_77');const b=byId('prod_80');return Boolean(a&&b&&a.replacementPreference==='refund'&&b.replacementPreference==='refund');})()"},"value":true},
+    {"spec":{"target":"app_state","path":"selectedDeliverySlot"},"value":{"id":"slot_0","date":"2026-03-23","window":{"id":"win_0_2","start":"11:00 AM","end":"1:00 PM","available":true,"fee":0}}},
+    {"spec":{"target":"app_state","path":"deliveryAddressId"},"value":"addr_1"}
+  ]
+],
   "empty_start": false,
   "accumulation": "DELTA"
 }

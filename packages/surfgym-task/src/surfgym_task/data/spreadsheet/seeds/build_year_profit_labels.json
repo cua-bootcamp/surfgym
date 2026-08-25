@@ -2,7 +2,44 @@
   "instruction": "Calculate Gross Profit by subtracting every listed expense from Actual Sales, then create Year_Profit labels on Sheet2 using the year and integer gross profit.",
   "website": "http://localhost:3000/spreadsheet",
   "states": [
-    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Year"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Actual Sales"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C1","property":"value"},"value":"Returns"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D1","property":"value"},"value":"Discounts"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E1","property":"value"},"value":"Allowances"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"F1","property":"value"},"value":"Material"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"G1","property":"value"},"value":"Labor"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"H1","property":"value"},"value":"Overhead"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"I1","property":"value"},"value":"Gross Profit"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":2024},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":120000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C2","property":"value"},"value":5000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D2","property":"value"},"value":2500},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E2","property":"value"},"value":1500},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"F2","property":"value"},"value":30000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"G2","property":"value"},"value":12000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"H2","property":"value"},"value":8500},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A3","property":"value"},"value":2025},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":145000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C3","property":"value"},"value":6000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D3","property":"value"},"value":3500},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E3","property":"value"},"value":2000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"F3","property":"value"},"value":36000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"G3","property":"value"},"value":15000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"H3","property":"value"},"value":9500},{"spec":{"kind":"sheet","sheet":{"index":1,"name":"Sheet2"},"property":"name"},"value":"Sheet2"},{"spec":{"kind":"cell","sheet":"Sheet2","cell":"A1","property":"value"},"value":"Year_Profit"}],
-    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"I2","property":"value"},"value":60500},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"I2","property":"formula"},"value":"=B2-C2-D2-E2-F2-G2-H2"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"I3","property":"value"},"value":73000},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"I3","property":"formula"},"value":"=B3-C3-D3-E3-F3-G3-H3"},{"spec":{"kind":"cell","sheet":"Sheet2","cell":"A2","property":"value"},"value":"2024_60500"},{"spec":{"kind":"cell","sheet":"Sheet2","cell":"A2","property":"formula"},"value":"=Sheet1!A2&\"_\"&INT(Sheet1!I2)"},{"spec":{"kind":"cell","sheet":"Sheet2","cell":"A3","property":"value"},"value":"2025_73000"},{"spec":{"kind":"cell","sheet":"Sheet2","cell":"A3","property":"formula"},"value":"=Sheet1!A3&\"_\"&INT(Sheet1!I3)"}]
+  [
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Year"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Actual Sales"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C1","property":"value"},"value":"Returns"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D1","property":"value"},"value":"Discounts"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E1","property":"value"},"value":"Allowances"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"F1","property":"value"},"value":"Material"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"G1","property":"value"},"value":"Labor"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"H1","property":"value"},"value":"Overhead"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"I1","property":"value"},"value":"Gross Profit"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":2024},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":120000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C2","property":"value"},"value":5000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D2","property":"value"},"value":2500},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E2","property":"value"},"value":1500},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"F2","property":"value"},"value":30000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"G2","property":"value"},"value":12000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"H2","property":"value"},"value":8500},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A3","property":"value"},"value":2025},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":145000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C3","property":"value"},"value":6000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D3","property":"value"},"value":3500},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E3","property":"value"},"value":2000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"F3","property":"value"},"value":36000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"G3","property":"value"},"value":15000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"H3","property":"value"},"value":9500},
+    {"spec":{"kind":"sheet","sheet":{"index":1,"name":"Sheet2"},"property":"name"},"value":"Sheet2"},
+    {"spec":{"kind":"cell","sheet":"Sheet2","cell":"A1","property":"value"},"value":"Year_Profit"}
+  ],
+  [
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"I2","property":"value"},"value":60500},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"I2","property":"formula"},"value":"=B2-C2-D2-E2-F2-G2-H2"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"I3","property":"value"},"value":73000},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"I3","property":"formula"},"value":"=B3-C3-D3-E3-F3-G3-H3"},
+    {"spec":{"kind":"cell","sheet":"Sheet2","cell":"A2","property":"value"},"value":"2024_60500"},
+    {"spec":{"kind":"cell","sheet":"Sheet2","cell":"A2","property":"formula"},"value":"=Sheet1!A2&\"_\"&INT(Sheet1!I2)"},
+    {"spec":{"kind":"cell","sheet":"Sheet2","cell":"A3","property":"value"},"value":"2025_73000"},
+    {"spec":{"kind":"cell","sheet":"Sheet2","cell":"A3","property":"formula"},"value":"=Sheet1!A3&\"_\"&INT(Sheet1!I3)"}
   ]
+]
 }

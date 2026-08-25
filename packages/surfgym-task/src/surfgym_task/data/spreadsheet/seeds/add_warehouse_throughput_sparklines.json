@@ -5,6 +5,45 @@
     "mode": "infeasible"
   },
   "states": [
-    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Warehouse"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C1","property":"value"},"value":"Week 1"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D1","property":"value"},"value":"Week 2"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E1","property":"value"},"value":"Week 3"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"F1","property":"value"},"value":"Trend"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":"North Dock"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C2","property":"value"},"value":128},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D2","property":"value"},"value":142},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E2","property":"value"},"value":155},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":"South Dock"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C3","property":"value"},"value":96},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D3","property":"value"},"value":88},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E3","property":"value"},"value":104},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B4","property":"value"},"value":"East Hub"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C4","property":"value"},"value":174},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D4","property":"value"},"value":181},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E4","property":"value"},"value":169},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B5","property":"value"},"value":"West Hub"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C5","property":"value"},"value":113},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D5","property":"value"},"value":127},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E5","property":"value"},"value":146},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B6","property":"value"},"value":"Central DC"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C6","property":"value"},"value":205},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D6","property":"value"},"value":198},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E6","property":"value"},"value":221},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B7","property":"value"},"value":"Riverfront"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C7","property":"value"},"value":84},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D7","property":"value"},"value":109},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E7","property":"value"},"value":101},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B8","property":"value"},"value":"Hilltop"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C8","property":"value"},"value":159},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D8","property":"value"},"value":151},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E8","property":"value"},"value":172},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B9","property":"value"},"value":"Lakeside"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C9","property":"value"},"value":72},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D9","property":"value"},"value":91},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"E9","property":"value"},"value":118},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C2:E9","property":"numberFormat"},"value":"0"}]
+  [
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Warehouse"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C1","property":"value"},"value":"Week 1"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D1","property":"value"},"value":"Week 2"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E1","property":"value"},"value":"Week 3"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"F1","property":"value"},"value":"Trend"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":"North Dock"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C2","property":"value"},"value":128},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D2","property":"value"},"value":142},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E2","property":"value"},"value":155},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":"South Dock"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C3","property":"value"},"value":96},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D3","property":"value"},"value":88},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E3","property":"value"},"value":104},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B4","property":"value"},"value":"East Hub"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C4","property":"value"},"value":174},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D4","property":"value"},"value":181},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E4","property":"value"},"value":169},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B5","property":"value"},"value":"West Hub"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C5","property":"value"},"value":113},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D5","property":"value"},"value":127},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E5","property":"value"},"value":146},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B6","property":"value"},"value":"Central DC"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C6","property":"value"},"value":205},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D6","property":"value"},"value":198},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E6","property":"value"},"value":221},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B7","property":"value"},"value":"Riverfront"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C7","property":"value"},"value":84},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D7","property":"value"},"value":109},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E7","property":"value"},"value":101},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B8","property":"value"},"value":"Hilltop"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C8","property":"value"},"value":159},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D8","property":"value"},"value":151},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E8","property":"value"},"value":172},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B9","property":"value"},"value":"Lakeside"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C9","property":"value"},"value":72},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D9","property":"value"},"value":91},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E9","property":"value"},"value":118},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C2:E9","property":"numberFormat"},"value":"0"}
   ]
+]
 }

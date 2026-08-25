@@ -2,7 +2,12 @@
   "instruction": "Apply subscript to the numerals in CO2 and H2O. Apply superscript to the numerals in m2 and cm3. Preserve all wording and other formatting.",
   "website": "http://localhost:3000/word",
   "states": [
-    [{"spec":{"kind":"body","property":"text"},"value":"Laboratory sample labels record CO2 and H2O concentrations before analysts calculate coverage in m2 and storage volume in cm3."}],
-    [{"spec":{"kind":"text","text":"2","occurrence":0,"property":"verticalAlign"},"value":"subscript"},{"spec":{"kind":"text","text":"2","occurrence":1,"property":"verticalAlign"},"value":"subscript"},{"spec":{"kind":"text","text":"2","occurrence":2,"property":"verticalAlign"},"value":"superscript"},{"spec":{"kind":"text","text":"3","occurrence":0,"property":"verticalAlign"},"value":"superscript"}]
+  [{"spec":{"kind":"body","property":"text"},"value":"Laboratory sample labels record CO2 and H2O concentrations before analysts calculate coverage in m2 and storage volume in cm3."}],
+  [
+    {"spec":{"kind":"text","text":"2","occurrence":0,"property":"verticalAlign"},"value":"subscript"},
+    {"spec":{"kind":"text","text":"2","occurrence":1,"property":"verticalAlign"},"value":"subscript"},
+    {"spec":{"kind":"text","text":"2","occurrence":2,"property":"verticalAlign"},"value":"superscript"},
+    {"spec":{"kind":"text","text":"3","occurrence":0,"property":"verticalAlign"},"value":"superscript"}
   ]
+]
 }

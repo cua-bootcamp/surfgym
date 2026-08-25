@@ -2,7 +2,16 @@
   "instruction": "Format A1:C1 to display exactly two decimal places. Preserve every numeric value.",
   "website": "http://localhost:3000/spreadsheet",
   "states": [
-    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":12.34},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":-0.75},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C1","property":"value"},"value":1000.5}],
-    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1:C1","property":"numberFormat"},"value":"0.00"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":12.34},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":-0.75},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"C1","property":"value"},"value":1000.5}]
+  [
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":12.34},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":-0.75},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C1","property":"value"},"value":1000.5}
+  ],
+  [
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1:C1","property":"numberFormat"},"value":"0.00"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":12.34},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":-0.75},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"C1","property":"value"},"value":1000.5}
   ]
+]
 }

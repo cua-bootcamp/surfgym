@@ -2,7 +2,43 @@
   "instruction": "Create a line chart from A1:B15 for the daily support volume. Use columns as the data orientation and set the chart title to Daily Support Volume.",
   "website": "http://localhost:3000/spreadsheet",
   "states": [
-    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Date"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Support Tickets"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":"2026-08-01"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":48},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A3","property":"value"},"value":"2026-08-02"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":53},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A4","property":"value"},"value":"2026-08-03"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B4","property":"value"},"value":61},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A5","property":"value"},"value":"2026-08-04"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B5","property":"value"},"value":57},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A6","property":"value"},"value":"2026-08-05"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B6","property":"value"},"value":66},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A7","property":"value"},"value":"2026-08-06"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B7","property":"value"},"value":72},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A8","property":"value"},"value":"2026-08-07"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B8","property":"value"},"value":69},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A9","property":"value"},"value":"2026-08-08"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B9","property":"value"},"value":58},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A10","property":"value"},"value":"2026-08-09"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B10","property":"value"},"value":55},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A11","property":"value"},"value":"2026-08-10"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B11","property":"value"},"value":63},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A12","property":"value"},"value":"2026-08-11"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B12","property":"value"},"value":71},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A13","property":"value"},"value":"2026-08-12"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B13","property":"value"},"value":76},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A14","property":"value"},"value":"2026-08-13"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B14","property":"value"},"value":68},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"A15","property":"value"},"value":"2026-08-14"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B15","property":"value"},"value":64}],
-    [{"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"sourceRange"},"value":"A1:B15"},{"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"dataOrientation"},"value":"Column"},{"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"chartType"},"value":"line"},{"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"title"},"value":"Daily Support Volume"}]
+  [
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Date"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Support Tickets"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":"2026-08-01"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":48},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A3","property":"value"},"value":"2026-08-02"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":53},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A4","property":"value"},"value":"2026-08-03"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B4","property":"value"},"value":61},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A5","property":"value"},"value":"2026-08-04"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B5","property":"value"},"value":57},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A6","property":"value"},"value":"2026-08-05"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B6","property":"value"},"value":66},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A7","property":"value"},"value":"2026-08-06"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B7","property":"value"},"value":72},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A8","property":"value"},"value":"2026-08-07"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B8","property":"value"},"value":69},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A9","property":"value"},"value":"2026-08-08"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B9","property":"value"},"value":58},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A10","property":"value"},"value":"2026-08-09"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B10","property":"value"},"value":55},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A11","property":"value"},"value":"2026-08-10"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B11","property":"value"},"value":63},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A12","property":"value"},"value":"2026-08-11"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B12","property":"value"},"value":71},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A13","property":"value"},"value":"2026-08-12"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B13","property":"value"},"value":76},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A14","property":"value"},"value":"2026-08-13"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B14","property":"value"},"value":68},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A15","property":"value"},"value":"2026-08-14"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B15","property":"value"},"value":64}
+  ],
+  [
+    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"sourceRange"},"value":"A1:B15"},
+    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"dataOrientation"},"value":"Column"},
+    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"chartType"},"value":"line"},
+    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"title"},"value":"Daily Support Volume"}
   ]
+]
 }

@@ -11,6 +11,9 @@
     "open_file": "1.pptx"
   },
   "states": [
-    [{"spec":{"query":[["slide",2],["textboxIndex",1]],"path":["style","text"]},"value":"Online Shopping"},{"spec":{"query":[["slide",2],["textboxIndex",1]],"path":["style","copyFromPreviousTitle"]},"value":true}]
+  [
+    {"spec":{"query":[["slide",2],["textboxIndex",1]],"path":["style","text"]},"value":"Online Shopping"},
+    {"spec":{"query":[["slide",2],["textboxIndex",1]],"path":["style","copyFromPreviousTitle"]},"value":true}
   ]
+]
 }

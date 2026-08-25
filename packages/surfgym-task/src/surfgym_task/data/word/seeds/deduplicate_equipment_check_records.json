@@ -3,7 +3,27 @@
   "website": "http://localhost:3000/word",
   "accumulation": "CUMULATIVE",
   "states": [
-    [{"spec":{"kind":"body","property":"text"},"value":"EQUIPMENT CHECK LOG\nNorth Hall | Morning Safety Round\nThe activity block uses the format time_HH:MM, equipment_id, location_code, status. Equipment IDs can appear more than once when a unit is checked again.\nEQUIPMENT ACTIVITY\n06:05, EQ-204, BAY-A, PASS\n06:12, EQ-117, LAB-2, PASS\n06:18, EQ-204, BAY-C, RECHECK\n06:24, EQ-302, ROOF-1, PASS\n06:31, EQ-117, LAB-4, PASS\n06:38, EQ-411, DOCK-2, HOLD\n06:45, EQ-302, ROOF-3, PASS\n06:52, EQ-508, YARD-1, PASS\n06:58, EQ-411, DOCK-5, PASS\n07:06, EQ-508, YARD-4, PASS\nLog owner: Facilities Reliability Desk | Round MR-17"},{"spec":{"kind":"paragraph","index":0,"property":"namedStyleType"},"value":"title"},{"spec":{"kind":"paragraph","index":0,"property":"horizontalAlign"},"value":"left"},{"spec":{"kind":"paragraph","index":1,"property":"namedStyleType"},"value":"subtitle"},{"spec":{"kind":"paragraph","index":1,"property":"horizontalAlign"},"value":"left"},{"spec":{"kind":"paragraph","index":3,"property":"namedStyleType"},"value":"heading2"},{"spec":{"kind":"text","text":"EQUIPMENT CHECK LOG","property":"fontSize"},"value":22},{"spec":{"kind":"text","text":"EQUIPMENT CHECK LOG","property":"bold"},"value":true},{"spec":{"kind":"text","text":"EQUIPMENT CHECK LOG","property":"color"},"value":"#16324F"},{"spec":{"kind":"text","text":"North Hall | Morning Safety Round","property":"fontSize"},"value":11},{"spec":{"kind":"text","text":"North Hall | Morning Safety Round","property":"bold"},"value":true},{"spec":{"kind":"text","text":"North Hall | Morning Safety Round","property":"color"},"value":"#0F766E"},{"spec":{"kind":"text","text":"The activity block uses the format time_HH:MM, equipment_id, location_code, status. Equipment IDs can appear more than once when a unit is checked again.","property":"fontSize"},"value":10},{"spec":{"kind":"text","text":"EQUIPMENT ACTIVITY","property":"fontSize"},"value":13},{"spec":{"kind":"text","text":"EQUIPMENT ACTIVITY","property":"bold"},"value":true},{"spec":{"kind":"text","text":"EQUIPMENT ACTIVITY","property":"color"},"value":"#2E74B5"},{"spec":{"kind":"text","text":"Log owner: Facilities Reliability Desk | Round MR-17","property":"fontSize"},"value":9},{"spec":{"kind":"text","text":"Log owner: Facilities Reliability Desk | Round MR-17","property":"color"},"value":"#64748B"},{"spec":{"kind":"footer","property":"text"},"value":"Equipment Check Log | Internal Practice Copy | MR-17"}],
-    [{"spec":{"kind":"body","property":"text"},"value":"EQUIPMENT CHECK LOG\nNorth Hall | Morning Safety Round\nThe activity block uses the format time_HH:MM, equipment_id, location_code, status. Equipment IDs can appear more than once when a unit is checked again.\nEQUIPMENT ACTIVITY\n06:05, EQ-204, BAY-A, PASS\n06:12, EQ-117, LAB-2, PASS\n06:24, EQ-302, ROOF-1, PASS\n06:38, EQ-411, DOCK-2, HOLD\n06:52, EQ-508, YARD-1, PASS\nLog owner: Facilities Reliability Desk | Round MR-17"}]
-  ]
+  [
+    {"spec":{"kind":"body","property":"text"},"value":"EQUIPMENT CHECK LOG\nNorth Hall | Morning Safety Round\nThe activity block uses the format time_HH:MM, equipment_id, location_code, status. Equipment IDs can appear more than once when a unit is checked again.\nEQUIPMENT ACTIVITY\n06:05, EQ-204, BAY-A, PASS\n06:12, EQ-117, LAB-2, PASS\n06:18, EQ-204, BAY-C, RECHECK\n06:24, EQ-302, ROOF-1, PASS\n06:31, EQ-117, LAB-4, PASS\n06:38, EQ-411, DOCK-2, HOLD\n06:45, EQ-302, ROOF-3, PASS\n06:52, EQ-508, YARD-1, PASS\n06:58, EQ-411, DOCK-5, PASS\n07:06, EQ-508, YARD-4, PASS\nLog owner: Facilities Reliability Desk | Round MR-17"},
+    {"spec":{"kind":"paragraph","index":0,"property":"namedStyleType"},"value":"title"},
+    {"spec":{"kind":"paragraph","index":0,"property":"horizontalAlign"},"value":"left"},
+    {"spec":{"kind":"paragraph","index":1,"property":"namedStyleType"},"value":"subtitle"},
+    {"spec":{"kind":"paragraph","index":1,"property":"horizontalAlign"},"value":"left"},
+    {"spec":{"kind":"paragraph","index":3,"property":"namedStyleType"},"value":"heading2"},
+    {"spec":{"kind":"text","text":"EQUIPMENT CHECK LOG","property":"fontSize"},"value":22},
+    {"spec":{"kind":"text","text":"EQUIPMENT CHECK LOG","property":"bold"},"value":true},
+    {"spec":{"kind":"text","text":"EQUIPMENT CHECK LOG","property":"color"},"value":"#16324F"},
+    {"spec":{"kind":"text","text":"North Hall | Morning Safety Round","property":"fontSize"},"value":11},
+    {"spec":{"kind":"text","text":"North Hall | Morning Safety Round","property":"bold"},"value":true},
+    {"spec":{"kind":"text","text":"North Hall | Morning Safety Round","property":"color"},"value":"#0F766E"},
+    {"spec":{"kind":"text","text":"The activity block uses the format time_HH:MM, equipment_id, location_code, status. Equipment IDs can appear more than once when a unit is checked again.","property":"fontSize"},"value":10},
+    {"spec":{"kind":"text","text":"EQUIPMENT ACTIVITY","property":"fontSize"},"value":13},
+    {"spec":{"kind":"text","text":"EQUIPMENT ACTIVITY","property":"bold"},"value":true},
+    {"spec":{"kind":"text","text":"EQUIPMENT ACTIVITY","property":"color"},"value":"#2E74B5"},
+    {"spec":{"kind":"text","text":"Log owner: Facilities Reliability Desk | Round MR-17","property":"fontSize"},"value":9},
+    {"spec":{"kind":"text","text":"Log owner: Facilities Reliability Desk | Round MR-17","property":"color"},"value":"#64748B"},
+    {"spec":{"kind":"footer","property":"text"},"value":"Equipment Check Log | Internal Practice Copy | MR-17"}
+  ],
+  [{"spec":{"kind":"body","property":"text"},"value":"EQUIPMENT CHECK LOG\nNorth Hall | Morning Safety Round\nThe activity block uses the format time_HH:MM, equipment_id, location_code, status. Equipment IDs can appear more than once when a unit is checked again.\nEQUIPMENT ACTIVITY\n06:05, EQ-204, BAY-A, PASS\n06:12, EQ-117, LAB-2, PASS\n06:24, EQ-302, ROOF-1, PASS\n06:38, EQ-411, DOCK-2, HOLD\n06:52, EQ-508, YARD-1, PASS\nLog owner: Facilities Reliability Desk | Round MR-17"}]
+]
 }

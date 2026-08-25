@@ -30,6 +30,10 @@
     ]
   },
   "states": [
-    [{"spec":{"query":[["slide",3],["image",1]],"path":["layout","heightCm"]},"value":20.0},{"spec":{"query":[["slide",4],["image",1]],"path":["layout","heightCm"]},"value":30.0},{"spec":{"query":[["slide",6],["image",1]],"path":["layout","heightCm"]},"value":25.0}]
+  [
+    {"spec":{"query":[["slide",3],["image",1]],"path":["layout","heightCm"]},"value":20},
+    {"spec":{"query":[["slide",4],["image",1]],"path":["layout","heightCm"]},"value":30},
+    {"spec":{"query":[["slide",6],["image",1]],"path":["layout","heightCm"]},"value":25}
   ]
+]
 }

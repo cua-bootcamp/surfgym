@@ -2,7 +2,34 @@
   "instruction": "Build the \"Species Catalog\" from \"Camera-Trap Log\". Read downward, adding a species only when it has not appeared above, and leave all cells outside the catalog unchanged.",
   "website": "http://localhost:3000/spreadsheet",
   "states": [
-    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Camera-Trap Log"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":"Red Fox"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":"Roe Deer"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B4","property":"value"},"value":"Red Fox"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B5","property":"value"},"value":"Eurasian Badger"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B6","property":"value"},"value":"Roe Deer"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B7","property":"value"},"value":"Wild Boar"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B8","property":"value"},"value":"Eurasian Badger"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B9","property":"value"},"value":"Eurasian Badger"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B10","property":"value"},"value":"Red Fox"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B11","property":"value"},"value":"Wild Boar"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B12","property":"value"},"value":"European Hare"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B13","property":"value"},"value":"Roe Deer"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B14","property":"value"},"value":"Pine Marten"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B15","property":"value"},"value":"Wild Boar"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B16","property":"value"},"value":"Pine Marten"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B17","property":"value"},"value":"Roe Deer"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"B18","property":"value"},"value":"European Hare"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D1","property":"value"},"value":"Species Catalog"}],
-    [{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D2","property":"value"},"value":"Red Fox"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D3","property":"value"},"value":"Roe Deer"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D4","property":"value"},"value":"Eurasian Badger"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D5","property":"value"},"value":"Wild Boar"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D6","property":"value"},"value":"European Hare"},{"spec":{"kind":"cell","sheet":"Sheet1","cell":"D7","property":"value"},"value":"Pine Marten"}]
+  [
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B1","property":"value"},"value":"Camera-Trap Log"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":"Red Fox"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B3","property":"value"},"value":"Roe Deer"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B4","property":"value"},"value":"Red Fox"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B5","property":"value"},"value":"Eurasian Badger"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B6","property":"value"},"value":"Roe Deer"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B7","property":"value"},"value":"Wild Boar"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B8","property":"value"},"value":"Eurasian Badger"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B9","property":"value"},"value":"Eurasian Badger"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B10","property":"value"},"value":"Red Fox"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B11","property":"value"},"value":"Wild Boar"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B12","property":"value"},"value":"European Hare"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B13","property":"value"},"value":"Roe Deer"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B14","property":"value"},"value":"Pine Marten"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B15","property":"value"},"value":"Wild Boar"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B16","property":"value"},"value":"Pine Marten"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B17","property":"value"},"value":"Roe Deer"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B18","property":"value"},"value":"European Hare"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D1","property":"value"},"value":"Species Catalog"}
+  ],
+  [
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D2","property":"value"},"value":"Red Fox"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D3","property":"value"},"value":"Roe Deer"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D4","property":"value"},"value":"Eurasian Badger"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D5","property":"value"},"value":"Wild Boar"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D6","property":"value"},"value":"European Hare"},
+    {"spec":{"kind":"cell","sheet":"Sheet1","cell":"D7","property":"value"},"value":"Pine Marten"}
   ]
+]
 }

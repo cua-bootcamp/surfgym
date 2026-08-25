@@ -11,6 +11,9 @@
     "open_file": "subject & background.xcf"
   },
   "states": [
-    [{"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"layer-add-mask-type","default":"white"},"value":"black"},{"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"layer-add-mask-invert","default":"no"},"value":"no"}]
+  [
+    {"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"layer-add-mask-type","default":"white"},"value":"black"},
+    {"spec":{"file":".config/GIMP/2.10/gimprc","format":"sexpr","key":"layer-add-mask-invert","default":"no"},"value":"no"}
   ]
+]
 }

@@ -11,6 +11,9 @@
     "open_file": "sky.mp4"
   },
   "states": [
-    [{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"audio-filter","default":""},"value":"equalizer","match":"contains"},{"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"equalizer-preset","default":"flat"},"value":"rock"}]
+  [
+    {"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"audio-filter","default":""},"value":"equalizer","match":"contains"},
+    {"spec":{"file":".config/vlc/vlcrc","format":"key_value","key":"equalizer-preset","default":"flat"},"value":"rock"}
   ]
+]
 }

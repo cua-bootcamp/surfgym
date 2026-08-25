@@ -30,6 +30,10 @@
     ]
   },
   "states": [
-    [{"spec":{"query":[["slide",2],["image",1]],"path":["layout","verticalRegion"]},"value":"top"},{"spec":{"query":[["slide",1]],"path":["slideText","underline"]},"value":true},{"spec":{"query":[["slide",2]],"path":["slideText","underline"]},"value":true}]
+  [
+    {"spec":{"query":[["slide",2],["image",1]],"path":["layout","verticalRegion"]},"value":"top"},
+    {"spec":{"query":[["slide",1]],"path":["slideText","underline"]},"value":true},
+    {"spec":{"query":[["slide",2]],"path":["slideText","underline"]},"value":true}
   ]
+]
 }

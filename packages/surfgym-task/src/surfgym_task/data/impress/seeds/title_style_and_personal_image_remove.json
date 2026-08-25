@@ -11,6 +11,12 @@
     "open_file": "1.pptx"
   },
   "states": [
-    [{"spec":{"query":[["slide",2],["textboxIndex",1]],"path":["style","color"]},"value":"black"},{"spec":{"query":[["slide",2],["textboxIndex",1]],"path":["style","bold"]},"value":true},{"spec":{"query":[["slide",3],["textboxIndex",1]],"path":["style","color"]},"value":"black"},{"spec":{"query":[["slide",3],["textboxIndex",1]],"path":["style","bold"]},"value":true},{"spec":{"query":[["slide",4],["shapeName","Image 0"]],"path":["object","exists"]},"value":false}]
+  [
+    {"spec":{"query":[["slide",2],["textboxIndex",1]],"path":["style","color"]},"value":"black"},
+    {"spec":{"query":[["slide",2],["textboxIndex",1]],"path":["style","bold"]},"value":true},
+    {"spec":{"query":[["slide",3],["textboxIndex",1]],"path":["style","color"]},"value":"black"},
+    {"spec":{"query":[["slide",3],["textboxIndex",1]],"path":["style","bold"]},"value":true},
+    {"spec":{"query":[["slide",4],["shapeName","Image 0"]],"path":["object","exists"]},"value":false}
   ]
+]
 }
