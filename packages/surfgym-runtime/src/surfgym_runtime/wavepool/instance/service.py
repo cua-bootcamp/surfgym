@@ -17,8 +17,13 @@ from surfgym_contracts.task import (
     Website,
 )
 
-from surfgym_runtime.wavepool.instance.error import InstanceError
-from surfgym_runtime.wavepool.instance.session import ContextManager, ScreenCursor
+from surfgym_runtime.wavepool.instance.error import InstanceError, InvalidCommand
+from surfgym_runtime.wavepool.instance.session import (
+    ContextManager,
+    PageCursor,
+    PageLayout,
+    ScreenCursor,
+)
 
 
 class PlaywrightBrowserWorker:
@@ -97,20 +102,24 @@ class PlaywrightBrowserWorker:
 
     async def execute(self, context_id: str, command: Command):
         ctx = self.ctx_manager.require_context(context_id)
-        page, layout = self.ctx_manager.require_page(context_id, ctx.active_page_id)
+
+        def active_page() -> tuple[Page, PageLayout]:
+            return self.ctx_manager.require_page(context_id, ctx.active_page_id)
+
+        def focus_at(x: float, y: float) -> tuple[Page, PageCursor]:
+            return self.ctx_manager.focus_page_at_screen_cursor(ctx, ScreenCursor(x, y))
 
         match command.command:
             case "mouse_move":
-                cursor = ScreenCursor(command.x, command.y).to_page_cursor(layout)
+                page, cursor = focus_at(command.x, command.y)
                 await page.mouse.move(cursor.x, cursor.y)
-                ctx.cursor = cursor
 
             case "mouse_click":
-                cursor = (
-                    ctx.cursor
-                    if command.x is None or command.y is None
-                    else ScreenCursor(command.x, command.y).to_page_cursor(layout)
-                )
+                if command.x is None or command.y is None:
+                    page, _ = active_page()
+                    cursor = ctx.cursor
+                else:
+                    page, cursor = focus_at(command.x, command.y)
                 option_value = await page.evaluate(
                     SAFE_CLICK_SCRIPT,
                     [cursor.x, cursor.y],
@@ -125,37 +134,54 @@ class PlaywrightBrowserWorker:
                         button=command.button,
                         click_count=command.clickCount,
                     )
-                ctx.cursor = cursor
 
             case "mouse_down":
+                page, _ = active_page()
                 await page.mouse.down()
+                ctx.mouse_down_page_id = ctx.active_page_id
 
             case "mouse_up":
+                page, _ = active_page()
                 await page.mouse.up()
+                ctx.mouse_down_page_id = None
 
             case "mouse_wheel":
+                page, _ = active_page()
                 await page.mouse.wheel(command.dx, command.dy)
 
             case "drag_to":
-                cursor = ScreenCursor(command.x, command.y).to_page_cursor(layout)
-                await page.mouse.down()
+                origin_page_id = ctx.mouse_down_page_id or ctx.active_page_id
+                target_page_id, _, _ = self.ctx_manager.page_at_screen_cursor(
+                    ctx,
+                    ScreenCursor(command.x, command.y),
+                )
+                if target_page_id != origin_page_id:
+                    raise InvalidCommand("cannot drag across independent page surfaces")
+                page, cursor = focus_at(command.x, command.y)
+                if ctx.mouse_down_page_id is None:
+                    await page.mouse.down()
                 await page.mouse.move(cursor.x, cursor.y, steps=20)
                 await page.mouse.up()
-                ctx.cursor = cursor
+                ctx.mouse_down_page_id = None
 
             case "typing":
+                page, _ = active_page()
                 await page.keyboard.type(command.text)
 
             case "key_down":
+                page, _ = active_page()
                 await page.keyboard.down(command.key)
 
             case "key_up":
+                page, _ = active_page()
                 await page.keyboard.up(command.key)
 
             case "key_press":
+                page, _ = active_page()
                 await page.keyboard.press(command.key)
 
             case "hot_key":
+                page, _ = active_page()
                 for key in command.keys:
                     await page.keyboard.down(key)
                 for key in reversed(command.keys):

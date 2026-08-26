@@ -9,7 +9,7 @@ from urllib.parse import urlsplit
 from playwright.async_api import Browser, BrowserContext, Page, Playwright, async_playwright
 from surfgym_contracts.task import Website
 
-from surfgym_runtime.wavepool.instance.error import UnexpectedError
+from surfgym_runtime.wavepool.instance.error import InvalidCommand, UnexpectedError
 
 type Website_ID = str
 
@@ -54,6 +54,7 @@ class Context:
     active_page_id: Website_ID
     entered_page_ids: set[Website_ID] = field(default_factory=lambda: set[Website_ID]())
     cursor: PageCursor = PageCursor(0, 0)
+    mouse_down_page_id: Website_ID | None = None
 
     async def close(self):
         for page, _ in self.pages.values():
@@ -108,16 +109,20 @@ class ContextManager:
             viewport={"width": self.vw, "height": self.vh},
             ignore_https_errors=self.ignore_https_errors,
         )
-        if self.should_inject_page_script([website.url for website in websites]):
-            await browser_context.add_init_script(script=self.page_script)
         try:
-            pages = {
-                website.website_id: (
-                    await browser_context.new_page(),
-                    layout,
+            pages: dict[Website_ID, Page_Meta] = {}
+            for website, layout in zip(
+                websites,
+                self._build_page_layouts(len(websites)),
+                strict=True,
+            ):
+                page = await browser_context.new_page()
+                await page.set_viewport_size(
+                    {"width": layout.width, "height": layout.height},
                 )
-                for website, layout in zip(websites, self._build_page_layouts(len(websites)))
-            }
+                if self.should_inject_page_script(website.url):
+                    await page.add_init_script(script=self.page_script)
+                pages[website.website_id] = (page, layout)
         except Exception:
             await browser_context.close()
             raise
@@ -163,8 +168,39 @@ class ContextManager:
         return self._b
 
     @staticmethod
-    def should_inject_page_script(urls: list[str]) -> bool:
-        return all(urlsplit(url).port != 53001 for url in urls)
+    def should_inject_page_script(url: str) -> bool:
+        """Return whether this individual page needs the generic web fixture bridge.
+
+        Docker desktop pages provide their own bridge through the Docker gateway.
+        Other pages in the same browser context must still receive the web bridge.
+        """
+        return urlsplit(url).port != 53001
+
+    @staticmethod
+    def page_at_screen_cursor(
+        ctx: Context,
+        cursor: ScreenCursor,
+    ) -> tuple[Website_ID, Page, PageCursor]:
+        """Resolve a composite-screen pointer coordinate without changing focus."""
+        for website_id, (page, layout) in ctx.pages.items():
+            if (
+                layout.x <= cursor.x < layout.x + layout.width
+                and layout.y <= cursor.y < layout.y + layout.height
+            ):
+                return website_id, page, cursor.to_page_cursor(layout)
+
+        raise InvalidCommand("pointer coordinate is outside every page surface")
+
+    @classmethod
+    def focus_page_at_screen_cursor(cls, ctx: Context, cursor: ScreenCursor) -> tuple[Page, PageCursor]:
+        """Focus the surface containing a composite-screen pointer coordinate."""
+        website_id, page, page_cursor = cls.page_at_screen_cursor(ctx, cursor)
+        if ctx.mouse_down_page_id is not None and ctx.mouse_down_page_id != website_id:
+            raise InvalidCommand("cannot drag across independent page surfaces")
+
+        ctx.active_page_id = website_id
+        ctx.cursor = page_cursor
+        return page, page_cursor
 
     #  * Single                * Double
     #  +-----+-----+           +-----+-----+
