@@ -135,8 +135,23 @@ def test_pointer_move_rejects_cross_surface_motion_while_mouse_is_down() -> None
 
     asyncio.run(scenario())
 
-    assert manager.context.mouse_down_page_id == "left"
-    assert manager.left.mouse.events == [("down",)]
+    assert manager.context.mouse_down_page_id is None
+    assert manager.left.mouse.events == [("down",), ("up",)]
+    assert manager.right.mouse.events == []
+
+
+def test_drag_to_rejection_releases_an_explicit_origin_mouse_down() -> None:
+    worker, manager = _worker()
+
+    async def scenario() -> None:
+        await worker.execute("context-id", MouseDownCommand())
+        with pytest.raises(InvalidCommand, match="cannot drag across independent page surfaces"):
+            await worker.execute("context-id", DragToCommand(x=1000, y=25))
+
+    asyncio.run(scenario())
+
+    assert manager.context.mouse_down_page_id is None
+    assert manager.left.mouse.events == [("down",), ("up",)]
     assert manager.right.mouse.events == []
 
 

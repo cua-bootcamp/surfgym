@@ -109,9 +109,29 @@ class PlaywrightBrowserWorker:
         def focus_at(x: float, y: float) -> tuple[Page, PageCursor]:
             return self.ctx_manager.focus_page_at_screen_cursor(ctx, ScreenCursor(x, y))
 
+        async def abort_cross_surface_drag() -> None:
+            """Release the originating surface before rejecting a cross-surface drag."""
+            if ctx.mouse_down_page_id is None:
+                return
+
+            page, _ = self.ctx_manager.require_page(context_id, ctx.mouse_down_page_id)
+            try:
+                await page.mouse.up()
+            except Exception:
+                # The command being rejected is still deterministic even if the
+                # best-effort browser cleanup races with a page failure.
+                pass
+            finally:
+                ctx.mouse_down_page_id = None
+
         match command.command:
             case "mouse_move":
-                page, cursor = focus_at(command.x, command.y)
+                try:
+                    page, cursor = focus_at(command.x, command.y)
+                except InvalidCommand as error:
+                    if error.message == "cannot drag across independent page surfaces":
+                        await abort_cross_surface_drag()
+                    raise
                 await page.mouse.move(cursor.x, cursor.y)
 
             case "mouse_click":
@@ -156,6 +176,7 @@ class PlaywrightBrowserWorker:
                     ScreenCursor(command.x, command.y),
                 )
                 if target_page_id != origin_page_id:
+                    await abort_cross_surface_drag()
                     raise InvalidCommand("cannot drag across independent page surfaces")
                 page, cursor = focus_at(command.x, command.y)
                 if ctx.mouse_down_page_id is None:
