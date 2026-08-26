@@ -327,6 +327,12 @@ describe("existing spreadsheet state atoms", () => {
     expect(() => set(title, "Not initialized")).toThrow(/sourceRange.*first/i);
   });
 
+  it("catches an orientation-first atom that bypasses the sourceRange initialization error", () => {
+    const orientation = { kind: "chart" as const, sheet: "Sheet1", chart: { index: 0 }, property: "dataOrientation" as const };
+
+    expect(() => set(orientation, "Row")).toThrow(/sourceRange.*first/i);
+  });
+
   it("round-trips a typed pivot definition through the canonical atom surface", () => {
     const pivot = {
       sourceRange: "A1:B4", rowFields: [0], columnFields: [],

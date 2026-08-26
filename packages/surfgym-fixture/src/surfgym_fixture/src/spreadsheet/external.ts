@@ -287,8 +287,11 @@ function setChartProperty(
   value: Value,
 ) {
   if (property === "sourceRange") return setChartSourceRange(sheet, chartRef, value);
+  const current = resolveChart(sheet, chartRef);
+  if (!current) {
+    throw new Error("Chart sourceRange must be set first to initialize a chart.");
+  }
   if (property === "dataOrientation") {
-    const current = _getChartMeta(sheet, chartRef);
     const source = readChartSource(current.sourceRange, current.sourceSheet);
     return taskScopedLineCharts.update(
       sheet,
