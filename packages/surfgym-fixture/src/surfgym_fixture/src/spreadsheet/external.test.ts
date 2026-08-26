@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { get, set } from "./external";
 import { SpreadsheetRuntimeStore } from "./runtime";
 import { _resetSpreadsheetState } from "./internal";
+import { resetTaskScopedCharts } from "./surfgym-chart";
 
 type SparklineGroup = {
   config: { type: "line" };
@@ -106,6 +107,9 @@ function installResettableFreezeRuntime() {
       setFrozenColumns: (value: number) => {
         frozenColumns = value;
       },
+      getRange: (_rangeA1: string) => ({
+        getValues: () => [["Scan Time", "Pallets"], ["08:00", 20]],
+      }),
     };
   }
 
@@ -139,8 +143,50 @@ function installResettableFreezeRuntime() {
   };
 }
 
+function installChartRuntime() {
+  const previousRuntime = runtimeStoreInternals._runtime;
+  const rangeValues = new Map<string, unknown[][]>([
+    ["Sheet1:A1:B3", [["Date", "Tickets"], ["Mon", 4], ["Tue", 7]]],
+    ["Sheet1:A1:A3", [["Date"], ["Mon"], ["Tue"]]],
+    ["Sheet1:C1:C3", [["Tickets"], [4], [7]]],
+    ["Report, O'Brien:A1:B3", [["Date", "Tickets"], ["Mon", 4], ["Tue", 7]]],
+  ]);
+
+  function createWorksheet(name: string, id: string) {
+    return {
+      getSheetId: () => id,
+      getSheetName: () => name,
+      getRange: (rangeA1: string) => ({
+        getRange: () => ({ startRow: 0, endRow: 2, startColumn: 0, endColumn: 1 }),
+        getValues: () => rangeValues.get(`${name}:${rangeA1}`) ?? [],
+      }),
+    };
+  }
+
+  const sheet1 = createWorksheet("Sheet1", "sheet-1");
+  const sheet2 = createWorksheet("Sheet2", "sheet-2");
+  const quoted = createWorksheet("Report, O'Brien", "sheet-quoted");
+  const sheets = [sheet1, sheet2, quoted];
+  SpreadsheetRuntimeStore.runtime = {
+    workbook: {
+      getSheets: () => sheets,
+      getSheetByName: (name: string) => sheets.find((sheet) => sheet.getSheetName() === name) ?? null,
+      getSheetBySheetId: (id: string) => sheets.find((sheet) => sheet.getSheetId() === id) ?? null,
+    },
+    defaultWorksheet: sheet1,
+    univerAPI: { executeCommand: async () => true },
+    rendered: Promise.resolve(),
+    initializeWorksheet: () => undefined,
+  } as never;
+
+  return () => {
+    runtimeStoreInternals._runtime = previousRuntime;
+  };
+}
+
 describe("existing spreadsheet state atoms", () => {
   afterEach(() => {
+    resetTaskScopedCharts();
     restoreSpreadsheetRuntime?.();
     restoreSpreadsheetRuntime = undefined;
   });
@@ -199,13 +245,13 @@ describe("existing spreadsheet state atoms", () => {
     const sparklineSource = { kind: "sparkline" as const, sheet: "Sheet1", cell: "F2", property: "sourceRange" as const };
     const sparklineType = { kind: "sparkline" as const, sheet: "Sheet1", cell: "F2", property: "type" as const };
 
-    set(chartSource, "A1:A11,E1:E11");
+    set(chartSource, "Sheet1!A1:A11,Sheet1!E1:E11");
     set(chartType, "line");
     set(orientation, "Row");
     set(sparklineSource, "C2:E2");
     set(sparklineType, "line");
 
-    expect(get(chartSource)).toBe("A1:A11,E1:E11");
+    expect(get(chartSource)).toBe("Sheet1!A1:A11,Sheet1!E1:E11");
     expect(get(chartType)).toBe("line");
     expect(get(orientation)).toBe("Row");
     expect(get(sparklineSource)).toBe("C2:E2");
@@ -214,6 +260,71 @@ describe("existing spreadsheet state atoms", () => {
     _resetSpreadsheetState();
     expect(() => get(chartSource)).toThrow("Chart was not found");
     expect(get(sparklineSource)).toBeNull();
+  });
+
+  it("catches an external source setter that leaks qualified ranges into runtime state", () => {
+    restoreSpreadsheetRuntime = installChartRuntime();
+    const source = { kind: "chart" as const, sheet: "Sheet2", chart: { index: 0 }, property: "sourceRange" as const };
+
+    const chart = set(source, "Sheet1!A1:B3") as { sourceSheet: string; sourceRange: string };
+
+    expect(chart).toMatchObject({ sourceSheet: "Sheet1", sourceRange: "A1:B3" });
+    expect(get(source)).toBe("Sheet1!A1:B3");
+  });
+
+  it("catches source materialization that does not read cells or rederive data after orientation", () => {
+    restoreSpreadsheetRuntime = installChartRuntime();
+    const source = { kind: "chart" as const, sheet: "Sheet2", chart: { index: 0 }, property: "sourceRange" as const };
+    const orientation = { kind: "chart" as const, sheet: "Sheet2", chart: { index: 0 }, property: "dataOrientation" as const };
+
+    set(source, "Sheet1!A1:B3");
+    const chart = set(orientation, "Row") as { categoryData: unknown[]; seriesData: unknown[] };
+
+    expect(chart.categoryData).toEqual(["Mon", "Tue"]);
+    expect(chart.seriesData).toEqual([{ name: "Tickets", values: [4, 7] }]);
+  });
+
+  it("catches a parser that accepts unqualified or mixed-sheet external chart sources", () => {
+    restoreSpreadsheetRuntime = installChartRuntime();
+    const source = { kind: "chart" as const, sheet: "Sheet2", chart: { index: 0 }, property: "sourceRange" as const };
+
+    expect(() => set(source, "A1:B3")).toThrow(/qualified/i);
+    expect(() => set(source, "Sheet1!A1:A3,Sheet2!C1:C3")).toThrow(/one source sheet/i);
+  });
+
+  it("catches canonical formatting that loses commas or doubled apostrophes in sheet names", () => {
+    restoreSpreadsheetRuntime = installChartRuntime();
+    const source = { kind: "chart" as const, sheet: "Sheet2", chart: { index: 0 }, property: "sourceRange" as const };
+
+    const chart = set(source, "'Report, O''Brien'!A1:B3") as { sourceSheet: string; sourceRange: string };
+
+    expect(chart).toMatchObject({ sourceSheet: "Report, O'Brien", sourceRange: "A1:B3" });
+    expect(get(source)).toBe("'Report, O''Brien'!A1:B3");
+  });
+
+  it("catches same-sheet multi-range parsing that retains logical qualifiers in physical ranges", () => {
+    restoreSpreadsheetRuntime = installChartRuntime();
+    const source = { kind: "chart" as const, sheet: "Sheet1", chart: { index: 0 }, property: "sourceRange" as const };
+
+    const chart = set(source, "Sheet1!A1:A3,Sheet1!C1:C3") as {
+      sourceRange: string;
+      categoryData: unknown[];
+      seriesData: unknown[];
+    };
+
+    expect(chart.sourceRange).toBe("A1:A3,C1:C3");
+    expect(chart.categoryData).toEqual(["Tickets"]);
+    expect(chart.seriesData).toEqual([
+      { name: "Mon", values: [4] },
+      { name: "Tue", values: [7] },
+    ]);
+    expect(get(source)).toBe("Sheet1!A1:A3,Sheet1!C1:C3");
+  });
+
+  it("catches the arbitrary A1:B2 fallback when a non-source atom initializes a chart", () => {
+    const title = { kind: "chart" as const, sheet: "Sheet1", chart: { index: 0 }, property: "title" as const };
+
+    expect(() => set(title, "Not initialized")).toThrow(/sourceRange.*first/i);
   });
 
   it("round-trips a typed pivot definition through the canonical atom surface", () => {

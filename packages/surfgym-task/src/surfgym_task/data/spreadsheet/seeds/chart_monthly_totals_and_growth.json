@@ -50,11 +50,11 @@
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"F6","property":"formula"},"value":"=F5/E5-1"},
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"G6","property":"value"},"value":0.1891891891891893},
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"G6","property":"formula"},"value":"=G5/F5-1"},
-    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"sourceRange"},"value":"B1:G1,B5:G5"},
+    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"sourceRange"},"value":"Sheet1!B1:G1,Sheet1!B5:G5"},
     {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"dataOrientation"},"value":"Column"},
     {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"chartType"},"value":"bar"},
     {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"title"},"value":"Total"},
-    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":1},"property":"sourceRange"},"value":"C1:G1,C6:G6"},
+    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":1},"property":"sourceRange"},"value":"Sheet1!C1:G1,Sheet1!C6:G6"},
     {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":1},"property":"dataOrientation"},"value":"Column"},
     {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":1},"property":"chartType"},"value":"line"},
     {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":1},"property":"title"},"value":"Growth"}

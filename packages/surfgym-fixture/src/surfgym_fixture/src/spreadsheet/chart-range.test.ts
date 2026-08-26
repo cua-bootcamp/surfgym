@@ -38,6 +38,15 @@ const TRACKED_SPREADSHEET_SEED_FILES = [
   "zoom_out_equipment_register.json",
 ] as const;
 
+const QUALIFIED_CHART_SOURCE_SEED_FILES = [
+  "chart_chronological_dispatch_volume.json",
+  "chart_daily_support_volume.json",
+  "chart_monthly_library_circulation.json",
+  "chart_monthly_totals_and_growth.json",
+  "chart_two_year_cost_totals.json",
+  "chart_weekly_sales_and_cogs.json",
+] as const;
+
 function collectSeedAtoms(value: unknown): StateAtom[] {
   if (Array.isArray(value)) return value.flatMap(collectSeedAtoms);
   if (!value || typeof value !== "object") return [];
@@ -60,6 +69,23 @@ describe("current chart and sparkline inventory", () => {
 
     expect(types).not.toHaveLength(0);
     expect([...new Set(types)]).toEqual(["line"]);
+  });
+
+  it("catches migration of any of the six chart seeds without a qualified source segment", () => {
+    const seedDirectory = join(process.cwd(), "../../../surfgym-task/src/surfgym_task/data/spreadsheet/seeds");
+    const sourceRanges = QUALIFIED_CHART_SOURCE_SEED_FILES.flatMap((name) =>
+      collectSeedAtoms(JSON.parse(readFileSync(join(seedDirectory, name), "utf8")))
+        .filter(({ spec }) => spec?.kind === "chart" && spec.property === "sourceRange")
+        .map(({ value }) => ({ name, value })),
+    );
+
+    expect(sourceRanges).not.toHaveLength(0);
+    for (const { name, value } of sourceRanges) {
+      expect(typeof value, name).toBe("string");
+      for (const segment of splitChartSourceRanges(String(value))) {
+        expect(segment, `${name}: ${segment}`).toMatch(/^Sheet1!/);
+      }
+    }
   });
 });
 

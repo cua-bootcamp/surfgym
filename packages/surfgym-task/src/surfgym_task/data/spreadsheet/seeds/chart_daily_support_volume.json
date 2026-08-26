@@ -35,7 +35,7 @@
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B15","property":"value"},"value":64}
   ],
   [
-    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"sourceRange"},"value":"A1:B15"},
+    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"sourceRange"},"value":"Sheet1!A1:B15"},
     {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"dataOrientation"},"value":"Column"},
     {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"chartType"},"value":"line"},
     {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"title"},"value":"Daily Support Volume"}

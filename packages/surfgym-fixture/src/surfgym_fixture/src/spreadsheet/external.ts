@@ -27,8 +27,13 @@ import {
 import {
   getTaskScopedChartMeta as _getChartMeta,
   setTaskScopedChartMeta as _setChartMeta,
+  taskScopedLineCharts,
   type ChartRef
 } from "./surfgym-chart";
+import {
+  formatQualifiedChartSourceRange,
+  resolveAndReadChartSource,
+} from "./chart-range";
 import {
   getTaskScopedSparklineMeta as _getSparklineMeta,
   setTaskScopedSparklineMeta as _setSparklineMeta
@@ -141,7 +146,7 @@ export function get(spec: SpreadsheetSpec): unknown {
       return _getSheetZoom(resolveSheetRef(spec.sheet));
     case "chart":
       assertChartProperty(spec.property);
-      return _getChartMeta(sheetRef(spec.sheet), spec.chart)[spec.property];
+      return getChartProperty(sheetRef(spec.sheet), spec.chart, spec.property);
     case "sparkline":
       assertSparklineProperty(spec.property);
       return _getSparklineMeta(sheetRef(spec.sheet), spec.cell)[spec.property];
@@ -177,7 +182,7 @@ export function set(spec: SpreadsheetSpec, value: Value) {
       return _setSheetZoom(resolveSheetRef(spec.sheet), value);
     case "chart":
       assertChartProperty(spec.property);
-      return _setChartMeta(sheetRef(spec.sheet), spec.chart, spec.property, value);
+      return setChartProperty(sheetRef(spec.sheet), spec.chart, spec.property, value);
     case "sparkline":
       assertSparklineProperty(spec.property);
       return _setSparklineMeta(sheetRef(spec.sheet), spec.cell, spec.property, value);
@@ -214,6 +219,85 @@ async function settleSpreadsheetRendering() {
 
 function sheetRef(sheet: SheetSelector): string | number | undefined {
   return sheet ?? undefined;
+}
+
+function resolveChart(sheet: string | number | undefined, chartRef?: ChartRef) {
+  const charts = taskScopedLineCharts.list(sheet);
+  return chartRef?.id
+    ? charts.find((chart) => chart.id === chartRef.id)
+    : charts[chartRef?.index ?? 0];
+}
+
+function readChartSource(sourceRange: string, defaultSheet?: string) {
+  return resolveAndReadChartSource(
+    sourceRange,
+    (sourceSheet) => SpreadsheetRuntimeStore.runtime.workbook.getSheetByName(sourceSheet),
+    defaultSheet === undefined ? {} : { defaultSheet },
+  );
+}
+
+function getChartProperty(
+  sheet: string | number | undefined,
+  chartRef: ChartRef | undefined,
+  property: ChartProperty,
+) {
+  const chart = _getChartMeta(sheet, chartRef);
+  return property === "sourceRange"
+    ? formatQualifiedChartSourceRange(chart.sourceSheet, chart.sourceRange)
+    : chart[property];
+}
+
+function setChartSourceRange(
+  sheet: string | number | undefined,
+  chartRef: ChartRef | undefined,
+  value: Value,
+) {
+  if (typeof value !== "string") {
+    throw new Error("Chart source range must be a sheet-qualified A1 range.");
+  }
+  const source = readChartSource(value);
+  const current = resolveChart(sheet, chartRef);
+  if (current) {
+    if (current.sourceSheet.toLocaleLowerCase() !== source.sourceSheet.toLocaleLowerCase()) {
+      throw new Error("Chart source sheet is immutable after initialization.");
+    }
+    return taskScopedLineCharts.update(
+      sheet,
+      { id: current.id },
+      { sourceRange: source.sourceRange },
+      source.matrix,
+    );
+  }
+
+  const nextIndex = taskScopedLineCharts.list(sheet).length;
+  if (chartRef?.id || (chartRef?.index !== undefined && chartRef.index !== nextIndex)) {
+    throw new Error("Chart sourceRange must initialize the next chart index.");
+  }
+  return taskScopedLineCharts.create(
+    sheet,
+    { sourceRange: source.sourceRange, sourceSheet: source.sourceSheet },
+    source.matrix,
+  );
+}
+
+function setChartProperty(
+  sheet: string | number | undefined,
+  chartRef: ChartRef | undefined,
+  property: ChartProperty,
+  value: Value,
+) {
+  if (property === "sourceRange") return setChartSourceRange(sheet, chartRef, value);
+  if (property === "dataOrientation") {
+    const current = _getChartMeta(sheet, chartRef);
+    const source = readChartSource(current.sourceRange, current.sourceSheet);
+    return taskScopedLineCharts.update(
+      sheet,
+      { id: current.id },
+      { dataOrientation: value as never },
+      source.matrix,
+    );
+  }
+  return _setChartMeta(sheet, chartRef, property, value);
 }
 
 function isIndexedSheetRef(sheet: SheetSelector | IndexedSheetRef): sheet is IndexedSheetRef {

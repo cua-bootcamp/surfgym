@@ -18,7 +18,7 @@
     {"spec":{"kind":"sheet","sheet":{"index":1,"name":"Sheet2"},"property":"name"},"value":"Sheet2"}
   ],
   [
-    {"spec":{"kind":"chart","sheet":"Sheet2","chart":{"index":0},"property":"sourceRange"},"value":"A1:C4"},
+    {"spec":{"kind":"chart","sheet":"Sheet2","chart":{"index":0},"property":"sourceRange"},"value":"Sheet1!A1:C4"},
     {"spec":{"kind":"chart","sheet":"Sheet2","chart":{"index":0},"property":"dataOrientation"},"value":"Column"},
     {"spec":{"kind":"chart","sheet":"Sheet2","chart":{"index":0},"property":"chartType"},"value":"column"},
     {"spec":{"kind":"chart","sheet":"Sheet2","chart":{"index":0},"property":"title"},"value":"Sales & COGS"}

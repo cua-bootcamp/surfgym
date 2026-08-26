@@ -91,7 +91,7 @@
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"G12","property":"value"},"value":3455}
   ],
   [
-    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"sourceRange"},"value":"A1:G1,A12:G12"},
+    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"sourceRange"},"value":"Sheet1!A1:G1,Sheet1!A12:G12"},
     {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"dataOrientation"},"value":"Column"},
     {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"chartType"},"value":"line"}
   ]

@@ -20,11 +20,11 @@
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"E3","property":"value"},"value":5100}
   ],
   [
-    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"sourceRange"},"value":"A1:E1,A2:E2"},
+    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"sourceRange"},"value":"Sheet1!A1:E1,Sheet1!A2:E2"},
     {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"dataOrientation"},"value":"Column"},
     {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"chartType"},"value":"column"},
     {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"title"},"value":"2019 Total Costs"},
-    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":1},"property":"sourceRange"},"value":"A1:E1,A3:E3"},
+    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":1},"property":"sourceRange"},"value":"Sheet1!A1:E1,Sheet1!A3:E3"},
     {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":1},"property":"dataOrientation"},"value":"Column"},
     {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":1},"property":"chartType"},"value":"column"},
     {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":1},"property":"title"},"value":"2020 Total Costs"}

@@ -257,8 +257,10 @@ export class TaskScopedLineChartRegistry {
   ) {
     let chart = this.resolve(sheet, chartRef);
     if (!chart) {
-      const sourceRange = property === "sourceRange" && typeof value === "string" ? value : "A1:B2";
-      this.create(sheet, { sourceRange });
+      if (property !== "sourceRange" || typeof value !== "string") {
+        throw new Error("Chart sourceRange must be set first to initialize a chart.");
+      }
+      this.create(sheet, { sourceRange: value });
       chart = this.resolve(sheet, chartRef);
     }
     if (!chart) throw new Error("Chart was not found.");

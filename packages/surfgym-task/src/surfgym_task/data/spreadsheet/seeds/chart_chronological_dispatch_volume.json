@@ -136,7 +136,7 @@
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"F11","property":"value"},"value":0.02}
   ],
   [
-    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"sourceRange"},"value":"A1:A11,E1:E11"},
+    {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"sourceRange"},"value":"Sheet1!A1:A11,Sheet1!E1:E11"},
     {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"dataOrientation"},"value":"Row"},
     {"spec":{"kind":"chart","sheet":"Sheet1","chart":{"index":0},"property":"chartType"},"value":"line"}
   ]

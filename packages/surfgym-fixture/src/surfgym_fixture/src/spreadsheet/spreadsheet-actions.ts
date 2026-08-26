@@ -1,6 +1,5 @@
 import {
-  mergeChartSourceMatrixInfo,
-  splitChartSourceRanges,
+  resolveAndReadChartSource,
 } from './chart-range';
 import { _getCellValidationList, _registerPivotMeta, _setCellValidationList } from './internal';
 import { taskScopedLineCharts, type TaskScopedLineChartUpdate } from './surfgym-chart';
@@ -269,25 +268,6 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
     );
   }
 
-  function readA1RangeValues(worksheet: SpreadsheetWorksheet, rangeA1: string) {
-    const facadeRange = worksheet.getRange(rangeA1);
-    const range = facadeRange.getRange?.();
-    const values = facadeRange.getValues?.();
-
-    if (!range || !Array.isArray(values)) {
-      throw new Error(`Unable to read chart source range: ${rangeA1}`);
-    }
-
-    const rowCount = range.endRow - range.startRow + 1;
-    const columnCount = range.endColumn - range.startColumn + 1;
-
-    return Array.from({ length: rowCount }, (_, rowIndex) =>
-      Array.from({ length: columnCount }, (_, columnIndex) =>
-        readCellValue(values[rowIndex]?.[columnIndex])
-      )
-    );
-  }
-
   function isNumericValue(value: unknown) {
     if (typeof value === 'number') return Number.isFinite(value);
     if (typeof value !== 'string' || value.trim() === '') return false;
@@ -515,12 +495,16 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
     const chartTarget = getSelectionRangeTarget({ allowSingleRow: true });
     if (!chartTarget) return false;
 
-    const sourceRange = config.rangeA1?.trim() || selectionRangeToA1(chartTarget.range);
-    const sourceRanges = splitChartSourceRanges(sourceRange);
-    const sourceInfo = mergeChartSourceMatrixInfo(
-      sourceRanges.map((rangeA1) => readA1RangeValues(chartTarget.worksheet, rangeA1)),
+    const requestedSourceRange = config.rangeA1?.trim() || selectionRangeToA1(chartTarget.range);
+    const selectedSheet = chartTarget.worksheet.getSheetName?.() ?? chartTarget.worksheet.getSheetId();
+    const sourceInfo = resolveAndReadChartSource(
+      requestedSourceRange,
+      (sourceSheet) => sourceSheet === selectedSheet
+        ? chartTarget.worksheet
+        : workbook.getSheetByName?.(sourceSheet),
+      { defaultSheet: selectedSheet },
     );
-    const sourceSheet = chartTarget.worksheet.getSheetName?.() ?? chartTarget.worksheet.getSheetId();
+    const sourceSheet = sourceInfo.sourceSheet;
     const requestedDestination = config.destinationSheet?.trim();
     const destinationWorksheet = !requestedDestination || requestedDestination === 'current-sheet'
       ? chartTarget.worksheet
@@ -535,7 +519,7 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
 
     taskScopedLineCharts.create(destinationSheet, {
       chartType: config.chartType,
-      sourceRange,
+      sourceRange: sourceInfo.sourceRange,
       sourceSheet,
       dataOrientation: orientation,
       title: config.title?.trim() || config.chartLabel || `${config.chartType[0]!.toUpperCase()}${config.chartType.slice(1)} chart`,
@@ -562,11 +546,19 @@ export function createSpreadsheetActions({ univerAPI, workbook, getDefaultWorksh
     const worksheet = workbook.getSheetByName?.(current.sourceSheet)
       ?? getSelectionRangeTarget({ allowSingleRow: true })?.worksheet;
     if (!worksheet) throw new Error(`Chart source sheet was not found: ${current.sourceSheet}`);
-    const sourceRange = config.sourceRange ?? current.sourceRange;
-    const sourceInfo = mergeChartSourceMatrixInfo(
-      splitChartSourceRanges(sourceRange).map((rangeA1) => readA1RangeValues(worksheet, rangeA1)),
+    const requestedSourceRange = config.sourceRange ?? current.sourceRange;
+    const sourceInfo = resolveAndReadChartSource(
+      requestedSourceRange,
+      (sourceSheet) => sourceSheet === current.sourceSheet
+        ? worksheet
+        : workbook.getSheetByName?.(sourceSheet),
+      { defaultSheet: current.sourceSheet },
     );
-    taskScopedLineCharts.update(current.sheet, { id: chartId }, config, sourceInfo.matrix);
+    taskScopedLineCharts.update(current.sheet, { id: chartId }, {
+      ...config,
+      sourceRange: sourceInfo.sourceRange,
+      sourceSheet: sourceInfo.sourceSheet,
+    }, sourceInfo.matrix);
     return true;
   }
 
