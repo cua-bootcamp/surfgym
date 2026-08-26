@@ -8,6 +8,7 @@ from pydantic import (
     Tag,
     TypeAdapter,
     field_validator,
+    model_validator,
 )
 
 
@@ -190,6 +191,38 @@ class Task(FrozenBaseModel):
         if isinstance(value, str):
             return [Website(url=value)]
         return value
+
+    @model_validator(mode="after")
+    def validate_website_references(self) -> "Task":
+        website_ids = [website.website_id for website in self.website]
+        duplicate_ids = sorted(
+            {website_id for website_id in website_ids if website_ids.count(website_id) > 1}
+        )
+        if duplicate_ids:
+            raise ValueError(f"website_id values must be unique: {duplicate_ids}")
+
+        referenced_ids = {
+            hook.website_id
+            for hooks in (
+                self.lifecycle_hooks.allocate,
+                self.lifecycle_hooks.observe,
+                self.lifecycle_hooks.release,
+            )
+            for hook in hooks
+        }
+        match self.evaluation:
+            case CriteriaEvaluation():
+                referenced_ids.update(
+                    criterion.website_id for criterion in self.evaluation.criteria
+                )
+            case CuaEvaluation():
+                referenced_ids.update(state.website_id for state in self.evaluation.states)
+
+        unknown_ids = sorted(referenced_ids - set(website_ids))
+        if unknown_ids:
+            raise ValueError(f"website_id references must name a website: {unknown_ids}")
+
+        return self
 
 
 TaskRowsAdapter: TypeAdapter[list[Task]] = TypeAdapter(list[Task])

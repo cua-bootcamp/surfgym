@@ -71,10 +71,13 @@ def _normalize_task(raw_payload: object, *, release_hook: Hook) -> Task:
     payload["website"] = _normalize_website(payload.get("website"))
 
     hooks = LifecycleHooks.model_validate(payload.get("lifecycle_hooks", {}))
-    release_hooks = list(hooks.release)
-    if release_hook not in release_hooks:
-        release_hooks.append(release_hook)
-    payload["lifecycle_hooks"] = hooks.model_copy(update={"release": release_hooks})
+    websites = payload["website"]
+    if _is_implicit_default_single_website(websites):
+        release_hooks = list(hooks.release)
+        if release_hook not in release_hooks:
+            release_hooks.append(release_hook)
+        hooks = hooks.model_copy(update={"release": release_hooks})
+    payload["lifecycle_hooks"] = hooks
 
     return Task.model_validate(payload)
 
@@ -109,6 +112,17 @@ def _normalize_website(value: object) -> object:
     if unsupported:
         raise ValueError(f"unsupported website fields: {sorted(unsupported)}")
     return [website]
+
+
+def _is_implicit_default_single_website(websites: object) -> bool:
+    if isinstance(websites, str):
+        return True
+    return (
+        isinstance(websites, list)
+        and len(websites) == 1
+        and isinstance(websites[0], Mapping)
+        and websites[0].get("website_id", "_") == "_"
+    )
 
 
 def _string_keyed_mapping(value: Mapping[object, object]) -> dict[str, object]:

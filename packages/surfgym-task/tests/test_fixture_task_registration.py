@@ -87,6 +87,49 @@ def test_load_fixture_tasks_is_sorted_deduplicates_release_and_rejects_empty(
     )
 
 
+def test_load_fixture_tasks_preserves_explicit_hybrid_release_targets(tmp_path: Path):
+    web = importlib.import_module("surfgym_task.web")
+    _write_task(
+        tmp_path / "hybrid.json",
+        {
+            "task_id": "hybrid-web-to-gimp",
+            "instruction": "Use the web fixture value in GIMP.",
+            "website": [
+                {"website_id": "web", "url": "http://web.localhost:3200"},
+                {"website_id": "native", "url": "http://desktop.localhost:53001/gimp"},
+            ],
+            "evaluation": {
+                "mode": "criteria",
+                "criteria": {
+                    "website_id": "native",
+                    "mode": "console",
+                    "script": "() => window.surfgym.get({})",
+                    "value": {"saved": True},
+                },
+            },
+            "lifecycle_hooks": {
+                "release": [
+                    {
+                        "website_id": "web",
+                        "timing": "before",
+                        "script": "window.surfgym.get({})",
+                    },
+                    {
+                        "website_id": "native",
+                        "timing": "before",
+                        "script": "window.surfgym.get({})",
+                    },
+                ]
+            },
+        },
+    )
+
+    [task] = web.load_fixture_tasks(tmp_path)
+
+    assert [hook.website_id for hook in task.lifecycle_hooks.release] == ["web", "native"]
+    assert web.DOCKER_FIXTURE_RELEASE_HOOK not in task.lifecycle_hooks.release
+
+
 def test_seed_generation_uses_domain_specific_release_hooks() -> None:
     assert _release_hooks("web") == [WEB_STATE_RESET_HOOK]
     assert _release_hooks("gimp") == [DOCKER_FIXTURE_RELEASE_HOOK]
