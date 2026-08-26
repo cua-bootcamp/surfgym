@@ -30,8 +30,11 @@ def test_context_manager_reads_page_script_as_utf8(monkeypatch: MonkeyPatch):
 def test_docker_fixture_urls_do_not_receive_the_generic_page_script() -> None:
     manager = ContextManager(contexts_per_instance=1, vw=1280, vh=720)
 
-    assert not manager.should_inject_page_script("http://localhost:53001/gimp")
-    assert manager.should_inject_page_script("http://127.0.0.1:3000/word")
+    assert not manager.should_inject_page_script(Website(url="http://localhost:53001/gimp"))
+    assert not manager.should_inject_page_script(
+        Website(url="http://desktop.localhost:55301/gimp", surface="native")
+    )
+    assert manager.should_inject_page_script(Website(url="http://127.0.0.1:3000/word"))
 
 
 def test_context_manager_configures_each_surface_independently() -> None:
@@ -74,7 +77,11 @@ def test_context_manager_configures_each_surface_independently() -> None:
             "ctx",
             [
                 Website(website_id="web", url="http://127.0.0.1:3000/word"),
-                Website(website_id="native", url="http://localhost:53001/gimp"),
+                Website(
+                    website_id="native",
+                    url="http://desktop.localhost:55301/gimp",
+                    surface="native",
+                ),
             ],
         )
 

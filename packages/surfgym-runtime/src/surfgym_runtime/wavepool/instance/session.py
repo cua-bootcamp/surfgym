@@ -4,7 +4,6 @@ import asyncio
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Tuple
-from urllib.parse import urlsplit
 
 from playwright.async_api import Browser, BrowserContext, Page, Playwright, async_playwright
 from surfgym_contracts.task import Website
@@ -120,7 +119,7 @@ class ContextManager:
                 await page.set_viewport_size(
                     {"width": layout.width, "height": layout.height},
                 )
-                if self.should_inject_page_script(website.url):
+                if self.should_inject_page_script(website):
                     await page.add_init_script(script=self.page_script)
                 pages[website.website_id] = (page, layout)
         except Exception:
@@ -168,13 +167,13 @@ class ContextManager:
         return self._b
 
     @staticmethod
-    def should_inject_page_script(url: str) -> bool:
+    def should_inject_page_script(website: Website) -> bool:
         """Return whether this individual page needs the generic web fixture bridge.
 
         Docker desktop pages provide their own bridge through the Docker gateway.
         Other pages in the same browser context must still receive the web bridge.
         """
-        return urlsplit(url).port != 53001
+        return website.surface == "web"
 
     @staticmethod
     def page_at_screen_cursor(
@@ -192,7 +191,9 @@ class ContextManager:
         raise InvalidCommand("pointer coordinate is outside every page surface")
 
     @classmethod
-    def focus_page_at_screen_cursor(cls, ctx: Context, cursor: ScreenCursor) -> tuple[Page, PageCursor]:
+    def focus_page_at_screen_cursor(
+        cls, ctx: Context, cursor: ScreenCursor
+    ) -> tuple[Page, PageCursor]:
         """Focus the surface containing a composite-screen pointer coordinate."""
         website_id, page, page_cursor = cls.page_at_screen_cursor(ctx, cursor)
         if ctx.mouse_down_page_id is not None and ctx.mouse_down_page_id != website_id:

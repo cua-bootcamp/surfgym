@@ -10,7 +10,7 @@ WEB_STATE_RESET_HOOK = Hook(
     timing="before",
     script=(
         "(async () => { for (let attempt = 0; attempt < 120; attempt += 1) { "
-        "if (window.surfgym) return window.surfgym.get({\"$surfgym\":{\"type\":\"release\"}}); "
+        'if (window.surfgym) return window.surfgym.get({"$surfgym":{"type":"release"}}); '
         "await new Promise((resolve) => setTimeout(resolve, 250)); "
         "} throw new Error('web release bridge was unavailable'); })()"
     ),
@@ -20,7 +20,7 @@ DOCKER_FIXTURE_RELEASE_HOOK = Hook(
     timing="before",
     script=(
         "(async () => { for (let attempt = 0; attempt < 120; attempt += 1) { "
-        "if (window.surfgym) return window.surfgym.get({\"$surfgym\":{\"type\":\"release\"}}); "
+        'if (window.surfgym) return window.surfgym.get({"$surfgym":{"type":"release"}}); '
         "await new Promise((resolve) => setTimeout(resolve, 250)); "
         "} throw new Error('fixture release bridge was unavailable'); })()"
     ),
@@ -28,38 +28,30 @@ DOCKER_FIXTURE_RELEASE_HOOK = Hook(
 
 
 def load_web_tasks(tasks_dir: Path) -> list[Task]:
-    return _load_tasks(tasks_dir, task_kind="web", release_hook=WEB_STATE_RESET_HOOK)
+    return _load_tasks(tasks_dir, task_kind="web")
 
 
 def load_fixture_tasks(tasks_dir: Path) -> list[Task]:
-    return _load_tasks(
-        tasks_dir,
-        task_kind="fixture",
-        release_hook=DOCKER_FIXTURE_RELEASE_HOOK,
-    )
+    return _load_tasks(tasks_dir, task_kind="fixture")
 
 
-def _load_tasks(tasks_dir: Path, *, task_kind: str, release_hook: Hook) -> list[Task]:
+def _load_tasks(tasks_dir: Path, *, task_kind: str) -> list[Task]:
     task_paths = sorted(tasks_dir.glob("*.json"))
     if not task_paths:
-        raise FileNotFoundError(
-            f"no {task_kind} task json files found under {tasks_dir}"
-        )
+        raise FileNotFoundError(f"no {task_kind} task json files found under {tasks_dir}")
 
     tasks: list[Task] = []
     for task_path in task_paths:
         try:
             payload: object = json.loads(task_path.read_text(encoding="utf-8"))
-            tasks.append(_normalize_task(payload, release_hook=release_hook))
+            tasks.append(_normalize_task(payload))
         except Exception as exc:
-            raise ValueError(
-                f"invalid {task_kind} task json {task_path}: {exc}"
-            ) from exc
+            raise ValueError(f"invalid {task_kind} task json {task_path}: {exc}") from exc
 
     return tasks
 
 
-def _normalize_task(raw_payload: object, *, release_hook: Hook) -> Task:
+def _normalize_task(raw_payload: object) -> Task:
     if not isinstance(raw_payload, Mapping):
         raise ValueError("web task payload must be an object")
 
@@ -70,16 +62,20 @@ def _normalize_task(raw_payload: object, *, release_hook: Hook) -> Task:
 
     payload["website"] = _normalize_website(payload.get("website"))
 
-    hooks = LifecycleHooks.model_validate(payload.get("lifecycle_hooks", {}))
-    websites = payload["website"]
-    if _is_implicit_default_single_website(websites):
-        release_hooks = list(hooks.release)
-        if release_hook not in release_hooks:
-            release_hooks.append(release_hook)
-        hooks = hooks.model_copy(update={"release": release_hooks})
-    payload["lifecycle_hooks"] = hooks
+    payload["lifecycle_hooks"] = LifecycleHooks.model_validate(payload.get("lifecycle_hooks", {}))
+    task = Task.model_validate(payload)
 
-    return Task.model_validate(payload)
+    release_hooks = list(task.lifecycle_hooks.release)
+    for website in task.website:
+        template = (
+            DOCKER_FIXTURE_RELEASE_HOOK if website.surface == "native" else WEB_STATE_RESET_HOOK
+        )
+        targeted_hook = template.model_copy(update={"website_id": website.website_id})
+        if targeted_hook not in release_hooks:
+            release_hooks.append(targeted_hook)
+
+    lifecycle_hooks = task.lifecycle_hooks.model_copy(update={"release": release_hooks})
+    return task.model_copy(update={"lifecycle_hooks": lifecycle_hooks})
 
 
 def _normalize_website(value: object) -> object:
@@ -108,21 +104,10 @@ def _normalize_website(value: object) -> object:
         ]
         return urlunsplit(parsed._replace(query=urlencode(query)))
 
-    unsupported = fields - {"url", "website_id"}
+    unsupported = fields - {"url", "website_id", "surface"}
     if unsupported:
         raise ValueError(f"unsupported website fields: {sorted(unsupported)}")
     return [website]
-
-
-def _is_implicit_default_single_website(websites: object) -> bool:
-    if isinstance(websites, str):
-        return True
-    return (
-        isinstance(websites, list)
-        and len(websites) == 1
-        and isinstance(websites[0], Mapping)
-        and websites[0].get("website_id", "_") == "_"
-    )
 
 
 def _string_keyed_mapping(value: Mapping[object, object]) -> dict[str, object]:

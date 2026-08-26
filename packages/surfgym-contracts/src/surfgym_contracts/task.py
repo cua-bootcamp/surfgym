@@ -1,4 +1,5 @@
-from typing import Annotated, Literal, Mapping, Optional, Union
+from typing import Annotated, Literal, Mapping, Optional, Union, cast
+from urllib.parse import urlsplit
 
 from pydantic import (
     BaseModel,
@@ -159,6 +160,30 @@ Evaluation = Annotated[
 
 class Website(_WebsiteDependent):
     url: str
+    surface: Literal["web", "native"] = "web"
+
+    @model_validator(mode="before")
+    @classmethod
+    def infer_legacy_native_surface(cls, value: object) -> object:
+        """Keep existing Docker fixture URLs working while making new ones explicit.
+
+        New tasks using a non-default Docker gateway port must declare
+        ``surface: \"native\"``.  Port 53001 remains an accepted legacy shorthand.
+        """
+        if not isinstance(value, Mapping):
+            return value
+
+        raw = cast(Mapping[object, object], value)
+        updated: dict[object, object] = dict(raw)
+        if "surface" in raw:
+            return updated
+
+        url = raw.get("url")
+        if not isinstance(url, str) or urlsplit(url).port != 53001:
+            return updated
+
+        updated["surface"] = "native"
+        return updated
 
 
 class Hook(_WebsiteDependent):
@@ -201,6 +226,31 @@ class Task(FrozenBaseModel):
         if duplicate_ids:
             raise ValueError(f"website_id values must be unique: {duplicate_ids}")
 
+        native_ids = [website.website_id for website in self.website if website.surface == "native"]
+        if len(native_ids) > 1:
+            raise ValueError(
+                "a task may contain at most one native surface; "
+                f"found native website_id values: {native_ids}"
+            )
+
+        native_website = next(
+            (website for website in self.website if website.surface == "native"),
+            None,
+        )
+        if native_website is not None:
+            native_hostname = urlsplit(native_website.url).hostname
+            conflicting_ids = [
+                website.website_id
+                for website in self.website
+                if website.website_id != native_website.website_id
+                and urlsplit(website.url).hostname == native_hostname
+            ]
+            if native_hostname is not None and conflicting_ids:
+                raise ValueError(
+                    "native and web surfaces must use different hostnames for cookie isolation; "
+                    f"native website_id {native_website.website_id!r} conflicts with {conflicting_ids}"
+                )
+
         referenced_ids = {
             hook.website_id
             for hooks in (
@@ -217,6 +267,8 @@ class Task(FrozenBaseModel):
                 )
             case CuaEvaluation():
                 referenced_ids.update(state.website_id for state in self.evaluation.states)
+            case _:
+                pass
 
         unknown_ids = sorted(referenced_ids - set(website_ids))
         if unknown_ids:

@@ -209,6 +209,7 @@ class PlaywrightBrowserWorker:
                     await page.keyboard.up(key)
 
             case "sleep":
+                page, _ = active_page()
                 await page.wait_for_timeout(command.duration_ms)
 
     async def screenshot(self, context_id: str) -> tuple[BytesIO, float, float]:

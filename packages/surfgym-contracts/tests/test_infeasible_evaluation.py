@@ -1,6 +1,6 @@
 import pytest
 from pydantic import ValidationError
-from surfgym_contracts.task import Task
+from surfgym_contracts.task import Task, Website
 
 
 def test_task_parses_infeasible_evaluation():
@@ -106,6 +106,7 @@ def test_hybrid_task_keeps_per_website_criteria_and_release_hooks():
     )
 
     assert [website.website_id for website in task.website] == ["web", "native"]
+    assert [website.surface for website in task.website] == ["web", "native"]
     assert task.evaluation.criteria[0].website_id == "native"
     assert [hook.website_id for hook in task.lifecycle_hooks.release] == ["web", "native"]
 
@@ -126,15 +127,71 @@ def test_hybrid_task_keeps_per_website_criteria_and_release_hooks():
         ),
     ],
 )
-def test_task_rejects_ambiguous_or_unknown_website_ids(
-    website: list[dict[str, str]], match: str
-):
+def test_task_rejects_ambiguous_or_unknown_website_ids(website: list[dict[str, str]], match: str):
     with pytest.raises(ValidationError, match=match):
         Task.model_validate(
             {
                 "task_id": "invalid-website-ids",
                 "instruction": "Invalid website references must fail early.",
                 "website": website,
+                "evaluation": {"mode": "criteria", "criteria": {"value": "done"}},
+            }
+        )
+
+
+def test_task_rejects_more_than_one_native_surface() -> None:
+    with pytest.raises(ValidationError, match="at most one native surface"):
+        Task.model_validate(
+            {
+                "task_id": "two-native-surfaces",
+                "instruction": "Unsupported native-to-native task.",
+                "website": [
+                    {
+                        "website_id": "first",
+                        "url": "http://desktop.localhost:55301/gimp",
+                        "surface": "native",
+                    },
+                    {
+                        "website_id": "second",
+                        "url": "http://desktop.localhost:55302/impress",
+                        "surface": "native",
+                    },
+                ],
+                "evaluation": {"mode": "criteria", "criteria": {"value": "done"}},
+            }
+        )
+
+
+def test_website_surface_is_explicit_on_alternate_port_and_legacy_53001_is_inferred() -> None:
+    explicit = Website(
+        url="http://desktop.localhost:55301/gimp",
+        surface="native",
+    )
+    legacy = Website(url="http://localhost:53001/gimp")
+    ordinary_web = Website(url="http://localhost:55301/gimp")
+
+    assert explicit.surface == "native"
+    assert legacy.surface == "native"
+    assert ordinary_web.surface == "web"
+
+
+def test_hybrid_task_rejects_shared_hostname_cookie_scope() -> None:
+    with pytest.raises(ValidationError, match="different hostnames for cookie isolation"):
+        Task.model_validate(
+            {
+                "task_id": "shared-cookie-host",
+                "instruction": "This would silently replace the Docker session cookie.",
+                "website": [
+                    {
+                        "website_id": "web",
+                        "url": "http://localhost:3200",
+                    },
+                    {
+                        "website_id": "native",
+                        "url": "http://localhost:55301/gimp",
+                        "surface": "native",
+                    },
+                ],
                 "evaluation": {"mode": "criteria", "criteria": {"value": "done"}},
             }
         )

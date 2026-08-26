@@ -12,3 +12,9 @@
 - Docker application images, build declarations, reset policies, and open commands remain owned by the Docker repository capability template.
 - Docker gateway port `53001` and fixture content port `3000` are fixed integration endpoints.
 - Preserve strict validation for unknown keys, numeric bounds, capacity relationships, app-set equality, all computed port collisions, and acceptance by both repositories' actual config models.
+
+# Repository guidance
+
+Architecture and runtime behavior are documented in `docs/project-context.md`.
+Keep SurfGym web-first: native surfaces are a bounded fallback, not a general OS or
+provider abstraction.

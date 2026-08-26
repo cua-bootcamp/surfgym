@@ -17,3 +17,33 @@ Docker gateway port `53001` and fixture content port `3000` are fixed because ex
 The compiler's optional `--check-host-ports` gate attempts to bind every generated SurfGym, WavePool, Docker gateway, Docker control, Docker application, and fixed fixture port on `127.0.0.1`. Any bind failure, including an occupied or Windows-excluded port, fails closed. This check is independent of `--check`: `--check` still controls whether generated files are written.
 
 The compiler fails closed on unknown or missing keys, invalid numeric bounds, insufficient worker or WavePool capacity, duplicate/missing/unknown applications, and collisions among fixed, SurfGym, WavePool, Docker control, and application ports.
+
+## Hybrid task surfaces
+
+SurfGym supports up to four tiled browser surfaces in one task. `Website.surface`
+declares how each surface integrates with the runtime:
+
+- `web` receives SurfGym's generic page bridge and remains the default.
+- `native` uses the bridge supplied by the Docker desktop gateway.
+- Existing URLs on port `53001` are inferred as `native` for compatibility. A Docker
+  gateway on any other port must declare `"surface": "native"` explicitly.
+
+A task may contain at most one native surface. In a hybrid task, the native hostname
+must differ from every web hostname because browser cookies are scoped by hostname,
+not port. Use names such as `web.localhost` and `desktop.localhost`.
+
+Task loading retargets and deduplicates the standard release hook for every surface:
+web surfaces reset their state and the native surface acknowledges Docker slot reset.
+Explicit nonstandard release hooks are preserved in addition to these lifecycle
+defaults.
+
+| Combination | Supported |
+| --- | --- |
+| One to four web surfaces | Yes |
+| Web surfaces plus one Docker-native surface | Yes |
+| Two Docker-native surfaces | No |
+| Cross-surface screen and keyboard workflows | Yes |
+| Cross-surface drag, shared filesystem, VM/OS backend | No |
+
+The hybrid path intentionally reuses the existing allocate, observe, evaluate, and
+release lifecycle. It does not introduce provider, VM, or capability abstractions.
