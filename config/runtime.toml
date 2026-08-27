@@ -1,0 +1,74 @@
+# SurfGym local runtime topology.
+#
+# This is the only file operators edit for local runtime capacity and ports.
+# Generated JSON files under .runtime/config are disposable and must not be edited.
+# Docker application images, reset policies, and launch commands remain owned by
+# the Docker repository's config.json capability template.
+#
+# Fixed integration endpoints are intentionally not configurable here:
+# - Docker gateway serving port: 53001
+# - Fixture content port: 3000
+
+[paths]
+task_file = "packages/surfgym-task/src/surfgym_task/data/spreadsheet/out/tasks.sqlite3"
+log_dir = "logs"
+
+[gateway]
+host = "127.0.0.1"
+port = 18000
+workers = 6
+max_in_flight = 6
+verl_timeout_seconds = 20.0
+in_flight_timeout_seconds = 20.0
+deadline_margin_seconds = 3.0
+
+[wavepool]
+host = "127.0.0.1"
+master_port = 5500
+instance_start_port = 9000
+instances = 1
+contexts_per_instance = 6
+
+[wavepool.timeouts]
+allocate_seconds = 10.0
+release_seconds = 5.0
+screenshot_seconds = 5.0
+observe_seconds = 5.0
+execute_seconds = 5.0
+layer_gap_seconds = 1.0
+
+[docker]
+# Lowercase stack identity used by Docker Compose and generated container names.
+compose_project = "surfgym-local"
+container_prefix = "surfgym-local"
+control_start_port = 58001
+
+[[docker.apps]]
+name = "impress"
+base_port = 59001
+slots = 4
+port_step = 10
+
+[[docker.apps]]
+name = "vlc"
+base_port = 59101
+slots = 4
+port_step = 10
+
+[[docker.apps]]
+name = "gimp"
+base_port = 59201
+slots = 4
+port_step = 10
+
+[[docker.apps]]
+name = "vscode"
+base_port = 59301
+slots = 4
+port_step = 10
+
+[[docker.apps]]
+name = "chrome"
+base_port = 59401
+slots = 4
+port_step = 10

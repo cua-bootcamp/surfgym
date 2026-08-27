@@ -1,44 +1,43 @@
-## Setting
+# SurfGym fixture server
+
+## Setup
+
+Install dependencies and build the fixture distribution:
 
 ```bash
-git clone https://github.com/cua-bootcamp/websites
-cd websites
-
-git submodule update --init --recursive
-pnpm i
-cd prozilla-os
-pnpm i
-
-cd ..
-
+pnpm install
 pnpm run build
 ```
 
-## caddy
+## Caddy
 
-### For mac
+The fixture server uses Caddy to serve the generated `dist` directory.
+
+### macOS
 
 ```bash
-brew install caddy # for mac
+brew install caddy
 ```
 
-### For Linux (Ubuntu/Debian)
+### Windows
 
-### For window
+Install Caddy with Scoop and verify that it is on `PATH`:
 
-1. Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-2. irm get.scoop.sh | iex
+```powershell
+scoop install caddy
+caddy version
+```
 
-bash 3. scoop install caddy 4. caddy version
-4-1. bash에서 caddy가 안뜨면
-export PATH="$PATH:$HOME/scoop/shims" 이후 다시 한 번 caddy version
+### Linux
+
+Install Caddy using the package instructions for your distribution, then verify
+it with `caddy version`.
 
 ## Start
 
-The default port is for main and prozilla is respectively `3000` and `3100`.
+The default fixture port is `3000`. Override it with `MAIN_PORT` when needed:
 
 ```bash
 pnpm run serve
-# or
-MAIN_PORT=5173 PROZILLA_PORT=5174 pnpm run serve
+MAIN_PORT=5173 pnpm run serve
 ```

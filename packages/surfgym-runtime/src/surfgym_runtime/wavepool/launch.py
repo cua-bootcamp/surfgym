@@ -57,7 +57,7 @@ class WavepoolSupervisor:
         finally:
             self.cleanup()
 
-    def _setup(self):
+    def _setup(self) -> None:
         # register signal handler
         def _handle_signal(signum: int, _frame: FrameType | None) -> None:
             deploy_logger.info("Received signal %s; shutting down WavePool", signum)
@@ -66,7 +66,7 @@ class WavepoolSupervisor:
         signal.signal(signal.SIGINT, _handle_signal)
         signal.signal(signal.SIGTERM, _handle_signal)
 
-        # cleanup existing ports
+        # Refuse to adopt or terminate processes that this supervisor does not own.
         required_ports: list[int] = self.instance_ports[:]
         required_ports.append(self.master_port)
         for port in required_ports:
@@ -84,25 +84,12 @@ class WavepoolSupervisor:
             if result.returncode != 0 or not result.stdout.strip():
                 continue
 
-            for raw_pid in result.stdout.splitlines():
-                raw_pid = raw_pid.strip()
-                if not raw_pid:
-                    continue
-
-                try:
-                    pid = int(raw_pid)
-                except ValueError:
-                    continue
-
-                try:
-                    deploy_logger.warning("Killing process %s occupying port %s", pid, port)
-                    os.kill(pid, signal.SIGKILL)
-                except ProcessLookupError:
-                    pass
-                except PermissionError:
-                    deploy_logger.exception(
-                        "No permission to kill process %s on port %s", pid, port
-                    )
+            pids = [raw_pid.strip() for raw_pid in result.stdout.splitlines() if raw_pid.strip()]
+            raise RuntimeError(
+                "Required WavePool port "
+                f"{port} is already in use by PID(s): {', '.join(pids)}. "
+                "Stop the owning process or choose a different port in config/runtime.toml."
+            )
 
     def cleanup(self) -> None:
         deploy_logger.info("Clean Up")

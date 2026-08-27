@@ -12,11 +12,20 @@ surfgym_root_dir() {
 }
 
 readonly ROOT_DIR="$(surfgym_root_dir)"
-readonly SURFGYM_CONFIG="$ROOT_DIR/scripts/config.json"
-readonly FIXTURE_DIR="$ROOT_DIR/tests/fixtures"
+readonly RUNTIME_PYTHON="${PYTHON_BIN:-python}"
+readonly LEGACY_SURFGYM_CONFIG="$ROOT_DIR/scripts/config.json"
+
+if [[ -n "${SURFGYM_CONFIG:-}" ]]; then
+    readonly SURFGYM_CONFIG
+else
+    # Direct component launchers keep their legacy default. Only the official
+    # local-dev entry may select a generated config, and it passes that path
+    # explicitly after a successful compiler run.
+    readonly SURFGYM_CONFIG="$LEGACY_SURFGYM_CONFIG"
+fi
 
 json_get() {
-    python - "$SURFGYM_CONFIG" "$1" <<'PY'
+    "$RUNTIME_PYTHON" - "$SURFGYM_CONFIG" "$1" <<'PY'
 import json
 import sys
 
@@ -47,4 +56,3 @@ readonly WAVEPOOL_INSTANCE_START_PORT="$(json_get '.wavepool.instance_start_port
 readonly WAVEPOOL_INSTANCE="$(json_get '.wavepool.instances')"
 
 readonly FIXTURE_MAIN_PORT=3000
-readonly FIXTURE_PROZILLA_PORT=3100
