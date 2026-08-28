@@ -99,6 +99,13 @@ def test_local_dev_restores_git_bash_tool_path() -> None:
     assert 'export PATH="${BASH%/*}:$PATH"' in script
 
 
+def test_local_dev_aligns_docker_supervisor_readiness_timeout() -> None:
+    script = read_script("local_dev.bash")
+
+    assert 'READY_TIMEOUT_SECONDS="${SURFGYM_LOCAL_READY_TIMEOUT_SECONDS:-360}"' in script
+    assert 'STACK_READY_TIMEOUT_SECONDS="$READY_TIMEOUT_SECONDS"' in script
+
+
 def test_component_launchers_use_configured_runtime_python() -> None:
     for name in ("gateway_launch.bash", "wavepool_launch.bash"):
         script = read_script(name)
@@ -234,7 +241,12 @@ printf 'gateway %s %s ignored.log\n' "$pid" "$identity" > run.pids
     final_winpid = final_winpid_file.read_text(encoding="utf-8").strip()
     record = pid_file.read_text(encoding="utf-8").split()
     assert initial_winpid != final_winpid
-    assert record[2].startswith(f"windows:{final_winpid}:")
+    matched = run_bash(
+        surf,
+        f'source scripts/process_identity.sh; process_identity_matches "{record[1]}" "{record[2]}"',
+        env=env,
+    )
+    assert matched.returncode == 0, matched.stderr
 
     stopped = run_bash(surf, "bash scripts/all_stop.bash run.pids", env=env)
     assert stopped.returncode == 0, stopped.stderr
@@ -304,6 +316,7 @@ printf 'services: {}\n' > src/runtime/docker-compose.yml
 set -euo pipefail
 printf 'controls=%s\n' "$CONFIG_PATH" >> "$STUB_PROPAGATION"
 printf 'controls_python=%s\n' "$PYTHON_BIN" >> "$STUB_PROPAGATION"
+printf 'controls_timeout=%s\n' "$STACK_READY_TIMEOUT_SECONDS" >> "$STUB_PROPAGATION"
 if [[ -n "${STUB_INITIAL_WINPID_FILE:-}" ]]; then
   ps -p "$$" | awk 'NR == 2 {print $4}' > "$STUB_INITIAL_WINPID_FILE"
 fi
@@ -322,6 +335,7 @@ exec "$STUB_NATIVE_PYTHON" -u -c 'import os, time; from pathlib import Path; pat
 set -euo pipefail
 printf 'gateway=%s\n' "$CONFIG_PATH" >> "$STUB_PROPAGATION"
 printf 'gateway_python=%s\n' "$PYTHON_BIN" >> "$STUB_PROPAGATION"
+printf 'gateway_timeout=%s\n' "$STACK_READY_TIMEOUT_SECONDS" >> "$STUB_PROPAGATION"
 {gateway_body}
 """,
     )
@@ -459,6 +473,7 @@ def test_local_dev_up_waits_for_readiness_and_down_stops_recorded_processes(tmp_
     )
     assert values["compose"].endswith("/.runtime/config/docker.json")
     assert values["surf"].endswith("/.runtime/config/surfgym.json")
+    assert values["controls_timeout"] == values["gateway_timeout"] == "5"
 
     stopped = run_bash(
         surf,
@@ -499,7 +514,12 @@ def test_local_dev_down_stops_delayed_native_docker_supervisor(tmp_path: Path) -
     initial_winpid = initial_winpid_file.read_text(encoding="utf-8").strip()
     final_winpid = final_winpid_file.read_text(encoding="utf-8").strip()
     assert initial_winpid != final_winpid
-    assert controls_identity.startswith(f"windows:{final_winpid}:")
+    matched = run_bash(
+        surf,
+        f'source scripts/process_identity.sh; process_identity_matches "{controls_pid}" "{controls_identity}"',
+        env=env,
+    )
+    assert matched.returncode == 0, matched.stderr
 
     stopped = run_bash(
         surf,
@@ -569,7 +589,7 @@ PY
 
 def test_local_dev_rolls_back_when_http_readiness_never_succeeds(tmp_path: Path) -> None:
     surf, docker, env = make_local_dev_sandbox(tmp_path, fail_surf_readiness=True)
-    env["SURFGYM_LOCAL_READY_TIMEOUT_SECONDS"] = "1"
+    env["SURFGYM_LOCAL_READY_TIMEOUT_SECONDS"] = "5"
 
     started = run_bash(
         surf,
