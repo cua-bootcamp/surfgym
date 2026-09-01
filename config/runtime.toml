@@ -72,3 +72,9 @@ name = "chrome"
 base_port = 59401
 slots = 4
 port_step = 10
+
+[[docker.apps]]
+name = "workspace"
+base_port = 59501
+slots = 1
+port_step = 10

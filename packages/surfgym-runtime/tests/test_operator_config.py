@@ -47,6 +47,50 @@ DOCKER_TEMPLATE = {
             "base_port": 55001,
             "slot": 4,
         },
+        {
+            "app": "workspace",
+            "image": "surfgym-workspace:union-canary",
+            "build": {
+                "context": "docker/workspace",
+                "dockerfile": "Dockerfile",
+                "args": {
+                    "BASE_IMAGE": (
+                        "lscr.io/linuxserver/vscode@sha256:"
+                        "3c09bd87f951a4a212d26249fd38f3257fbd6b8f9752b370616231f097c1bae3"
+                    )
+                },
+            },
+            "base_port": 55101,
+            "slot": 1,
+            "environment": {"DISABLE_TERMINALS": "false"},
+            "fixture_apps": ["gimp", "impress", "vlc", "vscode", "workspace"],
+            "launch_commands": {
+                "terminal": ["xfce4-terminal", "--disable-server", "{args}"],
+                "gimp": ["gimp", "--new-instance", "{args}", "{file}"],
+                "vscode": [
+                    "code",
+                    "--skip-welcome",
+                    "--skip-release-notes",
+                    "--disable-workspace-trust",
+                    "--wait",
+                    "{args}",
+                    "{file}",
+                ],
+                "vlc": ["vlc", "{args}", "{file}"],
+                "impress": ["libreoffice", "--impress", "{args}", "{file}"],
+            },
+            "reset_paths": [
+                ".config/GIMP/3.0",
+                ".config/vlc",
+                ".config/Code",
+                ".config/libreoffice",
+                ".config/xfce4/terminal",
+                ".bash_history",
+                ".vscode/extensions",
+                ".local/share/recently-used.xbel",
+            ],
+            "reset_contents": ["Desktop"],
+        },
     ],
 }
 
@@ -128,6 +172,10 @@ def test_default_config_preserves_legacy_semantics_and_capabilities(tmp_path: Pa
     assert [app["app"] for app in generated.docker["apps"]] == [
         app["app"] for app in template["apps"]
     ]
+    assert len(generated.docker["apps"]) == 6
+    assert sum(app["slot"] for app in generated.docker["apps"]) == 21
+    workspace = next(app for app in generated.docker["apps"] if app["app"] == "workspace")
+    assert workspace["base_port"] == 59501
     expected_docker = copy.deepcopy(template)
     expected_docker["gateway"]["control_port"] = 58001
     expected_docker["runtime"] = {
@@ -136,7 +184,7 @@ def test_default_config_preserves_legacy_semantics_and_capabilities(tmp_path: Pa
     }
     for app, base_port in zip(
         expected_docker["apps"],
-        [59001, 59101, 59201, 59301, 59401],
+        [59001, 59101, 59201, 59301, 59401, 59501],
         strict=True,
     ):
         app["base_port"] = base_port
@@ -446,12 +494,13 @@ def test_host_port_check_includes_all_generated_topology_and_fixed_fixture(
 
     validate_host_ports(generated)
 
-    assert len(bound) == 59
+    assert len(bound) == 61
     assert ("127.0.0.1", 3000) in bound
     assert ("127.0.0.1", 18000) in bound
     assert ("127.0.0.1", 53001) in bound
-    assert ("127.0.0.1", 58020) in bound
+    assert ("127.0.0.1", 58021) in bound
     assert ("127.0.0.1", 59431) in bound
+    assert ("127.0.0.1", 59501) in bound
     assert ("127.0.0.1", 8051) in bound
     assert ("127.0.0.1", 8088) in bound
     assert len(closed) == len(bound)
@@ -534,7 +583,7 @@ def test_successful_check_reports_summary_without_writing(
     )
 
     assert result == 0
-    assert capsys.readouterr().out == "Runtime configuration validated: 5 apps.\n"
+    assert capsys.readouterr().out == "Runtime configuration validated: 6 apps.\n"
     assert not surf_output.exists()
     assert not docker_output.exists()
 
@@ -609,7 +658,7 @@ def test_cli_check_prerequisites_validates_without_writing(
     )
 
     assert result == 0
-    assert capsys.readouterr().out == "Runtime configuration validated: 5 apps.\n"
+    assert capsys.readouterr().out == "Runtime configuration validated: 6 apps.\n"
     assert not surf_output.exists()
     assert not docker_output.exists()
 
