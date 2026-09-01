@@ -193,7 +193,7 @@ class InstructionWriter:
         database_path: Path,
     ):
         self.database = SQLiteIO(database_path)
-        self.insturction_generator = InstructionGenerator()
+        self.insturction_generator: InstructionGenerator | None = None
 
     def __enter__(self) -> "InstructionWriter":
         self.database.__enter__()
@@ -227,6 +227,8 @@ CREATE TABLE IF NOT EXISTS instructions (
         if instruction is not None:
             return instruction
 
+        if self.insturction_generator is None:
+            self.insturction_generator = InstructionGenerator()
         instruction = self.insturction_generator.generate(seed, hoare_state)
         self._upsert_instruction(task_hash, instruction)
         return instruction
