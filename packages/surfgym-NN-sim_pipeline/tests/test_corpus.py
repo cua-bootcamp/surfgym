@@ -25,6 +25,10 @@ def test_load_surfgym_instructions_uses_only_canonical_seeds(tmp_path):
         tmp_path / "web" / "seeds" / "book_flight.json",
         instruction="Use the web seed.",
     )
+    _write_task(
+        tmp_path / "web" / "seeds" / "cua_social_task.json",
+        instruction="Use the imported web seed.",
+    )
 
     # Legacy desktop task directories must no longer enter the corpus.
     _write_task(
@@ -49,6 +53,7 @@ def test_load_surfgym_instructions_uses_only_canonical_seeds(tmp_path):
         ("gimp_add_border", "Use the GIMP seed.", "gimp"),
         ("vlc_loop_video", "Use the VLC seed.", "vlc"),
         ("book_flight", "Use the web seed.", "chrome"),
+        ("cua_social_task", "Use the imported web seed.", "chrome"),
     ]
     assert {item.source for item in items} == {"surfgym"}
 

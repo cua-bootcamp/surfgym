@@ -1,3 +1,4 @@
+import hashlib
 import importlib.util
 import json
 from pathlib import Path
@@ -90,6 +91,36 @@ def test_formatter_directory_selection_excludes_task_json(tmp_path: Path) -> Non
 
     assert seed_path.read_text(encoding="utf-8").endswith("\n")
     assert task_path.read_text(encoding="utf-8") == task_before
+
+
+def test_formatter_preserves_exact_hash_pinned_projection_seed(tmp_path: Path) -> None:
+    formatter = _load_formatter()
+    data_dir = tmp_path / "data"
+    seed_path = data_dir / "web" / "seeds" / "lineage_task.json"
+    seed_path.parent.mkdir(parents=True)
+    original = '{"instruction":"seed","website":"url","states":[[]]}'
+    seed_path.write_text(original, encoding="utf-8")
+    manifest_path = data_dir / "web" / "provenance" / "projection" / "manifest.json"
+    manifest_path.parent.mkdir(parents=True)
+    manifest_path.write_text(
+        json.dumps(
+            {
+                "version": 1,
+                "status": "PUBLISHED",
+                "tasks": [
+                    {
+                        "seed": seed_path.name,
+                        "seed_sha256": hashlib.sha256(original.encode()).hexdigest(),
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    assert formatter.main([str(data_dir), "--check"]) == 0
+    assert formatter.main([str(seed_path)]) == 0
+    assert seed_path.read_text(encoding="utf-8") == original
 
 
 def test_existing_seed_corpus_is_formatted() -> None:

@@ -119,13 +119,31 @@ def _read_source_seeds():
     return list(SeedReader(CHROME_DATA / "seeds").get_seed())
 
 
+def _published_projection_seed_paths() -> set[Path]:
+    paths: set[Path] = set()
+    for manifest_path in TASK_DATA.glob("*/provenance/*/manifest.json"):
+        payload = json.loads(manifest_path.read_text(encoding="utf-8"))
+        if payload.get("version") != 1 or payload.get("status") != "PUBLISHED":
+            continue
+        domain_dir = manifest_path.parents[2]
+        for task in payload.get("tasks", []):
+            seed = task.get("seed") if isinstance(task, dict) else None
+            if isinstance(seed, str) and Path(seed).name == seed:
+                paths.add((domain_dir / "seeds" / seed).resolve())
+    return paths
+
+
 def test_all_active_seed_filenames_are_semantic() -> None:
+    published_projection_seeds = _published_projection_seed_paths()
     offenders = [
         path.relative_to(TASK_DATA).as_posix()
         for path in TASK_DATA.glob("*/seeds/*.json")
-        if not SEMANTIC_SEED_STEM.fullmatch(path.stem)
-        or path.stem.startswith("osworld_")
-        or re.search(r"(?:^|_)[0-9a-f]{8}(?:_|$)", path.stem)
+        if path.resolve() not in published_projection_seeds
+        and (
+            not SEMANTIC_SEED_STEM.fullmatch(path.stem)
+            or path.stem.startswith("osworld_")
+            or re.search(r"(?:^|_)[0-9a-f]{8}(?:_|$)", path.stem)
+        )
     ]
 
     assert offenders == []

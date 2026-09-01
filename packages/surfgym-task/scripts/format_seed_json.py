@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from collections.abc import Sequence
 from pathlib import Path
@@ -132,6 +133,42 @@ def _seed_paths(inputs: Sequence[Path]) -> list[Path]:
     return sorted(paths)
 
 
+def _published_projection_seed_paths(seed_paths: Sequence[Path]) -> set[Path]:
+    """Return exact hash-pinned seeds declared by published provenance manifests."""
+
+    immutable: set[Path] = set()
+    domain_dirs = {path.resolve().parent.parent for path in seed_paths}
+    for domain_dir in domain_dirs:
+        for manifest_path in sorted(domain_dir.glob("provenance/*/manifest.json")):
+            payload = json.loads(manifest_path.read_text(encoding="utf-8"))
+            if payload.get("version") != 1 or payload.get("status") != "PUBLISHED":
+                continue
+            tasks = payload.get("tasks")
+            if not isinstance(tasks, list):
+                raise ValueError(f"Published projection manifest has no tasks: {manifest_path}")
+            for index, task in enumerate(tasks):
+                seed = task.get("seed") if isinstance(task, dict) else None
+                expected_hash = task.get("seed_sha256") if isinstance(task, dict) else None
+                if (
+                    not isinstance(seed, str)
+                    or Path(seed).name != seed
+                    or not isinstance(expected_hash, str)
+                ):
+                    raise ValueError(
+                        f"Invalid published projection task {index}: {manifest_path}"
+                    )
+                seed_path = (domain_dir / "seeds" / seed).resolve()
+                if not seed_path.is_file():
+                    raise ValueError(f"Published projection seed is missing: {seed_path}")
+                actual_hash = hashlib.sha256(seed_path.read_bytes()).hexdigest()
+                if actual_hash != expected_hash:
+                    raise ValueError(
+                        f"Published projection seed SHA-256 mismatch: {seed_path}"
+                    )
+                immutable.add(seed_path)
+    return immutable
+
+
 def _parse_args(argv: Sequence[str] | None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Format SurfGym seed JSON without expanding a state across lines."
@@ -152,10 +189,12 @@ def _parse_args(argv: Sequence[str] | None) -> argparse.Namespace:
 
 def main(argv: Sequence[str] | None = None) -> int:
     args = _parse_args(argv)
+    seed_paths = _seed_paths(args.paths)
+    immutable = _published_projection_seed_paths(seed_paths)
     changed = [
         path
-        for path in _seed_paths(args.paths)
-        if format_seed_file(path, check=args.check)
+        for path in seed_paths
+        if path.resolve() not in immutable and format_seed_file(path, check=args.check)
     ]
 
     action = "would reformat" if args.check else "reformatted"
