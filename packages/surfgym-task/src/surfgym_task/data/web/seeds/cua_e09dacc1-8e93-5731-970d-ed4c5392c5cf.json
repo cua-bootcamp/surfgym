@@ -1,0 +1,980 @@
+{
+  "instruction": "Customer cus-005 is threatening to churn. They've been a loyal customer for two years. Check their payment history and current subscription. If they have any failed payments, refund the most recent succeeded payment as a goodwill gesture. Also check if they have any open invoices and void those — we're going to restructure their billing.",
+  "website": "http://127.0.0.1:8079/?sid=e09dacc1-8e93-5731-970d-ed4c5392c5cf",
+  "domain": "web",
+  "states": [
+    [
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "balance"
+        },
+        "value": {
+          "available": 12450000,
+          "pending": 3200000,
+          "reserved": 0,
+          "currency": "usd"
+        }
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "balanceTransactions"
+        },
+        "value": []
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "business"
+        },
+        "value": {
+          "name": "NovaTech Solutions",
+          "email": "admin@novatech.io",
+          "url": "https://novatech.io",
+          "support_email": "support@novatech.io",
+          "country": "US",
+          "currency": "usd",
+          "timezone": "America/New_York"
+        }
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "currentUser"
+        },
+        "value": {
+          "id": "user_admin",
+          "name": "Admin User",
+          "email": "admin@novatech.io",
+          "role": "administrator",
+          "avatar": null
+        }
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "customers"
+        },
+        "value": [
+          {
+            "id": "cus-001",
+            "name": "Alice Johnson",
+            "email": "alice@example.com",
+            "phone": null,
+            "description": "Premium subscriber",
+            "address": null,
+            "balance": 0,
+            "currency": "usd",
+            "default_payment_method": "pm-001",
+            "metadata": {},
+            "created": 1736899200,
+            "livemode": true,
+            "delinquent": false,
+            "total_spent": 59900,
+            "payments_count": 5
+          },
+          {
+            "id": "cus-002",
+            "name": "Bob Smith",
+            "email": "bob@example.com",
+            "phone": null,
+            "description": "Basic subscriber",
+            "address": null,
+            "balance": 0,
+            "currency": "usd",
+            "default_payment_method": "pm-002",
+            "metadata": {},
+            "created": 1736899200,
+            "livemode": true,
+            "delinquent": false,
+            "total_spent": 5700,
+            "payments_count": 3
+          },
+          {
+            "id": "cus-003",
+            "name": "Carol White",
+            "email": "carol@example.com",
+            "phone": null,
+            "description": "Enterprise customer",
+            "address": null,
+            "balance": 0,
+            "currency": "usd",
+            "default_payment_method": "pm-003",
+            "metadata": {},
+            "created": 1736899200,
+            "livemode": true,
+            "delinquent": false,
+            "total_spent": 299900,
+            "payments_count": 12
+          },
+          {
+            "id": "cus-004",
+            "name": "Dave Lee",
+            "email": "dave@example.com",
+            "phone": null,
+            "description": "Premium subscriber",
+            "address": null,
+            "balance": 0,
+            "currency": "usd",
+            "default_payment_method": "pm-004",
+            "metadata": {},
+            "created": 1736899200,
+            "livemode": true,
+            "delinquent": false,
+            "total_spent": 29997,
+            "payments_count": 3
+          },
+          {
+            "id": "cus-005",
+            "name": "Eva Martinez",
+            "email": "eva@example.com",
+            "phone": null,
+            "description": "Loyal basic subscriber — 2 years, at-risk churn",
+            "address": null,
+            "balance": 0,
+            "currency": "usd",
+            "default_payment_method": "pm-005",
+            "metadata": {},
+            "created": 1673740800,
+            "livemode": true,
+            "delinquent": false,
+            "total_spent": 45600,
+            "payments_count": 24
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "disputes"
+        },
+        "value": []
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "events"
+        },
+        "value": []
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "invoices"
+        },
+        "value": [
+          {
+            "id": "inv-001",
+            "number": "INV-0001",
+            "customer": "cus-001",
+            "customer_name": "Alice Johnson",
+            "customer_email": "alice@example.com",
+            "status": "paid",
+            "amount_due": 9999,
+            "amount_paid": 9999,
+            "amount_remaining": 0,
+            "currency": "usd",
+            "description": null,
+            "due_date": null,
+            "collection_method": "charge_automatically",
+            "billing_reason": "subscription_cycle",
+            "subscription": "sub-001",
+            "lines": [
+              {
+                "id": "il-001",
+                "description": "Premium Plan × 1",
+                "amount": 9999,
+                "currency": "usd",
+                "quantity": 1,
+                "price": "price-premium-monthly",
+                "period": {
+                  "start": 1741996800,
+                  "end": 1744675200
+                }
+              }
+            ],
+            "subtotal": 9999,
+            "tax": 0,
+            "total": 9999,
+            "period_start": 1741996800,
+            "period_end": 1744675200,
+            "created": 1741996800,
+            "paid_at": 1742000000,
+            "metadata": {}
+          },
+          {
+            "id": "inv-002",
+            "number": "INV-0002",
+            "customer": "cus-002",
+            "customer_name": "Bob Smith",
+            "customer_email": "bob@example.com",
+            "status": "paid",
+            "amount_due": 1900,
+            "amount_paid": 1900,
+            "amount_remaining": 0,
+            "currency": "usd",
+            "description": null,
+            "due_date": null,
+            "collection_method": "charge_automatically",
+            "billing_reason": "subscription_cycle",
+            "subscription": "sub-002",
+            "lines": [
+              {
+                "id": "il-002",
+                "description": "Basic Plan × 1",
+                "amount": 1900,
+                "currency": "usd",
+                "quantity": 1,
+                "price": "price-basic-monthly",
+                "period": {
+                  "start": 1740787200,
+                  "end": 1743465600
+                }
+              }
+            ],
+            "subtotal": 1900,
+            "tax": 0,
+            "total": 1900,
+            "period_start": 1740787200,
+            "period_end": 1743465600,
+            "created": 1740787200,
+            "paid_at": 1740790000,
+            "metadata": {}
+          },
+          {
+            "id": "inv-003",
+            "number": "INV-0003",
+            "customer": "cus-003",
+            "customer_name": "Carol White",
+            "customer_email": "carol@example.com",
+            "status": "paid",
+            "amount_due": 24999,
+            "amount_paid": 24999,
+            "amount_remaining": 0,
+            "currency": "usd",
+            "description": null,
+            "due_date": null,
+            "collection_method": "charge_automatically",
+            "billing_reason": "subscription_cycle",
+            "subscription": "sub-003",
+            "lines": [
+              {
+                "id": "il-003",
+                "description": "Enterprise Plan × 1",
+                "amount": 24999,
+                "currency": "usd",
+                "quantity": 1,
+                "price": "price-enterprise-monthly",
+                "period": {
+                  "start": 1741996800,
+                  "end": 1744675200
+                }
+              }
+            ],
+            "subtotal": 24999,
+            "tax": 0,
+            "total": 24999,
+            "period_start": 1741996800,
+            "period_end": 1744675200,
+            "created": 1741996800,
+            "paid_at": 1742000000,
+            "metadata": {}
+          },
+          {
+            "id": "inv-004",
+            "number": "INV-0004",
+            "customer": "cus-004",
+            "customer_name": "Dave Lee",
+            "customer_email": "dave@example.com",
+            "status": "paid",
+            "amount_due": 9999,
+            "amount_paid": 9999,
+            "amount_remaining": 0,
+            "currency": "usd",
+            "description": null,
+            "due_date": null,
+            "collection_method": "charge_automatically",
+            "billing_reason": "subscription_cycle",
+            "subscription": "sub-004",
+            "lines": [
+              {
+                "id": "il-004",
+                "description": "Premium Plan × 1",
+                "amount": 9999,
+                "currency": "usd",
+                "quantity": 1,
+                "price": "price-premium-monthly",
+                "period": {
+                  "start": 1741996800,
+                  "end": 1744675200
+                }
+              }
+            ],
+            "subtotal": 9999,
+            "tax": 0,
+            "total": 9999,
+            "period_start": 1741996800,
+            "period_end": 1744675200,
+            "created": 1741996800,
+            "paid_at": 1742000000,
+            "metadata": {}
+          },
+          {
+            "id": "inv-008",
+            "number": "INV-0008",
+            "customer": "cus-005",
+            "customer_name": "Eva Martinez",
+            "customer_email": "eva@example.com",
+            "status": "open",
+            "amount_due": 1900,
+            "amount_paid": 0,
+            "amount_remaining": 1900,
+            "currency": "usd",
+            "description": null,
+            "due_date": 1743465600,
+            "collection_method": "charge_automatically",
+            "billing_reason": "subscription_cycle",
+            "subscription": "sub-005",
+            "lines": [
+              {
+                "id": "il-008",
+                "description": "Basic Plan × 1",
+                "amount": 1900,
+                "currency": "usd",
+                "quantity": 1,
+                "price": "price-basic-monthly",
+                "period": {
+                  "start": 1740787200,
+                  "end": 1743465600
+                }
+              }
+            ],
+            "subtotal": 1900,
+            "tax": 0,
+            "total": 1900,
+            "period_start": 1740787200,
+            "period_end": 1743465600,
+            "created": 1740787200,
+            "paid_at": null,
+            "metadata": {}
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "metrics"
+        },
+        "value": {
+          "today": {
+            "grossVolume": 0,
+            "grossVolumeChart": []
+          },
+          "summary": {
+            "grossVolume": {
+              "amount": 0,
+              "change": 0,
+              "previousAmount": 0
+            },
+            "netVolume": {
+              "amount": 0,
+              "change": 0,
+              "previousAmount": 0
+            },
+            "disputeActivity": {
+              "rate": 0,
+              "change": 0,
+              "previousRate": 0
+            }
+          },
+          "chartData": {
+            "grossVolume": [],
+            "netVolume": [],
+            "disputeRate": []
+          }
+        }
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "paymentMethods"
+        },
+        "value": [
+          {
+            "id": "pm-001",
+            "type": "card",
+            "card": {
+              "brand": "visa",
+              "last4": "4242",
+              "exp_month": 12,
+              "exp_year": 2027,
+              "funding": "credit"
+            },
+            "billing_details": {
+              "name": "Alice Johnson"
+            },
+            "created": 1736899200,
+            "customer": "cus-001"
+          },
+          {
+            "id": "pm-002",
+            "type": "card",
+            "card": {
+              "brand": "mastercard",
+              "last4": "5555",
+              "exp_month": 6,
+              "exp_year": 2026,
+              "funding": "debit"
+            },
+            "billing_details": {
+              "name": "Bob Smith"
+            },
+            "created": 1736899200,
+            "customer": "cus-002"
+          },
+          {
+            "id": "pm-003",
+            "type": "card",
+            "card": {
+              "brand": "visa",
+              "last4": "9999",
+              "exp_month": 8,
+              "exp_year": 2027,
+              "funding": "credit"
+            },
+            "billing_details": {
+              "name": "Carol White"
+            },
+            "created": 1736899200,
+            "customer": "cus-003"
+          },
+          {
+            "id": "pm-004",
+            "type": "card",
+            "card": {
+              "brand": "visa",
+              "last4": "1111",
+              "exp_month": 9,
+              "exp_year": 2027,
+              "funding": "credit"
+            },
+            "billing_details": {
+              "name": "Dave Lee"
+            },
+            "created": 1736899200,
+            "customer": "cus-004"
+          },
+          {
+            "id": "pm-005",
+            "type": "card",
+            "card": {
+              "brand": "amex",
+              "last4": "0005",
+              "exp_month": 3,
+              "exp_year": 2028,
+              "funding": "credit"
+            },
+            "billing_details": {
+              "name": "Eva Martinez"
+            },
+            "created": 1673740800,
+            "customer": "cus-005"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "payments"
+        },
+        "value": [
+          {
+            "id": "pay-009",
+            "amount": 1900,
+            "currency": "usd",
+            "status": "succeeded",
+            "description": "Basic Plan — March 2025",
+            "customer": "cus-005",
+            "customer_name": "Eva Martinez",
+            "customer_email": "eva@example.com",
+            "payment_method": {
+              "type": "card",
+              "card": {
+                "brand": "amex",
+                "last4": "0005",
+                "exp_month": 3,
+                "exp_year": 2028,
+                "funding": "credit"
+              }
+            },
+            "amount_received": 1900,
+            "amount_refunded": 0,
+            "refunded": false,
+            "disputed": false,
+            "captured": true,
+            "receipt_email": "eva@example.com",
+            "receipt_url": null,
+            "metadata": {},
+            "created": 1741996800,
+            "livemode": true,
+            "risk_score": 8,
+            "risk_level": "normal",
+            "outcome": {
+              "type": "authorized",
+              "risk_level": "normal",
+              "risk_score": 8,
+              "reason": null
+            },
+            "invoice": null
+          },
+          {
+            "id": "pay-018",
+            "amount": 1900,
+            "currency": "usd",
+            "status": "failed",
+            "description": "Basic Plan — March 2025 (retry)",
+            "customer": "cus-005",
+            "customer_name": "Eva Martinez",
+            "customer_email": "eva@example.com",
+            "payment_method": {
+              "type": "card",
+              "card": {
+                "brand": "amex",
+                "last4": "0005",
+                "exp_month": 3,
+                "exp_year": 2028,
+                "funding": "credit"
+              }
+            },
+            "amount_received": 0,
+            "amount_refunded": 0,
+            "refunded": false,
+            "disputed": false,
+            "captured": false,
+            "receipt_email": "eva@example.com",
+            "receipt_url": null,
+            "metadata": {},
+            "created": 1740787200,
+            "livemode": true,
+            "risk_score": 22,
+            "risk_level": "normal",
+            "outcome": {
+              "type": "issuer_declined",
+              "risk_level": "normal",
+              "risk_score": 22,
+              "reason": "insufficient_funds"
+            },
+            "invoice": null
+          },
+          {
+            "id": "pay-028",
+            "amount": 1900,
+            "currency": "usd",
+            "status": "succeeded",
+            "description": "Basic Plan — February 2025",
+            "customer": "cus-005",
+            "customer_name": "Eva Martinez",
+            "customer_email": "eva@example.com",
+            "payment_method": {
+              "type": "card",
+              "card": {
+                "brand": "amex",
+                "last4": "0005",
+                "exp_month": 3,
+                "exp_year": 2028,
+                "funding": "credit"
+              }
+            },
+            "amount_received": 1900,
+            "amount_refunded": 0,
+            "refunded": false,
+            "disputed": false,
+            "captured": true,
+            "receipt_email": "eva@example.com",
+            "receipt_url": null,
+            "metadata": {},
+            "created": 1739577600,
+            "livemode": true,
+            "risk_score": 5,
+            "risk_level": "normal",
+            "outcome": {
+              "type": "authorized",
+              "risk_level": "normal",
+              "risk_score": 5,
+              "reason": null
+            },
+            "invoice": null
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "payouts"
+        },
+        "value": []
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "prices"
+        },
+        "value": [
+          {
+            "id": "price-basic-monthly",
+            "product": "prod-basic",
+            "active": true,
+            "currency": "usd",
+            "unit_amount": 1900,
+            "billing_scheme": "per_unit",
+            "type": "recurring",
+            "recurring": {
+              "interval": "month",
+              "interval_count": 1,
+              "usage_type": "licensed"
+            },
+            "nickname": "Basic Monthly",
+            "metadata": {},
+            "created": 1704067200
+          },
+          {
+            "id": "price-premium-monthly",
+            "product": "prod-premium",
+            "active": true,
+            "currency": "usd",
+            "unit_amount": 9999,
+            "billing_scheme": "per_unit",
+            "type": "recurring",
+            "recurring": {
+              "interval": "month",
+              "interval_count": 1,
+              "usage_type": "licensed"
+            },
+            "nickname": "Premium Monthly",
+            "metadata": {},
+            "created": 1704067200
+          },
+          {
+            "id": "price-enterprise-monthly",
+            "product": "prod-enterprise",
+            "active": true,
+            "currency": "usd",
+            "unit_amount": 24999,
+            "billing_scheme": "per_unit",
+            "type": "recurring",
+            "recurring": {
+              "interval": "month",
+              "interval_count": 1,
+              "usage_type": "licensed"
+            },
+            "nickname": "Enterprise Monthly",
+            "metadata": {},
+            "created": 1704067200
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "products"
+        },
+        "value": [
+          {
+            "id": "prod-basic",
+            "name": "Basic Plan",
+            "description": "Essential features for small teams",
+            "active": true,
+            "images": [],
+            "default_price": "price-basic-monthly",
+            "metadata": {},
+            "created": 1704067200,
+            "updated": 1704067200,
+            "unit_label": "seat"
+          },
+          {
+            "id": "prod-premium",
+            "name": "Premium Plan",
+            "description": "Advanced features for growing teams",
+            "active": true,
+            "images": [],
+            "default_price": "price-premium-monthly",
+            "metadata": {},
+            "created": 1704067200,
+            "updated": 1704067200,
+            "unit_label": "seat"
+          },
+          {
+            "id": "prod-enterprise",
+            "name": "Enterprise Plan",
+            "description": "Full-featured plan for large organizations",
+            "active": true,
+            "images": [],
+            "default_price": "price-enterprise-monthly",
+            "metadata": {},
+            "created": 1704067200,
+            "updated": 1704067200,
+            "unit_label": "seat"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "refunds"
+        },
+        "value": []
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "searchQuery"
+        },
+        "value": ""
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "selectedDateRange"
+        },
+        "value": "30d"
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "subscriptions"
+        },
+        "value": [
+          {
+            "id": "sub-001",
+            "customer": "cus-001",
+            "customer_name": "Alice Johnson",
+            "customer_email": "alice@example.com",
+            "status": "active",
+            "items": [
+              {
+                "id": "si-001",
+                "price": "price-premium-monthly",
+                "product": "prod-premium",
+                "product_name": "Premium Plan",
+                "quantity": 1,
+                "unit_amount": 9999,
+                "currency": "usd",
+                "interval": "month"
+              }
+            ],
+            "current_period_start": 1741996800,
+            "current_period_end": 1744675200,
+            "cancel_at_period_end": false,
+            "canceled_at": null,
+            "ended_at": null,
+            "trial_start": null,
+            "trial_end": null,
+            "collection_method": "charge_automatically",
+            "default_payment_method": "pm-001",
+            "latest_invoice": "inv-001",
+            "pause_collection": null,
+            "metadata": {},
+            "created": 1736899200
+          },
+          {
+            "id": "sub-002",
+            "customer": "cus-002",
+            "customer_name": "Bob Smith",
+            "customer_email": "bob@example.com",
+            "status": "active",
+            "items": [
+              {
+                "id": "si-002",
+                "price": "price-basic-monthly",
+                "product": "prod-basic",
+                "product_name": "Basic Plan",
+                "quantity": 1,
+                "unit_amount": 1900,
+                "currency": "usd",
+                "interval": "month"
+              }
+            ],
+            "current_period_start": 1740787200,
+            "current_period_end": 1743465600,
+            "cancel_at_period_end": false,
+            "canceled_at": null,
+            "ended_at": null,
+            "trial_start": null,
+            "trial_end": null,
+            "collection_method": "charge_automatically",
+            "default_payment_method": "pm-002",
+            "latest_invoice": "inv-002",
+            "pause_collection": null,
+            "metadata": {},
+            "created": 1736899200
+          },
+          {
+            "id": "sub-003",
+            "customer": "cus-003",
+            "customer_name": "Carol White",
+            "customer_email": "carol@example.com",
+            "status": "active",
+            "items": [
+              {
+                "id": "si-003",
+                "price": "price-enterprise-monthly",
+                "product": "prod-enterprise",
+                "product_name": "Enterprise Plan",
+                "quantity": 1,
+                "unit_amount": 24999,
+                "currency": "usd",
+                "interval": "month"
+              }
+            ],
+            "current_period_start": 1741996800,
+            "current_period_end": 1744675200,
+            "cancel_at_period_end": false,
+            "canceled_at": null,
+            "ended_at": null,
+            "trial_start": null,
+            "trial_end": null,
+            "collection_method": "charge_automatically",
+            "default_payment_method": "pm-003",
+            "latest_invoice": "inv-003",
+            "pause_collection": null,
+            "metadata": {},
+            "created": 1736899200
+          },
+          {
+            "id": "sub-004",
+            "customer": "cus-004",
+            "customer_name": "Dave Lee",
+            "customer_email": "dave@example.com",
+            "status": "active",
+            "items": [
+              {
+                "id": "si-004",
+                "price": "price-premium-monthly",
+                "product": "prod-premium",
+                "product_name": "Premium Plan",
+                "quantity": 1,
+                "unit_amount": 9999,
+                "currency": "usd",
+                "interval": "month"
+              }
+            ],
+            "current_period_start": 1741996800,
+            "current_period_end": 1744675200,
+            "cancel_at_period_end": false,
+            "canceled_at": null,
+            "ended_at": null,
+            "trial_start": null,
+            "trial_end": null,
+            "collection_method": "charge_automatically",
+            "default_payment_method": "pm-004",
+            "latest_invoice": "inv-004",
+            "pause_collection": null,
+            "metadata": {},
+            "created": 1736899200
+          },
+          {
+            "id": "sub-005",
+            "customer": "cus-005",
+            "customer_name": "Eva Martinez",
+            "customer_email": "eva@example.com",
+            "status": "active",
+            "items": [
+              {
+                "id": "si-005",
+                "price": "price-basic-monthly",
+                "product": "prod-basic",
+                "product_name": "Basic Plan",
+                "quantity": 1,
+                "unit_amount": 1900,
+                "currency": "usd",
+                "interval": "month"
+              }
+            ],
+            "current_period_start": 1740787200,
+            "current_period_end": 1743465600,
+            "cancel_at_period_end": false,
+            "canceled_at": null,
+            "ended_at": null,
+            "trial_start": null,
+            "trial_end": null,
+            "collection_method": "charge_automatically",
+            "default_payment_method": "pm-005",
+            "latest_invoice": "inv-008",
+            "pause_collection": null,
+            "metadata": {},
+            "created": 1673740800
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "testMode"
+        },
+        "value": false
+      }
+    ],
+    [
+      {
+        "spec": {
+          "query": [
+            [
+              "collection",
+              "payments"
+            ],
+            [
+              "id",
+              "pay-009"
+            ]
+          ],
+          "path": [
+            "refundIndicator"
+          ],
+          "script": "(()=>{const x=(state.payments||[]).find(v=>v?.id==='pay-009');return Boolean(x&&(x.refunded===true||Number(x.amount_refunded||0)>0||x.status==='refunded'));})()"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "query": [
+            [
+              "collection",
+              "refunds"
+            ],
+            [
+              "charge",
+              "pay-009"
+            ]
+          ],
+          "path": [
+            "exists"
+          ],
+          "script": "(()=>(state.refunds||[]).some(x=>x?.charge==='pay-009'))()"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "query": [
+            [
+              "collection",
+              "invoices"
+            ],
+            [
+              "id",
+              "inv-008"
+            ]
+          ],
+          "path": [
+            "absentOrStatusNotOpen"
+          ],
+          "script": "(()=>{const x=(state.invoices||[]).find(v=>v?.id==='inv-008');return !x||x.status!=='open';})()"
+        },
+        "value": true
+      }
+    ]
+  ],
+  "empty_start": false,
+  "accumulation": "DELTA"
+}

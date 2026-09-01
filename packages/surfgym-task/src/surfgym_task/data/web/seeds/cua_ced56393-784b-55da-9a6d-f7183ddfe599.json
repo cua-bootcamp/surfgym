@@ -1,0 +1,184 @@
+{
+  "instruction": "Like Mia Chen's art post about watercolor experiments.",
+  "website": "http://127.0.0.1:8052/?sid=ced56393-784b-55da-9a6d-f7183ddfe599",
+  "domain": "web",
+  "states": [
+    [
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "conversations"
+        },
+        "value": []
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "currentUserId"
+        },
+        "value": "user_admin"
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "messages"
+        },
+        "value": []
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "notifications"
+        },
+        "value": []
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "posts"
+        },
+        "value": [
+          {
+            "id": "post_8",
+            "userId": "user_8",
+            "images": [
+              "https://picsum.photos/800/800?random=108"
+            ],
+            "caption": "Watercolor experiments #art #creative",
+            "location": "Studio",
+            "taggedUsers": [],
+            "likes": [
+              "user_4",
+              "user_6"
+            ],
+            "comments": [],
+            "saved": [],
+            "created": "2024-01-08T14:00:00Z"
+          },
+          {
+            "id": "post_12",
+            "userId": "user_8",
+            "images": [
+              "https://picsum.photos/800/800?random=112"
+            ],
+            "caption": "Oil painting study",
+            "location": "Studio",
+            "taggedUsers": [],
+            "likes": [],
+            "comments": [],
+            "saved": [],
+            "created": "2024-01-12T10:00:00Z"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "savedPostIds"
+        },
+        "value": []
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "stories"
+        },
+        "value": []
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "users"
+        },
+        "value": {
+          "user_admin": {
+            "id": "user_admin",
+            "username": "alex_morgan",
+            "name": "Alex Morgan",
+            "avatar": "https://picsum.photos/150/150?random=1",
+            "bio": "Photographer & traveler. Capturing moments one frame at a time.",
+            "website": "https://alexmorgan.photo",
+            "followers": [
+              "user_8"
+            ],
+            "following": [
+              "user_8"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_4": {
+            "id": "user_4",
+            "username": "design_daily",
+            "name": "Sarah Kim",
+            "avatar": "https://picsum.photos/150/150?random=4",
+            "bio": "Designer & artist. Making the world more beautiful.",
+            "website": "",
+            "followers": [
+              "user_8"
+            ],
+            "following": [
+              "user_8"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_6": {
+            "id": "user_6",
+            "username": "nature_lover",
+            "name": "Emma Green",
+            "avatar": "https://picsum.photos/150/150?random=6",
+            "bio": "Nature photographer | Hiking enthusiast",
+            "website": "",
+            "followers": [
+              "user_8"
+            ],
+            "following": [
+              "user_8"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_8": {
+            "id": "user_8",
+            "username": "artsy_vibes",
+            "name": "Mia Chen",
+            "avatar": "https://picsum.photos/150/150?random=8",
+            "bio": "Artist | Watercolor & oil painting | Studio work",
+            "website": "",
+            "followers": [
+              "user_admin",
+              "user_4",
+              "user_6"
+            ],
+            "following": [
+              "user_admin"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          }
+        }
+      }
+    ],
+    [
+      {
+        "spec": {
+          "script": "state?.posts?.find((p) => p?.id === 'post_8')?.likes?.includes('user_admin') === true",
+          "query": "post_8 is liked by user_admin",
+          "path": "posts[id=post_8].likes"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "script": "(() => { const xs = state?.posts?.find((p) => p?.id === 'post_8')?.likes; return Array.isArray(xs) && xs.length === 3 && ['user_4', 'user_6', 'user_admin'].every((x) => xs.includes(x)); })()",
+          "query": "post_8 likes equal the expected user set",
+          "path": "posts[id=post_8].likes"
+        },
+        "value": true
+      }
+    ]
+  ],
+  "empty_start": false,
+  "accumulation": "DELTA"
+}

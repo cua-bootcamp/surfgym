@@ -1,0 +1,386 @@
+{
+  "instruction": "I saw some great content today. Save all posts that have more than 2 likes to my collection. Don't save my own posts though.",
+  "website": "http://127.0.0.1:8052/?sid=6b0820fb-41ef-5d92-aa18-1e96c7a8351c",
+  "domain": "web",
+  "states": [
+    [
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "conversations"
+        },
+        "value": [
+          {
+            "id": "conv_1",
+            "participants": [
+              "user_admin",
+              "user_2"
+            ],
+            "lastMessage": "See you on the trail!",
+            "lastMessageTime": "2024-01-02T09:00:00Z",
+            "unreadCount": 0
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "currentUserId"
+        },
+        "value": "user_admin"
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "messages"
+        },
+        "value": [
+          {
+            "id": "msg_1",
+            "conversationId": "conv_1",
+            "senderId": "user_2",
+            "text": "See you on the trail!",
+            "type": "text",
+            "imageUrl": null,
+            "sharedPostId": null,
+            "created": "2024-01-02T09:00:00Z"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "notifications"
+        },
+        "value": [
+          {
+            "id": "notif_1",
+            "type": "like",
+            "fromUserId": "user_2",
+            "postId": "post_1",
+            "commentId": null,
+            "text": "liked your photo.",
+            "read": false,
+            "created": "2024-01-01T09:30:00Z"
+          },
+          {
+            "id": "notif_2",
+            "type": "like",
+            "fromUserId": "user_3",
+            "postId": "post_1",
+            "commentId": null,
+            "text": "liked your photo.",
+            "read": true,
+            "created": "2024-01-01T11:00:00Z"
+          },
+          {
+            "id": "notif_3",
+            "type": "like",
+            "fromUserId": "user_4",
+            "postId": "post_1",
+            "commentId": null,
+            "text": "liked your photo.",
+            "read": true,
+            "created": "2024-01-01T14:00:00Z"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "posts"
+        },
+        "value": [
+          {
+            "id": "post_1",
+            "userId": "user_admin",
+            "images": [
+              "https://picsum.photos/800/800?random=101"
+            ],
+            "caption": "Golden hour in the city. Perfect light tonight. #photography #goldenhour",
+            "location": "San Francisco, CA",
+            "taggedUsers": [],
+            "likes": [
+              "user_2",
+              "user_3",
+              "user_4"
+            ],
+            "comments": [],
+            "saved": [],
+            "created": "2024-01-01T08:00:00Z"
+          },
+          {
+            "id": "post_2",
+            "userId": "user_2",
+            "images": [
+              "https://picsum.photos/800/800?random=102"
+            ],
+            "caption": "Weekend mountain hike. Worth every step! #hiking #yosemite #outdoors",
+            "location": "Yosemite National Park",
+            "taggedUsers": [],
+            "likes": [
+              "user_admin",
+              "user_3",
+              "user_5"
+            ],
+            "comments": [],
+            "saved": [],
+            "created": "2024-01-02T10:00:00Z"
+          },
+          {
+            "id": "post_3",
+            "userId": "user_3",
+            "images": [
+              "https://picsum.photos/800/800?random=103"
+            ],
+            "caption": "New home office setup. Productivity level: 100 #wfh #setup #tech",
+            "location": "Seattle, WA",
+            "taggedUsers": [],
+            "likes": [
+              "user_4"
+            ],
+            "comments": [],
+            "saved": [],
+            "created": "2024-01-03T12:00:00Z"
+          },
+          {
+            "id": "post_4",
+            "userId": "user_4",
+            "images": [
+              "https://picsum.photos/800/800?random=104"
+            ],
+            "caption": "Latest design project. Clean, minimal, purposeful. #design #uxdesign #portfolio",
+            "location": "Portland, OR",
+            "taggedUsers": [],
+            "likes": [
+              "user_admin",
+              "user_3",
+              "user_5",
+              "user_6"
+            ],
+            "comments": [],
+            "saved": [],
+            "created": "2024-01-04T11:00:00Z"
+          },
+          {
+            "id": "post_7",
+            "userId": "user_7",
+            "images": [
+              "https://picsum.photos/800/800?random=107"
+            ],
+            "caption": "Morning workout done! No excuses. #fitness #gym #motivation",
+            "location": "LA Gym",
+            "taggedUsers": [],
+            "likes": [
+              "user_2"
+            ],
+            "comments": [],
+            "saved": [],
+            "created": "2024-01-07T06:00:00Z"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "savedPostIds"
+        },
+        "value": []
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "stories"
+        },
+        "value": []
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "users"
+        },
+        "value": {
+          "user_admin": {
+            "id": "user_admin",
+            "username": "alex_morgan",
+            "name": "Alex Morgan",
+            "avatar": "https://picsum.photos/150/150?random=1",
+            "bio": "Photographer & adventurer",
+            "website": "https://alexmorgan.photo",
+            "followers": [
+              "user_2",
+              "user_3",
+              "user_4",
+              "user_5",
+              "user_6"
+            ],
+            "following": [
+              "user_2",
+              "user_3",
+              "user_4",
+              "user_5",
+              "user_6",
+              "user_7"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_2": {
+            "id": "user_2",
+            "username": "adventure_seeker",
+            "name": "Alice Walker",
+            "avatar": "https://picsum.photos/150/150?random=2",
+            "bio": "Travel lover | Outdoor enthusiast",
+            "website": "",
+            "followers": [
+              "user_admin",
+              "user_3",
+              "user_5"
+            ],
+            "following": [
+              "user_admin",
+              "user_4",
+              "user_7"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_3": {
+            "id": "user_3",
+            "username": "tech_guru",
+            "name": "Bob Chen",
+            "avatar": "https://picsum.photos/150/150?random=3",
+            "bio": "Software engineer | Coffee addict",
+            "website": "https://bobchen.dev",
+            "followers": [
+              "user_admin",
+              "user_4",
+              "user_6"
+            ],
+            "following": [
+              "user_admin",
+              "user_2",
+              "user_5"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_4": {
+            "id": "user_4",
+            "username": "design_daily",
+            "name": "Sarah Kim",
+            "avatar": "https://picsum.photos/150/150?random=4",
+            "bio": "UI/UX designer | Minimalist",
+            "website": "https://sarahkim.design",
+            "followers": [
+              "user_admin",
+              "user_2",
+              "user_5",
+              "user_7"
+            ],
+            "following": [
+              "user_admin",
+              "user_3",
+              "user_6"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_5": {
+            "id": "user_5",
+            "username": "foodie_life",
+            "name": "Chef Marco",
+            "avatar": "https://picsum.photos/150/150?random=5",
+            "bio": "Food lover | Recipe creator",
+            "website": "",
+            "followers": [
+              "user_admin",
+              "user_3"
+            ],
+            "following": [
+              "user_admin",
+              "user_2",
+              "user_4"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_6": {
+            "id": "user_6",
+            "username": "nature_lover",
+            "name": "Emma Green",
+            "avatar": "https://picsum.photos/150/150?random=6",
+            "bio": "Hiking | Wildlife photography",
+            "website": "",
+            "followers": [
+              "user_admin",
+              "user_4"
+            ],
+            "following": [
+              "user_admin",
+              "user_3",
+              "user_7"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_7": {
+            "id": "user_7",
+            "username": "fitness_coach",
+            "name": "Jake Thompson",
+            "avatar": "https://picsum.photos/150/150?random=7",
+            "bio": "Personal trainer | Nutrition coach",
+            "website": "https://jakefit.com",
+            "followers": [
+              "user_2",
+              "user_4",
+              "user_6"
+            ],
+            "following": [
+              "user_admin",
+              "user_5"
+            ],
+            "isVerified": true,
+            "isPrivate": false
+          }
+        }
+      }
+    ],
+    [
+      {
+        "spec": {
+          "script": "state?.posts?.find((p) => p?.id === 'post_2')?.saved?.includes('user_admin') === true",
+          "query": "post_2 saved field contains user_admin",
+          "path": "posts[id=post_2].saved"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "script": "state?.savedPostIds?.includes('post_2') === true",
+          "query": "savedPostIds contains post_2",
+          "path": "savedPostIds"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "script": "state?.posts?.find((p) => p?.id === 'post_4')?.saved?.includes('user_admin') === true",
+          "query": "post_4 saved field contains user_admin",
+          "path": "posts[id=post_4].saved"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "script": "state?.savedPostIds?.includes('post_4') === true",
+          "query": "savedPostIds contains post_4",
+          "path": "savedPostIds"
+        },
+        "value": true
+      }
+    ]
+  ],
+  "empty_start": false,
+  "accumulation": "DELTA"
+}

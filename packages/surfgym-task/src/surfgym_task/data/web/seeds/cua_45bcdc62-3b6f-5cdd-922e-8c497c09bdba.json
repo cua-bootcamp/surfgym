@@ -1,0 +1,841 @@
+{
+  "instruction": "Do a complete social network reset. Unfollow everyone, then follow only Marco Rivera and Emma Thompson. Update my bio to reflect that I'm now focused on food and travel content: \"Food & travel enthusiast | Exploring the world one pin at a time\".",
+  "website": "http://127.0.0.1:8070/?sid=45bcdc62-3b6f-5cdd-922e-8c497c09bdba",
+  "domain": "web",
+  "states": [
+    [
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "boards"
+        },
+        "value": [
+          {
+            "id": "b1",
+            "userId": "u1",
+            "name": "Home Decor Ideas",
+            "description": "Inspiration for my apartment renovation",
+            "privacy": "public",
+            "coverPinId": "p1",
+            "pins": [
+              "p1",
+              "p2",
+              "p3",
+              "p4",
+              "p5"
+            ],
+            "sections": [
+              {
+                "id": "sec1",
+                "boardId": "b1",
+                "name": "Living Room",
+                "pins": [
+                  "p1",
+                  "p2"
+                ]
+              },
+              {
+                "id": "sec2",
+                "boardId": "b1",
+                "name": "Kitchen",
+                "pins": [
+                  "p3",
+                  "p4"
+                ]
+              }
+            ],
+            "collaborators": [],
+            "createdAt": 1700000000000,
+            "updatedAt": 1700000000000
+          },
+          {
+            "id": "b2",
+            "userId": "u1",
+            "name": "Recipes to Try",
+            "description": "Delicious recipes I want to cook",
+            "privacy": "public",
+            "coverPinId": "p9",
+            "pins": [
+              "p9",
+              "p10"
+            ],
+            "sections": [],
+            "collaborators": [],
+            "createdAt": 1700000000000,
+            "updatedAt": 1700000000000
+          },
+          {
+            "id": "b3",
+            "userId": "u1",
+            "name": "Travel Bucket List",
+            "description": "Places I dream of visiting",
+            "privacy": "public",
+            "coverPinId": "p17",
+            "pins": [
+              "p17",
+              "p18"
+            ],
+            "sections": [
+              {
+                "id": "sec3",
+                "boardId": "b3",
+                "name": "Europe",
+                "pins": [
+                  "p17"
+                ]
+              },
+              {
+                "id": "sec4",
+                "boardId": "b3",
+                "name": "Asia",
+                "pins": [
+                  "p18"
+                ]
+              }
+            ],
+            "collaborators": [],
+            "createdAt": 1700000000000,
+            "updatedAt": 1700000000000
+          },
+          {
+            "id": "b4",
+            "userId": "u1",
+            "name": "Gift Ideas",
+            "description": "Gift inspiration for friends and family",
+            "privacy": "secret",
+            "coverPinId": "p33",
+            "pins": [
+              "p33"
+            ],
+            "sections": [],
+            "collaborators": [],
+            "createdAt": 1700000000000,
+            "updatedAt": 1700000000000
+          },
+          {
+            "id": "b5",
+            "userId": "u1",
+            "name": "DIY Projects",
+            "description": "Hands-on projects to try at home",
+            "privacy": "public",
+            "coverPinId": "p33",
+            "pins": [
+              "p33"
+            ],
+            "sections": [],
+            "collaborators": [
+              "u4"
+            ],
+            "createdAt": 1700000000000,
+            "updatedAt": 1700000000000
+          },
+          {
+            "id": "b6",
+            "userId": "u2",
+            "name": "My Best Recipes",
+            "description": "Chef Marco's favorite recipes",
+            "privacy": "public",
+            "coverPinId": "p9",
+            "pins": [
+              "p9"
+            ],
+            "sections": [],
+            "collaborators": [],
+            "createdAt": 1700000000000,
+            "updatedAt": 1700000000000
+          },
+          {
+            "id": "b7",
+            "userId": "u3",
+            "name": "Dream Destinations",
+            "description": "Places Emma wants to visit",
+            "privacy": "public",
+            "coverPinId": "p17",
+            "pins": [
+              "p17"
+            ],
+            "sections": [],
+            "collaborators": [],
+            "createdAt": 1700000000000,
+            "updatedAt": 1700000000000
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "comments"
+        },
+        "value": [
+          {
+            "id": "c1",
+            "pinId": "p1",
+            "userId": "u2",
+            "text": "Love this color palette! The warm tones are everything.",
+            "likes": 3,
+            "likedBy": [
+              "u1"
+            ],
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "c2",
+            "pinId": "p1",
+            "userId": "u3",
+            "text": "Those plants really complete the room. Very calming.",
+            "likes": 1,
+            "likedBy": [],
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "c3",
+            "pinId": "p1",
+            "userId": "u4",
+            "text": "Just saved this to my home reno board!",
+            "likes": 0,
+            "likedBy": [],
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "c4",
+            "pinId": "p9",
+            "userId": "u1",
+            "text": "Made this last weekend, it was absolutely delicious!",
+            "likes": 5,
+            "likedBy": [
+              "u2",
+              "u3"
+            ],
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "c5",
+            "pinId": "p9",
+            "userId": "u5",
+            "text": "What type of flour did you use? Looks perfect!",
+            "likes": 2,
+            "likedBy": [
+              "u2"
+            ],
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "c6",
+            "pinId": "p17",
+            "userId": "u4",
+            "text": "Santorini is on my bucket list! How long did you stay?",
+            "likes": 1,
+            "likedBy": [
+              "u3"
+            ],
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "c7",
+            "pinId": "p17",
+            "userId": "u3",
+            "text": "Go in September, the crowds are smaller and the light is magical.",
+            "likes": 4,
+            "likedBy": [
+              "u1",
+              "u4"
+            ],
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "c8",
+            "pinId": "p25",
+            "userId": "u5",
+            "text": "This outfit is everything! Where is the jacket from?",
+            "likes": 6,
+            "likedBy": [
+              "u3"
+            ],
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "c9",
+            "pinId": "p33",
+            "userId": "u1",
+            "text": "Tried this and it took me 3 hours but totally worth it!",
+            "likes": 2,
+            "likedBy": [
+              "u4"
+            ],
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "c10",
+            "pinId": "p41",
+            "userId": "u2",
+            "text": "Beautiful brushwork! The color transitions are stunning.",
+            "likes": 7,
+            "likedBy": [
+              "u1",
+              "u3",
+              "u5"
+            ],
+            "createdAt": 1700000000000
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "currentUser"
+        },
+        "value": {
+          "id": "u1",
+          "username": "sarah_designs",
+          "name": "Sarah Chen",
+          "avatar": "https://i.pravatar.cc/150?u=sarah",
+          "bio": "Interior designer & plant mom | NYC",
+          "website": "https://sarahchen.design",
+          "followers": [
+            "u2",
+            "u3",
+            "u4",
+            "u5"
+          ],
+          "following": [
+            "u2",
+            "u3"
+          ],
+          "monthlyViews": 12400,
+          "createdAt": 1700000000000
+        }
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "lastUsedBoardId"
+        },
+        "value": "b1"
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "notifications"
+        },
+        "value": [
+          {
+            "id": "n1",
+            "type": "save",
+            "fromUserId": "u2",
+            "targetId": "p1",
+            "message": "Marco Rivera saved your pin",
+            "thumbnail": null,
+            "read": false,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "n2",
+            "type": "follow",
+            "fromUserId": "u5",
+            "targetId": null,
+            "message": "Nina Rodriguez started following you",
+            "thumbnail": null,
+            "read": false,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "n3",
+            "type": "comment",
+            "fromUserId": "u3",
+            "targetId": "p1",
+            "message": "Emma Thompson commented on your pin",
+            "thumbnail": null,
+            "read": false,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "n4",
+            "type": "like",
+            "fromUserId": "u4",
+            "targetId": "p9",
+            "message": "David Park liked your pin",
+            "thumbnail": null,
+            "read": true,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "n5",
+            "type": "save",
+            "fromUserId": "u3",
+            "targetId": "p2",
+            "message": "Emma Thompson saved your pin",
+            "thumbnail": null,
+            "read": true,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "n6",
+            "type": "recommendation",
+            "fromUserId": null,
+            "targetId": "p45",
+            "message": "We think you'll love this pin",
+            "thumbnail": null,
+            "read": true,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "n7",
+            "type": "board_invite",
+            "fromUserId": "u4",
+            "targetId": "b5",
+            "message": "David Park invited you to collaborate on DIY Projects",
+            "thumbnail": null,
+            "read": false,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "n8",
+            "type": "comment",
+            "fromUserId": "u2",
+            "targetId": "p17",
+            "message": "Marco Rivera commented on your pin",
+            "thumbnail": null,
+            "read": true,
+            "createdAt": 1700000000000
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "pins"
+        },
+        "value": [
+          {
+            "id": "p1",
+            "userId": "u2",
+            "title": "Minimalist Living Room",
+            "description": "Beautiful minimalist interior with clean lines and natural light",
+            "image": "https://picsum.photos/400/500?random=p1",
+            "imageWidth": 400,
+            "imageHeight": 500,
+            "url": "https://example.com/interior/1",
+            "boardId": "b1",
+            "sectionId": "sec1",
+            "altText": "Minimalist Living Room - interior category",
+            "tags": [
+              "interior",
+              "minimalist"
+            ],
+            "likes": 42,
+            "likedBy": [],
+            "commentCount": 3,
+            "saves": 150,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "p2",
+            "userId": "u3",
+            "title": "Cozy Reading Nook",
+            "description": "Perfect corner for book lovers with warm lighting",
+            "image": "https://picsum.photos/400/600?random=p2",
+            "imageWidth": 400,
+            "imageHeight": 600,
+            "url": "https://example.com/interior/2",
+            "boardId": "b1",
+            "sectionId": "sec1",
+            "altText": "Cozy Reading Nook - interior category",
+            "tags": [
+              "interior",
+              "cozy"
+            ],
+            "likes": 38,
+            "likedBy": [],
+            "commentCount": 1,
+            "saves": 98,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "p3",
+            "userId": "u4",
+            "title": "Scandinavian Kitchen",
+            "description": "Nordic design kitchen with wooden accents",
+            "image": "https://picsum.photos/400/400?random=p3",
+            "imageWidth": 400,
+            "imageHeight": 400,
+            "url": "https://example.com/interior/3",
+            "boardId": "b1",
+            "sectionId": "sec2",
+            "altText": "Scandinavian Kitchen - interior category",
+            "tags": [
+              "interior",
+              "kitchen"
+            ],
+            "likes": 55,
+            "likedBy": [],
+            "commentCount": 0,
+            "saves": 200,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "p4",
+            "userId": "u5",
+            "title": "Boho Bedroom",
+            "description": "Bohemian style bedroom with earthy tones and plants",
+            "image": "https://picsum.photos/400/700?random=p4",
+            "imageWidth": 400,
+            "imageHeight": 700,
+            "url": "https://example.com/interior/4",
+            "boardId": "b1",
+            "sectionId": "sec2",
+            "altText": "Boho Bedroom - interior category",
+            "tags": [
+              "interior",
+              "boho"
+            ],
+            "likes": 67,
+            "likedBy": [],
+            "commentCount": 2,
+            "saves": 175,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "p5",
+            "userId": "u2",
+            "title": "Modern Bathroom Design",
+            "description": "Spa-like bathroom with marble tiles and clean aesthetics",
+            "image": "https://picsum.photos/400/550?random=p5",
+            "imageWidth": 400,
+            "imageHeight": 550,
+            "url": "https://example.com/interior/5",
+            "boardId": "b1",
+            "sectionId": null,
+            "altText": "Modern Bathroom Design - interior category",
+            "tags": [
+              "interior",
+              "bathroom"
+            ],
+            "likes": 89,
+            "likedBy": [],
+            "commentCount": 0,
+            "saves": 310,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "p9",
+            "userId": "u2",
+            "title": "Homemade Pasta Recipe",
+            "description": "Classic Italian pasta made from scratch with fresh ingredients",
+            "image": "https://picsum.photos/400/480?random=p9",
+            "imageWidth": 400,
+            "imageHeight": 480,
+            "url": "https://example.com/food/1",
+            "boardId": "b2",
+            "sectionId": null,
+            "altText": "Homemade Pasta Recipe - food category",
+            "tags": [
+              "food",
+              "pasta",
+              "italian"
+            ],
+            "likes": 124,
+            "likedBy": [],
+            "commentCount": 2,
+            "saves": 450,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "p10",
+            "userId": "u3",
+            "title": "Summer Salad Bowl",
+            "description": "Fresh and colorful summer salad with seasonal vegetables",
+            "image": "https://picsum.photos/400/420?random=p10",
+            "imageWidth": 400,
+            "imageHeight": 420,
+            "url": "https://example.com/food/2",
+            "boardId": "b2",
+            "sectionId": null,
+            "altText": "Summer Salad Bowl - food category",
+            "tags": [
+              "food",
+              "salad",
+              "healthy"
+            ],
+            "likes": 73,
+            "likedBy": [],
+            "commentCount": 0,
+            "saves": 280,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "p17",
+            "userId": "u3",
+            "title": "Santorini Sunset",
+            "description": "Breathtaking sunset view over the white-washed buildings of Santorini",
+            "image": "https://picsum.photos/400/600?random=p17",
+            "imageWidth": 400,
+            "imageHeight": 600,
+            "url": "https://example.com/travel/1",
+            "boardId": "b3",
+            "sectionId": "sec3",
+            "altText": "Santorini Sunset - travel category",
+            "tags": [
+              "travel",
+              "greece",
+              "santorini"
+            ],
+            "likes": 215,
+            "likedBy": [],
+            "commentCount": 2,
+            "saves": 720,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "p18",
+            "userId": "u4",
+            "title": "Tokyo Street Scene",
+            "description": "Vibrant nightlife and neon lights in Tokyo's Shibuya district",
+            "image": "https://picsum.photos/400/500?random=p18",
+            "imageWidth": 400,
+            "imageHeight": 500,
+            "url": "https://example.com/travel/2",
+            "boardId": "b3",
+            "sectionId": "sec4",
+            "altText": "Tokyo Street Scene - travel category",
+            "tags": [
+              "travel",
+              "japan",
+              "tokyo"
+            ],
+            "likes": 189,
+            "likedBy": [],
+            "commentCount": 0,
+            "saves": 640,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "p25",
+            "userId": "u5",
+            "title": "Fall Outfit Inspo",
+            "description": "Cozy autumn fashion with layered textures and warm colors",
+            "image": "https://picsum.photos/400/650?random=p25",
+            "imageWidth": 400,
+            "imageHeight": 650,
+            "url": "https://example.com/fashion/1",
+            "boardId": null,
+            "sectionId": null,
+            "altText": "Fall Outfit Inspo - fashion category",
+            "tags": [
+              "fashion",
+              "fall",
+              "outfit"
+            ],
+            "likes": 156,
+            "likedBy": [],
+            "commentCount": 1,
+            "saves": 420,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "p33",
+            "userId": "u4",
+            "title": "Macrame Wall Hanging",
+            "description": "Handmade macrame wall art with intricate knotting patterns",
+            "image": "https://picsum.photos/400/580?random=p33",
+            "imageWidth": 400,
+            "imageHeight": 580,
+            "url": "https://example.com/diy/1",
+            "boardId": "b5",
+            "sectionId": null,
+            "altText": "Macrame Wall Hanging - diy category",
+            "tags": [
+              "diy",
+              "macrame",
+              "craft"
+            ],
+            "likes": 93,
+            "likedBy": [],
+            "commentCount": 1,
+            "saves": 310,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "p41",
+            "userId": "u2",
+            "title": "Watercolor Landscape",
+            "description": "Serene mountain landscape painted in soft watercolor tones",
+            "image": "https://picsum.photos/400/520?random=p41",
+            "imageWidth": 400,
+            "imageHeight": 520,
+            "url": "https://example.com/art/1",
+            "boardId": null,
+            "sectionId": null,
+            "altText": "Watercolor Landscape - art category",
+            "tags": [
+              "art",
+              "watercolor",
+              "landscape"
+            ],
+            "likes": 201,
+            "likedBy": [],
+            "commentCount": 1,
+            "saves": 580,
+            "createdAt": 1700000000000
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "searchFilters"
+        },
+        "value": []
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "searchQuery"
+        },
+        "value": ""
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "selectedCategory"
+        },
+        "value": null
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "users"
+        },
+        "value": [
+          {
+            "id": "u1",
+            "username": "sarah_designs",
+            "name": "Sarah Chen",
+            "avatar": "https://i.pravatar.cc/150?u=sarah",
+            "bio": "Interior designer & plant mom | NYC",
+            "website": "https://sarahchen.design",
+            "followers": [
+              "u2",
+              "u3",
+              "u4",
+              "u5"
+            ],
+            "following": [
+              "u2",
+              "u3"
+            ],
+            "monthlyViews": 12400,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "u2",
+            "username": "chef_marco",
+            "name": "Marco Rivera",
+            "avatar": "https://i.pravatar.cc/150?u=marco",
+            "bio": "Professional chef & food photographer",
+            "website": "https://chefmarco.com",
+            "followers": [
+              "u1",
+              "u3"
+            ],
+            "following": [
+              "u1",
+              "u4"
+            ],
+            "monthlyViews": 8900,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "u3",
+            "username": "wanderlust_emma",
+            "name": "Emma Thompson",
+            "avatar": "https://i.pravatar.cc/150?u=emma",
+            "bio": "Travel blogger & adventure seeker",
+            "website": "https://wanderlustemma.com",
+            "followers": [
+              "u1",
+              "u4"
+            ],
+            "following": [
+              "u2",
+              "u5"
+            ],
+            "monthlyViews": 10200,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "u4",
+            "username": "diy_david",
+            "name": "David Park",
+            "avatar": "https://i.pravatar.cc/150?u=david",
+            "bio": "DIY enthusiast & woodworker",
+            "website": "",
+            "followers": [
+              "u2",
+              "u5"
+            ],
+            "following": [
+              "u3"
+            ],
+            "monthlyViews": 5600,
+            "createdAt": 1700000000000
+          },
+          {
+            "id": "u5",
+            "username": "fashion_nina",
+            "name": "Nina Rodriguez",
+            "avatar": "https://i.pravatar.cc/150?u=nina",
+            "bio": "Fashion & lifestyle content creator",
+            "website": "https://ninastyle.com",
+            "followers": [
+              "u2"
+            ],
+            "following": [
+              "u1",
+              "u3"
+            ],
+            "monthlyViews": 7300,
+            "createdAt": 1700000000000
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "spec": {
+          "query": [
+            [
+              "entity",
+              "currentUser"
+            ]
+          ],
+          "path": [
+            "bio"
+          ],
+          "script": "(()=>state.currentUser&&state.currentUser.bio==='Food & travel enthusiast | Exploring the world one pin at a time')()"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "query": [
+            [
+              "entity",
+              "users"
+            ],
+            [
+              "id",
+              "u1"
+            ]
+          ],
+          "path": [
+            "bio"
+          ],
+          "script": "(()=>{const u=(state.users||[]).find(x=>x.id==='u1');return Boolean(u&&u.bio==='Food & travel enthusiast | Exploring the world one pin at a time');})()"
+        },
+        "value": true
+      }
+    ]
+  ],
+  "empty_start": false,
+  "accumulation": "DELTA"
+}

@@ -1,0 +1,526 @@
+{
+  "instruction": "As a developer, I just finished working on KAN-6. Move it from 'In Progress' to 'In Review' and add a comment saying 'Code complete. PR #142 submitted for review. Key changes: refactored the caching layer to use Redis instead of in-memory store.' Then create a subtask called 'Code review' and another called 'QA verification' on this issue.",
+  "website": "http://127.0.0.1:8053/?sid=d8600f30-8e31-5db0-9d8e-73dae2e9f8a3",
+  "domain": "web",
+  "states": [
+    [
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "comments"
+        },
+        "value": [
+          {
+            "id": "c1",
+            "issueId": "i2",
+            "userId": "u4",
+            "content": "Started integrating Google OAuth. Should have a working prototype by end of week.",
+            "createdAt": "2026-03-11T10:00:00.000Z"
+          },
+          {
+            "id": "c2",
+            "issueId": "i5",
+            "userId": "u4",
+            "content": "Draft documentation is ready for review. Please check the /docs endpoint descriptions.",
+            "createdAt": "2026-03-12T14:00:00.000Z"
+          },
+          {
+            "id": "c3",
+            "issueId": "i1",
+            "userId": "u2",
+            "content": "CI/CD pipeline is fully operational. Deployed to staging successfully.",
+            "createdAt": "2026-03-10T16:00:00.000Z"
+          },
+          {
+            "id": "c4",
+            "issueId": "i6",
+            "userId": "u1",
+            "content": "Please evaluate Redis Cluster vs Sentinel for HA requirements before implementing.",
+            "createdAt": "2026-03-07T09:30:00.000Z"
+          },
+          {
+            "id": "c5",
+            "issueId": "i6",
+            "userId": "u3",
+            "content": "Evaluated both options. Redis Sentinel fits our current setup better. Will proceed with that.",
+            "createdAt": "2026-03-08T11:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "currentUser"
+        },
+        "value": {
+          "id": "u3",
+          "name": "John Smith",
+          "email": "john@example.com",
+          "avatar": "https://picsum.photos/100/100?random=u3"
+        }
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "issues"
+        },
+        "value": [
+          {
+            "id": "i1",
+            "key": "KAN-1",
+            "projectId": "p1",
+            "summary": "Set up CI/CD pipeline",
+            "description": "Configure GitHub Actions for automated builds and deployments.",
+            "type": "Story",
+            "status": "Done",
+            "priority": "High",
+            "storyPoints": 5,
+            "reporterId": "u1",
+            "assigneeId": "u2",
+            "sprintId": "s1",
+            "epicId": null,
+            "labels": [
+              "devops"
+            ],
+            "subtasks": [],
+            "linkedIssueIds": [],
+            "createdAt": "2026-03-01T10:00:00.000Z",
+            "updatedAt": "2026-03-10T14:00:00.000Z"
+          },
+          {
+            "id": "i2",
+            "key": "KAN-2",
+            "projectId": "p1",
+            "summary": "Implement user authentication",
+            "description": "Add OAuth2 login with Google and GitHub providers.",
+            "type": "Story",
+            "status": "In Progress",
+            "priority": "High",
+            "storyPoints": 8,
+            "reporterId": "u1",
+            "assigneeId": "u4",
+            "sprintId": "s1",
+            "epicId": null,
+            "labels": [
+              "auth"
+            ],
+            "subtasks": [
+              {
+                "id": "st1",
+                "title": "Design auth flow",
+                "completed": true
+              },
+              {
+                "id": "st2",
+                "title": "Integrate OAuth providers",
+                "completed": false
+              }
+            ],
+            "linkedIssueIds": [],
+            "createdAt": "2026-03-01T10:30:00.000Z",
+            "updatedAt": "2026-03-11T09:00:00.000Z"
+          },
+          {
+            "id": "i3",
+            "key": "KAN-3",
+            "projectId": "p1",
+            "summary": "Design database schema",
+            "description": "Define PostgreSQL tables for users, projects, and issues.",
+            "type": "Task",
+            "status": "Done",
+            "priority": "Medium",
+            "storyPoints": 3,
+            "reporterId": "u2",
+            "assigneeId": "u3",
+            "sprintId": "s1",
+            "epicId": null,
+            "labels": [
+              "backend"
+            ],
+            "subtasks": [],
+            "linkedIssueIds": [],
+            "createdAt": "2026-03-02T08:00:00.000Z",
+            "updatedAt": "2026-03-09T11:00:00.000Z"
+          },
+          {
+            "id": "i4",
+            "key": "KAN-4",
+            "projectId": "p1",
+            "summary": "Fix login page CSS alignment",
+            "description": "Button and form fields are misaligned on mobile breakpoints.",
+            "type": "Bug",
+            "status": "To Do",
+            "priority": "Low",
+            "storyPoints": 1,
+            "reporterId": "u4",
+            "assigneeId": "u2",
+            "sprintId": "s1",
+            "epicId": null,
+            "labels": [
+              "frontend",
+              "bug"
+            ],
+            "subtasks": [],
+            "linkedIssueIds": [],
+            "createdAt": "2026-03-04T13:00:00.000Z",
+            "updatedAt": "2026-03-04T13:00:00.000Z"
+          },
+          {
+            "id": "i5",
+            "key": "KAN-5",
+            "projectId": "p1",
+            "summary": "Write API documentation",
+            "description": "Document all REST endpoints using OpenAPI 3.0 spec.",
+            "type": "Task",
+            "status": "In Review",
+            "priority": "Medium",
+            "storyPoints": 3,
+            "reporterId": "u1",
+            "assigneeId": "u4",
+            "sprintId": "s1",
+            "epicId": null,
+            "labels": [
+              "docs"
+            ],
+            "subtasks": [],
+            "linkedIssueIds": [],
+            "createdAt": "2026-03-05T09:00:00.000Z",
+            "updatedAt": "2026-03-12T16:00:00.000Z"
+          },
+          {
+            "id": "i6",
+            "key": "KAN-6",
+            "projectId": "p1",
+            "summary": "Refactor caching layer",
+            "description": "Replace in-memory caching with a distributed cache solution to improve scalability and reliability across multiple service instances.",
+            "type": "Task",
+            "status": "In Progress",
+            "priority": "High",
+            "storyPoints": 5,
+            "reporterId": "u1",
+            "assigneeId": "u3",
+            "sprintId": "s1",
+            "epicId": null,
+            "labels": [
+              "backend",
+              "performance"
+            ],
+            "subtasks": [
+              {
+                "id": "st3",
+                "title": "Design cache invalidation strategy",
+                "completed": true
+              }
+            ],
+            "linkedIssueIds": [],
+            "createdAt": "2026-03-06T10:00:00.000Z",
+            "updatedAt": "2026-03-13T11:00:00.000Z"
+          },
+          {
+            "id": "i7",
+            "key": "KAN-7",
+            "projectId": "p1",
+            "summary": "Add rate limiting to API gateway",
+            "description": "Implement token bucket algorithm for per-user rate limiting.",
+            "type": "Story",
+            "status": "To Do",
+            "priority": "Medium",
+            "storyPoints": 5,
+            "reporterId": "u3",
+            "assigneeId": null,
+            "sprintId": "s2",
+            "epicId": null,
+            "labels": [
+              "security"
+            ],
+            "subtasks": [],
+            "linkedIssueIds": [],
+            "createdAt": "2026-03-08T10:00:00.000Z",
+            "updatedAt": "2026-03-08T10:00:00.000Z"
+          },
+          {
+            "id": "i8",
+            "key": "KAN-8",
+            "projectId": "p1",
+            "summary": "Implement search functionality",
+            "description": "Add full-text search using Elasticsearch for issues and projects.",
+            "type": "Story",
+            "status": "To Do",
+            "priority": "High",
+            "storyPoints": 8,
+            "reporterId": "u1",
+            "assigneeId": "u2",
+            "sprintId": "s2",
+            "epicId": null,
+            "labels": [
+              "backend"
+            ],
+            "subtasks": [],
+            "linkedIssueIds": [],
+            "createdAt": "2026-03-09T08:00:00.000Z",
+            "updatedAt": "2026-03-09T08:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "notifications"
+        },
+        "value": [
+          {
+            "id": "n1",
+            "type": "assignment",
+            "issueId": "i6",
+            "actorId": "u1",
+            "message": "You were assigned to KAN-6: Refactor caching layer",
+            "read": false,
+            "createdAt": "2026-03-06T10:00:00.000Z"
+          },
+          {
+            "id": "n2",
+            "type": "comment",
+            "issueId": "i6",
+            "actorId": "u1",
+            "message": "Admin User commented on KAN-6",
+            "read": true,
+            "createdAt": "2026-03-07T09:30:00.000Z"
+          },
+          {
+            "id": "n3",
+            "type": "status_change",
+            "issueId": "i3",
+            "actorId": "u2",
+            "message": "KAN-3 was moved to Done",
+            "read": true,
+            "createdAt": "2026-03-09T11:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "projects"
+        },
+        "value": [
+          {
+            "id": "p1",
+            "key": "KAN",
+            "name": "Kanban Project",
+            "leadId": "u1",
+            "category": "Software",
+            "icon": "https://picsum.photos/64/64?random=p1"
+          },
+          {
+            "id": "p2",
+            "key": "SCRUM",
+            "name": "Scrum Alpha",
+            "leadId": "u2",
+            "category": "Software",
+            "icon": "https://picsum.photos/64/64?random=p2"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "sprints"
+        },
+        "value": [
+          {
+            "id": "s1",
+            "projectId": "p1",
+            "name": "Sprint 1",
+            "goal": "Deliver core backend features",
+            "startDate": "2026-03-01T09:00:00.000Z",
+            "endDate": "2026-03-15T18:00:00.000Z",
+            "state": "active"
+          },
+          {
+            "id": "s2",
+            "projectId": "p1",
+            "name": "Sprint 2",
+            "goal": "Frontend and integration work",
+            "startDate": "2026-03-16T09:00:00.000Z",
+            "endDate": "2026-03-30T18:00:00.000Z",
+            "state": "future"
+          },
+          {
+            "id": "s3",
+            "projectId": "p1",
+            "name": "Sprint 0",
+            "goal": "Project setup and planning",
+            "startDate": "2026-02-15T09:00:00.000Z",
+            "endDate": "2026-02-28T18:00:00.000Z",
+            "state": "closed"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "users"
+        },
+        "value": [
+          {
+            "id": "u1",
+            "name": "Admin User",
+            "email": "admin@example.com",
+            "avatar": "https://picsum.photos/100/100?random=u1"
+          },
+          {
+            "id": "u2",
+            "name": "Jane Doe",
+            "email": "jane@example.com",
+            "avatar": "https://picsum.photos/100/100?random=u2"
+          },
+          {
+            "id": "u3",
+            "name": "John Smith",
+            "email": "john@example.com",
+            "avatar": "https://picsum.photos/100/100?random=u3"
+          },
+          {
+            "id": "u4",
+            "name": "Sarah Lee",
+            "email": "sarah@example.com",
+            "avatar": "https://picsum.photos/100/100?random=u4"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "workflows"
+        },
+        "value": [
+          {
+            "id": "w1",
+            "name": "Software Workflow",
+            "transitions": [
+              {
+                "from": "To Do",
+                "to": [
+                  "In Progress"
+                ]
+              },
+              {
+                "from": "In Progress",
+                "to": [
+                  "In Review",
+                  "To Do",
+                  "Done"
+                ]
+              },
+              {
+                "from": "In Review",
+                "to": [
+                  "Done",
+                  "In Progress"
+                ]
+              },
+              {
+                "from": "Done",
+                "to": [
+                  "In Progress",
+                  "To Do"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "spec": {
+          "query": [
+            [
+              "collection",
+              "issues"
+            ],
+            [
+              "key",
+              "KAN-6"
+            ]
+          ],
+          "path": [
+            "status"
+          ],
+          "script": "(()=>{const x=(state.issues||[]).find(v=>v.key==='KAN-6');return x?.status==='In Review';})()"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "query": [
+            [
+              "collection",
+              "comments"
+            ],
+            [
+              "issueKey",
+              "KAN-6"
+            ]
+          ],
+          "path": [
+            "content",
+            "requiredKeywords"
+          ],
+          "script": "(()=>{const issue=(state.issues||[]).find(x=>x?.key==='KAN-6');if(!issue?.id)return false;return (state.comments||[]).some(x=>x?.issueId===issue.id&&String(x?.content||'').includes('Code complete')&&String(x?.content||'').includes('PR #142')&&String(x?.content||'').includes('Redis'));})()"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "query": [
+            [
+              "collection",
+              "issues"
+            ],
+            [
+              "key",
+              "KAN-6"
+            ],
+            [
+              "subtaskTitle",
+              "Code review"
+            ]
+          ],
+          "path": [
+            "subtasks",
+            "newAndIncomplete"
+          ],
+          "script": "(()=>{const issue=(state.issues||[]).find(x=>x?.key==='KAN-6');return (issue?.subtasks||[]).some(x=>String(x?.title||'').trim().toLowerCase()==='code review'&&x?.completed===false);})()"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "query": [
+            [
+              "collection",
+              "issues"
+            ],
+            [
+              "key",
+              "KAN-6"
+            ],
+            [
+              "subtaskTitle",
+              "QA verification"
+            ]
+          ],
+          "path": [
+            "subtasks",
+            "newAndIncomplete"
+          ],
+          "script": "(()=>{const issue=(state.issues||[]).find(x=>x?.key==='KAN-6');return (issue?.subtasks||[]).some(x=>String(x?.title||'').trim().toLowerCase()==='qa verification'&&x?.completed===false);})()"
+        },
+        "value": true
+      }
+    ]
+  ],
+  "empty_start": false,
+  "accumulation": "DELTA"
+}

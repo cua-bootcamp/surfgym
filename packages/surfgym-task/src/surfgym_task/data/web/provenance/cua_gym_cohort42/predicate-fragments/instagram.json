@@ -1,0 +1,235 @@
+{
+  "version": 1,
+  "group": "instagram",
+  "tasks": [
+    {
+      "task_id": "09918993-d6b3-5097-9e82-f0988eeb60ed",
+      "source_task_name": "instagram_adv_036",
+      "risk": "low",
+      "dependencies": [],
+      "atoms": [
+        {"id": "notif_1_read", "role": "goal", "source_component": "component_1", "spec": {"script": "Array.isArray(state?.notifications) && state.notifications.some((x) => x?.id === 'notif_1' && x?.read === true)", "query": "notification notif_1 is read", "path": "notifications[id=notif_1].read"}, "value": true},
+        {"id": "notif_2_read", "role": "goal", "source_component": "component_1", "spec": {"script": "Array.isArray(state?.notifications) && state.notifications.some((x) => x?.id === 'notif_2' && x?.read === true)", "query": "notification notif_2 is read", "path": "notifications[id=notif_2].read"}, "value": true},
+        {"id": "story_1_viewed", "role": "goal", "source_component": "component_2", "spec": {"script": "Array.isArray(state?.stories) && state.stories.some((x) => x?.id === 'story_1' && x?.viewed === true)", "query": "story story_1 is viewed", "path": "stories[id=story_1].viewed"}, "value": true},
+        {"id": "story_3_viewed", "role": "goal", "source_component": "component_2", "spec": {"script": "Array.isArray(state?.stories) && state.stories.some((x) => x?.id === 'story_3' && x?.viewed === true)", "query": "story story_3 is viewed", "path": "stories[id=story_3].viewed"}, "value": true},
+        {"id": "story_4_viewed", "role": "goal", "source_component": "component_2", "spec": {"script": "Array.isArray(state?.stories) && state.stories.some((x) => x?.id === 'story_4' && x?.viewed === true)", "query": "story story_4 is viewed", "path": "stories[id=story_4].viewed"}, "value": true}
+      ]
+    },
+    {
+      "task_id": "133a8676-fa79-518c-b000-5d51d4791db2",
+      "source_task_name": "instagram_basic_033",
+      "risk": "low",
+      "dependencies": [
+        {"from": "admin_username_updated", "to": "admin_name_preserved", "reason": "preservation credit is meaningful only with the requested username change"},
+        {"from": "admin_username_updated", "to": "admin_bio_preserved", "reason": "preservation credit is meaningful only with the requested username change"}
+      ],
+      "atoms": [
+        {"id": "admin_username_updated", "role": "goal", "source_component": "component_1", "spec": {"script": "state?.users?.user_admin?.username === 'alex_photo_sf'", "query": "user_admin username equals alex_photo_sf", "path": "users.user_admin.username"}, "value": true},
+        {"id": "admin_name_preserved", "role": "invariant", "source_component": "component_2", "spec": {"script": "state?.users?.user_admin?.name === 'Alex Morgan'", "query": "user_admin name is preserved", "path": "users.user_admin.name"}, "value": true},
+        {"id": "admin_bio_preserved", "role": "invariant", "source_component": "component_2", "spec": {"script": "state?.users?.user_admin?.bio === 'Photographer'", "query": "user_admin bio is preserved", "path": "users.user_admin.bio"}, "value": true}
+      ]
+    },
+    {
+      "task_id": "1ed55ccc-6946-57a8-97ee-5137c5f9ea54",
+      "source_task_name": "instagram_basic_044",
+      "risk": "low",
+      "dependencies": [
+        {"from": "post_6_saved", "to": "post_6_saved_mirror", "reason": "top-level bookmark mirror must agree with the post save state"}
+      ],
+      "atoms": [
+        {"id": "post_6_liked", "role": "goal", "source_component": "component_1", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_6')?.likes?.includes('user_admin') === true", "query": "post_6 is liked by user_admin", "path": "posts[id=post_6].likes"}, "value": true},
+        {"id": "post_6_saved", "role": "goal", "source_component": "component_2", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_6')?.saved?.includes('user_admin') === true", "query": "post_6 saved field contains user_admin", "path": "posts[id=post_6].saved"}, "value": true},
+        {"id": "post_6_saved_mirror", "role": "invariant", "source_component": "component_3", "spec": {"script": "state?.savedPostIds?.includes('post_6') === true", "query": "savedPostIds contains post_6", "path": "savedPostIds"}, "value": true}
+      ]
+    },
+    {
+      "task_id": "22fb9b2c-add0-5c9c-a1b9-acf5cb63cd1e",
+      "source_task_name": "instagram_basic_036",
+      "risk": "low",
+      "dependencies": [
+        {"from": "admin_follows_user_6", "to": "user_6_followers_mirror", "reason": "follow relation must be reflected on both user records"},
+        {"from": "admin_follows_user_8", "to": "user_8_followers_mirror", "reason": "follow relation must be reflected on both user records"}
+      ],
+      "atoms": [
+        {"id": "admin_follows_user_6", "role": "goal", "source_component": "component_1", "spec": {"script": "state?.users?.user_admin?.following?.includes('user_6') === true", "query": "user_admin follows user_6", "path": "users.user_admin.following"}, "value": true},
+        {"id": "admin_follows_user_8", "role": "goal", "source_component": "component_2", "spec": {"script": "state?.users?.user_admin?.following?.includes('user_8') === true", "query": "user_admin follows user_8", "path": "users.user_admin.following"}, "value": true},
+        {"id": "user_6_followers_mirror", "role": "invariant", "source_component": "component_3", "spec": {"script": "state?.users?.user_6?.followers?.includes('user_admin') === true", "query": "user_6 followers contains user_admin", "path": "users.user_6.followers"}, "value": true},
+        {"id": "user_8_followers_mirror", "role": "invariant", "source_component": "component_4", "spec": {"script": "state?.users?.user_8?.followers?.includes('user_admin') === true", "query": "user_8 followers contains user_admin", "path": "users.user_8.followers"}, "value": true}
+      ]
+    },
+    {
+      "task_id": "25dc997b-93cf-5540-b3e9-84c59c01ff4b",
+      "source_task_name": "instagram_adv_048",
+      "risk": "medium",
+      "dependencies": [
+        {"from": "post_3_liked", "to": "post_5_not_overliked", "reason": "the original invariant component is gated by completion of both requested likes"},
+        {"from": "post_7_liked", "to": "post_5_not_overliked", "reason": "the original invariant component is gated by completion of both requested likes"}
+      ],
+      "atoms": [
+        {"id": "post_3_liked", "role": "goal", "source_component": "component_1", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_3')?.likes?.includes('user_admin') === true", "query": "post_3 is liked by user_admin", "path": "posts[id=post_3].likes"}, "value": true},
+        {"id": "post_7_liked", "role": "goal", "source_component": "component_2", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_7')?.likes?.includes('user_admin') === true", "query": "post_7 is liked by user_admin", "path": "posts[id=post_7].likes"}, "value": true},
+        {"id": "post_5_not_overliked", "role": "invariant", "source_component": "component_3", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_5')?.likes?.includes('user_admin') === false", "query": "post_5 is not liked by user_admin", "path": "posts[id=post_5].likes"}, "value": true}
+      ]
+    },
+    {
+      "task_id": "2eb23e15-069e-57ea-8b10-5afe318562c3",
+      "source_task_name": "instagram_adv_021",
+      "risk": "low",
+      "dependencies": [],
+      "atoms": [
+        {"id": "comment_c_1_liked", "role": "goal", "source_component": "component_1", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_1')?.comments?.find((c) => c?.id === 'c_1')?.likes?.includes('user_admin') === true", "query": "comment c_1 on post_1 is liked by user_admin", "path": "posts[id=post_1].comments[id=c_1].likes"}, "value": true},
+        {"id": "comment_c_2_liked", "role": "goal", "source_component": "component_2", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_1')?.comments?.find((c) => c?.id === 'c_2')?.likes?.includes('user_admin') === true", "query": "comment c_2 on post_1 is liked by user_admin", "path": "posts[id=post_1].comments[id=c_2].likes"}, "value": true},
+        {"id": "comment_c_10_liked", "role": "goal", "source_component": "component_3", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_10')?.comments?.find((c) => c?.id === 'c_10')?.likes?.includes('user_admin') === true", "query": "comment c_10 on post_10 is liked by user_admin", "path": "posts[id=post_10].comments[id=c_10].likes"}, "value": true},
+        {"id": "comment_c_11_liked", "role": "goal", "source_component": "component_4", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_10')?.comments?.find((c) => c?.id === 'c_11')?.likes?.includes('user_admin') === true", "query": "comment c_11 on post_10 is liked by user_admin", "path": "posts[id=post_10].comments[id=c_11].likes"}, "value": true},
+        {"id": "comment_c_12_liked", "role": "goal", "source_component": "component_5", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_10')?.comments?.find((c) => c?.id === 'c_12')?.likes?.includes('user_admin') === true", "query": "comment c_12 on post_10 is liked by user_admin", "path": "posts[id=post_10].comments[id=c_12].likes"}, "value": true}
+      ]
+    },
+    {
+      "task_id": "4b04f328-8c61-5012-8730-ec0d0a7f6ef2",
+      "source_task_name": "instagram_basic_034",
+      "risk": "low",
+      "dependencies": [
+        {"from": "post_5_saved", "to": "post_5_saved_mirror", "reason": "top-level bookmark mirror must agree with the post save state"}
+      ],
+      "atoms": [
+        {"id": "post_5_liked", "role": "goal", "source_component": "component_1", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_5')?.likes?.includes('user_admin') === true", "query": "post_5 is liked by user_admin", "path": "posts[id=post_5].likes"}, "value": true},
+        {"id": "post_5_saved", "role": "goal", "source_component": "component_2", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_5')?.saved?.includes('user_admin') === true", "query": "post_5 saved field contains user_admin", "path": "posts[id=post_5].saved"}, "value": true},
+        {"id": "post_5_saved_mirror", "role": "invariant", "source_component": "component_2", "spec": {"script": "state?.savedPostIds?.includes('post_5') === true", "query": "savedPostIds contains post_5", "path": "savedPostIds"}, "value": true}
+      ]
+    },
+    {
+      "task_id": "4fbe0b2e-7f9e-5752-8e56-4a99ab3887c8",
+      "source_task_name": "instagram_basic_015",
+      "risk": "low",
+      "dependencies": [],
+      "atoms": [
+        {"id": "notif_1_read", "role": "goal", "source_component": "component_1", "spec": {"script": "state?.notifications?.find((n) => n?.id === 'notif_1')?.read === true", "query": "notif_1 is read", "path": "notifications[id=notif_1].read"}, "value": true},
+        {"id": "notif_2_read", "role": "goal", "source_component": "component_2", "spec": {"script": "state?.notifications?.find((n) => n?.id === 'notif_2')?.read === true", "query": "notif_2 is read", "path": "notifications[id=notif_2].read"}, "value": true},
+        {"id": "notif_3_read", "role": "goal", "source_component": "component_3", "spec": {"script": "state?.notifications?.find((n) => n?.id === 'notif_3')?.read === true", "query": "notif_3 is read", "path": "notifications[id=notif_3].read"}, "value": true}
+      ]
+    },
+    {
+      "task_id": "61d58ac6-1eb6-5d39-b6c2-899c785a0572",
+      "source_task_name": "instagram_basic_030",
+      "risk": "medium",
+      "dependencies": [
+        {"from": "post_2_has_comment", "to": "post_2_has_admin_comment", "reason": "author scoring requires a created comment"},
+        {"from": "post_2_has_admin_comment", "to": "post_2_has_exact_admin_comment", "reason": "text scoring applies to the comment authored by user_admin"}
+      ],
+      "atoms": [
+        {"id": "post_2_has_comment", "role": "goal", "source_component": "component_1", "spec": {"script": "(state?.posts?.find((p) => p?.id === 'post_2')?.comments?.length ?? 0) >= 1", "query": "post_2 has at least one comment", "path": "posts[id=post_2].comments"}, "value": true},
+        {"id": "post_2_has_admin_comment", "role": "goal", "source_component": "component_2", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_2')?.comments?.some((c) => c?.userId === 'user_admin') === true", "query": "post_2 has a comment by user_admin", "path": "posts[id=post_2].comments[userId=user_admin]"}, "value": true},
+        {"id": "post_2_has_exact_admin_comment", "role": "goal", "source_component": "component_3", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_2')?.comments?.some((c) => c?.userId === 'user_admin' && String(c?.text ?? '').trim() === 'What a great group shot!') === true", "query": "post_2 has the exact requested comment by user_admin", "path": "posts[id=post_2].comments[userId=user_admin].text"}, "value": true}
+      ]
+    },
+    {
+      "task_id": "6b0820fb-41ef-5d92-aa18-1e96c7a8351c",
+      "source_task_name": "instagram_adv_005",
+      "risk": "low",
+      "dependencies": [
+        {"from": "post_2_saved", "to": "post_2_saved_mirror", "reason": "top-level bookmark mirror must agree with the post save state"},
+        {"from": "post_4_saved", "to": "post_4_saved_mirror", "reason": "top-level bookmark mirror must agree with the post save state"}
+      ],
+      "atoms": [
+        {"id": "post_2_saved", "role": "goal", "source_component": "component_1", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_2')?.saved?.includes('user_admin') === true", "query": "post_2 saved field contains user_admin", "path": "posts[id=post_2].saved"}, "value": true},
+        {"id": "post_2_saved_mirror", "role": "invariant", "source_component": "component_1", "spec": {"script": "state?.savedPostIds?.includes('post_2') === true", "query": "savedPostIds contains post_2", "path": "savedPostIds"}, "value": true},
+        {"id": "post_4_saved", "role": "goal", "source_component": "component_2", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_4')?.saved?.includes('user_admin') === true", "query": "post_4 saved field contains user_admin", "path": "posts[id=post_4].saved"}, "value": true},
+        {"id": "post_4_saved_mirror", "role": "invariant", "source_component": "component_2", "spec": {"script": "state?.savedPostIds?.includes('post_4') === true", "query": "savedPostIds contains post_4", "path": "savedPostIds"}, "value": true}
+      ]
+    },
+    {
+      "task_id": "7cf937a6-3017-5b17-ba3f-0a6cc9b1052c",
+      "source_task_name": "instagram_basic_035",
+      "risk": "medium",
+      "dependencies": [
+        {"from": "reply_to_c_6_exists", "to": "reply_to_c_6_by_admin", "reason": "author scoring requires a reply to the target comment"},
+        {"from": "reply_to_c_6_by_admin", "to": "reply_to_c_6_text", "reason": "text scoring applies to the reply authored by user_admin"}
+      ],
+      "atoms": [
+        {"id": "reply_to_c_6_exists", "role": "goal", "source_component": "component_1", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_5')?.comments?.some((c) => c?.isReply === true && c?.replyToId === 'c_6') === true", "query": "post_5 has a reply to comment c_6", "path": "posts[id=post_5].comments[isReply=true,replyToId=c_6]"}, "value": true},
+        {"id": "reply_to_c_6_by_admin", "role": "goal", "source_component": "component_2", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_5')?.comments?.some((c) => c?.isReply === true && c?.replyToId === 'c_6' && c?.userId === 'user_admin') === true", "query": "user_admin authored a reply to c_6", "path": "posts[id=post_5].comments[isReply=true,replyToId=c_6,userId=user_admin]"}, "value": true},
+        {"id": "reply_to_c_6_text", "role": "goal", "source_component": "component_3", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_5')?.comments?.some((c) => { const t = String(c?.text ?? '').toLowerCase(); return c?.isReply === true && c?.replyToId === 'c_6' && c?.userId === 'user_admin' && t.includes('@adventure_seeker') && t.includes('recipe'); }) === true", "query": "the user_admin reply to c_6 contains the required mention and recipe token", "path": "posts[id=post_5].comments[replyToId=c_6,userId=user_admin].text"}, "value": true}
+      ]
+    },
+    {
+      "task_id": "8e4ffdeb-ad1f-5790-bd3f-dd11908ea142",
+      "source_task_name": "instagram_adv_031",
+      "risk": "medium",
+      "dependencies": [
+        {"from": "admin_follows_user_4", "to": "user_4_followers_mirror", "reason": "follow relation must be reflected on both user records"},
+        {"from": "admin_follows_user_8", "to": "user_8_followers_mirror", "reason": "follow relation must be reflected on both user records"}
+      ],
+      "atoms": [
+        {"id": "admin_follows_user_4", "role": "goal", "source_component": "component_1", "spec": {"script": "state?.users?.user_admin?.following?.includes('user_4') === true", "query": "user_admin follows user_4", "path": "users.user_admin.following"}, "value": true},
+        {"id": "user_4_followers_mirror", "role": "invariant", "source_component": "component_1", "spec": {"script": "state?.users?.user_4?.followers?.includes('user_admin') === true", "query": "user_4 followers contains user_admin", "path": "users.user_4.followers"}, "value": true},
+        {"id": "admin_follows_user_8", "role": "goal", "source_component": "component_2", "spec": {"script": "state?.users?.user_admin?.following?.includes('user_8') === true", "query": "user_admin follows user_8", "path": "users.user_admin.following"}, "value": true},
+        {"id": "user_8_followers_mirror", "role": "invariant", "source_component": "component_2", "spec": {"script": "state?.users?.user_8?.followers?.includes('user_admin') === true", "query": "user_8 followers contains user_admin", "path": "users.user_8.followers"}, "value": true},
+        {"id": "latest_user_6_post_liked", "role": "goal", "source_component": "component_3", "spec": {"script": "(() => { const xs = (state?.posts ?? []).filter((p) => p?.userId === 'user_6').sort((a, b) => String(b?.created ?? '').localeCompare(String(a?.created ?? ''))); return xs.length > 0 && xs[0]?.likes?.includes('user_admin') === true; })()", "query": "the most recent post authored by user_6 is liked by user_admin", "path": "posts[userId=user_6,max(created)].likes"}, "value": true}
+      ]
+    },
+    {
+      "task_id": "98479d5c-529e-576a-aa30-a4c82eefcc87",
+      "source_task_name": "instagram_basic_042",
+      "risk": "medium",
+      "dependencies": [
+        {"from": "comment_c_4_admin_like_removed", "to": "comment_c_4_other_like_preserved", "reason": "the original preservation component is gated by removal of user_admin"}
+      ],
+      "atoms": [
+        {"id": "comment_c_4_admin_like_removed", "role": "goal", "source_component": "component_1", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_2')?.comments?.find((c) => c?.id === 'c_4')?.likes?.includes('user_admin') === false", "query": "user_admin is absent from comment c_4 likes", "path": "posts[id=post_2].comments[id=c_4].likes"}, "value": true},
+        {"id": "comment_c_4_other_like_preserved", "role": "invariant", "source_component": "component_2", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_2')?.comments?.find((c) => c?.id === 'c_4')?.likes?.includes('user_2') === true", "query": "user_2 remains in comment c_4 likes", "path": "posts[id=post_2].comments[id=c_4].likes"}, "value": true}
+      ]
+    },
+    {
+      "task_id": "bf2a0bde-be76-524f-8594-c94977832eed",
+      "source_task_name": "instagram_adv_006",
+      "risk": "medium",
+      "dependencies": [],
+      "atoms": [
+        {"id": "credited_post_2_liked", "role": "goal", "source_component": "component_1", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_2')?.likes?.includes('user_admin') === true", "query": "credited post_2 is liked by user_admin", "path": "posts[id=post_2].likes"}, "value": true},
+        {"id": "post_15_credit_comment", "role": "goal", "source_component": "component_2", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_15')?.comments?.some((c) => c?.userId === 'user_admin' && String(c?.text ?? '').trim() === 'Hey, this looks familiar! Credit: @alex_morgan') === true", "query": "post_15 has the exact credit comment by user_admin", "path": "posts[id=post_15].comments[userId=user_admin].text"}, "value": true},
+        {"id": "post_16_credit_comment", "role": "goal", "source_component": "component_3", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_16')?.comments?.some((c) => c?.userId === 'user_admin' && String(c?.text ?? '').trim() === 'Hey, this looks familiar! Credit: @alex_morgan') === true", "query": "post_16 has the exact credit comment by user_admin", "path": "posts[id=post_16].comments[userId=user_admin].text"}, "value": true}
+      ]
+    },
+    {
+      "task_id": "ced56393-784b-55da-9a6d-f7183ddfe599",
+      "source_task_name": "instagram_basic_039",
+      "risk": "medium",
+      "dependencies": [
+        {"from": "post_8_liked", "to": "post_8_like_set_exact", "reason": "exact-set integrity is evaluated after the requested like is present"}
+      ],
+      "atoms": [
+        {"id": "post_8_liked", "role": "goal", "source_component": "component_1", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_8')?.likes?.includes('user_admin') === true", "query": "post_8 is liked by user_admin", "path": "posts[id=post_8].likes"}, "value": true},
+        {"id": "post_8_like_set_exact", "role": "invariant", "source_component": "component_2", "spec": {"script": "(() => { const xs = state?.posts?.find((p) => p?.id === 'post_8')?.likes; return Array.isArray(xs) && xs.length === 3 && ['user_4', 'user_6', 'user_admin'].every((x) => xs.includes(x)); })()", "query": "post_8 likes equal the expected user set", "path": "posts[id=post_8].likes"}, "value": true}
+      ]
+    },
+    {
+      "task_id": "d3268ba9-6bae-5be7-9bfa-028fa8a8e707",
+      "source_task_name": "instagram_adv_045",
+      "risk": "low",
+      "dependencies": [
+        {"from": "admin_follows_user_7", "to": "user_7_followers_mirror", "reason": "follow relation must be reflected on both user records"},
+        {"from": "admin_follows_user_8", "to": "user_8_followers_mirror", "reason": "follow relation must be reflected on both user records"}
+      ],
+      "atoms": [
+        {"id": "admin_follows_user_7", "role": "goal", "source_component": "component_1", "spec": {"script": "state?.users?.user_admin?.following?.includes('user_7') === true", "query": "user_admin follows user_7", "path": "users.user_admin.following"}, "value": true},
+        {"id": "user_7_followers_mirror", "role": "invariant", "source_component": "component_1", "spec": {"script": "state?.users?.user_7?.followers?.includes('user_admin') === true", "query": "user_7 followers contains user_admin", "path": "users.user_7.followers"}, "value": true},
+        {"id": "admin_follows_user_8", "role": "goal", "source_component": "component_2", "spec": {"script": "state?.users?.user_admin?.following?.includes('user_8') === true", "query": "user_admin follows user_8", "path": "users.user_admin.following"}, "value": true},
+        {"id": "user_8_followers_mirror", "role": "invariant", "source_component": "component_2", "spec": {"script": "state?.users?.user_8?.followers?.includes('user_admin') === true", "query": "user_8 followers contains user_admin", "path": "users.user_8.followers"}, "value": true}
+      ]
+    },
+    {
+      "task_id": "f6d0c6ba-d4c0-57af-a336-ee06a9d12bbd",
+      "source_task_name": "instagram_adv_033",
+      "risk": "medium",
+      "dependencies": [
+        {"from": "post_7_saved", "to": "post_7_saved_mirror", "reason": "top-level bookmark mirror must agree with the post save state"}
+      ],
+      "atoms": [
+        {"id": "post_7_liked", "role": "goal", "source_component": "component_1", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_7')?.likes?.includes('user_admin') === true", "query": "post_7 is liked by user_admin", "path": "posts[id=post_7].likes"}, "value": true},
+        {"id": "post_7_saved", "role": "goal", "source_component": "component_2", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_7')?.saved?.includes('user_admin') === true", "query": "post_7 saved field contains user_admin", "path": "posts[id=post_7].saved"}, "value": true},
+        {"id": "post_7_saved_mirror", "role": "invariant", "source_component": "component_2", "spec": {"script": "state?.savedPostIds?.includes('post_7') === true", "query": "savedPostIds contains post_7", "path": "savedPostIds"}, "value": true},
+        {"id": "post_7_exact_comment", "role": "goal", "source_component": "component_3", "spec": {"script": "state?.posts?.find((p) => p?.id === 'post_7')?.comments?.some((c) => c?.userId === 'user_admin' && String(c?.text ?? '').trim() === 'This post is blowing up!') === true", "query": "post_7 has the exact requested comment by user_admin", "path": "posts[id=post_7].comments[userId=user_admin].text"}, "value": true}
+      ]
+    }
+  ]
+}

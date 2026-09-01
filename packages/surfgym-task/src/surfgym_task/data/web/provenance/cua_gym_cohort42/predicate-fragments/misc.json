@@ -1,0 +1,849 @@
+{
+  "version": 1,
+  "group": "misc",
+  "tasks": [
+    {
+      "task_id": "035309b4-34ad-54f0-82c4-ce9f68d2f75b",
+      "source_task_name": "github_adv_005",
+      "risk": "medium",
+      "dependencies": [
+        {
+          "from": "github_adv_005_i1_inprogress",
+          "to": "github_adv_005_i4_todo",
+          "reason": "The preservation component is awarded only after at least one move component passes in the source reward."
+        },
+        {
+          "from": "github_adv_005_i1_inprogress",
+          "to": "github_adv_005_i7_todo",
+          "reason": "The preservation component is awarded only after at least one move component passes in the source reward."
+        }
+      ],
+      "atoms": [
+        {
+          "id": "github_adv_005_i1_inprogress",
+          "role": "goal",
+          "source_component": "component_1_bug_issues",
+          "spec": {
+            "query": [["collection", "issues"], ["id", "i1"]],
+            "path": ["column"],
+            "script": "(()=>{const x=(state.issues||[]).find(v=>v.id==='i1');return x?.column==='inprogress';})()"
+          },
+          "value": true
+        },
+        {
+          "id": "github_adv_005_i2_inprogress",
+          "role": "goal",
+          "source_component": "component_1_bug_issues",
+          "spec": {
+            "query": [["collection", "issues"], ["id", "i2"]],
+            "path": ["column"],
+            "script": "(()=>{const x=(state.issues||[]).find(v=>v.id==='i2');return x?.column==='inprogress';})()"
+          },
+          "value": true
+        },
+        {
+          "id": "github_adv_005_i3_done",
+          "role": "goal",
+          "source_component": "component_2_enhancement_assigned",
+          "spec": {
+            "query": [["collection", "issues"], ["id", "i3"]],
+            "path": ["column"],
+            "script": "(()=>{const x=(state.issues||[]).find(v=>v.id==='i3');return x?.column==='done';})()"
+          },
+          "value": true
+        },
+        {
+          "id": "github_adv_005_i8_done",
+          "role": "goal",
+          "source_component": "component_2_enhancement_assigned",
+          "spec": {
+            "query": [["collection", "issues"], ["id", "i8"]],
+            "path": ["column"],
+            "script": "(()=>{const x=(state.issues||[]).find(v=>v.id==='i8');return x?.column==='done';})()"
+          },
+          "value": true
+        },
+        {
+          "id": "github_adv_005_i5_done",
+          "role": "goal",
+          "source_component": "component_3_closed_issues",
+          "spec": {
+            "query": [["collection", "issues"], ["id", "i5"]],
+            "path": ["column"],
+            "script": "(()=>{const x=(state.issues||[]).find(v=>v.id==='i5');return x?.column==='done';})()"
+          },
+          "value": true
+        },
+        {
+          "id": "github_adv_005_i6_done",
+          "role": "goal",
+          "source_component": "component_3_closed_issues",
+          "spec": {
+            "query": [["collection", "issues"], ["id", "i6"]],
+            "path": ["column"],
+            "script": "(()=>{const x=(state.issues||[]).find(v=>v.id==='i6');return x?.column==='done';})()"
+          },
+          "value": true
+        },
+        {
+          "id": "github_adv_005_i4_todo",
+          "role": "invariant",
+          "source_component": "component_4_other_issues",
+          "spec": {
+            "query": [["collection", "issues"], ["id", "i4"]],
+            "path": ["column"],
+            "script": "(()=>{const x=(state.issues||[]).find(v=>v.id==='i4');return x?.column==='todo';})()"
+          },
+          "value": true
+        },
+        {
+          "id": "github_adv_005_i7_todo",
+          "role": "invariant",
+          "source_component": "component_4_other_issues",
+          "spec": {
+            "query": [["collection", "issues"], ["id", "i7"]],
+            "path": ["column"],
+            "script": "(()=>{const x=(state.issues||[]).find(v=>v.id==='i7');return x?.column==='todo';})()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "378d436a-433a-51f8-a13f-92ecf1415e9f",
+      "source_task_name": "gmail_adv_009",
+      "risk": "high",
+      "dependencies": [
+        {
+          "from": "gmail_adv_009_label_created_red",
+          "to": "gmail_adv_009_label_assignments",
+          "reason": "Email label membership is evaluated using the runtime id of the newly named label."
+        }
+      ],
+      "atoms": [
+        {
+          "id": "gmail_adv_009_label_created_red",
+          "role": "goal",
+          "source_component": "component_1_label_created",
+          "spec": {
+            "query": [["collection", "labels"], ["name", "Urgent-Q1"]],
+            "path": ["created", "recognizedRed"],
+            "script": "(()=>{const reds=new Set(['#ef4444','#ff0000','#dc2626','#f87171','#e53e3e','#c53030','red']);return (state.labels||[]).some(x=>x?.name==='Urgent-Q1'&&reds.has(String(x?.color||'').toLowerCase().trim()));})()"
+          },
+          "value": true
+        },
+        {
+          "id": "gmail_adv_009_label_assignments",
+          "role": "goal",
+          "source_component": "component_2_qualifying_labels",
+          "spec": {
+            "query": [["collection", "emails"], ["dynamicLabelName", "Urgent-Q1"]],
+            "path": ["labels", "qualifyingOnly"],
+            "script": "(()=>{const label=(state.labels||[]).find(x=>x?.name==='Urgent-Q1');if(!label?.id)return false;const byId=Object.fromEntries((state.emails||[]).map(x=>[x.id,x]));return ['e1','e2','e4'].every(id=>(byId[id]?.labels||[]).includes(label.id))&&['e3','e5'].every(id=>!(byId[id]?.labels||[]).includes(label.id));})()"
+          },
+          "value": true
+        },
+        {
+          "id": "gmail_adv_009_e1_starred",
+          "role": "goal",
+          "source_component": "component_3_qualifying_starred",
+          "spec": {
+            "query": [["collection", "emails"], ["id", "e1"]],
+            "path": ["starred"],
+            "script": "(()=>{const x=(state.emails||[]).find(v=>v.id==='e1');return x?.starred===true;})()"
+          },
+          "value": true
+        },
+        {
+          "id": "gmail_adv_009_e2_starred",
+          "role": "goal",
+          "source_component": "component_3_qualifying_starred",
+          "spec": {
+            "query": [["collection", "emails"], ["id", "e2"]],
+            "path": ["starred"],
+            "script": "(()=>{const x=(state.emails||[]).find(v=>v.id==='e2');return x?.starred===true;})()"
+          },
+          "value": true
+        },
+        {
+          "id": "gmail_adv_009_e4_starred",
+          "role": "goal",
+          "source_component": "component_3_qualifying_starred",
+          "spec": {
+            "query": [["collection", "emails"], ["id", "e4"]],
+            "path": ["starred"],
+            "script": "(()=>{const x=(state.emails||[]).find(v=>v.id==='e4');return x?.starred===true;})()"
+          },
+          "value": true
+        },
+        {
+          "id": "gmail_adv_009_e1_important",
+          "role": "goal",
+          "source_component": "component_4_qualifying_important",
+          "spec": {
+            "query": [["collection", "emails"], ["id", "e1"]],
+            "path": ["important"],
+            "script": "(()=>{const x=(state.emails||[]).find(v=>v.id==='e1');return x?.important===true;})()"
+          },
+          "value": true
+        },
+        {
+          "id": "gmail_adv_009_e2_important",
+          "role": "goal",
+          "source_component": "component_4_qualifying_important",
+          "spec": {
+            "query": [["collection", "emails"], ["id", "e2"]],
+            "path": ["important"],
+            "script": "(()=>{const x=(state.emails||[]).find(v=>v.id==='e2');return x?.important===true;})()"
+          },
+          "value": true
+        },
+        {
+          "id": "gmail_adv_009_e4_important",
+          "role": "goal",
+          "source_component": "component_4_qualifying_important",
+          "spec": {
+            "query": [["collection", "emails"], ["id", "e4"]],
+            "path": ["important"],
+            "script": "(()=>{const x=(state.emails||[]).find(v=>v.id==='e4');return x?.important===true;})()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "6960e935-15cb-5096-a53e-1f0cfe125abe",
+      "source_task_name": "gmail_adv_013",
+      "risk": "high",
+      "dependencies": [
+        {
+          "from": "gmail_adv_013_forward_exists",
+          "to": "gmail_adv_013_forward_note",
+          "reason": "The required note is evaluated on a newly created sent email addressed to the assistant."
+        }
+      ],
+      "atoms": [
+        {
+          "id": "gmail_adv_013_e2_starred",
+          "role": "goal",
+          "source_component": "component_1_target_starred",
+          "spec": {
+            "query": [["collection", "emails"], ["id", "e2"]],
+            "path": ["starred"],
+            "script": "(()=>{const x=(state.emails||[]).find(v=>v.id==='e2');return x?.starred===true;})()"
+          },
+          "value": true
+        },
+        {
+          "id": "gmail_adv_013_e2_important",
+          "role": "goal",
+          "source_component": "component_2_target_important",
+          "spec": {
+            "query": [["collection", "emails"], ["id", "e2"]],
+            "path": ["important"],
+            "script": "(()=>{const x=(state.emails||[]).find(v=>v.id==='e2');return x?.important===true;})()"
+          },
+          "value": true
+        },
+        {
+          "id": "gmail_adv_013_forward_exists",
+          "role": "goal",
+          "source_component": "component_3_forward_created",
+          "spec": {
+            "query": [["collection", "emails"], ["newSinceInitialIds", ["e1", "e2", "e3", "e4"]], ["recipient", "assistant@company.com"]],
+            "path": ["folder", "sent"],
+            "script": "(()=>{const old=new Set(['e1','e2','e3','e4']);return (state.emails||[]).some(x=>!old.has(x?.id)&&x?.folder==='sent'&&(x?.to||[]).some(r=>String(r?.email||'').toLowerCase()==='assistant@company.com'));})()"
+          },
+          "value": true
+        },
+        {
+          "id": "gmail_adv_013_forward_note",
+          "role": "goal",
+          "source_component": "component_4_forward_note",
+          "spec": {
+            "query": [["collection", "emails"], ["newSinceInitialIds", ["e1", "e2", "e3", "e4"]], ["recipient", "assistant@company.com"]],
+            "path": ["bodyOrSnippet", "requiredKeywords"],
+            "script": "(()=>{const old=new Set(['e1','e2','e3','e4']);return (state.emails||[]).some(x=>{if(old.has(x?.id)||x?.folder!=='sent'||!(x?.to||[]).some(r=>String(r?.email||'').toLowerCase()==='assistant@company.com'))return false;const text=String(x?.body||'').toLowerCase()+' '+String(x?.snippet||'').toLowerCase();return ['download','file','attachment'].every(k=>text.includes(k));});})()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "99e382bd-8632-5ed2-902e-bd9db366238e",
+      "source_task_name": "hubspot_basic_023",
+      "risk": "low",
+      "dependencies": [
+        {
+          "from": "hubspot_basic_023_m3_absent",
+          "to": "hubspot_basic_023_exact_remaining",
+          "reason": "The exact remaining-id set is the no-extra and no-over-deletion invariant for deleting m3."
+        }
+      ],
+      "atoms": [
+        {
+          "id": "hubspot_basic_023_m3_absent",
+          "role": "goal",
+          "source_component": "component_1_m3_absent",
+          "spec": {
+            "query": [["collection", "meetings"], ["id", "m3"]],
+            "path": ["absent"],
+            "script": "(()=>!(state.meetings||[]).some(x=>x?.id==='m3'))()"
+          },
+          "value": true
+        },
+        {
+          "id": "hubspot_basic_023_exact_remaining",
+          "role": "invariant",
+          "source_component": "component_2_exact_remaining",
+          "spec": {
+            "query": [["collection", "meetings"], ["expectedIds", ["m1", "m2", "m4"]]],
+            "path": ["ids", "exactSet"],
+            "script": "(()=>{const ids=(state.meetings||[]).map(x=>x?.id);return ids.length===3&&new Set(ids).size===3&&['m1','m2','m4'].every(id=>ids.includes(id));})()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "d8600f30-8e31-5db0-9d8e-73dae2e9f8a3",
+      "source_task_name": "jira_adv_011",
+      "risk": "medium",
+      "dependencies": [],
+      "atoms": [
+        {
+          "id": "jira_adv_011_status_in_review",
+          "role": "goal",
+          "source_component": "component_1_status",
+          "spec": {
+            "query": [["collection", "issues"], ["key", "KAN-6"]],
+            "path": ["status"],
+            "script": "(()=>{const x=(state.issues||[]).find(v=>v.key==='KAN-6');return x?.status==='In Review';})()"
+          },
+          "value": true
+        },
+        {
+          "id": "jira_adv_011_comment",
+          "role": "goal",
+          "source_component": "component_2_comment",
+          "spec": {
+            "query": [["collection", "comments"], ["issueKey", "KAN-6"]],
+            "path": ["content", "requiredKeywords"],
+            "script": "(()=>{const issue=(state.issues||[]).find(x=>x?.key==='KAN-6');if(!issue?.id)return false;return (state.comments||[]).some(x=>x?.issueId===issue.id&&String(x?.content||'').includes('Code complete')&&String(x?.content||'').includes('PR #142')&&String(x?.content||'').includes('Redis'));})()"
+          },
+          "value": true
+        },
+        {
+          "id": "jira_adv_011_code_review_subtask",
+          "role": "goal",
+          "source_component": "component_3_code_review_subtask",
+          "spec": {
+            "query": [["collection", "issues"], ["key", "KAN-6"], ["subtaskTitle", "Code review"]],
+            "path": ["subtasks", "newAndIncomplete"],
+            "script": "(()=>{const issue=(state.issues||[]).find(x=>x?.key==='KAN-6');return (issue?.subtasks||[]).some(x=>String(x?.title||'').trim().toLowerCase()==='code review'&&x?.completed===false);})()"
+          },
+          "value": true
+        },
+        {
+          "id": "jira_adv_011_qa_verification_subtask",
+          "role": "goal",
+          "source_component": "component_4_qa_verification_subtask",
+          "spec": {
+            "query": [["collection", "issues"], ["key", "KAN-6"], ["subtaskTitle", "QA verification"]],
+            "path": ["subtasks", "newAndIncomplete"],
+            "script": "(()=>{const issue=(state.issues||[]).find(x=>x?.key==='KAN-6');return (issue?.subtasks||[]).some(x=>String(x?.title||'').trim().toLowerCase()==='qa verification'&&x?.completed===false);})()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "51fcc185-5c30-5966-9df8-38304c181e24",
+      "source_task_name": "jira_adv_001",
+      "risk": "low",
+      "dependencies": [],
+      "atoms": [
+        {
+          "id": "jira_adv_001_i2_sprint",
+          "role": "goal",
+          "source_component": "component_1_i2_sprint",
+          "spec": {
+            "query": [["collection", "issues"], ["id", "i2"]],
+            "path": ["sprintId"],
+            "script": "(()=>{const x=(state.issues||[]).find(v=>v.id==='i2');return x?.sprintId==='s2';})()"
+          },
+          "value": true
+        },
+        {
+          "id": "jira_adv_001_i2_assignee",
+          "role": "goal",
+          "source_component": "component_2_i2_assignee",
+          "spec": {
+            "query": [["collection", "issues"], ["id", "i2"]],
+            "path": ["assigneeId"],
+            "script": "(()=>{const x=(state.issues||[]).find(v=>v.id==='i2');return x?.assigneeId==='u2';})()"
+          },
+          "value": true
+        },
+        {
+          "id": "jira_adv_001_i2_priority",
+          "role": "goal",
+          "source_component": "component_3_i2_priority",
+          "spec": {
+            "query": [["collection", "issues"], ["id", "i2"]],
+            "path": ["priority"],
+            "script": "(()=>{const x=(state.issues||[]).find(v=>v.id==='i2');return x?.priority==='Medium';})()"
+          },
+          "value": true
+        },
+        {
+          "id": "jira_adv_001_i5_sprint",
+          "role": "goal",
+          "source_component": "component_4_i5_sprint",
+          "spec": {
+            "query": [["collection", "issues"], ["id", "i5"]],
+            "path": ["sprintId"],
+            "script": "(()=>{const x=(state.issues||[]).find(v=>v.id==='i5');return x?.sprintId==='s2';})()"
+          },
+          "value": true
+        },
+        {
+          "id": "jira_adv_001_i5_assignee",
+          "role": "goal",
+          "source_component": "component_5_i5_assignee",
+          "spec": {
+            "query": [["collection", "issues"], ["id", "i5"]],
+            "path": ["assigneeId"],
+            "script": "(()=>{const x=(state.issues||[]).find(v=>v.id==='i5');return x?.assigneeId==='u2';})()"
+          },
+          "value": true
+        },
+        {
+          "id": "jira_adv_001_i5_priority",
+          "role": "goal",
+          "source_component": "component_6_i5_priority",
+          "spec": {
+            "query": [["collection", "issues"], ["id", "i5"]],
+            "path": ["priority"],
+            "script": "(()=>{const x=(state.issues||[]).find(v=>v.id==='i5');return x?.priority==='Medium';})()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "f5ac7c62-2cd9-516b-8c5b-88806ad29922",
+      "source_task_name": "linkedin_adv_001",
+      "risk": "high",
+      "dependencies": [
+        {
+          "from": "linkedin_adv_001_admin_post_exists",
+          "to": "linkedin_adv_001_promotion_keyword",
+          "reason": "The source reward evaluates promotion text on the first current-state post authored by user_admin."
+        },
+        {
+          "from": "linkedin_adv_001_admin_post_exists",
+          "to": "linkedin_adv_001_techcorp",
+          "reason": "The source reward evaluates TechCorp text on the first current-state post authored by user_admin."
+        },
+        {
+          "from": "linkedin_adv_001_admin_post_exists",
+          "to": "linkedin_adv_001_cloud_infrastructure",
+          "reason": "The source reward evaluates cloud-infrastructure text on the first current-state post authored by user_admin."
+        }
+      ],
+      "atoms": [
+        {
+          "id": "linkedin_adv_001_admin_post_exists",
+          "role": "goal",
+          "source_component": "component_1_admin_post",
+          "spec": {
+            "query": [["collection", "posts"], ["userId", "user_admin"], ["selection", "first"]],
+            "path": ["exists"],
+            "script": "(()=>(state.posts||[]).some(x=>x?.userId==='user_admin'))()"
+          },
+          "value": true
+        },
+        {
+          "id": "linkedin_adv_001_promotion_keyword",
+          "role": "goal",
+          "source_component": "component_2_promotion_keyword",
+          "spec": {
+            "query": [["collection", "posts"], ["userId", "user_admin"], ["selection", "first"]],
+            "path": ["content", "promotionKeyword"],
+            "script": "(()=>{const x=(state.posts||[]).find(v=>v?.userId==='user_admin');const s=String(x?.content||'').toLowerCase();return s.includes('promoted')||s.includes('engineering director');})()"
+          },
+          "value": true
+        },
+        {
+          "id": "linkedin_adv_001_techcorp",
+          "role": "goal",
+          "source_component": "component_3_techcorp",
+          "spec": {
+            "query": [["collection", "posts"], ["userId", "user_admin"], ["selection", "first"]],
+            "path": ["content", "containsTechCorp"],
+            "script": "(()=>{const x=(state.posts||[]).find(v=>v?.userId==='user_admin');return String(x?.content||'').toLowerCase().includes('techcorp');})()"
+          },
+          "value": true
+        },
+        {
+          "id": "linkedin_adv_001_cloud_infrastructure",
+          "role": "goal",
+          "source_component": "component_4_cloud_infrastructure",
+          "spec": {
+            "query": [["collection", "posts"], ["userId", "user_admin"], ["selection", "first"]],
+            "path": ["content", "containsCloudInfrastructure"],
+            "script": "(()=>{const x=(state.posts||[]).find(v=>v?.userId==='user_admin');return String(x?.content||'').toLowerCase().includes('cloud infrastructure');})()"
+          },
+          "value": true
+        },
+        {
+          "id": "linkedin_adv_001_celebrate_post_1",
+          "role": "goal",
+          "source_component": "component_5_celebrate_reaction",
+          "spec": {
+            "query": [["collection", "posts"], ["target", "post_1_or_user_2_conference"]],
+            "path": ["reactions", "celebrate", "containsUserAdmin"],
+            "script": "(()=>{const posts=state.posts||[];const p=posts.find(x=>x?.id==='post_1');if((p?.reactions?.celebrate||[]).includes('user_admin'))return true;return posts.some(x=>x?.userId==='user_2'&&['conf','speak','talk','presenting'].some(k=>String(x?.content||'').toLowerCase().includes(k))&&(x?.reactions?.celebrate||[]).includes('user_admin'));})()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "e48ccd78-8f79-53e0-8910-51ef2a538a0a",
+      "source_task_name": "microsoft_teams_basic_021",
+      "risk": "low",
+      "dependencies": [
+        {
+          "from": "microsoft_teams_basic_021_enabled",
+          "to": "microsoft_teams_basic_021_schedule",
+          "reason": "The source schedule component is compound and is awarded only while quiet hours are enabled."
+        }
+      ],
+      "atoms": [
+        {
+          "id": "microsoft_teams_basic_021_enabled",
+          "role": "goal",
+          "source_component": "component_1_enabled",
+          "spec": {
+            "query": [["object", "settings.notifications"]],
+            "path": ["quietHoursEnabled"],
+            "script": "(()=>state.settings?.notifications?.quietHoursEnabled===true)()"
+          },
+          "value": true
+        },
+        {
+          "id": "microsoft_teams_basic_021_schedule",
+          "role": "invariant",
+          "source_component": "component_2_schedule_compound",
+          "spec": {
+            "query": [["object", "settings.notifications"]],
+            "path": ["quietHoursStart", "quietHoursEnd"],
+            "script": "(()=>state.settings?.notifications?.quietHoursStart==='22:00'&&state.settings?.notifications?.quietHoursEnd==='07:00')()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "e09dacc1-8e93-5731-970d-ed4c5392c5cf",
+      "source_task_name": "stripe_adv_011",
+      "risk": "medium",
+      "dependencies": [
+        {
+          "from": "stripe_adv_011_payment_refunded",
+          "to": "stripe_adv_011_refund_record",
+          "reason": "The refund record is the ledger-side consequence of refunding pay-009."
+        }
+      ],
+      "atoms": [
+        {
+          "id": "stripe_adv_011_payment_refunded",
+          "role": "goal",
+          "source_component": "component_1_payment_refunded",
+          "spec": {
+            "query": [["collection", "payments"], ["id", "pay-009"]],
+            "path": ["refundIndicator"],
+            "script": "(()=>{const x=(state.payments||[]).find(v=>v?.id==='pay-009');return Boolean(x&&(x.refunded===true||Number(x.amount_refunded||0)>0||x.status==='refunded'));})()"
+          },
+          "value": true
+        },
+        {
+          "id": "stripe_adv_011_refund_record",
+          "role": "goal",
+          "source_component": "component_2_refund_record",
+          "spec": {
+            "query": [["collection", "refunds"], ["charge", "pay-009"]],
+            "path": ["exists"],
+            "script": "(()=>(state.refunds||[]).some(x=>x?.charge==='pay-009'))()"
+          },
+          "value": true
+        },
+        {
+          "id": "stripe_adv_011_invoice_not_open",
+          "role": "goal",
+          "source_component": "component_3_invoice_voided",
+          "spec": {
+            "query": [["collection", "invoices"], ["id", "inv-008"]],
+            "path": ["absentOrStatusNotOpen"],
+            "script": "(()=>{const x=(state.invoices||[]).find(v=>v?.id==='inv-008');return !x||x.status!=='open';})()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "30bf8031-1165-5420-8cf1-b98567282d8d",
+      "source_task_name": "trello_adv_007",
+      "risk": "medium",
+      "dependencies": [],
+      "atoms": [
+        {
+          "id": "trello_adv_007_card_1_comment",
+          "role": "goal",
+          "source_component": "component_1_card_1_comment",
+          "spec": {
+            "query": [["collection", "cards"], ["id", "card-1"]],
+            "path": ["comments", "newRequiredCommentByU1"],
+            "script": "(()=>{const x=state.cards?.['card-1'];return (x?.comments||[]).some(c=>c?.userId==='u1'&&String(c?.text||'').toLowerCase().includes('capacity review')&&String(c?.text||'').toLowerCase().includes('eta update'));})()"
+          },
+          "value": true
+        },
+        {
+          "id": "trello_adv_007_card_4_comment",
+          "role": "goal",
+          "source_component": "component_2_card_4_comment",
+          "spec": {
+            "query": [["collection", "cards"], ["id", "card-4"]],
+            "path": ["comments", "newRequiredCommentByU1"],
+            "script": "(()=>{const x=state.cards?.['card-4'];return (x?.comments||[]).some(c=>c?.userId==='u1'&&String(c?.text||'').toLowerCase().includes('capacity review')&&String(c?.text||'').toLowerCase().includes('eta update'));})()"
+          },
+          "value": true
+        },
+        {
+          "id": "trello_adv_007_card_11_comment",
+          "role": "goal",
+          "source_component": "component_3_card_11_comment",
+          "spec": {
+            "query": [["collection", "cards"], ["id", "card-11"]],
+            "path": ["comments", "newRequiredCommentByU1"],
+            "script": "(()=>{const x=state.cards?.['card-11'];return (x?.comments||[]).some(c=>c?.userId==='u1'&&String(c?.text||'').toLowerCase().includes('capacity review')&&String(c?.text||'').toLowerCase().includes('eta update'));})()"
+          },
+          "value": true
+        },
+        {
+          "id": "trello_adv_007_card_1_moved",
+          "role": "goal",
+          "source_component": "component_4_card_1_move",
+          "spec": {
+            "query": [["collection", "cards"], ["id", "card-1"]],
+            "path": ["listId", "andListMembership"],
+            "script": "(()=>state.cards?.['card-1']?.listId==='list-2'&&(state.lists?.['list-2']?.cardIds||[]).includes('card-1')&&!(state.lists?.['list-1']?.cardIds||[]).includes('card-1'))()"
+          },
+          "value": true
+        },
+        {
+          "id": "trello_adv_007_card_11_moved",
+          "role": "goal",
+          "source_component": "component_5_card_11_move",
+          "spec": {
+            "query": [["collection", "cards"], ["id", "card-11"]],
+            "path": ["listId", "andListMembership"],
+            "script": "(()=>state.cards?.['card-11']?.listId==='list-2'&&(state.lists?.['list-2']?.cardIds||[]).includes('card-11')&&!(state.lists?.['list-1']?.cardIds||[]).includes('card-11'))()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "32611e41-9e82-5602-ae1a-2e9dbff23814",
+      "source_task_name": "trello_adv_002",
+      "risk": "medium",
+      "dependencies": [],
+      "atoms": [
+        {
+          "id": "trello_adv_002_card_1_done_list",
+          "role": "goal",
+          "source_component": "component_1_cards_moved",
+          "spec": {
+            "query": [["collection", "cards"], ["id", "card-1"]],
+            "path": ["listId"],
+            "script": "(()=>state.cards?.['card-1']?.listId==='list-4')()"
+          },
+          "value": true
+        },
+        {
+          "id": "trello_adv_002_card_5_done_list",
+          "role": "goal",
+          "source_component": "component_1_cards_moved",
+          "spec": {
+            "query": [["collection", "cards"], ["id", "card-5"]],
+            "path": ["listId"],
+            "script": "(()=>state.cards?.['card-5']?.listId==='list-4')()"
+          },
+          "value": true
+        },
+        {
+          "id": "trello_adv_002_card_9_done_list",
+          "role": "goal",
+          "source_component": "component_1_cards_moved",
+          "spec": {
+            "query": [["collection", "cards"], ["id", "card-9"]],
+            "path": ["listId"],
+            "script": "(()=>state.cards?.['card-9']?.listId==='list-4')()"
+          },
+          "value": true
+        },
+        {
+          "id": "trello_adv_002_card_1_completed",
+          "role": "goal",
+          "source_component": "component_2_cards_completed",
+          "spec": {
+            "query": [["collection", "cards"], ["id", "card-1"]],
+            "path": ["completed"],
+            "script": "(()=>state.cards?.['card-1']?.completed===true)()"
+          },
+          "value": true
+        },
+        {
+          "id": "trello_adv_002_card_5_completed",
+          "role": "goal",
+          "source_component": "component_2_cards_completed",
+          "spec": {
+            "query": [["collection", "cards"], ["id", "card-5"]],
+            "path": ["completed"],
+            "script": "(()=>state.cards?.['card-5']?.completed===true)()"
+          },
+          "value": true
+        },
+        {
+          "id": "trello_adv_002_card_9_completed",
+          "role": "goal",
+          "source_component": "component_2_cards_completed",
+          "spec": {
+            "query": [["collection", "cards"], ["id", "card-9"]],
+            "path": ["completed"],
+            "script": "(()=>state.cards?.['card-9']?.completed===true)()"
+          },
+          "value": true
+        },
+        {
+          "id": "trello_adv_002_card_1_comment",
+          "role": "goal",
+          "source_component": "component_3_auto_close_comments",
+          "spec": {
+            "query": [["collection", "cards"], ["id", "card-1"]],
+            "path": ["comments", "newAutoClosedByU1"],
+            "script": "(()=>{const x=state.cards?.['card-1'];return (x?.comments||[]).some(c=>c?.userId==='u1'&&String(c?.text||'').includes('Auto-closed: past due date'));})()"
+          },
+          "value": true
+        },
+        {
+          "id": "trello_adv_002_card_5_comment",
+          "role": "goal",
+          "source_component": "component_3_auto_close_comments",
+          "spec": {
+            "query": [["collection", "cards"], ["id", "card-5"]],
+            "path": ["comments", "newAutoClosedByU1"],
+            "script": "(()=>{const x=state.cards?.['card-5'];return (x?.comments||[]).some(c=>c?.userId==='u1'&&String(c?.text||'').includes('Auto-closed: past due date'));})()"
+          },
+          "value": true
+        },
+        {
+          "id": "trello_adv_002_card_9_comment",
+          "role": "goal",
+          "source_component": "component_3_auto_close_comments",
+          "spec": {
+            "query": [["collection", "cards"], ["id", "card-9"]],
+            "path": ["comments", "newAutoClosedByU1"],
+            "script": "(()=>{const x=state.cards?.['card-9'];return (x?.comments||[]).some(c=>c?.id!=='cmt-9-1'&&c?.userId==='u1'&&String(c?.text||'').includes('Auto-closed: past due date'));})()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "cf6fada2-db21-5dfd-af4a-62d5210f57cc",
+      "source_task_name": "trello_adv_046",
+      "risk": "medium",
+      "dependencies": [
+        {
+          "from": "trello_adv_046_card_6_progress_text",
+          "to": "trello_adv_046_card_6_current_user_author",
+          "reason": "The authorship component binds to the matching card-6 progress comment."
+        },
+        {
+          "from": "trello_adv_046_card_7_no_checklist_text",
+          "to": "trello_adv_046_card_7_current_user_author",
+          "reason": "The authorship component binds to the matching card-7 no-checklist comment."
+        }
+      ],
+      "atoms": [
+        {
+          "id": "trello_adv_046_card_6_progress_text",
+          "role": "goal",
+          "source_component": "component_1_card_6_progress",
+          "spec": {
+            "query": [["collection", "cards"], ["id", "card-6"]],
+            "path": ["comments", "newProgressText"],
+            "script": "(()=>{const x=state.cards?.['card-6'];return (x?.comments||[]).some(c=>{const s=String(c?.text||'');return s.includes('Progress:')&&s.includes('2/5')&&s.includes('40%');});})()"
+          },
+          "value": true
+        },
+        {
+          "id": "trello_adv_046_card_7_no_checklist_text",
+          "role": "goal",
+          "source_component": "component_2_card_7_no_checklist",
+          "spec": {
+            "query": [["collection", "cards"], ["id", "card-7"]],
+            "path": ["comments", "newNoChecklistText"],
+            "script": "(()=>{const x=state.cards?.['card-7'];return (x?.comments||[]).some(c=>{const s=String(c?.text||'');return s.includes('No checklist found')&&s.includes('task breakdown');});})()"
+          },
+          "value": true
+        },
+        {
+          "id": "trello_adv_046_card_6_current_user_author",
+          "role": "goal",
+          "source_component": "component_3_authorship",
+          "spec": {
+            "query": [["collection", "cards"], ["id", "card-6"]],
+            "path": ["comments", "matchingProgressAuthorIsCurrentUser"],
+            "script": "(()=>{const x=state.cards?.['card-6'];const u=state.currentUser||'u1';return (x?.comments||[]).some(c=>{const s=String(c?.text||'');return s.includes('Progress:')&&s.includes('2/5')&&s.includes('40%')&&c?.userId===u;});})()"
+          },
+          "value": true
+        },
+        {
+          "id": "trello_adv_046_card_7_current_user_author",
+          "role": "goal",
+          "source_component": "component_3_authorship",
+          "spec": {
+            "query": [["collection", "cards"], ["id", "card-7"]],
+            "path": ["comments", "matchingNoChecklistAuthorIsCurrentUser"],
+            "script": "(()=>{const x=state.cards?.['card-7'];const u=state.currentUser||'u1';return (x?.comments||[]).some(c=>{const s=String(c?.text||'');return s.includes('No checklist found')&&s.includes('task breakdown')&&c?.userId===u;});})()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "118e5c12-a910-5337-a563-f30b3ee7cd64",
+      "source_task_name": "twitter_adv_004",
+      "risk": "high",
+      "dependencies": [],
+      "atoms": [
+        {
+          "id": "twitter_adv_004_full_dynamic_binding",
+          "role": "goal",
+          "source_component": "components_1_through_4",
+          "spec": {
+            "query": [["collection", "tweets"], ["newSinceInitialIds", ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9", "p10", "p11", "p12", "p13", "p14", "p15", "p16", "p17", "p18"]], ["userId", "u1"], ["quotedPostId", "p7"]],
+            "path": ["dynamicQuoteTweet", "contentAndPinnedReferences"],
+            "script": "(()=>{const tweets=state.tweets||[];const old=new Set(['p1','p2','p3','p4','p5','p6','p7','p8','p9','p10','p11','p12','p13','p14','p15','p16','p17','p18']);const candidates=tweets.filter(t=>t?.userId==='u1'&&t?.quotedPostId==='p7'&&!old.has(t?.id));if(!candidates.length)return false;const exactText=\"Couldn't agree more. The panel on responsible AI governance was the highlight for me. We need more cross-industry dialogue on this.\";const quote=candidates.find(t=>String(t?.content||'').trim()===exactText)||candidates.at(-1);const content=String(quote?.content||'');if(!content.includes('responsible AI governance')||!content.includes('cross-industry dialogue'))return false;const validPinned=id=>{if(id===quote.id)return true;const t=tweets.find(x=>x?.id===id);return Boolean(t&&t.userId==='u1'&&t.quotedPostId==='p7');};const u1=(state.users||[]).find(u=>u?.id==='u1');return validPinned(u1?.pinnedPostId)&&validPinned(state.currentUser?.pinnedPostId);})()"
+          },
+          "value": true
+        }
+      ]
+    }
+  ]
+}

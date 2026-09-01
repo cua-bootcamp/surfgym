@@ -1,0 +1,326 @@
+{
+  "instruction": "Check my notifications. For every follow notification, follow that person back. For every like notification, like their most recent post in return.",
+  "website": "http://127.0.0.1:8052/?sid=8e4ffdeb-ad1f-5790-bd3f-dd11908ea142",
+  "domain": "web",
+  "states": [
+    [
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "conversations"
+        },
+        "value": []
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "currentUserId"
+        },
+        "value": "user_admin"
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "messages"
+        },
+        "value": []
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "notifications"
+        },
+        "value": [
+          {
+            "id": "notif_1",
+            "type": "follow",
+            "fromUserId": "user_4",
+            "postId": null,
+            "commentId": null,
+            "text": "started following you.",
+            "read": false,
+            "created": "2024-01-12T10:00:00Z"
+          },
+          {
+            "id": "notif_2",
+            "type": "like",
+            "fromUserId": "user_6",
+            "postId": "post_1",
+            "commentId": null,
+            "text": "liked your photo.",
+            "read": false,
+            "created": "2024-01-12T11:00:00Z"
+          },
+          {
+            "id": "notif_3",
+            "type": "follow",
+            "fromUserId": "user_8",
+            "postId": null,
+            "commentId": null,
+            "text": "started following you.",
+            "read": false,
+            "created": "2024-01-12T12:00:00Z"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "posts"
+        },
+        "value": [
+          {
+            "id": "post_1",
+            "userId": "user_admin",
+            "images": [
+              "https://picsum.photos/800/800?random=101"
+            ],
+            "caption": "Golden hour over the bay. Nothing beats that warm orange glow. #photography #goldenhour #sanfrancisco",
+            "location": "San Francisco, CA",
+            "likes": [
+              "user_2",
+              "user_6"
+            ],
+            "comments": [
+              {
+                "id": "c_1",
+                "userId": "user_2",
+                "text": "Absolutely stunning! The colors are incredible.",
+                "created": "2024-01-01T09:30:00Z",
+                "likes": []
+              }
+            ],
+            "saved": [],
+            "created": "2024-01-01T08:00:00Z"
+          },
+          {
+            "id": "post_6a",
+            "userId": "user_6",
+            "images": [
+              "https://picsum.photos/800/800?random=161"
+            ],
+            "caption": "Forest walk through the redwoods. The silence is healing. #nature #forest #hiking",
+            "location": "Muir Woods, CA",
+            "likes": [
+              "user_5"
+            ],
+            "comments": [],
+            "saved": [],
+            "created": "2024-01-11T09:00:00Z"
+          },
+          {
+            "id": "post_6b",
+            "userId": "user_6",
+            "images": [
+              "https://picsum.photos/800/800?random=162"
+            ],
+            "caption": "Morning dew on spider webs. Nature's jewelry. #macro #nature #morning",
+            "location": "Golden Gate Park, CA",
+            "likes": [],
+            "comments": [],
+            "saved": [],
+            "created": "2024-01-12T07:00:00Z"
+          },
+          {
+            "id": "post_4",
+            "userId": "user_4",
+            "images": [
+              "https://picsum.photos/800/800?random=141"
+            ],
+            "caption": "New UI design concept for a fintech app. Clean, minimal, functional. #design #ux #ui",
+            "location": "Los Angeles, CA",
+            "likes": [],
+            "comments": [],
+            "saved": [],
+            "created": "2024-01-04T11:00:00Z"
+          },
+          {
+            "id": "post_8",
+            "userId": "user_8",
+            "images": [
+              "https://picsum.photos/800/800?random=181"
+            ],
+            "caption": "New art piece — digital watercolor study. Still experimenting with textures. #art #digitalart #illustration",
+            "location": "New York, NY",
+            "likes": [],
+            "comments": [],
+            "saved": [],
+            "created": "2024-01-08T14:00:00Z"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "savedPostIds"
+        },
+        "value": []
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "stories"
+        },
+        "value": []
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "users"
+        },
+        "value": {
+          "user_admin": {
+            "id": "user_admin",
+            "username": "alex_morgan",
+            "name": "Alex Morgan",
+            "avatar": "https://picsum.photos/150/150?random=1",
+            "bio": "Photographer & Visual Storyteller | SF Bay Area",
+            "website": "alexmorgan.photo",
+            "followers": [
+              "user_2",
+              "user_4",
+              "user_6",
+              "user_8"
+            ],
+            "following": [
+              "user_2",
+              "user_3"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_2": {
+            "id": "user_2",
+            "username": "adventure_seeker",
+            "name": "Alice Walker",
+            "avatar": "https://picsum.photos/150/150?random=2",
+            "bio": "Explorer | Hiker | Adventure junkie",
+            "website": "",
+            "followers": [
+              "user_admin"
+            ],
+            "following": [
+              "user_admin"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_3": {
+            "id": "user_3",
+            "username": "tech_guru",
+            "name": "Bob Chen",
+            "avatar": "https://picsum.photos/150/150?random=3",
+            "bio": "Software Engineer | Open source enthusiast",
+            "website": "bobchen.dev",
+            "followers": [],
+            "following": [
+              "user_admin"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_4": {
+            "id": "user_4",
+            "username": "design_daily",
+            "name": "Sarah Kim",
+            "avatar": "https://picsum.photos/150/150?random=4",
+            "bio": "UI/UX Designer | Minimalism advocate",
+            "website": "sarahkim.design",
+            "followers": [],
+            "following": [
+              "user_admin"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_5": {
+            "id": "user_5",
+            "username": "foodie_life",
+            "name": "Chef Marco",
+            "avatar": "https://picsum.photos/150/150?random=5",
+            "bio": "Professional chef | Food blogger",
+            "website": "",
+            "followers": [
+              "user_6"
+            ],
+            "following": [],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_6": {
+            "id": "user_6",
+            "username": "nature_lover",
+            "name": "Emma Green",
+            "avatar": "https://picsum.photos/150/150?random=6",
+            "bio": "Nature photographer | Environmentalist",
+            "website": "",
+            "followers": [],
+            "following": [
+              "user_admin"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_8": {
+            "id": "user_8",
+            "username": "artsy_vibes",
+            "name": "Mia Chen",
+            "avatar": "https://picsum.photos/150/150?random=8",
+            "bio": "Digital artist | Illustrator",
+            "website": "miachen.art",
+            "followers": [],
+            "following": [
+              "user_admin"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          }
+        }
+      }
+    ],
+    [
+      {
+        "spec": {
+          "script": "state?.users?.user_admin?.following?.includes('user_4') === true",
+          "query": "user_admin follows user_4",
+          "path": "users.user_admin.following"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "script": "state?.users?.user_4?.followers?.includes('user_admin') === true",
+          "query": "user_4 followers contains user_admin",
+          "path": "users.user_4.followers"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "script": "state?.users?.user_admin?.following?.includes('user_8') === true",
+          "query": "user_admin follows user_8",
+          "path": "users.user_admin.following"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "script": "state?.users?.user_8?.followers?.includes('user_admin') === true",
+          "query": "user_8 followers contains user_admin",
+          "path": "users.user_8.followers"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "script": "(() => { const xs = (state?.posts ?? []).filter((p) => p?.userId === 'user_6').sort((a, b) => String(b?.created ?? '').localeCompare(String(a?.created ?? ''))); return xs.length > 0 && xs[0]?.likes?.includes('user_admin') === true; })()",
+          "query": "the most recent post authored by user_6 is liked by user_admin",
+          "path": "posts[userId=user_6,max(created)].likes"
+        },
+        "value": true
+      }
+    ]
+  ],
+  "empty_start": false,
+  "accumulation": "DELTA"
+}

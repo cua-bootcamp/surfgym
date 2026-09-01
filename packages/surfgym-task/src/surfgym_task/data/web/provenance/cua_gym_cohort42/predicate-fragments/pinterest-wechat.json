@@ -1,0 +1,588 @@
+{
+  "version": 1,
+  "group": "pinterest-wechat",
+  "tasks": [
+    {
+      "task_id": "45bcdc62-3b6f-5cdd-922e-8c497c09bdba",
+      "source_task_name": "pinterest_adv_049",
+      "risk": "medium",
+      "dependencies": [],
+      "atoms": [
+        {
+          "id": "current_user_bio_exact",
+          "role": "goal",
+          "source_component": "Component 1 (0.6): currentUser.bio matches the exact target string",
+          "spec": {
+            "query": [["entity", "currentUser"]],
+            "path": ["bio"],
+            "script": "(()=>state.currentUser&&state.currentUser.bio==='Food & travel enthusiast | Exploring the world one pin at a time')()"
+          },
+          "value": true
+        },
+        {
+          "id": "users_u1_bio_exact",
+          "role": "goal",
+          "source_component": "Component 2 (0.4): users[u1].bio mirrors the exact target string",
+          "spec": {
+            "query": [["entity", "users"], ["id", "u1"]],
+            "path": ["bio"],
+            "script": "(()=>{const u=(state.users||[]).find(x=>x.id==='u1');return Boolean(u&&u.bio==='Food & travel enthusiast | Exploring the world one pin at a time');})()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "485d2e99-88ec-5f31-890f-94229e9d4ab9",
+      "source_task_name": "pinterest_basic_042",
+      "risk": "low",
+      "dependencies": [
+        {
+          "from": "search_query_nonempty",
+          "to": "search_query_diy_exact_ci",
+          "reason": "The exact DIY query is the qualified form of the non-empty search action."
+        }
+      ],
+      "atoms": [
+        {
+          "id": "search_query_nonempty",
+          "role": "goal",
+          "source_component": "Component 1 (0.3): searchQuery is non-empty",
+          "spec": {
+            "query": [["entity", "search"]],
+            "path": ["searchQuery", "nonEmpty"],
+            "script": "(()=>typeof state.searchQuery==='string'&&state.searchQuery.trim().length>0)()"
+          },
+          "value": true
+        },
+        {
+          "id": "search_query_diy_exact_ci",
+          "role": "goal",
+          "source_component": "Component 2 (0.7): searchQuery equals diy case-insensitively",
+          "spec": {
+            "query": [["entity", "search"]],
+            "path": ["searchQuery", "normalizedExact"],
+            "script": "(()=>typeof state.searchQuery==='string'&&state.searchQuery.trim().toLowerCase()==='diy')()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "4f31ed19-7c41-5168-8839-387baf841e68",
+      "source_task_name": "pinterest_basic_028",
+      "risk": "medium",
+      "dependencies": [
+        {
+          "from": "p41_u1_comment_exists",
+          "to": "p41_u1_first_comment_text_exact",
+          "reason": "The original reward checks text on the first matching u1 comment only after such a comment exists."
+        },
+        {
+          "from": "p41_u1_comment_exists",
+          "to": "p41_comment_count_two",
+          "reason": "The count is the denormalized integrity check for the newly created comment."
+        }
+      ],
+      "atoms": [
+        {
+          "id": "p41_u1_comment_exists",
+          "role": "goal",
+          "source_component": "Component 1 (0.4): a comment on p41 by u1 exists",
+          "spec": {
+            "query": [["entity", "comments"], ["pinId", "p41"], ["userId", "u1"]],
+            "path": ["exists"],
+            "script": "(()=>{const cs=Array.isArray(state.comments)?state.comments:(state.comments?[state.comments]:[]);return cs.some(c=>c.pinId==='p41'&&c.userId==='u1');})()"
+          },
+          "value": true
+        },
+        {
+          "id": "p41_u1_first_comment_text_exact",
+          "role": "goal",
+          "source_component": "Component 2 (0.4): first matching u1 comment text equals the required text after whitespace normalization",
+          "spec": {
+            "query": [["entity", "comments"], ["pinId", "p41"], ["userId", "u1"], ["ordinal", "first"]],
+            "path": ["text", "normalizedExact"],
+            "script": "(()=>{const cs=Array.isArray(state.comments)?state.comments:(state.comments?[state.comments]:[]);const c=cs.find(x=>x.pinId==='p41'&&x.userId==='u1');return Boolean(c&&String(c.text||'').trim().split(/\\s+/).join(' ')==='The color blending here is incredible. What paints do you use?');})()"
+          },
+          "value": true
+        },
+        {
+          "id": "p41_comment_count_two",
+          "role": "goal",
+          "source_component": "Component 3 (0.2): p41.commentCount equals 2",
+          "spec": {
+            "query": [["entity", "pins"], ["id", "p41"]],
+            "path": ["commentCount"],
+            "script": "(()=>{const p=(state.pins||[]).find(x=>x.id==='p41');return Boolean(p&&p.commentCount===2);})()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "4f69f68f-7506-5e3a-8bb7-483d5d71b625",
+      "source_task_name": "pinterest_basic_034",
+      "risk": "medium",
+      "dependencies": [],
+      "atoms": [
+        {
+          "id": "current_user_follows_u4",
+          "role": "goal",
+          "source_component": "Component 1 (0.5): currentUser.following contains u4",
+          "spec": {
+            "query": [["entity", "currentUser"], ["relation", "following"]],
+            "path": ["contains", "u4"],
+            "script": "(()=>Boolean(state.currentUser&&Array.isArray(state.currentUser.following)&&state.currentUser.following.includes('u4')))()"
+          },
+          "value": true
+        },
+        {
+          "id": "u4_followers_contains_u1",
+          "role": "goal",
+          "source_component": "Component 2 (0.5): users[u4].followers contains u1",
+          "spec": {
+            "query": [["entity", "users"], ["id", "u4"], ["relation", "followers"]],
+            "path": ["contains", "u1"],
+            "script": "(()=>{const u=(state.users||[]).find(x=>x.id==='u4');return Boolean(u&&Array.isArray(u.followers)&&u.followers.includes('u1'));})()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "82d1ebba-6db2-5fe8-8a94-340ed4784800",
+      "source_task_name": "pinterest_basic_001",
+      "risk": "low",
+      "dependencies": [
+        {
+          "from": "search_query_nonempty",
+          "to": "search_query_travel_exact_ci",
+          "reason": "The exact travel query is the qualified form of the non-empty search action."
+        }
+      ],
+      "atoms": [
+        {
+          "id": "search_query_nonempty",
+          "role": "goal",
+          "source_component": "Component 1 (0.3): searchQuery is non-empty",
+          "spec": {
+            "query": [["entity", "search"]],
+            "path": ["searchQuery", "nonEmpty"],
+            "script": "(()=>typeof state.searchQuery==='string'&&state.searchQuery.trim().length>0)()"
+          },
+          "value": true
+        },
+        {
+          "id": "search_query_travel_exact_ci",
+          "role": "goal",
+          "source_component": "Component 2 (0.7): searchQuery equals travel case-insensitively",
+          "spec": {
+            "query": [["entity", "search"]],
+            "path": ["searchQuery", "normalizedExact"],
+            "script": "(()=>typeof state.searchQuery==='string'&&state.searchQuery.trim().toLowerCase()==='travel')()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "89f0e801-4c21-52a7-8a8e-ea28846e594f",
+      "source_task_name": "pinterest_adv_032",
+      "risk": "medium",
+      "dependencies": [
+        {
+          "from": "p14_tonkotsu_comment_exact",
+          "to": "target_pin_comment_counts_positive",
+          "reason": "The pin count bundle is denormalized integrity evidence for the three inserted comments."
+        },
+        {
+          "from": "p19_w_trek_comment_exact",
+          "to": "target_pin_comment_counts_positive",
+          "reason": "The pin count bundle is denormalized integrity evidence for the three inserted comments."
+        },
+        {
+          "from": "p29_limited_editions_comment_exact",
+          "to": "target_pin_comment_counts_positive",
+          "reason": "The pin count bundle is denormalized integrity evidence for the three inserted comments."
+        }
+      ],
+      "atoms": [
+        {
+          "id": "p14_tonkotsu_comment_exact",
+          "role": "goal",
+          "source_component": "Component 1 (0.30): exact u1 comment on p14",
+          "spec": {
+            "query": [["entity", "comments"], ["pinId", "p14"], ["userId", "u1"]],
+            "path": ["text", "exactTrimmed"],
+            "script": "(()=>{const cs=Array.isArray(state.comments)?state.comments:(state.comments?[state.comments]:[]);return cs.some(c=>c.pinId==='p14'&&c.userId==='u1'&&String(c.text||'').trim()==='What broth base do you recommend for a rich tonkotsu?');})()"
+          },
+          "value": true
+        },
+        {
+          "id": "p19_w_trek_comment_exact",
+          "role": "goal",
+          "source_component": "Component 2 (0.30): exact u1 comment on p19",
+          "spec": {
+            "query": [["entity", "comments"], ["pinId", "p19"], ["userId", "u1"]],
+            "path": ["text", "exactTrimmed"],
+            "script": "(()=>{const cs=Array.isArray(state.comments)?state.comments:(state.comments?[state.comments]:[]);return cs.some(c=>c.pinId==='p19'&&c.userId==='u1'&&String(c.text||'').trim()==='How many days should I plan for the W Trek?');})()"
+          },
+          "value": true
+        },
+        {
+          "id": "p29_limited_editions_comment_exact",
+          "role": "goal",
+          "source_component": "Component 3 (0.30): exact u1 comment on p29",
+          "spec": {
+            "query": [["entity", "comments"], ["pinId", "p29"], ["userId", "u1"]],
+            "path": ["text", "exactTrimmed"],
+            "script": "(()=>{const cs=Array.isArray(state.comments)?state.comments:(state.comments?[state.comments]:[]);return cs.some(c=>c.pinId==='p29'&&c.userId==='u1'&&String(c.text||'').trim()==='These are fire! Where can I find the limited editions?');})()"
+          },
+          "value": true
+        },
+        {
+          "id": "target_pin_comment_counts_positive",
+          "role": "goal",
+          "source_component": "Component 4 (0.10): p14, p19, and p29 each have commentCount at least 1",
+          "spec": {
+            "query": [["entity", "pins"], ["ids", ["p14", "p19", "p29"]]],
+            "path": ["commentCount", "allAtLeastOne"],
+            "script": "(()=>['p14','p19','p29'].every(id=>{const p=(state.pins||[]).find(x=>x.id===id);return Boolean(p&&p.commentCount>=1);}))()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "b662770d-5908-5f69-93e2-f5b1397759dc",
+      "source_task_name": "pinterest_adv_004",
+      "risk": "high",
+      "dependencies": [
+        {
+          "from": "aesthetic_board_exists_owned_u1",
+          "to": "aesthetic_board_has_required_pins",
+          "reason": "The created board id must be bound before validating board membership and each pin.boardId."
+        },
+        {
+          "from": "aesthetic_board_exists_owned_u1",
+          "to": "aesthetic_board_has_required_sections",
+          "reason": "The created board id/name binding identifies the dynamic board whose sections are checked."
+        }
+      ],
+      "atoms": [
+        {
+          "id": "aesthetic_board_exists_owned_u1",
+          "role": "goal",
+          "source_component": "Component 1 (0.35): Aesthetic Mood Board exists and is owned by u1",
+          "spec": {
+            "query": [["entity", "boards"], ["name", "Aesthetic Mood Board"], ["userId", "u1"]],
+            "path": ["exists"],
+            "script": "(()=>Boolean((state.boards||[]).find(b=>String(b.name||'').trim()==='Aesthetic Mood Board'&&b.userId==='u1')))()"
+          },
+          "value": true
+        },
+        {
+          "id": "aesthetic_board_has_required_pins",
+          "role": "goal",
+          "source_component": "Component 2 (0.35): dynamic board contains p42, p29, p22, p13 and each pin.boardId points to it",
+          "spec": {
+            "query": [["entity", "boards"], ["name", "Aesthetic Mood Board"], ["userId", "u1"]],
+            "path": ["pins", "membershipAndBackreference"],
+            "script": "(()=>{const b=(state.boards||[]).find(x=>String(x.name||'').trim()==='Aesthetic Mood Board'&&x.userId==='u1');if(!b)return false;const ids=['p42','p29','p22','p13'];return ids.every(id=>Array.isArray(b.pins)&&b.pins.includes(id)&&Boolean((state.pins||[]).find(p=>p.id===id&&p.boardId===b.id)));})()"
+          },
+          "value": true
+        },
+        {
+          "id": "aesthetic_board_has_required_sections",
+          "role": "goal",
+          "source_component": "Component 3 (0.30): dynamic board has Visual Inspo and Places & Food sections",
+          "spec": {
+            "query": [["entity", "boards"], ["name", "Aesthetic Mood Board"], ["userId", "u1"]],
+            "path": ["sections", "requiredNames"],
+            "script": "(()=>{const b=(state.boards||[]).find(x=>String(x.name||'').trim()==='Aesthetic Mood Board'&&x.userId==='u1');if(!b)return false;const names=new Set((b.sections||[]).filter(x=>x&&typeof x==='object').map(x=>String(x.name||'').trim()));return names.has('Visual Inspo')&&names.has('Places & Food');})()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "c637109d-9aa3-5e58-8c67-e6e479c7672a",
+      "source_task_name": "pinterest_adv_002",
+      "risk": "high",
+      "dependencies": [
+        {
+          "from": "p14_u1_comment_exists",
+          "to": "p14_u1_first_comment_text_exact",
+          "reason": "The original reward checks the first matching comment text only after a u1 comment exists."
+        }
+      ],
+      "atoms": [
+        {
+          "id": "p9_liked_by_u1",
+          "role": "goal",
+          "source_component": "Like component p9 (0.085714): p9.likedBy contains u1",
+          "spec": {
+            "query": [["entity", "pins"], ["id", "p9"]],
+            "path": ["likedBy", "contains", "u1"],
+            "script": "(()=>{const p=(state.pins||[]).find(x=>x.id==='p9');return Boolean(p&&Array.isArray(p.likedBy)&&p.likedBy.includes('u1'));})()"
+          },
+          "value": true
+        },
+        {
+          "id": "p10_liked_by_u1",
+          "role": "goal",
+          "source_component": "Like component p10 (0.085714): p10.likedBy contains u1",
+          "spec": {
+            "query": [["entity", "pins"], ["id", "p10"]],
+            "path": ["likedBy", "contains", "u1"],
+            "script": "(()=>{const p=(state.pins||[]).find(x=>x.id==='p10');return Boolean(p&&Array.isArray(p.likedBy)&&p.likedBy.includes('u1'));})()"
+          },
+          "value": true
+        },
+        {
+          "id": "p12_liked_by_u1",
+          "role": "goal",
+          "source_component": "Like component p12 (0.085714): p12.likedBy contains u1",
+          "spec": {
+            "query": [["entity", "pins"], ["id", "p12"]],
+            "path": ["likedBy", "contains", "u1"],
+            "script": "(()=>{const p=(state.pins||[]).find(x=>x.id==='p12');return Boolean(p&&Array.isArray(p.likedBy)&&p.likedBy.includes('u1'));})()"
+          },
+          "value": true
+        },
+        {
+          "id": "p13_liked_by_u1",
+          "role": "goal",
+          "source_component": "Like component p13 (0.085714): p13.likedBy contains u1",
+          "spec": {
+            "query": [["entity", "pins"], ["id", "p13"]],
+            "path": ["likedBy", "contains", "u1"],
+            "script": "(()=>{const p=(state.pins||[]).find(x=>x.id==='p13');return Boolean(p&&Array.isArray(p.likedBy)&&p.likedBy.includes('u1'));})()"
+          },
+          "value": true
+        },
+        {
+          "id": "p14_liked_by_u1",
+          "role": "goal",
+          "source_component": "Like component p14 (0.085714): p14.likedBy contains u1",
+          "spec": {
+            "query": [["entity", "pins"], ["id", "p14"]],
+            "path": ["likedBy", "contains", "u1"],
+            "script": "(()=>{const p=(state.pins||[]).find(x=>x.id==='p14');return Boolean(p&&Array.isArray(p.likedBy)&&p.likedBy.includes('u1'));})()"
+          },
+          "value": true
+        },
+        {
+          "id": "p15_liked_by_u1",
+          "role": "goal",
+          "source_component": "Like component p15 (0.085714): p15.likedBy contains u1",
+          "spec": {
+            "query": [["entity", "pins"], ["id", "p15"]],
+            "path": ["likedBy", "contains", "u1"],
+            "script": "(()=>{const p=(state.pins||[]).find(x=>x.id==='p15');return Boolean(p&&Array.isArray(p.likedBy)&&p.likedBy.includes('u1'));})()"
+          },
+          "value": true
+        },
+        {
+          "id": "p16_liked_by_u1",
+          "role": "goal",
+          "source_component": "Like component p16 (0.085714): p16.likedBy contains u1",
+          "spec": {
+            "query": [["entity", "pins"], ["id", "p16"]],
+            "path": ["likedBy", "contains", "u1"],
+            "script": "(()=>{const p=(state.pins||[]).find(x=>x.id==='p16');return Boolean(p&&Array.isArray(p.likedBy)&&p.likedBy.includes('u1'));})()"
+          },
+          "value": true
+        },
+        {
+          "id": "p14_u1_comment_exists",
+          "role": "goal",
+          "source_component": "Component 8 (0.20): a comment from u1 exists on p14",
+          "spec": {
+            "query": [["entity", "comments"], ["pinId", "p14"], ["userId", "u1"]],
+            "path": ["exists"],
+            "script": "(()=>{const cs=Array.isArray(state.comments)?state.comments:(state.comments?[state.comments]:[]);return cs.some(c=>c.pinId==='p14'&&c.userId==='u1');})()"
+          },
+          "value": true
+        },
+        {
+          "id": "p14_u1_first_comment_text_exact",
+          "role": "goal",
+          "source_component": "Component 9 (0.20): first matching u1 comment text is exact",
+          "spec": {
+            "query": [["entity", "comments"], ["pinId", "p14"], ["userId", "u1"], ["ordinal", "first"]],
+            "path": ["text", "exact"],
+            "script": "(()=>{const cs=Array.isArray(state.comments)?state.comments:(state.comments?[state.comments]:[]);const c=cs.find(x=>x.pinId==='p14'&&x.userId==='u1');return Boolean(c&&c.text==='This looks incredible, I need to try making this at home!');})()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "f22a035a-8212-5051-891e-2bb16471c32a",
+      "source_task_name": "pinterest_adv_006",
+      "risk": "medium",
+      "dependencies": [
+        {
+          "from": "previously_unread_are_read",
+          "to": "previously_read_remain_read",
+          "reason": "The original reward gates the preservation component on completion of the unread-to-read goal."
+        }
+      ],
+      "atoms": [
+        {
+          "id": "previously_unread_are_read",
+          "role": "goal",
+          "source_component": "Component 1 (0.5): n1, n2, n3, and n7 are read=true",
+          "spec": {
+            "query": [["entity", "notifications"], ["ids", ["n1", "n2", "n3", "n7"]]],
+            "path": ["read", "allTrue"],
+            "script": "(()=>['n1','n2','n3','n7'].every(id=>{const n=(state.notifications||[]).find(x=>x.id===id);return Boolean(n&&n.read===true);}))()"
+          },
+          "value": true
+        },
+        {
+          "id": "previously_read_remain_read",
+          "role": "invariant",
+          "source_component": "Component 2 (0.5): n4, n5, n6, and n8 remain read=true after Component 1 passes",
+          "spec": {
+            "query": [["entity", "notifications"], ["ids", ["n4", "n5", "n6", "n8"]]],
+            "path": ["read", "allTrue"],
+            "script": "(()=>['n4','n5','n6','n8'].every(id=>{const n=(state.notifications||[]).find(x=>x.id===id);return Boolean(n&&n.read===true);}))()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "fcdc1975-e1e6-5b5d-a35a-1d96824f752e",
+      "source_task_name": "pinterest_basic_022",
+      "risk": "low",
+      "dependencies": [
+        {
+          "from": "search_query_changed_nonempty",
+          "to": "search_query_contains_pasta_ci",
+          "reason": "The pasta-qualified query is the semantic completion of the baseline change."
+        }
+      ],
+      "atoms": [
+        {
+          "id": "search_query_contains_pasta_ci",
+          "role": "goal",
+          "source_component": "Component 1 (0.6): non-empty searchQuery contains pasta case-insensitively",
+          "spec": {
+            "query": [["entity", "search"]],
+            "path": ["searchQuery", "containsNormalized", "pasta"],
+            "script": "(()=>typeof state.searchQuery==='string'&&state.searchQuery.length>0&&state.searchQuery.toLowerCase().includes('pasta'))()"
+          },
+          "value": true
+        },
+        {
+          "id": "search_query_changed_nonempty",
+          "role": "goal",
+          "source_component": "Component 2 (0.4): searchQuery differs from the known empty baseline and is truthy",
+          "spec": {
+            "query": [["entity", "search"]],
+            "path": ["searchQuery", "changedFrom", ""],
+            "script": "(()=>typeof state.searchQuery==='string'&&state.searchQuery!==''&&Boolean(state.searchQuery))()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "2638816e-6ec9-5386-ba26-d3d1429cd8f6",
+      "source_task_name": "wechat_adv_030",
+      "risk": "high",
+      "dependencies": [
+        {
+          "from": "friend_conversation_user2_removed",
+          "to": "remaining_conversations_preserved",
+          "reason": "The original reward evaluates the preservation component only after the deletion goal passes."
+        },
+        {
+          "from": "friend_conversation_user2_removed",
+          "to": "unrelated_state_identity_preserved",
+          "reason": "The original reward evaluates unrelated-state preservation only after the deletion goal passes."
+        }
+      ],
+      "atoms": [
+        {
+          "id": "friend_conversation_user2_removed",
+          "role": "goal",
+          "source_component": "Component 1 (0.5): user_2 conversation is absent",
+          "spec": {
+            "query": [["entity", "conversations"], ["contactId", "user_2"]],
+            "path": ["exists"],
+            "script": "(()=>!(state.conversations||[]).some(c=>c.contactId==='user_2'))()"
+          },
+          "value": true
+        },
+        {
+          "id": "remaining_conversations_preserved",
+          "role": "invariant",
+          "source_component": "Component 2 (0.3): group_1, user_3, user_4, and user_7 conversations remain",
+          "spec": {
+            "query": [["entity", "conversations"], ["contactIds", ["group_1", "user_3", "user_4", "user_7"]]],
+            "path": ["allPresent"],
+            "script": "(()=>{const ids=new Set((state.conversations||[]).map(c=>c.contactId));return ['group_1','user_3','user_4','user_7'].every(id=>ids.has(id));})()"
+          },
+          "value": true
+        },
+        {
+          "id": "unrelated_state_identity_preserved",
+          "role": "invariant",
+          "source_component": "Component 3 (0.2): contact ids/count, group ids/count, and message keys match the initial baseline",
+          "spec": {
+            "query": [["entity", "contacts+groups+messages"], ["baseline", "task-initial-state"]],
+            "path": ["identitySets", "unchanged"],
+            "script": "(()=>{const same=(actual,expected)=>actual.length===expected.length&&actual.every(x=>expected.includes(x));const contactIds=(state.contacts||[]).map(c=>c.userId);const groupIds=(state.groups||[]).map(g=>g.groupId);const messageKeys=Object.keys(state.messages||{});return same(contactIds,['user_2','user_3','user_4','user_5','user_6','user_7','user_8'])&&same(groupIds,['group_1','group_2'])&&same(messageKeys,['user_2','user_3','user_4','user_7','group_1']);})()"
+          },
+          "value": true
+        }
+      ]
+    },
+    {
+      "task_id": "305da858-ab07-588b-a046-450b62db8750",
+      "source_task_name": "wechat_adv_047",
+      "risk": "high",
+      "dependencies": [],
+      "atoms": [
+        {
+          "id": "new_cake_moment_exact",
+          "role": "goal",
+          "source_component": "Component 1 (0.35): new user_1 moment with exact cake content",
+          "spec": {
+            "query": [["entity", "moments"], ["userId", "user_1"], ["newRelativeTo", ["moment_1", "moment_2", "moment_3", "moment_4", "moment_5"]]],
+            "path": ["content", "exact"],
+            "script": "(()=>{const initialIds=new Set(['moment_1','moment_2','moment_3','moment_4','moment_5']);return (state.moments||[]).some(m=>!initialIds.has(m.postId)&&m.userId==='user_1'&&m.content==='今天学会了做蛋糕');})()"
+          },
+          "value": true
+        },
+        {
+          "id": "moment1_new_comment_exact",
+          "role": "goal",
+          "source_component": "Component 2 (0.35): new user_1 comment on moment_1 with exact content",
+          "spec": {
+            "query": [["entity", "moments"], ["postId", "moment_1"], ["commentUserId", "user_1"], ["newRelativeTo", ["c1", "c2"]]],
+            "path": ["comments", "content", "exact"],
+            "script": "(()=>{const m=(state.moments||[]).find(x=>x.postId==='moment_1');const initialIds=new Set(['c1','c2']);return Boolean(m&&(m.comments||[]).some(c=>!initialIds.has(c.commentId)&&c.userId==='user_1'&&c.content==='哇，风景太棒了！下次叫上我'));})()"
+          },
+          "value": true
+        },
+        {
+          "id": "moment2_new_comment_exact",
+          "role": "goal",
+          "source_component": "Component 3 (0.30): new user_1 comment on moment_2 with exact content",
+          "spec": {
+            "query": [["entity", "moments"], ["postId", "moment_2"], ["commentUserId", "user_1"], ["newRelativeTo", ["c3"]]],
+            "path": ["comments", "content", "exact"],
+            "script": "(()=>{const m=(state.moments||[]).find(x=>x.postId==='moment_2');const initialIds=new Set(['c3']);return Boolean(m&&(m.comments||[]).some(c=>!initialIds.has(c.commentId)&&c.userId==='user_1'&&c.content==='看起来太好吃了，求教程！'));})()"
+          },
+          "value": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,356 @@
+{
+  "instruction": "Create a new label called 'Urgent-Q1' with red color. Then go through my inbox and apply this label to any email that has the word 'deadline' or 'overdue' or 'ASAP' in either the subject or body. Also star those emails and mark them as important.",
+  "website": "http://127.0.0.1:8038/?sid=378d436a-433a-51f8-a13f-92ecf1415e9f",
+  "domain": "web",
+  "states": [
+    [
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "drafts"
+        },
+        "value": []
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "emails"
+        },
+        "value": [
+          {
+            "id": "e1",
+            "threadId": "t1",
+            "from": {
+              "name": "Client A",
+              "email": "clienta@bigcorp.com"
+            },
+            "to": [
+              {
+                "name": "Kim Tran",
+                "email": "kim@agency.com"
+              }
+            ],
+            "cc": [],
+            "bcc": [],
+            "subject": "Project deadline approaching",
+            "body": "The final deliverables are due next Monday.",
+            "snippet": "The final deliverables are due next Monday.",
+            "timestamp": "2026-03-28T09:15:00Z",
+            "read": true,
+            "starred": false,
+            "important": false,
+            "labels": [],
+            "category": "primary",
+            "folder": "inbox",
+            "attachments": []
+          },
+          {
+            "id": "e2",
+            "threadId": "t2",
+            "from": {
+              "name": "Accounting",
+              "email": "accounting@agency.com"
+            },
+            "to": [
+              {
+                "name": "Kim Tran",
+                "email": "kim@agency.com"
+              }
+            ],
+            "cc": [],
+            "bcc": [],
+            "subject": "Invoice #889 overdue",
+            "body": "Please process this invoice immediately.",
+            "snippet": "Please process this invoice immediately.",
+            "timestamp": "2026-03-29T08:00:00Z",
+            "read": false,
+            "starred": false,
+            "important": false,
+            "labels": [],
+            "category": "primary",
+            "folder": "inbox",
+            "attachments": []
+          },
+          {
+            "id": "e3",
+            "threadId": "t3",
+            "from": {
+              "name": "Team Lead",
+              "email": "lead@agency.com"
+            },
+            "to": [
+              {
+                "name": "Kim Tran",
+                "email": "kim@agency.com"
+              }
+            ],
+            "cc": [],
+            "bcc": [],
+            "subject": "Weekly sync notes",
+            "body": "Here are the notes from today. Nothing urgent.",
+            "snippet": "Here are the notes from today. Nothing urgent.",
+            "timestamp": "2026-03-27T16:30:00Z",
+            "read": true,
+            "starred": false,
+            "important": false,
+            "labels": [],
+            "category": "primary",
+            "folder": "inbox",
+            "attachments": []
+          },
+          {
+            "id": "e4",
+            "threadId": "t4",
+            "from": {
+              "name": "CEO",
+              "email": "ceo@agency.com"
+            },
+            "to": [
+              {
+                "name": "Kim Tran",
+                "email": "kim@agency.com"
+              }
+            ],
+            "cc": [],
+            "bcc": [],
+            "subject": "Need brand deck",
+            "body": "Can you send me the updated brand deck ASAP?",
+            "snippet": "Can you send me the updated brand deck ASAP?",
+            "timestamp": "2026-03-30T11:45:00Z",
+            "read": false,
+            "starred": false,
+            "important": false,
+            "labels": [],
+            "category": "primary",
+            "folder": "inbox",
+            "attachments": []
+          },
+          {
+            "id": "e5",
+            "threadId": "t5",
+            "from": {
+              "name": "Newsletter",
+              "email": "news@designweekly.com"
+            },
+            "to": [
+              {
+                "name": "Kim Tran",
+                "email": "kim@agency.com"
+              }
+            ],
+            "cc": [],
+            "bcc": [],
+            "subject": "This weeks top designs",
+            "body": "Check out the latest trends in design this week.",
+            "snippet": "Check out the latest trends in design this week.",
+            "timestamp": "2026-03-29T07:00:00Z",
+            "read": false,
+            "starred": false,
+            "important": false,
+            "labels": [],
+            "category": "promotions",
+            "folder": "inbox",
+            "attachments": []
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "labels"
+        },
+        "value": [
+          {
+            "id": "l1",
+            "name": "Work",
+            "color": "#ef4444"
+          },
+          {
+            "id": "l2",
+            "name": "Personal",
+            "color": "#3b82f6"
+          },
+          {
+            "id": "l3",
+            "name": "Travel",
+            "color": "#22c55e"
+          },
+          {
+            "id": "l4",
+            "name": "Finance",
+            "color": "#eab308"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "user"
+        },
+        "value": {
+          "userId": "u1",
+          "username": "Kim Tran",
+          "email": "kim@agency.com"
+        }
+      }
+    ],
+    [
+      {
+        "spec": {
+          "query": [
+            [
+              "collection",
+              "labels"
+            ],
+            [
+              "name",
+              "Urgent-Q1"
+            ]
+          ],
+          "path": [
+            "created",
+            "recognizedRed"
+          ],
+          "script": "(()=>{const reds=new Set(['#ef4444','#ff0000','#dc2626','#f87171','#e53e3e','#c53030','red']);return (state.labels||[]).some(x=>x?.name==='Urgent-Q1'&&reds.has(String(x?.color||'').toLowerCase().trim()));})()"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "query": [
+            [
+              "collection",
+              "emails"
+            ],
+            [
+              "dynamicLabelName",
+              "Urgent-Q1"
+            ]
+          ],
+          "path": [
+            "labels",
+            "qualifyingOnly"
+          ],
+          "script": "(()=>{const label=(state.labels||[]).find(x=>x?.name==='Urgent-Q1');if(!label?.id)return false;const byId=Object.fromEntries((state.emails||[]).map(x=>[x.id,x]));return ['e1','e2','e4'].every(id=>(byId[id]?.labels||[]).includes(label.id))&&['e3','e5'].every(id=>!(byId[id]?.labels||[]).includes(label.id));})()"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "query": [
+            [
+              "collection",
+              "emails"
+            ],
+            [
+              "id",
+              "e1"
+            ]
+          ],
+          "path": [
+            "starred"
+          ],
+          "script": "(()=>{const x=(state.emails||[]).find(v=>v.id==='e1');return x?.starred===true;})()"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "query": [
+            [
+              "collection",
+              "emails"
+            ],
+            [
+              "id",
+              "e2"
+            ]
+          ],
+          "path": [
+            "starred"
+          ],
+          "script": "(()=>{const x=(state.emails||[]).find(v=>v.id==='e2');return x?.starred===true;})()"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "query": [
+            [
+              "collection",
+              "emails"
+            ],
+            [
+              "id",
+              "e4"
+            ]
+          ],
+          "path": [
+            "starred"
+          ],
+          "script": "(()=>{const x=(state.emails||[]).find(v=>v.id==='e4');return x?.starred===true;})()"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "query": [
+            [
+              "collection",
+              "emails"
+            ],
+            [
+              "id",
+              "e1"
+            ]
+          ],
+          "path": [
+            "important"
+          ],
+          "script": "(()=>{const x=(state.emails||[]).find(v=>v.id==='e1');return x?.important===true;})()"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "query": [
+            [
+              "collection",
+              "emails"
+            ],
+            [
+              "id",
+              "e2"
+            ]
+          ],
+          "path": [
+            "important"
+          ],
+          "script": "(()=>{const x=(state.emails||[]).find(v=>v.id==='e2');return x?.important===true;})()"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "query": [
+            [
+              "collection",
+              "emails"
+            ],
+            [
+              "id",
+              "e4"
+            ]
+          ],
+          "path": [
+            "important"
+          ],
+          "script": "(()=>{const x=(state.emails||[]).find(v=>v.id==='e4');return x?.important===true;})()"
+        },
+        "value": true
+      }
+    ]
+  ],
+  "empty_start": false,
+  "accumulation": "DELTA"
+}

@@ -1,0 +1,318 @@
+{
+  "instruction": "Comment on the post where Alice and Bob are tagged. Say 'What a great group shot!'",
+  "website": "http://127.0.0.1:8052/?sid=61d58ac6-1eb6-5d39-b6c2-899c785a0572",
+  "domain": "web",
+  "states": [
+    [
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "conversations"
+        },
+        "value": [
+          {
+            "id": "conv_1",
+            "participants": [
+              "user_admin",
+              "user_2"
+            ],
+            "lastMessage": "See you at Central Park!",
+            "lastMessageTime": "2024-01-01T20:00:00Z",
+            "unreadCount": 0
+          },
+          {
+            "id": "conv_2",
+            "participants": [
+              "user_admin",
+              "user_3"
+            ],
+            "lastMessage": "The meetup was great!",
+            "lastMessageTime": "2024-01-03T14:00:00Z",
+            "unreadCount": 1
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "currentUserId"
+        },
+        "value": "user_admin"
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "messages"
+        },
+        "value": [
+          {
+            "id": "msg_1",
+            "conversationId": "conv_1",
+            "senderId": "user_admin",
+            "text": "See you at Central Park!",
+            "type": "text",
+            "imageUrl": null,
+            "sharedPostId": null,
+            "created": "2024-01-01T20:00:00Z"
+          },
+          {
+            "id": "msg_2",
+            "conversationId": "conv_2",
+            "senderId": "user_3",
+            "text": "The meetup was great!",
+            "type": "text",
+            "imageUrl": null,
+            "sharedPostId": null,
+            "created": "2024-01-03T14:00:00Z"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "notifications"
+        },
+        "value": [
+          {
+            "id": "notif_1",
+            "type": "like",
+            "fromUserId": "user_2",
+            "postId": "post_1",
+            "commentId": null,
+            "text": "liked your photo.",
+            "read": true,
+            "created": "2024-01-01T11:30:00Z"
+          },
+          {
+            "id": "notif_2",
+            "type": "comment",
+            "fromUserId": "user_2",
+            "postId": "post_1",
+            "commentId": "c_1",
+            "text": "commented on your photo.",
+            "read": true,
+            "created": "2024-01-01T11:00:00Z"
+          },
+          {
+            "id": "notif_3",
+            "type": "like",
+            "fromUserId": "user_3",
+            "postId": "post_2",
+            "commentId": null,
+            "text": "liked your photo.",
+            "read": false,
+            "created": "2024-01-02T15:00:00Z"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "posts"
+        },
+        "value": [
+          {
+            "id": "post_1",
+            "userId": "user_admin",
+            "images": [
+              "https://picsum.photos/800/800?random=101"
+            ],
+            "caption": "Golden hour vibes #photography #sunset",
+            "location": "San Francisco, CA",
+            "taggedUsers": [],
+            "likes": [
+              "user_2",
+              "user_4"
+            ],
+            "comments": [
+              {
+                "id": "c_1",
+                "userId": "user_2",
+                "text": "Absolutely stunning shot!",
+                "created": "2024-01-01T11:00:00Z",
+                "likes": []
+              }
+            ],
+            "saved": [
+              "user_4"
+            ],
+            "created": "2024-01-01T08:00:00Z"
+          },
+          {
+            "id": "post_2",
+            "userId": "user_admin",
+            "images": [
+              "https://picsum.photos/800/800?random=102"
+            ],
+            "caption": "Squad goals",
+            "location": "Central Park",
+            "taggedUsers": [
+              "user_2",
+              "user_3"
+            ],
+            "likes": [
+              "user_2",
+              "user_3"
+            ],
+            "comments": [],
+            "saved": [],
+            "created": "2024-01-02T10:00:00Z"
+          },
+          {
+            "id": "post_3",
+            "userId": "user_3",
+            "images": [
+              "https://picsum.photos/800/800?random=103"
+            ],
+            "caption": "Tech meetup vibes! Great connecting with the community #tech #networking",
+            "location": "Seattle",
+            "taggedUsers": [],
+            "likes": [],
+            "comments": [],
+            "saved": [],
+            "created": "2024-01-03T12:00:00Z"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "savedPostIds"
+        },
+        "value": []
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "stories"
+        },
+        "value": [
+          {
+            "id": "story_1",
+            "userId": "user_2",
+            "image": "https://picsum.photos/400/700?random=201",
+            "created": "2024-01-03T08:00:00Z",
+            "expires": "2024-01-04T08:00:00Z",
+            "viewed": false
+          },
+          {
+            "id": "story_2",
+            "userId": "user_3",
+            "image": "https://picsum.photos/400/700?random=202",
+            "created": "2024-01-03T09:00:00Z",
+            "expires": "2024-01-04T09:00:00Z",
+            "viewed": false
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "users"
+        },
+        "value": {
+          "user_admin": {
+            "id": "user_admin",
+            "username": "alex_morgan",
+            "name": "Alex Morgan",
+            "avatar": "https://picsum.photos/150/150?random=1",
+            "bio": "Photography enthusiast | Capturing life's moments",
+            "website": "https://alexmorgan.photo",
+            "followers": [
+              "user_2",
+              "user_3",
+              "user_4"
+            ],
+            "following": [
+              "user_2",
+              "user_3",
+              "user_4"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_2": {
+            "id": "user_2",
+            "username": "adventure_seeker",
+            "name": "Alice Walker",
+            "avatar": "https://picsum.photos/150/150?random=2",
+            "bio": "Travel lover | Explorer of hidden paths",
+            "website": "",
+            "followers": [
+              "user_admin",
+              "user_3"
+            ],
+            "following": [
+              "user_admin",
+              "user_3"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_3": {
+            "id": "user_3",
+            "username": "tech_guru",
+            "name": "Bob Chen",
+            "avatar": "https://picsum.photos/150/150?random=3",
+            "bio": "Software engineer | Coffee addict",
+            "website": "https://bobchen.dev",
+            "followers": [
+              "user_admin",
+              "user_2"
+            ],
+            "following": [
+              "user_admin",
+              "user_2"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_4": {
+            "id": "user_4",
+            "username": "design_daily",
+            "name": "Sarah Kim",
+            "avatar": "https://picsum.photos/150/150?random=4",
+            "bio": "UI/UX designer | Creating beautiful experiences",
+            "website": "",
+            "followers": [
+              "user_admin"
+            ],
+            "following": [
+              "user_admin"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          }
+        }
+      }
+    ],
+    [
+      {
+        "spec": {
+          "script": "(state?.posts?.find((p) => p?.id === 'post_2')?.comments?.length ?? 0) >= 1",
+          "query": "post_2 has at least one comment",
+          "path": "posts[id=post_2].comments"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "script": "state?.posts?.find((p) => p?.id === 'post_2')?.comments?.some((c) => c?.userId === 'user_admin') === true",
+          "query": "post_2 has a comment by user_admin",
+          "path": "posts[id=post_2].comments[userId=user_admin]"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "script": "state?.posts?.find((p) => p?.id === 'post_2')?.comments?.some((c) => c?.userId === 'user_admin' && String(c?.text ?? '').trim() === 'What a great group shot!') === true",
+          "query": "post_2 has the exact requested comment by user_admin",
+          "path": "posts[id=post_2].comments[userId=user_admin].text"
+        },
+        "value": true
+      }
+    ]
+  ],
+  "empty_start": false,
+  "accumulation": "DELTA"
+}

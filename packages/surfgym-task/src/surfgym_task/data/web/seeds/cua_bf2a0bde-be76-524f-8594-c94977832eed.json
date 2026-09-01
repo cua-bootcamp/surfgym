@@ -1,0 +1,311 @@
+{
+  "instruction": "Someone told me Alice Walker reposted my photo without credit. Check her posts and if any of her post captions mention my username (alex_morgan) or tag me, like those posts. If they don't mention me at all, leave a comment saying 'Hey, this looks familiar! Credit: @alex_morgan' on each of her posts.",
+  "website": "http://127.0.0.1:8052/?sid=bf2a0bde-be76-524f-8594-c94977832eed",
+  "domain": "web",
+  "states": [
+    [
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "conversations"
+        },
+        "value": [
+          {
+            "id": "conv_1",
+            "participants": [
+              "user_admin",
+              "user_2"
+            ],
+            "lastMessage": "Great shot!",
+            "lastMessageTime": "2024-01-10T09:00:00Z",
+            "unreadCount": 0
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "currentUserId"
+        },
+        "value": "user_admin"
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "messages"
+        },
+        "value": [
+          {
+            "id": "msg_1",
+            "conversationId": "conv_1",
+            "senderId": "user_2",
+            "text": "Great shot!",
+            "type": "text",
+            "imageUrl": null,
+            "sharedPostId": null,
+            "created": "2024-01-10T09:00:00Z"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "notifications"
+        },
+        "value": [
+          {
+            "id": "notif_1",
+            "type": "like",
+            "fromUserId": "user_3",
+            "postId": "post_1",
+            "commentId": null,
+            "text": "liked your photo.",
+            "read": false,
+            "created": "2024-01-01T12:30:00Z"
+          },
+          {
+            "id": "notif_2",
+            "type": "comment",
+            "fromUserId": "user_2",
+            "postId": "post_1",
+            "commentId": "c_1",
+            "text": "commented on your photo.",
+            "read": true,
+            "created": "2024-01-01T12:00:00Z"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "posts"
+        },
+        "value": [
+          {
+            "id": "post_1",
+            "userId": "user_admin",
+            "images": [
+              "https://picsum.photos/800/800?random=101"
+            ],
+            "caption": "Golden hour at the coast #photography #goldenhour",
+            "location": "Big Sur, CA",
+            "taggedUsers": [],
+            "likes": [
+              "user_2",
+              "user_3"
+            ],
+            "comments": [
+              {
+                "id": "c_1",
+                "userId": "user_2",
+                "text": "Absolutely breathtaking!",
+                "created": "2024-01-01T12:00:00Z",
+                "likes": [],
+                "isReply": false,
+                "replyToId": null
+              }
+            ],
+            "saved": [],
+            "created": "2024-01-01T08:00:00Z"
+          },
+          {
+            "id": "post_2",
+            "userId": "user_2",
+            "images": [
+              "https://picsum.photos/800/800?random=102"
+            ],
+            "caption": "Mountain adventure! Photo by @alex_morgan",
+            "location": "Yosemite",
+            "taggedUsers": [
+              "user_admin"
+            ],
+            "likes": [
+              "user_3"
+            ],
+            "comments": [],
+            "saved": [],
+            "created": "2024-01-02T10:00:00Z"
+          },
+          {
+            "id": "post_3",
+            "userId": "user_admin",
+            "images": [
+              "https://picsum.photos/800/800?random=103"
+            ],
+            "caption": "Morning mist over the valley #nature #landscape",
+            "location": "Yosemite Valley",
+            "taggedUsers": [],
+            "likes": [
+              "user_2",
+              "user_4"
+            ],
+            "comments": [],
+            "saved": [],
+            "created": "2024-01-05T07:30:00Z"
+          },
+          {
+            "id": "post_15",
+            "userId": "user_2",
+            "images": [
+              "https://picsum.photos/800/800?random=115"
+            ],
+            "caption": "Beautiful sunset from yesterday",
+            "location": "Malibu",
+            "taggedUsers": [],
+            "likes": [
+              "user_4"
+            ],
+            "comments": [],
+            "saved": [],
+            "created": "2024-01-15T18:00:00Z"
+          },
+          {
+            "id": "post_16",
+            "userId": "user_2",
+            "images": [
+              "https://picsum.photos/800/800?random=116"
+            ],
+            "caption": "City lights #urban",
+            "location": "LA",
+            "taggedUsers": [],
+            "likes": [],
+            "comments": [],
+            "saved": [],
+            "created": "2024-01-16T20:00:00Z"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "savedPostIds"
+        },
+        "value": []
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "stories"
+        },
+        "value": [
+          {
+            "id": "story_1",
+            "userId": "user_2",
+            "image": "https://picsum.photos/400/700?random=201",
+            "created": "2024-01-16T08:00:00Z",
+            "expires": "2024-01-17T08:00:00Z",
+            "viewed": false
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "users"
+        },
+        "value": {
+          "user_admin": {
+            "id": "user_admin",
+            "username": "alex_morgan",
+            "name": "Alex Morgan",
+            "avatar": "https://picsum.photos/150/150?random=1",
+            "bio": "Photographer & adventurer | Capturing moments",
+            "website": "https://alexmorgan.photography",
+            "followers": [
+              "user_2",
+              "user_3",
+              "user_4"
+            ],
+            "following": [
+              "user_2",
+              "user_3"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_2": {
+            "id": "user_2",
+            "username": "adventure_seeker",
+            "name": "Alice Walker",
+            "avatar": "https://picsum.photos/150/150?random=2",
+            "bio": "Explorer | Nature lover | Travel enthusiast",
+            "website": "",
+            "followers": [
+              "user_admin",
+              "user_3",
+              "user_4"
+            ],
+            "following": [
+              "user_admin",
+              "user_4"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_3": {
+            "id": "user_3",
+            "username": "tech_guru",
+            "name": "Bob Chen",
+            "avatar": "https://picsum.photos/150/150?random=3",
+            "bio": "Software engineer | Open source contributor",
+            "website": "",
+            "followers": [
+              "user_admin"
+            ],
+            "following": [
+              "user_admin",
+              "user_2"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          },
+          "user_4": {
+            "id": "user_4",
+            "username": "design_daily",
+            "name": "Sarah Kim",
+            "avatar": "https://picsum.photos/150/150?random=4",
+            "bio": "UX Designer | Making things beautiful",
+            "website": "",
+            "followers": [
+              "user_2"
+            ],
+            "following": [
+              "user_admin",
+              "user_2"
+            ],
+            "isVerified": false,
+            "isPrivate": false
+          }
+        }
+      }
+    ],
+    [
+      {
+        "spec": {
+          "script": "state?.posts?.find((p) => p?.id === 'post_2')?.likes?.includes('user_admin') === true",
+          "query": "credited post_2 is liked by user_admin",
+          "path": "posts[id=post_2].likes"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "script": "state?.posts?.find((p) => p?.id === 'post_15')?.comments?.some((c) => c?.userId === 'user_admin' && String(c?.text ?? '').trim() === 'Hey, this looks familiar! Credit: @alex_morgan') === true",
+          "query": "post_15 has the exact credit comment by user_admin",
+          "path": "posts[id=post_15].comments[userId=user_admin].text"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "script": "state?.posts?.find((p) => p?.id === 'post_16')?.comments?.some((c) => c?.userId === 'user_admin' && String(c?.text ?? '').trim() === 'Hey, this looks familiar! Credit: @alex_morgan') === true",
+          "query": "post_16 has the exact credit comment by user_admin",
+          "path": "posts[id=post_16].comments[userId=user_admin].text"
+        },
+        "value": true
+      }
+    ]
+  ],
+  "empty_start": false,
+  "accumulation": "DELTA"
+}

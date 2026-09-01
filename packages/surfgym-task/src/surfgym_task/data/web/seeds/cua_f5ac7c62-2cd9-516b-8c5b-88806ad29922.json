@@ -1,0 +1,696 @@
+{
+  "instruction": "I just got promoted to Engineering Director! Create a post announcing my promotion. The post should mention that I'm excited about leading the engineering team at TechCorp and looking forward to driving innovation in cloud infrastructure. After posting, go to the post by Sarah Johnson (user_2) about her conference talk and react with 'celebrate' to show support.",
+  "website": "http://127.0.0.1:8057/?sid=f5ac7c62-2cd9-516b-8c5b-88806ad29922",
+  "domain": "web",
+  "states": [
+    [
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "chats"
+        },
+        "value": [
+          {
+            "id": "chat_1",
+            "participants": [
+              "user_admin",
+              "user_2"
+            ],
+            "messages": [
+              {
+                "id": "msg_1",
+                "senderId": "user_2",
+                "content": "Hey Alex! Are you going to CloudConf this year?",
+                "created": "2026-03-28T09:00:00Z",
+                "read": true
+              },
+              {
+                "id": "msg_2",
+                "senderId": "user_admin",
+                "content": "Planning to! Saw your post about speaking — congrats!",
+                "created": "2026-03-28T09:15:00Z",
+                "read": true
+              }
+            ]
+          },
+          {
+            "id": "chat_2",
+            "participants": [
+              "user_admin",
+              "user_4"
+            ],
+            "messages": [
+              {
+                "id": "msg_3",
+                "senderId": "user_4",
+                "content": "Are you free for a quick call this week?",
+                "created": "2026-03-27T14:00:00Z",
+                "read": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "companies"
+        },
+        "value": {
+          "company_1": {
+            "id": "company_1",
+            "name": "TechCorp",
+            "logo": "https://picsum.photos/100/100?random=company_1",
+            "industry": "Software & Cloud Technology",
+            "size": "1001-5000 employees",
+            "headquarters": "San Francisco, CA",
+            "description": "TechCorp builds enterprise cloud infrastructure and developer tools used by thousands of companies worldwide."
+          },
+          "company_2": {
+            "id": "company_2",
+            "name": "DataStream Inc",
+            "logo": "https://picsum.photos/100/100?random=company_2",
+            "industry": "Data & Analytics",
+            "size": "201-500 employees",
+            "headquarters": "Austin, TX",
+            "description": "Real-time data streaming and analytics platform."
+          },
+          "company_3": {
+            "id": "company_3",
+            "name": "CloudSys",
+            "logo": "https://picsum.photos/100/100?random=company_3",
+            "industry": "Cloud Services",
+            "size": "501-1000 employees",
+            "headquarters": "Seattle, WA",
+            "description": "Multi-cloud management and orchestration platform."
+          },
+          "company_4": {
+            "id": "company_4",
+            "name": "InfraScale",
+            "logo": "https://picsum.photos/100/100?random=company_4",
+            "industry": "IT Infrastructure",
+            "size": "51-200 employees",
+            "headquarters": "New York, NY",
+            "description": "Infrastructure automation and DevOps tooling."
+          },
+          "company_5": {
+            "id": "company_5",
+            "name": "ByteWave",
+            "logo": "https://picsum.photos/100/100?random=company_5",
+            "industry": "Software Development",
+            "size": "201-500 employees",
+            "headquarters": "Austin, TX",
+            "description": "Next-generation cloud-native application platform."
+          }
+        }
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "connectionRequests"
+        },
+        "value": [
+          {
+            "id": "connreq_1",
+            "fromUserId": "user_7",
+            "toUserId": "user_admin",
+            "note": "Hi Alex, would love to connect and share ideas on cloud architecture!",
+            "status": "pending",
+            "created": "2026-03-28T16:30:00Z"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "currentUser"
+        },
+        "value": {
+          "id": "user_admin",
+          "name": "Alex Morgan",
+          "headline": "Sr Software Engineer at TechCorp",
+          "location": "San Francisco Bay Area",
+          "about": "Passionate software engineer with 8+ years of experience building scalable cloud infrastructure. Currently focused on distributed systems and platform engineering at TechCorp.",
+          "avatar": "https://i.pravatar.cc/200?u=user_admin",
+          "banner": "https://picsum.photos/1200/400?random=banner_admin",
+          "connections": [
+            "user_2",
+            "user_3",
+            "user_4",
+            "user_5",
+            "user_6"
+          ],
+          "experience": [
+            {
+              "id": "exp_1",
+              "title": "Sr Software Engineer",
+              "company": "TechCorp",
+              "companyId": "company_1",
+              "location": "San Francisco, CA",
+              "startDate": "2021-03",
+              "endDate": null,
+              "current": true,
+              "description": "Leading cloud infrastructure initiatives and platform engineering efforts."
+            },
+            {
+              "id": "exp_2",
+              "title": "Software Engineer",
+              "company": "DataStream Inc",
+              "companyId": "company_2",
+              "location": "Austin, TX",
+              "startDate": "2018-06",
+              "endDate": "2021-02",
+              "current": false,
+              "description": "Built real-time data processing pipelines and microservices."
+            }
+          ],
+          "education": [
+            {
+              "id": "edu_1",
+              "school": "UC Berkeley",
+              "degree": "B.S. Computer Science",
+              "field": "Computer Science",
+              "startDate": "2013",
+              "endDate": "2017"
+            }
+          ],
+          "skills": [
+            "Python",
+            "Kubernetes",
+            "AWS",
+            "Distributed Systems",
+            "Go",
+            "Terraform"
+          ]
+        }
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "jobs"
+        },
+        "value": [
+          {
+            "id": "job_1",
+            "title": "Senior Cloud Engineer",
+            "company": "TechCorp",
+            "companyId": "company_1",
+            "location": "San Francisco, CA (Hybrid)",
+            "type": "Full-time",
+            "level": "Senior",
+            "logo": "https://picsum.photos/100/100?random=company_1",
+            "description": "Join TechCorp's platform engineering team to build next-generation cloud infrastructure.",
+            "requirements": [
+              "5+ years cloud experience",
+              "Kubernetes expertise",
+              "Python or Go"
+            ],
+            "salary": "$180,000 - $240,000",
+            "posted": "2026-03-25T00:00:00Z",
+            "applicants": 47,
+            "saved": false,
+            "applied": false
+          },
+          {
+            "id": "job_2",
+            "title": "Engineering Manager",
+            "company": "CloudSys",
+            "companyId": "company_3",
+            "location": "Seattle, WA (Remote OK)",
+            "type": "Full-time",
+            "level": "Manager",
+            "logo": "https://picsum.photos/100/100?random=company_3",
+            "description": "Lead a team of 8-10 engineers building our multi-cloud orchestration product.",
+            "requirements": [
+              "3+ years people management",
+              "Technical background required",
+              "Experience with cloud platforms"
+            ],
+            "salary": "$200,000 - $260,000",
+            "posted": "2026-03-20T00:00:00Z",
+            "applicants": 31,
+            "saved": false,
+            "applied": false
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "notifications"
+        },
+        "value": [
+          {
+            "id": "notif_1",
+            "type": "like",
+            "actorId": "user_3",
+            "targetId": "user_admin",
+            "content": "Marcus Chen liked your comment",
+            "read": false,
+            "created": "2026-03-29T11:00:00Z"
+          },
+          {
+            "id": "notif_2",
+            "type": "connection_request",
+            "actorId": "user_7",
+            "targetId": "user_admin",
+            "content": "David Kim wants to connect with you",
+            "read": false,
+            "created": "2026-03-28T16:30:00Z"
+          },
+          {
+            "id": "notif_3",
+            "type": "profile_view",
+            "actorId": "user_5",
+            "targetId": "user_admin",
+            "content": "James Okafor viewed your profile",
+            "read": true,
+            "created": "2026-03-27T10:00:00Z"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "posts"
+        },
+        "value": [
+          {
+            "id": "post_1",
+            "userId": "user_2",
+            "content": "Thrilled to announce I'll be speaking at CloudConf 2026 about scalable microservices! If you're attending, come find me at Session 4B on Thursday. This is a topic I've been researching for the past two years and I can't wait to share what our team has learned building systems that handle 10M+ requests/day. #CloudConf2026 #Microservices #Engineering",
+            "image": null,
+            "reactions": {
+              "like": [
+                "user_3"
+              ],
+              "celebrate": [],
+              "love": [],
+              "insightful": [],
+              "funny": [],
+              "curious": []
+            },
+            "comments": [
+              {
+                "id": "comment_1",
+                "userId": "user_7",
+                "content": "Congratulations Sarah! Looking forward to your talk.",
+                "created": "2026-03-29T10:15:00Z",
+                "likes": []
+              }
+            ],
+            "created": "2026-03-29T09:00:00Z",
+            "repostedBy": null,
+            "repostOf": null
+          },
+          {
+            "id": "post_2",
+            "userId": "user_4",
+            "content": "Great article on Kubernetes best practices — especially the section on resource limits and namespace isolation. A must-read for anyone running production workloads. Link in comments. #Kubernetes #DevOps #CloudNative",
+            "image": null,
+            "reactions": {
+              "like": [
+                "user_2",
+                "user_5"
+              ],
+              "celebrate": [],
+              "love": [],
+              "insightful": [],
+              "funny": [],
+              "curious": []
+            },
+            "comments": [],
+            "created": "2026-03-28T14:30:00Z",
+            "repostedBy": null,
+            "repostOf": null
+          },
+          {
+            "id": "post_3",
+            "userId": "user_3",
+            "content": "Just finished migrating our monolith to microservices after 18 months of work. The team did an incredible job. Zero downtime, 40% reduction in p99 latency. Proud of everyone involved! 🎉",
+            "image": null,
+            "reactions": {
+              "like": [
+                "user_4",
+                "user_5",
+                "user_6"
+              ],
+              "celebrate": [
+                "user_2",
+                "user_7"
+              ],
+              "love": [],
+              "insightful": [],
+              "funny": [],
+              "curious": []
+            },
+            "comments": [
+              {
+                "id": "comment_2",
+                "userId": "user_4",
+                "content": "Amazing work Marcus! That's a huge achievement.",
+                "created": "2026-03-27T16:45:00Z",
+                "likes": [
+                  "user_3"
+                ]
+              }
+            ],
+            "created": "2026-03-27T15:00:00Z",
+            "repostedBy": null,
+            "repostOf": null
+          },
+          {
+            "id": "post_4",
+            "userId": "user_5",
+            "content": "Hot take: most teams don't need a service mesh. Complexity should be earned, not installed. Start simple. Add complexity only when you have evidence you need it. What do you think? #Architecture #Simplicity",
+            "image": null,
+            "reactions": {
+              "like": [
+                "user_3",
+                "user_6"
+              ],
+              "celebrate": [],
+              "love": [],
+              "insightful": [
+                "user_4"
+              ],
+              "funny": [],
+              "curious": [
+                "user_2"
+              ]
+            },
+            "comments": [
+              {
+                "id": "comment_3",
+                "userId": "user_3",
+                "content": "Strongly agree. We learned this the hard way.",
+                "created": "2026-03-26T11:20:00Z",
+                "likes": []
+              }
+            ],
+            "created": "2026-03-26T10:00:00Z",
+            "repostedBy": null,
+            "repostOf": null
+          }
+        ]
+      },
+      {
+        "spec": {
+          "target": "app_state",
+          "path": "users"
+        },
+        "value": {
+          "user_2": {
+            "id": "user_2",
+            "name": "Sarah Johnson",
+            "headline": "Principal Engineer at CloudSys | Conference Speaker",
+            "location": "Seattle, WA",
+            "about": "Building resilient distributed systems. Speaker at CloudConf, KubeCon, and AWS re:Invent.",
+            "avatar": "https://i.pravatar.cc/200?u=user_2",
+            "banner": "https://picsum.photos/1200/400?random=banner_2",
+            "connections": [
+              "user_admin",
+              "user_3",
+              "user_5",
+              "user_7"
+            ],
+            "experience": [
+              {
+                "id": "exp_u2_1",
+                "title": "Principal Engineer",
+                "company": "CloudSys",
+                "companyId": "company_3",
+                "location": "Seattle, WA",
+                "startDate": "2020-01",
+                "endDate": null,
+                "current": true,
+                "description": "Architecting multi-region cloud solutions."
+              }
+            ],
+            "education": [],
+            "skills": [
+              "Microservices",
+              "Kubernetes",
+              "Go",
+              "Public Speaking"
+            ]
+          },
+          "user_3": {
+            "id": "user_3",
+            "name": "Marcus Chen",
+            "headline": "DevOps Lead at InfraScale",
+            "location": "New York, NY",
+            "about": "Infrastructure automation enthusiast. Making deployments boring since 2015.",
+            "avatar": "https://i.pravatar.cc/200?u=user_3",
+            "banner": "https://picsum.photos/1200/400?random=banner_3",
+            "connections": [
+              "user_admin",
+              "user_2",
+              "user_4"
+            ],
+            "experience": [
+              {
+                "id": "exp_u3_1",
+                "title": "DevOps Lead",
+                "company": "InfraScale",
+                "companyId": "company_4",
+                "location": "New York, NY",
+                "startDate": "2019-07",
+                "endDate": null,
+                "current": true,
+                "description": "Managing CI/CD pipelines and cloud infrastructure."
+              }
+            ],
+            "education": [],
+            "skills": [
+              "Terraform",
+              "Ansible",
+              "Jenkins",
+              "AWS"
+            ]
+          },
+          "user_4": {
+            "id": "user_4",
+            "name": "Priya Patel",
+            "headline": "Engineering Manager at ByteWave",
+            "location": "Austin, TX",
+            "about": "Engineering leader passionate about building high-performing teams and scalable systems.",
+            "avatar": "https://i.pravatar.cc/200?u=user_4",
+            "banner": "https://picsum.photos/1200/400?random=banner_4",
+            "connections": [
+              "user_admin",
+              "user_3",
+              "user_5",
+              "user_6"
+            ],
+            "experience": [
+              {
+                "id": "exp_u4_1",
+                "title": "Engineering Manager",
+                "company": "ByteWave",
+                "companyId": "company_5",
+                "location": "Austin, TX",
+                "startDate": "2022-04",
+                "endDate": null,
+                "current": true,
+                "description": "Leading a team of 12 engineers building cloud-native applications."
+              }
+            ],
+            "education": [],
+            "skills": [
+              "Team Leadership",
+              "Kubernetes",
+              "Python",
+              "System Design"
+            ]
+          },
+          "user_5": {
+            "id": "user_5",
+            "name": "James Okafor",
+            "headline": "Staff Engineer at Nexus Cloud",
+            "location": "Chicago, IL",
+            "about": "Solving hard distributed systems problems at scale.",
+            "avatar": "https://i.pravatar.cc/200?u=user_5",
+            "banner": "https://picsum.photos/1200/400?random=banner_5",
+            "connections": [
+              "user_admin",
+              "user_4",
+              "user_6"
+            ],
+            "experience": [],
+            "education": [],
+            "skills": [
+              "Rust",
+              "Distributed Systems",
+              "gRPC",
+              "Kafka"
+            ]
+          },
+          "user_6": {
+            "id": "user_6",
+            "name": "Emily Torres",
+            "headline": "Product Manager at TechCorp",
+            "location": "San Francisco Bay Area",
+            "about": "Bridging the gap between engineering and business to deliver impactful products.",
+            "avatar": "https://i.pravatar.cc/200?u=user_6",
+            "banner": "https://picsum.photos/1200/400?random=banner_6",
+            "connections": [
+              "user_admin",
+              "user_4",
+              "user_5"
+            ],
+            "experience": [],
+            "education": [],
+            "skills": [
+              "Product Strategy",
+              "Roadmapping",
+              "Agile",
+              "Data Analysis"
+            ]
+          },
+          "user_7": {
+            "id": "user_7",
+            "name": "David Kim",
+            "headline": "Cloud Architect at SkyNet Solutions",
+            "location": "Los Angeles, CA",
+            "about": "Designing cloud-native architectures for Fortune 500 companies.",
+            "avatar": "https://i.pravatar.cc/200?u=user_7",
+            "banner": "https://picsum.photos/1200/400?random=banner_7",
+            "connections": [
+              "user_2",
+              "user_5"
+            ],
+            "experience": [],
+            "education": [],
+            "skills": [
+              "AWS",
+              "Azure",
+              "GCP",
+              "Architecture Design"
+            ]
+          }
+        }
+      }
+    ],
+    [
+      {
+        "spec": {
+          "query": [
+            [
+              "collection",
+              "posts"
+            ],
+            [
+              "userId",
+              "user_admin"
+            ],
+            [
+              "selection",
+              "first"
+            ]
+          ],
+          "path": [
+            "exists"
+          ],
+          "script": "(()=>(state.posts||[]).some(x=>x?.userId==='user_admin'))()"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "query": [
+            [
+              "collection",
+              "posts"
+            ],
+            [
+              "userId",
+              "user_admin"
+            ],
+            [
+              "selection",
+              "first"
+            ]
+          ],
+          "path": [
+            "content",
+            "promotionKeyword"
+          ],
+          "script": "(()=>{const x=(state.posts||[]).find(v=>v?.userId==='user_admin');const s=String(x?.content||'').toLowerCase();return s.includes('promoted')||s.includes('engineering director');})()"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "query": [
+            [
+              "collection",
+              "posts"
+            ],
+            [
+              "userId",
+              "user_admin"
+            ],
+            [
+              "selection",
+              "first"
+            ]
+          ],
+          "path": [
+            "content",
+            "containsTechCorp"
+          ],
+          "script": "(()=>{const x=(state.posts||[]).find(v=>v?.userId==='user_admin');return String(x?.content||'').toLowerCase().includes('techcorp');})()"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "query": [
+            [
+              "collection",
+              "posts"
+            ],
+            [
+              "userId",
+              "user_admin"
+            ],
+            [
+              "selection",
+              "first"
+            ]
+          ],
+          "path": [
+            "content",
+            "containsCloudInfrastructure"
+          ],
+          "script": "(()=>{const x=(state.posts||[]).find(v=>v?.userId==='user_admin');return String(x?.content||'').toLowerCase().includes('cloud infrastructure');})()"
+        },
+        "value": true
+      },
+      {
+        "spec": {
+          "query": [
+            [
+              "collection",
+              "posts"
+            ],
+            [
+              "target",
+              "post_1_or_user_2_conference"
+            ]
+          ],
+          "path": [
+            "reactions",
+            "celebrate",
+            "containsUserAdmin"
+          ],
+          "script": "(()=>{const posts=state.posts||[];const p=posts.find(x=>x?.id==='post_1');if((p?.reactions?.celebrate||[]).includes('user_admin'))return true;return posts.some(x=>x?.userId==='user_2'&&['conf','speak','talk','presenting'].some(k=>String(x?.content||'').toLowerCase().includes(k))&&(x?.reactions?.celebrate||[]).includes('user_admin'));})()"
+        },
+        "value": true
+      }
+    ]
+  ],
+  "empty_start": false,
+  "accumulation": "DELTA"
+}
