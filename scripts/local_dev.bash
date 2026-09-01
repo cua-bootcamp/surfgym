@@ -32,6 +32,41 @@ fail() {
     exit 2
 }
 
+resolve_python_bin() {
+    local override="$1"
+    local repository="$2"
+    local variable_name="$3"
+    local import_probe="$4"
+    local candidate=""
+
+    if [[ -n "$override" ]]; then
+        candidate="$override"
+    else
+        for candidate in \
+            "$repository/.venv/Scripts/python.exe" \
+            "$repository/.venv/bin/python"; do
+            [[ -x "$candidate" ]] && break
+            candidate=""
+        done
+        if [[ -z "$candidate" ]]; then
+            for candidate in python3 python; do
+                if command -v "$candidate" >/dev/null 2>&1; then
+                    candidate="$(command -v "$candidate")"
+                    break
+                fi
+            done
+        fi
+    fi
+
+    [[ -n "$candidate" ]] || fail \
+        "No Python interpreter found for $variable_name. Set $variable_name to the repository environment."
+    if ! "$candidate" -c "import $import_probe"; then
+        fail \
+            "$variable_name interpreter cannot import $import_probe: $candidate. Set $variable_name to the repository environment and install the declared dependencies."
+    fi
+    printf '%s\n' "$candidate"
+}
+
 COMMAND="${1:-}"
 if [[ -z "$COMMAND" || "$COMMAND" == "-h" || "$COMMAND" == "--help" ]]; then
     usage
@@ -42,8 +77,6 @@ shift
 
 OPERATOR_CONFIG="${SURFGYM_OPERATOR_CONFIG:-$ROOT_DIR/config/runtime.toml}"
 DOCKER_REPO="${SURFGYM_DOCKER_REPO:-$(cd -- "$ROOT_DIR/.." && pwd)/surfgym-docker-dev}"
-DOCKER_PYTHON_BIN="${DOCKER_PYTHON_BIN:-${PYTHON_BIN:-python3}}"
-PYTHON_BIN="${PYTHON_BIN:-python}"
 READY_TIMEOUT_SECONDS="${SURFGYM_LOCAL_READY_TIMEOUT_SECONDS:-360}"
 READY_POLL_SECONDS="${SURFGYM_LOCAL_READY_POLL_SECONDS:-0.2}"
 
@@ -75,6 +108,10 @@ case "$COMMAND" in
 esac
 
 [[ -d "$DOCKER_REPO" ]] || fail "Docker repository not found: $DOCKER_REPO"
+PYTHON_OVERRIDE="${PYTHON_BIN:-}"
+DOCKER_PYTHON_OVERRIDE="${DOCKER_PYTHON_BIN:-$PYTHON_OVERRIDE}"
+PYTHON_BIN="$(resolve_python_bin "$PYTHON_OVERRIDE" "$ROOT_DIR" "PYTHON_BIN" "surfgym_runtime")"
+DOCKER_PYTHON_BIN="$(resolve_python_bin "$DOCKER_PYTHON_OVERRIDE" "$DOCKER_REPO" "DOCKER_PYTHON_BIN" "aiohttp, pydantic")"
 if [[ "$COMMAND" != "down" ]]; then
     [[ -f "$OPERATOR_CONFIG" ]] || fail "Operator config not found: $OPERATOR_CONFIG"
     [[ -f "$DOCKER_REPO/config.json" ]] || fail "Docker capability template not found: $DOCKER_REPO/config.json"

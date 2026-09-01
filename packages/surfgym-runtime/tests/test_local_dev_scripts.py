@@ -106,6 +106,35 @@ def test_local_dev_aligns_docker_supervisor_readiness_timeout() -> None:
     assert 'STACK_READY_TIMEOUT_SECONDS="$READY_TIMEOUT_SECONDS"' in script
 
 
+def test_local_dev_prefers_repository_venvs_and_probes_runtime_imports(
+    tmp_path: Path,
+) -> None:
+    surf, docker, env = make_local_dev_sandbox(tmp_path)
+    env.pop("PYTHON_BIN")
+    env.pop("DOCKER_PYTHON_BIN")
+    env["PATH"] = str(surf / "bin")
+    for repository, stub_name in (
+        (surf, "python-stub"),
+        (docker, "docker-python-stub"),
+    ):
+        repository_python = repository / ".venv" / "Scripts" / "python.exe"
+        repository_python.parent.mkdir(parents=True)
+        shutil.copy2(surf / "bin" / stub_name, repository_python)
+        repository_python.chmod(0o755)
+
+    checked = run_bash(
+        surf,
+        "bash scripts/local_dev.bash check --docker-repo ../docker",
+        env=env,
+    )
+
+    assert checked.returncode == 0, checked.stdout + checked.stderr
+    compiler_args = (surf / "compiler.args").read_text(encoding="utf-8")
+    assert "-c import surfgym_runtime" in compiler_args
+    assert "-c import aiohttp, pydantic" in compiler_args
+    assert "-m surfgym_runtime.support.operator_config" in compiler_args
+
+
 def test_component_launchers_use_configured_runtime_python() -> None:
     for name in ("gateway_launch.bash", "wavepool_launch.bash"):
         script = read_script(name)
@@ -129,6 +158,7 @@ def test_powershell_enters_local_dev_with_a_windows_only_path(tmp_path: Path) ->
             # Reproduce a PowerShell-owned PATH without Git's usr/bin tools.
             "PATH": str(windows_system),
             "PYTHON_BIN": (surf / "bin" / "python-stub").as_posix(),
+            "DOCKER_PYTHON_BIN": (surf / "bin" / "docker-python-stub").as_posix(),
             "STUB_COMPILER_ARGS": (surf / "compiler.args").as_posix(),
             "STUB_DOCKER_ARGS": (surf / "docker.args").as_posix(),
             "STUB_PROPAGATION": (surf / "propagation.log").as_posix(),
@@ -384,6 +414,10 @@ if [[ "${1:-}" == "-" ]]; then
   echo test-stack
   exit 0
 fi
+if [[ "${1:-}" == "-c" ]]; then
+  printf '%s\n' "$*" >> "$STUB_COMPILER_ARGS"
+  exit 0
+fi
 printf '%s\n' "$*" >> "$STUB_COMPILER_ARGS"
 if [[ "${STUB_COMPILER_FAIL:-0}" == "1" ]]; then
   exit 7
@@ -406,6 +440,8 @@ if ((check_only == 0)); then
 fi
 """,
     )
+    shutil.copy2(bin_dir / "python-stub", bin_dir / "docker-python-stub")
+    (bin_dir / "docker-python-stub").chmod(0o755)
     curl_status = 1 if fail_surf_readiness else 0
     write_executable(bin_dir / "curl", f"#!/usr/bin/env bash\nexit {curl_status}\n")
     write_executable(
