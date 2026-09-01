@@ -12,6 +12,7 @@ has to be part of the path.
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
@@ -20,6 +21,16 @@ from surfgym_task.cua.app_registry import key_from_placeholder
 from surfgym_task.cua.bundle_store import Bundle
 from surfgym_task.cua.http_stub import JsonValue
 from surfgym_task.cua.sandbox import DEFAULT_TIMEOUT_S, run_bundle_script
+
+_PORTABLE_EPISODE_SID = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}")
+_WINDOWS_RESERVED_NAMES = {
+    "CON",
+    "PRN",
+    "AUX",
+    "NUL",
+    *(f"COM{index}" for index in range(1, 10)),
+    *(f"LPT{index}" for index in range(1, 10)),
+}
 
 
 @dataclass(frozen=True)
@@ -84,18 +95,47 @@ def record(bundle: Bundle, *, timeout_s: float = DEFAULT_TIMEOUT_S) -> RecordedS
     )
 
 
-def write_states(recorded: RecordedSetup, state_dir: Path) -> list[Path]:
+def write_states(
+    recorded: RecordedSetup,
+    state_dir: Path,
+    *,
+    sid: str | None = None,
+) -> list[Path]:
     """Write one file per app in the shape `fetchCustomState()` expects."""
+    state_sid = recorded.task_id if sid is None else sid
+    if sid is None:
+        if (
+            not state_sid.strip()
+            or state_sid != state_sid.strip()
+            or state_sid in {".", ".."}
+            or "/" in state_sid
+            or "\\" in state_sid
+        ):
+            raise ValueError(f"invalid state SID: {state_sid!r}")
+    else:
+        validate_episode_sid(state_sid)
+
     written: list[Path] = []
     for key, state in recorded.states.items():
-        target = state_dir / key / f"{recorded.task_id}.json"
+        target = state_dir / key / f"{state_sid}.json"
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(
             json.dumps(
-                {"sid": recorded.task_id, "has_custom_state": True, "stored_state": state},
+                {"sid": state_sid, "has_custom_state": True, "stored_state": state},
                 ensure_ascii=False,
             ),
             encoding="utf-8",
         )
         written.append(target)
     return written
+
+
+def validate_episode_sid(sid: str) -> None:
+    """Require an explicit run SID that is portable as a Windows filename."""
+    reserved_stem = sid.split(".", 1)[0].upper()
+    if (
+        _PORTABLE_EPISODE_SID.fullmatch(sid) is None
+        or sid.endswith(".")
+        or reserved_stem in _WINDOWS_RESERVED_NAMES
+    ):
+        raise ValueError(f"invalid episode SID: {sid!r}")

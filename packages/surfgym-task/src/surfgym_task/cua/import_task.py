@@ -8,13 +8,25 @@ from dataclasses import dataclass
 from pathlib import Path
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
-from surfgym_contracts.task import CuaEvaluation, CuaStateSource, Task, Website
+from surfgym_contracts.task import (
+    CuaEvaluation,
+    CuaStateSource,
+    LifecycleHooks,
+    Task,
+    Website,
+)
 
 from surfgym_task.cua.app_registry import key_from_app_dir
 from surfgym_task.cua.bundle_store import Bundle, read_bundles
-from surfgym_task.cua.record_setup import RecordedSetup, record, write_states
+from surfgym_task.cua.record_setup import (
+    RecordedSetup,
+    record,
+    validate_episode_sid,
+    write_states,
+)
 from surfgym_task.cua.state_contracts import get_state_contract
 from surfgym_task.io import JsonIO, TaskWriter
+from surfgym_task.web import WEB_STATE_RESET_HOOK
 
 
 @dataclass(frozen=True)
@@ -24,7 +36,13 @@ class ImportedTask:
     app_key: str
 
 
-def import_direct_web_task(bundle: Bundle, *, app_url: str) -> ImportedTask:
+def import_direct_web_task(
+    bundle: Bundle,
+    *,
+    app_url: str,
+    sid: str | None = None,
+    recorded_setup: RecordedSetup | None = None,
+) -> ImportedTask:
     if not bundle.complete:
         raise ValueError(f"CUA bundle {bundle.task_id} is incomplete")
 
@@ -39,7 +57,11 @@ def import_direct_web_task(bundle: Bundle, *, app_url: str) -> ImportedTask:
     if not contract.in_direct_web_dataset or contract.requires_server_memory:
         raise ValueError(f"{app_key} is not a direct localStorage web app")
 
-    setup = record(bundle)
+    setup = record(bundle) if recorded_setup is None else recorded_setup
+    if setup.task_id != bundle.task_id:
+        raise ValueError(
+            f"recorded setup source {setup.task_id} does not match bundle {bundle.task_id}"
+        )
     if not setup.ok:
         raise RuntimeError(f"failed to record {bundle.task_id}: {setup.error}")
     if set(setup.states) != {app_key}:
@@ -47,24 +69,27 @@ def import_direct_web_task(bundle: Bundle, *, app_url: str) -> ImportedTask:
             f"recorded app keys {sorted(setup.states)} do not match task app {app_key}"
         )
 
-    sid = bundle.task_id
+    episode_sid = bundle.task_id if sid is None else sid
+    if sid is not None:
+        validate_episode_sid(episode_sid)
     app_base = app_url.rstrip("/")
     task = Task(
-        task_id=bundle.task_id,
+        task_id=episode_sid,
         instruction=instruction,
-        website=[Website(url=_with_sid(app_url, sid))],
+        website=[Website(url=_with_sid(app_url, episode_sid))],
         evaluation=CuaEvaluation(
             source_task_id=bundle.task_id,
             reward_script=(bundle.reward or "").replace(setup.bases[app_key], app_base),
             states=[
                 CuaStateSource(
                     app_base=app_base,
-                    sid=sid,
-                    current_state_key=contract.current_state_key(sid),
-                    initial_state_key=contract.initial_state_key(sid),
+                    sid=episode_sid,
+                    current_state_key=contract.current_state_key(episode_sid),
+                    initial_state_key=contract.initial_state_key(episode_sid),
                 )
             ],
         ),
+        lifecycle_hooks=LifecycleHooks(release=[WEB_STATE_RESET_HOOK]),
     )
     return ImportedTask(task=task, setup=setup, app_key=app_key)
 
@@ -79,9 +104,16 @@ def write_task_assets(imported: ImportedTask, tasks_dir: Path) -> Path:
     since `TaskWriter.__enter__` truncates the table on every open.
     """
     task_dir = tasks_dir / imported.task.task_id
-    write_states(imported.setup, task_dir / "initial_states")
+    write_states(imported.setup, task_dir / "initial_states", sid=imported.task.task_id)
     JsonIO.write(task_dir / "task.json", imported.task)
     return task_dir
+
+
+def write_host_states(imported: ImportedTask, output_dir: Path) -> Path:
+    """Collect SID JSON under one app-keyed root consumed by static Caddy."""
+    state_root = output_dir / "initial_states"
+    write_states(imported.setup, state_root, sid=imported.task.task_id)
+    return state_root
 
 
 def _with_sid(url: str, sid: str) -> str:
@@ -93,10 +125,30 @@ def _with_sid(url: str, sid: str) -> str:
     )
 
 
+def _episode_pairs(
+    source_task_ids: list[str],
+    episode_sids: list[str] | None,
+) -> list[tuple[str, str]]:
+    if episode_sids is None:
+        return [(task_id, task_id) for task_id in source_task_ids]
+    if len(episode_sids) != len(source_task_ids):
+        raise ValueError("--episode-sid count must match --task-id count")
+    if len(set(episode_sids)) != len(episode_sids):
+        raise ValueError("--episode-sid values must be unique")
+    for sid in episode_sids:
+        validate_episode_sid(sid)
+    return list(zip(source_task_ids, episode_sids))
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--archive", type=Path, required=True)
-    parser.add_argument("--task-id", required=True, nargs="+", help="one or more bundle task ids")
+    parser.add_argument(
+        "--task-id",
+        required=True,
+        nargs="+",
+        help="one or more bundle task ids",
+    )
     parser.add_argument(
         "--ports-file",
         type=Path,
@@ -104,6 +156,14 @@ def parse_args() -> argparse.Namespace:
         help="APP_KEY -> base URL, e.g. output/cua-webapps/ports.json from gen_caddyfile.py",
     )
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument(
+        "--episode-sid",
+        nargs="+",
+        help=(
+            "run-scoped SID(s), aligned with --task-id; variants may repeat one "
+            "source task id"
+        ),
+    )
     return parser.parse_args()
 
 
@@ -111,21 +171,36 @@ def main() -> None:
     args = parse_args()
     ports: dict[str, str] = json.loads(args.ports_file.read_text(encoding="utf-8"))
 
+    try:
+        episode_pairs = _episode_pairs(args.task_id, args.episode_sid)
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
+
     bundles = read_bundles(args.archive, args.task_id)
     missing = [task_id for task_id in args.task_id if task_id not in bundles]
     if missing:
         raise SystemExit(f"tasks not found in {args.archive}: {', '.join(missing)}")
 
     imported_tasks: list[ImportedTask] = []
-    for task_id in args.task_id:
-        bundle = bundles[task_id]
+    setup_by_source: dict[str, RecordedSetup] = {}
+    for source_task_id, episode_sid in episode_pairs:
+        bundle = bundles[source_task_id]
         app_key = key_from_app_dir(json.loads(bundle.task_json).get("app_type", ""))
         app_url = ports.get(app_key)
         if app_url is None:
-            raise SystemExit(f"no URL for app {app_key} (task {task_id}) in {args.ports_file}")
+            raise SystemExit(
+                f"no URL for app {app_key} (task {source_task_id}) in {args.ports_file}"
+            )
 
-        imported = import_direct_web_task(bundle, app_url=app_url)
+        imported = import_direct_web_task(
+            bundle,
+            app_url=app_url,
+            sid=episode_sid,
+            recorded_setup=setup_by_source.get(source_task_id),
+        )
+        setup_by_source.setdefault(source_task_id, imported.setup)
         task_dir = write_task_assets(imported, args.output_dir)
+        write_host_states(imported, args.output_dir)
         imported_tasks.append(imported)
         print(f"imported {imported.task.task_id} ({imported.app_key}) -> {task_dir}")
 
