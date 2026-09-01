@@ -189,17 +189,14 @@ def test_import_rejects_recorded_setup_from_another_source():
         )
 
 
-def test_episode_sid_variants_require_unique_aligned_sids():
-    assert _episode_pairs(
-        [CANARY_TASK_ID, CANARY_TASK_ID],
-        ["instagram-run-01", "instagram-run-02"],
-    ) == [
-        (CANARY_TASK_ID, "instagram-run-01"),
-        (CANARY_TASK_ID, "instagram-run-02"),
-    ]
-
+def test_episode_pairs_reject_duplicate_source_and_runtime_ids():
     with pytest.raises(ValueError, match="count must match"):
         _episode_pairs([CANARY_TASK_ID, CANARY_TASK_ID], ["instagram-run-01"])
+    with pytest.raises(ValueError, match="--task-id values must be unique"):
+        _episode_pairs(
+            [CANARY_TASK_ID, CANARY_TASK_ID],
+            ["instagram-run-01", "instagram-run-02"],
+        )
     assert _episode_pairs(
         [CANARY_TASK_ID, "another-source-task"],
         ["instagram-run-01", "other-app-run-01"],
@@ -207,9 +204,9 @@ def test_episode_sid_variants_require_unique_aligned_sids():
         (CANARY_TASK_ID, "instagram-run-01"),
         ("another-source-task", "other-app-run-01"),
     ]
-    with pytest.raises(ValueError, match="must be unique"):
+    with pytest.raises(ValueError, match="derived runtime task IDs must be unique"):
         _episode_pairs(
-            [CANARY_TASK_ID, CANARY_TASK_ID],
+            [CANARY_TASK_ID, "another-source-task"],
             ["instagram-run-01", "instagram-run-01"],
         )
 
@@ -229,7 +226,7 @@ def test_explicit_episode_sid_must_be_windows_portable(episode_sid, tmp_path):
         )
 
 
-def test_import_cli_accepts_aligned_episode_sid_variants(monkeypatch):
+def test_import_cli_parses_aligned_episode_sids(monkeypatch):
     monkeypatch.setattr(
         sys,
         "argv",
@@ -239,7 +236,7 @@ def test_import_cli_accepts_aligned_episode_sid_variants(monkeypatch):
             "bundles.zip",
             "--task-id",
             CANARY_TASK_ID,
-            CANARY_TASK_ID,
+            "another-source-task",
             "--episode-sid",
             "instagram-run-01",
             "instagram-run-02",
@@ -252,21 +249,31 @@ def test_import_cli_accepts_aligned_episode_sid_variants(monkeypatch):
 
     args = parse_args()
 
-    assert args.task_id == [CANARY_TASK_ID, CANARY_TASK_ID]
+    assert args.task_id == [CANARY_TASK_ID, "another-source-task"]
     assert args.episode_sid == ["instagram-run-01", "instagram-run-02"]
 
 
-def test_cli_episode_sid_variants_record_source_once_and_share_state(
-    tmp_path, monkeypatch
-):
+def test_cli_imports_normal_two_task_batch(tmp_path, monkeypatch):
     ports_file = tmp_path / "ports.json"
     ports_file.write_text(
         json.dumps({"INSTAGRAM": "http://127.0.0.1:8052"}), encoding="utf-8"
     )
     output_dir = tmp_path / "staging"
+    second_task_id = "another-instagram-source-task"
+    second_bundle = replace(
+        _instagram_bundle(),
+        task_id=second_task_id,
+        task_json=json.dumps(
+            {
+                "id": second_task_id,
+                "instruction": "Update another profile.",
+                "app_type": "instagram_mock",
+            }
+        ),
+    )
     args = argparse.Namespace(
         archive=tmp_path / "bundles.zip",
-        task_id=[CANARY_TASK_ID, CANARY_TASK_ID],
+        task_id=[CANARY_TASK_ID, second_task_id],
         episode_sid=["instagram-run-01", "instagram-run-02"],
         ports_file=ports_file,
         output_dir=output_dir,
@@ -275,7 +282,10 @@ def test_cli_episode_sid_variants_record_source_once_and_share_state(
     monkeypatch.setattr(
         import_task_module,
         "read_bundles",
-        lambda _archive, _task_ids: {CANARY_TASK_ID: _instagram_bundle()},
+        lambda _archive, _task_ids: {
+            CANARY_TASK_ID: _instagram_bundle(),
+            second_task_id: second_bundle,
+        },
     )
     real_record = import_task_module.record
     record_calls = 0
@@ -289,7 +299,7 @@ def test_cli_episode_sid_variants_record_source_once_and_share_state(
 
     import_task_module.main()
 
-    assert record_calls == 1
+    assert record_calls == 2
     task_state_paths = [
         output_dir / sid / "initial_states" / "INSTAGRAM" / f"{sid}.json"
         for sid in ("instagram-run-01", "instagram-run-02")
@@ -327,4 +337,84 @@ def test_cli_episode_sid_variants_record_source_once_and_share_state(
     ]
     assert {
         json.loads(payload)["evaluation"]["source_task_id"] for _, payload in rows
-    } == {CANARY_TASK_ID}
+    } == {CANARY_TASK_ID, second_task_id}
+
+
+def test_late_bundle_failure_does_not_mutate_existing_output(tmp_path, monkeypatch):
+    ports_file = tmp_path / "ports.json"
+    ports_file.write_text(
+        json.dumps({"INSTAGRAM": "http://127.0.0.1:8052"}), encoding="utf-8"
+    )
+    output_dir = tmp_path / "staging"
+    sentinel_paths = {
+        output_dir / "tasks.sqlite3": b"existing-db",
+        output_dir / "initial_states" / "INSTAGRAM" / "keep.json": b"existing-state",
+        output_dir / "existing-task" / "task.json": b"existing-task",
+    }
+    for path, contents in sentinel_paths.items():
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(contents)
+
+    invalid_task_id = "invalid-second-bundle"
+    invalid_bundle = replace(
+        _instagram_bundle(), task_id=invalid_task_id, reward=None
+    )
+    args = argparse.Namespace(
+        archive=tmp_path / "bundles.zip",
+        task_id=[CANARY_TASK_ID, invalid_task_id],
+        episode_sid=["instagram-run-01", "instagram-run-02"],
+        ports_file=ports_file,
+        output_dir=output_dir,
+    )
+    monkeypatch.setattr(import_task_module, "parse_args", lambda: args)
+    monkeypatch.setattr(
+        import_task_module,
+        "read_bundles",
+        lambda _archive, _task_ids: {
+            CANARY_TASK_ID: _instagram_bundle(),
+            invalid_task_id: invalid_bundle,
+        },
+    )
+
+    with pytest.raises(ValueError, match="invalid-second-bundle is incomplete"):
+        import_task_module.main()
+
+    assert {path: path.read_bytes() for path in sentinel_paths} == sentinel_paths
+    assert sorted(path.relative_to(output_dir).as_posix() for path in output_dir.rglob("*")) == [
+        "existing-task",
+        "existing-task/task.json",
+        "initial_states",
+        "initial_states/INSTAGRAM",
+        "initial_states/INSTAGRAM/keep.json",
+        "tasks.sqlite3",
+    ]
+
+
+def test_valid_batch_fails_closed_when_output_is_nonempty(tmp_path, monkeypatch):
+    ports_file = tmp_path / "ports.json"
+    ports_file.write_text(
+        json.dumps({"INSTAGRAM": "http://127.0.0.1:8052"}), encoding="utf-8"
+    )
+    output_dir = tmp_path / "staging"
+    output_dir.mkdir()
+    sentinel = output_dir / "keep.txt"
+    sentinel.write_text("unchanged", encoding="utf-8")
+    args = argparse.Namespace(
+        archive=tmp_path / "bundles.zip",
+        task_id=[CANARY_TASK_ID],
+        episode_sid=["instagram-run-01"],
+        ports_file=ports_file,
+        output_dir=output_dir,
+    )
+    monkeypatch.setattr(import_task_module, "parse_args", lambda: args)
+    monkeypatch.setattr(
+        import_task_module,
+        "read_bundles",
+        lambda _archive, _task_ids: {CANARY_TASK_ID: _instagram_bundle()},
+    )
+
+    with pytest.raises(SystemExit, match="output directory must be empty"):
+        import_task_module.main()
+
+    assert list(output_dir.iterdir()) == [sentinel]
+    assert sentinel.read_text(encoding="utf-8") == "unchanged"

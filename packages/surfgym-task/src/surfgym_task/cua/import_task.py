@@ -129,15 +129,26 @@ def _episode_pairs(
     source_task_ids: list[str],
     episode_sids: list[str] | None,
 ) -> list[tuple[str, str]]:
-    if episode_sids is None:
-        return [(task_id, task_id) for task_id in source_task_ids]
-    if len(episode_sids) != len(source_task_ids):
+    if episode_sids is not None and len(episode_sids) != len(source_task_ids):
         raise ValueError("--episode-sid count must match --task-id count")
-    if len(set(episode_sids)) != len(episode_sids):
-        raise ValueError("--episode-sid values must be unique")
-    for sid in episode_sids:
-        validate_episode_sid(sid)
-    return list(zip(source_task_ids, episode_sids))
+    if len(set(source_task_ids)) != len(source_task_ids):
+        raise ValueError("--task-id values must be unique")
+
+    runtime_ids = source_task_ids if episode_sids is None else episode_sids
+    if len(set(runtime_ids)) != len(runtime_ids):
+        raise ValueError("derived runtime task IDs must be unique")
+    for runtime_id in runtime_ids:
+        validate_episode_sid(runtime_id)
+    return list(zip(source_task_ids, runtime_ids))
+
+
+def _require_empty_output_dir(output_dir: Path) -> None:
+    if output_dir.exists() and (
+        not output_dir.is_dir() or next(output_dir.iterdir(), None) is not None
+    ):
+        raise SystemExit(
+            f"output directory must be empty (refusing overwrite): {output_dir}"
+        )
 
 
 def parse_args() -> argparse.Namespace:
@@ -159,10 +170,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--episode-sid",
         nargs="+",
-        help=(
-            "run-scoped SID(s), aligned with --task-id; variants may repeat one "
-            "source task id"
-        ),
+        help="unique run-scoped SID(s), aligned with unique --task-id values",
     )
     return parser.parse_args()
 
@@ -181,6 +189,8 @@ def main() -> None:
     if missing:
         raise SystemExit(f"tasks not found in {args.archive}: {', '.join(missing)}")
 
+    # Complete every fallible bundle/runtime/setup validation before touching
+    # output. This prevents a late invalid bundle from leaving a partial batch.
     imported_tasks: list[ImportedTask] = []
     setup_by_source: dict[str, RecordedSetup] = {}
     for source_task_id, episode_sid in episode_pairs:
@@ -199,9 +209,13 @@ def main() -> None:
             recorded_setup=setup_by_source.get(source_task_id),
         )
         setup_by_source.setdefault(source_task_id, imported.setup)
+        imported_tasks.append(imported)
+
+    _require_empty_output_dir(args.output_dir)
+
+    for imported in imported_tasks:
         task_dir = write_task_assets(imported, args.output_dir)
         write_host_states(imported, args.output_dir)
-        imported_tasks.append(imported)
         print(f"imported {imported.task.task_id} ({imported.app_key}) -> {task_dir}")
 
     tasks_db = args.output_dir / "tasks.sqlite3"

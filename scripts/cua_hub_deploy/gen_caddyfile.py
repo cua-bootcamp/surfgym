@@ -26,10 +26,14 @@ import json
 from pathlib import Path
 
 from surfgym_task.cua.app_registry import key_from_app_dir
-from surfgym_task.cua.webapp_manifest import DIRECT_WEB_APPS
 
 # deploy-all.sh assigns consecutive ports ordered by directory name.
 DEFAULT_START_PORT = 8000
+
+# This generator is legacy runtime infrastructure, not the offline onboarding
+# inventory. Keep its pre-onboarding support boundary explicit until hosting is
+# designed and accepted separately.
+LEGACY_RUNTIME_PORT_OFFSETS = {"instacart_mock": 51}
 
 _SITE_TEMPLATE = """\
 :{port} {{
@@ -56,23 +60,22 @@ _SITE_TEMPLATE = """\
 
 
 def discover_supported_apps(websites_dir: Path, *, built_only: bool) -> list[str]:
-    """Return only the manifest-listed 28 apps, never incidental Hub builds."""
-    supported = [app.app_dir for app in DIRECT_WEB_APPS]
+    """Return only legacy runtime apps, never offline-manifest additions."""
+    supported = list(LEGACY_RUNTIME_PORT_OFFSETS)
     missing = [app for app in supported if not (websites_dir / app).is_dir()]
     if missing:
-        raise FileNotFoundError(f"missing manifest app directories: {', '.join(missing)}")
+        raise FileNotFoundError(f"missing runtime app directories: {', '.join(missing)}")
     if built_only:
         return [app for app in supported if (websites_dir / app / "dist" / "index.html").is_file()]
     return supported
 
 
 def assign_ports(selected: list[str], start_port: int) -> dict[str, int]:
-    """Use pinned upstream offsets even though only 28 apps are vendored."""
-    offset_by_dir = {app.app_dir: app.hub_port_offset for app in DIRECT_WEB_APPS}
-    unknown = sorted(set(selected) - set(offset_by_dir))
+    """Use the legacy runtime app's pinned upstream offset."""
+    unknown = sorted(set(selected) - set(LEGACY_RUNTIME_PORT_OFFSETS))
     if unknown:
         raise ValueError(f"unsupported app directories: {', '.join(unknown)}")
-    return {app: start_port + offset_by_dir[app] for app in selected}
+    return {app: start_port + LEGACY_RUNTIME_PORT_OFFSETS[app] for app in selected}
 
 
 def render(
@@ -112,7 +115,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--require-all",
         action="store_true",
-        help="fail unless all 28 manifest apps have dist/index.html",
+        help="fail unless all legacy runtime apps have dist/index.html",
     )
     return parser.parse_args()
 
@@ -122,8 +125,8 @@ def main() -> None:
     websites_dir: Path = args.websites_dir.resolve()
 
     selected = discover_supported_apps(websites_dir, built_only=True)
-    if args.require_all and len(selected) != len(DIRECT_WEB_APPS):
-        missing = sorted({app.app_dir for app in DIRECT_WEB_APPS} - set(selected))
+    if args.require_all and len(selected) != len(LEGACY_RUNTIME_PORT_OFFSETS):
+        missing = sorted(set(LEGACY_RUNTIME_PORT_OFFSETS) - set(selected))
         raise SystemExit(f"{len(missing)} supported app(s) missing dist/index.html: {', '.join(missing)}")
     if not selected:
         raise SystemExit(f"no built apps under {websites_dir} (run build_all.sh first)")

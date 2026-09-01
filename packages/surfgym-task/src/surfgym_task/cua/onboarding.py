@@ -645,25 +645,6 @@ def inspect_app(*, app_key: str, repo_root: Path, upstream_root: Path) -> dict[s
         )
     )
 
-    caddy_generator = repo_root / "scripts" / "cua_hub_deploy" / "gen_caddyfile.py"
-    caddy_text = caddy_generator.read_text(encoding="utf-8") if caddy_generator.is_file() else ""
-    caddy_mapping_ok = (
-        caddy_generator.is_file()
-        and "hub_port_offset" in caddy_text
-        and "start_port + offset_by_dir[app]" in caddy_text
-    )
-    checks.append(
-        _check(
-            "caddy_mapping",
-            caddy_mapping_ok,
-            "Caddy generator consumes the manifest's fixed app offset",
-            path=str(caddy_generator),
-            app_key=app.app_key,
-            app_dir=app.app_dir,
-            port=DEFAULT_CADDY_START_PORT + app.hub_port_offset,
-        )
-    )
-
     provenance = _base_provenance()
     provenance.update(
         {

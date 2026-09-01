@@ -13,6 +13,7 @@ PINNED_CUA_GYM_HUB_REVISION = "53205689c3d88078c1375f76466d5bd799478828"
 _REPO_ROOT = Path(__file__).resolve().parents[3]
 _CADDY_MODULE = run_path(str(_REPO_ROOT / "scripts/cua_hub_deploy/gen_caddyfile.py"))
 assign_ports = _CADDY_MODULE["assign_ports"]
+discover_supported_apps = _CADDY_MODULE["discover_supported_apps"]
 render = _CADDY_MODULE["render"]
 
 _BATCH_A_CONTRACTS = {
@@ -57,23 +58,6 @@ def test_batch_a_manifest_and_state_contract(
     assert contract.in_direct_web_dataset is True
 
 
-def test_batch_a_uses_pinned_caddy_ports_and_namespaces() -> None:
-    app_dirs = [expected[0] for expected in _BATCH_A_CONTRACTS.values()]
-    ports = assign_ports(app_dirs, start_port=8000)
-
-    assert ports == {
-        expected[0]: 8000 + expected[4]
-        for expected in _BATCH_A_CONTRACTS.values()
-    }
-
-    caddyfile = render(Path("/apps"), Path("/states"), ports)
-    for app_key, expected in _BATCH_A_CONTRACTS.items():
-        app_dir, _, _, _, port_offset = expected
-        block = caddyfile[caddyfile.index(f":{8000 + port_offset} {{") :]
-        assert f"root * /apps/{app_dir}/dist" in block
-        assert f"root * /states/{app_key}" in block
-
-
 @pytest.mark.parametrize(
     ("app_key", "expected"),
     _BATCH_B_CONTRACTS.items(),
@@ -96,23 +80,6 @@ def test_batch_b_manifest_and_state_contract(
     assert contract.initial_state_response_field == "stored_state"
     assert contract.source_path == app.source_path
     assert contract.in_direct_web_dataset is True
-
-
-def test_batch_b_uses_pinned_caddy_ports_and_namespaces() -> None:
-    app_dirs = [expected[0] for expected in _BATCH_B_CONTRACTS.values()]
-    ports = assign_ports(app_dirs, start_port=8000)
-
-    assert ports == {
-        expected[0]: 8000 + expected[4]
-        for expected in _BATCH_B_CONTRACTS.values()
-    }
-
-    caddyfile = render(Path("/apps"), Path("/states"), ports)
-    for app_key, expected in _BATCH_B_CONTRACTS.items():
-        app_dir, _, _, _, port_offset = expected
-        block = caddyfile[caddyfile.index(f":{8000 + port_offset} {{") :]
-        assert f"root * /apps/{app_dir}/dist" in block
-        assert f"root * /states/{app_key}" in block
 
 
 def test_instagram_manifest_uses_verified_upstream_contract() -> None:
@@ -139,19 +106,6 @@ def test_instagram_state_contract_is_sid_scoped_browser_storage() -> None:
     assert contract.in_direct_web_dataset is True
 
 
-def test_instagram_uses_pinned_caddy_port_and_state_namespace() -> None:
-    ports = assign_ports(["instacart_mock", "instagram_mock"], start_port=8000)
-
-    assert ports == {"instacart_mock": 8051, "instagram_mock": 8052}
-
-    caddyfile = render(Path("/apps"), Path("/states"), ports)
-    instagram_block = caddyfile[caddyfile.index(":8052 {") :]
-
-    assert "root * /apps/instagram_mock/dist" in instagram_block
-    assert "root * /states/INSTAGRAM" in instagram_block
-    assert "rewrite * /{http.request.uri.query.sid}.json" in instagram_block
-
-
 def test_pinterest_manifest_uses_verified_upstream_contract() -> None:
     app = get_direct_web_app("PINTEREST")
 
@@ -176,20 +130,28 @@ def test_pinterest_state_contract_is_sid_scoped_browser_storage() -> None:
     assert contract.in_direct_web_dataset is True
 
 
-def test_pinterest_uses_pinned_caddy_port_and_state_namespace() -> None:
-    ports = assign_ports(
-        ["instacart_mock", "instagram_mock", "pinterest_mock"], start_port=8000
-    )
+def test_offline_manifest_expansion_does_not_expand_legacy_caddy_runtime(
+    tmp_path: Path,
+) -> None:
+    websites = tmp_path / "websites"
+    for app_key in DIRECT_WEB_APP_KEYS:
+        app_dir = get_direct_web_app(app_key).app_dir
+        (websites / app_dir / "dist").mkdir(parents=True)
+        (websites / app_dir / "dist" / "index.html").write_text("built")
 
-    assert ports == {
-        "instacart_mock": 8051,
-        "instagram_mock": 8052,
-        "pinterest_mock": 8070,
+    assert len(DIRECT_WEB_APP_KEYS) == 14
+    assert discover_supported_apps(websites, built_only=False) == ["instacart_mock"]
+    assert discover_supported_apps(websites, built_only=True) == ["instacart_mock"]
+    assert assign_ports(["instacart_mock"], start_port=8000) == {
+        "instacart_mock": 8051
     }
+    with pytest.raises(ValueError, match="unsupported app directories"):
+        assign_ports(["instagram_mock"], start_port=8000)
 
-    caddyfile = render(Path("/apps"), Path("/states"), ports)
-    pinterest_block = caddyfile[caddyfile.index(":8070 {") :]
-
-    assert "root * /apps/pinterest_mock/dist" in pinterest_block
-    assert "root * /states/PINTEREST" in pinterest_block
-    assert "rewrite * /{http.request.uri.query.sid}.json" in pinterest_block
+    caddyfile = render(
+        websites,
+        tmp_path / "states",
+        {"instacart_mock": 8051},
+    )
+    assert "root * " + (websites / "instacart_mock" / "dist").as_posix() in caddyfile
+    assert "root * " + (websites / "instagram_mock" / "dist").as_posix() not in caddyfile
