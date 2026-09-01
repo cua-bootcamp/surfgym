@@ -1834,6 +1834,12 @@ requires-dist = [{ name = "pydantic", specifier = ">=2.13.4" }]
 name = "surfgym-fixture"
 version = "0.1.0"
 source = { editable = "packages/surfgym-fixture" }
+dependencies = [
+    { name = "surfgym-contracts" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "surfgym-contracts", editable = "packages/surfgym-contracts" }]
 
 [[package]]
 name = "surfgym-nn-sim-pipeline"

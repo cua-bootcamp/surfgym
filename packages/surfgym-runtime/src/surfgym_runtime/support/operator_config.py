@@ -6,6 +6,7 @@ import json
 import math
 import os
 import re
+import shutil
 import socket
 import sqlite3
 import subprocess
@@ -18,6 +19,7 @@ from pathlib import Path
 from typing import Any, NoReturn, cast
 
 from pydantic import ValidationError
+from surfgym_contracts.local_static_sites import LOCAL_STATIC_SITES
 
 from surfgym_runtime.support.config import Config as SurfConfig
 from surfgym_runtime.support.task_store import TaskStore
@@ -270,6 +272,8 @@ def compile_configs(config_path: Path, surf_repo: Path, docker_repo: Path) -> Ge
         (master_port, "WavePool master"),
     ):
         _reserve_port(ports, fixed_port, owner)
+    for site in LOCAL_STATIC_SITES:
+        _reserve_port(ports, site.port, f"local static site {site.key}")
     for index in range(instances):
         _reserve_port(ports, instance_start_port + index, f"WavePool instance {index}")
 
@@ -408,6 +412,12 @@ def validate_prerequisites(generated: GeneratedConfigs, surf_repo: Path) -> None
     fixture_index = surf_repo.resolve() / FIXTURE_INDEX_PATH
     if not fixture_index.is_file():
         _error(f"Fixture build prerequisite is missing: {fixture_index}.")
+    for site in LOCAL_STATIC_SITES:
+        site_index = surf_repo.resolve() / site.source_dir / "dist" / "index.html"
+        if not site_index.is_file():
+            _error(f"Local static site build prerequisite is missing for {site.key}: {site_index}.")
+    if shutil.which("caddy") is None:
+        _error("Caddy executable prerequisite is missing from PATH.")
 
 
 def _generated_host_ports(generated: GeneratedConfigs) -> list[tuple[int, str]]:
@@ -428,6 +438,7 @@ def _generated_host_ports(generated: GeneratedConfigs) -> list[tuple[int, str]]:
             "Docker gateway",
         ),
     ]
+    ports.extend((site.port, f"local static site {site.key}") for site in LOCAL_STATIC_SITES)
     instance_start = _port(
         wavepool["instance_start_port"], "generated WavePool instance start port"
     )

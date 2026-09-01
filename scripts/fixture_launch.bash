@@ -3,8 +3,13 @@ set -euo pipefail
 
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/setting.sh"
 
-cd "$ROOT_DIR/packages/surfgym-fixture/src/surfgym_fixture"
+: "${SURFGYM_FIXTURE_CADDYFILE:?SURFGYM_FIXTURE_CADDYFILE is required}"
+[[ -f "$SURFGYM_FIXTURE_CADDYFILE" ]] || {
+    printf 'Generated fixture Caddyfile is missing: %s\n' "$SURFGYM_FIXTURE_CADDYFILE" >&2
+    exit 2
+}
 
-printf 'Executing "MAIN_PORT=%s pnpm run serve"\n\n' "$FIXTURE_MAIN_PORT"
+printf 'Executing Caddy with generated local static host config: %s\n\n' \
+    "$SURFGYM_FIXTURE_CADDYFILE"
 
-exec env MAIN_PORT="$FIXTURE_MAIN_PORT" pnpm run serve
+exec caddy run --config "$SURFGYM_FIXTURE_CADDYFILE" --adapter caddyfile

@@ -101,6 +101,13 @@ def _create_valid_task_database(surf_repo: Path) -> Path:
     return task_path
 
 
+def _create_valid_static_site_builds(surf_repo: Path) -> None:
+    for site in operator_config.LOCAL_STATIC_SITES:
+        index = surf_repo / site.source_dir / "dist" / "index.html"
+        index.parent.mkdir(parents=True)
+        index.write_text("<!doctype html>", encoding="utf-8")
+
+
 def _replace(config_path: Path, old: str, new: str) -> None:
     text = config_path.read_text(encoding="utf-8")
     assert old in text
@@ -392,13 +399,30 @@ def test_prerequisites_reject_missing_fixture_build(tmp_path: Path):
         validate_prerequisites(generated, surf_repo)
 
 
-def test_prerequisites_accept_valid_task_database_and_fixture_build(tmp_path: Path):
+def test_prerequisites_reject_missing_static_site_build(tmp_path: Path) -> None:
     config_path, docker_repo = _sandbox(tmp_path)
     surf_repo = config_path.parent.parent
     _create_valid_task_database(surf_repo)
     fixture_index = surf_repo / operator_config.FIXTURE_INDEX_PATH
     fixture_index.parent.mkdir(parents=True)
     fixture_index.write_text("<!doctype html>", encoding="utf-8")
+    generated = _compile(config_path, docker_repo)
+
+    with pytest.raises(OperatorConfigError, match="Local static site build prerequisite"):
+        validate_prerequisites(generated, surf_repo)
+
+
+def test_prerequisites_accept_valid_task_database_and_fixture_build(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
+    config_path, docker_repo = _sandbox(tmp_path)
+    surf_repo = config_path.parent.parent
+    _create_valid_task_database(surf_repo)
+    fixture_index = surf_repo / operator_config.FIXTURE_INDEX_PATH
+    fixture_index.parent.mkdir(parents=True)
+    fixture_index.write_text("<!doctype html>", encoding="utf-8")
+    _create_valid_static_site_builds(surf_repo)
+    monkeypatch.setattr(operator_config.shutil, "which", lambda _name: "caddy")
     generated = _compile(config_path, docker_repo)
 
     validate_prerequisites(generated, surf_repo)
@@ -426,13 +450,23 @@ def test_host_port_check_includes_all_generated_topology_and_fixed_fixture(
 
     validate_host_ports(generated)
 
-    assert len(bound) == 45
+    assert len(bound) == 59
     assert ("127.0.0.1", 3000) in bound
     assert ("127.0.0.1", 18000) in bound
     assert ("127.0.0.1", 53001) in bound
     assert ("127.0.0.1", 58020) in bound
     assert ("127.0.0.1", 59431) in bound
+    assert ("127.0.0.1", 8051) in bound
+    assert ("127.0.0.1", 8088) in bound
     assert len(closed) == len(bound)
+
+
+def test_static_site_port_collision_fails_during_compile(tmp_path: Path) -> None:
+    config_path, docker_repo = _sandbox(tmp_path)
+    _replace(config_path, "port = 18000", "port = 8052")
+
+    with pytest.raises(OperatorConfigError, match="Port collision on 8052"):
+        _compile(config_path, docker_repo)
 
 
 def test_host_port_check_rejects_an_occupied_loopback_port(tmp_path: Path):
@@ -546,7 +580,9 @@ def test_cli_host_port_failure_does_not_write_outputs(
 
 
 def test_cli_check_prerequisites_validates_without_writing(
-    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
 ):
     config_path, docker_repo = _sandbox(tmp_path)
     surf_repo = config_path.parent.parent
@@ -554,6 +590,8 @@ def test_cli_check_prerequisites_validates_without_writing(
     fixture_index = surf_repo / operator_config.FIXTURE_INDEX_PATH
     fixture_index.parent.mkdir(parents=True)
     fixture_index.write_text("<!doctype html>", encoding="utf-8")
+    _create_valid_static_site_builds(surf_repo)
+    monkeypatch.setattr(operator_config.shutil, "which", lambda _name: "caddy")
     surf_output = tmp_path / "surfgym.json"
     docker_output = tmp_path / "docker.json"
 

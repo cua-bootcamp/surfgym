@@ -106,6 +106,20 @@ def test_local_dev_aligns_docker_supervisor_readiness_timeout() -> None:
     assert 'STACK_READY_TIMEOUT_SECONDS="$READY_TIMEOUT_SECONDS"' in script
 
 
+def test_local_dev_uses_source_neutral_run_owned_static_host_artifacts() -> None:
+    script = read_script("local_dev.bash")
+    fixture = read_script("fixture_launch.bash")
+
+    assert '.runtime/static-sites' in script
+    assert "surfgym_fixture.local_static_host" in script
+    assert "cua_hub_deploy" not in script
+    assert 'SURFGYM_STATIC_STATE_DIR' in script
+    assert 'SURFGYM_FIXTURE_CADDYFILE' in script
+    assert 'SURFGYM_STATIC_PORTS_FILE' in script
+    assert 'exec caddy run --config "$SURFGYM_FIXTURE_CADDYFILE"' in fixture
+    assert "pnpm run serve" not in fixture
+
+
 def test_local_dev_prefers_repository_venvs_and_probes_runtime_imports(
     tmp_path: Path,
 ) -> None:
@@ -133,6 +147,8 @@ def test_local_dev_prefers_repository_venvs_and_probes_runtime_imports(
     assert "-c import surfgym_runtime" in compiler_args
     assert "-c import aiohttp, pydantic" in compiler_args
     assert "-m surfgym_runtime.support.operator_config" in compiler_args
+    assert not (surf / ".runtime" / "static-sites" / "Caddyfile").exists()
+    assert not (surf / ".runtime" / "static-sites" / "ports.json").exists()
 
 
 def test_component_launchers_use_configured_runtime_python() -> None:
@@ -410,6 +426,10 @@ done
 set -euo pipefail
 if [[ "${1:-}" == "-" ]]; then
   config_path="$2"
+  if [[ "$config_path" == */ports.json ]]; then
+    echo http://127.0.0.1:8051
+    exit 0
+  fi
   grep -q '"compose_project": "test-stack"' "$config_path"
   echo test-stack
   exit 0
@@ -418,6 +438,27 @@ if [[ "${1:-}" == "-c" ]]; then
   printf '%s\n' "$*" >> "$STUB_COMPILER_ARGS"
   if [[ "${STUB_IMPORT_PROBE_FAIL:-0}" == "1" ]]; then
     exit 11
+  fi
+  exit 0
+fi
+if [[ "$*" == *"-m surfgym_fixture.local_static_host"* ]]; then
+  printf '%s\n' "$*" >> "$STUB_COMPILER_ARGS"
+  if [[ "${STUB_STATIC_HOST_FAIL:-0}" == "1" ]]; then
+    exit 8
+  fi
+  output_dir=""
+  check_only=0
+  while (($#)); do
+    case "$1" in
+      --output-dir) output_dir="$2"; shift 2 ;;
+      --check) check_only=1; shift ;;
+      *) shift ;;
+    esac
+  done
+  if ((check_only == 0)); then
+    mkdir -p "$output_dir"
+    printf '{}\n' > "$output_dir/Caddyfile"
+    printf '{"INSTACART":"http://127.0.0.1:8051"}\n' > "$output_dir/ports.json"
   fi
   exit 0
 fi
@@ -499,7 +540,12 @@ def test_local_dev_up_waits_for_readiness_and_down_stops_recorded_processes(tmp_
     assert "--surf-repo" in compiler_args
     assert "--check-prerequisites" in compiler_args
     assert "--check-host-ports" in compiler_args
-    assert "--check" not in compiler_args.split()
+    operator_args = next(
+        line
+        for line in compiler_args.splitlines()
+        if "surfgym_runtime.support.operator_config" in line
+    )
+    assert "--check" not in operator_args.split()
     assert "--config config/alternate.toml" in compiler_args
     propagation = (surf / "propagation.log").read_text(encoding="utf-8").splitlines()
     values = dict(line.split("=", 1) for line in propagation)
@@ -638,7 +684,8 @@ def test_local_dev_rolls_back_when_http_readiness_never_succeeds(tmp_path: Path)
 
     assert started.returncode != 0
     assert (
-        "Timed out waiting for SurfGym gateway, WavePool, and fixture endpoints" in started.stderr
+        "Timed out waiting for SurfGym gateway, WavePool, fixture, and local static endpoints"
+        in started.stderr
     )
     assert "rolling back recorded resources" in started.stderr
     assert not (surf / "logs" / "nohup" / "all_launch_local_dev.pids").exists()
@@ -664,6 +711,22 @@ def test_local_dev_does_not_launch_from_stale_outputs_after_compiler_failure(
     )
 
     assert started.returncode == 7
+    assert not (docker / "src" / "runtime" / "docker-compose.yml").exists()
+    assert not (surf / "docker.args").exists()
+    assert not (surf / "logs" / "nohup" / "all_launch_local_dev.pids").exists()
+
+
+def test_static_renderer_failure_precedes_docker_and_surf_launch(tmp_path: Path) -> None:
+    surf, docker, env = make_local_dev_sandbox(tmp_path)
+    env["STUB_STATIC_HOST_FAIL"] = "1"
+
+    started = run_bash(
+        surf,
+        'export PATH="$PWD/bin:$PATH"; bash scripts/local_dev.bash up --docker-repo ../docker',
+        env=env,
+    )
+
+    assert started.returncode == 8
     assert not (docker / "src" / "runtime" / "docker-compose.yml").exists()
     assert not (surf / "docker.args").exists()
     assert not (surf / "logs" / "nohup" / "all_launch_local_dev.pids").exists()

@@ -130,7 +130,7 @@ def test_pinterest_state_contract_is_sid_scoped_browser_storage() -> None:
     assert contract.in_direct_web_dataset is True
 
 
-def test_offline_manifest_expansion_does_not_expand_legacy_caddy_runtime(
+def test_offline_manifest_and_local_static_host_share_one_physical_contract(
     tmp_path: Path,
 ) -> None:
     websites = tmp_path / "websites"
@@ -140,18 +140,19 @@ def test_offline_manifest_expansion_does_not_expand_legacy_caddy_runtime(
         (websites / app_dir / "dist" / "index.html").write_text("built")
 
     assert len(DIRECT_WEB_APP_KEYS) == 14
-    assert discover_supported_apps(websites, built_only=False) == ["instacart_mock"]
-    assert discover_supported_apps(websites, built_only=True) == ["instacart_mock"]
-    assert assign_ports(["instacart_mock"], start_port=8000) == {
-        "instacart_mock": 8051
-    }
-    with pytest.raises(ValueError, match="unsupported app directories"):
-        assign_ports(["instagram_mock"], start_port=8000)
+    expected_dirs = [get_direct_web_app(key).app_dir for key in DIRECT_WEB_APP_KEYS]
+    assert set(discover_supported_apps(websites, built_only=False)) == set(expected_dirs)
+    assert set(discover_supported_apps(websites, built_only=True)) == set(expected_dirs)
+    ports = assign_ports(expected_dirs, start_port=8000)
+    assert ports["instacart_mock"] == 8051
+    assert ports["instagram_mock"] == 8052
+    with pytest.raises(ValueError, match="ports are fixed"):
+        assign_ports(expected_dirs, start_port=9000)
 
     caddyfile = render(
         websites,
         tmp_path / "states",
-        {"instacart_mock": 8051},
+        ports,
     )
-    assert "root * " + (websites / "instacart_mock" / "dist").as_posix() in caddyfile
-    assert "root * " + (websites / "instagram_mock" / "dist").as_posix() not in caddyfile
+    assert 'root * "' + (websites / "instacart_mock" / "dist").as_posix() + '"' in caddyfile
+    assert 'root * "' + (websites / "instagram_mock" / "dist").as_posix() + '"' in caddyfile

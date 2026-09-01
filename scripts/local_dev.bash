@@ -126,6 +126,10 @@ fi
 
 SURF_OUTPUT="$ROOT_DIR/.runtime/config/surfgym.json"
 DOCKER_OUTPUT="$ROOT_DIR/.runtime/config/docker.json"
+STATIC_RUNTIME_DIR="$ROOT_DIR/.runtime/static-sites"
+STATIC_CADDYFILE="$STATIC_RUNTIME_DIR/Caddyfile"
+STATIC_PORTS_FILE="$STATIC_RUNTIME_DIR/ports.json"
+STATIC_STATE_DIR="${SURFGYM_STATIC_STATE_DIR:-$STATIC_RUNTIME_DIR/initial_states}"
 SURF_PID_FILE="$ROOT_DIR/logs/nohup/all_launch_local_dev.pids"
 DOCKER_RUNTIME_DIR="$DOCKER_REPO/src/runtime"
 DOCKER_PID_DIR="$DOCKER_RUNTIME_DIR/pids"
@@ -146,6 +150,19 @@ compile_config() {
         --docker-output "$DOCKER_OUTPUT" \
         --check-prerequisites \
         --check-host-ports \
+        "${extra_args[@]}"
+}
+
+render_static_host() {
+    local extra_args=()
+    if [[ "$1" == "check" ]]; then
+        extra_args=(--check)
+    fi
+    "$PYTHON_BIN" -m surfgym_fixture.local_static_host \
+        --repo-root "$ROOT_DIR" \
+        --fixture-dist "$ROOT_DIR/packages/surfgym-fixture/src/surfgym_fixture/dist" \
+        --state-dir "$STATIC_STATE_DIR" \
+        --output-dir "$STATIC_RUNTIME_DIR" \
         "${extra_args[@]}"
 }
 
@@ -317,6 +334,32 @@ surf_processes_match() {
     [[ "$count" -eq 3 ]]
 }
 
+static_sites_ready() {
+    local url
+    local count=0
+    [[ -f "$STATIC_PORTS_FILE" ]] || return 1
+    while IFS= read -r url; do
+        [[ -n "$url" ]] || continue
+        curl -fsS "$url/" >/dev/null 2>&1 || return 1
+        count=$((count + 1))
+    done < <("$PYTHON_BIN" - "$STATIC_PORTS_FILE" <<'PY'
+import json
+import sys
+
+with open(sys.argv[1], encoding="utf-8") as stream:
+    ports = json.load(stream)
+if not isinstance(ports, dict):
+    raise SystemExit("ports.json must be an object")
+for key in sorted(ports):
+    url = ports[key]
+    if not isinstance(url, str) or not url.startswith("http://127.0.0.1:"):
+        raise SystemExit(f"invalid local static URL for {key}")
+    print(url)
+PY
+)
+    ((count > 0))
+}
+
 wait_for_surf_stack() {
     local deadline=$((SECONDS + READY_TIMEOUT_SECONDS))
     while ((SECONDS < deadline)); do
@@ -327,13 +370,14 @@ wait_for_surf_stack() {
         if env \
             SURFGYM_CONFIG="$SURF_OUTPUT" \
             bash "$SCRIPT_DIR/health_check.bash" >/dev/null 2>&1 \
-            && curl -fsS "http://127.0.0.1:3000/" >/dev/null 2>&1; then
-            printf 'SurfGym gateway, WavePool, and fixture endpoints are ready.\n'
+            && curl -fsS "http://127.0.0.1:3000/" >/dev/null 2>&1 \
+            && static_sites_ready; then
+            printf 'SurfGym gateway, WavePool, fixture, and local static endpoints are ready.\n'
             return 0
         fi
         sleep "$READY_POLL_SECONDS"
     done
-    printf 'Timed out waiting for SurfGym gateway, WavePool, and fixture endpoints.\n' >&2
+    printf 'Timed out waiting for SurfGym gateway, WavePool, fixture, and local static endpoints.\n' >&2
     return 1
 }
 
@@ -430,12 +474,16 @@ if [[ "$COMMAND" == "down" ]]; then
     exit 0
 fi
 
+render_static_host check
 compile_config
 
 if [[ "$COMMAND" == "check" ]]; then
     printf 'Configuration check passed. No runtime files were written.\n'
     exit 0
 fi
+
+mkdir -p "$STATIC_STATE_DIR"
+render_static_host write
 
 for script_name in \
     01_render_compose_up.sh \
@@ -473,6 +521,8 @@ surf_started=1
 env \
     SURFGYM_CONFIG="$SURF_OUTPUT" \
     SURFGYM_PID_FILE="$SURF_PID_FILE" \
+    SURFGYM_FIXTURE_CADDYFILE="$STATIC_CADDYFILE" \
+    SURFGYM_STATIC_PORTS_FILE="$STATIC_PORTS_FILE" \
     bash "$SCRIPT_DIR/all_launch.bash"
 wait_for_surf_stack
 
