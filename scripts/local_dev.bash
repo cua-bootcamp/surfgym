@@ -60,7 +60,7 @@ resolve_python_bin() {
 
     [[ -n "$candidate" ]] || fail \
         "No Python interpreter found for $variable_name. Set $variable_name to the repository environment."
-    if ! "$candidate" -c "import $import_probe"; then
+    if [[ -n "$import_probe" ]] && ! "$candidate" -c "import $import_probe"; then
         fail \
             "$variable_name interpreter cannot import $import_probe: $candidate. Set $variable_name to the repository environment and install the declared dependencies."
     fi
@@ -111,10 +111,10 @@ esac
 PYTHON_OVERRIDE="${PYTHON_BIN:-}"
 DOCKER_PYTHON_OVERRIDE="${DOCKER_PYTHON_BIN:-$PYTHON_OVERRIDE}"
 if [[ "$COMMAND" == "down" ]]; then
-    # Cleanup must remain available when either environment is broken. The
-    # individual cleanup actions use these fallback values only if needed.
-    PYTHON_BIN="${PYTHON_OVERRIDE:-python}"
-    DOCKER_PYTHON_BIN="${DOCKER_PYTHON_OVERRIDE:-${PYTHON_OVERRIDE:-python3}}"
+    # Cleanup must remain available when either environment is broken, while
+    # still finding the owning repository's environment for cleanup actions.
+    PYTHON_BIN="$(resolve_python_bin "$PYTHON_OVERRIDE" "$ROOT_DIR" "PYTHON_BIN" "")"
+    DOCKER_PYTHON_BIN="$(resolve_python_bin "$DOCKER_PYTHON_OVERRIDE" "$DOCKER_REPO" "DOCKER_PYTHON_BIN" "")"
 else
     PYTHON_BIN="$(resolve_python_bin "$PYTHON_OVERRIDE" "$ROOT_DIR" "PYTHON_BIN" "surfgym_runtime")"
     DOCKER_PYTHON_BIN="$(resolve_python_bin "$DOCKER_PYTHON_OVERRIDE" "$DOCKER_REPO" "DOCKER_PYTHON_BIN" "aiohttp, pydantic")"

@@ -775,6 +775,42 @@ def test_local_dev_down_attempts_cleanup_when_runtime_import_probes_fail(
     assert "down --remove-orphans" in (surf / "docker.args").read_text(encoding="utf-8")
 
 
+def test_local_dev_down_discovers_repository_venvs_without_import_probes(
+    tmp_path: Path,
+) -> None:
+    surf, docker, env = make_local_dev_sandbox(tmp_path)
+    gateway_pid, control_pid = prepare_stale_docker_child_records(surf, docker)
+    env.pop("PYTHON_BIN")
+    env.pop("DOCKER_PYTHON_BIN")
+    env["PATH"] = str(surf / "bin")
+    env["STUB_IMPORT_PROBE_FAIL"] = "1"
+    for repository, stub_name in (
+        (surf, "python-stub"),
+        (docker, "docker-python-stub"),
+    ):
+        repository_python = repository / ".venv" / "Scripts" / "python.exe"
+        repository_python.parent.mkdir(parents=True)
+        shutil.copy2(surf / "bin" / stub_name, repository_python)
+        repository_python.chmod(0o755)
+
+    stopped = run_bash(
+        surf,
+        "bash scripts/local_dev.bash down --docker-repo ../docker",
+        env=env,
+    )
+
+    assert stopped.returncode == 0, stopped.stdout + stopped.stderr
+    assert not gateway_pid.exists()
+    assert not control_pid.exists()
+    assert not (surf / "compiler.args").exists()
+    assert "down --remove-orphans" in (surf / "docker.args").read_text(encoding="utf-8")
+    reconcile_values = dict(
+        line.split("=", 1)
+        for line in (surf / "reconcile.args").read_text(encoding="utf-8").splitlines()
+    )
+    assert reconcile_values["python"].endswith("/docker/.venv/Scripts/python.exe")
+
+
 def test_local_dev_down_fails_closed_when_child_pid_reconcile_fails(tmp_path: Path) -> None:
     surf, docker, env = make_local_dev_sandbox(tmp_path)
     gateway_pid, control_pid = prepare_stale_docker_child_records(surf, docker)
