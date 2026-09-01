@@ -381,7 +381,7 @@ def _coerce_playwright_observation(value: object) -> Observation:
         for item in cast(list[object], value):
             coerced_item = _coerce_playwright_observation(item)
 
-            if coerced_item is None:
+            if item is not None and coerced_item is None:
                 return None
 
             list_result.append(coerced_item)
@@ -397,7 +397,7 @@ def _coerce_playwright_observation(value: object) -> Observation:
 
             coerced_item = _coerce_playwright_observation(item)
 
-            if coerced_item is None:
+            if item is not None and coerced_item is None:
                 return None
 
             dict_result[key] = coerced_item
