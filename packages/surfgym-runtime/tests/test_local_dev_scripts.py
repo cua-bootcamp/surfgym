@@ -97,6 +97,7 @@ def test_local_dev_restores_git_bash_tool_path() -> None:
     script = read_script("local_dev.bash")
 
     assert 'export PATH="${BASH%/*}:$PATH"' in script
+    assert "surfgym_task.main publish" not in script
 
 
 def test_local_dev_aligns_docker_supervisor_readiness_timeout() -> None:
@@ -209,6 +210,7 @@ def test_powershell_enters_local_dev_with_a_windows_only_path(tmp_path: Path) ->
     assert "--check-prerequisites" in compiler_args
     assert "--check-host-ports" in compiler_args
     assert "--check" in compiler_args.split()
+    assert not (surf / ".runtime").exists()
 
 
 def test_all_launch_records_identity_and_all_stop_consumes_pid_file(tmp_path: Path) -> None:

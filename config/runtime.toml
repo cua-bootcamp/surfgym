@@ -10,7 +10,7 @@
 # - Fixture content port: 3000
 
 [paths]
-task_file = "packages/surfgym-task/src/surfgym_task/data/spreadsheet/out/tasks.sqlite3"
+task_file = ".runtime/tasks/tasks.sqlite3"
 log_dir = "logs"
 
 [gateway]

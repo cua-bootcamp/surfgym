@@ -88,9 +88,7 @@ def _compile(config_path: Path, docker_repo: Path):
 
 
 def _create_valid_task_database(surf_repo: Path) -> Path:
-    task_path = (
-        surf_repo / "packages/surfgym-task/src/surfgym_task/data/spreadsheet/out/tasks.sqlite3"
-    )
+    task_path = surf_repo / ".runtime" / "tasks" / "tasks.sqlite3"
     task_path.parent.mkdir(parents=True)
     connection = sqlite3.connect(task_path)
     try:
@@ -124,7 +122,7 @@ def test_default_config_preserves_legacy_semantics_and_capabilities(tmp_path: Pa
     assert generated.surfgym["wavepool"] == legacy_surf["wavepool"]
     assert (
         Path(generated.surfgym["task_file_path"])
-        == tmp_path / "surf" / legacy_surf["task_file_path"]
+        == tmp_path / "surf" / ".runtime/tasks/tasks.sqlite3"
     )
     assert Path(generated.surfgym["log_path"]) == tmp_path / "surf" / "logs"
     assert [app["app"] for app in generated.docker["apps"]] == [
@@ -373,9 +371,7 @@ def test_prerequisites_reject_missing_task_database(tmp_path: Path):
 def test_prerequisites_reject_invalid_task_database_schema(tmp_path: Path):
     config_path, docker_repo = _sandbox(tmp_path)
     surf_repo = config_path.parent.parent
-    task_path = (
-        surf_repo / "packages/surfgym-task/src/surfgym_task/data/spreadsheet/out/tasks.sqlite3"
-    )
+    task_path = surf_repo / ".runtime" / "tasks" / "tasks.sqlite3"
     task_path.parent.mkdir(parents=True)
     connection = sqlite3.connect(task_path)
     try:
