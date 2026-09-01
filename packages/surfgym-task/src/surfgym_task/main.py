@@ -1,6 +1,6 @@
 import argparse
 from pathlib import Path
-from typing import get_args
+from typing import Iterable, get_args
 
 from surfgym_contracts.task import Hook, LifecycleHooks, Task, Website
 
@@ -26,6 +26,18 @@ _DOCKER_FIXTURE_DOMAINS: frozenset[Domain] = frozenset(
         "chrome",
     }
 )
+
+_DEFAULT_PUBLISH_DOMAINS: tuple[Domain, ...] = (
+    "chrome",
+    "gimp",
+    "impress",
+    "spreadsheet",
+    "vlc",
+    "vscode",
+    "web",
+    "word",
+)
+_DATA_ROOT = Path(__file__).parent / "data"
 
 
 def _release_hooks(domain: Domain) -> list[Hook]:
@@ -56,12 +68,41 @@ def _allocate_hooks(domain: Domain, atoms: list[StateAtom]) -> list[Hook]:
     ]
 
 
-def augment(seed_dir: Path, granularity: Granularity, profile: Profile):
+def _planned_task_ids(
+    seed_dir: Path,
+    granularity: Granularity,
+    profile: Profile,
+) -> list[tuple[str, str]]:
+    seed_entries = list(SeedReader(seed_dir / "seeds").get_seed())
+    generator = HoareStateGenerator(granularity=granularity)
+    task_ids: list[tuple[str, str]] = []
+    for seed, seed_name in seed_entries:
+        _validate_profile(seed.domain, profile)
+        source = f"{seed_dir.name}/{seed_name}.json"
+        match seed:
+            case CriteriaSeedTask():
+                task_ids.extend(
+                    (
+                        f"{seed_name}_{state.origin_start_idx}_{state.origin_end_idx}",
+                        source,
+                    )
+                    for state in generator.generate(seed)
+                )
+            case LLMJudgeSeedTask() | InfeasibleSeedTask():
+                task_ids.append((seed_name, source))
+    return task_ids
+
+
+def _compile_domain(
+    seed_dir: Path,
+    granularity: Granularity,
+    profile: Profile,
+    task_writer: TaskWriter,
+) -> Summary:
     path = {
         "seeds": seed_dir / "seeds",
         "out": seed_dir / "out",
         "instructions": seed_dir / "instructions.sqlite3",
-        "tasks": seed_dir / "out" / "tasks.sqlite3",
     }
 
     summary = Summary()
@@ -71,10 +112,7 @@ def augment(seed_dir: Path, granularity: Granularity, profile: Profile):
     for seed, _ in seed_entries:
         _validate_profile(seed.domain, profile)
 
-    with (
-        InstructionWriter(path["instructions"]) as instruction_writer,
-        TaskWriter(path["tasks"]) as task_writer,
-    ):
+    with InstructionWriter(path["instructions"]) as instruction_writer:
         for seed, seed_name in seed_entries:
             summary.seed_count += 1
 
@@ -150,6 +188,49 @@ def augment(seed_dir: Path, granularity: Granularity, profile: Profile):
                         detail_writer.write_task(task)
                         task_writer.write(task)
 
+    return summary
+
+
+def augment(seed_dir: Path, granularity: Granularity, profile: Profile) -> Summary:
+    """Compile one domain into its historical per-domain task database."""
+
+    with TaskWriter(seed_dir / "out" / "tasks.sqlite3") as task_writer:
+        return _compile_domain(seed_dir, granularity, profile, task_writer)
+
+
+def publish(
+    *,
+    data_root: Path,
+    domains: Iterable[Domain],
+    output_path: Path,
+    granularity: Granularity,
+    profile: Profile,
+) -> Summary:
+    """Publish selected domains into one runtime task database."""
+
+    selected_domains = list(domains)
+    seen_task_ids: dict[str, str] = {}
+    for domain in selected_domains:
+        seed_dir = data_root / domain
+        for task_id, source in _planned_task_ids(seed_dir, granularity, profile):
+            previous = seen_task_ids.get(task_id)
+            if previous is not None:
+                raise ValueError(f"Duplicate task id {task_id}: {previous} and {source}.")
+            seen_task_ids[task_id] = source
+
+    summary = Summary()
+    with TaskWriter(output_path) as task_writer:
+        for domain in selected_domains:
+            domain_summary = _compile_domain(
+                data_root / domain,
+                granularity,
+                profile,
+                task_writer,
+            )
+            summary.seed_count += domain_summary.seed_count
+            summary.task_count += domain_summary.task_count
+    return summary
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -178,12 +259,40 @@ def parse_args() -> argparse.Namespace:
         default="ROLLOUT",
     )
 
+    parser.add_argument(
+        "--domain",
+        action="append",
+        choices=get_args(Domain.__value__),
+        help="Domain to include when the seed directory is the publish command. Repeat to select.",
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        help="Combined task database path for the publish command.",
+    )
+
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    augment(seed_dir=Path(args.seed_dir), granularity=args.granularity, profile=args.profile)
+    if args.seed_dir == Path("publish"):
+        if args.output is None:
+            raise SystemExit("publish requires --output.")
+        summary = publish(
+            data_root=_DATA_ROOT,
+            domains=args.domain or _DEFAULT_PUBLISH_DOMAINS,
+            output_path=args.output,
+            granularity=args.granularity,
+            profile=args.profile,
+        )
+        print(
+            f"published {summary.task_count} task(s) from {summary.seed_count} seed(s) -> {args.output}"
+        )
+        return
+    if args.domain is not None or args.output is not None:
+        raise SystemExit("--domain and --output require the publish command.")
+    augment(seed_dir=args.seed_dir, granularity=args.granularity, profile=args.profile)
 
 
 if __name__ == "__main__":
