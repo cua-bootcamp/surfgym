@@ -416,6 +416,9 @@ if [[ "${1:-}" == "-" ]]; then
 fi
 if [[ "${1:-}" == "-c" ]]; then
   printf '%s\n' "$*" >> "$STUB_COMPILER_ARGS"
+  if [[ "${STUB_IMPORT_PROBE_FAIL:-0}" == "1" ]]; then
+    exit 11
+  fi
   exit 0
 fi
 printf '%s\n' "$*" >> "$STUB_COMPILER_ARGS"
@@ -739,6 +742,37 @@ def test_local_dev_down_reconciles_stale_docker_child_records(tmp_path: Path) ->
     assert reconcile_values["runtime"].endswith("/docker/src/runtime")
     assert reconcile_values["pid_dir"].endswith("/docker/src/runtime/pids")
     assert reconcile_values["python"] == "docker-python-stub"
+
+
+def test_local_dev_down_attempts_cleanup_when_runtime_import_probes_fail(
+    tmp_path: Path,
+) -> None:
+    surf, docker, env = make_local_dev_sandbox(tmp_path)
+    gateway_pid, control_pid = prepare_stale_docker_child_records(surf, docker)
+    actions = surf / "actions.log"
+    write_executable(
+        surf / "scripts" / "all_stop.bash",
+        "#!/usr/bin/env bash\nprintf 'surf\\n' >> \"$STUB_ACTIONS\"\n",
+    )
+    env.update(
+        {
+            "STUB_ACTIONS": str(actions),
+            "STUB_IMPORT_PROBE_FAIL": "1",
+        }
+    )
+
+    stopped = run_bash(
+        surf,
+        'export PATH="$PWD/bin:$PATH"; bash scripts/local_dev.bash down --docker-repo ../docker',
+        env=env,
+    )
+
+    assert stopped.returncode == 0, stopped.stdout + stopped.stderr
+    assert actions.read_text(encoding="utf-8") == "surf\n"
+    assert not gateway_pid.exists()
+    assert not control_pid.exists()
+    assert (surf / "reconcile.args").exists()
+    assert "down --remove-orphans" in (surf / "docker.args").read_text(encoding="utf-8")
 
 
 def test_local_dev_down_fails_closed_when_child_pid_reconcile_fails(tmp_path: Path) -> None:

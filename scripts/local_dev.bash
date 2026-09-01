@@ -110,8 +110,15 @@ esac
 [[ -d "$DOCKER_REPO" ]] || fail "Docker repository not found: $DOCKER_REPO"
 PYTHON_OVERRIDE="${PYTHON_BIN:-}"
 DOCKER_PYTHON_OVERRIDE="${DOCKER_PYTHON_BIN:-$PYTHON_OVERRIDE}"
-PYTHON_BIN="$(resolve_python_bin "$PYTHON_OVERRIDE" "$ROOT_DIR" "PYTHON_BIN" "surfgym_runtime")"
-DOCKER_PYTHON_BIN="$(resolve_python_bin "$DOCKER_PYTHON_OVERRIDE" "$DOCKER_REPO" "DOCKER_PYTHON_BIN" "aiohttp, pydantic")"
+if [[ "$COMMAND" == "down" ]]; then
+    # Cleanup must remain available when either environment is broken. The
+    # individual cleanup actions use these fallback values only if needed.
+    PYTHON_BIN="${PYTHON_OVERRIDE:-python}"
+    DOCKER_PYTHON_BIN="${DOCKER_PYTHON_OVERRIDE:-${PYTHON_OVERRIDE:-python3}}"
+else
+    PYTHON_BIN="$(resolve_python_bin "$PYTHON_OVERRIDE" "$ROOT_DIR" "PYTHON_BIN" "surfgym_runtime")"
+    DOCKER_PYTHON_BIN="$(resolve_python_bin "$DOCKER_PYTHON_OVERRIDE" "$DOCKER_REPO" "DOCKER_PYTHON_BIN" "aiohttp, pydantic")"
+fi
 if [[ "$COMMAND" != "down" ]]; then
     [[ -f "$OPERATOR_CONFIG" ]] || fail "Operator config not found: $OPERATOR_CONFIG"
     [[ -f "$DOCKER_REPO/config.json" ]] || fail "Docker capability template not found: $DOCKER_REPO/config.json"
