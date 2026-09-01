@@ -1,0 +1,649 @@
+{
+  "currentUser": "u1",
+  "users": {
+    "u1": {
+      "id": "u1",
+      "name": "Alice Johnson",
+      "username": "alice",
+      "initials": "AJ",
+      "avatarUrl": "",
+      "email": "alice@example.com"
+    },
+    "u2": {
+      "id": "u2",
+      "name": "Bob Martinez",
+      "username": "bob",
+      "initials": "BM",
+      "avatarUrl": "",
+      "email": "bob@example.com"
+    },
+    "u3": {
+      "id": "u3",
+      "name": "Carol Stevens",
+      "username": "carol",
+      "initials": "CS",
+      "avatarUrl": "",
+      "email": "carol@example.com"
+    },
+    "u4": {
+      "id": "u4",
+      "name": "David Park",
+      "username": "david",
+      "initials": "DP",
+      "avatarUrl": "",
+      "email": "david@example.com"
+    }
+  },
+  "boards": {
+    "board-1": {
+      "id": "board-1",
+      "title": "Project Alpha",
+      "description": "Core engineering roadmap",
+      "background": "#0079BF",
+      "listIds": [
+        "list-1",
+        "list-2",
+        "list-3",
+        "list-4"
+      ],
+      "starred": false,
+      "visibility": "workspace",
+      "archivedListIds": [],
+      "archivedCardIds": [],
+      "labels": [
+        {
+          "id": "lbl-1",
+          "name": "Bug",
+          "color": "#EB5A46"
+        },
+        {
+          "id": "lbl-2",
+          "name": "Feature",
+          "color": "#61BD4F"
+        }
+      ],
+      "memberIds": [
+        "u1",
+        "u2"
+      ],
+      "createdAt": "2025-01-10T09:00:00.000Z"
+    },
+    "board-2": {
+      "id": "board-2",
+      "title": "Marketing Campaign",
+      "description": "Q1 2025 marketing initiatives",
+      "background": "#70B500",
+      "listIds": [
+        "list-5",
+        "list-6",
+        "list-7"
+      ],
+      "starred": true,
+      "visibility": "workspace",
+      "archivedListIds": [],
+      "archivedCardIds": [],
+      "labels": [
+        {
+          "id": "lbl-3",
+          "name": "High Priority",
+          "color": "#EB5A46"
+        },
+        {
+          "id": "lbl-4",
+          "name": "Content",
+          "color": "#FF9F1A"
+        },
+        {
+          "id": "lbl-5",
+          "name": "Design",
+          "color": "#C377E0"
+        }
+      ],
+      "memberIds": [
+        "u1",
+        "u3",
+        "u4"
+      ],
+      "createdAt": "2025-01-12T10:00:00.000Z",
+      "lastVisitedAt": "2026-08-31T17:47:55.666Z"
+    },
+    "board-3": {
+      "id": "board-3",
+      "title": "Personal Tasks",
+      "description": "Personal productivity tracking",
+      "background": "#89609E",
+      "listIds": [
+        "list-8",
+        "list-9"
+      ],
+      "starred": false,
+      "visibility": "private",
+      "archivedListIds": [],
+      "archivedCardIds": [],
+      "labels": [],
+      "memberIds": [
+        "u1"
+      ],
+      "createdAt": "2025-01-15T08:00:00.000Z"
+    }
+  },
+  "lists": {
+    "list-1": {
+      "id": "list-1",
+      "title": "Backlog",
+      "boardId": "board-1",
+      "cardIds": [
+        "card-1",
+        "card-2"
+      ],
+      "archived": false
+    },
+    "list-2": {
+      "id": "list-2",
+      "title": "In Progress",
+      "boardId": "board-1",
+      "cardIds": [
+        "card-3"
+      ],
+      "archived": false
+    },
+    "list-3": {
+      "id": "list-3",
+      "title": "Review",
+      "boardId": "board-1",
+      "cardIds": [
+        "card-4"
+      ],
+      "archived": false
+    },
+    "list-4": {
+      "id": "list-4",
+      "title": "Done",
+      "boardId": "board-1",
+      "cardIds": [
+        "card-5"
+      ],
+      "archived": false
+    },
+    "list-5": {
+      "id": "list-5",
+      "title": "Ideas",
+      "boardId": "board-2",
+      "cardIds": [
+        "card-8",
+        "card-9"
+      ],
+      "archived": false
+    },
+    "list-6": {
+      "id": "list-6",
+      "title": "Active",
+      "boardId": "board-2",
+      "cardIds": [
+        "card-6",
+        "card-7"
+      ],
+      "archived": false
+    },
+    "list-7": {
+      "id": "list-7",
+      "title": "Completed",
+      "boardId": "board-2",
+      "cardIds": [
+        "card-10",
+        "card-11"
+      ],
+      "archived": false
+    },
+    "list-8": {
+      "id": "list-8",
+      "title": "To Do",
+      "boardId": "board-3",
+      "cardIds": [
+        "card-12",
+        "card-13"
+      ],
+      "archived": false
+    },
+    "list-9": {
+      "id": "list-9",
+      "title": "Done",
+      "boardId": "board-3",
+      "cardIds": [
+        "card-14"
+      ],
+      "archived": false
+    }
+  },
+  "cards": {
+    "card-1": {
+      "id": "card-1",
+      "title": "Refactor authentication module",
+      "description": "Clean up legacy auth code and add unit tests",
+      "listId": "list-1",
+      "boardId": "board-1",
+      "labelIds": [
+        "lbl-2"
+      ],
+      "memberIds": [
+        "u2"
+      ],
+      "dueDate": "2025-03-20T18:00:00.000Z",
+      "startDate": "2025-03-10T09:00:00.000Z",
+      "completed": false,
+      "cover": null,
+      "checklists": [],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 0,
+      "createdAt": "2025-01-20T10:00:00.000Z"
+    },
+    "card-2": {
+      "id": "card-2",
+      "title": "Update API documentation",
+      "description": "Document all new endpoints added in Q4",
+      "listId": "list-1",
+      "boardId": "board-1",
+      "labelIds": [],
+      "memberIds": [],
+      "dueDate": "2025-03-25T18:00:00.000Z",
+      "startDate": null,
+      "completed": false,
+      "cover": {
+        "type": "image",
+        "value": "https://picsum.photos/400/200?random=cover1"
+      },
+      "checklists": [],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 1,
+      "createdAt": "2025-01-22T11:00:00.000Z"
+    },
+    "card-3": {
+      "id": "card-3",
+      "title": "Implement search feature",
+      "description": "Full-text search across all boards and cards",
+      "listId": "list-2",
+      "boardId": "board-1",
+      "labelIds": [
+        "lbl-2"
+      ],
+      "memberIds": [
+        "u1",
+        "u2"
+      ],
+      "dueDate": "2025-04-05T18:00:00.000Z",
+      "startDate": "2025-03-15T09:00:00.000Z",
+      "completed": false,
+      "cover": null,
+      "checklists": [
+        {
+          "id": "cl-1",
+          "title": "Implementation Steps",
+          "items": [
+            {
+              "id": "cli-1",
+              "text": "Set up Elasticsearch",
+              "completed": true,
+              "assigneeId": null,
+              "dueDate": null
+            },
+            {
+              "id": "cli-2",
+              "text": "Index existing data",
+              "completed": true,
+              "assigneeId": null,
+              "dueDate": null
+            },
+            {
+              "id": "cli-3",
+              "text": "Build search UI",
+              "completed": false,
+              "assigneeId": null,
+              "dueDate": null
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "id": "cmt-3-1",
+          "type": "comment",
+          "userId": "u2",
+          "text": "Elasticsearch cluster is ready. Moving to indexing phase.",
+          "createdAt": "2025-03-16T14:00:00.000Z",
+          "editedAt": null
+        }
+      ],
+      "attachments": [],
+      "archived": false,
+      "watching": true,
+      "position": 0,
+      "createdAt": "2025-02-01T09:00:00.000Z"
+    },
+    "card-4": {
+      "id": "card-4",
+      "title": "Performance optimization sprint",
+      "description": "Reduce page load time by 40%",
+      "listId": "list-3",
+      "boardId": "board-1",
+      "labelIds": [
+        "lbl-1"
+      ],
+      "memberIds": [
+        "u1"
+      ],
+      "dueDate": "2025-03-28T18:00:00.000Z",
+      "startDate": null,
+      "completed": false,
+      "cover": {
+        "type": "color",
+        "value": "#7BC86C"
+      },
+      "checklists": [],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 0,
+      "createdAt": "2025-02-10T10:00:00.000Z"
+    },
+    "card-5": {
+      "id": "card-5",
+      "title": "Set up CI/CD pipeline",
+      "description": "GitHub Actions workflow with automated tests",
+      "listId": "list-4",
+      "boardId": "board-1",
+      "labelIds": [
+        "lbl-2"
+      ],
+      "memberIds": [
+        "u2"
+      ],
+      "dueDate": "2026-08-30T17:47:54.358Z",
+      "startDate": null,
+      "completed": true,
+      "cover": null,
+      "checklists": [],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 0,
+      "createdAt": "2025-01-18T09:00:00.000Z"
+    },
+    "card-6": {
+      "id": "card-6",
+      "title": "Q1 Product Launch",
+      "description": "Coordinate all marketing activities for Q1 product launch",
+      "listId": "list-6",
+      "boardId": "board-2",
+      "labelIds": [
+        "lbl-3"
+      ],
+      "memberIds": [
+        "u1",
+        "u3"
+      ],
+      "dueDate": "2025-04-01T18:00:00.000Z",
+      "startDate": "2025-03-01T09:00:00.000Z",
+      "completed": false,
+      "cover": null,
+      "checklists": [
+        {
+          "id": "cl-6",
+          "title": "Launch Tasks",
+          "items": [
+            {
+              "id": "cli-6-1",
+              "text": "Finalize press release",
+              "completed": true,
+              "assigneeId": "u1",
+              "dueDate": null
+            },
+            {
+              "id": "cli-6-2",
+              "text": "Prepare demo video",
+              "completed": true,
+              "assigneeId": "u3",
+              "dueDate": null
+            },
+            {
+              "id": "cli-6-3",
+              "text": "Set up landing page",
+              "completed": false,
+              "assigneeId": null,
+              "dueDate": null
+            },
+            {
+              "id": "cli-6-4",
+              "text": "Schedule social media posts",
+              "completed": false,
+              "assigneeId": null,
+              "dueDate": null
+            },
+            {
+              "id": "cli-6-5",
+              "text": "Email campaign to subscribers",
+              "completed": false,
+              "assigneeId": null,
+              "dueDate": null
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "id": "3507aad4-1160-4bba-a556-813f08e9ac64",
+          "userId": "u1",
+          "text": "Progress: 2/5 items completed (40%)",
+          "createdAt": "2026-08-31T17:48:02.994Z",
+          "type": "comment",
+          "editedAt": null
+        }
+      ],
+      "attachments": [],
+      "archived": false,
+      "watching": true,
+      "position": 0,
+      "createdAt": "2025-02-15T10:00:00.000Z"
+    },
+    "card-7": {
+      "id": "card-7",
+      "title": "Social media campaign",
+      "description": "Run targeted social media ads for Q1",
+      "listId": "list-6",
+      "boardId": "board-2",
+      "labelIds": [
+        "lbl-4"
+      ],
+      "memberIds": [
+        "u4"
+      ],
+      "dueDate": "2025-04-15T18:00:00.000Z",
+      "startDate": "2025-03-20T09:00:00.000Z",
+      "completed": false,
+      "cover": null,
+      "checklists": [],
+      "comments": [
+        {
+          "id": "b26cc4ac-e08e-49e4-8610-52fae41e4b27",
+          "userId": "u1",
+          "text": "No checklist found. Please add task breakdown.",
+          "createdAt": "2026-08-31T17:48:10.127Z",
+          "type": "comment",
+          "editedAt": null
+        }
+      ],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 1,
+      "createdAt": "2025-02-20T11:00:00.000Z"
+    },
+    "card-8": {
+      "id": "card-8",
+      "title": "Influencer partnership program",
+      "description": "Identify and contact 20 relevant influencers",
+      "listId": "list-5",
+      "boardId": "board-2",
+      "labelIds": [
+        "lbl-4"
+      ],
+      "memberIds": [],
+      "dueDate": "2026-09-05T17:47:54.358Z",
+      "startDate": null,
+      "completed": false,
+      "cover": null,
+      "checklists": [],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 0,
+      "createdAt": "2025-02-05T14:00:00.000Z"
+    },
+    "card-9": {
+      "id": "card-9",
+      "title": "Brand refresh concept",
+      "description": "New visual identity guidelines",
+      "listId": "list-5",
+      "boardId": "board-2",
+      "labelIds": [
+        "lbl-5"
+      ],
+      "memberIds": [
+        "u3"
+      ],
+      "dueDate": null,
+      "startDate": null,
+      "completed": false,
+      "cover": {
+        "type": "color",
+        "value": "#5BA4CF"
+      },
+      "checklists": [],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 1,
+      "createdAt": "2025-02-08T10:00:00.000Z"
+    },
+    "card-10": {
+      "id": "card-10",
+      "title": "Website banner design",
+      "description": "Hero banner for homepage redesign",
+      "listId": "list-7",
+      "boardId": "board-2",
+      "labelIds": [
+        "lbl-5"
+      ],
+      "memberIds": [
+        "u3"
+      ],
+      "dueDate": "2025-02-28T18:00:00.000Z",
+      "startDate": null,
+      "completed": true,
+      "cover": null,
+      "checklists": [],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 0,
+      "createdAt": "2025-01-25T09:00:00.000Z"
+    },
+    "card-11": {
+      "id": "card-11",
+      "title": "Q4 campaign analytics report",
+      "description": "Summarize performance metrics from Q4",
+      "listId": "list-7",
+      "boardId": "board-2",
+      "labelIds": [],
+      "memberIds": [
+        "u1"
+      ],
+      "dueDate": "2025-03-01T18:00:00.000Z",
+      "startDate": null,
+      "completed": true,
+      "cover": null,
+      "checklists": [],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 1,
+      "createdAt": "2025-02-01T11:00:00.000Z"
+    },
+    "card-12": {
+      "id": "card-12",
+      "title": "Read 'Atomic Habits'",
+      "description": "",
+      "listId": "list-8",
+      "boardId": "board-3",
+      "labelIds": [],
+      "memberIds": [],
+      "dueDate": "2026-09-01T17:47:54.358Z",
+      "startDate": null,
+      "completed": false,
+      "cover": null,
+      "checklists": [],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 0,
+      "createdAt": "2025-03-01T08:00:00.000Z"
+    },
+    "card-13": {
+      "id": "card-13",
+      "title": "Schedule dentist appointment",
+      "description": "",
+      "listId": "list-8",
+      "boardId": "board-3",
+      "labelIds": [],
+      "memberIds": [],
+      "dueDate": "2025-04-10T10:00:00.000Z",
+      "startDate": null,
+      "completed": false,
+      "cover": null,
+      "checklists": [],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 1,
+      "createdAt": "2025-03-05T09:00:00.000Z"
+    },
+    "card-14": {
+      "id": "card-14",
+      "title": "Renew car insurance",
+      "description": "",
+      "listId": "list-9",
+      "boardId": "board-3",
+      "labelIds": [],
+      "memberIds": [],
+      "dueDate": "2025-02-20T17:00:00.000Z",
+      "startDate": null,
+      "completed": true,
+      "cover": null,
+      "checklists": [],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 0,
+      "createdAt": "2025-02-20T10:00:00.000Z"
+    }
+  },
+  "boardOrder": [
+    "board-1",
+    "board-2",
+    "board-3"
+  ]
+}

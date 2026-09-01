@@ -1,0 +1,1291 @@
+{
+  "version": 1,
+  "status": "PASS",
+  "checks": {
+    "mapped_tasks": 42,
+    "missing_tasks": 0,
+    "passing_tasks": 42,
+    "failing_tasks": 0,
+    "terminal_atoms": 157
+  },
+  "results": [
+    {
+      "task_id": "133a8676-fa79-518c-b000-5d51d4791db2",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\133a8676-fa79-518c-b000-5d51d4791db2\\state-99-final.json",
+      "terminal_atoms": 3,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "4fbe0b2e-7f9e-5752-8e56-4a99ab3887c8",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\4fbe0b2e-7f9e-5752-8e56-4a99ab3887c8\\state-99-final.json",
+      "terminal_atoms": 3,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "4b04f328-8c61-5012-8730-ec0d0a7f6ef2",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\4b04f328-8c61-5012-8730-ec0d0a7f6ef2\\state-99-final.json",
+      "terminal_atoms": 3,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "d3268ba9-6bae-5be7-9bfa-028fa8a8e707",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\d3268ba9-6bae-5be7-9bfa-028fa8a8e707\\state-99-final.json",
+      "terminal_atoms": 4,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 3,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "f6d0c6ba-d4c0-57af-a336-ee06a9d12bbd",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\f6d0c6ba-d4c0-57af-a336-ee06a9d12bbd\\state-99-final.json",
+      "terminal_atoms": 4,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 3,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "7cf937a6-3017-5b17-ba3f-0a6cc9b1052c",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\7cf937a6-3017-5b17-ba3f-0a6cc9b1052c\\state-99-final.json",
+      "terminal_atoms": 3,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "98479d5c-529e-576a-aa30-a4c82eefcc87",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\98479d5c-529e-576a-aa30-a4c82eefcc87\\state-99-final.json",
+      "terminal_atoms": 2,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "61d58ac6-1eb6-5d39-b6c2-899c785a0572",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\61d58ac6-1eb6-5d39-b6c2-899c785a0572\\state-99-final.json",
+      "terminal_atoms": 3,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "8e4ffdeb-ad1f-5790-bd3f-dd11908ea142",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\8e4ffdeb-ad1f-5790-bd3f-dd11908ea142\\state-99-final.json",
+      "terminal_atoms": 5,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 3,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 4,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "ced56393-784b-55da-9a6d-f7183ddfe599",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\ced56393-784b-55da-9a6d-f7183ddfe599\\state-99-final.json",
+      "terminal_atoms": 2,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "1ed55ccc-6946-57a8-97ee-5137c5f9ea54",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\1ed55ccc-6946-57a8-97ee-5137c5f9ea54\\state-99-final.json",
+      "terminal_atoms": 3,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "22fb9b2c-add0-5c9c-a1b9-acf5cb63cd1e",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\22fb9b2c-add0-5c9c-a1b9-acf5cb63cd1e\\state-99-final.json",
+      "terminal_atoms": 4,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 3,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "09918993-d6b3-5097-9e82-f0988eeb60ed",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\09918993-d6b3-5097-9e82-f0988eeb60ed\\state-99-final.json",
+      "terminal_atoms": 5,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 3,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 4,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "25dc997b-93cf-5540-b3e9-84c59c01ff4b",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\25dc997b-93cf-5540-b3e9-84c59c01ff4b\\state-99-final.json",
+      "terminal_atoms": 3,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "6b0820fb-41ef-5d92-aa18-1e96c7a8351c",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\6b0820fb-41ef-5d92-aa18-1e96c7a8351c\\state-99-final.json",
+      "terminal_atoms": 4,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 3,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "2eb23e15-069e-57ea-8b10-5afe318562c3",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\2eb23e15-069e-57ea-8b10-5afe318562c3\\state-99-final.json",
+      "terminal_atoms": 5,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 3,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 4,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "bf2a0bde-be76-524f-8594-c94977832eed",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\bf2a0bde-be76-524f-8594-c94977832eed\\state-99-final.json",
+      "terminal_atoms": 3,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "fcdc1975-e1e6-5b5d-a35a-1d96824f752e",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\fcdc1975-e1e6-5b5d-a35a-1d96824f752e\\state-99-final.json",
+      "terminal_atoms": 2,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "f22a035a-8212-5051-891e-2bb16471c32a",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\f22a035a-8212-5051-891e-2bb16471c32a\\state-99-final.json",
+      "terminal_atoms": 2,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "4f69f68f-7506-5e3a-8bb7-483d5d71b625",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\4f69f68f-7506-5e3a-8bb7-483d5d71b625\\state-99-final.json",
+      "terminal_atoms": 2,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "485d2e99-88ec-5f31-890f-94229e9d4ab9",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\485d2e99-88ec-5f31-890f-94229e9d4ab9\\state-99-final.json",
+      "terminal_atoms": 2,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "82d1ebba-6db2-5fe8-8a94-340ed4784800",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\82d1ebba-6db2-5fe8-8a94-340ed4784800\\state-99-final.json",
+      "terminal_atoms": 2,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "4f31ed19-7c41-5168-8839-387baf841e68",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\4f31ed19-7c41-5168-8839-387baf841e68\\state-99-final.json",
+      "terminal_atoms": 3,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "45bcdc62-3b6f-5cdd-922e-8c497c09bdba",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\45bcdc62-3b6f-5cdd-922e-8c497c09bdba\\state-99-final.json",
+      "terminal_atoms": 2,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "89f0e801-4c21-52a7-8a8e-ea28846e594f",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\89f0e801-4c21-52a7-8a8e-ea28846e594f\\state-99-final.json",
+      "terminal_atoms": 4,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 3,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "c637109d-9aa3-5e58-8c67-e6e479c7672a",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\c637109d-9aa3-5e58-8c67-e6e479c7672a\\state-99-final.json",
+      "terminal_atoms": 9,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 3,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 4,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 5,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 6,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 7,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 8,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "b662770d-5908-5f69-93e2-f5b1397759dc",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\b662770d-5908-5f69-93e2-f5b1397759dc\\state-99-final.json",
+      "terminal_atoms": 3,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "30bf8031-1165-5420-8cf1-b98567282d8d",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\30bf8031-1165-5420-8cf1-b98567282d8d\\state-99-final.json",
+      "terminal_atoms": 5,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 3,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 4,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "32611e41-9e82-5602-ae1a-2e9dbff23814",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\32611e41-9e82-5602-ae1a-2e9dbff23814\\state-99-final.json",
+      "terminal_atoms": 9,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 3,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 4,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 5,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 6,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 7,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 8,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "cf6fada2-db21-5dfd-af4a-62d5210f57cc",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\cf6fada2-db21-5dfd-af4a-62d5210f57cc\\state-99-final.json",
+      "terminal_atoms": 4,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 3,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "6960e935-15cb-5096-a53e-1f0cfe125abe",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\6960e935-15cb-5096-a53e-1f0cfe125abe\\state-99-final.json",
+      "terminal_atoms": 4,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 3,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "378d436a-433a-51f8-a13f-92ecf1415e9f",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\378d436a-433a-51f8-a13f-92ecf1415e9f\\state-99-final.json",
+      "terminal_atoms": 8,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 3,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 4,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 5,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 6,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 7,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "d8600f30-8e31-5db0-9d8e-73dae2e9f8a3",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\d8600f30-8e31-5db0-9d8e-73dae2e9f8a3\\state-99-final.json",
+      "terminal_atoms": 4,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 3,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "51fcc185-5c30-5966-9df8-38304c181e24",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\51fcc185-5c30-5966-9df8-38304c181e24\\state-99-final.json",
+      "terminal_atoms": 6,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 3,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 4,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 5,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "2638816e-6ec9-5386-ba26-d3d1429cd8f6",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\2638816e-6ec9-5386-ba26-d3d1429cd8f6\\state-99-final.json",
+      "terminal_atoms": 3,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "305da858-ab07-588b-a046-450b62db8750",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\305da858-ab07-588b-a046-450b62db8750\\state-99-final.json",
+      "terminal_atoms": 3,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "035309b4-34ad-54f0-82c4-ce9f68d2f75b",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\035309b4-34ad-54f0-82c4-ce9f68d2f75b\\state-99-final.json",
+      "terminal_atoms": 8,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 3,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 4,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 5,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 6,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 7,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "99e382bd-8632-5ed2-902e-bd9db366238e",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\99e382bd-8632-5ed2-902e-bd9db366238e\\state-99-final.json",
+      "terminal_atoms": 2,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "f5ac7c62-2cd9-516b-8c5b-88806ad29922",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\f5ac7c62-2cd9-516b-8c5b-88806ad29922\\state-99-final.json",
+      "terminal_atoms": 5,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 3,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 4,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "e48ccd78-8f79-53e0-8910-51ef2a538a0a",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\e48ccd78-8f79-53e0-8910-51ef2a538a0a\\state-99-final.json",
+      "terminal_atoms": 2,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "e09dacc1-8e93-5731-970d-ed4c5392c5cf",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\e09dacc1-8e93-5731-970d-ed4c5392c5cf\\state-99-final.json",
+      "terminal_atoms": 3,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 1,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "task_id": "118e5c12-a910-5337-a563-f30b3ee7cd64",
+      "state_path": "D:\\1.Project\\OSWorld\\surfgym-cua-webapp-onboarding\\output\\cua-state-reference-cohort42-20260901-002\\reference\\118e5c12-a910-5337-a563-f30b3ee7cd64\\state-99-final.json",
+      "terminal_atoms": 1,
+      "passed": true,
+      "atoms": [
+        {
+          "index": 0,
+          "observed": true,
+          "expected": true,
+          "passed": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,228 @@
+{
+  "currentUserId": "user_admin",
+  "users": {
+    "user_admin": {
+      "id": "user_admin",
+      "username": "alex_morgan",
+      "name": "Alex Morgan",
+      "avatar": "https://picsum.photos/150/150?random=1",
+      "bio": "Photographer & adventurer | Capturing moments",
+      "website": "https://alexmorgan.photography",
+      "followers": [
+        "user_2",
+        "user_3",
+        "user_4"
+      ],
+      "following": [
+        "user_2",
+        "user_3"
+      ],
+      "isVerified": false,
+      "isPrivate": false
+    },
+    "user_2": {
+      "id": "user_2",
+      "username": "adventure_seeker",
+      "name": "Alice Walker",
+      "avatar": "https://picsum.photos/150/150?random=2",
+      "bio": "Explorer | Nature lover | Travel enthusiast",
+      "website": "",
+      "followers": [
+        "user_admin",
+        "user_3",
+        "user_4"
+      ],
+      "following": [
+        "user_admin",
+        "user_4"
+      ],
+      "isVerified": false,
+      "isPrivate": false
+    },
+    "user_3": {
+      "id": "user_3",
+      "username": "tech_guru",
+      "name": "Bob Chen",
+      "avatar": "https://picsum.photos/150/150?random=3",
+      "bio": "Software engineer | Open source contributor",
+      "website": "",
+      "followers": [
+        "user_admin"
+      ],
+      "following": [
+        "user_admin",
+        "user_2"
+      ],
+      "isVerified": false,
+      "isPrivate": false
+    },
+    "user_4": {
+      "id": "user_4",
+      "username": "design_daily",
+      "name": "Sarah Kim",
+      "avatar": "https://picsum.photos/150/150?random=4",
+      "bio": "UX Designer | Making things beautiful",
+      "website": "",
+      "followers": [
+        "user_2"
+      ],
+      "following": [
+        "user_admin",
+        "user_2"
+      ],
+      "isVerified": false,
+      "isPrivate": false
+    }
+  },
+  "posts": [
+    {
+      "id": "post_1",
+      "userId": "user_admin",
+      "images": [
+        "https://picsum.photos/800/800?random=101"
+      ],
+      "caption": "Golden hour at the coast #photography #goldenhour",
+      "location": "Big Sur, CA",
+      "taggedUsers": [],
+      "likes": [
+        "user_2",
+        "user_3"
+      ],
+      "comments": [
+        {
+          "id": "c_1",
+          "userId": "user_2",
+          "text": "Absolutely breathtaking!",
+          "created": "2024-01-01T12:00:00Z",
+          "likes": [],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [],
+      "created": "2024-01-01T08:00:00Z"
+    },
+    {
+      "id": "post_2",
+      "userId": "user_2",
+      "images": [
+        "https://picsum.photos/800/800?random=102"
+      ],
+      "caption": "Mountain adventure! Photo by @alex_morgan",
+      "location": "Yosemite",
+      "taggedUsers": [
+        "user_admin"
+      ],
+      "likes": [
+        "user_3"
+      ],
+      "comments": [],
+      "saved": [],
+      "created": "2024-01-02T10:00:00Z"
+    },
+    {
+      "id": "post_3",
+      "userId": "user_admin",
+      "images": [
+        "https://picsum.photos/800/800?random=103"
+      ],
+      "caption": "Morning mist over the valley #nature #landscape",
+      "location": "Yosemite Valley",
+      "taggedUsers": [],
+      "likes": [
+        "user_2",
+        "user_4"
+      ],
+      "comments": [],
+      "saved": [],
+      "created": "2024-01-05T07:30:00Z"
+    },
+    {
+      "id": "post_15",
+      "userId": "user_2",
+      "images": [
+        "https://picsum.photos/800/800?random=115"
+      ],
+      "caption": "Beautiful sunset from yesterday",
+      "location": "Malibu",
+      "taggedUsers": [],
+      "likes": [
+        "user_4"
+      ],
+      "comments": [],
+      "saved": [],
+      "created": "2024-01-15T18:00:00Z"
+    },
+    {
+      "id": "post_16",
+      "userId": "user_2",
+      "images": [
+        "https://picsum.photos/800/800?random=116"
+      ],
+      "caption": "City lights #urban",
+      "location": "LA",
+      "taggedUsers": [],
+      "likes": [],
+      "comments": [],
+      "saved": [],
+      "created": "2024-01-16T20:00:00Z"
+    }
+  ],
+  "stories": [
+    {
+      "id": "story_1",
+      "userId": "user_2",
+      "image": "https://picsum.photos/400/700?random=201",
+      "created": "2024-01-16T08:00:00Z",
+      "expires": "2024-01-17T08:00:00Z",
+      "viewed": false
+    }
+  ],
+  "notifications": [
+    {
+      "id": "notif_1",
+      "type": "like",
+      "fromUserId": "user_3",
+      "postId": "post_1",
+      "commentId": null,
+      "text": "liked your photo.",
+      "read": false,
+      "created": "2024-01-01T12:30:00Z"
+    },
+    {
+      "id": "notif_2",
+      "type": "comment",
+      "fromUserId": "user_2",
+      "postId": "post_1",
+      "commentId": "c_1",
+      "text": "commented on your photo.",
+      "read": true,
+      "created": "2024-01-01T12:00:00Z"
+    }
+  ],
+  "conversations": [
+    {
+      "id": "conv_1",
+      "participants": [
+        "user_admin",
+        "user_2"
+      ],
+      "lastMessage": "Great shot!",
+      "lastMessageTime": "2024-01-10T09:00:00Z",
+      "unreadCount": 0
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_1",
+      "conversationId": "conv_1",
+      "senderId": "user_2",
+      "text": "Great shot!",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2024-01-10T09:00:00Z"
+    }
+  ],
+  "savedPostIds": []
+}

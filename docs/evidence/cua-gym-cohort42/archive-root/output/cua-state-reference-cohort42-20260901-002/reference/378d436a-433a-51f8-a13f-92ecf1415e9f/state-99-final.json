@@ -1,0 +1,194 @@
+{
+  "user": {
+    "userId": "u1",
+    "username": "Kim Tran",
+    "email": "kim@agency.com"
+  },
+  "emails": [
+    {
+      "id": "e1",
+      "threadId": "t1",
+      "from": {
+        "name": "Client A",
+        "email": "clienta@bigcorp.com"
+      },
+      "to": [
+        {
+          "name": "Kim Tran",
+          "email": "kim@agency.com"
+        }
+      ],
+      "cc": [],
+      "bcc": [],
+      "subject": "Project deadline approaching",
+      "body": "The final deliverables are due next Monday.",
+      "snippet": "The final deliverables are due next Monday.",
+      "timestamp": "2026-03-28T09:15:00Z",
+      "read": true,
+      "starred": true,
+      "important": true,
+      "labels": [
+        "s21zlht"
+      ],
+      "category": "primary",
+      "folder": "inbox",
+      "attachments": []
+    },
+    {
+      "id": "e2",
+      "threadId": "t2",
+      "from": {
+        "name": "Accounting",
+        "email": "accounting@agency.com"
+      },
+      "to": [
+        {
+          "name": "Kim Tran",
+          "email": "kim@agency.com"
+        }
+      ],
+      "cc": [],
+      "bcc": [],
+      "subject": "Invoice #889 overdue",
+      "body": "Please process this invoice immediately.",
+      "snippet": "Please process this invoice immediately.",
+      "timestamp": "2026-03-29T08:00:00Z",
+      "read": false,
+      "starred": true,
+      "important": true,
+      "labels": [
+        "s21zlht"
+      ],
+      "category": "primary",
+      "folder": "inbox",
+      "attachments": []
+    },
+    {
+      "id": "e3",
+      "threadId": "t3",
+      "from": {
+        "name": "Team Lead",
+        "email": "lead@agency.com"
+      },
+      "to": [
+        {
+          "name": "Kim Tran",
+          "email": "kim@agency.com"
+        }
+      ],
+      "cc": [],
+      "bcc": [],
+      "subject": "Weekly sync notes",
+      "body": "Here are the notes from today. Nothing urgent.",
+      "snippet": "Here are the notes from today. Nothing urgent.",
+      "timestamp": "2026-03-27T16:30:00Z",
+      "read": true,
+      "starred": false,
+      "important": false,
+      "labels": [],
+      "category": "primary",
+      "folder": "inbox",
+      "attachments": []
+    },
+    {
+      "id": "e4",
+      "threadId": "t4",
+      "from": {
+        "name": "CEO",
+        "email": "ceo@agency.com"
+      },
+      "to": [
+        {
+          "name": "Kim Tran",
+          "email": "kim@agency.com"
+        }
+      ],
+      "cc": [],
+      "bcc": [],
+      "subject": "Need brand deck",
+      "body": "Can you send me the updated brand deck ASAP?",
+      "snippet": "Can you send me the updated brand deck ASAP?",
+      "timestamp": "2026-03-30T11:45:00Z",
+      "read": false,
+      "starred": true,
+      "important": true,
+      "labels": [
+        "s21zlht"
+      ],
+      "category": "primary",
+      "folder": "inbox",
+      "attachments": []
+    },
+    {
+      "id": "e5",
+      "threadId": "t5",
+      "from": {
+        "name": "Newsletter",
+        "email": "news@designweekly.com"
+      },
+      "to": [
+        {
+          "name": "Kim Tran",
+          "email": "kim@agency.com"
+        }
+      ],
+      "cc": [],
+      "bcc": [],
+      "subject": "This weeks top designs",
+      "body": "Check out the latest trends in design this week.",
+      "snippet": "Check out the latest trends in design this week.",
+      "timestamp": "2026-03-29T07:00:00Z",
+      "read": false,
+      "starred": false,
+      "important": false,
+      "labels": [],
+      "category": "promotions",
+      "folder": "inbox",
+      "attachments": []
+    }
+  ],
+  "labels": [
+    {
+      "id": "l1",
+      "name": "Work",
+      "color": "#ef4444"
+    },
+    {
+      "id": "l2",
+      "name": "Personal",
+      "color": "#3b82f6"
+    },
+    {
+      "id": "l3",
+      "name": "Travel",
+      "color": "#22c55e"
+    },
+    {
+      "id": "l4",
+      "name": "Finance",
+      "color": "#eab308"
+    },
+    {
+      "id": "s21zlht",
+      "name": "Urgent-Q1",
+      "color": "#ef4444"
+    }
+  ],
+  "drafts": [],
+  "settings": {
+    "density": "default",
+    "undoSend": 10,
+    "signature": "--\nDemo User\ndemo@example.com",
+    "categoryTabs": {
+      "primary": true,
+      "social": true,
+      "promotions": true,
+      "updates": false,
+      "forums": false
+    },
+    "replyBehavior": "Reply",
+    "language": "English (US)",
+    "sysLabelShown": {},
+    "userLabelShown": {}
+  }
+}

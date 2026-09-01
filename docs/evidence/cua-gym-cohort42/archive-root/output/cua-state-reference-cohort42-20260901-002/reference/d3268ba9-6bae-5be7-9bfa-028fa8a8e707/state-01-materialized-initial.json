@@ -1,0 +1,477 @@
+{
+  "users": {
+    "user_admin": {
+      "id": "user_admin",
+      "username": "alex_morgan",
+      "name": "Alex Morgan",
+      "avatar": "https://picsum.photos/150/150?random=1",
+      "bio": "Photography & Travel | San Francisco",
+      "website": "alexmorgan.com",
+      "followers": [
+        "user_2",
+        "user_3",
+        "user_7",
+        "user_8"
+      ],
+      "following": [
+        "user_2",
+        "user_3"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_2": {
+      "id": "user_2",
+      "username": "adventure_seeker",
+      "name": "Alice Walker",
+      "avatar": "https://picsum.photos/150/150?random=2",
+      "bio": "Exploring the world one step at a time 🌍",
+      "website": "",
+      "followers": [
+        "user_admin"
+      ],
+      "following": [
+        "user_admin"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_3": {
+      "id": "user_3",
+      "username": "tech_guru",
+      "name": "Bob Chen",
+      "avatar": "https://picsum.photos/150/150?random=3",
+      "bio": "Software Engineer | Tech enthusiast",
+      "website": "bobchen.dev",
+      "followers": [
+        "user_admin"
+      ],
+      "following": [
+        "user_admin"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_4": {
+      "id": "user_4",
+      "username": "design_daily",
+      "name": "Sarah Kim",
+      "avatar": "https://picsum.photos/150/150?random=4",
+      "bio": "UX Designer | Making things beautiful",
+      "website": "",
+      "followers": [],
+      "following": [],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_5": {
+      "id": "user_5",
+      "username": "foodie_life",
+      "name": "Chef Marco",
+      "avatar": "https://i.pravatar.cc/150?img=15",
+      "bio": "Food is my love language\nProfessional Chef | Recipe Creator\n2x James Beard Nominee",
+      "website": "https://chefmarco.kitchen",
+      "followers": [
+        "user_admin",
+        "user_2",
+        "user_3",
+        "user_6",
+        "user_7",
+        "user_8",
+        "user_9",
+        "user_10"
+      ],
+      "following": [
+        "user_admin",
+        "user_2",
+        "user_9"
+      ],
+      "isVerified": true,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_6": {
+      "id": "user_6",
+      "username": "nature_lover",
+      "name": "Emma Green",
+      "avatar": "https://i.pravatar.cc/150?img=16",
+      "bio": "Hiking & Outdoors\nNational Park Explorer\nLeave no trace",
+      "website": "",
+      "followers": [
+        "user_4",
+        "user_5",
+        "user_8",
+        "user_9"
+      ],
+      "following": [
+        "user_2",
+        "user_4",
+        "user_5",
+        "user_8"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_7": {
+      "id": "user_7",
+      "username": "fitness_coach",
+      "name": "Jake Thompson",
+      "avatar": "https://picsum.photos/150/150?random=7",
+      "bio": "Certified Personal Trainer | Helping you reach your goals 💪",
+      "website": "jakefitness.com",
+      "followers": [],
+      "following": [
+        "user_admin"
+      ],
+      "isVerified": true,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_8": {
+      "id": "user_8",
+      "username": "artsy_vibes",
+      "name": "Mia Chen",
+      "avatar": "https://picsum.photos/150/150?random=8",
+      "bio": "Artist | Creating beauty from chaos 🎨",
+      "website": "miachenart.com",
+      "followers": [],
+      "following": [
+        "user_admin"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_9": {
+      "id": "user_9",
+      "username": "urban_explorer",
+      "name": "David Park",
+      "avatar": "https://i.pravatar.cc/150?img=33",
+      "bio": "Street Photography | Architecture\nNYC based | Sony Alpha\nPrint shop open",
+      "website": "https://davidpark.photo",
+      "followers": [
+        "user_2",
+        "user_5",
+        "user_6",
+        "user_7",
+        "user_10"
+      ],
+      "following": [
+        "user_2",
+        "user_5",
+        "user_7",
+        "user_10"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": true
+    },
+    "user_10": {
+      "id": "user_10",
+      "username": "music_matters",
+      "name": "Luna Rivera",
+      "avatar": "https://i.pravatar.cc/150?img=25",
+      "bio": "Singer-Songwriter | Producer\nNew EP out now\nTour dates in bio link",
+      "website": "https://lunarivera.music",
+      "followers": [
+        "user_3",
+        "user_4",
+        "user_7",
+        "user_9"
+      ],
+      "following": [
+        "user_3",
+        "user_7",
+        "user_9"
+      ],
+      "isVerified": true,
+      "isPrivate": false,
+      "isOnline": false
+    }
+  },
+  "posts": [
+    {
+      "id": "post_2",
+      "userId": "user_2",
+      "images": [
+        "https://picsum.photos/800/800?random=202"
+      ],
+      "caption": "Adventure crew is the best crew! Had such an amazing hike today 🏔️",
+      "location": "Muir Woods, CA",
+      "taggedUsers": [
+        "user_admin",
+        "user_3"
+      ],
+      "likes": [
+        "user_3",
+        "user_7"
+      ],
+      "comments": [
+        {
+          "id": "c_2_1",
+          "userId": "user_3",
+          "text": "Such a great day! 😊",
+          "created": "2024-01-02T11:30:00Z",
+          "likes": [],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [],
+      "created": "2024-01-02T10:00:00Z"
+    },
+    {
+      "id": "post_3",
+      "userId": "user_3",
+      "images": [
+        "https://picsum.photos/800/800?random=203"
+      ],
+      "caption": "Tech meetup was incredible! So many brilliant minds in one room 💡",
+      "location": "San Francisco Convention Center",
+      "taggedUsers": [],
+      "likes": [
+        "user_admin",
+        "user_2"
+      ],
+      "comments": [
+        {
+          "id": "c_3_1",
+          "userId": "user_admin",
+          "text": "Great talk you gave! Really inspiring.",
+          "created": "2024-01-03T13:00:00Z",
+          "likes": [
+            "user_3"
+          ],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [],
+      "created": "2024-01-03T12:00:00Z"
+    },
+    {
+      "id": "post_9",
+      "userId": "user_7",
+      "images": [
+        "https://picsum.photos/800/800?random=209"
+      ],
+      "caption": "Gym session with a special guest! Working on those gains 🏋️",
+      "location": "Iron Forge Gym, Oakland",
+      "taggedUsers": [
+        "user_admin"
+      ],
+      "likes": [
+        "user_2",
+        "user_3",
+        "user_8"
+      ],
+      "comments": [
+        {
+          "id": "c_9_1",
+          "userId": "user_2",
+          "text": "You two are goals! 🔥",
+          "created": "2024-01-09T08:00:00Z",
+          "likes": [],
+          "isReply": false,
+          "replyToId": null
+        },
+        {
+          "id": "c_9_2",
+          "userId": "user_8",
+          "text": "Jake is the best coach around!",
+          "created": "2024-01-09T09:30:00Z",
+          "likes": [
+            "user_7"
+          ],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [],
+      "created": "2024-01-09T07:00:00Z"
+    },
+    {
+      "id": "post_15",
+      "userId": "user_8",
+      "images": [
+        "https://picsum.photos/800/800?random=215"
+      ],
+      "caption": "Art collab with some amazing creators! So proud of this piece 🎨",
+      "location": "The Canvas Studio, SF",
+      "taggedUsers": [
+        "user_admin",
+        "user_4"
+      ],
+      "likes": [
+        "user_2",
+        "user_3",
+        "user_7"
+      ],
+      "comments": [
+        {
+          "id": "c_15_1",
+          "userId": "user_4",
+          "text": "This turned out so beautiful! 💫",
+          "created": "2024-01-15T13:00:00Z",
+          "likes": [
+            "user_8"
+          ],
+          "isReply": false,
+          "replyToId": null
+        },
+        {
+          "id": "c_15_2",
+          "userId": "user_3",
+          "text": "Incredible work everyone!",
+          "created": "2024-01-15T14:30:00Z",
+          "likes": [],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [],
+      "created": "2024-01-15T12:00:00Z"
+    }
+  ],
+  "stories": [
+    {
+      "id": "story_1",
+      "userId": "user_2",
+      "image": "https://picsum.photos/400/700?random=301",
+      "created": "2024-01-15T08:00:00Z",
+      "expires": "2024-01-16T08:00:00Z",
+      "viewed": false
+    },
+    {
+      "id": "story_2",
+      "userId": "user_7",
+      "image": "https://picsum.photos/400/700?random=307",
+      "created": "2024-01-15T10:00:00Z",
+      "expires": "2024-01-16T10:00:00Z",
+      "viewed": false
+    }
+  ],
+  "notifications": [
+    {
+      "id": "notif_1",
+      "type": "mention",
+      "fromUserId": "user_2",
+      "postId": "post_2",
+      "commentId": null,
+      "text": "tagged you in a post.",
+      "read": false,
+      "created": "2024-01-02T10:00:00Z"
+    },
+    {
+      "id": "notif_2",
+      "type": "mention",
+      "fromUserId": "user_7",
+      "postId": "post_9",
+      "commentId": null,
+      "text": "tagged you in a post.",
+      "read": false,
+      "created": "2024-01-09T07:00:00Z"
+    },
+    {
+      "id": "notif_3",
+      "type": "mention",
+      "fromUserId": "user_8",
+      "postId": "post_15",
+      "commentId": null,
+      "text": "tagged you in a post.",
+      "read": false,
+      "created": "2024-01-15T12:00:00Z"
+    },
+    {
+      "id": "notif_4",
+      "type": "like",
+      "fromUserId": "user_3",
+      "postId": "post_2",
+      "commentId": null,
+      "text": "liked your comment.",
+      "read": true,
+      "created": "2024-01-03T14:00:00Z"
+    },
+    {
+      "id": "notif_5",
+      "type": "follow",
+      "fromUserId": "user_7",
+      "postId": null,
+      "commentId": null,
+      "text": "started following you.",
+      "read": true,
+      "created": "2024-01-05T09:00:00Z"
+    },
+    {
+      "id": "notif_6",
+      "type": "follow",
+      "fromUserId": "user_8",
+      "postId": null,
+      "commentId": null,
+      "text": "started following you.",
+      "read": true,
+      "created": "2024-01-08T15:00:00Z"
+    }
+  ],
+  "conversations": [
+    {
+      "id": "conv_1",
+      "participants": [
+        "user_admin",
+        "user_2"
+      ],
+      "lastMessage": "Can't wait for the next hike!",
+      "lastMessageTime": "2024-01-10T16:00:00Z",
+      "unreadCount": 0
+    },
+    {
+      "id": "conv_2",
+      "participants": [
+        "user_admin",
+        "user_3"
+      ],
+      "lastMessage": "See you at the meetup!",
+      "lastMessageTime": "2024-01-03T18:00:00Z",
+      "unreadCount": 0
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_1",
+      "conversationId": "conv_1",
+      "senderId": "user_2",
+      "text": "Hey! Great seeing you at the hike!",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2024-01-10T15:30:00Z"
+    },
+    {
+      "id": "msg_2",
+      "conversationId": "conv_1",
+      "senderId": "user_admin",
+      "text": "Can't wait for the next hike!",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2024-01-10T16:00:00Z"
+    },
+    {
+      "id": "msg_3",
+      "conversationId": "conv_2",
+      "senderId": "user_3",
+      "text": "See you at the meetup!",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2024-01-03T18:00:00Z"
+    }
+  ],
+  "savedPostIds": [],
+  "currentUserId": "user_admin"
+}

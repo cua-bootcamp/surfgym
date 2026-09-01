@@ -1,0 +1,252 @@
+{
+  "currentUserId": "user_admin",
+  "users": {
+    "user_admin": {
+      "id": "user_admin",
+      "username": "alex_morgan",
+      "name": "Alex Morgan",
+      "avatar": "https://picsum.photos/150/150?random=1",
+      "bio": "Photography enthusiast | Coffee lover",
+      "website": "https://alexmorgan.photography",
+      "followers": [
+        "user_2",
+        "user_3"
+      ],
+      "following": [
+        "user_2",
+        "user_3"
+      ],
+      "isVerified": false,
+      "isPrivate": false
+    },
+    "user_2": {
+      "id": "user_2",
+      "username": "adventure_seeker",
+      "name": "Alice Walker",
+      "avatar": "https://picsum.photos/150/150?random=2",
+      "bio": "Adventure is out there | Hiker & Explorer",
+      "website": "",
+      "followers": [
+        "user_admin",
+        "user_3"
+      ],
+      "following": [
+        "user_admin"
+      ],
+      "isVerified": false,
+      "isPrivate": false
+    },
+    "user_3": {
+      "id": "user_3",
+      "username": "tech_guru",
+      "name": "Bob Chen",
+      "avatar": "https://picsum.photos/150/150?random=3",
+      "bio": "Software engineer | Tech blogger",
+      "website": "https://bobchen.dev",
+      "followers": [
+        "user_admin"
+      ],
+      "following": [
+        "user_admin",
+        "user_2"
+      ],
+      "isVerified": false,
+      "isPrivate": false
+    }
+  },
+  "posts": [
+    {
+      "id": "post_1",
+      "userId": "user_admin",
+      "images": [
+        "https://picsum.photos/800/800?random=101"
+      ],
+      "caption": "Golden hour magic #photography #sunset",
+      "location": "San Francisco, CA",
+      "likes": [
+        "user_2",
+        "user_3"
+      ],
+      "comments": [
+        {
+          "id": "c_1",
+          "userId": "user_2",
+          "text": "Gorgeous shot!",
+          "created": "2024-01-01T10:00:00Z",
+          "likes": [
+            "user_3"
+          ]
+        },
+        {
+          "id": "c_2",
+          "userId": "user_3",
+          "text": "Love the colors here!",
+          "created": "2024-01-01T11:00:00Z",
+          "likes": []
+        }
+      ],
+      "saved": [
+        "user_2"
+      ],
+      "created": "2024-01-01T08:00:00Z"
+    },
+    {
+      "id": "post_2",
+      "userId": "user_2",
+      "images": [
+        "https://picsum.photos/800/800?random=102"
+      ],
+      "caption": "Mountain adventure!",
+      "location": "Yosemite",
+      "likes": [
+        "user_admin"
+      ],
+      "comments": [
+        {
+          "id": "c_3",
+          "userId": "user_admin",
+          "text": "Wish I was there!",
+          "created": "2024-01-02T12:00:00Z",
+          "likes": [],
+          "isReply": false,
+          "replyToId": null
+        },
+        {
+          "id": "c_4",
+          "userId": "user_3",
+          "text": "Epic!",
+          "created": "2024-01-02T13:00:00Z",
+          "likes": [
+            "user_admin",
+            "user_2"
+          ],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [],
+      "created": "2024-01-02T10:00:00Z"
+    },
+    {
+      "id": "post_3",
+      "userId": "user_3",
+      "images": [
+        "https://picsum.photos/800/800?random=103"
+      ],
+      "caption": "Late night coding session #dev #programming",
+      "location": "Home Office",
+      "likes": [
+        "user_admin",
+        "user_2"
+      ],
+      "comments": [
+        {
+          "id": "c_5",
+          "userId": "user_admin",
+          "text": "The grind never stops!",
+          "created": "2024-01-03T22:00:00Z",
+          "likes": [
+            "user_3"
+          ]
+        }
+      ],
+      "saved": [],
+      "created": "2024-01-03T21:00:00Z"
+    }
+  ],
+  "stories": [
+    {
+      "id": "story_1",
+      "userId": "user_2",
+      "image": "https://picsum.photos/400/700?random=201",
+      "created": "2024-01-02T08:00:00Z",
+      "expires": "2024-01-03T08:00:00Z",
+      "viewed": false
+    },
+    {
+      "id": "story_2",
+      "userId": "user_3",
+      "image": "https://picsum.photos/400/700?random=202",
+      "created": "2024-01-02T09:00:00Z",
+      "expires": "2024-01-03T09:00:00Z",
+      "viewed": true
+    }
+  ],
+  "notifications": [
+    {
+      "id": "notif_1",
+      "type": "like",
+      "fromUserId": "user_2",
+      "postId": "post_1",
+      "commentId": null,
+      "text": "liked your photo.",
+      "read": true,
+      "created": "2024-01-01T10:00:00Z"
+    },
+    {
+      "id": "notif_2",
+      "type": "comment",
+      "fromUserId": "user_3",
+      "postId": "post_1",
+      "commentId": "c_2",
+      "text": "commented on your photo.",
+      "read": true,
+      "created": "2024-01-01T11:00:00Z"
+    },
+    {
+      "id": "notif_3",
+      "type": "like_comment",
+      "fromUserId": "user_2",
+      "postId": "post_2",
+      "commentId": "c_4",
+      "text": "liked Bob's comment on Alice's post.",
+      "read": false,
+      "created": "2024-01-02T14:00:00Z"
+    }
+  ],
+  "conversations": [
+    {
+      "id": "conv_1",
+      "participants": [
+        "user_admin",
+        "user_2"
+      ],
+      "lastMessage": "Great photo!",
+      "lastMessageTime": "2024-01-01T15:00:00Z",
+      "unreadCount": 0
+    },
+    {
+      "id": "conv_2",
+      "participants": [
+        "user_admin",
+        "user_3"
+      ],
+      "lastMessage": "Thanks for the follow!",
+      "lastMessageTime": "2024-01-01T16:00:00Z",
+      "unreadCount": 1
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_1",
+      "conversationId": "conv_1",
+      "senderId": "user_2",
+      "text": "Great photo!",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2024-01-01T15:00:00Z"
+    },
+    {
+      "id": "msg_2",
+      "conversationId": "conv_2",
+      "senderId": "user_3",
+      "text": "Thanks for the follow!",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2024-01-01T16:00:00Z"
+    }
+  ],
+  "savedPostIds": []
+}

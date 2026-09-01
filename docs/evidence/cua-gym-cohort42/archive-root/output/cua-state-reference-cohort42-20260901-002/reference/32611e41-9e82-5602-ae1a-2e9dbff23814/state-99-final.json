@@ -1,0 +1,765 @@
+{
+  "currentUser": "u1",
+  "users": {
+    "u1": {
+      "id": "u1",
+      "name": "Alice Johnson",
+      "username": "alice",
+      "initials": "AJ",
+      "avatarUrl": "",
+      "email": "alice@projectalpha.com"
+    },
+    "u2": {
+      "id": "u2",
+      "name": "Bob Martinez",
+      "username": "bob",
+      "initials": "BM",
+      "avatarUrl": "",
+      "email": "bob@projectalpha.com"
+    },
+    "u3": {
+      "id": "u3",
+      "name": "Carol Zhang",
+      "username": "carol",
+      "initials": "CZ",
+      "avatarUrl": "",
+      "email": "carol@projectalpha.com"
+    },
+    "u4": {
+      "id": "u4",
+      "name": "Diana Ross",
+      "username": "diana",
+      "initials": "DR",
+      "avatarUrl": "https://picsum.photos/100/100?random=u4",
+      "email": "diana@example.com"
+    }
+  },
+  "boards": {
+    "board-1": {
+      "id": "board-1",
+      "title": "Project Alpha",
+      "description": "Main project board for tracking all tasks and deliverables",
+      "background": "#0079BF",
+      "listIds": [
+        "list-1",
+        "list-2",
+        "list-3",
+        "list-4"
+      ],
+      "starred": true,
+      "visibility": "workspace",
+      "archivedListIds": [],
+      "archivedCardIds": [],
+      "labels": [
+        {
+          "id": "label-1",
+          "name": "Bug",
+          "color": "#EB5A46"
+        },
+        {
+          "id": "label-2",
+          "name": "Feature",
+          "color": "#61BD4F"
+        },
+        {
+          "id": "label-3",
+          "name": "High Priority",
+          "color": "#F2D600"
+        },
+        {
+          "id": "label-4",
+          "name": "Backend",
+          "color": "#0079BF"
+        }
+      ],
+      "memberIds": [
+        "u1",
+        "u2",
+        "u3"
+      ],
+      "createdAt": "2025-11-01T09:00:00.000Z",
+      "lastVisitedAt": "2026-08-31T10:16:47.323Z"
+    },
+    "board-2": {
+      "id": "board-2",
+      "title": "Marketing Campaign",
+      "description": "Q1 marketing initiatives",
+      "background": "#D29034",
+      "listIds": [
+        "list-5",
+        "list-6",
+        "list-7"
+      ],
+      "starred": false,
+      "visibility": "private",
+      "archivedListIds": [],
+      "archivedCardIds": [],
+      "labels": [
+        {
+          "id": "lbl-7",
+          "name": "Social",
+          "color": "#0079bf"
+        },
+        {
+          "id": "lbl-8",
+          "name": "Email",
+          "color": "#61bd4f"
+        },
+        {
+          "id": "lbl-9",
+          "name": "Ads",
+          "color": "#eb5a46"
+        },
+        {
+          "id": "lbl-10",
+          "name": "Content",
+          "color": "#c377e0"
+        }
+      ],
+      "memberIds": [
+        "u1",
+        "u4"
+      ],
+      "createdAt": "2025-02-01T08:00:00.000Z"
+    },
+    "board-3": {
+      "id": "board-3",
+      "title": "Personal Tasks",
+      "description": "",
+      "background": "#519839",
+      "listIds": [
+        "list-8",
+        "list-9"
+      ],
+      "starred": true,
+      "visibility": "private",
+      "archivedListIds": [],
+      "archivedCardIds": [],
+      "labels": [
+        {
+          "id": "lbl-11",
+          "name": "Home",
+          "color": "#61bd4f"
+        },
+        {
+          "id": "lbl-12",
+          "name": "Work",
+          "color": "#0079bf"
+        },
+        {
+          "id": "lbl-13",
+          "name": "Health",
+          "color": "#eb5a46"
+        }
+      ],
+      "memberIds": [
+        "u1"
+      ],
+      "createdAt": "2025-02-10T12:00:00.000Z"
+    }
+  },
+  "lists": {
+    "list-1": {
+      "id": "list-1",
+      "title": "To Do",
+      "boardId": "board-1",
+      "cardIds": [
+        "card-2"
+      ],
+      "archived": false
+    },
+    "list-2": {
+      "id": "list-2",
+      "title": "In Progress",
+      "boardId": "board-1",
+      "cardIds": [
+        "card-3",
+        "card-4"
+      ],
+      "archived": false
+    },
+    "list-3": {
+      "id": "list-3",
+      "title": "Review",
+      "boardId": "board-1",
+      "cardIds": [
+        "card-6",
+        "card-7"
+      ],
+      "archived": false
+    },
+    "list-4": {
+      "id": "list-4",
+      "title": "Done",
+      "boardId": "board-1",
+      "cardIds": [
+        "card-1",
+        "card-9",
+        "card-5"
+      ],
+      "archived": false
+    },
+    "list-5": {
+      "id": "list-5",
+      "title": "Ideas",
+      "boardId": "board-2",
+      "cardIds": [
+        "card-8",
+        "card-9"
+      ],
+      "archived": false
+    },
+    "list-6": {
+      "id": "list-6",
+      "title": "In Progress",
+      "boardId": "board-2",
+      "cardIds": [
+        "card-10"
+      ],
+      "archived": false
+    },
+    "list-7": {
+      "id": "list-7",
+      "title": "Published",
+      "boardId": "board-2",
+      "cardIds": [
+        "card-11"
+      ],
+      "archived": false
+    },
+    "list-8": {
+      "id": "list-8",
+      "title": "This Week",
+      "boardId": "board-3",
+      "cardIds": [
+        "card-12",
+        "card-13"
+      ],
+      "archived": false
+    },
+    "list-9": {
+      "id": "list-9",
+      "title": "Completed",
+      "boardId": "board-3",
+      "cardIds": [
+        "card-14"
+      ],
+      "archived": false
+    }
+  },
+  "cards": {
+    "card-1": {
+      "id": "card-1",
+      "title": "Update API authentication documentation",
+      "description": "Revise the API docs to reflect the new OAuth2 flow implemented last sprint.",
+      "listId": "list-4",
+      "boardId": "board-1",
+      "labelIds": [
+        "label-4"
+      ],
+      "memberIds": [
+        "u2"
+      ],
+      "dueDate": "2026-03-05T17:00:00.000Z",
+      "startDate": "2026-02-20T09:00:00.000Z",
+      "completed": true,
+      "cover": null,
+      "checklists": [],
+      "comments": [
+        {
+          "id": "dd9d94e7-5d70-42b5-b6f5-4fb39811858a",
+          "userId": "u1",
+          "text": "moved this card from To Do to Done",
+          "createdAt": "2026-08-31T10:18:44.975Z",
+          "type": "activity",
+          "editedAt": null
+        },
+        {
+          "id": "ace1e32a-530a-4d1c-9997-904d15e05ec9",
+          "userId": "u1",
+          "text": "Auto-closed: past due date. Please reopen if still needed.",
+          "createdAt": "2026-08-31T10:18:36.090Z",
+          "type": "comment",
+          "editedAt": null
+        },
+        {
+          "id": "c75356f9-ff36-4e9d-8b0f-e8d7fbce3c71",
+          "userId": "u1",
+          "text": "marked the due date as complete",
+          "createdAt": "2026-08-31T10:17:59.958Z",
+          "type": "activity",
+          "editedAt": null
+        }
+      ],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 0,
+      "createdAt": "2026-02-18T10:00:00.000Z"
+    },
+    "card-2": {
+      "id": "card-2",
+      "title": "Prepare Q1 sprint retrospective slides",
+      "description": "Gather team feedback and compile into presentation deck for the retrospective meeting.",
+      "listId": "list-1",
+      "boardId": "board-1",
+      "labelIds": [],
+      "memberIds": [
+        "u1"
+      ],
+      "dueDate": null,
+      "startDate": null,
+      "completed": false,
+      "cover": {
+        "type": "image",
+        "value": "https://picsum.photos/400/200?random=cover1"
+      },
+      "checklists": [],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 2,
+      "createdAt": "2026-03-07T13:00:00.000Z"
+    },
+    "card-3": {
+      "id": "card-3",
+      "title": "Implement user dashboard redesign",
+      "description": "New Figma designs approved. Implement the updated dashboard with analytics widgets.",
+      "listId": "list-2",
+      "boardId": "board-1",
+      "labelIds": [
+        "label-2"
+      ],
+      "memberIds": [
+        "u1",
+        "u2"
+      ],
+      "dueDate": "2026-03-15T17:00:00.000Z",
+      "startDate": "2026-03-05T09:00:00.000Z",
+      "completed": false,
+      "cover": null,
+      "checklists": [],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 0,
+      "createdAt": "2026-03-01T10:00:00.000Z"
+    },
+    "card-4": {
+      "id": "card-4",
+      "title": "Set up CI/CD pipeline for staging environment",
+      "description": "Configure GitHub Actions to auto-deploy to staging on merge to develop branch.",
+      "listId": "list-2",
+      "boardId": "board-1",
+      "labelIds": [
+        "label-4"
+      ],
+      "memberIds": [
+        "u2"
+      ],
+      "dueDate": "2026-09-07T10:16:30.394Z",
+      "startDate": null,
+      "completed": false,
+      "cover": {
+        "type": "color",
+        "value": "#7BC86C"
+      },
+      "checklists": [],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 1,
+      "createdAt": "2026-03-03T15:00:00.000Z"
+    },
+    "card-5": {
+      "id": "card-5",
+      "title": "Fix login page timeout issue",
+      "description": "Users report being logged out after 5 minutes of inactivity. Session timeout should be 30 minutes.",
+      "listId": "list-4",
+      "boardId": "board-1",
+      "labelIds": [
+        "label-1",
+        "label-3"
+      ],
+      "memberIds": [
+        "u1"
+      ],
+      "dueDate": "2026-02-28T17:00:00.000Z",
+      "startDate": "2026-02-15T09:00:00.000Z",
+      "completed": true,
+      "cover": null,
+      "checklists": [
+        {
+          "id": "cl-1",
+          "title": "Investigation Steps",
+          "items": [
+            {
+              "id": "cli-1",
+              "text": "Reproduce the issue",
+              "completed": true,
+              "assigneeId": "u1",
+              "dueDate": null
+            },
+            {
+              "id": "cli-2",
+              "text": "Check session configuration",
+              "completed": true,
+              "assigneeId": "u1",
+              "dueDate": null
+            },
+            {
+              "id": "cli-3",
+              "text": "Implement fix",
+              "completed": false,
+              "assigneeId": "u1",
+              "dueDate": null
+            },
+            {
+              "id": "cli-4",
+              "text": "Write unit tests",
+              "completed": false,
+              "assigneeId": "u1",
+              "dueDate": null
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "id": "259b6347-a2b8-4e87-951f-ca2b897a00ab",
+          "userId": "u1",
+          "text": "moved this card from To Do to Done",
+          "createdAt": "2026-08-31T10:25:39.455Z",
+          "type": "activity",
+          "editedAt": null
+        },
+        {
+          "id": "ffd9ba0a-3cc7-4a09-b9fd-e8c5dc34b7f3",
+          "userId": "u1",
+          "text": "Auto-closed: past due date. Please reopen if still needed.",
+          "createdAt": "2026-08-31T10:24:31.263Z",
+          "type": "comment",
+          "editedAt": null
+        },
+        {
+          "id": "81336e37-7eb9-4df5-8490-bb612737c46b",
+          "userId": "u1",
+          "text": "marked the due date as complete",
+          "createdAt": "2026-08-31T10:24:04.288Z",
+          "type": "activity",
+          "editedAt": null
+        }
+      ],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 1,
+      "createdAt": "2026-02-14T11:30:00.000Z"
+    },
+    "card-6": {
+      "id": "card-6",
+      "title": "Code review: payment gateway integration",
+      "description": "Review PR #247 for the Stripe payment gateway integration. Check error handling and edge cases.",
+      "listId": "list-3",
+      "boardId": "board-1",
+      "labelIds": [
+        "label-2"
+      ],
+      "memberIds": [
+        "u3"
+      ],
+      "dueDate": "2025-02-16T17:00:00.000Z",
+      "startDate": null,
+      "completed": false,
+      "cover": null,
+      "checklists": [],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 0,
+      "createdAt": "2026-03-08T10:00:00.000Z"
+    },
+    "card-7": {
+      "id": "card-7",
+      "title": "Performance audit — load time optimization",
+      "description": "Run Lighthouse audit and implement top 3 recommendations to bring score above 90.",
+      "listId": "list-3",
+      "boardId": "board-1",
+      "labelIds": [
+        "label-3"
+      ],
+      "memberIds": [
+        "u3"
+      ],
+      "dueDate": "2026-03-20T17:00:00.000Z",
+      "startDate": "2026-03-10T09:00:00.000Z",
+      "completed": false,
+      "cover": null,
+      "checklists": [],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 1,
+      "createdAt": "2026-03-05T08:00:00.000Z"
+    },
+    "card-8": {
+      "id": "card-8",
+      "title": "Blog post: Product launch",
+      "description": "Write announcement blog post for v2.0 launch.",
+      "listId": "list-5",
+      "boardId": "board-2",
+      "labelIds": [
+        "lbl-10"
+      ],
+      "memberIds": [
+        "u4"
+      ],
+      "dueDate": "2026-09-05T10:16:30.394Z",
+      "startDate": null,
+      "completed": false,
+      "cover": null,
+      "checklists": [],
+      "comments": [
+        {
+          "id": "com-6",
+          "type": "comment",
+          "userId": "u1",
+          "text": "Make sure to highlight the new dashboard features",
+          "createdAt": "2025-02-23T09:30:00.000Z",
+          "editedAt": null
+        },
+        {
+          "id": "act-9",
+          "type": "activity",
+          "userId": "u4",
+          "text": "added this card to Ideas",
+          "createdAt": "2025-02-22T09:00:00.000Z",
+          "editedAt": null
+        }
+      ],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 0,
+      "createdAt": "2025-02-22T09:00:00.000Z"
+    },
+    "card-9": {
+      "id": "card-9",
+      "title": "Migrate database schema v2.3",
+      "description": "Run migration scripts for the new reporting tables. Requires maintenance window.",
+      "listId": "list-4",
+      "boardId": "board-1",
+      "labelIds": [
+        "label-3",
+        "label-4"
+      ],
+      "memberIds": [
+        "u2",
+        "u3"
+      ],
+      "dueDate": "2026-03-08T17:00:00.000Z",
+      "startDate": "2026-03-01T09:00:00.000Z",
+      "completed": true,
+      "cover": {
+        "type": "color",
+        "value": "#5BA4CF"
+      },
+      "checklists": [],
+      "comments": [
+        {
+          "id": "690a3764-1600-4471-90c5-3cd376e476f6",
+          "userId": "u1",
+          "text": "moved this card from In Progress to Done",
+          "createdAt": "2026-08-31T10:23:07.558Z",
+          "type": "activity",
+          "editedAt": null
+        },
+        {
+          "id": "eec74c4d-5d88-48b4-962c-c2c9c71b3bc1",
+          "userId": "u1",
+          "text": "Auto-closed: past due date. Please reopen if still needed.",
+          "createdAt": "2026-08-31T10:22:26.991Z",
+          "type": "comment",
+          "editedAt": null
+        },
+        {
+          "id": "f379f151-fbaa-49cb-901e-e036068f63d6",
+          "userId": "u1",
+          "text": "marked the due date as complete",
+          "createdAt": "2026-08-31T10:19:37.020Z",
+          "type": "activity",
+          "editedAt": null
+        },
+        {
+          "id": "cmt-9-1",
+          "type": "comment",
+          "userId": "u3",
+          "text": "Maintenance window scheduled for Saturday 2am.",
+          "createdAt": "2026-03-02T14:00:00.000Z",
+          "editedAt": null
+        }
+      ],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 2,
+      "createdAt": "2026-02-25T09:00:00.000Z"
+    },
+    "card-10": {
+      "id": "card-10",
+      "title": "Email newsletter draft",
+      "description": "Write and design the launch newsletter.",
+      "listId": "list-6",
+      "boardId": "board-2",
+      "labelIds": [
+        "lbl-8"
+      ],
+      "memberIds": [
+        "u4"
+      ],
+      "dueDate": "2026-09-02T10:16:30.394Z",
+      "startDate": null,
+      "completed": false,
+      "cover": null,
+      "checklists": [],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 0,
+      "createdAt": "2025-02-23T08:00:00.000Z"
+    },
+    "card-11": {
+      "id": "card-11",
+      "title": "Landing page copy",
+      "description": "Updated copy for the product landing page.",
+      "listId": "list-7",
+      "boardId": "board-2",
+      "labelIds": [
+        "lbl-10"
+      ],
+      "memberIds": [
+        "u4"
+      ],
+      "dueDate": "2025-02-20T17:00:00.000Z",
+      "startDate": null,
+      "completed": true,
+      "cover": null,
+      "checklists": [],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 0,
+      "createdAt": "2025-02-18T09:00:00.000Z"
+    },
+    "card-12": {
+      "id": "card-12",
+      "title": "Grocery shopping",
+      "description": "",
+      "listId": "list-8",
+      "boardId": "board-3",
+      "labelIds": [
+        "lbl-11"
+      ],
+      "memberIds": [
+        "u1"
+      ],
+      "dueDate": "2026-09-01T10:16:30.394Z",
+      "startDate": null,
+      "completed": false,
+      "cover": null,
+      "checklists": [
+        {
+          "id": "cl-3",
+          "title": "Shopping List",
+          "items": [
+            {
+              "id": "ci-8",
+              "text": "Milk",
+              "completed": false,
+              "assigneeId": null,
+              "dueDate": null
+            },
+            {
+              "id": "ci-9",
+              "text": "Bread",
+              "completed": false,
+              "assigneeId": null,
+              "dueDate": null
+            },
+            {
+              "id": "ci-10",
+              "text": "Eggs",
+              "completed": true,
+              "assigneeId": null,
+              "dueDate": null
+            }
+          ]
+        }
+      ],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 0,
+      "createdAt": "2025-02-25T08:00:00.000Z"
+    },
+    "card-13": {
+      "id": "card-13",
+      "title": "Schedule dentist appointment",
+      "description": "Call Dr. Smith's office.",
+      "listId": "list-8",
+      "boardId": "board-3",
+      "labelIds": [
+        "lbl-13"
+      ],
+      "memberIds": [
+        "u1"
+      ],
+      "dueDate": "2026-09-04T10:16:30.394Z",
+      "startDate": null,
+      "completed": false,
+      "cover": null,
+      "checklists": [],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 1,
+      "createdAt": "2025-02-25T09:00:00.000Z"
+    },
+    "card-14": {
+      "id": "card-14",
+      "title": "File taxes",
+      "description": "Complete 2024 tax filing.",
+      "listId": "list-9",
+      "boardId": "board-3",
+      "labelIds": [
+        "lbl-12"
+      ],
+      "memberIds": [
+        "u1"
+      ],
+      "dueDate": "2025-02-20T17:00:00.000Z",
+      "startDate": null,
+      "completed": true,
+      "cover": null,
+      "checklists": [],
+      "comments": [],
+      "attachments": [],
+      "archived": false,
+      "watching": false,
+      "position": 0,
+      "createdAt": "2025-02-10T12:00:00.000Z"
+    }
+  },
+  "boardOrder": [
+    "board-1"
+  ]
+}

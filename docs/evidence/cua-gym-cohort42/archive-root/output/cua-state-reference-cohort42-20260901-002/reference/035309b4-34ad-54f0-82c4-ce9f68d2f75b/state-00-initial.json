@@ -1,0 +1,398 @@
+{
+  "currentUser": {
+    "id": "u1",
+    "username": "octocat",
+    "name": "The Octocat",
+    "email": "octocat@github.com",
+    "avatar": "https://avatars.githubusercontent.com/u/583231?v=4",
+    "bio": "GitHub mascot",
+    "location": "San Francisco, CA",
+    "company": "GitHub",
+    "website": "https://github.com",
+    "joinedAt": "2011-01-25T00:00:00Z"
+  },
+  "users": [
+    {
+      "id": "u1",
+      "username": "octocat",
+      "name": "The Octocat",
+      "email": "octocat@github.com",
+      "avatar": "https://avatars.githubusercontent.com/u/583231?v=4",
+      "bio": "GitHub mascot",
+      "location": "San Francisco, CA",
+      "company": "GitHub",
+      "website": "https://github.com",
+      "joinedAt": "2011-01-25T00:00:00Z"
+    },
+    {
+      "id": "u2",
+      "username": "alice",
+      "name": "Alice Smith",
+      "email": "alice@example.com",
+      "avatar": "https://avatars.githubusercontent.com/u/2?v=4",
+      "bio": "Software Engineer",
+      "location": "New York, NY",
+      "company": "Acme Corp",
+      "website": "",
+      "joinedAt": "2020-03-10T00:00:00Z"
+    },
+    {
+      "id": "u3",
+      "username": "bob",
+      "name": "Bob Jones",
+      "email": "bob@example.com",
+      "avatar": "https://avatars.githubusercontent.com/u/3?v=4",
+      "bio": "Backend Developer",
+      "location": "Austin, TX",
+      "company": "Tech Inc",
+      "website": "",
+      "joinedAt": "2021-06-15T00:00:00Z"
+    }
+  ],
+  "repos": [
+    {
+      "id": "r1",
+      "ownerId": "u1",
+      "name": "hello-world",
+      "description": "A sample Hello World repository",
+      "language": "JavaScript",
+      "languages": {
+        "JavaScript": 80,
+        "HTML": 20
+      },
+      "stars": 42,
+      "forks": 12,
+      "watchers": 5,
+      "isPrivate": false,
+      "defaultBranch": "main",
+      "topics": [
+        "hello-world",
+        "sample"
+      ],
+      "license": "MIT",
+      "homepage": "",
+      "hasWiki": true,
+      "hasIssues": true,
+      "hasProjects": true,
+      "updatedAt": "2025-03-15T10:00:00Z",
+      "createdAt": "2022-01-01T00:00:00Z"
+    }
+  ],
+  "branches": [
+    {
+      "id": "b1",
+      "repoId": "r1",
+      "name": "main",
+      "lastCommitId": "c1"
+    },
+    {
+      "id": "b2",
+      "repoId": "r1",
+      "name": "feature/new-ui",
+      "lastCommitId": "c2"
+    }
+  ],
+  "commits": [
+    {
+      "id": "c1",
+      "repoId": "r1",
+      "branch": "main",
+      "message": "Initial commit",
+      "authorId": "u1",
+      "date": "2022-01-01T00:00:00Z",
+      "additions": 10,
+      "deletions": 0
+    },
+    {
+      "id": "c2",
+      "repoId": "r1",
+      "branch": "feature/new-ui",
+      "message": "Add new UI components",
+      "authorId": "u2",
+      "date": "2025-02-20T08:00:00Z",
+      "additions": 50,
+      "deletions": 5
+    }
+  ],
+  "labels": [
+    {
+      "id": "l1",
+      "repoId": "r1",
+      "name": "bug",
+      "color": "#d73a4a",
+      "description": "Something isn't working"
+    },
+    {
+      "id": "l2",
+      "repoId": "r1",
+      "name": "enhancement",
+      "color": "#a2eeef",
+      "description": "New feature or request"
+    },
+    {
+      "id": "l3",
+      "repoId": "r1",
+      "name": "question",
+      "color": "#d876e3",
+      "description": "Further information is requested"
+    },
+    {
+      "id": "l4",
+      "repoId": "r1",
+      "name": "priority-high",
+      "color": "#e4e669",
+      "description": "High priority item"
+    }
+  ],
+  "milestones": [
+    {
+      "id": "m1",
+      "repoId": "r1",
+      "title": "v1.0 Release",
+      "description": "First stable release",
+      "dueDate": "2025-06-30T00:00:00Z",
+      "state": "open",
+      "createdAt": "2025-01-01T00:00:00Z"
+    }
+  ],
+  "issues": [
+    {
+      "id": "i1",
+      "repoId": "r1",
+      "number": 1,
+      "title": "Login button is broken on mobile",
+      "description": "The login button doesn't respond to taps on iOS Safari.",
+      "status": "open",
+      "authorId": "u2",
+      "assignees": [],
+      "labels": [
+        "bug"
+      ],
+      "milestone": null,
+      "column": "todo",
+      "isPinned": false,
+      "reactions": {},
+      "createdAt": "2025-01-10T09:00:00Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "id": "i2",
+      "repoId": "r1",
+      "number": 2,
+      "title": "Crash when uploading large files",
+      "description": "App crashes with files over 50MB, causes data loss.",
+      "status": "open",
+      "authorId": "u3",
+      "assignees": [],
+      "labels": [
+        "bug",
+        "priority-high"
+      ],
+      "milestone": "m1",
+      "column": "todo",
+      "isPinned": false,
+      "reactions": {},
+      "createdAt": "2025-01-15T11:00:00Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "id": "ic1",
+          "authorId": "u1",
+          "content": "Confirmed, looking into it.",
+          "date": "2025-01-16T08:00:00Z",
+          "reactions": {}
+        }
+      ]
+    },
+    {
+      "id": "i3",
+      "repoId": "r1",
+      "number": 3,
+      "title": "Add dark mode support",
+      "description": "Users have requested a dark mode theme for better night usage.",
+      "status": "open",
+      "authorId": "u1",
+      "assignees": [
+        "u2"
+      ],
+      "labels": [
+        "enhancement"
+      ],
+      "milestone": "m1",
+      "column": "inprogress",
+      "isPinned": false,
+      "reactions": {},
+      "createdAt": "2025-01-20T14:00:00Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "id": "i4",
+      "repoId": "r1",
+      "number": 4,
+      "title": "Add keyboard shortcut support",
+      "description": "Implement keyboard shortcuts for common actions to improve power-user experience.",
+      "status": "open",
+      "authorId": "u2",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "milestone": null,
+      "column": "todo",
+      "isPinned": false,
+      "reactions": {},
+      "createdAt": "2025-01-25T10:00:00Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "id": "i5",
+      "repoId": "r1",
+      "number": 5,
+      "title": "How do I reset my password?",
+      "description": "Cannot find where to reset the password from the settings page.",
+      "status": "closed",
+      "authorId": "u3",
+      "assignees": [],
+      "labels": [
+        "question"
+      ],
+      "milestone": null,
+      "column": "todo",
+      "isPinned": false,
+      "reactions": {},
+      "createdAt": "2025-02-01T09:30:00Z",
+      "closedAt": "2025-02-02T15:00:00Z",
+      "comments": [
+        {
+          "id": "ic2",
+          "authorId": "u1",
+          "content": "Go to Settings > Account > Reset Password. Closing as answered.",
+          "date": "2025-02-02T15:00:00Z",
+          "reactions": {}
+        }
+      ]
+    },
+    {
+      "id": "i6",
+      "repoId": "r1",
+      "number": 6,
+      "title": "Sidebar collapses on page reload",
+      "description": "The sidebar state is not persisted between page reloads.",
+      "status": "closed",
+      "authorId": "u2",
+      "assignees": [],
+      "labels": [
+        "bug"
+      ],
+      "milestone": null,
+      "column": "inprogress",
+      "isPinned": false,
+      "reactions": {},
+      "createdAt": "2025-02-05T08:00:00Z",
+      "closedAt": "2025-03-10T12:00:00Z",
+      "comments": []
+    },
+    {
+      "id": "i7",
+      "repoId": "r1",
+      "number": 7,
+      "title": "Update README with installation steps",
+      "description": "The README is outdated and missing steps for new developers.",
+      "status": "open",
+      "authorId": "u1",
+      "assignees": [],
+      "labels": [],
+      "milestone": null,
+      "column": "todo",
+      "isPinned": false,
+      "reactions": {},
+      "createdAt": "2025-02-10T16:00:00Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "id": "i8",
+      "repoId": "r1",
+      "number": 8,
+      "title": "Export data to CSV format",
+      "description": "Add ability to export user data and reports to CSV for spreadsheet analysis.",
+      "status": "open",
+      "authorId": "u3",
+      "assignees": [
+        "u3"
+      ],
+      "labels": [
+        "enhancement"
+      ],
+      "milestone": "m1",
+      "column": "todo",
+      "isPinned": false,
+      "reactions": {},
+      "createdAt": "2025-02-20T11:00:00Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
+  "pullRequests": [
+    {
+      "id": "pr1",
+      "repoId": "r1",
+      "number": 1,
+      "title": "Feature: add dark mode toggle",
+      "description": "Implements the dark mode toggle UI as per issue #3.",
+      "baseBranch": "main",
+      "compareBranch": "feature/new-ui",
+      "status": "open",
+      "isDraft": false,
+      "authorId": "u2",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "milestone": "m1",
+      "mergeStrategy": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "createdAt": "2025-03-01T09:00:00Z",
+      "closedAt": null,
+      "comments": [],
+      "reviewers": [],
+      "checks": []
+    }
+  ],
+  "wiki": [
+    {
+      "id": "w1",
+      "repoId": "r1",
+      "title": "Home",
+      "content": "# Hello World\nWelcome to the hello-world repository wiki.",
+      "createdAt": "2022-01-01T00:00:00Z",
+      "updatedAt": "2025-01-01T00:00:00Z"
+    }
+  ],
+  "actions": [],
+  "notifications": [],
+  "discussions": [],
+  "releases": [],
+  "files": [
+    {
+      "id": "f1",
+      "repoId": "r1",
+      "branch": "main",
+      "path": "README.md",
+      "content": "# Hello World\nA sample project.",
+      "language": "Markdown"
+    },
+    {
+      "id": "f2",
+      "repoId": "r1",
+      "branch": "main",
+      "path": "index.js",
+      "content": "console.log('Hello, World!');",
+      "language": "JavaScript"
+    }
+  ]
+}

@@ -1,0 +1,509 @@
+{
+  "currentUser": {
+    "id": "u1",
+    "name": "Admin User",
+    "email": "admin@example.com",
+    "avatar": "https://picsum.photos/100/100?random=u1"
+  },
+  "users": [
+    {
+      "id": "u1",
+      "name": "Admin User",
+      "email": "admin@example.com",
+      "avatar": "https://picsum.photos/100/100?random=u1"
+    },
+    {
+      "id": "u2",
+      "name": "Jane Smith",
+      "email": "jane.smith@example.com",
+      "avatar": "https://picsum.photos/100/100?random=u2"
+    },
+    {
+      "id": "u3",
+      "name": "John Carter",
+      "email": "john.carter@example.com",
+      "avatar": "https://picsum.photos/100/100?random=u3"
+    },
+    {
+      "id": "u4",
+      "name": "Sarah Williams",
+      "email": "sarah.williams@example.com",
+      "avatar": "https://picsum.photos/100/100?random=u4"
+    }
+  ],
+  "projects": [
+    {
+      "id": "p1",
+      "key": "KAN",
+      "name": "Kanban Project",
+      "leadId": "u1",
+      "category": "Software",
+      "icon": "https://picsum.photos/64/64?random=p1"
+    }
+  ],
+  "sprints": [
+    {
+      "id": "s1",
+      "projectId": "p1",
+      "name": "Sprint 1",
+      "goal": "Complete core authentication and CI/CD setup",
+      "startDate": "2026-03-01T00:00:00.000Z",
+      "endDate": "2026-03-14T00:00:00.000Z",
+      "state": "active"
+    },
+    {
+      "id": "s2",
+      "projectId": "p1",
+      "name": "Sprint 2",
+      "goal": "UI/UX improvements and backend scalability",
+      "startDate": "2026-03-15T00:00:00.000Z",
+      "endDate": "2026-03-28T00:00:00.000Z",
+      "state": "future"
+    },
+    {
+      "id": "s3",
+      "projectId": "p1",
+      "name": "Sprint 0",
+      "goal": "Project setup and initial planning",
+      "startDate": "2026-02-15T00:00:00.000Z",
+      "endDate": "2026-02-28T00:00:00.000Z",
+      "state": "closed"
+    }
+  ],
+  "issues": [
+    {
+      "id": "i1",
+      "key": "KAN-1",
+      "projectId": "p1",
+      "summary": "Set up CI/CD pipeline with Jenkins",
+      "description": "Configure Jenkins pipeline for automated builds and deployments to staging.",
+      "type": "Story",
+      "status": "In Progress",
+      "priority": "Medium",
+      "storyPoints": 8,
+      "reporterId": "u1",
+      "assigneeId": "u3",
+      "sprintId": "s1",
+      "epicId": null,
+      "createdAt": "2026-02-28T10:00:00.000Z",
+      "updatedAt": "2026-03-02T09:15:00.000Z",
+      "labels": [
+        "devops",
+        "infrastructure"
+      ],
+      "subtasks": [
+        {
+          "id": "sub-i1-1",
+          "title": "Install Jenkins",
+          "completed": true
+        },
+        {
+          "id": "sub-i1-2",
+          "title": "Configure pipeline stages",
+          "completed": false
+        }
+      ],
+      "linkedIssueIds": []
+    },
+    {
+      "id": "i2",
+      "key": "KAN-2",
+      "projectId": "p1",
+      "summary": "Implement user authentication module",
+      "description": "Build JWT-based authentication with login, logout, and token refresh endpoints.",
+      "type": "Story",
+      "status": "To Do",
+      "priority": "Low",
+      "storyPoints": 13,
+      "reporterId": "u1",
+      "assigneeId": null,
+      "sprintId": "s1",
+      "epicId": null,
+      "createdAt": "2026-02-28T10:05:00.000Z",
+      "updatedAt": "2026-02-28T10:05:00.000Z",
+      "labels": [
+        "backend",
+        "security"
+      ],
+      "subtasks": [],
+      "linkedIssueIds": []
+    },
+    {
+      "id": "i5",
+      "key": "KAN-5",
+      "projectId": "p1",
+      "summary": "Fix responsive layout on login page",
+      "description": "The login page breaks on mobile viewports under 375px. Needs CSS grid fixes.",
+      "type": "Bug",
+      "status": "To Do",
+      "priority": "High",
+      "storyPoints": 3,
+      "reporterId": "u4",
+      "assigneeId": null,
+      "sprintId": "s1",
+      "epicId": null,
+      "createdAt": "2026-03-01T14:20:00.000Z",
+      "updatedAt": "2026-03-01T14:20:00.000Z",
+      "labels": [
+        "frontend",
+        "bug"
+      ],
+      "subtasks": [],
+      "linkedIssueIds": []
+    },
+    {
+      "id": "i8",
+      "key": "KAN-8",
+      "projectId": "p1",
+      "summary": "Deploy application to staging environment",
+      "description": "Deploy v1.2.0 release candidate to AWS staging with full smoke test.",
+      "type": "Task",
+      "status": "Done",
+      "priority": "Low",
+      "storyPoints": 2,
+      "reporterId": "u1",
+      "assigneeId": "u2",
+      "sprintId": "s1",
+      "epicId": null,
+      "createdAt": "2026-02-28T10:30:00.000Z",
+      "updatedAt": "2026-03-05T16:00:00.000Z",
+      "labels": [
+        "devops"
+      ],
+      "subtasks": [],
+      "linkedIssueIds": []
+    },
+    {
+      "id": "i10",
+      "key": "KAN-10",
+      "projectId": "p1",
+      "summary": "Write API documentation for v1 endpoints",
+      "description": "Document all REST API endpoints using OpenAPI 3.0 spec and Swagger UI.",
+      "type": "Story",
+      "status": "To Do",
+      "priority": "Medium",
+      "storyPoints": 5,
+      "reporterId": "u1",
+      "assigneeId": "u4",
+      "sprintId": "s1",
+      "epicId": null,
+      "createdAt": "2026-02-28T11:00:00.000Z",
+      "updatedAt": "2026-02-28T11:00:00.000Z",
+      "labels": [
+        "documentation"
+      ],
+      "subtasks": [],
+      "linkedIssueIds": []
+    },
+    {
+      "id": "i12",
+      "key": "KAN-12",
+      "projectId": "p1",
+      "summary": "Design dashboard UI components",
+      "description": "Create reusable React components for the analytics dashboard including charts and tables.",
+      "type": "Story",
+      "status": "To Do",
+      "priority": "Medium",
+      "storyPoints": 8,
+      "reporterId": "u1",
+      "assigneeId": "u3",
+      "sprintId": "s2",
+      "epicId": null,
+      "createdAt": "2026-03-01T09:00:00.000Z",
+      "updatedAt": "2026-03-01T09:00:00.000Z",
+      "labels": [
+        "frontend",
+        "design"
+      ],
+      "subtasks": [],
+      "linkedIssueIds": []
+    },
+    {
+      "id": "i14",
+      "key": "KAN-14",
+      "projectId": "p1",
+      "summary": "Set up monitoring and alerting with Datadog",
+      "description": "Configure Datadog agents, dashboards, and PagerDuty alert routing for production.",
+      "type": "Task",
+      "status": "To Do",
+      "priority": "Low",
+      "storyPoints": 3,
+      "reporterId": "u1",
+      "assigneeId": null,
+      "sprintId": "s2",
+      "epicId": null,
+      "createdAt": "2026-03-02T10:00:00.000Z",
+      "updatedAt": "2026-03-02T10:00:00.000Z",
+      "labels": [
+        "devops",
+        "infrastructure"
+      ],
+      "subtasks": [],
+      "linkedIssueIds": []
+    },
+    {
+      "id": "i3",
+      "key": "KAN-3",
+      "projectId": "p1",
+      "summary": "Refactor legacy payment processing module",
+      "description": "Replace the old Stripe v2 integration with Stripe v3 SDK for PCI DSS compliance.",
+      "type": "Task",
+      "status": "To Do",
+      "priority": "Medium",
+      "storyPoints": 8,
+      "reporterId": "u4",
+      "assigneeId": null,
+      "sprintId": null,
+      "epicId": null,
+      "createdAt": "2026-02-20T09:00:00.000Z",
+      "updatedAt": "2026-02-20T09:00:00.000Z",
+      "labels": [
+        "backend",
+        "payments"
+      ],
+      "subtasks": [],
+      "linkedIssueIds": []
+    },
+    {
+      "id": "i4",
+      "key": "KAN-4",
+      "projectId": "p1",
+      "summary": "Update database schema for user profiles v2",
+      "description": "Add new columns for user preferences and notification settings to the users table.",
+      "type": "Task",
+      "status": "To Do",
+      "priority": "Low",
+      "storyPoints": 3,
+      "reporterId": "u1",
+      "assigneeId": "u4",
+      "sprintId": null,
+      "epicId": null,
+      "createdAt": "2026-02-22T14:00:00.000Z",
+      "updatedAt": "2026-02-22T14:00:00.000Z",
+      "labels": [
+        "backend",
+        "database"
+      ],
+      "subtasks": [],
+      "linkedIssueIds": []
+    },
+    {
+      "id": "i6",
+      "key": "KAN-6",
+      "projectId": "p1",
+      "summary": "Add OAuth2 social login (Google, GitHub)",
+      "description": "Integrate OAuth2 providers to allow users to sign in with Google or GitHub accounts.",
+      "type": "Story",
+      "status": "To Do",
+      "priority": "Medium",
+      "storyPoints": 5,
+      "reporterId": "u2",
+      "assigneeId": null,
+      "sprintId": null,
+      "epicId": null,
+      "createdAt": "2026-03-01T11:00:00.000Z",
+      "updatedAt": "2026-03-01T11:00:00.000Z",
+      "labels": [
+        "backend",
+        "security"
+      ],
+      "subtasks": [],
+      "linkedIssueIds": []
+    },
+    {
+      "id": "i7",
+      "key": "KAN-7",
+      "projectId": "p1",
+      "summary": "Write load and stress test scripts",
+      "description": "Create k6 load test scenarios for login, checkout, and API endpoints.",
+      "type": "Task",
+      "status": "To Do",
+      "priority": "Low",
+      "storyPoints": 3,
+      "reporterId": "u1",
+      "assigneeId": "u3",
+      "sprintId": null,
+      "epicId": null,
+      "createdAt": "2026-03-02T08:00:00.000Z",
+      "updatedAt": "2026-03-02T08:00:00.000Z",
+      "labels": [
+        "qa",
+        "performance"
+      ],
+      "subtasks": [],
+      "linkedIssueIds": []
+    },
+    {
+      "id": "i9",
+      "key": "KAN-9",
+      "projectId": "p1",
+      "summary": "Implement global error handling middleware",
+      "description": "Add Express.js error handling middleware with structured JSON error responses.",
+      "type": "Task",
+      "status": "To Do",
+      "priority": "Medium",
+      "storyPoints": 2,
+      "reporterId": "u3",
+      "assigneeId": null,
+      "sprintId": null,
+      "epicId": null,
+      "createdAt": "2026-03-03T10:30:00.000Z",
+      "updatedAt": "2026-03-03T10:30:00.000Z",
+      "labels": [
+        "backend"
+      ],
+      "subtasks": [],
+      "linkedIssueIds": []
+    },
+    {
+      "id": "i11",
+      "key": "KAN-11",
+      "projectId": "p1",
+      "summary": "Set up Sentry error tracking integration",
+      "description": "Install and configure Sentry SDK for both frontend and backend error capturing.",
+      "type": "Task",
+      "status": "To Do",
+      "priority": "Low",
+      "storyPoints": 2,
+      "reporterId": "u1",
+      "assigneeId": null,
+      "sprintId": null,
+      "epicId": null,
+      "createdAt": "2026-03-03T11:00:00.000Z",
+      "updatedAt": "2026-03-03T11:00:00.000Z",
+      "labels": [
+        "devops",
+        "monitoring"
+      ],
+      "subtasks": [],
+      "linkedIssueIds": []
+    },
+    {
+      "id": "i13",
+      "key": "KAN-13",
+      "projectId": "p1",
+      "summary": "Build user onboarding flow wizard",
+      "description": "Multi-step onboarding wizard for new users with profile setup and feature tour.",
+      "type": "Story",
+      "status": "To Do",
+      "priority": "Medium",
+      "storyPoints": 8,
+      "reporterId": "u2",
+      "assigneeId": null,
+      "sprintId": null,
+      "epicId": null,
+      "createdAt": "2026-03-04T09:00:00.000Z",
+      "updatedAt": "2026-03-04T09:00:00.000Z",
+      "labels": [
+        "frontend",
+        "ux"
+      ],
+      "subtasks": [],
+      "linkedIssueIds": []
+    }
+  ],
+  "comments": [
+    {
+      "id": "c1",
+      "issueId": "i1",
+      "userId": "u3",
+      "content": "Started working on Jenkins configuration. Pipeline structure is mostly ready, finalizing test stage.",
+      "createdAt": "2026-03-02T14:00:00.000Z"
+    },
+    {
+      "id": "c2",
+      "issueId": "i8",
+      "userId": "u2",
+      "content": "Successfully deployed v1.2.0 to staging. All smoke tests passed.",
+      "createdAt": "2026-03-05T16:30:00.000Z"
+    },
+    {
+      "id": "c3",
+      "issueId": "i12",
+      "userId": "u3",
+      "content": "Will start on the dashboard components once I finish the CI/CD work next sprint.",
+      "createdAt": "2026-03-03T10:00:00.000Z"
+    },
+    {
+      "id": "c4",
+      "issueId": "i5",
+      "userId": "u4",
+      "content": "Confirmed on iPhone SE. The form overflows the viewport — need flexbox fix on .login-container.",
+      "createdAt": "2026-03-02T09:00:00.000Z"
+    }
+  ],
+  "workflows": [
+    {
+      "id": "w1",
+      "name": "Software Workflow",
+      "transitions": [
+        {
+          "from": "To Do",
+          "to": [
+            "In Progress"
+          ]
+        },
+        {
+          "from": "In Progress",
+          "to": [
+            "In Review",
+            "To Do",
+            "Done"
+          ]
+        },
+        {
+          "from": "In Review",
+          "to": [
+            "Done",
+            "In Progress"
+          ]
+        },
+        {
+          "from": "Done",
+          "to": [
+            "In Progress",
+            "To Do"
+          ]
+        }
+      ]
+    }
+  ],
+  "notifications": [
+    {
+      "id": "n1",
+      "type": "assignment",
+      "issueId": "i10",
+      "actorId": "u1",
+      "message": "You were assigned to KAN-10",
+      "read": false,
+      "createdAt": "2026-02-28T11:00:00.000Z"
+    },
+    {
+      "id": "n2",
+      "type": "comment",
+      "issueId": "i5",
+      "actorId": "u4",
+      "message": "Sarah Williams commented on KAN-5",
+      "read": false,
+      "createdAt": "2026-03-02T09:00:00.000Z"
+    },
+    {
+      "id": "n3",
+      "type": "status_change",
+      "issueId": "i8",
+      "actorId": "u2",
+      "message": "KAN-8 was moved to Done",
+      "read": false,
+      "createdAt": "2026-03-05T16:00:00.000Z"
+    },
+    {
+      "id": "n4",
+      "type": "comment",
+      "issueId": "i1",
+      "actorId": "u3",
+      "message": "John Carter commented on KAN-1",
+      "read": true,
+      "createdAt": "2026-03-02T14:00:00.000Z"
+    }
+  ]
+}

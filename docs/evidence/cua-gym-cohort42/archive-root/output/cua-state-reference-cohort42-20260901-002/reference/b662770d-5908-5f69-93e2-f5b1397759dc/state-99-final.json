@@ -1,0 +1,1791 @@
+{
+  "currentUser": {
+    "id": "u1",
+    "username": "sarah_designs",
+    "name": "Sarah Chen",
+    "avatar": "https://i.pravatar.cc/150?u=sarah",
+    "bio": "Interior designer & plant mom | NYC",
+    "website": "https://sarahchen.design",
+    "followers": [
+      "u2",
+      "u3",
+      "u4",
+      "u5"
+    ],
+    "following": [
+      "u2",
+      "u3"
+    ],
+    "monthlyViews": 12400,
+    "createdAt": 1680000000000
+  },
+  "users": [
+    {
+      "id": "u1",
+      "username": "sarah_designs",
+      "name": "Sarah Chen",
+      "avatar": "https://i.pravatar.cc/150?u=sarah",
+      "bio": "Interior designer & plant mom | NYC",
+      "website": "https://sarahchen.design",
+      "followers": [
+        "u2",
+        "u3",
+        "u4",
+        "u5"
+      ],
+      "following": [
+        "u2",
+        "u3"
+      ],
+      "monthlyViews": 12400,
+      "createdAt": 1680000000000
+    },
+    {
+      "id": "u2",
+      "username": "chef_marco",
+      "name": "Marco Rivera",
+      "avatar": "https://i.pravatar.cc/150?u=marco",
+      "bio": "Professional chef & food photographer",
+      "website": "https://chefmarco.com",
+      "followers": [
+        "u1",
+        "u3"
+      ],
+      "following": [
+        "u1"
+      ],
+      "monthlyViews": 8900,
+      "createdAt": 1681000000000
+    },
+    {
+      "id": "u3",
+      "username": "wanderlust_emma",
+      "name": "Emma Thompson",
+      "avatar": "https://i.pravatar.cc/150?u=emma",
+      "bio": "Travel enthusiast & photographer",
+      "website": "https://emmathompson.travel",
+      "followers": [
+        "u1"
+      ],
+      "following": [
+        "u1",
+        "u4"
+      ],
+      "monthlyViews": 15600,
+      "createdAt": 1682000000000
+    },
+    {
+      "id": "u4",
+      "username": "diy_david",
+      "name": "David Park",
+      "avatar": "https://i.pravatar.cc/150?u=david",
+      "bio": "DIY & home improvement enthusiast",
+      "website": "",
+      "followers": [
+        "u1",
+        "u5"
+      ],
+      "following": [
+        "u1",
+        "u3"
+      ],
+      "monthlyViews": 5200,
+      "createdAt": 1683000000000
+    },
+    {
+      "id": "u5",
+      "username": "fashion_nina",
+      "name": "Nina Rodriguez",
+      "avatar": "https://i.pravatar.cc/150?u=nina",
+      "bio": "Fashion blogger & stylist",
+      "website": "https://ninastyle.com",
+      "followers": [
+        "u1"
+      ],
+      "following": [
+        "u1"
+      ],
+      "monthlyViews": 22100,
+      "createdAt": 1684000000000
+    }
+  ],
+  "pins": [
+    {
+      "id": "p1",
+      "userId": "u2",
+      "title": "Minimalist Living Room",
+      "description": "Beautiful minimalist living room inspiration with neutral tones",
+      "image": "https://picsum.photos/400/500?random=p1",
+      "imageWidth": 400,
+      "imageHeight": 500,
+      "url": "https://example.com/interior/1",
+      "boardId": "b1",
+      "sectionId": "sec1",
+      "altText": "Minimalist Living Room - interior category",
+      "tags": [
+        "interior",
+        "minimalist"
+      ],
+      "likes": 42,
+      "likedBy": [],
+      "commentCount": 3,
+      "saves": 150,
+      "createdAt": 1690000000000,
+      "source": ""
+    },
+    {
+      "id": "p2",
+      "userId": "u3",
+      "title": "Cozy Reading Nook",
+      "description": "A warm and inviting reading corner with built-in shelves",
+      "image": "https://picsum.photos/400/600?random=p2",
+      "imageWidth": 400,
+      "imageHeight": 600,
+      "url": "https://example.com/interior/2",
+      "boardId": "b1",
+      "sectionId": "sec1",
+      "altText": "Cozy Reading Nook - interior category",
+      "tags": [
+        "interior",
+        "cozy"
+      ],
+      "likes": 89,
+      "likedBy": [],
+      "commentCount": 2,
+      "saves": 230,
+      "createdAt": 1690100000000,
+      "source": ""
+    },
+    {
+      "id": "p3",
+      "userId": "u4",
+      "title": "Scandinavian Kitchen",
+      "description": "Clean Scandinavian kitchen design with wooden accents",
+      "image": "https://picsum.photos/400/400?random=p3",
+      "imageWidth": 400,
+      "imageHeight": 400,
+      "url": "https://example.com/interior/3",
+      "boardId": "b1",
+      "sectionId": "sec2",
+      "altText": "Scandinavian Kitchen - interior category",
+      "tags": [
+        "interior",
+        "kitchen"
+      ],
+      "likes": 67,
+      "likedBy": [],
+      "commentCount": 1,
+      "saves": 185,
+      "createdAt": 1690200000000,
+      "source": ""
+    },
+    {
+      "id": "p4",
+      "userId": "u5",
+      "title": "Boho Bedroom",
+      "description": "Bohemian bedroom with eclectic mix of textures and plants",
+      "image": "https://picsum.photos/400/550?random=p4",
+      "imageWidth": 400,
+      "imageHeight": 550,
+      "url": "https://example.com/interior/4",
+      "boardId": "b1",
+      "sectionId": "sec1",
+      "altText": "Boho Bedroom - interior category",
+      "tags": [
+        "interior",
+        "boho"
+      ],
+      "likes": 134,
+      "likedBy": [],
+      "commentCount": 4,
+      "saves": 412,
+      "createdAt": 1690300000000,
+      "source": ""
+    },
+    {
+      "id": "p5",
+      "userId": "u2",
+      "title": "Modern Bathroom Design",
+      "description": "Sleek modern bathroom with marble tiles and brass fixtures",
+      "image": "https://picsum.photos/400/480?random=p5",
+      "imageWidth": 400,
+      "imageHeight": 480,
+      "url": "https://example.com/interior/5",
+      "boardId": "b1",
+      "sectionId": "sec2",
+      "altText": "Modern Bathroom Design - interior category",
+      "tags": [
+        "interior",
+        "bathroom"
+      ],
+      "likes": 56,
+      "likedBy": [],
+      "commentCount": 0,
+      "saves": 98,
+      "createdAt": 1690400000000,
+      "source": ""
+    },
+    {
+      "id": "p6",
+      "userId": "u3",
+      "title": "Rustic Dining Table",
+      "description": "Handcrafted rustic dining table made from reclaimed wood",
+      "image": "https://picsum.photos/400/320?random=p6",
+      "imageWidth": 400,
+      "imageHeight": 320,
+      "url": "https://example.com/interior/6",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Rustic Dining Table - interior category",
+      "tags": [
+        "interior",
+        "rustic"
+      ],
+      "likes": 43,
+      "likedBy": [],
+      "commentCount": 0,
+      "saves": 76,
+      "createdAt": 1690500000000,
+      "source": ""
+    },
+    {
+      "id": "p7",
+      "userId": "u4",
+      "title": "Small Space Solutions",
+      "description": "Clever storage and design solutions for small apartments",
+      "image": "https://picsum.photos/400/450?random=p7",
+      "imageWidth": 400,
+      "imageHeight": 450,
+      "url": "https://example.com/interior/7",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Small Space Solutions - interior category",
+      "tags": [
+        "interior",
+        "storage"
+      ],
+      "likes": 112,
+      "likedBy": [],
+      "commentCount": 2,
+      "saves": 340,
+      "createdAt": 1690600000000,
+      "source": ""
+    },
+    {
+      "id": "p8",
+      "userId": "u5",
+      "title": "Plant Corner Ideas",
+      "description": "Transform a corner with lush tropical plants",
+      "image": "https://picsum.photos/400/520?random=p8",
+      "imageWidth": 400,
+      "imageHeight": 520,
+      "url": "https://example.com/interior/8",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Plant Corner Ideas - interior category",
+      "tags": [
+        "interior",
+        "plants"
+      ],
+      "likes": 78,
+      "likedBy": [],
+      "commentCount": 1,
+      "saves": 265,
+      "createdAt": 1690700000000,
+      "source": ""
+    },
+    {
+      "id": "p9",
+      "userId": "u2",
+      "title": "Homemade Pasta Recipe",
+      "description": "Fresh homemade pasta with a creamy carbonara sauce",
+      "image": "https://picsum.photos/400/400?random=p9",
+      "imageWidth": 400,
+      "imageHeight": 400,
+      "url": "https://example.com/food/1",
+      "boardId": "b2",
+      "sectionId": null,
+      "altText": "Homemade Pasta Recipe - food category",
+      "tags": [
+        "food",
+        "pasta"
+      ],
+      "likes": 245,
+      "likedBy": [],
+      "commentCount": 2,
+      "saves": 892,
+      "createdAt": 1691000000000,
+      "source": ""
+    },
+    {
+      "id": "p10",
+      "userId": "u3",
+      "title": "Summer Salad Bowl",
+      "description": "Colorful summer salad with fresh berries and quinoa",
+      "image": "https://picsum.photos/400/380?random=p10",
+      "imageWidth": 400,
+      "imageHeight": 380,
+      "url": "https://example.com/food/2",
+      "boardId": "b2",
+      "sectionId": null,
+      "altText": "Summer Salad Bowl - food category",
+      "tags": [
+        "food",
+        "salad"
+      ],
+      "likes": 167,
+      "likedBy": [],
+      "commentCount": 0,
+      "saves": 543,
+      "createdAt": 1691100000000,
+      "source": ""
+    },
+    {
+      "id": "p11",
+      "userId": "u4",
+      "title": "Chocolate Lava Cake",
+      "description": "Decadent chocolate lava cake with vanilla ice cream",
+      "image": "https://picsum.photos/400/420?random=p11",
+      "imageWidth": 400,
+      "imageHeight": 420,
+      "url": "https://example.com/food/3",
+      "boardId": "b2",
+      "sectionId": null,
+      "altText": "Chocolate Lava Cake - food category",
+      "tags": [
+        "food",
+        "dessert"
+      ],
+      "likes": 389,
+      "likedBy": [],
+      "commentCount": 3,
+      "saves": 1204,
+      "createdAt": 1691200000000,
+      "source": ""
+    },
+    {
+      "id": "p12",
+      "userId": "u5",
+      "title": "Avocado Toast Ideas",
+      "description": "Creative avocado toast variations for healthy breakfast",
+      "image": "https://picsum.photos/400/360?random=p12",
+      "imageWidth": 400,
+      "imageHeight": 360,
+      "url": "https://example.com/food/4",
+      "boardId": "b2",
+      "sectionId": null,
+      "altText": "Avocado Toast Ideas - food category",
+      "tags": [
+        "food",
+        "breakfast"
+      ],
+      "likes": 203,
+      "likedBy": [],
+      "commentCount": 1,
+      "saves": 674,
+      "createdAt": 1691300000000,
+      "source": ""
+    },
+    {
+      "id": "p13",
+      "userId": "u2",
+      "title": "Smoothie Bowl Art",
+      "description": "Beautiful smoothie bowl decorated with fruits and granola",
+      "image": "https://picsum.photos/400/400?random=p13",
+      "imageWidth": 400,
+      "imageHeight": 400,
+      "url": "https://example.com/food/5",
+      "boardId": "j6o75g7gt",
+      "sectionId": null,
+      "altText": "Smoothie Bowl Art - food category",
+      "tags": [
+        "food",
+        "smoothie"
+      ],
+      "likes": 156,
+      "likedBy": [],
+      "commentCount": 0,
+      "saves": 490,
+      "createdAt": 1691400000000,
+      "source": ""
+    },
+    {
+      "id": "p14",
+      "userId": "u3",
+      "title": "Japanese Ramen",
+      "description": "Authentic tonkotsu ramen with all the traditional toppings",
+      "image": "https://picsum.photos/400/450?random=p14",
+      "imageWidth": 400,
+      "imageHeight": 450,
+      "url": "https://example.com/food/6",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Japanese Ramen - food category",
+      "tags": [
+        "food",
+        "japanese"
+      ],
+      "likes": 278,
+      "likedBy": [],
+      "commentCount": 2,
+      "saves": 723,
+      "createdAt": 1691500000000,
+      "source": ""
+    },
+    {
+      "id": "p15",
+      "userId": "u4",
+      "title": "Mediterranean Platter",
+      "description": "Fresh Mediterranean mezze platter with hummus and pita",
+      "image": "https://picsum.photos/400/380?random=p15",
+      "imageWidth": 400,
+      "imageHeight": 380,
+      "url": "https://example.com/food/7",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Mediterranean Platter - food category",
+      "tags": [
+        "food",
+        "mediterranean"
+      ],
+      "likes": 143,
+      "likedBy": [],
+      "commentCount": 0,
+      "saves": 367,
+      "createdAt": 1691600000000,
+      "source": ""
+    },
+    {
+      "id": "p16",
+      "userId": "u5",
+      "title": "Breakfast Inspiration",
+      "description": "Wholesome breakfast spread with fresh fruits and pastries",
+      "image": "https://picsum.photos/400/420?random=p16",
+      "imageWidth": 400,
+      "imageHeight": 420,
+      "url": "https://example.com/food/8",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Breakfast Inspiration - food category",
+      "tags": [
+        "food",
+        "breakfast"
+      ],
+      "likes": 198,
+      "likedBy": [],
+      "commentCount": 1,
+      "saves": 512,
+      "createdAt": 1691700000000,
+      "source": ""
+    },
+    {
+      "id": "p17",
+      "userId": "u3",
+      "title": "Santorini Sunset",
+      "description": "Magical sunset over the white-washed buildings of Santorini",
+      "image": "https://picsum.photos/400/500?random=p17",
+      "imageWidth": 400,
+      "imageHeight": 500,
+      "url": "https://example.com/travel/1",
+      "boardId": "b3",
+      "sectionId": "sec3",
+      "altText": "Santorini Sunset - travel category",
+      "tags": [
+        "travel",
+        "greece"
+      ],
+      "likes": 512,
+      "likedBy": [],
+      "commentCount": 2,
+      "saves": 1876,
+      "createdAt": 1692000000000,
+      "source": ""
+    },
+    {
+      "id": "p18",
+      "userId": "u4",
+      "title": "Tokyo Street Scene",
+      "description": "Vibrant and neon-lit streets of Shinjuku at night",
+      "image": "https://picsum.photos/400/600?random=p18",
+      "imageWidth": 400,
+      "imageHeight": 600,
+      "url": "https://example.com/travel/2",
+      "boardId": "b3",
+      "sectionId": "sec4",
+      "altText": "Tokyo Street Scene - travel category",
+      "tags": [
+        "travel",
+        "japan"
+      ],
+      "likes": 378,
+      "likedBy": [],
+      "commentCount": 1,
+      "saves": 1245,
+      "createdAt": 1692100000000,
+      "source": ""
+    },
+    {
+      "id": "p19",
+      "userId": "u5",
+      "title": "Patagonia Hiking Trail",
+      "description": "Epic hiking trail through the dramatic landscapes of Patagonia",
+      "image": "https://picsum.photos/400/550?random=p19",
+      "imageWidth": 400,
+      "imageHeight": 550,
+      "url": "https://example.com/travel/3",
+      "boardId": "b3",
+      "sectionId": "sec3",
+      "altText": "Patagonia Hiking Trail - travel category",
+      "tags": [
+        "travel",
+        "hiking"
+      ],
+      "likes": 291,
+      "likedBy": [],
+      "commentCount": 0,
+      "saves": 934,
+      "createdAt": 1692200000000,
+      "source": ""
+    },
+    {
+      "id": "p20",
+      "userId": "u2",
+      "title": "Venice Canal View",
+      "description": "Romantic gondola ride through the historic canals of Venice",
+      "image": "https://picsum.photos/400/480?random=p20",
+      "imageWidth": 400,
+      "imageHeight": 480,
+      "url": "https://example.com/travel/4",
+      "boardId": "b3",
+      "sectionId": "sec3",
+      "altText": "Venice Canal View - travel category",
+      "tags": [
+        "travel",
+        "italy"
+      ],
+      "likes": 445,
+      "likedBy": [],
+      "commentCount": 2,
+      "saves": 1567,
+      "createdAt": 1692300000000,
+      "source": ""
+    },
+    {
+      "id": "p21",
+      "userId": "u3",
+      "title": "Northern Lights Iceland",
+      "description": "Stunning aurora borealis dancing over Icelandic wilderness",
+      "image": "https://picsum.photos/400/400?random=p21",
+      "imageWidth": 400,
+      "imageHeight": 400,
+      "url": "https://example.com/travel/5",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Northern Lights Iceland - travel category",
+      "tags": [
+        "travel",
+        "iceland"
+      ],
+      "likes": 634,
+      "likedBy": [],
+      "commentCount": 3,
+      "saves": 2341,
+      "createdAt": 1692400000000,
+      "source": ""
+    },
+    {
+      "id": "p22",
+      "userId": "u3",
+      "title": "Bali Rice Terraces",
+      "description": "Lush green rice terraces in Ubud, Bali with traditional water management",
+      "image": "https://picsum.photos/400/520?random=p22",
+      "imageWidth": 400,
+      "imageHeight": 520,
+      "url": "https://example.com/travel/6",
+      "boardId": "j6o75g7gt",
+      "sectionId": null,
+      "altText": "Bali Rice Terraces - travel category",
+      "tags": [
+        "travel",
+        "bali"
+      ],
+      "likes": 387,
+      "likedBy": [],
+      "commentCount": 1,
+      "saves": 1433,
+      "createdAt": 1692500000000,
+      "source": ""
+    },
+    {
+      "id": "p23",
+      "userId": "u4",
+      "title": "NYC Skyline",
+      "description": "Breathtaking Manhattan skyline at dusk from Brooklyn Bridge",
+      "image": "https://picsum.photos/400/360?random=p23",
+      "imageWidth": 400,
+      "imageHeight": 360,
+      "url": "https://example.com/travel/7",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "NYC Skyline - travel category",
+      "tags": [
+        "travel",
+        "new_york"
+      ],
+      "likes": 289,
+      "likedBy": [],
+      "commentCount": 0,
+      "saves": 876,
+      "createdAt": 1692600000000,
+      "source": ""
+    },
+    {
+      "id": "p24",
+      "userId": "u5",
+      "title": "Safari Adventure",
+      "description": "Close encounter with a pride of lions on African safari",
+      "image": "https://picsum.photos/400/480?random=p24",
+      "imageWidth": 400,
+      "imageHeight": 480,
+      "url": "https://example.com/travel/8",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Safari Adventure - travel category",
+      "tags": [
+        "travel",
+        "africa"
+      ],
+      "likes": 523,
+      "likedBy": [],
+      "commentCount": 2,
+      "saves": 1789,
+      "createdAt": 1692700000000,
+      "source": ""
+    },
+    {
+      "id": "p25",
+      "userId": "u5",
+      "title": "Fall Outfit Inspo",
+      "description": "Cozy autumn outfit with layered earth tones and ankle boots",
+      "image": "https://picsum.photos/400/600?random=p25",
+      "imageWidth": 400,
+      "imageHeight": 600,
+      "url": "https://example.com/fashion/1",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Fall Outfit Inspo - fashion category",
+      "tags": [
+        "fashion",
+        "fall"
+      ],
+      "likes": 312,
+      "likedBy": [],
+      "commentCount": 1,
+      "saves": 987,
+      "createdAt": 1693000000000,
+      "source": ""
+    },
+    {
+      "id": "p26",
+      "userId": "u1",
+      "title": "Minimalist Wardrobe",
+      "description": "Capsule wardrobe essentials in neutral colors for endless outfit combinations",
+      "image": "https://picsum.photos/400/550?random=p26",
+      "imageWidth": 400,
+      "imageHeight": 550,
+      "url": "https://example.com/fashion/2",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Minimalist Wardrobe - fashion category",
+      "tags": [
+        "fashion",
+        "minimalist"
+      ],
+      "likes": 178,
+      "likedBy": [],
+      "commentCount": 0,
+      "saves": 654,
+      "createdAt": 1693100000000,
+      "source": ""
+    },
+    {
+      "id": "p27",
+      "userId": "u3",
+      "title": "Street Style Berlin",
+      "description": "Edgy Berlin street style with vintage denim and combat boots",
+      "image": "https://picsum.photos/400/580?random=p27",
+      "imageWidth": 400,
+      "imageHeight": 580,
+      "url": "https://example.com/fashion/3",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Street Style Berlin - fashion category",
+      "tags": [
+        "fashion",
+        "streetstyle"
+      ],
+      "likes": 234,
+      "likedBy": [],
+      "commentCount": 0,
+      "saves": 743,
+      "createdAt": 1693150000000,
+      "source": ""
+    },
+    {
+      "id": "p28",
+      "userId": "u2",
+      "title": "Casual Chic Look",
+      "description": "Effortlessly chic casual outfit perfect for weekend errands",
+      "image": "https://picsum.photos/400/500?random=p28",
+      "imageWidth": 400,
+      "imageHeight": 500,
+      "url": "https://example.com/fashion/4",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Casual Chic Look - fashion category",
+      "tags": [
+        "fashion",
+        "casual"
+      ],
+      "likes": 191,
+      "likedBy": [],
+      "commentCount": 1,
+      "saves": 567,
+      "createdAt": 1693180000000,
+      "source": ""
+    },
+    {
+      "id": "p29",
+      "userId": "u5",
+      "title": "Street Style Paris",
+      "description": "Effortlessly chic Parisian street style with a silk scarf and trench coat",
+      "image": "https://picsum.photos/400/580?random=p29",
+      "imageWidth": 400,
+      "imageHeight": 580,
+      "url": "https://example.com/fashion/5",
+      "boardId": "j6o75g7gt",
+      "sectionId": null,
+      "altText": "Street Style Paris - fashion category",
+      "tags": [
+        "fashion",
+        "streetstyle"
+      ],
+      "likes": 467,
+      "likedBy": [],
+      "commentCount": 2,
+      "saves": 1544,
+      "createdAt": 1693200000000,
+      "source": ""
+    },
+    {
+      "id": "p30",
+      "userId": "u1",
+      "title": "Summer Dress Collection",
+      "description": "Flowing maxi dresses in vibrant prints for summer",
+      "image": "https://picsum.photos/400/620?random=p30",
+      "imageWidth": 400,
+      "imageHeight": 620,
+      "url": "https://example.com/fashion/6",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Summer Dress Collection - fashion category",
+      "tags": [
+        "fashion",
+        "summer"
+      ],
+      "likes": 289,
+      "likedBy": [],
+      "commentCount": 0,
+      "saves": 876,
+      "createdAt": 1693300000000,
+      "source": ""
+    },
+    {
+      "id": "p31",
+      "userId": "u3",
+      "title": "Sneaker Culture",
+      "description": "Limited edition sneakers that blend style and comfort",
+      "image": "https://picsum.photos/400/400?random=p31",
+      "imageWidth": 400,
+      "imageHeight": 400,
+      "url": "https://example.com/fashion/7",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Sneaker Culture - fashion category",
+      "tags": [
+        "fashion",
+        "sneakers"
+      ],
+      "likes": 356,
+      "likedBy": [],
+      "commentCount": 1,
+      "saves": 1123,
+      "createdAt": 1693400000000,
+      "source": ""
+    },
+    {
+      "id": "p32",
+      "userId": "u4",
+      "title": "Vintage Denim Looks",
+      "description": "How to style vintage denim pieces for a modern look",
+      "image": "https://picsum.photos/400/480?random=p32",
+      "imageWidth": 400,
+      "imageHeight": 480,
+      "url": "https://example.com/fashion/8",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Vintage Denim Looks - fashion category",
+      "tags": [
+        "fashion",
+        "vintage"
+      ],
+      "likes": 213,
+      "likedBy": [],
+      "commentCount": 0,
+      "saves": 698,
+      "createdAt": 1693500000000,
+      "source": ""
+    },
+    {
+      "id": "p33",
+      "userId": "u4",
+      "title": "Macrame Wall Hanging",
+      "description": "Step-by-step guide to creating a boho macrame wall hanging",
+      "image": "https://picsum.photos/400/560?random=p33",
+      "imageWidth": 400,
+      "imageHeight": 560,
+      "url": "https://example.com/diy/1",
+      "boardId": "b4",
+      "sectionId": null,
+      "altText": "Macrame Wall Hanging - diy category",
+      "tags": [
+        "diy",
+        "macrame"
+      ],
+      "likes": 423,
+      "likedBy": [],
+      "commentCount": 1,
+      "saves": 1367,
+      "createdAt": 1694000000000,
+      "source": ""
+    },
+    {
+      "id": "p34",
+      "userId": "u1",
+      "title": "Painted Furniture",
+      "description": "Transform old furniture with chalk paint and stencils",
+      "image": "https://picsum.photos/400/480?random=p34",
+      "imageWidth": 400,
+      "imageHeight": 480,
+      "url": "https://example.com/diy/2",
+      "boardId": "b5",
+      "sectionId": null,
+      "altText": "Painted Furniture - diy category",
+      "tags": [
+        "diy",
+        "furniture"
+      ],
+      "likes": 267,
+      "likedBy": [],
+      "commentCount": 2,
+      "saves": 834,
+      "createdAt": 1694100000000,
+      "source": ""
+    },
+    {
+      "id": "p35",
+      "userId": "u2",
+      "title": "Garden Planter Box",
+      "description": "Build a raised garden planter box from cedar wood",
+      "image": "https://picsum.photos/400/420?random=p35",
+      "imageWidth": 400,
+      "imageHeight": 420,
+      "url": "https://example.com/diy/3",
+      "boardId": "b5",
+      "sectionId": null,
+      "altText": "Garden Planter Box - diy category",
+      "tags": [
+        "diy",
+        "garden"
+      ],
+      "likes": 198,
+      "likedBy": [],
+      "commentCount": 0,
+      "saves": 612,
+      "createdAt": 1694200000000,
+      "source": ""
+    },
+    {
+      "id": "p36",
+      "userId": "u3",
+      "title": "Candle Making",
+      "description": "Make your own scented soy candles with essential oils",
+      "image": "https://picsum.photos/400/440?random=p36",
+      "imageWidth": 400,
+      "imageHeight": 440,
+      "url": "https://example.com/diy/4",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Candle Making - diy category",
+      "tags": [
+        "diy",
+        "candles"
+      ],
+      "likes": 312,
+      "likedBy": [],
+      "commentCount": 1,
+      "saves": 987,
+      "createdAt": 1694300000000,
+      "source": ""
+    },
+    {
+      "id": "p37",
+      "userId": "u4",
+      "title": "Concrete Planters",
+      "description": "Create modern concrete planters for your indoor plants",
+      "image": "https://picsum.photos/400/380?random=p37",
+      "imageWidth": 400,
+      "imageHeight": 380,
+      "url": "https://example.com/diy/5",
+      "boardId": "b4",
+      "sectionId": null,
+      "altText": "Concrete Planters - diy category",
+      "tags": [
+        "diy",
+        "concrete"
+      ],
+      "likes": 145,
+      "likedBy": [],
+      "commentCount": 0,
+      "saves": 432,
+      "createdAt": 1694400000000,
+      "source": ""
+    },
+    {
+      "id": "p38",
+      "userId": "u5",
+      "title": "Resin Art Tutorial",
+      "description": "Create stunning abstract resin art panels for your walls",
+      "image": "https://picsum.photos/400/500?random=p38",
+      "imageWidth": 400,
+      "imageHeight": 500,
+      "url": "https://example.com/diy/6",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Resin Art Tutorial - diy category",
+      "tags": [
+        "diy",
+        "resin"
+      ],
+      "likes": 289,
+      "likedBy": [],
+      "commentCount": 2,
+      "saves": 876,
+      "createdAt": 1694500000000,
+      "source": ""
+    },
+    {
+      "id": "p39",
+      "userId": "u1",
+      "title": "Wood Burning Art",
+      "description": "Pyrography basics: burn beautiful patterns into wood",
+      "image": "https://picsum.photos/400/420?random=p39",
+      "imageWidth": 400,
+      "imageHeight": 420,
+      "url": "https://example.com/diy/7",
+      "boardId": "b5",
+      "sectionId": null,
+      "altText": "Wood Burning Art - diy category",
+      "tags": [
+        "diy",
+        "woodburning"
+      ],
+      "likes": 178,
+      "likedBy": [],
+      "commentCount": 0,
+      "saves": 543,
+      "createdAt": 1694600000000,
+      "source": ""
+    },
+    {
+      "id": "p40",
+      "userId": "u2",
+      "title": "Tie-Dye T-Shirts",
+      "description": "Vibrant tie-dye techniques for colorful summer t-shirts",
+      "image": "https://picsum.photos/400/460?random=p40",
+      "imageWidth": 400,
+      "imageHeight": 460,
+      "url": "https://example.com/diy/8",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Tie-Dye T-Shirts - diy category",
+      "tags": [
+        "diy",
+        "tiedye"
+      ],
+      "likes": 234,
+      "likedBy": [],
+      "commentCount": 1,
+      "saves": 712,
+      "createdAt": 1694700000000,
+      "source": ""
+    },
+    {
+      "id": "p41",
+      "userId": "u1",
+      "title": "Watercolor Landscape",
+      "description": "Soft watercolor landscape painting of rolling hills at sunrise",
+      "image": "https://picsum.photos/400/540?random=p41",
+      "imageWidth": 400,
+      "imageHeight": 540,
+      "url": "https://example.com/art/1",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Watercolor Landscape - art category",
+      "tags": [
+        "art",
+        "watercolor"
+      ],
+      "likes": 345,
+      "likedBy": [],
+      "commentCount": 2,
+      "saves": 1098,
+      "createdAt": 1695000000000,
+      "source": ""
+    },
+    {
+      "id": "p42",
+      "userId": "u3",
+      "title": "Abstract Painting",
+      "description": "Bold abstract acrylic painting with vibrant color blocks and geometric shapes",
+      "image": "https://picsum.photos/400/500?random=p42",
+      "imageWidth": 400,
+      "imageHeight": 500,
+      "url": "https://example.com/art/2",
+      "boardId": "j6o75g7gt",
+      "sectionId": null,
+      "altText": "Abstract Painting - art category",
+      "tags": [
+        "art",
+        "abstract"
+      ],
+      "likes": 267,
+      "likedBy": [],
+      "commentCount": 1,
+      "saves": 835,
+      "createdAt": 1695100000000,
+      "source": ""
+    },
+    {
+      "id": "p43",
+      "userId": "u4",
+      "title": "Digital Illustration",
+      "description": "Detailed digital character illustration in an anime-inspired style",
+      "image": "https://picsum.photos/400/480?random=p43",
+      "imageWidth": 400,
+      "imageHeight": 480,
+      "url": "https://example.com/art/3",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Digital Illustration - art category",
+      "tags": [
+        "art",
+        "digital"
+      ],
+      "likes": 189,
+      "likedBy": [],
+      "commentCount": 0,
+      "saves": 567,
+      "createdAt": 1695200000000,
+      "source": ""
+    },
+    {
+      "id": "p44",
+      "userId": "u5",
+      "title": "Pottery Workshop",
+      "description": "Hands-on pottery workshop creating beautiful ceramic bowls",
+      "image": "https://picsum.photos/400/420?random=p44",
+      "imageWidth": 400,
+      "imageHeight": 420,
+      "url": "https://example.com/art/4",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Pottery Workshop - art category",
+      "tags": [
+        "art",
+        "pottery"
+      ],
+      "likes": 223,
+      "likedBy": [],
+      "commentCount": 1,
+      "saves": 689,
+      "createdAt": 1695300000000,
+      "source": ""
+    },
+    {
+      "id": "p45",
+      "userId": "u2",
+      "title": "Calligraphy Practice",
+      "description": "Modern calligraphy with brush pens and watercolor washes",
+      "image": "https://picsum.photos/400/360?random=p45",
+      "imageWidth": 400,
+      "imageHeight": 360,
+      "url": "https://example.com/art/5",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Calligraphy Practice - art category",
+      "tags": [
+        "art",
+        "calligraphy"
+      ],
+      "likes": 156,
+      "likedBy": [],
+      "commentCount": 0,
+      "saves": 478,
+      "createdAt": 1695400000000,
+      "source": ""
+    },
+    {
+      "id": "p46",
+      "userId": "u1",
+      "title": "Sketchbook Ideas",
+      "description": "Creative sketchbook spreads with mixed media and collage",
+      "image": "https://picsum.photos/400/520?random=p46",
+      "imageWidth": 400,
+      "imageHeight": 520,
+      "url": "https://example.com/art/6",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Sketchbook Ideas - art category",
+      "tags": [
+        "art",
+        "sketchbook"
+      ],
+      "likes": 198,
+      "likedBy": [],
+      "commentCount": 0,
+      "saves": 612,
+      "createdAt": 1695500000000,
+      "source": ""
+    },
+    {
+      "id": "p47",
+      "userId": "u3",
+      "title": "Collage Art",
+      "description": "Vintage-inspired magazine collage art with typography elements",
+      "image": "https://picsum.photos/400/480?random=p47",
+      "imageWidth": 400,
+      "imageHeight": 480,
+      "url": "https://example.com/art/6",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Collage Art - art category",
+      "tags": [
+        "art",
+        "collage"
+      ],
+      "likes": 145,
+      "likedBy": [],
+      "commentCount": 1,
+      "saves": 423,
+      "createdAt": 1695600000000,
+      "source": ""
+    },
+    {
+      "id": "p48",
+      "userId": "u4",
+      "title": "Photography Tips",
+      "description": "Essential photography composition techniques for beginners",
+      "image": "https://picsum.photos/400/400?random=p48",
+      "imageWidth": 400,
+      "imageHeight": 400,
+      "url": "https://example.com/art/8",
+      "boardId": null,
+      "sectionId": null,
+      "altText": "Photography Tips - art category",
+      "tags": [
+        "art",
+        "photography"
+      ],
+      "likes": 312,
+      "likedBy": [],
+      "commentCount": 2,
+      "saves": 934,
+      "createdAt": 1695700000000,
+      "source": ""
+    }
+  ],
+  "boards": [
+    {
+      "id": "b1",
+      "userId": "u1",
+      "name": "Home Decor Ideas",
+      "description": "Inspiration for my apartment renovation",
+      "privacy": "public",
+      "coverPinId": "p1",
+      "pins": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5"
+      ],
+      "sections": [
+        {
+          "id": "sec1",
+          "boardId": "b1",
+          "name": "Living Room",
+          "pins": [
+            "p1",
+            "p2",
+            "p4"
+          ]
+        },
+        {
+          "id": "sec2",
+          "boardId": "b1",
+          "name": "Kitchen",
+          "pins": [
+            "p3",
+            "p5"
+          ]
+        }
+      ],
+      "collaborators": [],
+      "createdAt": 1685000000000,
+      "updatedAt": 1690000000000,
+      "archived": false,
+      "mergedIntoBoardId": null
+    },
+    {
+      "id": "b2",
+      "userId": "u1",
+      "name": "Recipes to Try",
+      "description": "Delicious recipes I want to cook",
+      "privacy": "public",
+      "coverPinId": "p9",
+      "pins": [
+        "p9",
+        "p10",
+        "p11",
+        "p12"
+      ],
+      "sections": [],
+      "collaborators": [],
+      "createdAt": 1685500000000,
+      "updatedAt": 1691300000000,
+      "archived": false,
+      "mergedIntoBoardId": null
+    },
+    {
+      "id": "b3",
+      "userId": "u1",
+      "name": "Travel Bucket List",
+      "description": "Places I dream of visiting",
+      "privacy": "public",
+      "coverPinId": "p17",
+      "pins": [
+        "p17",
+        "p18",
+        "p19",
+        "p20"
+      ],
+      "sections": [
+        {
+          "id": "sec3",
+          "boardId": "b3",
+          "name": "Europe",
+          "pins": [
+            "p17",
+            "p19",
+            "p20"
+          ]
+        },
+        {
+          "id": "sec4",
+          "boardId": "b3",
+          "name": "Asia",
+          "pins": [
+            "p18"
+          ]
+        }
+      ],
+      "collaborators": [],
+      "createdAt": 1686000000000,
+      "updatedAt": 1692300000000,
+      "archived": false,
+      "mergedIntoBoardId": null
+    },
+    {
+      "id": "b4",
+      "userId": "u1",
+      "name": "Gift Ideas",
+      "description": "Ideas for upcoming birthdays and holidays",
+      "privacy": "secret",
+      "coverPinId": "p33",
+      "pins": [
+        "p33",
+        "p37"
+      ],
+      "sections": [],
+      "collaborators": [],
+      "createdAt": 1686500000000,
+      "updatedAt": 1694400000000,
+      "archived": false,
+      "mergedIntoBoardId": null
+    },
+    {
+      "id": "b5",
+      "userId": "u1",
+      "name": "DIY Projects",
+      "description": "Weekend DIY projects to tackle",
+      "privacy": "public",
+      "coverPinId": "p34",
+      "pins": [
+        "p34",
+        "p35",
+        "p39"
+      ],
+      "sections": [],
+      "collaborators": [
+        "u4"
+      ],
+      "createdAt": 1687000000000,
+      "updatedAt": 1694600000000,
+      "archived": false,
+      "mergedIntoBoardId": null
+    },
+    {
+      "id": "b6",
+      "userId": "u2",
+      "name": "My Best Recipes",
+      "description": "Chef Marco's signature recipes",
+      "privacy": "public",
+      "coverPinId": "p9",
+      "pins": [
+        "p9",
+        "p11",
+        "p14"
+      ],
+      "sections": [],
+      "collaborators": [],
+      "createdAt": 1685000000000,
+      "updatedAt": 1691500000000,
+      "archived": false,
+      "mergedIntoBoardId": null
+    },
+    {
+      "id": "b7",
+      "userId": "u3",
+      "name": "Dream Destinations",
+      "description": "Emma's travel wishlist",
+      "privacy": "public",
+      "coverPinId": "p17",
+      "pins": [
+        "p17",
+        "p21",
+        "p22"
+      ],
+      "sections": [],
+      "collaborators": [],
+      "createdAt": 1685000000000,
+      "updatedAt": 1692500000000,
+      "archived": false,
+      "mergedIntoBoardId": null
+    },
+    {
+      "id": "j6o75g7gt",
+      "userId": "u1",
+      "description": "",
+      "privacy": "public",
+      "coverPinId": null,
+      "pins": [
+        "p42",
+        "p29",
+        "p22",
+        "p13"
+      ],
+      "sections": [
+        {
+          "id": "n7znjekbz",
+          "boardId": "j6o75g7gt",
+          "name": "Visual Inspo",
+          "pins": []
+        },
+        {
+          "id": "nf2tix7wc",
+          "boardId": "j6o75g7gt",
+          "name": "Places & Food",
+          "pins": []
+        }
+      ],
+      "collaborators": [],
+      "createdAt": 1788171671562,
+      "updatedAt": 1788172093879,
+      "name": "Aesthetic Mood Board"
+    }
+  ],
+  "comments": [
+    {
+      "id": "c1",
+      "pinId": "p1",
+      "userId": "u2",
+      "text": "Love this color palette! So calming and elegant.",
+      "likes": 3,
+      "likedBy": [
+        "u1"
+      ],
+      "createdAt": 1690050000000
+    },
+    {
+      "id": "c2",
+      "pinId": "p1",
+      "userId": "u3",
+      "text": "Those plants really complete the room, great touch!",
+      "likes": 1,
+      "likedBy": [],
+      "createdAt": 1690060000000
+    },
+    {
+      "id": "c3",
+      "pinId": "p1",
+      "userId": "u4",
+      "text": "Just saved this to my home reno board!",
+      "likes": 0,
+      "likedBy": [],
+      "createdAt": 1690070000000
+    },
+    {
+      "id": "c4",
+      "pinId": "p9",
+      "userId": "u1",
+      "text": "Made this last weekend, absolutely delicious!",
+      "likes": 5,
+      "likedBy": [
+        "u2",
+        "u3"
+      ],
+      "createdAt": 1691050000000
+    },
+    {
+      "id": "c5",
+      "pinId": "p9",
+      "userId": "u5",
+      "text": "What type of flour did you use for this recipe?",
+      "likes": 0,
+      "likedBy": [],
+      "createdAt": 1691060000000
+    },
+    {
+      "id": "c6",
+      "pinId": "p17",
+      "userId": "u4",
+      "text": "Santorini is on my bucket list! Did you take this photo?",
+      "likes": 2,
+      "likedBy": [
+        "u3"
+      ],
+      "createdAt": 1692050000000
+    },
+    {
+      "id": "c7",
+      "pinId": "p17",
+      "userId": "u3",
+      "text": "Go in September, the crowds are much smaller!",
+      "likes": 4,
+      "likedBy": [
+        "u1",
+        "u4",
+        "u5"
+      ],
+      "createdAt": 1692060000000
+    },
+    {
+      "id": "c8",
+      "pinId": "p25",
+      "userId": "u5",
+      "text": "This outfit is everything! Love the color combination.",
+      "likes": 1,
+      "likedBy": [],
+      "createdAt": 1693050000000
+    },
+    {
+      "id": "c9",
+      "pinId": "p33",
+      "userId": "u1",
+      "text": "Tried this and it took me 3 hours but looks amazing!",
+      "likes": 2,
+      "likedBy": [
+        "u4"
+      ],
+      "createdAt": 1694050000000
+    },
+    {
+      "id": "c10",
+      "pinId": "p41",
+      "userId": "u2",
+      "text": "Beautiful brushwork! What paper do you use?",
+      "likes": 1,
+      "likedBy": [],
+      "createdAt": 1695050000000
+    }
+  ],
+  "notifications": [
+    {
+      "id": "n1",
+      "type": "save",
+      "fromUserId": "u2",
+      "targetId": "p1",
+      "message": "Marco Rivera saved your pin",
+      "thumbnail": null,
+      "read": false,
+      "createdAt": 1699000000000
+    },
+    {
+      "id": "n2",
+      "type": "follow",
+      "fromUserId": "u5",
+      "targetId": null,
+      "message": "Nina Rodriguez started following you",
+      "thumbnail": null,
+      "read": false,
+      "createdAt": 1699100000000
+    },
+    {
+      "id": "n3",
+      "type": "comment",
+      "fromUserId": "u3",
+      "targetId": "p1",
+      "message": "Emma Thompson commented on your pin",
+      "thumbnail": null,
+      "read": false,
+      "createdAt": 1699200000000
+    },
+    {
+      "id": "n4",
+      "type": "like",
+      "fromUserId": "u4",
+      "targetId": "p9",
+      "message": "David Park liked your pin",
+      "thumbnail": null,
+      "read": true,
+      "createdAt": 1699300000000
+    },
+    {
+      "id": "n5",
+      "type": "save",
+      "fromUserId": "u3",
+      "targetId": "p2",
+      "message": "Emma Thompson saved your pin",
+      "thumbnail": null,
+      "read": true,
+      "createdAt": 1699400000000
+    },
+    {
+      "id": "n6",
+      "type": "recommendation",
+      "fromUserId": null,
+      "targetId": "p45",
+      "message": "Check out this pin we think you'll love",
+      "thumbnail": null,
+      "read": true,
+      "createdAt": 1699500000000
+    },
+    {
+      "id": "n7",
+      "type": "board_invite",
+      "fromUserId": "u4",
+      "targetId": "b5",
+      "message": "David Park invited you to collaborate on DIY Projects",
+      "thumbnail": null,
+      "read": false,
+      "createdAt": 1699600000000
+    },
+    {
+      "id": "n8",
+      "type": "comment",
+      "fromUserId": "u2",
+      "targetId": "p17",
+      "message": "Marco Rivera commented on a pin you saved",
+      "thumbnail": null,
+      "read": true,
+      "createdAt": 1699700000000
+    }
+  ],
+  "messages": [
+    {
+      "id": "conv1",
+      "participants": [
+        "u1",
+        "u2"
+      ],
+      "messages": [
+        {
+          "id": "msg1",
+          "senderId": "u2",
+          "text": "Hey Sarah! Love your latest pin on the Scandinavian kitchen.",
+          "createdAt": 1788164395656
+        },
+        {
+          "id": "msg2",
+          "senderId": "u1",
+          "text": "Thanks Marco! I found it on Architectural Digest.",
+          "createdAt": 1788166195656
+        },
+        {
+          "id": "msg3",
+          "senderId": "u2",
+          "text": "I should make a recipe inspired by that vibe!",
+          "createdAt": 1788167995656
+        },
+        {
+          "id": "msg4",
+          "senderId": "u1",
+          "text": "That would be amazing! Let me know when you do.",
+          "createdAt": 1788169795656
+        }
+      ],
+      "updatedAt": 1788169795656
+    },
+    {
+      "id": "conv2",
+      "participants": [
+        "u1",
+        "u3"
+      ],
+      "messages": [
+        {
+          "id": "msg5",
+          "senderId": "u3",
+          "text": "Are you going to Santorini this year?",
+          "createdAt": 1788085195656
+        },
+        {
+          "id": "msg6",
+          "senderId": "u1",
+          "text": "I wish! Maybe next spring. Your photos are inspiring me.",
+          "createdAt": 1788088795656
+        },
+        {
+          "id": "msg7",
+          "senderId": "u3",
+          "text": "Let me know if you need any recommendations!",
+          "createdAt": 1788092395656
+        }
+      ],
+      "updatedAt": 1788092395656
+    },
+    {
+      "id": "conv3",
+      "participants": [
+        "u1",
+        "u5"
+      ],
+      "messages": [
+        {
+          "id": "msg8",
+          "senderId": "u5",
+          "text": "Love your fashion board! Can I collaborate?",
+          "createdAt": 1787998795656
+        },
+        {
+          "id": "msg9",
+          "senderId": "u1",
+          "text": "Of course! I just sent you an invite.",
+          "createdAt": 1788002395656
+        }
+      ],
+      "updatedAt": 1788002395656
+    },
+    {
+      "id": "conv4",
+      "participants": [
+        "u1",
+        "u6"
+      ],
+      "messages": [
+        {
+          "id": "msg10",
+          "senderId": "u6",
+          "text": "Thanks for following my art board!",
+          "createdAt": 1787912395656
+        },
+        {
+          "id": "msg11",
+          "senderId": "u1",
+          "text": "Your work is amazing! Do you take commissions?",
+          "createdAt": 1787915995656
+        },
+        {
+          "id": "msg12",
+          "senderId": "u6",
+          "text": "Yes! DM me anytime for details.",
+          "createdAt": 1787919595656
+        }
+      ],
+      "updatedAt": 1787919595656
+    }
+  ],
+  "exploreCategories": [
+    {
+      "id": "cat1",
+      "name": "Home Decor",
+      "tag": "interior",
+      "icon": "home",
+      "color": "#E60023"
+    },
+    {
+      "id": "cat2",
+      "name": "Food & Drink",
+      "tag": "food",
+      "icon": "utensils",
+      "color": "#FF6900"
+    },
+    {
+      "id": "cat3",
+      "name": "Travel",
+      "tag": "travel",
+      "icon": "globe",
+      "color": "#0074E8"
+    },
+    {
+      "id": "cat4",
+      "name": "Fashion",
+      "tag": "fashion",
+      "icon": "shirt",
+      "color": "#8E44AD"
+    },
+    {
+      "id": "cat5",
+      "name": "DIY & Crafts",
+      "tag": "diy",
+      "icon": "scissors",
+      "color": "#27AE60"
+    },
+    {
+      "id": "cat6",
+      "name": "Art",
+      "tag": "art",
+      "icon": "palette",
+      "color": "#E91E63"
+    },
+    {
+      "id": "cat7",
+      "name": "Weddings",
+      "tag": "wedding",
+      "icon": "heart",
+      "color": "#F06292"
+    },
+    {
+      "id": "cat8",
+      "name": "Health & Fitness",
+      "tag": "fitness",
+      "icon": "dumbbell",
+      "color": "#00BCD4"
+    }
+  ],
+  "searchQuery": "Smoothie Bowl Art",
+  "searchFilters": [],
+  "selectedCategory": null,
+  "lastUsedBoardId": "j6o75g7gt"
+}

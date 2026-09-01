@@ -1,0 +1,1081 @@
+{
+  "users": [
+    {
+      "id": "u1",
+      "name": "Alex Johnson",
+      "handle": "alexj",
+      "bio": "Tech enthusiast, conference speaker, AI advocate.",
+      "avatar": "https://i.pravatar.cc/150?u=u1",
+      "banner": "https://picsum.photos/seed/u1banner/800/200",
+      "location": "San Francisco, CA",
+      "website": "https://alexj.dev",
+      "joinedDate": "2020-03-15",
+      "verified": true,
+      "followers": [
+        "u2",
+        "u3",
+        "u4",
+        "u5"
+      ],
+      "following": [
+        "u2",
+        "u3",
+        "u6",
+        "u7"
+      ],
+      "pinnedPostId": "b5b5d648-6497-4af0-9599-9be6c13b10ec"
+    },
+    {
+      "id": "u2",
+      "name": "Sarah Chen",
+      "handle": "sarahc",
+      "bio": "Software engineer. Open source contributor.",
+      "avatar": "https://i.pravatar.cc/150?u=u2",
+      "banner": "https://picsum.photos/seed/u2banner/800/200",
+      "location": "Seattle, WA",
+      "website": "",
+      "joinedDate": "2019-07-22",
+      "verified": true,
+      "followers": [
+        "u1",
+        "u3"
+      ],
+      "following": [
+        "u1",
+        "u4"
+      ],
+      "pinnedPostId": null
+    },
+    {
+      "id": "u3",
+      "name": "Marcus Williams",
+      "handle": "marcusw",
+      "bio": "Product manager. Startup advisor.",
+      "avatar": "https://i.pravatar.cc/150?u=u3",
+      "banner": "https://picsum.photos/seed/u3banner/800/200",
+      "location": "New York, NY",
+      "website": "",
+      "joinedDate": "2021-01-10",
+      "verified": false,
+      "followers": [
+        "u1",
+        "u2"
+      ],
+      "following": [
+        "u1",
+        "u5"
+      ],
+      "pinnedPostId": null
+    },
+    {
+      "id": "u4",
+      "name": "Priya Patel",
+      "handle": "priyap",
+      "bio": "AI researcher. Speaker. Mentor.",
+      "avatar": "https://i.pravatar.cc/150?u=u4",
+      "banner": "https://picsum.photos/seed/u4banner/800/200",
+      "location": "Austin, TX",
+      "website": "https://priyap.ai",
+      "joinedDate": "2018-11-05",
+      "verified": true,
+      "followers": [
+        "u1",
+        "u2",
+        "u5"
+      ],
+      "following": [
+        "u2",
+        "u6"
+      ],
+      "pinnedPostId": null
+    },
+    {
+      "id": "u5",
+      "name": "Jordan Lee",
+      "handle": "jordanl",
+      "bio": "Founder & CEO. Blockchain enthusiast.",
+      "avatar": "https://i.pravatar.cc/150?u=u5",
+      "banner": "https://picsum.photos/seed/u5banner/800/200",
+      "location": "Miami, FL",
+      "website": "",
+      "joinedDate": "2020-06-30",
+      "verified": false,
+      "followers": [
+        "u3",
+        "u4"
+      ],
+      "following": [
+        "u1",
+        "u3"
+      ],
+      "pinnedPostId": null
+    },
+    {
+      "id": "u6",
+      "name": "Elena Vasquez",
+      "handle": "elenav",
+      "bio": "Tech policy analyst. Conference organizer.",
+      "avatar": "https://i.pravatar.cc/150?u=u6",
+      "banner": "https://picsum.photos/seed/u6banner/800/200",
+      "location": "Washington, DC",
+      "website": "",
+      "joinedDate": "2017-04-18",
+      "verified": true,
+      "followers": [
+        "u1",
+        "u4",
+        "u7"
+      ],
+      "following": [
+        "u4",
+        "u7"
+      ],
+      "pinnedPostId": null
+    },
+    {
+      "id": "u7",
+      "name": "David Kim",
+      "handle": "davidk",
+      "bio": "CTO. Cloud architect. Coffee lover.",
+      "avatar": "https://i.pravatar.cc/150?u=u7",
+      "banner": "https://picsum.photos/seed/u7banner/800/200",
+      "location": "Boston, MA",
+      "website": "",
+      "joinedDate": "2019-09-01",
+      "verified": false,
+      "followers": [
+        "u1",
+        "u6"
+      ],
+      "following": [
+        "u1",
+        "u6"
+      ],
+      "pinnedPostId": null
+    },
+    {
+      "id": "u8",
+      "name": "Fiona Grant",
+      "handle": "fionag",
+      "bio": "UX designer. Accessibility advocate.",
+      "avatar": "https://i.pravatar.cc/150?u=u8",
+      "banner": "https://picsum.photos/seed/u8banner/800/200",
+      "location": "London, UK",
+      "website": "",
+      "joinedDate": "2022-02-14",
+      "verified": false,
+      "followers": [
+        "u2",
+        "u3"
+      ],
+      "following": [
+        "u2",
+        "u5"
+      ],
+      "pinnedPostId": null
+    }
+  ],
+  "tweets": [
+    {
+      "id": "b5b5d648-6497-4af0-9599-9be6c13b10ec",
+      "userId": "u1",
+      "content": "Couldn't agree more. The panel on responsible AI governance was the highlight for me. We need more cross-industry dialogue on this.",
+      "images": [],
+      "createdAt": "2026-08-31T17:50:56.463Z",
+      "likes": [],
+      "reposts": [],
+      "retweets": [],
+      "replies": [],
+      "bookmarks": [],
+      "quotedPostId": "p7",
+      "inReplyToPostId": null,
+      "inReplyToUserId": null,
+      "views": 0
+    },
+    {
+      "id": "p1",
+      "userId": "u1",
+      "content": "Excited to announce that I'll be speaking at TechConf 2024 next month! Can't wait to share what we've been building. #TechConf2024",
+      "images": [],
+      "createdAt": "2024-11-01T09:00:00Z",
+      "likes": [
+        "u2",
+        "u3",
+        "u4"
+      ],
+      "reposts": [
+        "u2"
+      ],
+      "retweets": [
+        "u2"
+      ],
+      "replies": [],
+      "bookmarks": [
+        "u3"
+      ],
+      "quotedPostId": null,
+      "inReplyToPostId": null,
+      "inReplyToUserId": null,
+      "views": 1240
+    },
+    {
+      "id": "p2",
+      "userId": "u2",
+      "content": "Just pushed a major update to our open-source repo. New features include better caching and async support. Check it out! #OpenSource",
+      "images": [],
+      "createdAt": "2024-11-02T11:30:00Z",
+      "likes": [
+        "u1",
+        "u4"
+      ],
+      "reposts": [],
+      "retweets": [],
+      "replies": [],
+      "bookmarks": [
+        "u1"
+      ],
+      "quotedPostId": null,
+      "inReplyToPostId": null,
+      "inReplyToUserId": null,
+      "views": 875
+    },
+    {
+      "id": "p3",
+      "userId": "u3",
+      "content": "The future of product management is AI-assisted roadmapping. Teams that adapt early will have a massive advantage. Thoughts? #ProductManagement #AI",
+      "images": [],
+      "createdAt": "2024-11-03T14:00:00Z",
+      "likes": [
+        "u1",
+        "u2",
+        "u5"
+      ],
+      "reposts": [
+        "u1"
+      ],
+      "retweets": [
+        "u1"
+      ],
+      "replies": [],
+      "bookmarks": [
+        "u1"
+      ],
+      "quotedPostId": null,
+      "inReplyToPostId": null,
+      "inReplyToUserId": null,
+      "views": 2300
+    },
+    {
+      "id": "p4",
+      "userId": "u4",
+      "content": "New paper out on responsible AI governance frameworks. Key finding: voluntary commitments alone aren't enough. We need binding standards. #AIPolicy",
+      "images": [],
+      "createdAt": "2024-11-04T08:00:00Z",
+      "likes": [
+        "u1",
+        "u6"
+      ],
+      "reposts": [],
+      "retweets": [],
+      "replies": [],
+      "bookmarks": [],
+      "quotedPostId": null,
+      "inReplyToPostId": null,
+      "inReplyToUserId": null,
+      "views": 3100
+    },
+    {
+      "id": "p5",
+      "userId": "u5",
+      "content": "Crypto markets are resilient. Short-term volatility is noise. Focus on fundamentals and long-term value creation. #Crypto #Web3",
+      "images": [],
+      "createdAt": "2024-11-05T16:00:00Z",
+      "likes": [
+        "u3"
+      ],
+      "reposts": [],
+      "retweets": [],
+      "replies": [],
+      "bookmarks": [],
+      "quotedPostId": null,
+      "inReplyToPostId": null,
+      "inReplyToUserId": null,
+      "views": 540
+    },
+    {
+      "id": "p6",
+      "userId": "u6",
+      "content": "Attended an eye-opening workshop on AI bias today. The disparity in outcomes across demographics is stark. We have work to do. #AIEthics",
+      "images": [],
+      "createdAt": "2024-11-06T10:00:00Z",
+      "likes": [
+        "u1",
+        "u4",
+        "u7"
+      ],
+      "reposts": [
+        "u4"
+      ],
+      "retweets": [
+        "u4"
+      ],
+      "replies": [],
+      "bookmarks": [
+        "u1"
+      ],
+      "quotedPostId": null,
+      "inReplyToPostId": null,
+      "inReplyToUserId": null,
+      "views": 1890
+    },
+    {
+      "id": "p7",
+      "userId": "u6",
+      "content": "Great panel discussion at the tech summit today. Topics covered: AI governance, data privacy, and cross-industry collaboration. #TechSummit",
+      "images": [],
+      "createdAt": "2024-11-07T18:00:00Z",
+      "likes": [
+        "u2",
+        "u3"
+      ],
+      "reposts": [],
+      "retweets": [],
+      "replies": [],
+      "bookmarks": [],
+      "quotedPostId": null,
+      "inReplyToPostId": null,
+      "inReplyToUserId": null,
+      "views": 760
+    },
+    {
+      "id": "p8",
+      "userId": "u7",
+      "content": "Migrated our entire stack to Kubernetes last weekend. Zero downtime. If you're still on bare metal, it's time to modernize. #DevOps #Kubernetes",
+      "images": [],
+      "createdAt": "2024-11-08T09:00:00Z",
+      "likes": [
+        "u1",
+        "u2"
+      ],
+      "reposts": [],
+      "retweets": [],
+      "replies": [],
+      "bookmarks": [
+        "u1"
+      ],
+      "quotedPostId": null,
+      "inReplyToPostId": null,
+      "inReplyToUserId": null,
+      "views": 2150
+    },
+    {
+      "id": "p9",
+      "userId": "u8",
+      "content": "Accessibility should be a first-class concern, not an afterthought. Sharing a thread on quick wins for making your app more inclusive. #a11y",
+      "images": [],
+      "createdAt": "2024-11-09T12:00:00Z",
+      "likes": [
+        "u1",
+        "u3",
+        "u4"
+      ],
+      "reposts": [],
+      "retweets": [],
+      "replies": [],
+      "bookmarks": [],
+      "quotedPostId": null,
+      "inReplyToPostId": null,
+      "inReplyToUserId": null,
+      "views": 1670
+    },
+    {
+      "id": "p10",
+      "userId": "u1",
+      "content": "Hot take: most 'AI tools' are just good UX wrapped around existing algorithms. The real moat is data quality and domain expertise.",
+      "images": [],
+      "createdAt": "2024-11-10T15:00:00Z",
+      "likes": [
+        "u2",
+        "u4",
+        "u7"
+      ],
+      "reposts": [
+        "u4"
+      ],
+      "retweets": [
+        "u4"
+      ],
+      "replies": [],
+      "bookmarks": [
+        "u4"
+      ],
+      "quotedPostId": null,
+      "inReplyToPostId": null,
+      "inReplyToUserId": null,
+      "views": 4500
+    },
+    {
+      "id": "p11",
+      "userId": "u2",
+      "content": "Writing tests is not optional. I don't care how fast you ship — untested code is technical debt that will bite you. #SoftwareEngineering",
+      "images": [],
+      "createdAt": "2024-11-11T10:00:00Z",
+      "likes": [
+        "u1",
+        "u3"
+      ],
+      "reposts": [],
+      "retweets": [],
+      "replies": [],
+      "bookmarks": [],
+      "quotedPostId": null,
+      "inReplyToPostId": null,
+      "inReplyToUserId": null,
+      "views": 980
+    },
+    {
+      "id": "p12",
+      "userId": "u3",
+      "content": "Just wrapped up a 3-month customer discovery sprint. 47 interviews, 12 prototypes, 1 validated hypothesis. The process works. #ProductDev",
+      "images": [],
+      "createdAt": "2024-11-12T14:30:00Z",
+      "likes": [
+        "u1"
+      ],
+      "reposts": [],
+      "retweets": [],
+      "replies": [],
+      "bookmarks": [],
+      "quotedPostId": null,
+      "inReplyToPostId": null,
+      "inReplyToUserId": null,
+      "views": 1120
+    },
+    {
+      "id": "p13",
+      "userId": "u4",
+      "content": "Reminder: AI ethics isn't just about preventing harm. It's also about ensuring equitable access to the benefits of AI. #AIEthics #DigitalInclusion",
+      "images": [],
+      "createdAt": "2024-11-13T09:00:00Z",
+      "likes": [
+        "u1",
+        "u6",
+        "u8"
+      ],
+      "reposts": [
+        "u6"
+      ],
+      "retweets": [
+        "u6"
+      ],
+      "replies": [],
+      "bookmarks": [],
+      "quotedPostId": null,
+      "inReplyToPostId": null,
+      "inReplyToUserId": null,
+      "views": 2700
+    },
+    {
+      "id": "p14",
+      "userId": "u5",
+      "content": "Decentralized identity is going to be one of the most important infrastructure pieces of Web3. Building in this space now.",
+      "images": [],
+      "createdAt": "2024-11-14T11:00:00Z",
+      "likes": [
+        "u3"
+      ],
+      "reposts": [],
+      "retweets": [],
+      "replies": [],
+      "bookmarks": [],
+      "quotedPostId": null,
+      "inReplyToPostId": null,
+      "inReplyToUserId": null,
+      "views": 430
+    },
+    {
+      "id": "p15",
+      "userId": "u7",
+      "content": "Serverless is great until it isn't. Know when to use it and when to stick with traditional compute. Context matters. #CloudArchitecture",
+      "images": [],
+      "createdAt": "2024-11-15T16:00:00Z",
+      "likes": [
+        "u1",
+        "u2"
+      ],
+      "reposts": [],
+      "retweets": [],
+      "replies": [],
+      "bookmarks": [],
+      "quotedPostId": null,
+      "inReplyToPostId": null,
+      "inReplyToUserId": null,
+      "views": 1890
+    },
+    {
+      "id": "p16",
+      "userId": "u6",
+      "content": "Three years at the intersection of tech and policy. Here's what I've learned about making regulation work for innovation, not against it.",
+      "images": [],
+      "createdAt": "2024-11-16T08:30:00Z",
+      "likes": [
+        "u1",
+        "u4"
+      ],
+      "reposts": [],
+      "retweets": [],
+      "replies": [],
+      "bookmarks": [],
+      "quotedPostId": null,
+      "inReplyToPostId": null,
+      "inReplyToUserId": null,
+      "views": 3200
+    },
+    {
+      "id": "p17",
+      "userId": "u8",
+      "content": "Design systems are only as good as their documentation. Invest in docs early. Your future self will thank you. #DesignSystems #UX",
+      "images": [],
+      "createdAt": "2024-11-17T13:00:00Z",
+      "likes": [
+        "u2",
+        "u3"
+      ],
+      "reposts": [],
+      "retweets": [],
+      "replies": [],
+      "bookmarks": [],
+      "quotedPostId": null,
+      "inReplyToPostId": null,
+      "inReplyToUserId": null,
+      "views": 870
+    },
+    {
+      "id": "p18",
+      "userId": "u1",
+      "content": "Wrapping up a great week. Shipped two features, had a great 1:1 with my team, and finally cleaned up 6 months of technical debt. Progress! 🚀",
+      "images": [],
+      "createdAt": "2024-11-18T17:00:00Z",
+      "likes": [
+        "u2",
+        "u3",
+        "u7"
+      ],
+      "reposts": [],
+      "retweets": [],
+      "replies": [],
+      "bookmarks": [],
+      "quotedPostId": null,
+      "inReplyToPostId": null,
+      "inReplyToUserId": null,
+      "views": 1540
+    }
+  ],
+  "replies": [
+    {
+      "id": "r1",
+      "tweetId": "p1",
+      "postId": "p1",
+      "userId": "u2",
+      "content": "Congrats! What topic will you be covering?",
+      "createdAt": "2024-11-01T09:30:00Z",
+      "likes": [
+        "u1"
+      ]
+    },
+    {
+      "id": "r2",
+      "tweetId": "p1",
+      "postId": "p1",
+      "userId": "u3",
+      "content": "Looking forward to it! Will there be a recording?",
+      "createdAt": "2024-11-01T10:00:00Z",
+      "likes": []
+    },
+    {
+      "id": "r3",
+      "tweetId": "p4",
+      "postId": "p4",
+      "userId": "u1",
+      "content": "Totally agree. Industry self-regulation has repeatedly fallen short. Need legislative action.",
+      "createdAt": "2024-11-04T09:00:00Z",
+      "likes": [
+        "u4"
+      ]
+    },
+    {
+      "id": "r4",
+      "tweetId": "p7",
+      "postId": "p7",
+      "userId": "u4",
+      "content": "Wish I could have attended! Was the governance discussion recorded?",
+      "createdAt": "2024-11-07T18:30:00Z",
+      "likes": [
+        "u6"
+      ]
+    },
+    {
+      "id": "r5",
+      "tweetId": "p10",
+      "postId": "p10",
+      "userId": "u2",
+      "content": "Strong take. The hype cycle obscures a lot of real utility.",
+      "createdAt": "2024-11-10T15:30:00Z",
+      "likes": [
+        "u1"
+      ]
+    },
+    {
+      "id": "r6",
+      "tweetId": "p13",
+      "postId": "p13",
+      "userId": "u8",
+      "content": "This! Equity in AI access is just as important as safety.",
+      "createdAt": "2024-11-13T09:30:00Z",
+      "likes": [
+        "u4"
+      ]
+    },
+    {
+      "id": "r7",
+      "tweetId": "p3",
+      "postId": "p3",
+      "userId": "u4",
+      "content": "AI roadmapping tools are already changing how our team prioritizes.",
+      "createdAt": "2024-11-03T15:00:00Z",
+      "likes": [
+        "u3"
+      ]
+    },
+    {
+      "id": "r8",
+      "tweetId": "p8",
+      "postId": "p8",
+      "userId": "u1",
+      "content": "Zero downtime migration is an art form. Great work!",
+      "createdAt": "2024-11-08T09:30:00Z",
+      "likes": [
+        "u7"
+      ]
+    },
+    {
+      "id": "r9",
+      "tweetId": "p6",
+      "postId": "p6",
+      "userId": "u1",
+      "content": "Important work. Bias audits should be mandatory, not voluntary.",
+      "createdAt": "2024-11-06T10:30:00Z",
+      "likes": [
+        "u6"
+      ]
+    },
+    {
+      "id": "r10",
+      "tweetId": "p11",
+      "postId": "p11",
+      "userId": "u1",
+      "content": "100%. Test coverage is a hygiene baseline, not a nice-to-have.",
+      "createdAt": "2024-11-11T10:30:00Z",
+      "likes": [
+        "u2"
+      ]
+    }
+  ],
+  "notifications": [
+    {
+      "id": "n1",
+      "type": "like",
+      "userId": "u2",
+      "postId": "p1",
+      "tweetId": "p1",
+      "content": "Sarah Chen liked your tweet",
+      "createdAt": "2024-11-01T09:15:00Z",
+      "read": true
+    },
+    {
+      "id": "n2",
+      "type": "repost",
+      "userId": "u2",
+      "postId": "p1",
+      "tweetId": "p1",
+      "content": "Sarah Chen reposted your tweet",
+      "createdAt": "2024-11-01T09:20:00Z",
+      "read": true
+    },
+    {
+      "id": "n3",
+      "type": "reply",
+      "userId": "u2",
+      "postId": "p1",
+      "tweetId": "p1",
+      "content": "Sarah Chen replied to your tweet",
+      "createdAt": "2024-11-01T09:30:00Z",
+      "read": true
+    },
+    {
+      "id": "n4",
+      "type": "like",
+      "userId": "u4",
+      "postId": "p10",
+      "tweetId": "p10",
+      "content": "Priya Patel liked your tweet",
+      "createdAt": "2024-11-10T15:10:00Z",
+      "read": false
+    },
+    {
+      "id": "n5",
+      "type": "repost",
+      "userId": "u4",
+      "postId": "p10",
+      "tweetId": "p10",
+      "content": "Priya Patel reposted your tweet",
+      "createdAt": "2024-11-10T15:20:00Z",
+      "read": false
+    },
+    {
+      "id": "n6",
+      "type": "follow",
+      "userId": "u5",
+      "postId": null,
+      "tweetId": null,
+      "content": "Jordan Lee followed you",
+      "createdAt": "2024-11-05T08:00:00Z",
+      "read": true
+    },
+    {
+      "id": "n7",
+      "type": "mention",
+      "userId": "u6",
+      "postId": "p7",
+      "tweetId": "p7",
+      "content": "Elena Vasquez mentioned you in a tweet",
+      "createdAt": "2024-11-07T18:05:00Z",
+      "read": false
+    },
+    {
+      "id": "n8",
+      "type": "like",
+      "userId": "u7",
+      "postId": "p18",
+      "tweetId": "p18",
+      "content": "David Kim liked your tweet",
+      "createdAt": "2024-11-18T17:30:00Z",
+      "read": false
+    },
+    {
+      "id": "n9",
+      "type": "reply",
+      "userId": "u4",
+      "postId": "p13",
+      "tweetId": "p13",
+      "content": "Priya Patel replied to a tweet you're mentioned in",
+      "createdAt": "2024-11-13T09:45:00Z",
+      "read": true
+    },
+    {
+      "id": "n10",
+      "type": "like",
+      "userId": "u3",
+      "postId": "p18",
+      "tweetId": "p18",
+      "content": "Marcus Williams liked your tweet",
+      "createdAt": "2024-11-18T17:45:00Z",
+      "read": false
+    }
+  ],
+  "conversations": [
+    {
+      "id": "conv1",
+      "participants": [
+        "u1",
+        "u2"
+      ],
+      "lastMessageId": "dm4",
+      "lastMessageAt": "2024-11-10T14:00:00Z",
+      "isPinned": true,
+      "unreadCount": 0
+    },
+    {
+      "id": "conv2",
+      "participants": [
+        "u1",
+        "u4"
+      ],
+      "lastMessageId": "dm8",
+      "lastMessageAt": "2024-11-12T10:00:00Z",
+      "isPinned": false,
+      "unreadCount": 2
+    },
+    {
+      "id": "conv3",
+      "participants": [
+        "u1",
+        "u6"
+      ],
+      "lastMessageId": "dm12",
+      "lastMessageAt": "2024-11-14T16:00:00Z",
+      "isPinned": false,
+      "unreadCount": 1
+    },
+    {
+      "id": "conv4",
+      "participants": [
+        "u1",
+        "u7"
+      ],
+      "lastMessageId": "dm15",
+      "lastMessageAt": "2024-11-15T09:00:00Z",
+      "isPinned": false,
+      "unreadCount": 0
+    }
+  ],
+  "directMessages": [
+    {
+      "id": "dm1",
+      "conversationId": "conv1",
+      "senderId": "u1",
+      "content": "Hey Sarah, great PR yesterday!",
+      "createdAt": "2024-11-10T13:30:00Z",
+      "read": true
+    },
+    {
+      "id": "dm2",
+      "conversationId": "conv1",
+      "senderId": "u2",
+      "content": "Thanks! Took forever to get the tests right.",
+      "createdAt": "2024-11-10T13:45:00Z",
+      "read": true
+    },
+    {
+      "id": "dm3",
+      "conversationId": "conv1",
+      "senderId": "u1",
+      "content": "Worth it. The async support is going to help a lot.",
+      "createdAt": "2024-11-10T13:50:00Z",
+      "read": true
+    },
+    {
+      "id": "dm4",
+      "conversationId": "conv1",
+      "senderId": "u2",
+      "content": "Agreed. Let me know if you want to pair on the next feature.",
+      "createdAt": "2024-11-10T14:00:00Z",
+      "read": true
+    },
+    {
+      "id": "dm5",
+      "conversationId": "conv2",
+      "senderId": "u4",
+      "content": "Alex, have you read the new governance framework paper?",
+      "createdAt": "2024-11-12T09:30:00Z",
+      "read": true
+    },
+    {
+      "id": "dm6",
+      "conversationId": "conv2",
+      "senderId": "u1",
+      "content": "Not yet, just saw your tweet about it. Sending it to my reading list.",
+      "createdAt": "2024-11-12T09:45:00Z",
+      "read": true
+    },
+    {
+      "id": "dm7",
+      "conversationId": "conv2",
+      "senderId": "u4",
+      "content": "Key takeaway: the voluntary commitment model is fundamentally broken.",
+      "createdAt": "2024-11-12T09:55:00Z",
+      "read": false
+    },
+    {
+      "id": "dm8",
+      "conversationId": "conv2",
+      "senderId": "u4",
+      "content": "Would love your take once you've had a chance to read it.",
+      "createdAt": "2024-11-12T10:00:00Z",
+      "read": false
+    },
+    {
+      "id": "dm9",
+      "conversationId": "conv3",
+      "senderId": "u6",
+      "content": "Great to meet you at the summit today!",
+      "createdAt": "2024-11-14T15:30:00Z",
+      "read": true
+    },
+    {
+      "id": "dm10",
+      "conversationId": "conv3",
+      "senderId": "u1",
+      "content": "Likewise! Your panel was excellent.",
+      "createdAt": "2024-11-14T15:45:00Z",
+      "read": true
+    },
+    {
+      "id": "dm11",
+      "conversationId": "conv3",
+      "senderId": "u6",
+      "content": "Thank you! We should collaborate on a future event.",
+      "createdAt": "2024-11-14T15:55:00Z",
+      "read": true
+    },
+    {
+      "id": "dm12",
+      "conversationId": "conv3",
+      "senderId": "u6",
+      "content": "I'll reach out next week with some ideas.",
+      "createdAt": "2024-11-14T16:00:00Z",
+      "read": false
+    },
+    {
+      "id": "dm13",
+      "conversationId": "conv4",
+      "senderId": "u1",
+      "content": "David, loved the Kubernetes post!",
+      "createdAt": "2024-11-15T08:45:00Z",
+      "read": true
+    },
+    {
+      "id": "dm14",
+      "conversationId": "conv4",
+      "senderId": "u7",
+      "content": "Thanks! It was a stressful weekend but worth it.",
+      "createdAt": "2024-11-15T08:55:00Z",
+      "read": true
+    },
+    {
+      "id": "dm15",
+      "conversationId": "conv4",
+      "senderId": "u1",
+      "content": "Zero downtime is the dream. Respect.",
+      "createdAt": "2024-11-15T09:00:00Z",
+      "read": true
+    }
+  ],
+  "lists": [
+    {
+      "id": "list1",
+      "name": "AI & Policy Thinkers",
+      "description": "People leading the conversation on AI governance and tech policy.",
+      "ownerId": "u1",
+      "memberIds": [
+        "u4",
+        "u6"
+      ],
+      "followerIds": [
+        "u3"
+      ],
+      "isPrivate": false,
+      "createdAt": "2024-10-01T12:00:00Z",
+      "bannerUrl": ""
+    },
+    {
+      "id": "list2",
+      "name": "Engineering Excellence",
+      "description": "Top engineers sharing insights on architecture, DevOps, and best practices.",
+      "ownerId": "u1",
+      "memberIds": [
+        "u2",
+        "u7"
+      ],
+      "followerIds": [],
+      "isPrivate": true,
+      "createdAt": "2024-10-15T10:00:00Z",
+      "bannerUrl": ""
+    }
+  ],
+  "trends": [
+    {
+      "id": "t1",
+      "category": "Technology",
+      "name": "#AIGovernance",
+      "postCount": "45.2K"
+    },
+    {
+      "id": "t2",
+      "category": "Technology",
+      "name": "#TechSummit",
+      "postCount": "28.7K"
+    },
+    {
+      "id": "t3",
+      "category": "Technology",
+      "name": "#OpenSource",
+      "postCount": "112.4K"
+    },
+    {
+      "id": "t4",
+      "category": "Trending",
+      "name": "#Kubernetes",
+      "postCount": "19.3K"
+    },
+    {
+      "id": "t5",
+      "category": "Technology",
+      "name": "#AIEthics",
+      "postCount": "67.1K"
+    },
+    {
+      "id": "t6",
+      "category": "Business",
+      "name": "#Startups",
+      "postCount": "89.5K"
+    },
+    {
+      "id": "t7",
+      "category": "Technology",
+      "name": "#Web3",
+      "postCount": "31.8K"
+    },
+    {
+      "id": "t8",
+      "category": "Design",
+      "name": "#UX",
+      "postCount": "54.2K"
+    },
+    {
+      "id": "t9",
+      "category": "Trending",
+      "name": "#DataPrivacy",
+      "postCount": "23.6K"
+    },
+    {
+      "id": "t10",
+      "category": "Technology",
+      "name": "#CloudArchitecture",
+      "postCount": "16.9K"
+    }
+  ],
+  "bookmarkedPostIds": [
+    "p3",
+    "p2",
+    "p8"
+  ],
+  "mutedUsers": [],
+  "blockedUsers": [],
+  "notInterestedPostIds": [],
+  "currentUser": {
+    "id": "u1",
+    "name": "Alex Johnson",
+    "handle": "alexj",
+    "bio": "Tech enthusiast, conference speaker, AI advocate.",
+    "avatar": "https://i.pravatar.cc/150?u=u1",
+    "banner": "https://picsum.photos/seed/u1banner/800/200",
+    "location": "San Francisco, CA",
+    "website": "https://alexj.dev",
+    "joinedDate": "2020-03-15",
+    "verified": true,
+    "followers": [
+      "u2",
+      "u3",
+      "u4",
+      "u5"
+    ],
+    "following": [
+      "u2",
+      "u3",
+      "u6",
+      "u7"
+    ],
+    "pinnedPostId": "b5b5d648-6497-4af0-9599-9be6c13b10ec"
+  }
+}

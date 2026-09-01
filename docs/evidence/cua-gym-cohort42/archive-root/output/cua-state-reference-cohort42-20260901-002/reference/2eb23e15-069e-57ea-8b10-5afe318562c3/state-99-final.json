@@ -1,0 +1,367 @@
+{
+  "users": {
+    "user_admin": {
+      "id": "user_admin",
+      "username": "alex_morgan",
+      "name": "Alex Morgan",
+      "avatar": "https://picsum.photos/150/150?random=1",
+      "bio": "Photographer & traveler | Capturing moments",
+      "website": "https://alexmorgan.photo",
+      "followers": [
+        "user_2",
+        "user_3",
+        "user_4"
+      ],
+      "following": [
+        "user_2",
+        "user_3",
+        "user_4"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_2": {
+      "id": "user_2",
+      "username": "alice_walker",
+      "name": "Alice Walker",
+      "avatar": "https://picsum.photos/150/150?random=2",
+      "bio": "Adventure seeker | Travel photographer",
+      "website": "",
+      "followers": [
+        "user_admin",
+        "user_3"
+      ],
+      "following": [
+        "user_admin",
+        "user_3"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_3": {
+      "id": "user_3",
+      "username": "bob_chen",
+      "name": "Bob Chen",
+      "avatar": "https://picsum.photos/150/150?random=3",
+      "bio": "Tech enthusiast & coffee lover",
+      "website": "",
+      "followers": [
+        "user_admin",
+        "user_2"
+      ],
+      "following": [
+        "user_admin",
+        "user_2"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_4": {
+      "id": "user_4",
+      "username": "sarah_kim",
+      "name": "Sarah Kim",
+      "avatar": "https://picsum.photos/150/150?random=4",
+      "bio": "Designer | Art lover",
+      "website": "",
+      "followers": [
+        "user_admin"
+      ],
+      "following": [
+        "user_admin"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_5": {
+      "id": "user_5",
+      "username": "foodie_life",
+      "name": "Chef Marco",
+      "avatar": "https://i.pravatar.cc/150?img=15",
+      "bio": "Food is my love language\nProfessional Chef | Recipe Creator\n2x James Beard Nominee",
+      "website": "https://chefmarco.kitchen",
+      "followers": [
+        "user_admin",
+        "user_2",
+        "user_3",
+        "user_6",
+        "user_7",
+        "user_8",
+        "user_9",
+        "user_10"
+      ],
+      "following": [
+        "user_admin",
+        "user_2",
+        "user_9"
+      ],
+      "isVerified": true,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_6": {
+      "id": "user_6",
+      "username": "nature_lover",
+      "name": "Emma Green",
+      "avatar": "https://i.pravatar.cc/150?img=16",
+      "bio": "Hiking & Outdoors\nNational Park Explorer\nLeave no trace",
+      "website": "",
+      "followers": [
+        "user_4",
+        "user_5",
+        "user_8",
+        "user_9"
+      ],
+      "following": [
+        "user_2",
+        "user_4",
+        "user_5",
+        "user_8"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_7": {
+      "id": "user_7",
+      "username": "fitness_coach",
+      "name": "Jake Thompson",
+      "avatar": "https://i.pravatar.cc/150?img=8",
+      "bio": "Certified Personal Trainer\nTransform your body, transform your life\nDM for training plans",
+      "website": "https://jakefitness.com",
+      "followers": [
+        "user_admin",
+        "user_2",
+        "user_3",
+        "user_5",
+        "user_8",
+        "user_9",
+        "user_10"
+      ],
+      "following": [
+        "user_admin",
+        "user_2",
+        "user_5",
+        "user_9"
+      ],
+      "isVerified": true,
+      "isPrivate": false,
+      "isOnline": true
+    },
+    "user_8": {
+      "id": "user_8",
+      "username": "artsy_vibes",
+      "name": "Mia Chen",
+      "avatar": "https://i.pravatar.cc/150?img=20",
+      "bio": "Digital Artist & Illustrator\nCommissions open\nPrints available below",
+      "website": "https://miachen.art",
+      "followers": [
+        "user_4",
+        "user_6",
+        "user_7",
+        "user_admin"
+      ],
+      "following": [
+        "user_4",
+        "user_5",
+        "user_6",
+        "user_7",
+        "user_admin"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_9": {
+      "id": "user_9",
+      "username": "urban_explorer",
+      "name": "David Park",
+      "avatar": "https://i.pravatar.cc/150?img=33",
+      "bio": "Street Photography | Architecture\nNYC based | Sony Alpha\nPrint shop open",
+      "website": "https://davidpark.photo",
+      "followers": [
+        "user_2",
+        "user_5",
+        "user_6",
+        "user_7",
+        "user_10"
+      ],
+      "following": [
+        "user_2",
+        "user_5",
+        "user_7",
+        "user_10"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": true
+    },
+    "user_10": {
+      "id": "user_10",
+      "username": "music_matters",
+      "name": "Luna Rivera",
+      "avatar": "https://i.pravatar.cc/150?img=25",
+      "bio": "Singer-Songwriter | Producer\nNew EP out now\nTour dates in bio link",
+      "website": "https://lunarivera.music",
+      "followers": [
+        "user_3",
+        "user_4",
+        "user_7",
+        "user_9"
+      ],
+      "following": [
+        "user_3",
+        "user_7",
+        "user_9"
+      ],
+      "isVerified": true,
+      "isPrivate": false,
+      "isOnline": false
+    }
+  },
+  "posts": [
+    {
+      "id": "post_1",
+      "userId": "user_admin",
+      "images": [
+        "https://picsum.photos/800/800?random=101"
+      ],
+      "caption": "Golden hour",
+      "location": "SF",
+      "taggedUsers": [],
+      "likes": [
+        "user_2",
+        "user_3"
+      ],
+      "comments": [
+        {
+          "id": "c_1",
+          "userId": "user_2",
+          "text": "Stunning!",
+          "created": "2024-01-01T10:00:00Z",
+          "likes": [
+            "user_admin"
+          ],
+          "isReply": false,
+          "replyToId": null
+        },
+        {
+          "id": "c_2",
+          "userId": "user_3",
+          "text": "Amazing light",
+          "created": "2024-01-01T11:00:00Z",
+          "likes": [
+            "user_2",
+            "user_admin"
+          ],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [],
+      "created": "2024-01-01T08:00:00Z"
+    },
+    {
+      "id": "post_10",
+      "userId": "user_admin",
+      "images": [
+        "https://picsum.photos/800/800?random=110"
+      ],
+      "caption": "City skyline at night",
+      "location": "NYC",
+      "taggedUsers": [],
+      "likes": [
+        "user_4"
+      ],
+      "comments": [
+        {
+          "id": "c_10",
+          "userId": "user_4",
+          "text": "NYC is the best",
+          "created": "2024-01-10T21:00:00Z",
+          "likes": [
+            "user_admin"
+          ],
+          "isReply": false,
+          "replyToId": null
+        },
+        {
+          "id": "c_11",
+          "userId": "user_3",
+          "text": "Great composition",
+          "created": "2024-01-10T22:00:00Z",
+          "likes": [
+            "user_admin"
+          ],
+          "isReply": false,
+          "replyToId": null
+        },
+        {
+          "id": "c_12",
+          "userId": "user_2",
+          "text": "Was this handheld?",
+          "created": "2024-01-10T23:00:00Z",
+          "likes": [
+            "user_admin"
+          ],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [],
+      "created": "2024-01-10T20:00:00Z"
+    }
+  ],
+  "stories": [],
+  "notifications": [
+    {
+      "id": "notif_1",
+      "type": "like",
+      "fromUserId": "user_2",
+      "postId": "post_1",
+      "commentId": null,
+      "text": "liked your photo.",
+      "read": false,
+      "created": "2024-01-01T10:00:00Z"
+    },
+    {
+      "id": "notif_2",
+      "type": "comment",
+      "fromUserId": "user_3",
+      "postId": "post_1",
+      "commentId": "c_2",
+      "text": "commented on your photo.",
+      "read": true,
+      "created": "2024-01-01T11:00:00Z"
+    }
+  ],
+  "conversations": [
+    {
+      "id": "conv_1",
+      "participants": [
+        "user_admin",
+        "user_2"
+      ],
+      "lastMessage": "Great shots!",
+      "lastMessageTime": "2024-01-02T09:00:00Z",
+      "unreadCount": 0
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_1",
+      "conversationId": "conv_1",
+      "senderId": "user_2",
+      "text": "Great shots!",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2024-01-02T09:00:00Z"
+    }
+  ],
+  "savedPostIds": [],
+  "currentUserId": "user_admin"
+}

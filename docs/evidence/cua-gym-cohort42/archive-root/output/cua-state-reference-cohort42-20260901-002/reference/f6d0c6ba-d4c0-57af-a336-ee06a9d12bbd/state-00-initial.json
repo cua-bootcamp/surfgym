@@ -1,0 +1,268 @@
+{
+  "currentUserId": "user_admin",
+  "users": {
+    "user_admin": {
+      "id": "user_admin",
+      "username": "alex_morgan",
+      "name": "Alex Morgan",
+      "avatar": "https://picsum.photos/150/150?random=1",
+      "bio": "Photographer | Traveler | Coffee Addict",
+      "website": "https://alexmorgan.com",
+      "followers": [
+        "user_2",
+        "user_3",
+        "user_4",
+        "user_5",
+        "user_6"
+      ],
+      "following": [
+        "user_2",
+        "user_3",
+        "user_4",
+        "user_5",
+        "user_6",
+        "user_7"
+      ],
+      "isVerified": false,
+      "isPrivate": false
+    },
+    "user_2": {
+      "id": "user_2",
+      "username": "adventure_seeker",
+      "name": "Alice Walker",
+      "avatar": "https://picsum.photos/150/150?random=2",
+      "bio": "Adventure is out there",
+      "website": "",
+      "followers": [
+        "user_admin",
+        "user_3"
+      ],
+      "following": [
+        "user_admin",
+        "user_7"
+      ],
+      "isVerified": false,
+      "isPrivate": false
+    },
+    "user_3": {
+      "id": "user_3",
+      "username": "tech_guru",
+      "name": "Bob Chen",
+      "avatar": "https://picsum.photos/150/150?random=3",
+      "bio": "Software engineer & tech enthusiast",
+      "website": "https://bobchen.dev",
+      "followers": [
+        "user_admin",
+        "user_2"
+      ],
+      "following": [
+        "user_admin",
+        "user_7"
+      ],
+      "isVerified": false,
+      "isPrivate": false
+    },
+    "user_4": {
+      "id": "user_4",
+      "username": "design_daily",
+      "name": "Sarah Kim",
+      "avatar": "https://picsum.photos/150/150?random=4",
+      "bio": "UX Designer | Creating beautiful experiences",
+      "website": "",
+      "followers": [
+        "user_admin"
+      ],
+      "following": [
+        "user_admin",
+        "user_7"
+      ],
+      "isVerified": false,
+      "isPrivate": false
+    },
+    "user_5": {
+      "id": "user_5",
+      "username": "foodie_life",
+      "name": "Chef Marco",
+      "avatar": "https://picsum.photos/150/150?random=5",
+      "bio": "Executive Chef | Food is art",
+      "website": "https://chefmarco.com",
+      "followers": [
+        "user_admin"
+      ],
+      "following": [
+        "user_admin"
+      ],
+      "isVerified": false,
+      "isPrivate": false
+    },
+    "user_6": {
+      "id": "user_6",
+      "username": "nature_lover",
+      "name": "Emma Green",
+      "avatar": "https://picsum.photos/150/150?random=6",
+      "bio": "Nature photographer | Save the planet",
+      "website": "",
+      "followers": [
+        "user_admin"
+      ],
+      "following": [
+        "user_admin"
+      ],
+      "isVerified": false,
+      "isPrivate": false
+    },
+    "user_7": {
+      "id": "user_7",
+      "username": "fitness_coach",
+      "name": "Jake Thompson",
+      "avatar": "https://picsum.photos/150/150?random=7",
+      "bio": "Certified Personal Trainer | Transform your life",
+      "website": "https://jakefitness.com",
+      "followers": [
+        "user_admin",
+        "user_2",
+        "user_3",
+        "user_4"
+      ],
+      "following": [],
+      "isVerified": true,
+      "isPrivate": false
+    }
+  },
+  "posts": [
+    {
+      "id": "post_1",
+      "userId": "user_admin",
+      "images": [
+        "https://picsum.photos/800/800?random=101"
+      ],
+      "caption": "Golden hour magic ✨ #photography #sunset",
+      "location": "San Francisco, CA",
+      "likes": [
+        "user_2"
+      ],
+      "comments": [
+        {
+          "id": "c_1",
+          "userId": "user_2",
+          "text": "Wow",
+          "created": "2024-01-01T10:00:00Z",
+          "likes": []
+        }
+      ],
+      "saved": [],
+      "created": "2024-01-01T08:00:00Z"
+    },
+    {
+      "id": "post_4",
+      "userId": "user_4",
+      "images": [
+        "https://picsum.photos/800/800?random=104"
+      ],
+      "caption": "Design work in progress 🎨 #ux #design",
+      "location": "New York, NY",
+      "likes": [],
+      "comments": [
+        {
+          "id": "c_4",
+          "userId": "user_3",
+          "text": "Clean",
+          "created": "2024-01-04T12:00:00Z",
+          "likes": []
+        },
+        {
+          "id": "c_5",
+          "userId": "user_6",
+          "text": "Love it",
+          "created": "2024-01-04T13:00:00Z",
+          "likes": []
+        }
+      ],
+      "saved": [],
+      "created": "2024-01-04T11:00:00Z"
+    },
+    {
+      "id": "post_7",
+      "userId": "user_7",
+      "images": [
+        "https://picsum.photos/800/800?random=107"
+      ],
+      "caption": "Fitness challenge — 30 days to a better you! Who's in? 💪 #fitness #challenge",
+      "location": "Los Angeles, CA",
+      "likes": [
+        "user_2",
+        "user_3"
+      ],
+      "comments": [
+        {
+          "id": "c_7",
+          "userId": "user_2",
+          "text": "In!",
+          "created": "2024-01-07T07:00:00Z",
+          "likes": []
+        },
+        {
+          "id": "c_8",
+          "userId": "user_3",
+          "text": "Count me in",
+          "created": "2024-01-07T08:00:00Z",
+          "likes": []
+        },
+        {
+          "id": "c_9",
+          "userId": "user_4",
+          "text": "Lets go!",
+          "created": "2024-01-07T09:00:00Z",
+          "likes": []
+        },
+        {
+          "id": "c_10",
+          "userId": "user_5",
+          "text": "Challenge accepted",
+          "created": "2024-01-07T10:00:00Z",
+          "likes": []
+        }
+      ],
+      "saved": [],
+      "created": "2024-01-07T06:00:00Z"
+    }
+  ],
+  "stories": [],
+  "notifications": [
+    {
+      "id": "notif_1",
+      "type": "like",
+      "fromUserId": "user_2",
+      "postId": "post_1",
+      "commentId": null,
+      "text": "liked your photo.",
+      "read": false,
+      "created": "2024-01-01T10:00:00Z"
+    }
+  ],
+  "conversations": [
+    {
+      "id": "conv_1",
+      "participants": [
+        "user_admin",
+        "user_2"
+      ],
+      "lastMessage": "Hey, great shot!",
+      "lastMessageTime": "2024-01-01T10:00:00Z",
+      "unreadCount": 1
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_1",
+      "conversationId": "conv_1",
+      "senderId": "user_2",
+      "text": "Hey, great shot!",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2024-01-01T10:00:00Z"
+    }
+  ],
+  "savedPostIds": []
+}

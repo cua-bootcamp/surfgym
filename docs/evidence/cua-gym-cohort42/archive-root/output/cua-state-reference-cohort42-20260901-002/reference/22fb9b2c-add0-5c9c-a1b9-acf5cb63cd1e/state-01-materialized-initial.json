@@ -1,0 +1,1077 @@
+{
+  "users": {
+    "user_admin": {
+      "id": "user_admin",
+      "username": "alex_morgan",
+      "name": "Alex Morgan",
+      "avatar": "https://picsum.photos/150/150?random=1",
+      "bio": "Travel photographer | Capturing moments ✨",
+      "website": "https://alexmorgan.photo",
+      "followers": [
+        "user_2",
+        "user_3"
+      ],
+      "following": [
+        "user_2",
+        "user_3",
+        "user_5"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_2": {
+      "id": "user_2",
+      "username": "adventure_seeker",
+      "name": "Alice Walker",
+      "avatar": "https://picsum.photos/150/150?random=2",
+      "bio": "Adventure is out there 🌍 | Hiker & traveler",
+      "website": "",
+      "followers": [
+        "user_admin",
+        "user_3",
+        "user_6"
+      ],
+      "following": [
+        "user_admin",
+        "user_3",
+        "user_5"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_3": {
+      "id": "user_3",
+      "username": "tech_guru",
+      "name": "Bob Chen",
+      "avatar": "https://picsum.photos/150/150?random=3",
+      "bio": "Software engineer | Open source enthusiast",
+      "website": "https://bobchen.dev",
+      "followers": [
+        "user_admin",
+        "user_2"
+      ],
+      "following": [
+        "user_admin",
+        "user_2",
+        "user_7"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_4": {
+      "id": "user_4",
+      "username": "design_daily",
+      "name": "Sarah Kim",
+      "avatar": "https://picsum.photos/150/150?random=4",
+      "bio": "UI/UX Designer | Creating beautiful experiences",
+      "website": "https://sarahkim.design",
+      "followers": [
+        "user_8"
+      ],
+      "following": [
+        "user_5",
+        "user_8"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_5": {
+      "id": "user_5",
+      "username": "foodie_life",
+      "name": "Chef Marco",
+      "avatar": "https://picsum.photos/150/150?random=5",
+      "bio": "Professional chef 👨‍🍳 | Food is love",
+      "website": "",
+      "followers": [
+        "user_admin",
+        "user_2",
+        "user_6",
+        "user_8"
+      ],
+      "following": [
+        "user_2",
+        "user_3"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_6": {
+      "id": "user_6",
+      "username": "nature_lover",
+      "name": "Emma Green",
+      "avatar": "https://picsum.photos/150/150?random=6",
+      "bio": "Nature photographer 🌿 | Sustainability advocate",
+      "website": "https://emmagreen.nature",
+      "followers": [
+        "user_2"
+      ],
+      "following": [
+        "user_2",
+        "user_5"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_7": {
+      "id": "user_7",
+      "username": "fitness_coach",
+      "name": "Jake Thompson",
+      "avatar": "https://picsum.photos/150/150?random=7",
+      "bio": "Certified fitness trainer 💪 | Your health matters",
+      "website": "https://jakefitness.com",
+      "followers": [
+        "user_3"
+      ],
+      "following": [
+        "user_3",
+        "user_5"
+      ],
+      "isVerified": true,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_8": {
+      "id": "user_8",
+      "username": "artsy_vibes",
+      "name": "Mia Chen",
+      "avatar": "https://picsum.photos/150/150?random=8",
+      "bio": "Digital artist 🎨 | Creating worlds with pixels",
+      "website": "https://miachen.art",
+      "followers": [
+        "user_4"
+      ],
+      "following": [
+        "user_4",
+        "user_5"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_9": {
+      "id": "user_9",
+      "username": "urban_explorer",
+      "name": "David Park",
+      "avatar": "https://i.pravatar.cc/150?img=33",
+      "bio": "Street Photography | Architecture\nNYC based | Sony Alpha\nPrint shop open",
+      "website": "https://davidpark.photo",
+      "followers": [
+        "user_2",
+        "user_5",
+        "user_6",
+        "user_7",
+        "user_10"
+      ],
+      "following": [
+        "user_2",
+        "user_5",
+        "user_7",
+        "user_10"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": true
+    },
+    "user_10": {
+      "id": "user_10",
+      "username": "music_matters",
+      "name": "Luna Rivera",
+      "avatar": "https://i.pravatar.cc/150?img=25",
+      "bio": "Singer-Songwriter | Producer\nNew EP out now\nTour dates in bio link",
+      "website": "https://lunarivera.music",
+      "followers": [
+        "user_3",
+        "user_4",
+        "user_7",
+        "user_9"
+      ],
+      "following": [
+        "user_3",
+        "user_7",
+        "user_9"
+      ],
+      "isVerified": true,
+      "isPrivate": false,
+      "isOnline": false
+    }
+  },
+  "posts": [
+    {
+      "id": "post_1",
+      "userId": "user_admin",
+      "images": [
+        "https://picsum.photos/800/800?random=101"
+      ],
+      "caption": "Golden hour at the bay 🌅 #photography #goldenhour",
+      "location": "San Francisco Bay, CA",
+      "taggedUsers": [],
+      "likes": [
+        "user_2",
+        "user_3"
+      ],
+      "comments": [
+        {
+          "id": "c_1",
+          "userId": "user_2",
+          "text": "Absolutely stunning! 😍",
+          "created": "2025-03-10T18:30:00Z",
+          "likes": [
+            "user_3"
+          ],
+          "isReply": false,
+          "replyToId": null
+        },
+        {
+          "id": "c_2",
+          "userId": "user_3",
+          "text": "What camera did you use?",
+          "created": "2025-03-10T19:00:00Z",
+          "likes": [],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [
+        "user_2"
+      ],
+      "created": "2025-03-10T17:00:00Z"
+    },
+    {
+      "id": "post_2",
+      "userId": "user_admin",
+      "images": [
+        "https://picsum.photos/800/800?random=102"
+      ],
+      "caption": "Exploring the hidden trails 🥾 #hiking #nature",
+      "location": "Muir Woods, CA",
+      "taggedUsers": [],
+      "likes": [
+        "user_2",
+        "user_5"
+      ],
+      "comments": [
+        {
+          "id": "c_3",
+          "userId": "user_5",
+          "text": "Looks like a great trail!",
+          "created": "2025-03-12T10:15:00Z",
+          "likes": [],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [],
+      "created": "2025-03-12T09:00:00Z"
+    },
+    {
+      "id": "post_3",
+      "userId": "user_admin",
+      "images": [
+        "https://picsum.photos/800/800?random=103"
+      ],
+      "caption": "Morning coffee ritual ☕ #morningvibes",
+      "location": "Home",
+      "taggedUsers": [],
+      "likes": [
+        "user_3"
+      ],
+      "comments": [],
+      "saved": [],
+      "created": "2025-03-15T07:30:00Z"
+    },
+    {
+      "id": "post_4",
+      "userId": "user_2",
+      "images": [
+        "https://picsum.photos/800/800?random=104"
+      ],
+      "caption": "Summit reached! 🏔️ Best view ever! #hiking #adventure",
+      "location": "Mt. Tamalpais, CA",
+      "taggedUsers": [],
+      "likes": [
+        "user_admin",
+        "user_3",
+        "user_5"
+      ],
+      "comments": [
+        {
+          "id": "c_4",
+          "userId": "user_admin",
+          "text": "Wow, incredible! I need to go there.",
+          "created": "2025-03-08T16:00:00Z",
+          "likes": [
+            "user_2"
+          ],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [
+        "user_admin"
+      ],
+      "created": "2025-03-08T15:00:00Z"
+    },
+    {
+      "id": "post_5",
+      "userId": "user_2",
+      "images": [
+        "https://picsum.photos/800/800?random=105"
+      ],
+      "caption": "Beach vibes 🌊 #ocean #travel",
+      "location": "Big Sur, CA",
+      "taggedUsers": [],
+      "likes": [
+        "user_admin",
+        "user_6"
+      ],
+      "comments": [],
+      "saved": [],
+      "created": "2025-03-11T14:00:00Z"
+    },
+    {
+      "id": "post_6",
+      "userId": "user_3",
+      "images": [
+        "https://picsum.photos/800/800?random=106"
+      ],
+      "caption": "Just shipped a new open-source project 🚀 #coding #opensource",
+      "location": "",
+      "taggedUsers": [],
+      "likes": [
+        "user_admin",
+        "user_2",
+        "user_7"
+      ],
+      "comments": [
+        {
+          "id": "c_5",
+          "userId": "user_7",
+          "text": "Awesome work!",
+          "created": "2025-03-09T11:00:00Z",
+          "likes": [],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [],
+      "created": "2025-03-09T10:00:00Z"
+    },
+    {
+      "id": "post_7",
+      "userId": "user_3",
+      "images": [
+        "https://picsum.photos/800/800?random=107"
+      ],
+      "caption": "Late night debugging session 🖥️ #developer #coding",
+      "location": "",
+      "taggedUsers": [],
+      "likes": [
+        "user_2"
+      ],
+      "comments": [],
+      "saved": [],
+      "created": "2025-03-13T23:00:00Z"
+    },
+    {
+      "id": "post_8",
+      "userId": "user_5",
+      "images": [
+        "https://picsum.photos/800/800?random=108"
+      ],
+      "caption": "Homemade pasta from scratch 🍝 Recipe in bio! #foodie #cooking",
+      "location": "My Kitchen",
+      "taggedUsers": [],
+      "likes": [
+        "user_admin",
+        "user_2",
+        "user_4"
+      ],
+      "comments": [
+        {
+          "id": "c_6",
+          "userId": "user_admin",
+          "text": "This looks incredible! 🤤",
+          "created": "2025-03-07T20:00:00Z",
+          "likes": [
+            "user_5"
+          ],
+          "isReply": false,
+          "replyToId": null
+        },
+        {
+          "id": "c_7",
+          "userId": "user_4",
+          "text": "Please share the recipe!",
+          "created": "2025-03-07T20:30:00Z",
+          "likes": [],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [
+        "user_admin",
+        "user_2"
+      ],
+      "created": "2025-03-07T19:00:00Z"
+    },
+    {
+      "id": "post_9",
+      "userId": "user_5",
+      "images": [
+        "https://picsum.photos/800/800?random=109"
+      ],
+      "caption": "Sunday brunch spread 🥐🍳 #brunch #weekend",
+      "location": "Cafe Verde, SF",
+      "taggedUsers": [],
+      "likes": [
+        "user_admin",
+        "user_6"
+      ],
+      "comments": [],
+      "saved": [],
+      "created": "2025-03-14T11:00:00Z"
+    },
+    {
+      "id": "post_10",
+      "userId": "user_6",
+      "images": [
+        "https://picsum.photos/800/800?random=110"
+      ],
+      "caption": "Morning mist in the redwoods 🌲 #nature #forest #photography",
+      "location": "Redwood National Park, CA",
+      "taggedUsers": [],
+      "likes": [
+        "user_2",
+        "user_5",
+        "user_4"
+      ],
+      "comments": [
+        {
+          "id": "c_8",
+          "userId": "user_2",
+          "text": "Ethereal! 🌿",
+          "created": "2025-03-06T09:00:00Z",
+          "likes": [],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [
+        "user_4"
+      ],
+      "created": "2025-03-06T08:00:00Z"
+    },
+    {
+      "id": "post_11",
+      "userId": "user_6",
+      "images": [
+        "https://picsum.photos/800/800?random=111"
+      ],
+      "caption": "Wildflower season is here! 🌸 #spring #nature #flowers",
+      "location": "Carrizo Plain, CA",
+      "taggedUsers": [],
+      "likes": [
+        "user_5",
+        "user_7"
+      ],
+      "comments": [],
+      "saved": [],
+      "created": "2025-03-16T10:00:00Z"
+    },
+    {
+      "id": "post_12",
+      "userId": "user_7",
+      "images": [
+        "https://picsum.photos/800/800?random=112"
+      ],
+      "caption": "5AM workout done 💪 No excuses! #fitness #motivation",
+      "location": "City Gym, SF",
+      "taggedUsers": [],
+      "likes": [
+        "user_3",
+        "user_4"
+      ],
+      "comments": [],
+      "saved": [],
+      "created": "2025-03-11T05:30:00Z"
+    },
+    {
+      "id": "post_13",
+      "userId": "user_7",
+      "images": [
+        "https://picsum.photos/800/800?random=113"
+      ],
+      "caption": "New training program launching this week! DM for details 🏋️ #fitness #health",
+      "location": "",
+      "taggedUsers": [],
+      "likes": [
+        "user_3"
+      ],
+      "comments": [
+        {
+          "id": "c_9",
+          "userId": "user_3",
+          "text": "Interested! Will DM.",
+          "created": "2025-03-14T12:00:00Z",
+          "likes": [],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [],
+      "created": "2025-03-14T10:00:00Z"
+    },
+    {
+      "id": "post_14",
+      "userId": "user_8",
+      "images": [
+        "https://picsum.photos/800/800?random=114"
+      ],
+      "caption": "Digital dreamscape 🌌 New artwork drop! #digitalart #illustration",
+      "location": "",
+      "taggedUsers": [],
+      "likes": [
+        "user_4",
+        "user_5",
+        "user_6"
+      ],
+      "comments": [
+        {
+          "id": "c_10",
+          "userId": "user_4",
+          "text": "Your work is absolutely breathtaking! 🎨",
+          "created": "2025-03-05T15:00:00Z",
+          "likes": [
+            "user_8"
+          ],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [
+        "user_4"
+      ],
+      "created": "2025-03-05T14:00:00Z"
+    },
+    {
+      "id": "post_15",
+      "userId": "user_8",
+      "images": [
+        "https://picsum.photos/800/800?random=115"
+      ],
+      "caption": "Behind the process 🖌️ Time-lapse of today's piece #art #process",
+      "location": "",
+      "taggedUsers": [],
+      "likes": [
+        "user_4"
+      ],
+      "comments": [],
+      "saved": [],
+      "created": "2025-03-17T16:00:00Z"
+    }
+  ],
+  "stories": [
+    {
+      "id": "story_1",
+      "userId": "user_2",
+      "image": "https://picsum.photos/400/700?random=201",
+      "created": "2025-03-17T08:00:00Z",
+      "expires": "2025-03-18T08:00:00Z",
+      "viewed": false
+    },
+    {
+      "id": "story_2",
+      "userId": "user_3",
+      "image": "https://picsum.photos/400/700?random=202",
+      "created": "2025-03-17T09:00:00Z",
+      "expires": "2025-03-18T09:00:00Z",
+      "viewed": false
+    },
+    {
+      "id": "story_3",
+      "userId": "user_5",
+      "image": "https://picsum.photos/400/700?random=203",
+      "created": "2025-03-17T10:00:00Z",
+      "expires": "2025-03-18T10:00:00Z",
+      "viewed": true
+    },
+    {
+      "id": "story_4",
+      "userId": "user_6",
+      "image": "https://picsum.photos/400/700?random=204",
+      "created": "2025-03-17T11:00:00Z",
+      "expires": "2025-03-18T11:00:00Z",
+      "viewed": false
+    },
+    {
+      "id": "story_5",
+      "userId": "user_7",
+      "image": "https://picsum.photos/400/700?random=205",
+      "created": "2025-03-17T12:00:00Z",
+      "expires": "2025-03-18T12:00:00Z",
+      "viewed": false
+    },
+    {
+      "id": "story_6",
+      "userId": "user_8",
+      "image": "https://picsum.photos/400/700?random=206",
+      "created": "2025-03-17T13:00:00Z",
+      "expires": "2025-03-18T13:00:00Z",
+      "viewed": false
+    },
+    {
+      "id": "story_7",
+      "userId": "user_admin",
+      "image": "https://picsum.photos/400/700?random=207",
+      "created": "2025-03-17T14:00:00Z",
+      "expires": "2025-03-18T14:00:00Z",
+      "viewed": false
+    },
+    {
+      "id": "story_8",
+      "userId": "user_4",
+      "image": "https://picsum.photos/400/700?random=208",
+      "created": "2025-03-17T07:00:00Z",
+      "expires": "2025-03-18T07:00:00Z",
+      "viewed": false
+    }
+  ],
+  "notifications": [
+    {
+      "id": "notif_1",
+      "type": "like",
+      "fromUserId": "user_2",
+      "postId": "post_1",
+      "commentId": null,
+      "text": "liked your photo.",
+      "read": true,
+      "created": "2025-03-10T18:30:00Z"
+    },
+    {
+      "id": "notif_2",
+      "type": "comment",
+      "fromUserId": "user_2",
+      "postId": "post_1",
+      "commentId": "c_1",
+      "text": "commented: Absolutely stunning! 😍",
+      "read": true,
+      "created": "2025-03-10T18:35:00Z"
+    },
+    {
+      "id": "notif_3",
+      "type": "like",
+      "fromUserId": "user_3",
+      "postId": "post_1",
+      "commentId": null,
+      "text": "liked your photo.",
+      "read": true,
+      "created": "2025-03-10T19:00:00Z"
+    },
+    {
+      "id": "notif_4",
+      "type": "comment",
+      "fromUserId": "user_3",
+      "postId": "post_1",
+      "commentId": "c_2",
+      "text": "commented: What camera did you use?",
+      "read": false,
+      "created": "2025-03-10T19:05:00Z"
+    },
+    {
+      "id": "notif_5",
+      "type": "like",
+      "fromUserId": "user_5",
+      "postId": "post_2",
+      "commentId": null,
+      "text": "liked your photo.",
+      "read": false,
+      "created": "2025-03-12T10:00:00Z"
+    },
+    {
+      "id": "notif_6",
+      "type": "comment",
+      "fromUserId": "user_5",
+      "postId": "post_2",
+      "commentId": "c_3",
+      "text": "commented: Looks like a great trail!",
+      "read": false,
+      "created": "2025-03-12T10:20:00Z"
+    },
+    {
+      "id": "notif_7",
+      "type": "like",
+      "fromUserId": "user_3",
+      "postId": "post_3",
+      "commentId": null,
+      "text": "liked your photo.",
+      "read": false,
+      "created": "2025-03-15T08:00:00Z"
+    },
+    {
+      "id": "notif_8",
+      "type": "follow",
+      "fromUserId": "user_2",
+      "postId": null,
+      "commentId": null,
+      "text": "started following you.",
+      "read": true,
+      "created": "2025-03-01T10:00:00Z"
+    },
+    {
+      "id": "notif_9",
+      "type": "follow",
+      "fromUserId": "user_3",
+      "postId": null,
+      "commentId": null,
+      "text": "started following you.",
+      "read": true,
+      "created": "2025-03-02T10:00:00Z"
+    },
+    {
+      "id": "notif_10",
+      "type": "like",
+      "fromUserId": "user_2",
+      "postId": "post_4",
+      "commentId": null,
+      "text": "liked your comment.",
+      "read": true,
+      "created": "2025-03-08T16:05:00Z"
+    },
+    {
+      "id": "notif_11",
+      "type": "like",
+      "fromUserId": "user_5",
+      "postId": "post_8",
+      "commentId": "c_6",
+      "text": "liked your comment.",
+      "read": false,
+      "created": "2025-03-07T20:10:00Z"
+    },
+    {
+      "id": "notif_12",
+      "type": "mention",
+      "fromUserId": "user_2",
+      "postId": "post_5",
+      "commentId": null,
+      "text": "mentioned you in a post.",
+      "read": false,
+      "created": "2025-03-11T14:30:00Z"
+    }
+  ],
+  "conversations": [
+    {
+      "id": "conv_1",
+      "participants": [
+        "user_admin",
+        "user_2"
+      ],
+      "lastMessage": "See you at the trailhead!",
+      "lastMessageTime": "2025-03-11T09:00:00Z",
+      "unreadCount": 0
+    },
+    {
+      "id": "conv_2",
+      "participants": [
+        "user_admin",
+        "user_3"
+      ],
+      "lastMessage": "That new repo looks interesting",
+      "lastMessageTime": "2025-03-09T11:00:00Z",
+      "unreadCount": 1
+    },
+    {
+      "id": "conv_3",
+      "participants": [
+        "user_admin",
+        "user_5"
+      ],
+      "lastMessage": "Can you share the pasta recipe?",
+      "lastMessageTime": "2025-03-07T21:00:00Z",
+      "unreadCount": 0
+    },
+    {
+      "id": "conv_4",
+      "participants": [
+        "user_admin",
+        "user_7"
+      ],
+      "lastMessage": "Interested in the training program",
+      "lastMessageTime": "2025-03-14T13:00:00Z",
+      "unreadCount": 2
+    },
+    {
+      "id": "conv_5",
+      "participants": [
+        "user_admin",
+        "user_2",
+        "user_3"
+      ],
+      "lastMessage": "Let's plan the hike for next weekend",
+      "lastMessageTime": "2025-03-15T16:00:00Z",
+      "unreadCount": 0
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_1",
+      "conversationId": "conv_1",
+      "senderId": "user_2",
+      "text": "Hey! Want to hit the trails this weekend?",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-10T14:00:00Z"
+    },
+    {
+      "id": "msg_2",
+      "conversationId": "conv_1",
+      "senderId": "user_admin",
+      "text": "Absolutely! Which trail are you thinking?",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-10T14:10:00Z"
+    },
+    {
+      "id": "msg_3",
+      "conversationId": "conv_1",
+      "senderId": "user_2",
+      "text": "Mt. Tam? Morning start?",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-10T14:15:00Z"
+    },
+    {
+      "id": "msg_4",
+      "conversationId": "conv_1",
+      "senderId": "user_admin",
+      "text": "Perfect! 7AM works?",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-10T14:20:00Z"
+    },
+    {
+      "id": "msg_5",
+      "conversationId": "conv_1",
+      "senderId": "user_2",
+      "text": "See you at the trailhead!",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-11T09:00:00Z"
+    },
+    {
+      "id": "msg_6",
+      "conversationId": "conv_2",
+      "senderId": "user_admin",
+      "text": "Hey, saw your new project!",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-09T10:30:00Z"
+    },
+    {
+      "id": "msg_7",
+      "conversationId": "conv_2",
+      "senderId": "user_3",
+      "text": "That new repo looks interesting",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-09T11:00:00Z"
+    },
+    {
+      "id": "msg_8",
+      "conversationId": "conv_3",
+      "senderId": "user_admin",
+      "text": "That pasta looks amazing!",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-07T20:30:00Z"
+    },
+    {
+      "id": "msg_9",
+      "conversationId": "conv_3",
+      "senderId": "user_5",
+      "text": "Thanks! It's my nonna's recipe 🍝",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-07T20:45:00Z"
+    },
+    {
+      "id": "msg_10",
+      "conversationId": "conv_3",
+      "senderId": "user_admin",
+      "text": "Can you share the pasta recipe?",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-07T21:00:00Z"
+    },
+    {
+      "id": "msg_11",
+      "conversationId": "conv_4",
+      "senderId": "user_admin",
+      "text": "Hi Jake! Saw your new training program post",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-14T12:30:00Z"
+    },
+    {
+      "id": "msg_12",
+      "conversationId": "conv_4",
+      "senderId": "user_7",
+      "text": "Hey! Yes it starts Monday. 3 days a week.",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-14T12:45:00Z"
+    },
+    {
+      "id": "msg_13",
+      "conversationId": "conv_4",
+      "senderId": "user_7",
+      "text": "Interested in the training program",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-14T13:00:00Z"
+    },
+    {
+      "id": "msg_14",
+      "conversationId": "conv_5",
+      "senderId": "user_2",
+      "text": "Group hike next weekend?",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-15T15:00:00Z"
+    },
+    {
+      "id": "msg_15",
+      "conversationId": "conv_5",
+      "senderId": "user_admin",
+      "text": "I'm in!",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-15T15:10:00Z"
+    },
+    {
+      "id": "msg_16",
+      "conversationId": "conv_5",
+      "senderId": "user_3",
+      "text": "Count me in too!",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-15T15:20:00Z"
+    },
+    {
+      "id": "msg_17",
+      "conversationId": "conv_5",
+      "senderId": "user_2",
+      "text": "Great! Same trail as last time?",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-15T15:30:00Z"
+    },
+    {
+      "id": "msg_18",
+      "conversationId": "conv_5",
+      "senderId": "user_admin",
+      "text": "Let's plan the hike for next weekend",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-15T16:00:00Z"
+    },
+    {
+      "id": "msg_19",
+      "conversationId": "conv_1",
+      "senderId": "user_admin",
+      "text": "Great hike today!",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-11T14:00:00Z"
+    },
+    {
+      "id": "msg_20",
+      "conversationId": "conv_1",
+      "senderId": "user_admin",
+      "text": "Check this post!",
+      "type": "post_share",
+      "imageUrl": null,
+      "sharedPostId": "post_4",
+      "created": "2025-03-11T14:05:00Z"
+    },
+    {
+      "id": "msg_21",
+      "conversationId": "conv_2",
+      "senderId": "user_admin",
+      "text": "Congrats on the launch!",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-09T10:00:00Z"
+    },
+    {
+      "id": "msg_22",
+      "conversationId": "conv_3",
+      "senderId": "user_5",
+      "text": "I'll DM you the full recipe!",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-07T21:10:00Z"
+    },
+    {
+      "id": "msg_23",
+      "conversationId": "conv_4",
+      "senderId": "user_admin",
+      "text": "Looking forward to it!",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-14T12:35:00Z"
+    },
+    {
+      "id": "msg_24",
+      "conversationId": "conv_5",
+      "senderId": "user_3",
+      "text": "Maybe try the coastal trail this time?",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-15T15:40:00Z"
+    },
+    {
+      "id": "msg_25",
+      "conversationId": "conv_1",
+      "senderId": "user_2",
+      "text": "Beautiful shots from today 📸",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2025-03-11T17:00:00Z"
+    }
+  ],
+  "savedPostIds": [
+    "post_4",
+    "post_8"
+  ],
+  "currentUserId": "user_admin"
+}

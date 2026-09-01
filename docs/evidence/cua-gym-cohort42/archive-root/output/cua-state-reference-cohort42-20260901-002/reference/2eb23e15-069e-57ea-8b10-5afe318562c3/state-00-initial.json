@@ -1,0 +1,209 @@
+{
+  "currentUserId": "user_admin",
+  "users": {
+    "user_admin": {
+      "id": "user_admin",
+      "username": "alex_morgan",
+      "name": "Alex Morgan",
+      "avatar": "https://picsum.photos/150/150?random=1",
+      "bio": "Photographer & traveler | Capturing moments",
+      "website": "https://alexmorgan.photo",
+      "followers": [
+        "user_2",
+        "user_3",
+        "user_4"
+      ],
+      "following": [
+        "user_2",
+        "user_3",
+        "user_4"
+      ],
+      "isVerified": false,
+      "isPrivate": false
+    },
+    "user_2": {
+      "id": "user_2",
+      "username": "alice_walker",
+      "name": "Alice Walker",
+      "avatar": "https://picsum.photos/150/150?random=2",
+      "bio": "Adventure seeker | Travel photographer",
+      "website": "",
+      "followers": [
+        "user_admin",
+        "user_3"
+      ],
+      "following": [
+        "user_admin",
+        "user_3"
+      ],
+      "isVerified": false,
+      "isPrivate": false
+    },
+    "user_3": {
+      "id": "user_3",
+      "username": "bob_chen",
+      "name": "Bob Chen",
+      "avatar": "https://picsum.photos/150/150?random=3",
+      "bio": "Tech enthusiast & coffee lover",
+      "website": "",
+      "followers": [
+        "user_admin",
+        "user_2"
+      ],
+      "following": [
+        "user_admin",
+        "user_2"
+      ],
+      "isVerified": false,
+      "isPrivate": false
+    },
+    "user_4": {
+      "id": "user_4",
+      "username": "sarah_kim",
+      "name": "Sarah Kim",
+      "avatar": "https://picsum.photos/150/150?random=4",
+      "bio": "Designer | Art lover",
+      "website": "",
+      "followers": [
+        "user_admin"
+      ],
+      "following": [
+        "user_admin"
+      ],
+      "isVerified": false,
+      "isPrivate": false
+    }
+  },
+  "posts": [
+    {
+      "id": "post_1",
+      "userId": "user_admin",
+      "images": [
+        "https://picsum.photos/800/800?random=101"
+      ],
+      "caption": "Golden hour",
+      "location": "SF",
+      "taggedUsers": [],
+      "likes": [
+        "user_2",
+        "user_3"
+      ],
+      "comments": [
+        {
+          "id": "c_1",
+          "userId": "user_2",
+          "text": "Stunning!",
+          "created": "2024-01-01T10:00:00Z",
+          "likes": [],
+          "isReply": false,
+          "replyToId": null
+        },
+        {
+          "id": "c_2",
+          "userId": "user_3",
+          "text": "Amazing light",
+          "created": "2024-01-01T11:00:00Z",
+          "likes": [
+            "user_2"
+          ],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [],
+      "created": "2024-01-01T08:00:00Z"
+    },
+    {
+      "id": "post_10",
+      "userId": "user_admin",
+      "images": [
+        "https://picsum.photos/800/800?random=110"
+      ],
+      "caption": "City skyline at night",
+      "location": "NYC",
+      "taggedUsers": [],
+      "likes": [
+        "user_4"
+      ],
+      "comments": [
+        {
+          "id": "c_10",
+          "userId": "user_4",
+          "text": "NYC is the best",
+          "created": "2024-01-10T21:00:00Z",
+          "likes": [],
+          "isReply": false,
+          "replyToId": null
+        },
+        {
+          "id": "c_11",
+          "userId": "user_3",
+          "text": "Great composition",
+          "created": "2024-01-10T22:00:00Z",
+          "likes": [],
+          "isReply": false,
+          "replyToId": null
+        },
+        {
+          "id": "c_12",
+          "userId": "user_2",
+          "text": "Was this handheld?",
+          "created": "2024-01-10T23:00:00Z",
+          "likes": [],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [],
+      "created": "2024-01-10T20:00:00Z"
+    }
+  ],
+  "stories": [],
+  "notifications": [
+    {
+      "id": "notif_1",
+      "type": "like",
+      "fromUserId": "user_2",
+      "postId": "post_1",
+      "commentId": null,
+      "text": "liked your photo.",
+      "read": false,
+      "created": "2024-01-01T10:00:00Z"
+    },
+    {
+      "id": "notif_2",
+      "type": "comment",
+      "fromUserId": "user_3",
+      "postId": "post_1",
+      "commentId": "c_2",
+      "text": "commented on your photo.",
+      "read": true,
+      "created": "2024-01-01T11:00:00Z"
+    }
+  ],
+  "conversations": [
+    {
+      "id": "conv_1",
+      "participants": [
+        "user_admin",
+        "user_2"
+      ],
+      "lastMessage": "Great shots!",
+      "lastMessageTime": "2024-01-02T09:00:00Z",
+      "unreadCount": 0
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_1",
+      "conversationId": "conv_1",
+      "senderId": "user_2",
+      "text": "Great shots!",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2024-01-02T09:00:00Z"
+    }
+  ],
+  "savedPostIds": []
+}

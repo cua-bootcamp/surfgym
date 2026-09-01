@@ -1,0 +1,576 @@
+{
+  "user": {
+    "userId": "user_1",
+    "nickname": "张三",
+    "avatar": "https://picsum.photos/100/100?random=1",
+    "wechatId": "zhangsan_2024",
+    "signature": "每天进步一点点",
+    "region": "北京 海淀",
+    "gender": "男",
+    "coverImage": "https://picsum.photos/800/300?random=cover",
+    "phone": "138****1234"
+  },
+  "contacts": [
+    {
+      "userId": "user_2",
+      "nickname": "李四",
+      "avatar": "https://picsum.photos/100/100?random=2",
+      "wechatId": "lisi_wx",
+      "phone": "139****5678",
+      "signature": "简单生活",
+      "region": "上海 浦东",
+      "gender": "男",
+      "tag": "朋友",
+      "isStar": false
+    },
+    {
+      "userId": "user_3",
+      "nickname": "王五",
+      "avatar": "https://picsum.photos/100/100?random=3",
+      "wechatId": "wangwu_88",
+      "phone": "136****9012",
+      "signature": "热爱运动",
+      "region": "广州 天河",
+      "gender": "男",
+      "tag": "同事",
+      "isStar": false
+    },
+    {
+      "userId": "user_4",
+      "nickname": "赵六",
+      "avatar": "https://picsum.photos/100/100?random=4",
+      "wechatId": "zhaoliu_wx",
+      "phone": "135****3456",
+      "signature": "努力工作",
+      "region": "深圳 南山",
+      "gender": "男",
+      "tag": "同事",
+      "isStar": false
+    },
+    {
+      "userId": "user_5",
+      "nickname": "小明",
+      "avatar": "https://picsum.photos/100/100?random=5",
+      "wechatId": "xiaoming_star",
+      "phone": "137****7890",
+      "signature": "生活美好",
+      "region": "成都 武侯",
+      "gender": "男",
+      "tag": "朋友",
+      "isStar": true
+    },
+    {
+      "userId": "user_6",
+      "nickname": "小红",
+      "avatar": "https://picsum.photos/100/100?random=6",
+      "wechatId": "xiaohong_wx",
+      "phone": "132****2345",
+      "signature": "热爱美食",
+      "region": "北京 朝阳",
+      "gender": "女",
+      "tag": "朋友",
+      "isStar": false
+    },
+    {
+      "userId": "user_7",
+      "nickname": "老板",
+      "avatar": "https://picsum.photos/100/100?random=7",
+      "wechatId": "boss_007",
+      "phone": "138****0001",
+      "signature": "专注事业",
+      "region": "北京 西城",
+      "gender": "男",
+      "tag": "同事",
+      "isStar": false
+    },
+    {
+      "userId": "user_8",
+      "nickname": "小美",
+      "avatar": "https://picsum.photos/100/100?random=8",
+      "wechatId": "xiaomei_happy",
+      "phone": "133****4567",
+      "signature": "快乐每一天",
+      "region": "杭州 西湖",
+      "gender": "女",
+      "tag": "家人",
+      "isStar": false
+    }
+  ],
+  "conversations": [
+    {
+      "contactId": "user_2",
+      "lastMessage": "好的，明天见！",
+      "lastTime": "2025-03-20T10:30:00Z",
+      "unreadCount": 2,
+      "isGroup": false,
+      "isPinned": true,
+      "isMuted": false,
+      "draft": ""
+    },
+    {
+      "contactId": "group_1",
+      "lastMessage": "明天开会",
+      "lastTime": "2025-03-19T16:00:00Z",
+      "unreadCount": 5,
+      "isGroup": true,
+      "isPinned": false,
+      "isMuted": false,
+      "draft": ""
+    },
+    {
+      "contactId": "user_3",
+      "lastMessage": "收到",
+      "lastTime": "2025-03-18T09:15:00Z",
+      "unreadCount": 0,
+      "isGroup": false,
+      "isPinned": false,
+      "isMuted": false,
+      "draft": ""
+    },
+    {
+      "contactId": "user_4",
+      "lastMessage": "好的",
+      "lastTime": "2025-03-17T14:20:00Z",
+      "unreadCount": 1,
+      "isGroup": false,
+      "isPinned": false,
+      "isMuted": false,
+      "draft": ""
+    },
+    {
+      "contactId": "user_7",
+      "lastMessage": "已了解",
+      "lastTime": "2025-03-15T11:00:00Z",
+      "unreadCount": 0,
+      "isGroup": false,
+      "isPinned": false,
+      "isMuted": true,
+      "draft": ""
+    }
+  ],
+  "messages": {
+    "user_2": [
+      {
+        "messageId": "msg_001",
+        "senderId": "user_2",
+        "content": "嘿，最近怎么样？",
+        "type": "text",
+        "timestamp": "2025-03-20T10:00:00Z",
+        "isSelf": false
+      },
+      {
+        "messageId": "msg_002",
+        "senderId": "user_1",
+        "content": "还不错，忙着工作呢",
+        "type": "text",
+        "timestamp": "2025-03-20T10:05:00Z",
+        "isSelf": true
+      },
+      {
+        "messageId": "msg_003",
+        "senderId": "user_2",
+        "content": "周末有空一起吃饭吗？",
+        "type": "text",
+        "timestamp": "2025-03-20T10:10:00Z",
+        "isSelf": false
+      },
+      {
+        "messageId": "msg_004",
+        "senderId": "user_1",
+        "content": "当然，周六怎么样？",
+        "type": "text",
+        "timestamp": "2025-03-20T10:15:00Z",
+        "isSelf": true
+      },
+      {
+        "messageId": "msg_005",
+        "senderId": "user_2",
+        "content": "好的，明天见！",
+        "type": "text",
+        "timestamp": "2025-03-20T10:30:00Z",
+        "isSelf": false
+      },
+      {
+        "messageId": "msg_006",
+        "senderId": "user_2",
+        "content": "66.00",
+        "type": "hongbao",
+        "timestamp": "2025-03-19T18:00:00Z",
+        "isSelf": false,
+        "amount": 66,
+        "greeting": "新年快乐！",
+        "opened": true
+      },
+      {
+        "messageId": "msg_007",
+        "senderId": "user_1",
+        "content": "谢谢红包！",
+        "type": "text",
+        "timestamp": "2025-03-19T18:05:00Z",
+        "isSelf": true
+      }
+    ],
+    "user_3": [
+      {
+        "messageId": "msg_101",
+        "senderId": "user_3",
+        "content": "项目进度如何？",
+        "type": "text",
+        "timestamp": "2025-03-18T09:00:00Z",
+        "isSelf": false
+      },
+      {
+        "messageId": "msg_102",
+        "senderId": "user_1",
+        "content": "进展顺利，下周可以提交",
+        "type": "text",
+        "timestamp": "2025-03-18T09:05:00Z",
+        "isSelf": true
+      },
+      {
+        "messageId": "msg_103",
+        "senderId": "user_3",
+        "content": "https://picsum.photos/400/300?random=10",
+        "type": "image",
+        "timestamp": "2025-03-18T09:08:00Z",
+        "isSelf": false
+      },
+      {
+        "messageId": "msg_104",
+        "senderId": "user_1",
+        "content": "好图！",
+        "type": "text",
+        "timestamp": "2025-03-18T09:10:00Z",
+        "isSelf": true
+      },
+      {
+        "messageId": "msg_105",
+        "senderId": "user_3",
+        "content": "收到",
+        "type": "text",
+        "timestamp": "2025-03-18T09:15:00Z",
+        "isSelf": false
+      }
+    ],
+    "user_4": [
+      {
+        "messageId": "msg_201",
+        "senderId": "user_4",
+        "content": "文件发给你了",
+        "type": "file",
+        "timestamp": "2025-03-17T14:00:00Z",
+        "isSelf": false,
+        "fileName": "季度报告.pdf",
+        "fileSize": "2.3MB"
+      },
+      {
+        "messageId": "msg_202",
+        "senderId": "user_1",
+        "content": "收到，我看看",
+        "type": "text",
+        "timestamp": "2025-03-17T14:05:00Z",
+        "isSelf": true
+      },
+      {
+        "messageId": "msg_203",
+        "senderId": "user_4",
+        "content": "有问题随时联系",
+        "type": "text",
+        "timestamp": "2025-03-17T14:10:00Z",
+        "isSelf": false
+      },
+      {
+        "messageId": "msg_204",
+        "senderId": "user_1",
+        "content": "好的",
+        "type": "text",
+        "timestamp": "2025-03-17T14:20:00Z",
+        "isSelf": true
+      }
+    ],
+    "user_7": [
+      {
+        "messageId": "msg_301",
+        "senderId": "user_7",
+        "content": "下午3点开会",
+        "type": "text",
+        "timestamp": "2025-03-15T10:00:00Z",
+        "isSelf": false
+      },
+      {
+        "messageId": "msg_302",
+        "senderId": "user_1",
+        "content": "好的，准时到",
+        "type": "text",
+        "timestamp": "2025-03-15T10:05:00Z",
+        "isSelf": true
+      },
+      {
+        "messageId": "msg_303",
+        "senderId": "user_7",
+        "content": "记得带报告材料",
+        "type": "text",
+        "timestamp": "2025-03-15T10:08:00Z",
+        "isSelf": false
+      },
+      {
+        "messageId": "msg_304",
+        "senderId": "user_1",
+        "content": "已了解",
+        "type": "text",
+        "timestamp": "2025-03-15T11:00:00Z",
+        "isSelf": true
+      }
+    ],
+    "group_1": [
+      {
+        "messageId": "gmsg_001",
+        "senderId": "user_3",
+        "content": "大家好！",
+        "type": "text",
+        "timestamp": "2025-03-19T14:00:00Z",
+        "isSelf": false
+      },
+      {
+        "messageId": "gmsg_002",
+        "senderId": "user_1",
+        "content": "你好！",
+        "type": "text",
+        "timestamp": "2025-03-19T14:05:00Z",
+        "isSelf": true
+      },
+      {
+        "messageId": "gmsg_003",
+        "senderId": "user_4",
+        "content": "项目进展如何？",
+        "type": "text",
+        "timestamp": "2025-03-19T14:10:00Z",
+        "isSelf": false
+      },
+      {
+        "messageId": "gmsg_004",
+        "senderId": "user_5",
+        "content": "我这边正在测试",
+        "type": "text",
+        "timestamp": "2025-03-19T15:00:00Z",
+        "isSelf": false
+      },
+      {
+        "messageId": "gmsg_005",
+        "senderId": "user_1",
+        "content": "我负责的部分快完成了",
+        "type": "text",
+        "timestamp": "2025-03-19T15:30:00Z",
+        "isSelf": true
+      },
+      {
+        "messageId": "gmsg_006",
+        "senderId": "user_3",
+        "content": "明天开会",
+        "type": "text",
+        "timestamp": "2025-03-19T16:00:00Z",
+        "isSelf": false
+      }
+    ]
+  },
+  "moments": [
+    {
+      "postId": "moment_1",
+      "userId": "user_2",
+      "content": "周末去爬山了，风景很美！",
+      "images": [
+        "https://picsum.photos/400/300?random=m1a",
+        "https://picsum.photos/400/300?random=m1b",
+        "https://picsum.photos/400/300?random=m1c"
+      ],
+      "timestamp": "2025-03-22T08:30:00Z",
+      "likes": [
+        "user_1",
+        "user_3",
+        "user_5"
+      ],
+      "comments": [
+        {
+          "commentId": "c1",
+          "userId": "user_3",
+          "content": "好羡慕啊！",
+          "timestamp": "2025-03-22T09:00:00Z"
+        },
+        {
+          "commentId": "c2",
+          "userId": "user_5",
+          "content": "下次带上我！",
+          "timestamp": "2025-03-22T09:30:00Z"
+        }
+      ],
+      "location": "北京·香山公园"
+    },
+    {
+      "postId": "moment_2",
+      "userId": "user_6",
+      "content": "新学了一道菜，红烧排骨",
+      "images": [
+        "https://picsum.photos/400/300?random=m2a"
+      ],
+      "timestamp": "2025-03-21T12:00:00Z",
+      "likes": [
+        "user_1",
+        "user_2",
+        "user_4",
+        "user_5"
+      ],
+      "comments": [
+        {
+          "commentId": "c3",
+          "userId": "user_8",
+          "content": "看起来好好吃！",
+          "timestamp": "2025-03-21T12:30:00Z"
+        }
+      ],
+      "location": ""
+    },
+    {
+      "postId": "moment_3",
+      "userId": "user_1",
+      "content": "今天工作效率很高，完成了好多任务！",
+      "images": [],
+      "timestamp": "2025-03-20T18:00:00Z",
+      "likes": [
+        "user_2",
+        "user_5"
+      ],
+      "comments": [
+        {
+          "commentId": "c4",
+          "userId": "user_2",
+          "content": "加油！",
+          "timestamp": "2025-03-20T18:30:00Z"
+        },
+        {
+          "commentId": "c5",
+          "userId": "user_3",
+          "content": "很厉害！",
+          "timestamp": "2025-03-20T19:00:00Z"
+        }
+      ],
+      "location": ""
+    },
+    {
+      "postId": "moment_4",
+      "userId": "user_5",
+      "content": "阿里巴巴园区的樱花开了，美翻了！",
+      "images": [],
+      "timestamp": "2025-03-19T10:00:00Z",
+      "likes": [
+        "user_1",
+        "user_3"
+      ],
+      "comments": [],
+      "location": "杭州·阿里巴巴西溪园区"
+    },
+    {
+      "postId": "moment_5",
+      "userId": "user_3",
+      "content": "广州马拉松完赛！PB了！",
+      "images": [
+        "https://picsum.photos/400/300?random=m5a",
+        "https://picsum.photos/400/300?random=m5b"
+      ],
+      "timestamp": "2025-03-18T16:00:00Z",
+      "likes": [
+        "user_1",
+        "user_2",
+        "user_5",
+        "user_6"
+      ],
+      "comments": [
+        {
+          "commentId": "c6",
+          "userId": "user_2",
+          "content": "厉害！",
+          "timestamp": "2025-03-18T16:30:00Z"
+        },
+        {
+          "commentId": "c7",
+          "userId": "user_6",
+          "content": "好棒！",
+          "timestamp": "2025-03-18T17:00:00Z"
+        }
+      ],
+      "location": "广州·天河体育中心"
+    }
+  ],
+  "groups": [
+    {
+      "groupId": "group_1",
+      "name": "项目讨论组",
+      "avatar": "https://picsum.photos/100/100?random=g1",
+      "members": [
+        "user_1",
+        "user_3",
+        "user_4",
+        "user_5"
+      ],
+      "createdAt": "2025-01-15T09:00:00Z",
+      "createdBy": "user_1",
+      "description": "用于讨论项目进度",
+      "announcement": "本周五下午3点开会，请准时参加"
+    },
+    {
+      "groupId": "group_2",
+      "name": "老同学聚会",
+      "avatar": "https://picsum.photos/100/100?random=g2",
+      "members": [
+        "user_1",
+        "user_2",
+        "user_5",
+        "user_6"
+      ],
+      "createdAt": "2024-12-01T10:00:00Z",
+      "createdBy": "user_2",
+      "description": "老同学聚会群",
+      "announcement": ""
+    }
+  ],
+  "favorites": [
+    {
+      "favoriteId": "fav_1",
+      "type": "text",
+      "content": "好的方法：每天进步一点点",
+      "source": "李四",
+      "timestamp": "2025-03-10T09:00:00Z"
+    },
+    {
+      "favoriteId": "fav_2",
+      "type": "image",
+      "content": "https://picsum.photos/400/300?random=fav2",
+      "source": "小红",
+      "timestamp": "2025-03-08T14:00:00Z"
+    },
+    {
+      "favoriteId": "fav_3",
+      "type": "link",
+      "content": "https://example.com/article",
+      "source": "王五",
+      "timestamp": "2025-03-05T10:00:00Z",
+      "title": "技术分享文章",
+      "preview": "一篇关于Python优化的好文章"
+    },
+    {
+      "favoriteId": "fav_4",
+      "type": "file",
+      "content": "项目需求文档.docx",
+      "source": "赵六",
+      "timestamp": "2025-03-01T11:00:00Z",
+      "fileName": "项目需求文档.docx",
+      "fileSize": "1.2MB"
+    },
+    {
+      "favoriteId": "fav_5",
+      "type": "text",
+      "content": "季度目标：完成三个核心功能模块",
+      "source": "老板",
+      "timestamp": "2025-02-28T09:30:00Z"
+    }
+  ]
+}

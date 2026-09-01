@@ -1,0 +1,1416 @@
+{
+  "currentUser": {
+    "userId": "user_1",
+    "displayName": "Adele Vance",
+    "firstName": "Adele",
+    "lastName": "Vance",
+    "email": "adele.vance@contoso.com",
+    "avatar": "https://i.pravatar.cc/150?u=user_1",
+    "jobTitle": "Senior Marketing Manager",
+    "department": "Marketing",
+    "location": "Seattle, WA",
+    "phone": "+1 (206) 555-0110",
+    "presence": "available",
+    "statusMessage": "",
+    "statusEmoji": "",
+    "outOfOffice": false,
+    "timezone": "America/Los_Angeles"
+  },
+  "users": [
+    {
+      "userId": "user_1",
+      "displayName": "Adele Vance",
+      "firstName": "Adele",
+      "lastName": "Vance",
+      "email": "adele.vance@contoso.com",
+      "avatar": "https://i.pravatar.cc/150?u=user_1",
+      "jobTitle": "Senior Marketing Manager",
+      "department": "Marketing",
+      "location": "Seattle, WA",
+      "phone": "+1 (206) 555-0110",
+      "presence": "available",
+      "statusMessage": "",
+      "statusEmoji": "",
+      "outOfOffice": false,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "userId": "user_2",
+      "displayName": "Alex Wilber",
+      "firstName": "Alex",
+      "lastName": "Wilber",
+      "email": "alex.wilber@contoso.com",
+      "avatar": "https://i.pravatar.cc/150?u=user_2",
+      "jobTitle": "Software Engineer",
+      "department": "Engineering",
+      "location": "Seattle, WA",
+      "phone": "+1 (206) 555-0120",
+      "presence": "available",
+      "statusMessage": "",
+      "statusEmoji": "",
+      "outOfOffice": false,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "userId": "user_3",
+      "displayName": "Megan Bowen",
+      "firstName": "Megan",
+      "lastName": "Bowen",
+      "email": "megan.bowen@contoso.com",
+      "avatar": "https://i.pravatar.cc/150?u=user_3",
+      "jobTitle": "HR Manager",
+      "department": "Human Resources",
+      "location": "Seattle, WA",
+      "phone": "+1 (206) 555-0130",
+      "presence": "away",
+      "statusMessage": "",
+      "statusEmoji": "",
+      "outOfOffice": false,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "userId": "user_4",
+      "displayName": "Nestor Wilke",
+      "firstName": "Nestor",
+      "lastName": "Wilke",
+      "email": "nestor.wilke@contoso.com",
+      "avatar": "https://i.pravatar.cc/150?u=user_4",
+      "jobTitle": "IT Admin",
+      "department": "IT",
+      "location": "Seattle, WA",
+      "phone": "+1 (206) 555-0140",
+      "presence": "busy",
+      "statusMessage": "",
+      "statusEmoji": "",
+      "outOfOffice": false,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "userId": "user_5",
+      "displayName": "Joni Sherman",
+      "firstName": "Joni",
+      "lastName": "Sherman",
+      "email": "joni.sherman@contoso.com",
+      "avatar": "https://i.pravatar.cc/150?u=user_5",
+      "jobTitle": "Legal Counsel",
+      "department": "Legal",
+      "location": "New York, NY",
+      "phone": "+1 (212) 555-0150",
+      "presence": "available",
+      "statusMessage": "",
+      "statusEmoji": "",
+      "outOfOffice": false,
+      "timezone": "America/New_York"
+    },
+    {
+      "userId": "user_6",
+      "displayName": "Lee Gu",
+      "firstName": "Lee",
+      "lastName": "Gu",
+      "email": "lee.gu@contoso.com",
+      "avatar": "https://i.pravatar.cc/150?u=user_6",
+      "jobTitle": "UX Designer",
+      "department": "Design",
+      "location": "Seattle, WA",
+      "phone": "+1 (206) 555-0160",
+      "presence": "available",
+      "statusMessage": "",
+      "statusEmoji": "",
+      "outOfOffice": false,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "userId": "user_7",
+      "displayName": "Lynne Robbins",
+      "firstName": "Lynne",
+      "lastName": "Robbins",
+      "email": "lynne.robbins@contoso.com",
+      "avatar": "https://i.pravatar.cc/150?u=user_7",
+      "jobTitle": "VP of Sales",
+      "department": "Sales",
+      "location": "Chicago, IL",
+      "phone": "+1 (312) 555-0170",
+      "presence": "inAMeeting",
+      "statusMessage": "",
+      "statusEmoji": "",
+      "outOfOffice": false,
+      "timezone": "America/Chicago"
+    },
+    {
+      "userId": "user_8",
+      "displayName": "Diego Siciliani",
+      "firstName": "Diego",
+      "lastName": "Siciliani",
+      "email": "diego.siciliani@contoso.com",
+      "avatar": "https://i.pravatar.cc/150?u=user_8",
+      "jobTitle": "Finance Analyst",
+      "department": "Finance",
+      "location": "Seattle, WA",
+      "phone": "+1 (206) 555-0180",
+      "presence": "available",
+      "statusMessage": "",
+      "statusEmoji": "",
+      "outOfOffice": false,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "userId": "user_9",
+      "displayName": "Pradeep Gupta",
+      "firstName": "Pradeep",
+      "lastName": "Gupta",
+      "email": "pradeep.gupta@contoso.com",
+      "avatar": "https://i.pravatar.cc/150?u=user_9",
+      "jobTitle": "Data Scientist",
+      "department": "Engineering",
+      "location": "Seattle, WA",
+      "phone": "+1 (206) 555-0190",
+      "presence": "dnd",
+      "statusMessage": "Focusing",
+      "statusEmoji": "🎯",
+      "outOfOffice": false,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "userId": "user_10",
+      "displayName": "Henrietta Mueller",
+      "firstName": "Henrietta",
+      "lastName": "Mueller",
+      "email": "henrietta.mueller@contoso.com",
+      "avatar": "https://i.pravatar.cc/150?u=user_10",
+      "jobTitle": "Project Manager",
+      "department": "PMO",
+      "location": "Seattle, WA",
+      "phone": "+1 (206) 555-0200",
+      "presence": "available",
+      "statusMessage": "",
+      "statusEmoji": "",
+      "outOfOffice": false,
+      "timezone": "America/Los_Angeles"
+    }
+  ],
+  "teams": [
+    {
+      "teamId": "team_1",
+      "displayName": "Contoso Engineering",
+      "description": "Engineering team collaboration space",
+      "avatar": "",
+      "avatarColor": "#4A90D9",
+      "avatarInitials": "CE",
+      "visibility": "private",
+      "isArchived": false,
+      "isFavorite": true,
+      "createdDateTime": "2024-06-15T10:00:00Z",
+      "members": [
+        "user_1",
+        "user_2",
+        "user_4",
+        "user_9"
+      ],
+      "owners": [
+        "user_2"
+      ],
+      "channels": [
+        "ch_1",
+        "ch_2",
+        "ch_3",
+        "ch_4",
+        "ch_5"
+      ],
+      "settings": {
+        "allowMemberCreateChannels": true,
+        "allowMemberDeleteMessages": true,
+        "allowGiphy": true,
+        "allowStickers": true,
+        "allowMemes": true
+      }
+    },
+    {
+      "teamId": "team_2",
+      "displayName": "Marketing",
+      "description": "Marketing team hub for campaigns and brand strategy",
+      "avatar": "",
+      "avatarColor": "#E85D4A",
+      "avatarInitials": "MK",
+      "visibility": "private",
+      "isArchived": false,
+      "isFavorite": true,
+      "createdDateTime": "2024-06-15T10:00:00Z",
+      "members": [
+        "user_1",
+        "user_6",
+        "user_7",
+        "user_10"
+      ],
+      "owners": [
+        "user_1"
+      ],
+      "channels": [
+        "ch_6",
+        "ch_7",
+        "ch_8",
+        "ch_9"
+      ],
+      "settings": {
+        "allowMemberCreateChannels": true,
+        "allowMemberDeleteMessages": true,
+        "allowGiphy": true,
+        "allowStickers": true,
+        "allowMemes": true
+      }
+    },
+    {
+      "teamId": "team_3",
+      "displayName": "Product Design",
+      "description": "Cross-functional product design collaboration",
+      "avatar": "",
+      "avatarColor": "#7B68EE",
+      "avatarInitials": "PD",
+      "visibility": "private",
+      "isArchived": false,
+      "isFavorite": false,
+      "createdDateTime": "2024-09-01T10:00:00Z",
+      "members": [
+        "user_1",
+        "user_2",
+        "user_6",
+        "user_10"
+      ],
+      "owners": [
+        "user_6"
+      ],
+      "channels": [
+        "ch_10",
+        "ch_11",
+        "ch_12"
+      ],
+      "settings": {
+        "allowMemberCreateChannels": true,
+        "allowMemberDeleteMessages": true,
+        "allowGiphy": true,
+        "allowStickers": true,
+        "allowMemes": true
+      }
+    },
+    {
+      "teamId": "team_4",
+      "displayName": "All Company",
+      "description": "Company-wide announcements and discussions",
+      "avatar": "",
+      "avatarColor": "#2ECC71",
+      "avatarInitials": "AC",
+      "visibility": "public",
+      "isArchived": false,
+      "isFavorite": false,
+      "createdDateTime": "2024-01-01T09:00:00Z",
+      "members": [
+        "user_1",
+        "user_2",
+        "user_3",
+        "user_4",
+        "user_5",
+        "user_6",
+        "user_7",
+        "user_8",
+        "user_9",
+        "user_10"
+      ],
+      "owners": [
+        "user_4"
+      ],
+      "channels": [
+        "ch_13",
+        "ch_14"
+      ],
+      "settings": {
+        "allowMemberCreateChannels": false,
+        "allowMemberDeleteMessages": false,
+        "allowGiphy": true,
+        "allowStickers": true,
+        "allowMemes": true
+      }
+    }
+  ],
+  "channels": [
+    {
+      "channelId": "ch_1",
+      "teamId": "team_1",
+      "displayName": "General",
+      "description": "General engineering discussions",
+      "membershipType": "standard",
+      "isFavoriteByDefault": true,
+      "isPinned": false,
+      "isMuted": false,
+      "unreadCount": 3,
+      "lastMessagePreview": "Alex: The deployment went smoothly",
+      "lastMessageTimestamp": "2025-03-13T14:30:00.000Z",
+      "createdDateTime": "2024-06-15T10:00:00Z",
+      "members": [],
+      "tabs": [
+        {
+          "tabId": "tab_posts_1",
+          "displayName": "Posts",
+          "type": "posts",
+          "isDefault": true
+        },
+        {
+          "tabId": "tab_files_1",
+          "displayName": "Files",
+          "type": "files"
+        }
+      ],
+      "pinnedMessages": []
+    },
+    {
+      "channelId": "ch_2",
+      "teamId": "team_1",
+      "displayName": "Backend",
+      "description": "Backend development discussions",
+      "membershipType": "standard",
+      "isFavoriteByDefault": false,
+      "isPinned": false,
+      "isMuted": false,
+      "unreadCount": 1,
+      "lastMessagePreview": "Pradeep: New API endpoint is ready for review",
+      "lastMessageTimestamp": "2025-03-13T11:00:00.000Z",
+      "createdDateTime": "2024-06-15T10:00:00Z",
+      "members": [],
+      "tabs": [
+        {
+          "tabId": "tab_posts_2",
+          "displayName": "Posts",
+          "type": "posts",
+          "isDefault": true
+        },
+        {
+          "tabId": "tab_files_2",
+          "displayName": "Files",
+          "type": "files"
+        }
+      ],
+      "pinnedMessages": []
+    },
+    {
+      "channelId": "ch_3",
+      "teamId": "team_1",
+      "displayName": "Frontend",
+      "description": "Frontend development and UI discussions",
+      "membershipType": "standard",
+      "isFavoriteByDefault": false,
+      "isPinned": false,
+      "isMuted": false,
+      "unreadCount": 0,
+      "lastMessagePreview": "Lee: Design tokens updated",
+      "lastMessageTimestamp": "2025-03-12T16:00:00.000Z",
+      "createdDateTime": "2024-06-15T10:00:00Z",
+      "members": [],
+      "tabs": [
+        {
+          "tabId": "tab_posts_3",
+          "displayName": "Posts",
+          "type": "posts",
+          "isDefault": true
+        },
+        {
+          "tabId": "tab_files_3",
+          "displayName": "Files",
+          "type": "files"
+        }
+      ],
+      "pinnedMessages": []
+    },
+    {
+      "channelId": "ch_4",
+      "teamId": "team_1",
+      "displayName": "DevOps",
+      "description": "CI/CD pipelines, infrastructure, and deployments",
+      "membershipType": "standard",
+      "isFavoriteByDefault": false,
+      "isPinned": false,
+      "isMuted": false,
+      "unreadCount": 2,
+      "lastMessagePreview": "Nestor: Staging environment updated",
+      "lastMessageTimestamp": "2025-03-13T09:45:00.000Z",
+      "createdDateTime": "2024-06-15T10:00:00Z",
+      "members": [],
+      "tabs": [
+        {
+          "tabId": "tab_posts_4",
+          "displayName": "Posts",
+          "type": "posts",
+          "isDefault": true
+        },
+        {
+          "tabId": "tab_files_4",
+          "displayName": "Files",
+          "type": "files"
+        }
+      ],
+      "pinnedMessages": []
+    },
+    {
+      "channelId": "ch_5",
+      "teamId": "team_1",
+      "displayName": "Code Reviews",
+      "description": "Pull request and code review discussions",
+      "membershipType": "standard",
+      "isFavoriteByDefault": false,
+      "isPinned": false,
+      "isMuted": true,
+      "unreadCount": 0,
+      "lastMessagePreview": "Alex: PR #142 approved",
+      "lastMessageTimestamp": "2025-03-11T15:00:00.000Z",
+      "createdDateTime": "2024-06-15T10:00:00Z",
+      "members": [],
+      "tabs": [
+        {
+          "tabId": "tab_posts_5",
+          "displayName": "Posts",
+          "type": "posts",
+          "isDefault": true
+        }
+      ],
+      "pinnedMessages": []
+    },
+    {
+      "channelId": "ch_6",
+      "teamId": "team_2",
+      "displayName": "General",
+      "description": "General marketing discussions",
+      "membershipType": "standard",
+      "isFavoriteByDefault": true,
+      "isPinned": false,
+      "isMuted": false,
+      "unreadCount": 1,
+      "lastMessagePreview": "Lynne: Q2 campaign brief is ready",
+      "lastMessageTimestamp": "2025-03-13T13:00:00.000Z",
+      "createdDateTime": "2024-06-15T10:00:00Z",
+      "members": [],
+      "tabs": [
+        {
+          "tabId": "tab_posts_6",
+          "displayName": "Posts",
+          "type": "posts",
+          "isDefault": true
+        },
+        {
+          "tabId": "tab_files_6",
+          "displayName": "Files",
+          "type": "files"
+        }
+      ],
+      "pinnedMessages": []
+    },
+    {
+      "channelId": "ch_7",
+      "teamId": "team_2",
+      "displayName": "Campaigns",
+      "description": "Active marketing campaigns",
+      "membershipType": "standard",
+      "isFavoriteByDefault": false,
+      "isPinned": false,
+      "isMuted": false,
+      "unreadCount": 0,
+      "lastMessagePreview": "Adele: Summer campaign assets approved",
+      "lastMessageTimestamp": "2025-03-12T10:00:00.000Z",
+      "createdDateTime": "2024-06-15T10:00:00Z",
+      "members": [],
+      "tabs": [
+        {
+          "tabId": "tab_posts_7",
+          "displayName": "Posts",
+          "type": "posts",
+          "isDefault": true
+        }
+      ],
+      "pinnedMessages": []
+    },
+    {
+      "channelId": "ch_8",
+      "teamId": "team_2",
+      "displayName": "Social Media",
+      "description": "Social media strategy and content",
+      "membershipType": "standard",
+      "isFavoriteByDefault": false,
+      "isPinned": false,
+      "isMuted": false,
+      "unreadCount": 0,
+      "lastMessagePreview": "Lee: New social calendar draft",
+      "lastMessageTimestamp": "2025-03-11T09:00:00.000Z",
+      "createdDateTime": "2024-06-15T10:00:00Z",
+      "members": [],
+      "tabs": [
+        {
+          "tabId": "tab_posts_8",
+          "displayName": "Posts",
+          "type": "posts",
+          "isDefault": true
+        }
+      ],
+      "pinnedMessages": []
+    },
+    {
+      "channelId": "ch_9",
+      "teamId": "team_2",
+      "displayName": "Brand Guidelines",
+      "description": "Brand guidelines and assets",
+      "membershipType": "private",
+      "isFavoriteByDefault": false,
+      "isPinned": false,
+      "isMuted": false,
+      "unreadCount": 0,
+      "lastMessagePreview": "",
+      "lastMessageTimestamp": "2025-02-28T10:00:00.000Z",
+      "createdDateTime": "2024-08-01T10:00:00Z",
+      "members": [
+        "user_1",
+        "user_6"
+      ],
+      "tabs": [
+        {
+          "tabId": "tab_posts_9",
+          "displayName": "Posts",
+          "type": "posts",
+          "isDefault": true
+        }
+      ],
+      "pinnedMessages": []
+    },
+    {
+      "channelId": "ch_10",
+      "teamId": "team_3",
+      "displayName": "General",
+      "description": "General product design discussions",
+      "membershipType": "standard",
+      "isFavoriteByDefault": true,
+      "isPinned": false,
+      "isMuted": false,
+      "unreadCount": 0,
+      "lastMessagePreview": "Lee: Wireframes for v3 dashboard ready",
+      "lastMessageTimestamp": "2025-03-12T14:00:00.000Z",
+      "createdDateTime": "2024-09-01T10:00:00Z",
+      "members": [],
+      "tabs": [
+        {
+          "tabId": "tab_posts_10",
+          "displayName": "Posts",
+          "type": "posts",
+          "isDefault": true
+        }
+      ],
+      "pinnedMessages": []
+    },
+    {
+      "channelId": "ch_11",
+      "teamId": "team_3",
+      "displayName": "UI/UX Research",
+      "description": "User research findings and insights",
+      "membershipType": "standard",
+      "isFavoriteByDefault": false,
+      "isPinned": false,
+      "isMuted": false,
+      "unreadCount": 0,
+      "lastMessagePreview": "",
+      "lastMessageTimestamp": "2025-03-10T11:00:00.000Z",
+      "createdDateTime": "2024-09-01T10:00:00Z",
+      "members": [],
+      "tabs": [
+        {
+          "tabId": "tab_posts_11",
+          "displayName": "Posts",
+          "type": "posts",
+          "isDefault": true
+        }
+      ],
+      "pinnedMessages": []
+    },
+    {
+      "channelId": "ch_12",
+      "teamId": "team_3",
+      "displayName": "Design Reviews",
+      "description": "Design critique and review sessions",
+      "membershipType": "standard",
+      "isFavoriteByDefault": false,
+      "isPinned": false,
+      "isMuted": false,
+      "unreadCount": 0,
+      "lastMessagePreview": "",
+      "lastMessageTimestamp": "2025-03-09T16:00:00.000Z",
+      "createdDateTime": "2024-09-01T10:00:00Z",
+      "members": [],
+      "tabs": [
+        {
+          "tabId": "tab_posts_12",
+          "displayName": "Posts",
+          "type": "posts",
+          "isDefault": true
+        }
+      ],
+      "pinnedMessages": []
+    },
+    {
+      "channelId": "ch_13",
+      "teamId": "team_4",
+      "displayName": "General",
+      "description": "Company-wide discussions",
+      "membershipType": "standard",
+      "isFavoriteByDefault": true,
+      "isPinned": false,
+      "isMuted": false,
+      "unreadCount": 0,
+      "lastMessagePreview": "Henrietta: Welcome to our new team members!",
+      "lastMessageTimestamp": "2025-03-10T08:00:00.000Z",
+      "createdDateTime": "2024-01-01T09:00:00Z",
+      "members": [],
+      "tabs": [
+        {
+          "tabId": "tab_posts_13",
+          "displayName": "Posts",
+          "type": "posts",
+          "isDefault": true
+        }
+      ],
+      "pinnedMessages": []
+    },
+    {
+      "channelId": "ch_14",
+      "teamId": "team_4",
+      "displayName": "Announcements",
+      "description": "Official company announcements",
+      "membershipType": "standard",
+      "isFavoriteByDefault": true,
+      "isPinned": false,
+      "isMuted": false,
+      "unreadCount": 1,
+      "lastMessagePreview": "Nestor: System maintenance scheduled for Saturday",
+      "lastMessageTimestamp": "2025-03-13T08:00:00.000Z",
+      "createdDateTime": "2024-01-01T09:00:00Z",
+      "members": [],
+      "tabs": [
+        {
+          "tabId": "tab_posts_14",
+          "displayName": "Posts",
+          "type": "posts",
+          "isDefault": true
+        }
+      ],
+      "pinnedMessages": []
+    }
+  ],
+  "chats": [
+    {
+      "chatId": "chat_1",
+      "chatType": "oneOnOne",
+      "topic": "",
+      "participants": [
+        "user_1",
+        "user_2"
+      ],
+      "isPinned": true,
+      "isMuted": false,
+      "isHidden": false,
+      "unreadCount": 2,
+      "lastMessagePreview": "Sounds good, I'll push the fix now.",
+      "lastMessageSenderId": "user_2",
+      "lastMessageTimestamp": "2025-03-13T14:45:00.000Z",
+      "createdDateTime": "2024-12-01T09:00:00Z",
+      "pinnedMessages": [],
+      "tabs": [
+        {
+          "tabId": "tab_chat_1",
+          "displayName": "Chat",
+          "type": "chat",
+          "isDefault": true
+        },
+        {
+          "tabId": "tab_files_c1",
+          "displayName": "Files",
+          "type": "files"
+        }
+      ]
+    },
+    {
+      "chatId": "chat_2",
+      "chatType": "oneOnOne",
+      "topic": "",
+      "participants": [
+        "user_1",
+        "user_3"
+      ],
+      "isPinned": false,
+      "isMuted": false,
+      "isHidden": false,
+      "unreadCount": 0,
+      "lastMessagePreview": "Thanks for the update!",
+      "lastMessageSenderId": "user_1",
+      "lastMessageTimestamp": "2025-03-12T11:30:00.000Z",
+      "createdDateTime": "2025-01-10T09:00:00Z",
+      "pinnedMessages": [],
+      "tabs": [
+        {
+          "tabId": "tab_chat_2",
+          "displayName": "Chat",
+          "type": "chat",
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "chatId": "chat_3",
+      "chatType": "oneOnOne",
+      "topic": "",
+      "participants": [
+        "user_1",
+        "user_7"
+      ],
+      "isPinned": false,
+      "isMuted": false,
+      "isHidden": false,
+      "unreadCount": 1,
+      "lastMessagePreview": "Can we sync on the Q2 numbers?",
+      "lastMessageSenderId": "user_7",
+      "lastMessageTimestamp": "2025-03-13T10:00:00.000Z",
+      "createdDateTime": "2025-01-15T09:00:00Z",
+      "pinnedMessages": [],
+      "tabs": [
+        {
+          "tabId": "tab_chat_3",
+          "displayName": "Chat",
+          "type": "chat",
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "chatId": "chat_4",
+      "chatType": "oneOnOne",
+      "topic": "",
+      "participants": [
+        "user_1",
+        "user_6"
+      ],
+      "isPinned": false,
+      "isMuted": false,
+      "isHidden": false,
+      "unreadCount": 0,
+      "lastMessagePreview": "The new mockups look great!",
+      "lastMessageSenderId": "user_6",
+      "lastMessageTimestamp": "2025-03-11T16:00:00.000Z",
+      "createdDateTime": "2025-02-01T09:00:00Z",
+      "pinnedMessages": [],
+      "tabs": [
+        {
+          "tabId": "tab_chat_4",
+          "displayName": "Chat",
+          "type": "chat",
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "chatId": "chat_5",
+      "chatType": "group",
+      "topic": "Project Kickoff",
+      "participants": [
+        "user_1",
+        "user_2",
+        "user_6",
+        "user_10"
+      ],
+      "isPinned": false,
+      "isMuted": false,
+      "isHidden": false,
+      "unreadCount": 0,
+      "lastMessagePreview": "Henrietta: I'll book a conference room for next Tuesday.",
+      "lastMessageSenderId": "user_10",
+      "lastMessageTimestamp": "2025-03-12T15:00:00.000Z",
+      "createdDateTime": "2025-03-01T09:00:00Z",
+      "pinnedMessages": [],
+      "tabs": [
+        {
+          "tabId": "tab_chat_5",
+          "displayName": "Chat",
+          "type": "chat",
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "chatId": "chat_6",
+      "chatType": "group",
+      "topic": "Lunch Plans",
+      "participants": [
+        "user_1",
+        "user_3",
+        "user_5",
+        "user_8"
+      ],
+      "isPinned": false,
+      "isMuted": false,
+      "isHidden": false,
+      "unreadCount": 0,
+      "lastMessagePreview": "Joni: The Italian place on 5th?",
+      "lastMessageSenderId": "user_5",
+      "lastMessageTimestamp": "2025-03-13T12:00:00.000Z",
+      "createdDateTime": "2025-02-15T09:00:00Z",
+      "pinnedMessages": [],
+      "tabs": [
+        {
+          "tabId": "tab_chat_6",
+          "displayName": "Chat",
+          "type": "chat",
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "chatId": "chat_7",
+      "chatType": "group",
+      "topic": "Design Sprint",
+      "participants": [
+        "user_6",
+        "user_1",
+        "user_2"
+      ],
+      "isPinned": false,
+      "isMuted": false,
+      "isHidden": false,
+      "unreadCount": 0,
+      "lastMessagePreview": "Lee: Day 2 retro notes shared",
+      "lastMessageSenderId": "user_6",
+      "lastMessageTimestamp": "2025-03-10T17:00:00.000Z",
+      "createdDateTime": "2025-03-05T09:00:00Z",
+      "pinnedMessages": [],
+      "tabs": [
+        {
+          "tabId": "tab_chat_7",
+          "displayName": "Chat",
+          "type": "chat",
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "chatId": "chat_meeting_1",
+      "chatType": "meeting",
+      "topic": "Sprint Planning",
+      "participants": [
+        "user_1",
+        "user_2",
+        "user_10",
+        "user_9",
+        "user_6"
+      ],
+      "isPinned": false,
+      "isMuted": false,
+      "isHidden": false,
+      "unreadCount": 0,
+      "lastMessagePreview": "Henrietta: Agenda attached",
+      "lastMessageSenderId": "user_10",
+      "lastMessageTimestamp": "2025-03-13T08:30:00.000Z",
+      "createdDateTime": "2025-03-13T08:00:00Z",
+      "pinnedMessages": [],
+      "tabs": [
+        {
+          "tabId": "tab_chat_m1",
+          "displayName": "Chat",
+          "type": "chat",
+          "isDefault": true
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "ch_1": [
+      {
+        "messageId": "msg_ch1_1",
+        "containerId": "ch_1",
+        "containerType": "channel",
+        "senderId": "user_2",
+        "content": "Good morning team! Quick update on the API refactor — we've completed endpoints for user auth and profile management.",
+        "contentType": "text",
+        "messageType": "message",
+        "createdDateTime": "2025-03-12T09:00:00.000Z",
+        "lastEditedDateTime": null,
+        "deletedDateTime": null,
+        "importance": "normal",
+        "subject": "API Refactor Update",
+        "replyToId": null,
+        "reactions": [
+          {
+            "emoji": "👍",
+            "users": [
+              "user_1",
+              "user_9"
+            ]
+          }
+        ],
+        "mentions": [],
+        "attachments": [],
+        "isBookmarked": false
+      },
+      {
+        "messageId": "msg_ch1_2",
+        "containerId": "ch_1",
+        "containerType": "channel",
+        "senderId": "user_9",
+        "content": "Great progress Alex! The data pipeline integration tests are all passing now too.",
+        "contentType": "text",
+        "messageType": "message",
+        "createdDateTime": "2025-03-12T09:15:00.000Z",
+        "lastEditedDateTime": null,
+        "deletedDateTime": null,
+        "importance": "normal",
+        "subject": "",
+        "replyToId": null,
+        "reactions": [],
+        "mentions": [],
+        "attachments": [],
+        "isBookmarked": false
+      },
+      {
+        "messageId": "msg_ch1_3",
+        "containerId": "ch_1",
+        "containerType": "channel",
+        "senderId": "user_2",
+        "content": "The deployment went smoothly. All services are green.",
+        "contentType": "text",
+        "messageType": "message",
+        "createdDateTime": "2025-03-13T14:30:00.000Z",
+        "lastEditedDateTime": null,
+        "deletedDateTime": null,
+        "importance": "normal",
+        "subject": "",
+        "replyToId": null,
+        "reactions": [
+          {
+            "emoji": "🎉",
+            "users": [
+              "user_1",
+              "user_4",
+              "user_9"
+            ]
+          }
+        ],
+        "mentions": [],
+        "attachments": [],
+        "isBookmarked": false
+      }
+    ],
+    "ch_2": [
+      {
+        "messageId": "msg_ch2_1",
+        "containerId": "ch_2",
+        "containerType": "channel",
+        "senderId": "user_9",
+        "content": "New API endpoint is ready for review. PR link in the description.",
+        "contentType": "text",
+        "messageType": "message",
+        "createdDateTime": "2025-03-13T11:00:00.000Z",
+        "lastEditedDateTime": null,
+        "deletedDateTime": null,
+        "importance": "normal",
+        "subject": "",
+        "replyToId": null,
+        "reactions": [],
+        "mentions": [],
+        "attachments": [],
+        "isBookmarked": false
+      }
+    ],
+    "ch_6": [
+      {
+        "messageId": "msg_ch6_1",
+        "containerId": "ch_6",
+        "containerType": "channel",
+        "senderId": "user_7",
+        "content": "Q2 campaign brief is ready for review. Please check the attached document.",
+        "contentType": "text",
+        "messageType": "message",
+        "createdDateTime": "2025-03-13T13:00:00.000Z",
+        "lastEditedDateTime": null,
+        "deletedDateTime": null,
+        "importance": "high",
+        "subject": "Q2 Campaign Brief",
+        "replyToId": null,
+        "reactions": [],
+        "mentions": [
+          {
+            "userId": "user_1",
+            "displayName": "Adele Vance",
+            "mentionText": "@Adele Vance"
+          }
+        ],
+        "attachments": [],
+        "isBookmarked": false
+      }
+    ],
+    "ch_14": [
+      {
+        "messageId": "msg_ch14_1",
+        "containerId": "ch_14",
+        "containerType": "channel",
+        "senderId": "user_4",
+        "content": "System maintenance scheduled for Saturday between 2 AM and 4 AM. All services will be briefly unavailable.",
+        "contentType": "text",
+        "messageType": "message",
+        "createdDateTime": "2025-03-13T08:00:00.000Z",
+        "lastEditedDateTime": null,
+        "deletedDateTime": null,
+        "importance": "high",
+        "subject": "Scheduled Maintenance",
+        "replyToId": null,
+        "reactions": [],
+        "mentions": [],
+        "attachments": [],
+        "isBookmarked": false
+      }
+    ],
+    "chat_1": [
+      {
+        "messageId": "cm_1_1",
+        "containerId": "chat_1",
+        "containerType": "chat",
+        "senderId": "user_2",
+        "content": "Hey Adele, can you review the Q1 marketing report before EOD?",
+        "contentType": "text",
+        "messageType": "message",
+        "createdDateTime": "2025-03-13T14:00:00.000Z",
+        "lastEditedDateTime": null,
+        "deletedDateTime": null,
+        "importance": "normal",
+        "subject": "",
+        "replyToId": null,
+        "reactions": [],
+        "mentions": [],
+        "attachments": [],
+        "isBookmarked": false
+      },
+      {
+        "messageId": "cm_1_2",
+        "containerId": "chat_1",
+        "containerType": "chat",
+        "senderId": "user_1",
+        "content": "Sure, I'll take a look this afternoon.",
+        "contentType": "text",
+        "messageType": "message",
+        "createdDateTime": "2025-03-13T14:20:00.000Z",
+        "lastEditedDateTime": null,
+        "deletedDateTime": null,
+        "importance": "normal",
+        "subject": "",
+        "replyToId": null,
+        "reactions": [],
+        "mentions": [],
+        "attachments": [],
+        "isBookmarked": false
+      },
+      {
+        "messageId": "cm_1_3",
+        "containerId": "chat_1",
+        "containerType": "chat",
+        "senderId": "user_2",
+        "content": "Sounds good, I'll push the fix now.",
+        "contentType": "text",
+        "messageType": "message",
+        "createdDateTime": "2025-03-13T14:45:00.000Z",
+        "lastEditedDateTime": null,
+        "deletedDateTime": null,
+        "importance": "normal",
+        "subject": "",
+        "replyToId": null,
+        "reactions": [],
+        "mentions": [],
+        "attachments": [],
+        "isBookmarked": false
+      }
+    ],
+    "chat_3": [
+      {
+        "messageId": "cm_3_1",
+        "containerId": "chat_3",
+        "containerType": "chat",
+        "senderId": "user_7",
+        "content": "Can we sync on the Q2 numbers? I have some concerns about the projections.",
+        "contentType": "text",
+        "messageType": "message",
+        "createdDateTime": "2025-03-13T10:00:00.000Z",
+        "lastEditedDateTime": null,
+        "deletedDateTime": null,
+        "importance": "normal",
+        "subject": "",
+        "replyToId": null,
+        "reactions": [],
+        "mentions": [],
+        "attachments": [],
+        "isBookmarked": false
+      }
+    ]
+  },
+  "meetings": [
+    {
+      "meetingId": "meeting_1",
+      "subject": "Daily Standup",
+      "startDateTime": "2025-03-14T09:00:00.000Z",
+      "endDateTime": "2025-03-14T09:30:00.000Z",
+      "isAllDay": false,
+      "location": "Microsoft Teams Meeting",
+      "organizer": "user_2",
+      "participants": [
+        {
+          "userId": "user_2",
+          "role": "organizer",
+          "rsvp": "accepted"
+        },
+        {
+          "userId": "user_1",
+          "role": "attendee",
+          "rsvp": "accepted"
+        },
+        {
+          "userId": "user_9",
+          "role": "attendee",
+          "rsvp": "accepted"
+        }
+      ],
+      "isRecurring": true,
+      "recurrencePattern": "daily",
+      "chatId": null,
+      "bodyPreview": "Daily sync to discuss progress and blockers.",
+      "joinUrl": "#",
+      "status": "scheduled"
+    },
+    {
+      "meetingId": "meeting_2",
+      "subject": "Sprint Planning",
+      "startDateTime": "2025-03-17T10:00:00.000Z",
+      "endDateTime": "2025-03-17T11:30:00.000Z",
+      "isAllDay": false,
+      "location": "Microsoft Teams Meeting",
+      "organizer": "user_10",
+      "participants": [
+        {
+          "userId": "user_10",
+          "role": "organizer",
+          "rsvp": "accepted"
+        },
+        {
+          "userId": "user_1",
+          "role": "attendee",
+          "rsvp": "accepted"
+        },
+        {
+          "userId": "user_2",
+          "role": "attendee",
+          "rsvp": "accepted"
+        },
+        {
+          "userId": "user_6",
+          "role": "attendee",
+          "rsvp": "tentative"
+        }
+      ],
+      "isRecurring": false,
+      "recurrencePattern": null,
+      "chatId": "chat_meeting_1",
+      "bodyPreview": "Sprint planning for April cycle.",
+      "joinUrl": "#",
+      "status": "scheduled"
+    },
+    {
+      "meetingId": "meeting_3",
+      "subject": "Marketing Strategy Review",
+      "startDateTime": "2025-03-18T14:00:00.000Z",
+      "endDateTime": "2025-03-18T15:00:00.000Z",
+      "isAllDay": false,
+      "location": "Microsoft Teams Meeting",
+      "organizer": "user_1",
+      "participants": [
+        {
+          "userId": "user_1",
+          "role": "organizer",
+          "rsvp": "accepted"
+        },
+        {
+          "userId": "user_7",
+          "role": "attendee",
+          "rsvp": "accepted"
+        },
+        {
+          "userId": "user_6",
+          "role": "attendee",
+          "rsvp": "pending"
+        }
+      ],
+      "isRecurring": false,
+      "recurrencePattern": null,
+      "chatId": null,
+      "bodyPreview": "Quarterly marketing strategy alignment.",
+      "joinUrl": "#",
+      "status": "scheduled"
+    }
+  ],
+  "calls": [
+    {
+      "callId": "call_1",
+      "callType": "oneOnOne",
+      "direction": "incoming",
+      "participants": [
+        "user_1",
+        "user_2"
+      ],
+      "startDateTime": "2025-03-12T16:00:00.000Z",
+      "endDateTime": "2025-03-12T16:12:00.000Z",
+      "duration": 720,
+      "status": "completed",
+      "isVideoCall": true
+    },
+    {
+      "callId": "call_2",
+      "callType": "oneOnOne",
+      "direction": "outgoing",
+      "participants": [
+        "user_1",
+        "user_7"
+      ],
+      "startDateTime": "2025-03-11T14:00:00.000Z",
+      "endDateTime": "2025-03-11T14:25:00.000Z",
+      "duration": 1500,
+      "status": "completed",
+      "isVideoCall": false
+    },
+    {
+      "callId": "call_3",
+      "callType": "oneOnOne",
+      "direction": "incoming",
+      "participants": [
+        "user_1",
+        "user_3"
+      ],
+      "startDateTime": "2025-03-10T11:00:00.000Z",
+      "endDateTime": null,
+      "duration": null,
+      "status": "missed",
+      "isVideoCall": false
+    }
+  ],
+  "files": [
+    {
+      "fileId": "file_1",
+      "name": "Q3_Roadmap.pdf",
+      "contentType": "application/pdf",
+      "size": 245760,
+      "containerId": "ch_1",
+      "containerType": "channel",
+      "sharedBy": "user_2",
+      "sharedDateTime": "2025-03-10T10:00:00.000Z",
+      "lastModifiedDateTime": "2025-03-10T10:00:00.000Z",
+      "lastModifiedBy": "user_2",
+      "thumbnailUrl": "",
+      "downloadUrl": "#"
+    },
+    {
+      "fileId": "file_2",
+      "name": "Marketing_Budget_Q2.xlsx",
+      "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "size": 184320,
+      "containerId": "ch_6",
+      "containerType": "channel",
+      "sharedBy": "user_1",
+      "sharedDateTime": "2025-03-11T09:00:00.000Z",
+      "lastModifiedDateTime": "2025-03-12T14:00:00.000Z",
+      "lastModifiedBy": "user_7",
+      "thumbnailUrl": "",
+      "downloadUrl": "#"
+    },
+    {
+      "fileId": "file_3",
+      "name": "Design_System_v2.fig",
+      "contentType": "application/octet-stream",
+      "size": 512000,
+      "containerId": "ch_10",
+      "containerType": "channel",
+      "sharedBy": "user_6",
+      "sharedDateTime": "2025-03-08T10:00:00.000Z",
+      "lastModifiedDateTime": "2025-03-08T10:00:00.000Z",
+      "lastModifiedBy": "user_6",
+      "thumbnailUrl": "",
+      "downloadUrl": "#"
+    }
+  ],
+  "notifications": [
+    {
+      "notificationId": "notif_1",
+      "type": "mention",
+      "actorId": "user_2",
+      "targetMessageId": "msg_ch1_1",
+      "containerId": "ch_1",
+      "containerType": "channel",
+      "containerName": "General",
+      "teamName": "Contoso Engineering",
+      "previewText": "Alex Wilber mentioned you in General",
+      "timestamp": "2025-03-13T08:30:00.000Z",
+      "isRead": false,
+      "isActionable": false
+    },
+    {
+      "notificationId": "notif_2",
+      "type": "reply",
+      "actorId": "user_7",
+      "targetMessageId": "cm_3_1",
+      "containerId": "chat_3",
+      "containerType": "chat",
+      "containerName": "Lynne Robbins",
+      "teamName": null,
+      "previewText": "Lynne Robbins: Can we sync on the Q2 numbers?",
+      "timestamp": "2025-03-13T10:00:00.000Z",
+      "isRead": false,
+      "isActionable": false
+    },
+    {
+      "notificationId": "notif_3",
+      "type": "meeting",
+      "actorId": "user_10",
+      "targetMessageId": null,
+      "containerId": null,
+      "containerType": null,
+      "containerName": "Sprint Planning",
+      "teamName": null,
+      "previewText": "Sprint Planning starts in 15 minutes",
+      "timestamp": "2025-03-13T09:45:00.000Z",
+      "isRead": true,
+      "isActionable": true
+    }
+  ],
+  "settings": {
+    "theme": "light",
+    "language": "en-US",
+    "notifications": {
+      "showMessagePreviews": true,
+      "playSound": true,
+      "showBadgeCount": true,
+      "muteAll": false,
+      "quietHoursEnabled": false,
+      "quietHoursStart": "22:00",
+      "quietHoursEnd": "07:00"
+    },
+    "privacy": {
+      "readReceipts": true,
+      "showPresence": true
+    },
+    "display": {
+      "density": "comfortable",
+      "showChannelPreview": true
+    }
+  },
+  "ui": {
+    "activeView": "chat",
+    "activeTeamId": null,
+    "activeChannelId": null,
+    "activeChatId": null,
+    "activeThreadMessageId": null,
+    "isThreadPanelOpen": false,
+    "isDetailsPanelOpen": false,
+    "searchQuery": "",
+    "searchResults": null
+  }
+}

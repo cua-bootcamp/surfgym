@@ -1,0 +1,167 @@
+{
+  "user": {
+    "userId": "u1",
+    "username": "Dana Cole",
+    "email": "dana@company.com",
+    "avatar": ""
+  },
+  "emails": [
+    {
+      "id": "e1",
+      "threadId": "thread_1",
+      "from": {
+        "name": "Vendor",
+        "email": "sales@partner.co",
+        "avatar": ""
+      },
+      "to": [
+        {
+          "name": "Dana Cole",
+          "email": "dana@company.com"
+        }
+      ],
+      "cc": [],
+      "bcc": [],
+      "subject": "Updated Contract",
+      "body": "Hi Dana,\n\nPlease find the updated contract attached for your review. Let us know if you have any questions.\n\nBest regards,\nVendor Sales",
+      "snippet": "Please find the updated contract attached for your review.",
+      "timestamp": "2025-03-01T10:00:00Z",
+      "read": true,
+      "starred": false,
+      "important": false,
+      "labels": [
+        "l1"
+      ],
+      "category": "primary",
+      "folder": "inbox",
+      "attachments": [
+        {
+          "id": "att_e1_1",
+          "name": "contract_v2.pdf",
+          "size": 245000,
+          "type": "application/pdf",
+          "url": ""
+        }
+      ]
+    },
+    {
+      "id": "e2",
+      "threadId": "thread_2",
+      "from": {
+        "name": "Partner PM",
+        "email": "pm@partner.co",
+        "avatar": ""
+      },
+      "to": [
+        {
+          "name": "Dana Cole",
+          "email": "dana@company.com"
+        }
+      ],
+      "cc": [],
+      "bcc": [],
+      "subject": "Q1 Report",
+      "body": "Hi Dana,\n\nAttached is the Q1 report summarizing our partnership metrics and deliverables.\n\nPlease review and let me know if you have any feedback.\n\nBest,\nPartner PM",
+      "snippet": "Attached is the Q1 report summarizing our partnership metrics.",
+      "timestamp": "2025-03-05T14:00:00Z",
+      "read": false,
+      "starred": false,
+      "important": false,
+      "labels": [
+        "l1"
+      ],
+      "category": "primary",
+      "folder": "inbox",
+      "attachments": [
+        {
+          "id": "att_e2_1",
+          "name": "q1_report.xlsx",
+          "size": 180000,
+          "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "url": ""
+        }
+      ]
+    },
+    {
+      "id": "e3",
+      "threadId": "thread_3",
+      "from": {
+        "name": "Partner PM",
+        "email": "pm@partner.co",
+        "avatar": ""
+      },
+      "to": [
+        {
+          "name": "Dana Cole",
+          "email": "dana@company.com"
+        }
+      ],
+      "cc": [],
+      "bcc": [],
+      "subject": "Meeting Notes",
+      "body": "Hi Dana,\n\nHere are the notes from our call earlier today. No attachment needed — just capturing the key action items.\n\n1. Schedule follow-up for end of month\n2. Dana to share Q1 feedback by March 10\n3. Review contract renewal timeline\n\nThanks,\nPartner PM",
+      "snippet": "No attachment, just notes from our call.",
+      "timestamp": "2025-03-06T09:00:00Z",
+      "read": false,
+      "starred": false,
+      "important": false,
+      "labels": [
+        "l1"
+      ],
+      "category": "primary",
+      "folder": "inbox",
+      "attachments": []
+    },
+    {
+      "id": "e4",
+      "threadId": "thread_4",
+      "from": {
+        "name": "Newsletter",
+        "email": "news@tech.com",
+        "avatar": ""
+      },
+      "to": [
+        {
+          "name": "Dana Cole",
+          "email": "dana@company.com"
+        }
+      ],
+      "cc": [],
+      "bcc": [],
+      "subject": "Tech Digest",
+      "body": "This week's roundup of top tech news:\n\n- AI breakthroughs in enterprise software\n- Cloud computing trends for 2025\n- Cybersecurity updates\n\nUnsubscribe | View in browser",
+      "snippet": "This weeks roundup of top tech news including AI, cloud, and security.",
+      "timestamp": "2025-03-07T08:00:00Z",
+      "read": false,
+      "starred": false,
+      "important": false,
+      "labels": [],
+      "category": "promotions",
+      "folder": "inbox",
+      "attachments": []
+    }
+  ],
+  "labels": [
+    {
+      "id": "l1",
+      "name": "Work",
+      "color": "#ef4444"
+    },
+    {
+      "id": "l2",
+      "name": "Personal",
+      "color": "#3b82f6"
+    },
+    {
+      "id": "l3",
+      "name": "Travel",
+      "color": "#22c55e"
+    },
+    {
+      "id": "l4",
+      "name": "Finance",
+      "color": "#eab308"
+    }
+  ],
+  "drafts": []
+}

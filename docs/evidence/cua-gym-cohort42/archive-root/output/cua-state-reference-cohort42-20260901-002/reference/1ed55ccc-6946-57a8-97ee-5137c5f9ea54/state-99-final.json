@@ -1,0 +1,544 @@
+{
+  "users": {
+    "user_admin": {
+      "id": "user_admin",
+      "username": "alex_morgan",
+      "name": "Alex Morgan",
+      "avatar": "https://picsum.photos/150/150?random=1",
+      "bio": "Photography enthusiast | Travel addict",
+      "website": "https://alexmorgan.photo",
+      "followers": [
+        "user_2",
+        "user_3",
+        "user_4",
+        "user_5",
+        "user_6",
+        "user_7"
+      ],
+      "following": [
+        "user_2",
+        "user_3",
+        "user_4",
+        "user_5",
+        "user_6",
+        "user_7"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_2": {
+      "id": "user_2",
+      "username": "adventure_seeker",
+      "name": "Alice Walker",
+      "avatar": "https://picsum.photos/150/150?random=2",
+      "bio": "Chasing sunsets and mountain peaks",
+      "website": "",
+      "followers": [
+        "user_admin",
+        "user_3"
+      ],
+      "following": [
+        "user_admin",
+        "user_6"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_3": {
+      "id": "user_3",
+      "username": "tech_guru",
+      "name": "Bob Chen",
+      "avatar": "https://picsum.photos/150/150?random=3",
+      "bio": "Software engineer | Open source contributor",
+      "website": "https://bobchen.dev",
+      "followers": [
+        "user_admin",
+        "user_2"
+      ],
+      "following": [
+        "user_admin",
+        "user_4"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_4": {
+      "id": "user_4",
+      "username": "design_daily",
+      "name": "Sarah Kim",
+      "avatar": "https://picsum.photos/150/150?random=4",
+      "bio": "UI/UX Designer | Creative director",
+      "website": "https://sarahkim.design",
+      "followers": [
+        "user_admin",
+        "user_5",
+        "user_6"
+      ],
+      "following": [
+        "user_admin",
+        "user_6",
+        "user_7"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_5": {
+      "id": "user_5",
+      "username": "foodie_life",
+      "name": "Chef Marco",
+      "avatar": "https://picsum.photos/150/150?random=5",
+      "bio": "Head Chef | Food photographer",
+      "website": "",
+      "followers": [
+        "user_admin",
+        "user_4"
+      ],
+      "following": [
+        "user_admin",
+        "user_2"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_6": {
+      "id": "user_6",
+      "username": "nature_lover",
+      "name": "Emma Green",
+      "avatar": "https://picsum.photos/150/150?random=6",
+      "bio": "Nature photographer | Environmental advocate",
+      "website": "",
+      "followers": [
+        "user_admin",
+        "user_2",
+        "user_4"
+      ],
+      "following": [
+        "user_admin",
+        "user_4",
+        "user_7"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_7": {
+      "id": "user_7",
+      "username": "fitness_coach",
+      "name": "Jake Thompson",
+      "avatar": "https://picsum.photos/150/150?random=7",
+      "bio": "Certified personal trainer | Nutrition coach",
+      "website": "https://jakethompson.fit",
+      "followers": [
+        "user_admin",
+        "user_4",
+        "user_6"
+      ],
+      "following": [
+        "user_admin",
+        "user_3"
+      ],
+      "isVerified": true,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_8": {
+      "id": "user_8",
+      "username": "artsy_vibes",
+      "name": "Mia Chen",
+      "avatar": "https://i.pravatar.cc/150?img=20",
+      "bio": "Digital Artist & Illustrator\nCommissions open\nPrints available below",
+      "website": "https://miachen.art",
+      "followers": [
+        "user_4",
+        "user_6",
+        "user_7",
+        "user_admin"
+      ],
+      "following": [
+        "user_4",
+        "user_5",
+        "user_6",
+        "user_7",
+        "user_admin"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": false
+    },
+    "user_9": {
+      "id": "user_9",
+      "username": "urban_explorer",
+      "name": "David Park",
+      "avatar": "https://i.pravatar.cc/150?img=33",
+      "bio": "Street Photography | Architecture\nNYC based | Sony Alpha\nPrint shop open",
+      "website": "https://davidpark.photo",
+      "followers": [
+        "user_2",
+        "user_5",
+        "user_6",
+        "user_7",
+        "user_10"
+      ],
+      "following": [
+        "user_2",
+        "user_5",
+        "user_7",
+        "user_10"
+      ],
+      "isVerified": false,
+      "isPrivate": false,
+      "isOnline": true
+    },
+    "user_10": {
+      "id": "user_10",
+      "username": "music_matters",
+      "name": "Luna Rivera",
+      "avatar": "https://i.pravatar.cc/150?img=25",
+      "bio": "Singer-Songwriter | Producer\nNew EP out now\nTour dates in bio link",
+      "website": "https://lunarivera.music",
+      "followers": [
+        "user_3",
+        "user_4",
+        "user_7",
+        "user_9"
+      ],
+      "following": [
+        "user_3",
+        "user_7",
+        "user_9"
+      ],
+      "isVerified": true,
+      "isPrivate": false,
+      "isOnline": false
+    }
+  },
+  "posts": [
+    {
+      "id": "post_1",
+      "userId": "user_admin",
+      "images": [
+        "https://picsum.photos/800/800?random=101"
+      ],
+      "caption": "Golden hour magic in the city #photography #goldenhour",
+      "location": "San Francisco, CA",
+      "taggedUsers": [],
+      "likes": [
+        "user_2",
+        "user_4",
+        "user_6"
+      ],
+      "comments": [
+        {
+          "id": "c_1",
+          "userId": "user_2",
+          "text": "Absolutely stunning!",
+          "created": "2024-01-01T10:00:00Z",
+          "likes": [],
+          "isReply": false,
+          "replyToId": null
+        },
+        {
+          "id": "c_2",
+          "userId": "user_4",
+          "text": "Love the composition here",
+          "created": "2024-01-01T11:00:00Z",
+          "likes": [
+            "user_2"
+          ],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [
+        "user_4"
+      ],
+      "created": "2024-01-01T08:00:00Z"
+    },
+    {
+      "id": "post_2",
+      "userId": "user_admin",
+      "images": [
+        "https://picsum.photos/800/800?random=102"
+      ],
+      "caption": "Morning coffee ritual ☕ #mornings #coffee",
+      "location": "Home",
+      "taggedUsers": [],
+      "likes": [
+        "user_3",
+        "user_5"
+      ],
+      "comments": [
+        {
+          "id": "c_3",
+          "userId": "user_5",
+          "text": "That looks delicious!",
+          "created": "2024-01-02T09:00:00Z",
+          "likes": [],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [],
+      "created": "2024-01-02T08:30:00Z"
+    },
+    {
+      "id": "post_3",
+      "userId": "user_admin",
+      "images": [
+        "https://picsum.photos/800/800?random=103"
+      ],
+      "caption": "Weekend hike adventures #hiking #outdoors",
+      "location": "Mount Tamalpais, CA",
+      "taggedUsers": [],
+      "likes": [
+        "user_2",
+        "user_6",
+        "user_7"
+      ],
+      "comments": [],
+      "saved": [
+        "user_6"
+      ],
+      "created": "2024-01-03T14:00:00Z"
+    },
+    {
+      "id": "post_4",
+      "userId": "user_2",
+      "images": [
+        "https://picsum.photos/800/800?random=104"
+      ],
+      "caption": "Peak vibes at 14,000 feet #mountains #adventure",
+      "location": "Rocky Mountain National Park",
+      "taggedUsers": [],
+      "likes": [
+        "user_admin",
+        "user_3",
+        "user_6"
+      ],
+      "comments": [
+        {
+          "id": "c_4",
+          "userId": "user_admin",
+          "text": "I need to visit this place!",
+          "created": "2024-01-04T16:00:00Z",
+          "likes": [
+            "user_2"
+          ],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [],
+      "created": "2024-01-04T12:00:00Z"
+    },
+    {
+      "id": "post_5",
+      "userId": "user_4",
+      "images": [
+        "https://picsum.photos/800/800?random=105"
+      ],
+      "caption": "New brand identity project complete 🎨 #design #branding",
+      "location": "Studio",
+      "taggedUsers": [],
+      "likes": [
+        "user_admin",
+        "user_2",
+        "user_7"
+      ],
+      "comments": [
+        {
+          "id": "c_5",
+          "userId": "user_3",
+          "text": "Clean design, love it!",
+          "created": "2024-01-05T10:00:00Z",
+          "likes": [],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [
+        "user_admin"
+      ],
+      "created": "2024-01-05T09:00:00Z"
+    },
+    {
+      "id": "post_6",
+      "userId": "user_6",
+      "images": [
+        "https://picsum.photos/800/800?random=106"
+      ],
+      "caption": "Beach sunset vibes #nature",
+      "location": "Malibu, CA",
+      "taggedUsers": [],
+      "likes": [
+        "user_4",
+        "user_admin"
+      ],
+      "comments": [],
+      "saved": [
+        "user_admin"
+      ],
+      "created": "2024-01-06T18:00:00Z"
+    },
+    {
+      "id": "post_7",
+      "userId": "user_5",
+      "images": [
+        "https://picsum.photos/800/800?random=107"
+      ],
+      "caption": "Homemade pasta from scratch 🍝 #cooking #italian",
+      "location": "My Kitchen",
+      "taggedUsers": [],
+      "likes": [
+        "user_admin",
+        "user_2",
+        "user_4"
+      ],
+      "comments": [
+        {
+          "id": "c_6",
+          "userId": "user_admin",
+          "text": "Recipe please!",
+          "created": "2024-01-07T20:00:00Z",
+          "likes": [
+            "user_5"
+          ],
+          "isReply": false,
+          "replyToId": null
+        }
+      ],
+      "saved": [],
+      "created": "2024-01-07T19:00:00Z"
+    },
+    {
+      "id": "post_8",
+      "userId": "user_7",
+      "images": [
+        "https://picsum.photos/800/800?random=108"
+      ],
+      "caption": "Morning workout complete 💪 #fitness #motivation",
+      "location": "City Gym",
+      "taggedUsers": [],
+      "likes": [
+        "user_admin",
+        "user_3",
+        "user_4",
+        "user_6"
+      ],
+      "comments": [],
+      "saved": [],
+      "created": "2024-01-08T07:00:00Z"
+    }
+  ],
+  "stories": [
+    {
+      "id": "story_1",
+      "userId": "user_6",
+      "image": "https://picsum.photos/400/700?random=201",
+      "created": "2024-01-08T08:00:00Z",
+      "expires": "2024-01-09T08:00:00Z",
+      "viewed": false
+    },
+    {
+      "id": "story_2",
+      "userId": "user_2",
+      "image": "https://picsum.photos/400/700?random=202",
+      "created": "2024-01-08T09:00:00Z",
+      "expires": "2024-01-09T09:00:00Z",
+      "viewed": false
+    },
+    {
+      "id": "story_3",
+      "userId": "user_4",
+      "image": "https://picsum.photos/400/700?random=203",
+      "created": "2024-01-08T10:00:00Z",
+      "expires": "2024-01-09T10:00:00Z",
+      "viewed": true
+    }
+  ],
+  "notifications": [
+    {
+      "id": "notif_1",
+      "type": "like",
+      "fromUserId": "user_2",
+      "postId": "post_1",
+      "commentId": null,
+      "text": "liked your photo.",
+      "read": true,
+      "created": "2024-01-01T10:00:00Z"
+    },
+    {
+      "id": "notif_2",
+      "type": "comment",
+      "fromUserId": "user_4",
+      "postId": "post_1",
+      "commentId": "c_2",
+      "text": "commented on your photo.",
+      "read": true,
+      "created": "2024-01-01T11:00:00Z"
+    },
+    {
+      "id": "notif_3",
+      "type": "follow",
+      "fromUserId": "user_7",
+      "postId": null,
+      "commentId": null,
+      "text": "started following you.",
+      "read": false,
+      "created": "2024-01-08T06:00:00Z"
+    }
+  ],
+  "conversations": [
+    {
+      "id": "conv_1",
+      "participants": [
+        "user_admin",
+        "user_2"
+      ],
+      "lastMessage": "See you on the trails!",
+      "lastMessageTime": "2024-01-07T15:00:00Z",
+      "unreadCount": 0
+    },
+    {
+      "id": "conv_2",
+      "participants": [
+        "user_admin",
+        "user_6"
+      ],
+      "lastMessage": "Your photos are amazing!",
+      "lastMessageTime": "2024-01-06T20:00:00Z",
+      "unreadCount": 1
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_1",
+      "conversationId": "conv_1",
+      "senderId": "user_admin",
+      "text": "See you on the trails!",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2024-01-07T15:00:00Z"
+    },
+    {
+      "id": "msg_2",
+      "conversationId": "conv_2",
+      "senderId": "user_6",
+      "text": "Your photos are amazing!",
+      "type": "text",
+      "imageUrl": null,
+      "sharedPostId": null,
+      "created": "2024-01-06T20:00:00Z"
+    }
+  ],
+  "savedPostIds": [
+    "post_6"
+  ],
+  "currentUserId": "user_admin"
+}

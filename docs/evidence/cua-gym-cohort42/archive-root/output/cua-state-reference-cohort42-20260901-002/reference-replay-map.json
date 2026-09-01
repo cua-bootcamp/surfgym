@@ -1,0 +1,263 @@
+{
+  "version": 1,
+  "status": "COMPLETE",
+  "counts": {
+    "cohort": 42,
+    "mapped_with_full_state": 42,
+    "missing_full_state": 0
+  },
+  "tasks": [
+    {
+      "task_id": "133a8676-fa79-518c-b000-5d51d4791db2",
+      "app_key": "INSTAGRAM",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/133a8676-fa79-518c-b000-5d51d4791db2/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/133a8676-fa79-518c-b000-5d51d4791db2/reward-response.json"
+    },
+    {
+      "task_id": "4fbe0b2e-7f9e-5752-8e56-4a99ab3887c8",
+      "app_key": "INSTAGRAM",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/4fbe0b2e-7f9e-5752-8e56-4a99ab3887c8/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/4fbe0b2e-7f9e-5752-8e56-4a99ab3887c8/reward-response.json"
+    },
+    {
+      "task_id": "4b04f328-8c61-5012-8730-ec0d0a7f6ef2",
+      "app_key": "INSTAGRAM",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/4b04f328-8c61-5012-8730-ec0d0a7f6ef2/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/4b04f328-8c61-5012-8730-ec0d0a7f6ef2/reward-response.json"
+    },
+    {
+      "task_id": "d3268ba9-6bae-5be7-9bfa-028fa8a8e707",
+      "app_key": "INSTAGRAM",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/d3268ba9-6bae-5be7-9bfa-028fa8a8e707/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/d3268ba9-6bae-5be7-9bfa-028fa8a8e707/reward-response.json"
+    },
+    {
+      "task_id": "f6d0c6ba-d4c0-57af-a336-ee06a9d12bbd",
+      "app_key": "INSTAGRAM",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/f6d0c6ba-d4c0-57af-a336-ee06a9d12bbd/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/f6d0c6ba-d4c0-57af-a336-ee06a9d12bbd/reward-response.json"
+    },
+    {
+      "task_id": "7cf937a6-3017-5b17-ba3f-0a6cc9b1052c",
+      "app_key": "INSTAGRAM",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/7cf937a6-3017-5b17-ba3f-0a6cc9b1052c/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/7cf937a6-3017-5b17-ba3f-0a6cc9b1052c/reward-response.json"
+    },
+    {
+      "task_id": "98479d5c-529e-576a-aa30-a4c82eefcc87",
+      "app_key": "INSTAGRAM",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/98479d5c-529e-576a-aa30-a4c82eefcc87/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/98479d5c-529e-576a-aa30-a4c82eefcc87/reward-response.json"
+    },
+    {
+      "task_id": "61d58ac6-1eb6-5d39-b6c2-899c785a0572",
+      "app_key": "INSTAGRAM",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/61d58ac6-1eb6-5d39-b6c2-899c785a0572/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/61d58ac6-1eb6-5d39-b6c2-899c785a0572/reward-response.json"
+    },
+    {
+      "task_id": "8e4ffdeb-ad1f-5790-bd3f-dd11908ea142",
+      "app_key": "INSTAGRAM",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/8e4ffdeb-ad1f-5790-bd3f-dd11908ea142/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/8e4ffdeb-ad1f-5790-bd3f-dd11908ea142/reward-response.json"
+    },
+    {
+      "task_id": "ced56393-784b-55da-9a6d-f7183ddfe599",
+      "app_key": "INSTAGRAM",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/ced56393-784b-55da-9a6d-f7183ddfe599/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/ced56393-784b-55da-9a6d-f7183ddfe599/reward-response.json"
+    },
+    {
+      "task_id": "1ed55ccc-6946-57a8-97ee-5137c5f9ea54",
+      "app_key": "INSTAGRAM",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/1ed55ccc-6946-57a8-97ee-5137c5f9ea54/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/1ed55ccc-6946-57a8-97ee-5137c5f9ea54/reward-response.json"
+    },
+    {
+      "task_id": "22fb9b2c-add0-5c9c-a1b9-acf5cb63cd1e",
+      "app_key": "INSTAGRAM",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/22fb9b2c-add0-5c9c-a1b9-acf5cb63cd1e/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/22fb9b2c-add0-5c9c-a1b9-acf5cb63cd1e/reward-response.json"
+    },
+    {
+      "task_id": "09918993-d6b3-5097-9e82-f0988eeb60ed",
+      "app_key": "INSTAGRAM",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/09918993-d6b3-5097-9e82-f0988eeb60ed/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/09918993-d6b3-5097-9e82-f0988eeb60ed/reward-response.json"
+    },
+    {
+      "task_id": "25dc997b-93cf-5540-b3e9-84c59c01ff4b",
+      "app_key": "INSTAGRAM",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/25dc997b-93cf-5540-b3e9-84c59c01ff4b/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/25dc997b-93cf-5540-b3e9-84c59c01ff4b/reward-response.json"
+    },
+    {
+      "task_id": "6b0820fb-41ef-5d92-aa18-1e96c7a8351c",
+      "app_key": "INSTAGRAM",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/6b0820fb-41ef-5d92-aa18-1e96c7a8351c/state-99-final.json",
+      "reward_response_path": "output/cua-promotion-m3-wave14-20260831-017/evidence/instagram/save-high-like-non-own-posts/strict-isolation/a-final-reward-release/attempt-01/response.json"
+    },
+    {
+      "task_id": "2eb23e15-069e-57ea-8b10-5afe318562c3",
+      "app_key": "INSTAGRAM",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/2eb23e15-069e-57ea-8b10-5afe318562c3/state-99-final.json",
+      "reward_response_path": "output/cua-promotion-m3-wave14-20260831-017/evidence/instagram/like-all-comments-on-two-posts/strict-isolation/a-final-one/attempt-01/response.json"
+    },
+    {
+      "task_id": "bf2a0bde-be76-524f-8594-c94977832eed",
+      "app_key": "INSTAGRAM",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/bf2a0bde-be76-524f-8594-c94977832eed/state-99-final.json",
+      "reward_response_path": "output/cua-promotion-m3-wave15-20260831-018/evidence/instagram/credit-check/strict-isolation/a-final-one/attempt-01/response.json"
+    },
+    {
+      "task_id": "fcdc1975-e1e6-5b5d-a35a-1d96824f752e",
+      "app_key": "PINTEREST",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/fcdc1975-e1e6-5b5d-a35a-1d96824f752e/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/fcdc1975-e1e6-5b5d-a35a-1d96824f752e/reward-response.json"
+    },
+    {
+      "task_id": "f22a035a-8212-5051-891e-2bb16471c32a",
+      "app_key": "PINTEREST",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/f22a035a-8212-5051-891e-2bb16471c32a/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/f22a035a-8212-5051-891e-2bb16471c32a/reward-response.json"
+    },
+    {
+      "task_id": "4f69f68f-7506-5e3a-8bb7-483d5d71b625",
+      "app_key": "PINTEREST",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/4f69f68f-7506-5e3a-8bb7-483d5d71b625/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/retry/4f69f68f/reward/response.json"
+    },
+    {
+      "task_id": "485d2e99-88ec-5f31-890f-94229e9d4ab9",
+      "app_key": "PINTEREST",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/485d2e99-88ec-5f31-890f-94229e9d4ab9/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/485d2e99-88ec-5f31-890f-94229e9d4ab9/reward-response.json"
+    },
+    {
+      "task_id": "82d1ebba-6db2-5fe8-8a94-340ed4784800",
+      "app_key": "PINTEREST",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/82d1ebba-6db2-5fe8-8a94-340ed4784800/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/82d1ebba-6db2-5fe8-8a94-340ed4784800/reward-response.json"
+    },
+    {
+      "task_id": "4f31ed19-7c41-5168-8839-387baf841e68",
+      "app_key": "PINTEREST",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/4f31ed19-7c41-5168-8839-387baf841e68/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/retry/4f31ed19/reward/response.json"
+    },
+    {
+      "task_id": "45bcdc62-3b6f-5cdd-922e-8c497c09bdba",
+      "app_key": "PINTEREST",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/45bcdc62-3b6f-5cdd-922e-8c497c09bdba/state-99-final.json",
+      "reward_response_path": "output/cua-promotion-m3-wave15-20260831-018/evidence/pinterest/social-reset/strict-isolation/a-final-one/attempt-01/response.json"
+    },
+    {
+      "task_id": "89f0e801-4c21-52a7-8a8e-ea28846e594f",
+      "app_key": "PINTEREST",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/89f0e801-4c21-52a7-8a8e-ea28846e594f/state-99-final.json",
+      "reward_response_path": "output/cua-promotion-m3-wave16-20260831-019/evidence/pinterest/detailed-comments/strict-isolation/a-final-one/attempt-01/response.json"
+    },
+    {
+      "task_id": "c637109d-9aa3-5e58-8c67-e6e479c7672a",
+      "app_key": "PINTEREST",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/c637109d-9aa3-5e58-8c67-e6e479c7672a/state-99-final.json",
+      "reward_response_path": "output/cua-promotion-m3-wave17-20260831-020/evidence/pinterest/like-all-food/strict-isolation/a-final-one/attempt-01/response.json"
+    },
+    {
+      "task_id": "b662770d-5908-5f69-93e2-f5b1397759dc",
+      "app_key": "PINTEREST",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/b662770d-5908-5f69-93e2-f5b1397759dc/state-99-final.json",
+      "reward_response_path": "output/cua-promotion-m3-wave20-20260831-023/evidence/pinterest/aesthetic-mood-board/strict-isolation/a-final-one-and-release/attempt-01/response.json"
+    },
+    {
+      "task_id": "30bf8031-1165-5420-8cf1-b98567282d8d",
+      "app_key": "TRELLO",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/30bf8031-1165-5420-8cf1-b98567282d8d/state-99-final.json",
+      "reward_response_path": "output/cua-promotion-m3-wave18-20260831-021/evidence/capacity-review/accepted-run-02/reward-one-and-release/attempt-01/response.json"
+    },
+    {
+      "task_id": "32611e41-9e82-5602-ae1a-2e9dbff23814",
+      "app_key": "TRELLO",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/32611e41-9e82-5602-ae1a-2e9dbff23814/state-99-final.json",
+      "reward_response_path": "output/cua-promotion-m3-wave18-20260831-021/evidence/overdue-auto-close/accepted-run-01/reward-final/attempt-01/response.json"
+    },
+    {
+      "task_id": "cf6fada2-db21-5dfd-af4a-62d5210f57cc",
+      "app_key": "TRELLO",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/cf6fada2-db21-5dfd-af4a-62d5210f57cc/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/cf6fada2-db21-5dfd-af4a-62d5210f57cc/reward-response.json"
+    },
+    {
+      "task_id": "6960e935-15cb-5096-a53e-1f0cfe125abe",
+      "app_key": "GMAIL",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/6960e935-15cb-5096-a53e-1f0cfe125abe/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/6960e935-15cb-5096-a53e-1f0cfe125abe/reward-response.json"
+    },
+    {
+      "task_id": "378d436a-433a-51f8-a13f-92ecf1415e9f",
+      "app_key": "GMAIL",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/378d436a-433a-51f8-a13f-92ecf1415e9f/state-99-final.json",
+      "reward_response_path": "output/cua-promotion-m3-wave17-20260831-020/evidence/gmail/urgent-q1/strict-isolation/a-final-one/attempt-01/response.json"
+    },
+    {
+      "task_id": "d8600f30-8e31-5db0-9d8e-73dae2e9f8a3",
+      "app_key": "JIRA",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/d8600f30-8e31-5db0-9d8e-73dae2e9f8a3/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/d8600f30-8e31-5db0-9d8e-73dae2e9f8a3/reward-response.json"
+    },
+    {
+      "task_id": "51fcc185-5c30-5966-9df8-38304c181e24",
+      "app_key": "JIRA",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/51fcc185-5c30-5966-9df8-38304c181e24/state-99-final.json",
+      "reward_response_path": "output/cua-promotion-m3-wave19-20260831-022/evidence/jira/sprint-triage/strict-isolation/a-reward-one-and-release/response.json"
+    },
+    {
+      "task_id": "2638816e-6ec9-5386-ba26-d3d1429cd8f6",
+      "app_key": "WECHAT",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/2638816e-6ec9-5386-ba26-d3d1429cd8f6/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/2638816e-6ec9-5386-ba26-d3d1429cd8f6/reward-response.json"
+    },
+    {
+      "task_id": "305da858-ab07-588b-a046-450b62db8750",
+      "app_key": "WECHAT",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/305da858-ab07-588b-a046-450b62db8750/state-99-final.json",
+      "reward_response_path": "output/cua-promotion-m3-wave16-20260831-019/evidence/wechat/moment-and-comments/strict-isolation/a-final-one-and-release/attempt-01/response.json"
+    },
+    {
+      "task_id": "035309b4-34ad-54f0-82c4-ce9f68d2f75b",
+      "app_key": "GITHUB",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/035309b4-34ad-54f0-82c4-ce9f68d2f75b/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/035309b4-34ad-54f0-82c4-ce9f68d2f75b/reward-response.json"
+    },
+    {
+      "task_id": "99e382bd-8632-5ed2-902e-bd9db366238e",
+      "app_key": "HUBSPOT",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/99e382bd-8632-5ed2-902e-bd9db366238e/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/99e382bd-8632-5ed2-902e-bd9db366238e/reward-response.json"
+    },
+    {
+      "task_id": "f5ac7c62-2cd9-516b-8c5b-88806ad29922",
+      "app_key": "LINKEDIN",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/f5ac7c62-2cd9-516b-8c5b-88806ad29922/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/f5ac7c62-2cd9-516b-8c5b-88806ad29922/reward-response.json"
+    },
+    {
+      "task_id": "e48ccd78-8f79-53e0-8910-51ef2a538a0a",
+      "app_key": "MICROSOFT_TEAMS",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/e48ccd78-8f79-53e0-8910-51ef2a538a0a/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/e48ccd78-8f79-53e0-8910-51ef2a538a0a/reward-response.json"
+    },
+    {
+      "task_id": "e09dacc1-8e93-5731-970d-ed4c5392c5cf",
+      "app_key": "STRIPE_DASHBOARD",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/e09dacc1-8e93-5731-970d-ed4c5392c5cf/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/e09dacc1-8e93-5731-970d-ed4c5392c5cf/reward-response.json"
+    },
+    {
+      "task_id": "118e5c12-a910-5337-a563-f30b3ee7cd64",
+      "app_key": "TWITTER",
+      "state_path": "output/cua-state-reference-cohort42-20260901-002/reference/118e5c12-a910-5337-a563-f30b3ee7cd64/state-99-final.json",
+      "reward_response_path": "output/cua-state-reference-cohort42-20260901-002/replay/118e5c12-a910-5337-a563-f30b3ee7cd64/reward-response.json"
+    }
+  ]
+}
