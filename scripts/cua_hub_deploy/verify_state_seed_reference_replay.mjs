@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
-import { readFileSync, writeFileSync } from 'node:fs';
-import { isAbsolute, resolve } from 'node:path';
+import { createHash } from 'node:crypto';
+import { readFileSync, realpathSync, writeFileSync } from 'node:fs';
+import { isAbsolute, relative, resolve, sep } from 'node:path';
 
 function parseArgs(argv) {
   const args = {};
@@ -46,17 +47,46 @@ function loadState(path) {
   return observation?.current_state ?? payload?.current_state ?? payload?.stored_state ?? payload;
 }
 
+function sha256File(path) {
+  return createHash('sha256').update(readFileSync(path)).digest('hex');
+}
+
+function assertEvidenceDescendant(evidenceRoot, path, label) {
+  const child = relative(evidenceRoot, path);
+  if (!child || child === '..' || child.startsWith(`..${sep}`) || isAbsolute(child)) {
+    throw new Error(`${label} is outside evidence root: ${path}`);
+  }
+}
+
 function resolveEvidencePath(evidenceRoot, value) {
-  if (isAbsolute(value)) return value;
-  return resolve(evidenceRoot, value);
+  if (isAbsolute(value)) {
+    throw new Error(`state evidence path must be relative to evidence root: ${value}`);
+  }
+  if (value.split(/[\\/]/).includes('..')) {
+    throw new Error(`state evidence path must not contain '..': ${value}`);
+  }
+  const path = realpathSync(resolve(evidenceRoot, value));
+  assertEvidenceDescendant(evidenceRoot, path, 'state evidence path');
+  return path;
 }
 
 const args = parseArgs(process.argv.slice(2));
 const manifestPath = resolve(args.manifest);
-const mapPath = resolve(args.map);
-const evidenceRoot = resolve(args['evidence-root']);
+const evidenceRoot = realpathSync(resolve(args['evidence-root']));
+const mapPath = realpathSync(resolve(args.map));
 const seedsDir = resolve(args['seeds-dir']);
+assertEvidenceDescendant(evidenceRoot, mapPath, 'reference replay map');
 const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+const pinnedMapHash = manifest?.evidence?.reference_replay_map_sha256;
+if (typeof pinnedMapHash !== 'string' || !/^[0-9a-f]{64}$/.test(pinnedMapHash)) {
+  throw new Error('manifest evidence.reference_replay_map_sha256 is missing or invalid');
+}
+const actualMapHash = sha256File(mapPath);
+if (actualMapHash !== pinnedMapHash) {
+  throw new Error(
+    `reference replay map SHA-256 mismatch: expected ${pinnedMapHash}, got ${actualMapHash}`,
+  );
+}
 const evidenceMap = JSON.parse(readFileSync(mapPath, 'utf8'));
 const manifestById = new Map(manifest.tasks.map(task => [task.source_task_id, task]));
 if (manifestById.size !== manifest.tasks.length) {

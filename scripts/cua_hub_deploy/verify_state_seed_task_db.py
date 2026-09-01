@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sqlite3
 from pathlib import Path
@@ -25,6 +26,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--seeds-dir", required=True, type=Path)
     parser.add_argument("--tasks-db", required=True, type=Path)
     parser.add_argument("--reference-report", required=True, type=Path)
+    parser.add_argument("--evidence-root", required=True, type=Path)
     parser.add_argument("--report", required=True, type=Path)
     return parser.parse_args()
 
@@ -45,8 +47,39 @@ def _expected_task_ids(seed_entries: list[tuple[object, str]]) -> set[str]:
     return set(task_ids)
 
 
+def _verify_pinned_reference_report(
+    manifest_path: Path,
+    reference_report: Path,
+    evidence_root: Path,
+) -> Path:
+    root = evidence_root.resolve(strict=True)
+    report = reference_report.resolve(strict=True)
+    try:
+        relative = report.relative_to(root)
+    except ValueError as error:
+        raise ValueError(f"reference report is outside evidence root: {report}") from error
+    if not relative.parts:
+        raise ValueError(f"reference report is outside evidence root: {report}")
+
+    manifest_payload = json.loads(manifest_path.read_text(encoding="utf-8"))
+    pinned_hash = manifest_payload.get("evidence", {}).get("reference_replay_report_sha256")
+    if not isinstance(pinned_hash, str) or len(pinned_hash) != 64:
+        raise ValueError("manifest evidence.reference_replay_report_sha256 is missing or invalid")
+    actual_hash = hashlib.sha256(report.read_bytes()).hexdigest()
+    if actual_hash != pinned_hash:
+        raise ValueError(
+            f"reference replay report SHA-256 mismatch: expected {pinned_hash}, got {actual_hash}"
+        )
+    return report
+
+
 def main() -> None:
     args = parse_args()
+    reference_report = _verify_pinned_reference_report(
+        args.manifest,
+        args.reference_report,
+        args.evidence_root,
+    )
     web_source_root = args.seeds_dir.resolve().parent
     try:
         args.tasks_db.resolve().relative_to(web_source_root)
@@ -64,7 +97,7 @@ def main() -> None:
     seed_by_name = {name: seed for seed, name in seed_entries}
     expected_task_ids = _expected_task_ids(seed_entries)
 
-    reference_payload = json.loads(args.reference_report.read_text(encoding="utf-8"))
+    reference_payload = json.loads(reference_report.read_text(encoding="utf-8"))
     reference_by_id = {
         result["task_id"]: result
         for result in reference_payload.get("results", [])
@@ -148,7 +181,7 @@ def main() -> None:
         "manifest": str(args.manifest.resolve()),
         "seeds_dir": str(args.seeds_dir.resolve()),
         "tasks_db": str(args.tasks_db.resolve()),
-        "reference_report": str(args.reference_report.resolve()),
+        "reference_report": str(reference_report),
         "checks": checks,
         "errors": errors,
         "results": results,
