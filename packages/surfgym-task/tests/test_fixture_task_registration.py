@@ -128,6 +128,52 @@ def test_load_fixture_tasks_preserves_explicit_hybrid_release_targets(tmp_path: 
     assert len(task.lifecycle_hooks.release) == 2
 
 
+def test_load_fixture_tasks_retargets_untargeted_legacy_standard_release_hook(tmp_path: Path):
+    web = importlib.import_module("surfgym_task.web")
+    custom_release_hook = {
+        "website_id": "web",
+        "timing": "after",
+        "script": "window.persistAuditLog()",
+    }
+    _write_task(
+        tmp_path / "hybrid.json",
+        {
+            "task_id": "hybrid-with-legacy-release-hook",
+            "instruction": "Use the web fixture value in GIMP.",
+            "website": [
+                {"website_id": "web", "url": "http://web.localhost:3200"},
+                {
+                    "website_id": "native",
+                    "url": "http://desktop.localhost:55301/gimp",
+                    "surface": "native",
+                },
+            ],
+            "evaluation": {
+                "mode": "criteria",
+                "criteria": {"website_id": "native", "value": "done"},
+            },
+            "lifecycle_hooks": {
+                "release": [
+                    {
+                        "timing": web.DOCKER_FIXTURE_RELEASE_HOOK.timing,
+                        "script": web.DOCKER_FIXTURE_RELEASE_HOOK.script,
+                    },
+                    custom_release_hook,
+                ]
+            },
+        },
+    )
+
+    [task] = web.load_fixture_tasks(tmp_path)
+
+    assert task.lifecycle_hooks.release == [
+        web.Hook.model_validate(custom_release_hook),
+        web.WEB_STATE_RESET_HOOK.model_copy(update={"website_id": "web"}),
+        web.DOCKER_FIXTURE_RELEASE_HOOK.model_copy(update={"website_id": "native"}),
+    ]
+    assert all(hook.website_id != "_" for hook in task.lifecycle_hooks.release)
+
+
 def test_load_fixture_tasks_adds_missing_hybrid_release_hooks(tmp_path: Path):
     web = importlib.import_module("surfgym_task.web")
     _write_task(

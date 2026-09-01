@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import cast
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
-from surfgym_contracts.task import Hook, LifecycleHooks, Task
+from surfgym_contracts.task import Hook, LifecycleHooks, Task, Website
 
 WEB_STATE_RESET_HOOK = Hook(
     timing="before",
@@ -62,20 +62,41 @@ def _normalize_task(raw_payload: object) -> Task:
 
     payload["website"] = _normalize_website(payload.get("website"))
 
-    payload["lifecycle_hooks"] = LifecycleHooks.model_validate(payload.get("lifecycle_hooks", {}))
-    task = Task.model_validate(payload)
+    websites = _validate_websites(payload["website"])
+    hooks = LifecycleHooks.model_validate(payload.get("lifecycle_hooks", {}))
+    payload["lifecycle_hooks"] = hooks.model_copy(
+        update={"release": _normalize_release_hooks(websites, hooks.release)}
+    )
+    return Task.model_validate(payload)
 
-    release_hooks = list(task.lifecycle_hooks.release)
-    for website in task.website:
+
+def _validate_websites(value: object) -> list[Website]:
+    if isinstance(value, str):
+        return [Website(url=value)]
+    if not isinstance(value, list):
+        raise ValueError("website must be a URL string or a list of website objects")
+    return [Website.model_validate(website) for website in value]
+
+
+def _normalize_release_hooks(websites: list[Website], hooks: list[Hook]) -> list[Hook]:
+    """Retarget recognized legacy release hooks before strict task validation."""
+    standard_hooks = (WEB_STATE_RESET_HOOK, DOCKER_FIXTURE_RELEASE_HOOK)
+    release_hooks = [
+        hook
+        for hook in hooks
+        if not any(
+            hook.timing == standard_hook.timing and hook.script == standard_hook.script
+            for standard_hook in standard_hooks
+        )
+    ]
+    for website in websites:
         template = (
             DOCKER_FIXTURE_RELEASE_HOOK if website.surface == "native" else WEB_STATE_RESET_HOOK
         )
         targeted_hook = template.model_copy(update={"website_id": website.website_id})
         if targeted_hook not in release_hooks:
             release_hooks.append(targeted_hook)
-
-    lifecycle_hooks = task.lifecycle_hooks.model_copy(update={"release": release_hooks})
-    return task.model_copy(update={"lifecycle_hooks": lifecycle_hooks})
+    return release_hooks
 
 
 def _normalize_website(value: object) -> object:
