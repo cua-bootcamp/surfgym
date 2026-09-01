@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 from surfgym_contracts.local_static_sites import LOCAL_STATIC_SITES
+from surfgym_fixture import local_static_host
 from surfgym_fixture.local_static_host import (
     RenderInputs,
     render_caddyfile,
@@ -72,4 +73,35 @@ def test_runtime_files_are_written_together_and_check_can_remain_non_mutating(
 
     assert (output_dir / "Caddyfile").read_text(encoding="utf-8") == render_caddyfile(inputs)
     assert json.loads((output_dir / "ports.json").read_text(encoding="utf-8")) == render_ports()
+    assert not list(output_dir.glob("*.tmp"))
+
+
+def test_second_replace_failure_restores_the_previous_generation(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    inputs = _built_tree(tmp_path)
+    output_dir = tmp_path / "runtime"
+    output_dir.mkdir()
+    caddyfile = output_dir / "Caddyfile"
+    ports_file = output_dir / "ports.json"
+    caddyfile.write_bytes(b"old caddy generation\n")
+    ports_file.write_bytes(b'{"OLD":"http://127.0.0.1:1"}\n')
+    previous = (caddyfile.read_bytes(), ports_file.read_bytes())
+    real_replace = local_static_host.os.replace
+    calls = 0
+
+    def fail_second_replace(source: Path, destination: Path) -> None:
+        nonlocal calls
+        calls += 1
+        if calls == 2:
+            raise OSError("injected second replace failure")
+        real_replace(source, destination)
+
+    monkeypatch.setattr(local_static_host.os, "replace", fail_second_replace)
+
+    with pytest.raises(OSError, match="injected second replace failure"):
+        write_runtime_files(inputs, output_dir)
+
+    assert (caddyfile.read_bytes(), ports_file.read_bytes()) == previous
     assert not list(output_dir.glob("*.tmp"))

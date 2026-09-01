@@ -116,8 +116,11 @@ def test_local_dev_uses_source_neutral_run_owned_static_host_artifacts() -> None
     assert 'SURFGYM_STATIC_STATE_DIR' in script
     assert 'SURFGYM_FIXTURE_CADDYFILE' in script
     assert 'SURFGYM_STATIC_PORTS_FILE' in script
+    assert "ports != expected" in script
+    assert "ports.json does not match the local static-site contract" in script
     assert 'exec caddy run --config "$SURFGYM_FIXTURE_CADDYFILE"' in fixture
-    assert "pnpm run serve" not in fixture
+    assert 'if [[ -z "${SURFGYM_FIXTURE_CADDYFILE:-}" ]]' in fixture
+    assert 'exec env MAIN_PORT="$FIXTURE_MAIN_PORT" pnpm run serve' in fixture
 
 
 def test_local_dev_prefers_repository_venvs_and_probes_runtime_imports(

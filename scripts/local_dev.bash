@@ -336,27 +336,34 @@ surf_processes_match() {
 
 static_sites_ready() {
     local url
+    local urls
     local count=0
     [[ -f "$STATIC_PORTS_FILE" ]] || return 1
+    if ! urls="$("$PYTHON_BIN" - "$STATIC_PORTS_FILE" <<'PY'
+import json
+import sys
+
+from surfgym_contracts.local_static_sites import LOCAL_STATIC_SITES
+
+with open(sys.argv[1], encoding="utf-8") as stream:
+    ports = json.load(stream)
+expected = {
+    site.key: f"http://127.0.0.1:{site.port}"
+    for site in LOCAL_STATIC_SITES
+}
+if ports != expected:
+    raise SystemExit("ports.json does not match the local static-site contract")
+for key in sorted(expected):
+    print(expected[key])
+PY
+)"; then
+        return 1
+    fi
     while IFS= read -r url; do
         [[ -n "$url" ]] || continue
         curl -fsS "$url/" >/dev/null 2>&1 || return 1
         count=$((count + 1))
-    done < <("$PYTHON_BIN" - "$STATIC_PORTS_FILE" <<'PY'
-import json
-import sys
-
-with open(sys.argv[1], encoding="utf-8") as stream:
-    ports = json.load(stream)
-if not isinstance(ports, dict):
-    raise SystemExit("ports.json must be an object")
-for key in sorted(ports):
-    url = ports[key]
-    if not isinstance(url, str) or not url.startswith("http://127.0.0.1:"):
-        raise SystemExit(f"invalid local static URL for {key}")
-    print(url)
-PY
-)
+    done <<< "$urls"
     ((count > 0))
 }
 

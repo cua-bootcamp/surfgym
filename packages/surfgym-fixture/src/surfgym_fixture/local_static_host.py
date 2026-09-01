@@ -133,12 +133,36 @@ def write_runtime_files(inputs: RenderInputs, output_dir: Path) -> None:
             json.dumps(render_ports(), indent=2, sort_keys=True) + "\n"
         ).encode("utf-8"),
     }
+    originals = {
+        destination: destination.read_bytes() if destination.is_file() else None
+        for destination in contents
+    }
     staged: list[tuple[Path, Path]] = []
+    replaced: list[Path] = []
     try:
         for destination, content in contents.items():
             staged.append((_stage(destination, content), destination))
         for temporary, destination in staged:
             os.replace(temporary, destination)
+            replaced.append(destination)
+    except BaseException:
+        rollback_error: OSError | None = None
+        for destination in reversed(replaced):
+            try:
+                original = originals[destination]
+                if original is None:
+                    destination.unlink(missing_ok=True)
+                else:
+                    restoration = _stage(destination, original)
+                    try:
+                        os.replace(restoration, destination)
+                    finally:
+                        restoration.unlink(missing_ok=True)
+            except OSError as exc:
+                rollback_error = exc
+        if rollback_error is not None:
+            raise RuntimeError("failed to restore the previous static-host generation") from rollback_error
+        raise
     finally:
         for temporary, _ in staged:
             temporary.unlink(missing_ok=True)

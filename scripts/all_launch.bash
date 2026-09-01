@@ -9,8 +9,6 @@ NOHUP_LOG_DIR="$ROOT_DIR/logs/nohup"
 LAUNCH_TIMESTAMP="$(date +%Y%m%d_%H%M%S)"
 PID_FILE="${SURFGYM_PID_FILE:-$NOHUP_LOG_DIR/all_launch_${LAUNCH_TIMESTAMP}.pids}"
 LAUNCH_COMPLETE=0
-export SURFGYM_FIXTURE_CADDYFILE="${SURFGYM_FIXTURE_CADDYFILE:-$ROOT_DIR/.runtime/static-sites/Caddyfile}"
-export SURFGYM_STATIC_PORTS_FILE="${SURFGYM_STATIC_PORTS_FILE:-$ROOT_DIR/.runtime/static-sites/ports.json}"
 
 mkdir -p "$NOHUP_LOG_DIR"
 mkdir -p "$(dirname -- "$PID_FILE")"
