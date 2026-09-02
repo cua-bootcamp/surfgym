@@ -2,7 +2,7 @@ import base64
 import hashlib
 import time
 from collections.abc import Callable
-from threading import Barrier, Event, Thread
+from threading import Barrier, Event, Lock, Thread
 from types import SimpleNamespace
 from typing import Any
 
@@ -85,6 +85,41 @@ def _session(*history: str) -> SessionState:
 
 def _deadline(context: str) -> Deadline:
     return Deadline(time.monotonic() + 10.0, context)
+
+
+class _ObservedLock:
+    def __init__(self) -> None:
+        self._lock = Lock()
+        self.contended_acquire = Event()
+        self.acquire_timeouts: list[float] = []
+
+    def acquire(self, blocking: bool = True, timeout: float = -1) -> bool:
+        if self._lock.locked():
+            self.contended_acquire.set()
+        self.acquire_timeouts.append(timeout)
+        if not blocking:
+            return self._lock.acquire(blocking=False)
+        if timeout == -1:
+            return self._lock.acquire()
+        return self._lock.acquire(timeout=timeout)
+
+    def release(self) -> None:
+        self._lock.release()
+
+    def __enter__(self) -> "_ObservedLock":
+        self.acquire()
+        return self
+
+    def __exit__(self, *_args: object) -> None:
+        self.release()
+
+
+def _install_observed_operation_lock(service: Any, session_id: int = 1) -> _ObservedLock:
+    record = service._session_registry.session_states[session_id]
+    assert record is not None
+    operation_lock = _ObservedLock()
+    record.operation_lock = operation_lock
+    return operation_lock
 
 
 def _artifact_payload(path: str) -> ArtifactPayload:
@@ -362,6 +397,7 @@ def test_duplicate_concurrent_rewards_compute_artifact_and_enqueue_once() -> Non
     service._release_worker = RecordingReleaseWorker()
     session = _session("FAIL")
     service._session_registry.start_session(1, session)
+    operation_lock = _install_observed_operation_lock(service)
     entered = Barrier(2)
     release_compute = Event()
     compute_calls = 0
@@ -400,6 +436,7 @@ def test_duplicate_concurrent_rewards_compute_artifact_and_enqueue_once() -> Non
     entered.wait(timeout=2)
     second = Thread(target=call_reward)
     second.start()
+    assert operation_lock.contended_acquire.wait(timeout=2)
     release_compute.set()
     first.join(timeout=2)
     second.join(timeout=2)
