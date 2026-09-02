@@ -14,9 +14,11 @@ from surfgym_contracts.protocol.agent_to_gateway import (
     RewardRequest,
     StartRequest,
 )
+from surfgym_contracts.protocol.artifact import ArtifactPayload, ArtifactSpec
 from surfgym_contracts.protocol.gateway_to_agent import (
     ActionResponse,
     ImagePayload,
+    RewardBundleResponse,
     RewardResponse,
 )
 from surfgym_contracts.task import (
@@ -42,6 +44,7 @@ from surfgym_runtime.gateway.registry import Lease, SessionRegistry, SessionStat
 from surfgym_runtime.gateway.transport import GatewayTransport
 from surfgym_runtime.gateway.worker import ReleaseWorker
 from surfgym_runtime.support import Evaluator, TaskStore, WavepoolConfig
+from surfgym_runtime.support.config import DOCKER_ARTIFACT_CONTROL_TIMEOUT_SECONDS
 from surfgym_runtime.support.cua_evaluator import CuaSnapshot, evaluate_cua_reward
 
 _T = TypeVar("_T")
@@ -117,79 +120,103 @@ class Service:
         request: ActionRequest,
         deadline: Callable[[str], Deadline],
     ) -> ActionResponse:
-        session_state = self._session_registry.require_session_state(
+        with self._session_registry.session_operation(
             request.session_id, request.task_id
-        )
+        ) as operation:
+            session_state = operation.state
 
-        if session_state.action_history and session_state.action_history[-1] in {"FAIL", "DONE"}:
-            raise InvalidRequest("Cannot submit an action after a terminal action.")
+            if session_state.action_history and session_state.action_history[-1] in {
+                "FAIL",
+                "DONE",
+            }:
+                raise InvalidRequest("Cannot submit an action after a terminal action.")
 
-        terminal_actions = [
-            action for action in request.actions if isinstance(action, (FailAction, DoneAction))
-        ]
-        if terminal_actions and len(request.actions) != 1:
-            raise InvalidRequest("Terminal action must be the only action in a request.")
+            terminal_actions = [
+                action for action in request.actions if isinstance(action, (FailAction, DoneAction))
+            ]
+            if terminal_actions and len(request.actions) != 1:
+                raise InvalidRequest("Terminal action must be the only action in a request.")
 
-        for action in request.actions:
-            if isinstance(action, (FailAction, DoneAction)):
+            for action in request.actions:
+                if isinstance(action, (FailAction, DoneAction)):
+                    session_state.action_history.append(action.action_type)
+                    continue
+                self._execute(deadline, session_state.lease, action.to_commands())
                 session_state.action_history.append(action.action_type)
-                continue
-            self._execute(deadline, session_state.lease, action.to_commands())
-            session_state.action_history.append(action.action_type)
 
-        (screenshot_b64, media_type) = self._screenshot(deadline, session_state.lease)
-        session_state.append_frame(kind="action", image_b64=screenshot_b64, media_type=media_type)
+            (screenshot_b64, media_type) = self._screenshot(deadline, session_state.lease)
+            session_state.append_frame(
+                kind="action", image_b64=screenshot_b64, media_type=media_type
+            )
 
-        return ActionResponse(
-            session_id=request.session_id,
-            task_id=request.task_id,
-            image=ImagePayload(data=screenshot_b64, mimeType=media_type),
-        )
+            return ActionResponse(
+                session_id=request.session_id,
+                task_id=request.task_id,
+                image=ImagePayload(data=screenshot_b64, mimeType=media_type),
+            )
 
     def _handle_reward(
         self,
         request: RewardRequest,
         deadline: Callable[[str], Deadline],
-    ) -> RewardResponse:
+    ) -> RewardResponse | RewardBundleResponse:
         task = self._require_task(request.task_id)
-        session_state = self._session_registry.require_session_state(
+        with self._session_registry.session_operation(
             request.session_id,
             request.task_id,
-        )
-
-        reward_image: Optional[ImagePayload] = None
-
-        try:
-            reward = self._compute_reward(
-                task=task,
-                session_state=session_state,
-                deadline=deadline,
-            )
-
-            if task.include_reward_image:
-                screenshot_b64, media_type = self._screenshot(
-                    deadline,
-                    session_state.lease,
+            reward=True,
+        ) as operation:
+            session_state = operation.state
+            try:
+                reward = self._compute_reward(
+                    task=task,
+                    session_state=session_state,
+                    deadline=deadline,
                 )
-                session_state.append_frame(
-                    kind="reward",
-                    image_b64=screenshot_b64,
-                    media_type=media_type,
-                )
-                reward_image = ImagePayload(
-                    data=screenshot_b64,
-                    mimeType=media_type,
-                )
-        finally:
-            self._release_worker.enqueue(session_state)
-            self._session_registry.end_session(request.session_id)
 
-        return RewardResponse(
-            session_id=request.session_id,
-            task_id=request.task_id,
-            reward=reward,
-            image=reward_image,
-        )
+                reward_image: Optional[ImagePayload] = None
+                if task.include_reward_image:
+                    screenshot_b64, media_type = self._screenshot(
+                        deadline,
+                        session_state.lease,
+                    )
+                    session_state.append_frame(
+                        kind="reward",
+                        image_b64=screenshot_b64,
+                        media_type=media_type,
+                    )
+                    reward_image = ImagePayload(
+                        data=screenshot_b64,
+                        mimeType=media_type,
+                    )
+
+                response = RewardResponse(
+                    session_id=request.session_id,
+                    task_id=request.task_id,
+                    reward=reward,
+                    image=reward_image,
+                )
+                if request.artifacts is None:
+                    return response
+
+                artifact_deadline = deadline("artifact")
+                artifacts = [
+                    self._artifact(
+                        deadline=artifact_deadline,
+                        lease=session_state.lease,
+                        artifact=artifact,
+                    )
+                    for artifact in request.artifacts
+                ]
+                return RewardBundleResponse(
+                    **response.model_dump(),
+                    artifacts=artifacts,
+                )
+            finally:
+                try:
+                    self._release_worker.enqueue(session_state)
+                finally:
+                    self._session_registry.end_session_if_current(operation)
 
     def _compute_reward(
         self,
@@ -243,9 +270,7 @@ class Service:
         session_state: SessionState,
         deadline: Callable[[str], Deadline],
     ) -> float:
-        criteria: list[Criteria] = [
-            _cua_snapshot_criteria(state) for state in evaluation.states
-        ]
+        criteria: list[Criteria] = [_cua_snapshot_criteria(state) for state in evaluation.states]
         response = self._observe(
             deadline=deadline,
             lease=session_state.lease,
@@ -328,6 +353,23 @@ class Service:
 
     def _execute(self, deadline: Callable[[str], Deadline], lease: Lease, command: Command):
         self.transport.execute(deadline("execute"), lease.context_id, lease.port, command)
+
+    def _artifact(
+        self,
+        *,
+        deadline: Deadline,
+        lease: Lease,
+        artifact: ArtifactSpec,
+    ) -> ArtifactPayload:
+        timeout = deadline.timeout_for(
+            DOCKER_ARTIFACT_CONTROL_TIMEOUT_SECONDS + self.process_timeout.layer_gap
+        )
+        return self.transport.artifact(
+            context_id=lease.context_id,
+            instance_port=lease.port,
+            artifact=artifact,
+            timeout=timeout,
+        )
 
     def _run_with_retry(
         self,

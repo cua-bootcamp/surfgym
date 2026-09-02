@@ -56,7 +56,7 @@ class ReleaseWorker:
         self._queue.put(None)
 
         if self._thread is not None:
-            self._thread.join(timeout=1.0)
+            self._thread.join()
 
     def enqueue(self, state: SessionState) -> None:
         self._queue.put(ReleaseJob.from_session(state))

@@ -1,6 +1,7 @@
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from threading import Lock
-from typing import Literal
+from typing import Iterator, Literal
 
 from surfgym_contracts.task import Hook
 
@@ -64,10 +65,24 @@ class SessionState:
                 return
 
 
+@dataclass
+class _SessionRecord:
+    state: SessionState
+    operation_lock: Lock = field(default_factory=Lock)
+    reward_claimed: bool = False
+
+
+@dataclass(frozen=True)
+class SessionOperation:
+    session_id: int
+    state: SessionState
+    _record: _SessionRecord
+
+
 class SessionRegistry:
     def __init__(self):
         self._session_lock = Lock()
-        self.session_states: dict[int, SessionState | None] = {}
+        self.session_states: dict[int, _SessionRecord | None] = {}
 
     def reserve_session(self, session_id: int) -> None:
         with self._session_lock:
@@ -77,21 +92,66 @@ class SessionRegistry:
 
     def start_session(self, session_id: int, state: SessionState) -> None:
         with self._session_lock:
-            self.session_states[session_id] = state
+            self.session_states[session_id] = _SessionRecord(state=state)
 
     def end_session(self, session_id: int) -> None:
         with self._session_lock:
             self.session_states.pop(session_id, None)
 
     def require_session_state(self, session_id: int, task_id: str) -> SessionState:
-        session_state = self.session_states.get(session_id)
-        if session_state is None:
+        with self._session_lock:
+            record = self._require_record(session_id, task_id)
+            return record.state
+
+    @contextmanager
+    def session_operation(
+        self,
+        session_id: int,
+        task_id: str,
+        *,
+        reward: bool = False,
+    ) -> Iterator[SessionOperation]:
+        with self._session_lock:
+            record = self._require_record(session_id, task_id)
+
+        with record.operation_lock:
+            with self._session_lock:
+                current = self.session_states.get(session_id)
+                if current is not record:
+                    raise InvalidRequest(
+                        f"Session {session_id} is not active. Please request a start action first."
+                    )
+                if record.state.task_id != task_id:
+                    self._raise_task_mismatch(session_id, record.state.task_id, task_id)
+                if record.reward_claimed:
+                    raise InvalidRequest(f"Session {session_id} reward is already claimed.")
+                if reward:
+                    record.reward_claimed = True
+                operation = SessionOperation(
+                    session_id=session_id,
+                    state=record.state,
+                    _record=record,
+                )
+            yield operation
+
+    def end_session_if_current(self, operation: SessionOperation) -> None:
+        with self._session_lock:
+            if self.session_states.get(operation.session_id) is operation._record:
+                self.session_states.pop(operation.session_id, None)
+
+    def _require_record(self, session_id: int, task_id: str) -> _SessionRecord:
+        record = self.session_states.get(session_id)
+        if record is None:
             raise InvalidRequest(
                 f"Session {session_id} is not active. Please request a start action first."
             )
-        if session_state.task_id != task_id:
-            raise InvalidRequest(
-                f"Task mismatch for session {session_id}: "
-                f"expected task_id={session_state.task_id}, got task_id={task_id}."
-            )
-        return session_state
+        if record.state.task_id != task_id:
+            self._raise_task_mismatch(session_id, record.state.task_id, task_id)
+        return record
+
+    @staticmethod
+    def _raise_task_mismatch(session_id: int, expected: str, actual: str) -> None:
+        raise InvalidRequest(
+            f"Task mismatch for session {session_id}: "
+            f"expected task_id={expected}, got task_id={actual}."
+        )

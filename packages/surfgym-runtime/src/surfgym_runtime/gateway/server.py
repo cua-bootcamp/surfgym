@@ -10,6 +10,7 @@ from fastapi import FastAPI, Request
 from pydantic import ValidationError
 from surfgym_contracts.protocol.agent_to_gateway import (
     AgentRequestAdapter,
+    RewardRequest,
 )
 from surfgym_contracts.protocol.gateway_to_agent import ErrorResponse, Response
 
@@ -39,8 +40,8 @@ def create_app(config: Config):
             service.open()
             yield
         finally:
+            executor.shutdown(wait=True, cancel_futures=False)
             service.close()
-            executor.shutdown(wait=True, cancel_futures=True)
             task_store.close()
 
     app = FastAPI(
@@ -57,14 +58,19 @@ def create_app(config: Config):
         except ValidationError as exc:
             raise InvalidRequest("Invalid agent request.") from exc
 
+        request_timeout = gateway_config.verl_timeout
+        if isinstance(agent_request, RewardRequest) and agent_request.artifacts is not None:
+            request_timeout = gateway_config.artifact_reward_timeout
         return await run_with_gateway_limit(
             service.handle_request,
             agent_request,
+            request_timeout=request_timeout,
         )
 
     async def run_with_gateway_limit(
         func: Callable[..., _T],
         *args: object,
+        request_timeout: float,
     ) -> _T:
         request_started_at = time.monotonic()
 
@@ -80,9 +86,7 @@ def create_app(config: Config):
 
         try:
             loop = asyncio.get_running_loop()
-            deadline_at = request_started_at + (
-                gateway_config.verl_timeout - gateway_config.deadline_margin
-            )
+            deadline_at = request_started_at + (request_timeout - gateway_config.deadline_margin)
             return await loop.run_in_executor(
                 executor,
                 lambda: func(*args, deadline_at),

@@ -1,3 +1,5 @@
+import base64
+import hashlib
 import sqlite3
 from pathlib import Path
 from threading import Event
@@ -5,6 +7,7 @@ from typing import Any, cast
 
 from fastapi.testclient import TestClient
 from surfgym_contracts.command import Command
+from surfgym_contracts.protocol.artifact import ArtifactPayload, ArtifactSpec
 from surfgym_contracts.protocol.upstream_to_gateway import (
     ExecuteResponse,
     MasterAllocateResponse,
@@ -32,6 +35,7 @@ class HybridRecordingTransport:
         self.allocated_websites: list[Website] = []
         self.commands: list[Command] = []
         self.release_calls: list[tuple[str, list[Hook]]] = []
+        self.artifact_calls: list[tuple[str, ArtifactSpec, float]] = []
         self.released = Event()
 
     def allocate(
@@ -93,6 +97,26 @@ class HybridRecordingTransport:
         self.release_calls.append((context_id, release_hooks))
         self.released.set()
         return MasterReleaseResponse()
+
+    def artifact(
+        self,
+        *,
+        context_id: str,
+        instance_port: int,
+        artifact: ArtifactSpec,
+        timeout: float,
+    ) -> ArtifactPayload:
+        assert instance_port == 58020
+        self.artifact_calls.append((context_id, artifact, timeout))
+        raw = b"saved"
+        return ArtifactPayload(
+            path=artifact.path,
+            mime_type="text/plain",
+            sha256=hashlib.sha256(raw).hexdigest(),
+            size=len(raw),
+            encoding="base64",
+            data=base64.b64encode(raw).decode("ascii"),
+        )
 
 
 def _write_task_database(path: Path, task: Task) -> None:
@@ -237,7 +261,12 @@ def test_hybrid_gateway_service_http_cycle_preserves_surfaces_and_releases(
         )
         reward = client.post(
             "/",
-            json={"op": "reward", "session_id": 41, "task_id": task.task_id},
+            json={
+                "op": "reward",
+                "session_id": 41,
+                "task_id": task.task_id,
+                "artifacts": [{"path": "Desktop/out.txt", "max_bytes": 128}],
+            },
         )
 
         assert all(
@@ -245,6 +274,7 @@ def test_hybrid_gateway_service_http_cycle_preserves_surfaces_and_releases(
             for response in (start, move_web, move_native, wait, done, reward)
         )
         assert reward.json()["reward"] == 1.0
+        assert [artifact["path"] for artifact in reward.json()["artifacts"]] == ["Desktop/out.txt"]
         assert transport.released.wait(timeout=1.0)
 
     assert [(website.website_id, website.surface) for website in transport.allocated_websites] == [
@@ -257,3 +287,8 @@ def test_hybrid_gateway_service_http_cycle_preserves_surfaces_and_releases(
         "sleep",
     ]
     assert transport.release_calls == [("hybrid-context", [release_hook])]
+    assert len(transport.artifact_calls) == 1
+    context_id, artifact, timeout = transport.artifact_calls[0]
+    assert context_id == "hybrid-context"
+    assert artifact == ArtifactSpec(path="Desktop/out.txt", max_bytes=128)
+    assert 34.0 < timeout <= 35.0
