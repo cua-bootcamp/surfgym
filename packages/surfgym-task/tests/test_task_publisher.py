@@ -1,12 +1,16 @@
 from __future__ import annotations
 
+import json
 import shutil
 import sqlite3
 import sys
 from pathlib import Path
+from urllib.parse import urlsplit
 
 import pytest
-from surfgym_task.main import parse_args, publish
+from surfgym_contracts.task import Task
+from surfgym_task.main import _DEFAULT_PUBLISH_DOMAINS, parse_args, publish
+from surfgym_task.web import DOCKER_FIXTURE_RELEASE_HOOK
 
 SOURCE_DATA = Path(__file__).parents[1] / "src" / "surfgym_task" / "data"
 
@@ -115,7 +119,18 @@ def test_publish_materializes_the_current_all_domain_coarse_contract(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     data_root = tmp_path / "data"
-    domains = ["chrome", "gimp", "impress", "spreadsheet", "vlc", "vscode", "web", "word"]
+    domains = [
+        "chrome",
+        "gimp",
+        "impress",
+        "spreadsheet",
+        "vlc",
+        "vscode",
+        "web",
+        "word",
+        "workspace",
+    ]
+    assert _DEFAULT_PUBLISH_DOMAINS == tuple(domains)
     for domain in domains:
         _copy_domain(data_root, domain)
     output_path = tmp_path / "runtime" / "tasks.sqlite3"
@@ -137,7 +152,25 @@ def test_publish_materializes_the_current_all_domain_coarse_contract(
         task_count, unique_count = connection.execute(
             "SELECT COUNT(*), COUNT(DISTINCT task_id) FROM tasks"
         ).fetchone()
+        workspace_rows = connection.execute(
+            "SELECT task_id, payload FROM tasks WHERE task_id IN (?, ?) ORDER BY task_id",
+            (
+                "brighten_presentation_image_in_gimp_0_1",
+                "open_desktop_project_from_terminal_0_1",
+            ),
+        ).fetchall()
 
-    assert summary.seed_count == 401
-    assert summary.task_count == 502
-    assert (task_count, unique_count) == (502, 502)
+    assert summary.seed_count == 403
+    assert summary.task_count == 504
+    assert (task_count, unique_count) == (504, 504)
+    assert [task_id for task_id, _payload in workspace_rows] == [
+        "brighten_presentation_image_in_gimp_0_1",
+        "open_desktop_project_from_terminal_0_1",
+    ]
+    for _task_id, payload in workspace_rows:
+        task = Task.model_validate(json.loads(payload))
+        assert len(task.website) == 1
+        assert task.website[0].surface == "native"
+        assert urlsplit(task.website[0].url).path == "/workspace"
+        assert task.lifecycle_hooks.release == [DOCKER_FIXTURE_RELEASE_HOOK]
+        assert "artifacts" not in task.model_dump(mode="json")

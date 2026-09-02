@@ -1,0 +1,22 @@
+{
+  "source_task_id": "510f64c8-9bcc-4be1-8d30-638705850618",
+  "instruction": "From the already-open Terminal, start VS Code with /config/Desktop/project as the folder and leave that VS Code process running.",
+  "website": {
+    "base": "http://localhost:53001/workspace",
+    "setup_files": [
+      {
+        "source": "project",
+        "target": "desktop",
+        "source_app": "workspace"
+      }
+    ],
+    "launches": [
+      {
+        "app": "terminal"
+      }
+    ]
+  },
+  "states": [
+    [{"spec":{"app":"vscode","format":"process","command_contains":"/config/Desktop/project"},"value":true}]
+  ]
+}

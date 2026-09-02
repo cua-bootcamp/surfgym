@@ -13,9 +13,7 @@ from surfgym_task.seed import CriteriaSeedTask
 
 DATA_ROOT = Path(__file__).parents[1] / "src" / "surfgym_task" / "data"
 CANONICAL_SEEDS = DATA_ROOT / "web" / "seeds"
-CANONICAL_MANIFEST = (
-    DATA_ROOT / "web" / "provenance" / "cua_gym_cohort42" / "manifest.json"
-)
+CANONICAL_MANIFEST = DATA_ROOT / "web" / "provenance" / "cua_gym_cohort42" / "manifest.json"
 
 
 def _write_json(path: Path, value: object) -> None:
@@ -212,5 +210,5 @@ def test_canonical_corpus_has_expected_unique_seed_and_task_totals() -> None:
             else:
                 task_ids.append(seed_name)
 
-    assert seed_count == 401
-    assert len(task_ids) == len(set(task_ids)) == 502
+    assert seed_count == 403
+    assert len(task_ids) == len(set(task_ids)) == 504

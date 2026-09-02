@@ -1,0 +1,26 @@
+{
+  "source_task_id": "4c26e3f3-3a14-4d86-b44a-d3cedebbb487",
+  "instruction": "Use the image on slide 1 of /config/Desktop/1.pptx as the source image. Extract or open it in GIMP, make it visibly brighter rather than exporting an unchanged copy, and export the adjusted image as /config/Desktop/background.png.",
+  "website": {
+    "base": "http://localhost:53001/workspace",
+    "setup_files": [
+      {
+        "source": "1.pptx",
+        "target": "desktop",
+        "source_app": "impress"
+      }
+    ],
+    "launches": [
+      {
+        "app": "impress",
+        "source": "1.pptx"
+      },
+      {
+        "app": "gimp"
+      }
+    ]
+  },
+  "states": [
+    [{"spec":{"app":"gimp","file":"Desktop/background.png","format":"image_brightness_similarity","reference":{"source_app":"impress","source":"1.pptx","slide":1},"min_brightness_delta":8.0,"min_structure_similarity":0.8},"value":true}]
+  ]
+}

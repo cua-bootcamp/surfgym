@@ -24,6 +24,7 @@ _DOCKER_FIXTURE_DOMAINS: frozenset[Domain] = frozenset(
         "gimp",
         "vscode",
         "chrome",
+        "workspace",
     }
 )
 
@@ -36,6 +37,7 @@ _DEFAULT_PUBLISH_DOMAINS: tuple[Domain, ...] = (
     "vscode",
     "web",
     "word",
+    "workspace",
 )
 _DATA_ROOT = Path(__file__).parent / "data"
 
