@@ -1,6 +1,7 @@
 from pydantic import BaseModel, ConfigDict, Field
 
 from surfgym_contracts.command import Command
+from surfgym_contracts.protocol.artifact import ArtifactSpec
 from surfgym_contracts.task import Criteria, Hook, Website
 
 
@@ -49,6 +50,10 @@ class ObserveRequest(_FrozenBaseModel):
 
 class ScreenshotRequest(_FrozenBaseModel):
     pass
+
+
+class ArtifactRequest(_FrozenBaseModel):
+    artifact: ArtifactSpec
 
 
 class LiveContextsResponse(_FrozenBaseModel):

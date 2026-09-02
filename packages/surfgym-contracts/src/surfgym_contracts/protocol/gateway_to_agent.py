@@ -5,6 +5,8 @@ from typing import Any, Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
 
+from surfgym_contracts.protocol.artifact import MAX_ARTIFACT_COUNT, ArtifactPayload
+
 
 class _FrozenBaseModel(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
@@ -37,6 +39,13 @@ class RewardResponse(_BaseResponse):
     image: Optional[ImagePayload] = None
 
 
+class RewardBundleResponse(RewardResponse):
+    artifacts: list[ArtifactPayload] = Field(
+        min_length=1,
+        max_length=MAX_ARTIFACT_COUNT,
+    )
+
+
 type ErrorType = Literal["TIMEOUT", "INVALID_REQUEST", "UPSTREAM", "RETRYABLE", "UNEXPECTED"]
 
 
@@ -48,5 +57,5 @@ class ErrorResponse(_FrozenBaseModel):
     message: str
 
 
-type Response = ActionResponse | RewardResponse | ErrorResponse
+type Response = ActionResponse | RewardBundleResponse | RewardResponse | ErrorResponse
 ResponseAdapter: TypeAdapter[Response] = TypeAdapter(Response)
