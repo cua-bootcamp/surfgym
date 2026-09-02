@@ -8,7 +8,11 @@ from typing import Tuple
 from playwright.async_api import Browser, BrowserContext, Page, Playwright, async_playwright
 from surfgym_contracts.task import Website
 
-from surfgym_runtime.wavepool.instance.error import InvalidCommand, UnexpectedError
+from surfgym_runtime.wavepool.instance.error import (
+    InstanceNotIdle,
+    InvalidCommand,
+    UnexpectedError,
+)
 
 type Website_ID = str
 
@@ -83,6 +87,7 @@ class ContextManager:
         self._p: Playwright | None = None
         self._b: Browser | None = None
         self._contexts: dict[str, Context] = {}
+        self._creating_context_ids: set[str] = set()
 
         with open(
             Path(__file__).parent / "_page_script.js",
@@ -106,51 +111,74 @@ class ContextManager:
             self._p = None
 
     async def create(self, context_id: str, websites: list[Website]):
-        browser_context = await self._require_browser().new_context(
-            viewport={"width": self.vw, "height": self.vh},
-            ignore_https_errors=self.ignore_https_errors,
-        )
+        if context_id in self._contexts or context_id in self._creating_context_ids:
+            raise InstanceNotIdle("context already exists")
+        self._creating_context_ids.add(context_id)
+
         try:
-            pages: dict[Website_ID, Page_Meta] = {}
-            for website, layout in zip(
-                websites,
-                self._build_page_layouts(len(websites)),
-                strict=True,
-            ):
-                page = await browser_context.new_page()
-                await page.set_viewport_size(
-                    {"width": layout.width, "height": layout.height},
-                )
-                if self.should_inject_page_script(website):
-                    await page.add_init_script(script=self.page_script)
-                pages[website.website_id] = (page, layout)
-        except Exception:
-            await browser_context.close()
-            raise
+            browser_context = await self._require_browser().new_context(
+                viewport={"width": self.vw, "height": self.vh},
+                ignore_https_errors=self.ignore_https_errors,
+            )
+            try:
+                pages: dict[Website_ID, Page_Meta] = {}
+                for website, layout in zip(
+                    websites,
+                    self._build_page_layouts(len(websites)),
+                    strict=True,
+                ):
+                    page = await browser_context.new_page()
+                    await page.set_viewport_size(
+                        {"width": layout.width, "height": layout.height},
+                    )
+                    if self.should_inject_page_script(website):
+                        await page.add_init_script(script=self.page_script)
+                    pages[website.website_id] = (page, layout)
+            except BaseException:
+                await browser_context.close()
+                raise
 
-        context = Context(
-            context_id=context_id,
-            context=browser_context,
-            pages=pages,
-            active_page_id=websites[0].website_id,
-            native_page_ids=tuple(
-                website.website_id for website in websites if website.surface == "native"
-            ),
-        )
+            context = Context(
+                context_id=context_id,
+                context=browser_context,
+                pages=pages,
+                active_page_id=websites[0].website_id,
+                native_page_ids=tuple(
+                    website.website_id for website in websites if website.surface == "native"
+                ),
+            )
 
-        self._contexts[context_id] = context
+            if context_id in self._contexts:
+                await context.close()
+                raise InstanceNotIdle("context already exists")
+            self._contexts[context_id] = context
+        finally:
+            self._creating_context_ids.discard(context_id)
 
     async def delete(self, context_id: str):
         ctx = self.require_context(context_id)
-        await ctx.close()
-        self._contexts.pop(context_id, None)
+        await self._delete_context(context_id, ctx)
+
+    async def _delete_context(self, context_id: str, expected_context: Context) -> None:
+        async with expected_context.operation_lock:
+            await self._delete_locked(context_id, expected_context)
+
+    async def _delete_locked(self, context_id: str, expected_context: Context) -> None:
+        if self._contexts.get(context_id) is not expected_context:
+            raise InvalidCommand("context identity changed before deletion")
+
+        await expected_context.close()
+        if self._contexts.get(context_id) is expected_context:
+            self._contexts.pop(context_id)
 
     def live_context_ids(self) -> tuple[str, ...]:
         return tuple(sorted(self._contexts))
 
     async def delete_all(self) -> None:
-        context_ids = list(self._contexts)
-        await asyncio.gather(*(self.delete(context_id) for context_id in context_ids))
+        contexts = list(self._contexts.items())
+        await asyncio.gather(
+            *(self._delete_context(context_id, context) for context_id, context in contexts)
+        )
 
     def require_context(self, context_id: str) -> Context:
         ctx = self._contexts.get(context_id, None)

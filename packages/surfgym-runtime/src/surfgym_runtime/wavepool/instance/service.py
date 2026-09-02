@@ -105,7 +105,7 @@ class PlaywrightBrowserWorker:
             # was accepted. Preserve the browser context on failure so the Master
             # can retry this exact release instead of retrying a missing context.
             await self._run_hooks(context_id, hooks, timing="before", entered_only=True)
-            await self.ctx_manager.delete(context_id)
+            await self.ctx_manager._delete_locked(context_id, ctx)
 
     async def execute(self, context_id: str, command: Command):
         ctx = self.ctx_manager.require_context(context_id)

@@ -48,7 +48,8 @@ class _ContextManager:
     def require_page(self, _context_id: str, _website_id: str):
         return self.context.pages[_website_id]
 
-    async def delete(self, context_id: str) -> None:
+    async def _delete_locked(self, context_id: str, expected_context: Context) -> None:
+        assert expected_context is self.context
         self.deleted_context_ids.append(context_id)
 
 

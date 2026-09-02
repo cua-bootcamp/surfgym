@@ -13,6 +13,7 @@ from surfgym_runtime.gateway import transport as gateway_transport
 from surfgym_runtime.wavepool.instance.error import InstanceError, InvalidCommand
 from surfgym_runtime.wavepool.instance.server import create_app
 from surfgym_runtime.wavepool.instance.service import PlaywrightBrowserWorker
+from surfgym_runtime.wavepool.instance.session import Context, ContextManager
 
 
 def _payload(path: str = "Desktop/out.txt", raw: bytes = b"artifact") -> dict[str, object]:
@@ -133,6 +134,22 @@ class _Page:
         await self.allow.wait()
         return self.result
 
+    async def close(self) -> None:
+        return None
+
+
+class _BrowserContext:
+    def __init__(self) -> None:
+        self.close_started = asyncio.Event()
+        self.allow_close = asyncio.Event()
+        self.allow_close.set()
+        self.closed = False
+
+    async def close(self) -> None:
+        self.close_started.set()
+        await self.allow_close.wait()
+        self.closed = True
+
 
 class _ContextManager:
     def __init__(self, page: _Page, native_page_ids: tuple[str, ...]) -> None:
@@ -158,8 +175,8 @@ class _ContextManager:
         assert website_id in self.context.native_page_ids
         return self.page, None
 
-    async def delete(self, context_id: str) -> None:
-        assert self.require_context(context_id) is self.context
+    async def _delete_locked(self, context_id: str, expected_context: object) -> None:
+        assert self.require_context(context_id) is expected_context is self.context
         self.deleted.set()
         await self.allow_delete.wait()
         self.active = False
@@ -169,6 +186,23 @@ def _worker(manager: _ContextManager) -> PlaywrightBrowserWorker:
     worker = PlaywrightBrowserWorker(contexts_per_instance=1)
     worker.ctx_manager = manager  # type: ignore[assignment]
     return worker
+
+
+def _worker_with_real_manager(
+    page: _Page,
+) -> tuple[PlaywrightBrowserWorker, ContextManager, _BrowserContext]:
+    manager = ContextManager(contexts_per_instance=1, vw=1920, vh=1080)
+    browser_context = _BrowserContext()
+    manager._contexts["context-id"] = Context(
+        context_id="context-id",
+        context=browser_context,  # type: ignore[arg-type]
+        pages={"native": (page, None)},  # type: ignore[dict-item]
+        active_page_id="native",
+        native_page_ids=("native",),
+    )
+    worker = PlaywrightBrowserWorker(contexts_per_instance=1)
+    worker.ctx_manager = manager
+    return worker, manager, browser_context
 
 
 def test_artifact_projects_exact_success_envelope_and_checks_request_bounds() -> None:
@@ -264,5 +298,86 @@ def test_release_first_makes_waiting_artifact_fail_closed() -> None:
         await release_task
         with pytest.raises(InstanceError):
             await artifact_task
+
+    asyncio.run(scenario())
+
+
+def test_worker_close_waits_for_in_flight_artifact() -> None:
+    async def scenario() -> tuple[ArtifactPayload, bool, bool]:
+        page = _Page(_payload())
+        page.allow.clear()
+        worker, manager, browser_context = _worker_with_real_manager(page)
+
+        artifact_task = asyncio.create_task(
+            worker.artifact(
+                "context-id",
+                ArtifactSpec(path="Desktop/out.txt", max_bytes=128),
+            )
+        )
+        await page.started.wait()
+        close_task = asyncio.create_task(worker.close())
+        await asyncio.sleep(0)
+        close_waited = not browser_context.close_started.is_set()
+
+        page.allow.set()
+        payload = await artifact_task
+        await close_task
+        return payload, close_waited, "context-id" not in manager.live_context_ids()
+
+    payload, close_waited, removed = asyncio.run(scenario())
+    assert payload.path == "Desktop/out.txt"
+    assert close_waited is True
+    assert removed is True
+
+
+def test_worker_close_first_makes_waiting_artifact_fail_closed() -> None:
+    async def scenario() -> None:
+        page = _Page(_payload())
+        worker, manager, browser_context = _worker_with_real_manager(page)
+        browser_context.allow_close.clear()
+
+        close_task = asyncio.create_task(worker.close())
+        await browser_context.close_started.wait()
+        artifact_task = asyncio.create_task(
+            worker.artifact(
+                "context-id",
+                ArtifactSpec(path="Desktop/out.txt", max_bytes=128),
+            )
+        )
+        await asyncio.sleep(0)
+        assert not artifact_task.done()
+
+        browser_context.allow_close.set()
+        await close_task
+        with pytest.raises(InstanceError):
+            await artifact_task
+        assert manager.live_context_ids() == ()
+
+    asyncio.run(scenario())
+
+
+def test_cancelled_artifact_releases_operation_lock_for_worker_close() -> None:
+    async def scenario() -> None:
+        page = _Page(_payload())
+        page.allow.clear()
+        worker, manager, browser_context = _worker_with_real_manager(page)
+
+        artifact_task = asyncio.create_task(
+            worker.artifact(
+                "context-id",
+                ArtifactSpec(path="Desktop/out.txt", max_bytes=128),
+            )
+        )
+        await page.started.wait()
+        close_task = asyncio.create_task(worker.close())
+        await asyncio.sleep(0)
+        assert not browser_context.close_started.is_set()
+
+        artifact_task.cancel()
+        with pytest.raises(asyncio.CancelledError):
+            await artifact_task
+        await close_task
+        assert browser_context.closed is True
+        assert manager.live_context_ids() == ()
 
     asyncio.run(scenario())
