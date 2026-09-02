@@ -425,6 +425,9 @@ def test_artifact_list_uses_one_shared_deadline_and_raw_bounded_timeouts() -> No
     transport_deadlines: list[float] = []
 
     class SharedDeadline:
+        def remaining(self) -> float:
+            return 40.0
+
         def timeout_for(self, maximum: float) -> float:
             timeout_caps.append(maximum)
             return next(returned_timeouts)
@@ -455,7 +458,7 @@ def test_artifact_list_uses_one_shared_deadline_and_raw_bounded_timeouts() -> No
     )
 
     assert type(response) is RewardBundleResponse
-    assert deadline_contexts == ["artifact"]
+    assert deadline_contexts == ["reward", "artifact"]
     assert timeout_caps == [35.5, 35.5]
     assert transport_deadlines == [35.5, 20.0]
 

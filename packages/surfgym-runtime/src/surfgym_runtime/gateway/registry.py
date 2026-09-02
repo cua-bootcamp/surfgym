@@ -5,7 +5,7 @@ from typing import Iterator, Literal
 
 from surfgym_contracts.task import Hook
 
-from surfgym_runtime.gateway.error import InvalidRequest
+from surfgym_runtime.gateway.error import InvalidRequest, TimeOutError
 from surfgym_runtime.support import Frame
 
 
@@ -110,11 +110,22 @@ class SessionRegistry:
         task_id: str,
         *,
         reward: bool = False,
+        timeout: float | None = None,
     ) -> Iterator[SessionOperation]:
         with self._session_lock:
             record = self._require_record(session_id, task_id)
 
-        with record.operation_lock:
+        if timeout is not None and timeout <= 0:
+            raise TimeOutError("Deadline exceeded waiting for the session operation")
+
+        if timeout is None or timeout == float("inf"):
+            acquired = record.operation_lock.acquire()
+        else:
+            acquired = record.operation_lock.acquire(timeout=timeout)
+        if not acquired:
+            raise TimeOutError("Deadline exceeded waiting for the session operation")
+
+        try:
             with self._session_lock:
                 current = self.session_states.get(session_id)
                 if current is not record:
@@ -133,6 +144,8 @@ class SessionRegistry:
                     _record=record,
                 )
             yield operation
+        finally:
+            record.operation_lock.release()
 
     def end_session_if_current(self, operation: SessionOperation) -> None:
         with self._session_lock:

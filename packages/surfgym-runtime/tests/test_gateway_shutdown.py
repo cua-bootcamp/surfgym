@@ -1,15 +1,17 @@
 import time
 from concurrent.futures import ThreadPoolExecutor as RealThreadPoolExecutor
 from pathlib import Path
-from threading import Event, Thread
+from queue import SimpleQueue
+from threading import Event, Lock, Thread
 from typing import Any
 
+import pytest
 from fastapi.testclient import TestClient
 from surfgym_contracts.protocol.agent_to_gateway import RewardRequest
 from surfgym_contracts.protocol.gateway_to_agent import RewardResponse
 from surfgym_runtime.gateway.registry import Lease, SessionState
 from surfgym_runtime.gateway.server import create_app
-from surfgym_runtime.gateway.worker import ReleaseWorker
+from surfgym_runtime.gateway.worker import ReleaseJob, ReleaseWorker
 from surfgym_runtime.support import Config
 from surfgym_runtime.support.config import GatewayConfig, ProcessTimeout, WavepoolConfig
 
@@ -156,3 +158,100 @@ def test_release_worker_close_waits_for_fifo_drain_with_bounded_attempts() -> No
     assert closed.is_set()
     assert [context_id for context_id, _remaining in calls] == ["first", "second"]
     assert all(0 < remaining <= 0.25 for _context_id, remaining in calls)
+
+
+class _ObservedLifecycleLock:
+    def __init__(self) -> None:
+        self._lock = Lock()
+        self.contended_acquire = Event()
+
+    def __enter__(self) -> "_ObservedLifecycleLock":
+        if self._lock.locked():
+            self.contended_acquire.set()
+        self._lock.acquire()
+        return self
+
+    def __exit__(self, *_args: object) -> None:
+        self._lock.release()
+
+
+class _GatedRetryQueue:
+    def __init__(self) -> None:
+        self._queue: SimpleQueue[ReleaseJob | None] = SimpleQueue()
+        self.retry_put_entered = Event()
+        self.allow_retry_put = Event()
+        self.items: list[ReleaseJob | None] = []
+
+    def put(self, item: ReleaseJob | None) -> None:
+        if item is not None:
+            self.retry_put_entered.set()
+            self.allow_retry_put.wait(timeout=2)
+        self.items.append(item)
+        self._queue.put(item)
+
+    def get(self) -> ReleaseJob | None:
+        return self._queue.get()
+
+
+class _RecordingQueue:
+    def __init__(self) -> None:
+        self.items: list[ReleaseJob | None] = []
+
+    def put(self, item: ReleaseJob | None) -> None:
+        self.items.append(item)
+
+
+def _release_job(context_id: str = "retry") -> ReleaseJob:
+    return ReleaseJob(
+        context_id=context_id,
+        port=3000,
+        release_hooks=[],
+        attempts=1,
+    )
+
+
+def _session_state(context_id: str = "late") -> SessionState:
+    return SessionState(
+        task_id="task-id",
+        lease=Lease(context_id=context_id, port=3000),
+        release_hooks=[],
+    )
+
+
+def test_release_retry_that_entered_before_close_is_queued_before_sentinel() -> None:
+    worker = ReleaseWorker(transport=object(), release_timeout=0.25)
+    lifecycle_lock = _ObservedLifecycleLock()
+    queue = _GatedRetryQueue()
+    worker._lifecycle_lock = lifecycle_lock
+    worker._queue = queue
+    retry_job = _release_job()
+
+    retry = Thread(target=worker._requeue, args=(retry_job,))
+    retry.start()
+    assert queue.retry_put_entered.wait(timeout=2)
+
+    closer = Thread(target=worker.close)
+    closer.start()
+    close_waited_on_retry = lifecycle_lock.contended_acquire.wait(timeout=1)
+    queue.allow_retry_put.set()
+    retry.join(timeout=2)
+    closer.join(timeout=2)
+
+    assert close_waited_on_retry is True
+    assert not retry.is_alive()
+    assert not closer.is_alive()
+    assert queue.items == [retry_job, None]
+
+
+def test_release_worker_rejects_enqueue_and_drops_retry_after_idempotent_close() -> None:
+    worker = ReleaseWorker(transport=object(), release_timeout=0.25)
+    queue = _RecordingQueue()
+    worker._queue = queue
+
+    worker.close()
+    with pytest.raises(RuntimeError, match="closed"):
+        worker.enqueue(_session_state())
+    worker._requeue(_release_job())
+    worker.close()
+
+    assert queue.items == [None]

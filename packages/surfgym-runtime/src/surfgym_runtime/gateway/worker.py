@@ -4,7 +4,7 @@ import random
 import time
 from dataclasses import dataclass
 from queue import SimpleQueue
-from threading import Event, Thread, Timer
+from threading import Event, Lock, Thread, Timer
 
 from surfgym_contracts.task import Hook
 
@@ -41,6 +41,7 @@ class ReleaseWorker:
         self._release_timeout = release_timeout
         self._queue: SimpleQueue[ReleaseJob | None] = SimpleQueue()
         self._closed = Event()
+        self._lifecycle_lock = Lock()
         self._thread: Thread | None = None
 
     def start(self) -> None:
@@ -52,14 +53,21 @@ class ReleaseWorker:
         self._thread.start()
 
     def close(self) -> None:
-        self._closed.set()
-        self._queue.put(None)
+        with self._lifecycle_lock:
+            if not self._closed.is_set():
+                self._closed.set()
+                self._queue.put(None)
+            thread = self._thread
 
-        if self._thread is not None:
-            self._thread.join()
+        if thread is not None:
+            thread.join()
 
     def enqueue(self, state: SessionState) -> None:
-        self._queue.put(ReleaseJob.from_session(state))
+        job = ReleaseJob.from_session(state)
+        with self._lifecycle_lock:
+            if self._closed.is_set():
+                raise RuntimeError("Release worker is closed")
+            self._queue.put(job)
 
     def _run(self) -> None:
         while True:
@@ -122,5 +130,7 @@ class ReleaseWorker:
         timer.start()
 
     def _requeue(self, job: ReleaseJob) -> None:
-        if not self._closed.is_set():
+        with self._lifecycle_lock:
+            if self._closed.is_set():
+                return
             self._queue.put(job)

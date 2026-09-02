@@ -120,8 +120,11 @@ class Service:
         request: ActionRequest,
         deadline: Callable[[str], Deadline],
     ) -> ActionResponse:
+        operation_deadline = deadline("action")
         with self._session_registry.session_operation(
-            request.session_id, request.task_id
+            request.session_id,
+            request.task_id,
+            timeout=operation_deadline.remaining(),
         ) as operation:
             session_state = operation.state
 
@@ -161,10 +164,12 @@ class Service:
         deadline: Callable[[str], Deadline],
     ) -> RewardResponse | RewardBundleResponse:
         task = self._require_task(request.task_id)
+        operation_deadline = deadline("reward")
         with self._session_registry.session_operation(
             request.session_id,
             request.task_id,
             reward=True,
+            timeout=operation_deadline.remaining(),
         ) as operation:
             session_state = operation.state
             try:
