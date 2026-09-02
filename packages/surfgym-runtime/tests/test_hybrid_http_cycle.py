@@ -122,6 +122,7 @@ def _config(task_path: Path, log_path: Path) -> Config:
             gateway_workers=1,
             gateway_in_flight=1,
             verl_timeout=5.0,
+            artifact_reward_timeout=40.0,
             in_flight_timeout=1.0,
             deadline_margin=0.1,
         ),

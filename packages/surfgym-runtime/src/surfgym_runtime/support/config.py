@@ -2,7 +2,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
+
+DOCKER_ARTIFACT_CONTROL_TIMEOUT_SECONDS = 35.0
 
 
 class FrozenBaseModel(BaseModel):
@@ -19,8 +21,18 @@ class GatewayConfig(FrozenBaseModel):
     gateway_in_flight: int
 
     verl_timeout: float
+    artifact_reward_timeout: float = Field(strict=True, gt=0, allow_inf_nan=False)
     in_flight_timeout: float
     deadline_margin: float
+
+    @model_validator(mode="after")
+    def validate_artifact_reward_timeout(self) -> "GatewayConfig":
+        if self.artifact_reward_timeout < self.verl_timeout:
+            raise ValueError(
+                "gateway.artifact_reward_timeout must be greater than or equal to "
+                "gateway.verl_timeout"
+            )
+        return self
 
 
 class ProcessTimeout(FrozenBaseModel):
@@ -50,6 +62,21 @@ class Config(FrozenBaseModel):
 
     gateway_config: GatewayConfig = Field(alias="gateway")
     wavepool_config: WavepoolConfig = Field(alias="wavepool")
+
+    @model_validator(mode="after")
+    def validate_artifact_reward_budget(self) -> "Config":
+        usable_timeout = (
+            self.gateway_config.artifact_reward_timeout - self.gateway_config.deadline_margin
+        )
+        required_timeout = (
+            DOCKER_ARTIFACT_CONTROL_TIMEOUT_SECONDS + self.wavepool_config.process_timeout.layer_gap
+        )
+        if usable_timeout < required_timeout:
+            raise ValueError(
+                "gateway.artifact_reward_timeout minus gateway.deadline_margin must leave "
+                "at least 35 seconds plus wavepool.process_timeout.layer_gap"
+            )
+        return self
 
 
 # def _validate_config(config: Config) -> None:

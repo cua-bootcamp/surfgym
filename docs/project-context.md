@@ -4,6 +4,8 @@
 
 SurfGym is the composition root for the local training stack. Operators change topology only in `config/runtime.toml`. The file covers SurfGym capacity and ports plus Docker application slot topology. Its keys and comments are deliberately written in English for a stable operator contract.
 
+`gateway.artifact_reward_timeout_seconds` is the public budget for any reward request that explicitly declares artifacts. Selection is based on the generic request contract, not on a workspace or application identity. The compiler keeps its usable budget large enough to cover the fixed 35-second Docker artifact bridge plus the configured WavePool layer gap; reward requests without artifacts retain `verl_timeout_seconds`.
+
 The compiler receives explicit SurfGym and Docker repository paths; it never infers the SurfGym root from the location of the operator config. It reads the Docker repository's `config.json` as an opaque capability template, preserves application order and capability fields, and overlays only the whitelisted topology fields. Relative SurfGym task and log paths resolve from the explicit SurfGym repository root. The `[docker]` `compose_project` and `container_prefix` keys provide the lowercase runtime identity forwarded as the generated Docker JSON `runtime` object.
 
 Before writing, the compiler validates the complete port and capacity plan in memory and submits the generated dictionaries to SurfGym's current `Config` model and the selected Docker repository's current `src.config.Config` model. This makes schema drift a launch-time error instead of producing an incompatible runtime file. Docker gateway aliases are normalized so a capability template cannot preserve a conflicting `gateway_port` value over fixed serving port `53001`.

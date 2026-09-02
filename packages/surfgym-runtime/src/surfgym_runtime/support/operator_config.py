@@ -21,7 +21,12 @@ from typing import Any, NoReturn, cast
 from pydantic import ValidationError
 from surfgym_contracts.local_static_sites import LOCAL_STATIC_SITES
 
-from surfgym_runtime.support.config import Config as SurfConfig
+from surfgym_runtime.support.config import (
+    DOCKER_ARTIFACT_CONTROL_TIMEOUT_SECONDS,
+)
+from surfgym_runtime.support.config import (
+    Config as SurfConfig,
+)
 from surfgym_runtime.support.task_store import TaskStore
 
 DOCKER_GATEWAY_PORT = 53001
@@ -169,6 +174,7 @@ def compile_configs(config_path: Path, surf_repo: Path, docker_repo: Path) -> Ge
             "workers",
             "max_in_flight",
             "verl_timeout_seconds",
+            "artifact_reward_timeout_seconds",
             "in_flight_timeout_seconds",
             "deadline_margin_seconds",
         },
@@ -182,6 +188,22 @@ def compile_configs(config_path: Path, surf_repo: Path, docker_repo: Path) -> Ge
     max_in_flight = _integer(gateway["max_in_flight"], "gateway.max_in_flight")
     if workers < max_in_flight:
         _error("gateway.workers must be greater than or equal to gateway.max_in_flight.")
+    verl_timeout = _timeout(gateway["verl_timeout_seconds"], "gateway.verl_timeout_seconds")
+    artifact_reward_timeout = _timeout(
+        gateway["artifact_reward_timeout_seconds"],
+        "gateway.artifact_reward_timeout_seconds",
+    )
+    if artifact_reward_timeout < verl_timeout:
+        _error(
+            "gateway.artifact_reward_timeout_seconds must be greater than or equal to "
+            "gateway.verl_timeout_seconds."
+        )
+    in_flight_timeout = _timeout(
+        gateway["in_flight_timeout_seconds"], "gateway.in_flight_timeout_seconds"
+    )
+    deadline_margin = _timeout(
+        gateway["deadline_margin_seconds"], "gateway.deadline_margin_seconds"
+    )
 
     wavepool = _table(source["wavepool"], "wavepool")
     _exact_keys(
@@ -223,6 +245,16 @@ def compile_configs(config_path: Path, surf_repo: Path, docker_repo: Path) -> Ge
     parsed_timeouts = {
         key: _timeout(timeouts[key], f"wavepool.timeouts.{key}") for key in timeout_keys
     }
+    artifact_usable_timeout = artifact_reward_timeout - deadline_margin
+    artifact_required_timeout = (
+        DOCKER_ARTIFACT_CONTROL_TIMEOUT_SECONDS + parsed_timeouts["layer_gap_seconds"]
+    )
+    if artifact_usable_timeout < artifact_required_timeout:
+        _error(
+            "gateway.artifact_reward_timeout_seconds minus "
+            "gateway.deadline_margin_seconds must leave at least 35 seconds plus "
+            "wavepool.timeouts.layer_gap_seconds."
+        )
 
     docker = _table(source["docker"], "docker")
     _exact_keys(
@@ -326,15 +358,10 @@ def compile_configs(config_path: Path, surf_repo: Path, docker_repo: Path) -> Ge
             "port": gateway_port,
             "gateway_workers": workers,
             "gateway_in_flight": max_in_flight,
-            "verl_timeout": _timeout(
-                gateway["verl_timeout_seconds"], "gateway.verl_timeout_seconds"
-            ),
-            "in_flight_timeout": _timeout(
-                gateway["in_flight_timeout_seconds"], "gateway.in_flight_timeout_seconds"
-            ),
-            "deadline_margin": _timeout(
-                gateway["deadline_margin_seconds"], "gateway.deadline_margin_seconds"
-            ),
+            "verl_timeout": verl_timeout,
+            "artifact_reward_timeout": artifact_reward_timeout,
+            "in_flight_timeout": in_flight_timeout,
+            "deadline_margin": deadline_margin,
         },
         "wavepool": {
             "host": wavepool_host,

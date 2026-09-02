@@ -19,6 +19,8 @@ port = 18000
 workers = 6
 max_in_flight = 6
 verl_timeout_seconds = 20.0
+# Total public budget for reward requests that explicitly request artifacts.
+artifact_reward_timeout_seconds = 40.0
 in_flight_timeout_seconds = 20.0
 deadline_margin_seconds = 3.0
 

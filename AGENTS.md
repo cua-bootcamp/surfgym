@@ -11,6 +11,8 @@
 - Generated SurfGym and Docker JSON files are each replaced atomically, but they are not a transactional pair. Launchers must consume neither file unless compilation returns successfully.
 - Docker application images, build declarations, reset policies, and open commands remain owned by the Docker repository capability template.
 - Docker gateway port `53001` and fixture content port `3000` are fixed integration endpoints.
+- The generic artifact-reward budget is selected only when a reward request explicitly
+  declares `artifacts`; it is not a workspace- or application-specific timeout branch.
 - Preserve strict validation for unknown keys, numeric bounds, capacity relationships, app-set equality, all computed port collisions, and acceptance by both repositories' actual config models.
 
 # Repository guidance

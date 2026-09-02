@@ -7,6 +7,7 @@
     "gateway_workers": 6,
     "gateway_in_flight": 6,
     "verl_timeout": 20,
+    "artifact_reward_timeout": 40.0,
     "in_flight_timeout": 20.0,
     "deadline_margin": 3.0
   },

@@ -8,7 +8,8 @@ from pathlib import Path
 
 import pytest
 import surfgym_runtime.support.operator_config as operator_config
-from surfgym_runtime.support.config import load_config
+from pydantic import ValidationError
+from surfgym_runtime.support.config import Config, load_config
 from surfgym_runtime.support.operator_config import (
     OperatorConfigError,
     compile_configs,
@@ -156,6 +157,25 @@ def _replace(config_path: Path, old: str, new: str) -> None:
     config_path.write_text(text.replace(old, new, 1), encoding="utf-8")
 
 
+def _set_artifact_reward_timeout(config_path: Path, value: str | None) -> None:
+    key = "artifact_reward_timeout_seconds"
+    lines = config_path.read_text(encoding="utf-8").splitlines()
+    matching = [index for index, line in enumerate(lines) if line.startswith(f"{key} =")]
+    assert len(matching) <= 1
+
+    if matching:
+        index = matching[0]
+        if value is None:
+            del lines[index]
+        else:
+            lines[index] = f"{key} = {value}"
+    elif value is not None:
+        index = lines.index("verl_timeout_seconds = 20.0")
+        lines.insert(index + 1, f"{key} = {value}")
+
+    config_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
 def test_default_config_preserves_legacy_semantics_and_capabilities(tmp_path: Path):
     config_path, docker_repo = _sandbox(tmp_path)
     generated = _compile(config_path, docker_repo)
@@ -163,6 +183,7 @@ def test_default_config_preserves_legacy_semantics_and_capabilities(tmp_path: Pa
     template = json.loads((docker_repo / "config.json").read_text(encoding="utf-8"))
 
     assert generated.surfgym["gateway"] == legacy_surf["gateway"]
+    assert generated.surfgym["gateway"]["artifact_reward_timeout"] == 40.0
     assert generated.surfgym["wavepool"] == legacy_surf["wavepool"]
     assert (
         Path(generated.surfgym["task_file_path"])
@@ -291,7 +312,94 @@ def test_generated_surf_json_round_trips_existing_loader(tmp_path: Path):
 
     loaded = load_config(output)
     assert loaded.gateway_config.gateway_in_flight == 6
+    assert loaded.gateway_config.artifact_reward_timeout == 40.0
     assert loaded.wavepool_config.contexts_per_instance == 6
+
+
+def test_artifact_reward_timeout_is_required_by_operator_config(tmp_path: Path) -> None:
+    config_path, docker_repo = _sandbox(tmp_path)
+    _set_artifact_reward_timeout(config_path, None)
+
+    with pytest.raises(OperatorConfigError, match="Missing key.*artifact_reward_timeout_seconds"):
+        _compile(config_path, docker_repo)
+
+
+@pytest.mark.parametrize(
+    ("value", "message"),
+    [
+        ("true", "must be a number"),
+        ('"40"', "must be a number"),
+        ("nan", "greater than 0"),
+        ("inf", "greater than 0"),
+        ("0.0", "greater than 0"),
+        ("-1.0", "greater than 0"),
+    ],
+)
+def test_artifact_reward_timeout_rejects_invalid_operator_values(
+    tmp_path: Path,
+    value: str,
+    message: str,
+) -> None:
+    config_path, docker_repo = _sandbox(tmp_path)
+    _set_artifact_reward_timeout(config_path, value)
+
+    with pytest.raises(OperatorConfigError, match=message):
+        _compile(config_path, docker_repo)
+
+
+def test_artifact_reward_timeout_cannot_be_shorter_than_legacy_reward(
+    tmp_path: Path,
+) -> None:
+    config_path, docker_repo = _sandbox(tmp_path)
+    _set_artifact_reward_timeout(config_path, "19.0")
+
+    with pytest.raises(OperatorConfigError, match="greater than or equal to.*verl_timeout"):
+        _compile(config_path, docker_repo)
+
+
+def test_artifact_reward_timeout_covers_docker_and_layer_deadlines(tmp_path: Path) -> None:
+    config_path, docker_repo = _sandbox(tmp_path)
+    _set_artifact_reward_timeout(config_path, "38.0")
+
+    with pytest.raises(OperatorConfigError, match="35.*layer_gap"):
+        _compile(config_path, docker_repo)
+
+
+@pytest.mark.parametrize("invalid", [True, "40", float("nan"), float("inf"), 0.0, -1.0])
+def test_runtime_model_requires_exact_finite_positive_artifact_reward_timeout(
+    invalid: object,
+) -> None:
+    payload = json.loads((SURF_REPO / "scripts" / "config.json").read_text(encoding="utf-8"))
+    payload["gateway"]["artifact_reward_timeout"] = 40.0
+    assert Config.model_validate(payload).gateway_config.artifact_reward_timeout == 40.0
+
+    payload["gateway"]["artifact_reward_timeout"] = invalid
+    with pytest.raises(ValidationError):
+        Config.model_validate(payload)
+
+
+def test_runtime_model_requires_artifact_reward_timeout_field() -> None:
+    payload = json.loads((SURF_REPO / "scripts" / "config.json").read_text(encoding="utf-8"))
+    payload["gateway"].pop("artifact_reward_timeout", None)
+
+    with pytest.raises(ValidationError):
+        Config.model_validate(payload)
+
+
+def test_runtime_model_rejects_artifact_budget_shorter_than_legacy_reward() -> None:
+    payload = json.loads((SURF_REPO / "scripts" / "config.json").read_text(encoding="utf-8"))
+    payload["gateway"]["artifact_reward_timeout"] = 19.0
+
+    with pytest.raises(ValidationError, match="greater than or equal to.*verl_timeout"):
+        Config.model_validate(payload)
+
+
+def test_runtime_model_rejects_artifact_budget_shorter_than_docker_bridge() -> None:
+    payload = json.loads((SURF_REPO / "scripts" / "config.json").read_text(encoding="utf-8"))
+    payload["gateway"]["artifact_reward_timeout"] = 38.0
+
+    with pytest.raises(ValidationError, match="35.*layer_gap"):
+        Config.model_validate(payload)
 
 
 @pytest.mark.parametrize(
