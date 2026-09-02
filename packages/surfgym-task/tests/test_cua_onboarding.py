@@ -1,3 +1,4 @@
+import hashlib
 import json
 import subprocess
 from pathlib import Path
@@ -5,6 +6,42 @@ from pathlib import Path
 import pytest
 from surfgym_task.cua import onboarding
 from surfgym_task.cua.webapp_manifest import CUA_GYM_HUB_REVISION
+
+
+def _sha256(path: Path) -> str:
+    text = path.read_text(encoding="utf-8").replace("\r\n", "\n").replace("\r", "\n")
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def _write_patch_manifest(
+    repo_root: Path,
+    *,
+    app_dir: str = "instagram_mock",
+    path: str = "src/App.jsx",
+    upstream_sha256: str,
+    vendored_sha256: str,
+    category: str = "functional",
+) -> dict[str, object]:
+    payload: dict[str, object] = {
+        "schema_version": 1,
+        "hash_algorithm": "sha256-lf-v1",
+        "upstream_revision": CUA_GYM_HUB_REVISION,
+        "source_commits": ["063033ca8f14907399e4297595586f8d713f51a7"],
+        "task_ids": ["3355ed6f-3f01-5bf3-99ee-a2f1aaff9717"],
+        "files": [
+            {
+                "path": path,
+                "upstream_sha256": upstream_sha256,
+                "vendored_sha256": vendored_sha256,
+                "category": category,
+                "reason": "Preserve the task-required application behavior.",
+            }
+        ],
+    }
+    manifest = repo_root / "third_party" / "cua-gym-hub" / "websites" / app_dir / "PATCHES.json"
+    manifest.parent.mkdir(parents=True, exist_ok=True)
+    manifest.write_text(json.dumps(payload), encoding="utf-8")
+    return payload
 
 
 @pytest.fixture
@@ -102,7 +139,9 @@ def test_inspect_app_reports_pinned_static_contract(
         upstream_root=upstream_root,
     )
 
-    assert report["status"] == "PASS"
+    assert report["status"] == "PASS", [
+        check for check in report["checks"] if check["status"] == "FAIL"
+    ]
     assert report["next_step"]["stage"] == "VERIFY_APP"
     assert report["next_step"]["status"] == "READY"
     assert report["provenance"]["upstream_revision_actual"] == CUA_GYM_HUB_REVISION
@@ -210,6 +249,330 @@ def test_inspect_app_rejects_non_allowlisted_vendor_differences(
         "test/extensionLoader.mjs",
         "test/surfgymBridge.test.js",
     ]
+
+
+def test_inspect_app_accepts_exact_audit_only_patch_provenance(
+    onboarding_tree: tuple[Path, Path], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    repo_root, upstream_root = onboarding_tree
+    vendored = (
+        repo_root
+        / "third_party"
+        / "cua-gym-hub"
+        / "websites"
+        / "instagram_mock"
+        / "src"
+        / "App.jsx"
+    )
+    upstream = upstream_root / "websites" / "instagram_mock" / "src" / "App.jsx"
+    vendored.write_bytes(b"export default { patched: true };\r\n")
+    _write_patch_manifest(
+        repo_root,
+        upstream_sha256=_sha256(upstream),
+        vendored_sha256=_sha256(vendored),
+    )
+    monkeypatch.setattr(onboarding, "_git", lambda root, *args: _git_result(list(args)))
+
+    report = onboarding.inspect_app(
+        app_key="INSTAGRAM", repo_root=repo_root, upstream_root=upstream_root
+    )
+
+    assert report["status"] == "PASS"
+    patch_check = next(item for item in report["checks"] if item["name"] == "patch_manifest")
+    assert patch_check["status"] == "PASS"
+    assert patch_check["evidence"]["files"] == [
+        {
+            "path": "src/App.jsx",
+            "upstream_sha256": _sha256(upstream),
+            "vendored_sha256": _sha256(vendored),
+            "category": "functional",
+            "reason": "Preserve the task-required application behavior.",
+        }
+    ]
+    audit = report["provenance"]["vendored_hash_audit"]
+    assert [item["path"] for item in audit["allowed_exceptional_modified"]] == ["src/App.jsx"]
+    assert audit["unexpected_modified"] == []
+
+
+def test_inspect_app_accepts_exact_formatting_only_patch_provenance(
+    onboarding_tree: tuple[Path, Path], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    repo_root, upstream_root = onboarding_tree
+    vendored = (
+        repo_root
+        / "third_party"
+        / "cua-gym-hub"
+        / "websites"
+        / "instagram_mock"
+        / "src"
+        / "App.jsx"
+    )
+    upstream = upstream_root / "websites" / "instagram_mock" / "src" / "App.jsx"
+    vendored.write_text("export  default {};\n", encoding="utf-8")
+    _write_patch_manifest(
+        repo_root,
+        upstream_sha256=_sha256(upstream),
+        vendored_sha256=_sha256(vendored),
+        category="formatting_only",
+    )
+    monkeypatch.setattr(onboarding, "_git", lambda root, *args: _git_result(list(args)))
+
+    report = onboarding.inspect_app(
+        app_key="INSTAGRAM", repo_root=repo_root, upstream_root=upstream_root
+    )
+
+    assert report["status"] == "PASS"
+
+
+@pytest.mark.parametrize(
+    "case",
+    [
+        "extra_root_field",
+        "wrong_schema",
+        "boolean_schema",
+        "wrong_revision",
+        "wrong_hash_algorithm",
+        "short_source_commit",
+        "invalid_task_id",
+        "duplicate_source_commit",
+        "duplicate_task_id",
+        "extra_file_field",
+        "missing_file_field",
+        "unknown_file",
+        "wrong_upstream_hash",
+        "wrong_vendored_hash",
+        "wrong_category",
+        "empty_reason",
+        "control_reason",
+        "self_path",
+        "generic_overlap",
+        "duplicate_file",
+        "unchanged_file",
+    ],
+)
+def test_inspect_app_rejects_malformed_or_inexact_patch_provenance(
+    onboarding_tree: tuple[Path, Path], monkeypatch: pytest.MonkeyPatch, case: str
+) -> None:
+    repo_root, upstream_root = onboarding_tree
+    vendored = (
+        repo_root
+        / "third_party"
+        / "cua-gym-hub"
+        / "websites"
+        / "instagram_mock"
+        / "src"
+        / "App.jsx"
+    )
+    upstream = upstream_root / "websites" / "instagram_mock" / "src" / "App.jsx"
+    vendored.write_bytes(b"export default { patched: true };\r\n")
+    payload = _write_patch_manifest(
+        repo_root,
+        upstream_sha256=_sha256(upstream),
+        vendored_sha256=_sha256(vendored),
+    )
+    files = payload["files"]
+    assert isinstance(files, list)
+    file_record = files[0]
+    assert isinstance(file_record, dict)
+    if case == "extra_root_field":
+        payload["unexpected"] = True
+    elif case == "wrong_schema":
+        payload["schema_version"] = 2
+    elif case == "boolean_schema":
+        payload["schema_version"] = True
+    elif case == "wrong_revision":
+        payload["upstream_revision"] = "0" * 40
+    elif case == "wrong_hash_algorithm":
+        payload["hash_algorithm"] = "sha256"
+    elif case == "short_source_commit":
+        payload["source_commits"] = ["063033c"]
+    elif case == "invalid_task_id":
+        payload["task_ids"] = [""]
+    elif case == "duplicate_source_commit":
+        payload["source_commits"] = [
+            "063033ca8f14907399e4297595586f8d713f51a7",
+            "063033ca8f14907399e4297595586f8d713f51a7",
+        ]
+    elif case == "duplicate_task_id":
+        payload["task_ids"] = [
+            "prepare_instacart_health_items_order",
+            "prepare_instacart_health_items_order",
+        ]
+    elif case == "extra_file_field":
+        file_record["unexpected"] = True
+    elif case == "missing_file_field":
+        del file_record["vendored_sha256"]
+    elif case == "unknown_file":
+        file_record["path"] = "src/unknown.jsx"
+    elif case == "wrong_upstream_hash":
+        file_record["upstream_sha256"] = "0" * 64
+    elif case == "wrong_vendored_hash":
+        file_record["vendored_sha256"] = "0" * 64
+    elif case == "wrong_category":
+        file_record["category"] = "runtime_axis"
+    elif case == "empty_reason":
+        file_record["reason"] = "   "
+    elif case == "control_reason":
+        file_record["reason"] = "bad\nreason"
+    elif case == "self_path":
+        file_record["path"] = "PATCHES.json"
+    elif case == "generic_overlap":
+        generic_upstream = upstream_root / "websites" / "instagram_mock" / "package.json"
+        generic_vendored = (
+            repo_root
+            / "third_party"
+            / "cua-gym-hub"
+            / "websites"
+            / "instagram_mock"
+            / "package.json"
+        )
+        file_record.update(
+            {
+                "path": "package.json",
+                "upstream_sha256": _sha256(generic_upstream),
+                "vendored_sha256": _sha256(generic_vendored),
+                "category": "package_dependency",
+            }
+        )
+    elif case == "duplicate_file":
+        files.append(dict(file_record))
+    elif case == "unchanged_file":
+        unchanged = upstream_root / "websites" / "instagram_mock" / "index.html"
+        file_record.update(
+            {
+                "path": "index.html",
+                "upstream_sha256": _sha256(unchanged),
+                "vendored_sha256": _sha256(
+                    repo_root
+                    / "third_party"
+                    / "cua-gym-hub"
+                    / "websites"
+                    / "instagram_mock"
+                    / "index.html"
+                ),
+            }
+        )
+    manifest = (
+        repo_root / "third_party" / "cua-gym-hub" / "websites" / "instagram_mock" / "PATCHES.json"
+    )
+    manifest.write_text(json.dumps(payload), encoding="utf-8")
+    monkeypatch.setattr(onboarding, "_git", lambda root, *args: _git_result(list(args)))
+
+    report = onboarding.inspect_app(
+        app_key="INSTAGRAM", repo_root=repo_root, upstream_root=upstream_root
+    )
+
+    assert report["status"] == "FAIL"
+    patch_check = next(item for item in report["checks"] if item["name"] == "patch_manifest")
+    assert patch_check["status"] == "FAIL"
+    assert patch_check["evidence"]["errors"]
+
+
+@pytest.mark.parametrize(
+    "raw_manifest, expected_error",
+    [
+        ('{"schema_version":1,"schema_version":1}', "duplicate"),
+        ('{"schema_version":', "Expecting value"),
+    ],
+)
+def test_inspect_app_rejects_malformed_json(
+    onboarding_tree: tuple[Path, Path],
+    monkeypatch: pytest.MonkeyPatch,
+    raw_manifest: str,
+    expected_error: str,
+) -> None:
+    repo_root, upstream_root = onboarding_tree
+    manifest = (
+        repo_root / "third_party" / "cua-gym-hub" / "websites" / "instagram_mock" / "PATCHES.json"
+    )
+    manifest.write_text(raw_manifest, encoding="utf-8")
+    monkeypatch.setattr(onboarding, "_git", lambda root, *args: _git_result(list(args)))
+
+    report = onboarding.inspect_app(
+        app_key="INSTAGRAM", repo_root=repo_root, upstream_root=upstream_root
+    )
+
+    check = next(item for item in report["checks"] if item["name"] == "patch_manifest")
+    assert report["status"] == "FAIL"
+    assert check["status"] == "FAIL"
+    assert any(expected_error in error for error in check["evidence"]["errors"])
+
+
+def test_patch_allowance_does_not_leak_to_another_app(
+    onboarding_tree: tuple[Path, Path], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    repo_root, upstream_root = onboarding_tree
+    vendored = (
+        repo_root
+        / "third_party"
+        / "cua-gym-hub"
+        / "websites"
+        / "instagram_mock"
+        / "src"
+        / "App.jsx"
+    )
+    upstream = upstream_root / "websites" / "instagram_mock" / "src" / "App.jsx"
+    vendored.write_text("export default { patched: true };\n", encoding="utf-8")
+    _write_patch_manifest(
+        repo_root,
+        app_dir="instacart_mock",
+        upstream_sha256=_sha256(upstream),
+        vendored_sha256=_sha256(vendored),
+    )
+    monkeypatch.setattr(onboarding, "_git", lambda root, *args: _git_result(list(args)))
+
+    report = onboarding.inspect_app(
+        app_key="INSTAGRAM", repo_root=repo_root, upstream_root=upstream_root
+    )
+
+    assert report["status"] == "FAIL"
+    audit = report["provenance"]["vendored_hash_audit"]
+    assert [item["path"] for item in audit["unexpected_modified"]] == ["src/App.jsx"]
+
+
+def test_tree_audit_canonicalizes_text_line_endings(
+    onboarding_tree: tuple[Path, Path], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    repo_root, upstream_root = onboarding_tree
+    vendored_index = (
+        repo_root / "third_party" / "cua-gym-hub" / "websites" / "instagram_mock" / "index.html"
+    )
+    original = vendored_index.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    vendored_index.write_bytes(original.replace(b"\n", b"\r\n"))
+    monkeypatch.setattr(onboarding, "_git", lambda root, *args: _git_result(list(args)))
+
+    report = onboarding.inspect_app(
+        app_key="INSTAGRAM", repo_root=repo_root, upstream_root=upstream_root
+    )
+
+    assert report["provenance"]["vendored_hash_audit"]["unexpected_modified"] == []
+    assert report["status"] == "PASS", [
+        check for check in report["checks"] if check["status"] == "FAIL"
+    ]
+    assert report["provenance"]["vendored_hash_audit"]["hash_algorithm"] == (
+        "sha256-lf-v1 for UTF-8 text; sha256-raw-v1 otherwise"
+    )
+
+
+def test_tree_audit_keeps_binary_differences_byte_exact(
+    onboarding_tree: tuple[Path, Path], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    repo_root, upstream_root = onboarding_tree
+    vendored_app = repo_root / "third_party" / "cua-gym-hub" / "websites" / "instagram_mock"
+    upstream_app = upstream_root / "websites" / "instagram_mock"
+    (vendored_app / "public").mkdir()
+    (upstream_app / "public").mkdir()
+    (vendored_app / "public" / "logo.bin").write_bytes(b"\xff\x00vendored")
+    (upstream_app / "public" / "logo.bin").write_bytes(b"\xff\x00upstream")
+    monkeypatch.setattr(onboarding, "_git", lambda root, *args: _git_result(list(args)))
+
+    report = onboarding.inspect_app(
+        app_key="INSTAGRAM", repo_root=repo_root, upstream_root=upstream_root
+    )
+
+    assert report["status"] == "FAIL"
+    audit = report["provenance"]["vendored_hash_audit"]
+    assert [item["path"] for item in audit["unexpected_modified"]] == ["public/logo.bin"]
 
 
 def test_inspect_app_allows_nonruntime_omissions_but_rejects_runtime_omissions(

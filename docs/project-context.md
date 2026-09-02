@@ -22,6 +22,21 @@ The compiler's optional `--check-host-ports` gate attempts to bind every generat
 
 The compiler fails closed on unknown or missing keys, invalid numeric bounds, insufficient worker or WavePool capacity, duplicate/missing/unknown applications, and collisions among fixed, SurfGym, WavePool, Docker control, and application ports.
 
+## Vendored local webapp provenance
+
+Local web applications use the existing static-site and bridge infrastructure; CUA
+lineage does not create a runtime application type or configuration axis. The
+onboarding audit permits the ordinary bridge, state-source, entry, package, and test
+wiring differences for every registered site.
+
+An application with additional task-required functional or build changes must carry
+an app-local `PATCHES.json`. This file is audit metadata only. Its strict schema pins
+the upstream revision, full source commits, actual task IDs, and every exceptional
+modified path with a category, reason, and upstream/vendored `sha256-lf-v1` hashes.
+The audit normalizes UTF-8 text line endings for cross-platform comparison, retains
+raw hashing for non-text tree files, rejects stale or overlapping allowances, and
+does not expose the metadata to runtime consumers.
+
 ## Hybrid task surfaces
 
 SurfGym supports up to four tiled browser surfaces in one task. `Website.surface`

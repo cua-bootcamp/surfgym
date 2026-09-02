@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "hash_algorithm": "sha256-lf-v1",
+  "upstream_revision": "53205689c3d88078c1375f76466d5bd799478828",
+  "source_commits": [
+    "063033ca8f14907399e4297595586f8d713f51a7",
+    "4832c5fc296dd2531e753554e9618645c3538d33"
+  ],
+  "task_ids": [
+    "3355ed6f-3f01-5bf3-99ee-a2f1aaff9717",
+    "prepare_instacart_health_items_order"
+  ],
+  "files": [
+    {
+      "path": "package-lock.json",
+      "upstream_sha256": "6ba80cbe8be5e5335297d35f9ce1821e6d1d70442622de1ac38b57b613f33ae6",
+      "vendored_sha256": "7c9a62f2c2c454574e47eedc78de1c3e2df3f05c8531fd18ed51e190d1f04ed5",
+      "category": "package_dependency",
+      "reason": "Pin the Tailwind build dependency graph required by the preserved stylesheet and Vite plugin."
+    },
+    {
+      "path": "src/components/ProductModal.jsx",
+      "upstream_sha256": "c1a903b2ace470f4858a3ebc4e711cb349ca226e6f1d6dffe6d05273f73ed86c",
+      "vendored_sha256": "5e185113de4726088c62194fb7149e5b7b555fbf08254f2c6a270365139cdfca",
+      "category": "functional",
+      "reason": "Expose the task-required replacement preference through the product modal and persisted cart item."
+    },
+    {
+      "path": "src/components/Layout.jsx",
+      "upstream_sha256": "4fc29b4618e332b76a88de733dcf7e2f70b4523cec3e37e7b1fb28d0188f7c37",
+      "vendored_sha256": "ba8be6960c124f356475ec71ae951e992abb57d8a524af55185304db454bc2b9",
+      "category": "formatting_only",
+      "reason": "Retain the existing whitespace-clean vendored formatting without changing application behavior."
+    },
+    {
+      "path": "src/context/AppContext.jsx",
+      "upstream_sha256": "df7198b7ffaf8aa8f119da7ed865997998dc2f1572e6dbab285fca560ac8f90c",
+      "vendored_sha256": "8c1106d42f2ca3e5474fca7f2254cf7d42fdba6a581018b360d404c711312823",
+      "category": "functional",
+      "reason": "Persist replacement, delivery-slot, and delivery-address actions used by the imported task contract."
+    },
+    {
+      "path": "src/index.css",
+      "upstream_sha256": "2f839872bf9bb19558450ca92fdd21f9484d3ba20315ba54329ab165e32901c8",
+      "vendored_sha256": "2f6872fe27716a006e12645922818498299f46d6445cd624044b9da1b9a71209",
+      "category": "build_chain",
+      "reason": "Load Tailwind utilities consumed by the preserved functional UI changes."
+    },
+    {
+      "path": "src/pages/Cart.jsx",
+      "upstream_sha256": "e4212e836812701b4757914a1f9f7ef562a17d2acae61d2a50cf198f40aa8a42",
+      "vendored_sha256": "7f3ec9c391b9007ec8f48837ae049257e625e4529a3711deb8a8b06dbb674a85",
+      "category": "formatting_only",
+      "reason": "Retain the existing whitespace-clean vendored formatting without changing application behavior."
+    },
+    {
+      "path": "src/pages/Checkout.jsx",
+      "upstream_sha256": "e1975ae71784be0553ef14f16baf95ec465f470fa56c8e8dd7fce3e02ab4828a",
+      "vendored_sha256": "c8034d71cfa1a59fb65036bcdbd17a00912018898bfc6c621ccc61c10ab35736",
+      "category": "functional",
+      "reason": "Select and persist the task-required delivery slot and home address before order placement."
+    },
+    {
+      "path": "src/pages/OrderStatus.jsx",
+      "upstream_sha256": "f86ae613db0dfa375b2361f46ea8bb9c89cd93746b4d4e156be6f00832cc8e6c",
+      "vendored_sha256": "5f5f0d297722b054bb653963dbb827ee12567c694a0afc663bd61999cd8e8f95",
+      "category": "formatting_only",
+      "reason": "Retain the existing whitespace-clean vendored formatting without changing application behavior."
+    },
+    {
+      "path": "src/pages/ProductBrowser.jsx",
+      "upstream_sha256": "467f5bce1624ecc2d457b89c5150bc07379065a673c60e045a5ddd080dd4c558",
+      "vendored_sha256": "a56181a13e1de78b44532972ae2b8c40398c48b3e2dbaa0ab5c357a3760aeb0b",
+      "category": "functional",
+      "reason": "Render seeded departments and products so the imported Instacart task remains operable."
+    },
+    {
+      "path": "src/pages/StoreSelector.jsx",
+      "upstream_sha256": "939e3f2ca9f4340188a90fe15a6e661c6ca54d7f9c2b593d8adaecc9c2881b01",
+      "vendored_sha256": "4245b3a28386903d8a6b0835b6a013f46219f03833875c738fe00f130d4abbdb",
+      "category": "formatting_only",
+      "reason": "Retain the existing whitespace-clean vendored formatting without changing application behavior."
+    },
+    {
+      "path": "vite.config.js",
+      "upstream_sha256": "7f4f054b59c94c9cd317aa14086ef374c68bfc070eb1dfe75a842bce072a3e04",
+      "vendored_sha256": "2eac51a127e8fc70b20490540ea0ce5071e1e223018c166bf098d6176ea26c4d",
+      "category": "build_chain",
+      "reason": "Register the Tailwind Vite plugin required to build the preserved application surface."
+    }
+  ]
+}

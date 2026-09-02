@@ -30,5 +30,15 @@ focused bridge tests. The offline onboarding audit in
 `surfgym_task.cua.onboarding` verifies those differences against the pinned
 upstream application trees and rejects unallowlisted runtime changes.
 
+`websites/instacart_mock/PATCHES.json` records the pilot's additional functional
+and Tailwind build-chain changes. It is app-local audit metadata, not an
+application registry or runtime/configuration input. The strict record pins the
+upstream revision, full source commits, actual task identifiers, and the exact
+eleven exceptional modified files using cross-platform `sha256-lf-v1` hashes.
+Seven preserve functional or build-chain behavior; four retain the existing
+whitespace-clean formatting without semantic changes or upstream whitespace debt.
+Ordinary bridge, state, entry, package, and focused-test allowances remain owned
+by the generic onboarding audit and are not duplicated in this record.
+
 `shared/secureMockApiPlugin.mjs` was already present in SurfGym and matches the
 pinned upstream helper, so onboarding preserves the existing copy.

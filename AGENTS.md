@@ -14,6 +14,10 @@
 - The generic artifact-reward budget is selected only when a reward request explicitly
   declares `artifacts`; it is not a workspace- or application-specific timeout branch.
 - Preserve strict validation for unknown keys, numeric bounds, capacity relationships, app-set equality, all computed port collisions, and acceptance by both repositories' actual config models.
+- Exceptional vendored webapp changes belong only in the app-local audit metadata
+  `PATCHES.json`. They must not create a runtime registry, config key, launcher branch,
+  or application capability axis. The onboarding audit validates its exact schema,
+  pinned revision, lineage, task IDs, and `sha256-lf-v1` file hashes.
 
 # Repository guidance
 

@@ -11,7 +11,7 @@ import subprocess
 from dataclasses import asdict, dataclass
 from fnmatch import fnmatchcase
 from html.parser import HTMLParser
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any, Sequence
 from urllib.parse import urlsplit
 
@@ -28,6 +28,7 @@ from surfgym_task.cua.webapp_manifest import (
 DEFAULT_COMMAND_TIMEOUT_SECONDS = 120.0
 DEFAULT_CADDY_START_PORT = 8000
 REPORT_SCHEMA_VERSION = 1
+PATCH_MANIFEST_SCHEMA_VERSION = 1
 
 _REQUIRED_HELPERS = ("getSessionId", "storageKey", "initialKey", "saveState")
 _EXPORT_PATTERN = (
@@ -68,6 +69,27 @@ _RUNTIME_IMPORT_PATTERN = re.compile(
     r"(?:(?!;).)*?\bfrom[ \t]*(?P<from_quote>['\"])(?P<from>[^'\"]+)(?P=from_quote)"
     r")"
 )
+_FULL_COMMIT_PATTERN = re.compile(r"[0-9a-f]{40}\Z")
+_SHA256_PATTERN = re.compile(r"[0-9a-f]{64}\Z")
+_PATCH_CATEGORIES = frozenset(
+    {
+        "build_chain",
+        "formatting_only",
+        "functional",
+        "package_dependency",
+    }
+)
+_PATCH_ROOT_FIELDS = frozenset(
+    {
+        "schema_version",
+        "hash_algorithm",
+        "upstream_revision",
+        "source_commits",
+        "task_ids",
+        "files",
+    }
+)
+_PATCH_FILE_FIELDS = frozenset({"path", "upstream_sha256", "vendored_sha256", "category", "reason"})
 
 
 @dataclass(frozen=True)
@@ -165,6 +187,30 @@ def _sha256(path: Path) -> str | None:
     return digest.hexdigest()
 
 
+def _utf8_text(path: Path) -> str | None:
+    if not path.is_file():
+        return None
+    try:
+        text = path.read_text(encoding="utf-8")
+    except UnicodeDecodeError:
+        return None
+    if any(ord(char) < 32 and char not in "\t\n\r" for char in text):
+        return None
+    return text
+
+
+def _sha256_lf(path: Path) -> str | None:
+    text = _utf8_text(path)
+    if text is None:
+        return None
+    normalized = text.replace("\r\n", "\n").replace("\r", "\n")
+    return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
+
+
+def _portable_tree_sha256(path: Path) -> str | None:
+    return _sha256_lf(path) or _sha256(path)
+
+
 def _entry_from_index(app_root: Path) -> tuple[Path | None, str | None]:
     index = app_root / "index.html"
     if not index.is_file():
@@ -253,8 +299,10 @@ def _tree_hashes(root: Path) -> dict[str, str]:
         relative = path.relative_to(root)
         if any(part in _GENERATED_DIRS for part in relative.parts):
             continue
+        if relative.as_posix() == "PATCHES.json":
+            continue
         if path.is_file():
-            digest = _sha256(path)
+            digest = _portable_tree_sha256(path)
             if digest is not None:
                 hashes[relative.as_posix()] = digest
     return hashes
@@ -270,12 +318,196 @@ def _is_allowed_upstream_only(path: str) -> bool:
     )
 
 
+def _exact_fields(value: dict[str, Any], expected: frozenset[str], label: str) -> list[str]:
+    actual = set(value)
+    errors: list[str] = []
+    if missing := sorted(expected - actual):
+        errors.append(f"{label} is missing fields: {', '.join(missing)}")
+    if extra := sorted(actual - expected):
+        errors.append(f"{label} has unknown fields: {', '.join(extra)}")
+    return errors
+
+
+def _bounded_text(value: Any, *, maximum: int) -> bool:
+    return (
+        isinstance(value, str)
+        and 0 < len(value) <= maximum
+        and bool(value.strip())
+        and all(ord(char) >= 32 and ord(char) != 127 for char in value)
+    )
+
+
+def _safe_patch_path(value: Any) -> str | None:
+    if (
+        not _bounded_text(value, maximum=256)
+        or "\\" in value
+        or ":" in value
+        or value.casefold() == "patches.json"
+    ):
+        return None
+    candidate = PurePosixPath(value)
+    if candidate.is_absolute() or any(part in {"", ".", ".."} for part in candidate.parts):
+        return None
+    return candidate.as_posix() if candidate.as_posix() == value else None
+
+
+def _patch_manifest_for_app(
+    *,
+    vendored_app: Path,
+    upstream_app: Path,
+    generic_modified_paths: set[str],
+) -> tuple[bool, dict[str, Any], dict[str, dict[str, str]]]:
+    manifest_path = vendored_app / "PATCHES.json"
+    if not manifest_path.is_file():
+        return True, {"path": str(manifest_path), "files": [], "errors": []}, {}
+
+    errors: list[str] = []
+    selected_files: list[dict[str, str]] = []
+
+    def reject_duplicate_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        result: dict[str, Any] = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError(f"duplicate JSON object key: {key}")
+            result[key] = value
+        return result
+
+    try:
+        raw = json.loads(
+            manifest_path.read_text(encoding="utf-8"),
+            object_pairs_hook=reject_duplicate_keys,
+        )
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        return False, {"path": str(manifest_path), "files": [], "errors": [str(exc)]}, {}
+    if not isinstance(raw, dict):
+        return (
+            False,
+            {
+                "path": str(manifest_path),
+                "files": [],
+                "errors": ["patch manifest root must be an object"],
+            },
+            {},
+        )
+    label = "patch manifest root"
+    errors.extend(_exact_fields(raw, _PATCH_ROOT_FIELDS, label))
+    if (
+        type(raw.get("schema_version")) is not int
+        or raw.get("schema_version") != PATCH_MANIFEST_SCHEMA_VERSION
+    ):
+        errors.append(f"schema_version must be {PATCH_MANIFEST_SCHEMA_VERSION}")
+    if raw.get("hash_algorithm") != "sha256-lf-v1":
+        errors.append("hash_algorithm must be sha256-lf-v1")
+    if raw.get("upstream_revision") != CUA_GYM_HUB_REVISION:
+        errors.append(f"upstream_revision must be {CUA_GYM_HUB_REVISION}")
+    source_commits = raw.get("source_commits")
+    if (
+        not isinstance(source_commits, list)
+        or not source_commits
+        or any(
+            not isinstance(commit, str) or _FULL_COMMIT_PATTERN.fullmatch(commit) is None
+            for commit in source_commits
+        )
+        or len(source_commits) != len(set(source_commits))
+    ):
+        errors.append("source_commits must contain unique full commit hashes")
+    task_ids = raw.get("task_ids")
+    if (
+        not isinstance(task_ids, list)
+        or not task_ids
+        or any(not _bounded_text(task_id, maximum=256) for task_id in task_ids)
+        or len(task_ids) != len(set(task_ids))
+    ):
+        errors.append("task_ids must contain unique bounded task identifiers")
+
+    files = raw.get("files")
+    if not isinstance(files, list) or not files:
+        errors.append("files must be a non-empty array")
+        files = []
+    selected_records: dict[str, dict[str, str]] = {}
+    seen_paths: set[str] = set()
+    for file_index, record in enumerate(files):
+        file_label = f"files[{file_index}]"
+        if not isinstance(record, dict):
+            errors.append(f"{file_label} must be an object")
+            continue
+        errors.extend(_exact_fields(record, _PATCH_FILE_FIELDS, file_label))
+        path = _safe_patch_path(record.get("path"))
+        if path is None:
+            errors.append(f"{file_label}.path must be a normalized relative POSIX path")
+            continue
+        if any(part in _GENERATED_DIRS for part in PurePosixPath(path).parts):
+            errors.append(f"{file_label}.path cannot name a generated file")
+        if path in seen_paths:
+            errors.append(f"{file_label}.path duplicates {path}")
+        seen_paths.add(path)
+        if path in generic_modified_paths:
+            errors.append(f"{file_label}.path overlaps the generic onboarding allowance: {path}")
+        upstream_hash = record.get("upstream_sha256")
+        vendored_hash = record.get("vendored_sha256")
+        if not isinstance(upstream_hash, str) or _SHA256_PATTERN.fullmatch(upstream_hash) is None:
+            errors.append(f"{file_label}.upstream_sha256 must be a lowercase SHA-256")
+        if not isinstance(vendored_hash, str) or _SHA256_PATTERN.fullmatch(vendored_hash) is None:
+            errors.append(f"{file_label}.vendored_sha256 must be a lowercase SHA-256")
+        category = record.get("category")
+        if not _bounded_text(category, maximum=64) or category not in _PATCH_CATEGORIES:
+            errors.append(f"{file_label}.category is not recognized")
+        if not _bounded_text(record.get("reason"), maximum=512):
+            errors.append(f"{file_label}.reason must be bounded non-empty text")
+        selected_files.append(record)
+        selected_records[path] = record
+
+    errors.extend(
+        _validate_selected_patch_files(
+            records=selected_records,
+            vendored_app=vendored_app,
+            upstream_app=upstream_app,
+        )
+    )
+
+    evidence = {
+        "path": str(manifest_path),
+        "schema_version": raw.get("schema_version"),
+        "hash_algorithm": raw.get("hash_algorithm"),
+        "upstream_revision": raw.get("upstream_revision"),
+        "files": selected_files,
+        "errors": errors,
+    }
+    return not errors, evidence, selected_records
+
+
+def _validate_selected_patch_files(
+    *,
+    records: dict[str, dict[str, str]],
+    vendored_app: Path,
+    upstream_app: Path,
+) -> list[str]:
+    def normalized_hash(path: Path) -> str | None:
+        return _sha256_lf(path)
+
+    errors: list[str] = []
+    for path, record in records.items():
+        upstream_actual = normalized_hash(upstream_app / Path(path))
+        vendored_actual = normalized_hash(vendored_app / Path(path))
+        if upstream_actual is None or vendored_actual is None:
+            errors.append(f"{path} must exist in both upstream and vendored trees")
+            continue
+        if upstream_actual != record.get("upstream_sha256"):
+            errors.append(f"{path} upstream_sha256 does not match the pinned checkout")
+        if vendored_actual != record.get("vendored_sha256"):
+            errors.append(f"{path} vendored_sha256 does not match the vendored file")
+        if upstream_actual == vendored_actual:
+            errors.append(f"{path} is unchanged and cannot be an exceptional patch")
+    return errors
+
+
 def _vendored_hash_audit(
     *,
     vendored_app: Path,
     upstream_app: Path,
     state_source: Path,
     entry: Path | None,
+    exceptional_modified: dict[str, dict[str, str]] | None = None,
 ) -> tuple[bool, dict[str, Any]]:
     vendored = _tree_hashes(vendored_app)
     upstream = _tree_hashes(upstream_app)
@@ -286,10 +518,18 @@ def _vendored_hash_audit(
     if entry is not None:
         allowed_modified.add(entry.relative_to(vendored_app).as_posix())
 
+    exceptional_modified = exceptional_modified or {}
     common = sorted(set(vendored) & set(upstream))
     changed = [path for path in common if vendored[path] != upstream[path]]
-    allowed_changed = sorted(path for path in changed if path in allowed_modified)
-    unexpected_changed = sorted(path for path in changed if path not in allowed_modified)
+    allowed_exceptional = sorted(path for path in changed if path in exceptional_modified)
+    allowed_changed = sorted(
+        path for path in changed if path in allowed_modified and path not in exceptional_modified
+    )
+    unexpected_changed = sorted(
+        path
+        for path in changed
+        if path not in allowed_modified and path not in exceptional_modified
+    )
     new_paths = sorted(set(vendored) - set(upstream))
     allowed_new = sorted(path for path in new_paths if path in _ALLOWED_NEW_PATHS)
     unexpected_new = sorted(path for path in new_paths if path not in _ALLOWED_NEW_PATHS)
@@ -310,7 +550,9 @@ def _vendored_hash_audit(
         ]
 
     evidence: dict[str, Any] = {
+        "hash_algorithm": "sha256-lf-v1 for UTF-8 text; sha256-raw-v1 otherwise",
         "excluded_directories": sorted(_GENERATED_DIRS),
+        "excluded_audit_metadata": ["PATCHES.json"],
         "allowlist": {
             "modified": sorted(allowed_modified),
             "new": sorted(_ALLOWED_NEW_PATHS),
@@ -320,6 +562,7 @@ def _vendored_hash_audit(
         },
         "common_file_count": len(common),
         "allowed_modified": hashes(allowed_changed),
+        "allowed_exceptional_modified": hashes(allowed_exceptional),
         "unexpected_modified": hashes(unexpected_changed),
         "allowed_new": [{"path": path, "vendored_sha256": vendored[path]} for path in allowed_new],
         "unexpected_new": [
@@ -329,9 +572,7 @@ def _vendored_hash_audit(
         "unexpected_upstream_only": unexpected_upstream_only,
     }
     return (
-        not unexpected_changed
-        and not unexpected_new
-        and not unexpected_upstream_only
+        not unexpected_changed and not unexpected_new and not unexpected_upstream_only
     ), evidence
 
 
@@ -577,11 +818,35 @@ def inspect_app(*, app_key: str, repo_root: Path, upstream_root: Path) -> dict[s
         )
     )
 
+    generic_modified_paths = {
+        vendored_source.relative_to(vendored_app).as_posix(),
+        "package.json",
+    }
+    if entry is not None:
+        generic_modified_paths.add(entry.relative_to(vendored_app).as_posix())
+    patch_manifest_ok, patch_manifest, exceptional_modified = _patch_manifest_for_app(
+        vendored_app=vendored_app,
+        upstream_app=upstream_app,
+        generic_modified_paths=generic_modified_paths,
+    )
+    checks.append(
+        _check(
+            "patch_manifest",
+            patch_manifest_ok,
+            (
+                "app-local exceptional patch provenance is exact"
+                if patch_manifest_ok
+                else "app-local exceptional patch provenance is invalid or stale"
+            ),
+            **patch_manifest,
+        )
+    )
     hash_audit_ok, hash_audit = _vendored_hash_audit(
         vendored_app=vendored_app,
         upstream_app=upstream_app,
         state_source=vendored_source,
         entry=entry,
+        exceptional_modified=exceptional_modified if patch_manifest_ok else {},
     )
     checks.append(
         _check(
