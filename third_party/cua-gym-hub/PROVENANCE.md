@@ -33,8 +33,10 @@ upstream application trees and rejects unallowlisted runtime changes.
 `websites/instacart_mock/PATCHES.json` records the pilot's additional functional
 and Tailwind build-chain changes. It is app-local audit metadata, not an
 application registry or runtime/configuration input. The strict record pins the
-upstream revision, full source commits, actual task identifiers, and the exact
-eleven exceptional modified files using cross-platform `sha256-lf-v1` hashes.
+upstream revision and the exact eleven exceptional modified files using
+cross-platform `sha256-lf-v1` hashes. Its full source commits and task identifiers
+are bounded declared lineage metadata for traceability, not existence-validated
+Git or task-data references.
 Seven preserve functional or build-chain behavior; four retain the existing
 whitespace-clean formatting without semantic changes or upstream whitespace debt.
 Ordinary bridge, state, entry, package, and focused-test allowances remain owned

@@ -36,6 +36,36 @@ _EXPORT_PATTERN = (
     r"\{{[^}}]*\b{name}\b[^}}]*\}})"
 )
 _GENERATED_DIRS = frozenset({"node_modules", "dist", ".mock-files", ".mock-states"})
+_PORTABLE_TEXT_SUFFIXES = frozenset(
+    {
+        ".bash",
+        ".cjs",
+        ".css",
+        ".graphql",
+        ".htm",
+        ".html",
+        ".js",
+        ".jsx",
+        ".json",
+        ".less",
+        ".md",
+        ".mjs",
+        ".ps1",
+        ".py",
+        ".scss",
+        ".sh",
+        ".sql",
+        ".svelte",
+        ".toml",
+        ".ts",
+        ".tsx",
+        ".txt",
+        ".vue",
+        ".xml",
+        ".yaml",
+        ".yml",
+    }
+)
 _ALLOWED_NEW_PATHS = frozenset(
     {
         "src/surfgymBridge.js",
@@ -187,7 +217,13 @@ def _sha256(path: Path) -> str | None:
     return digest.hexdigest()
 
 
+def _is_portable_text_path(path: Path) -> bool:
+    return path.suffix.casefold() in _PORTABLE_TEXT_SUFFIXES
+
+
 def _utf8_text(path: Path) -> str | None:
+    if not _is_portable_text_path(path):
+        return None
     if not path.is_file():
         return None
     try:
@@ -207,7 +243,39 @@ def _sha256_lf(path: Path) -> str | None:
     return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
 
 
-def _portable_tree_sha256(path: Path) -> str | None:
+def _path_boundary_error(*, path: Path, root: Path, label: str) -> str | None:
+    try:
+        relative_path = path.relative_to(root)
+    except ValueError:
+        return f"{label} is outside its application root"
+
+    component = root
+    for part in (None, *relative_path.parts):
+        if part is not None:
+            component /= part
+        try:
+            if component.is_symlink():
+                return f"{label} must not traverse a symbolic link"
+            is_junction = getattr(component, "is_junction", None)
+            if is_junction is not None and is_junction():
+                return f"{label} must not traverse a junction"
+        except OSError as exc:
+            return f"{label} link metadata could not be inspected: {exc}"
+    try:
+        resolved_root = root.resolve(strict=True)
+        resolved_path = path.resolve(strict=True)
+    except OSError as exc:
+        return f"{label} could not be resolved: {exc}"
+    try:
+        resolved_path.relative_to(resolved_root)
+    except ValueError:
+        return f"{label} resolves outside its application root"
+    return None
+
+
+def _portable_tree_sha256(path: Path, *, root: Path) -> str | None:
+    if _path_boundary_error(path=path, root=root, label=path.as_posix()) is not None:
+        return None
     return _sha256_lf(path) or _sha256(path)
 
 
@@ -302,7 +370,7 @@ def _tree_hashes(root: Path) -> dict[str, str]:
         if relative.as_posix() == "PATCHES.json":
             continue
         if path.is_file():
-            digest = _portable_tree_sha256(path)
+            digest = _portable_tree_sha256(path, root=root)
             if digest is not None:
                 hashes[relative.as_posix()] = digest
     return hashes
@@ -358,8 +426,32 @@ def _patch_manifest_for_app(
     generic_modified_paths: set[str],
 ) -> tuple[bool, dict[str, Any], dict[str, dict[str, str]]]:
     manifest_path = vendored_app / "PATCHES.json"
+    if manifest_path.is_symlink():
+        return (
+            False,
+            {
+                "path": str(manifest_path),
+                "files": [],
+                "errors": ["PATCHES.json must not be a symbolic link"],
+            },
+            {},
+        )
     if not manifest_path.is_file():
         return True, {"path": str(manifest_path), "files": [], "errors": []}, {}
+    if boundary_error := _path_boundary_error(
+        path=manifest_path,
+        root=vendored_app,
+        label="PATCHES.json",
+    ):
+        return (
+            False,
+            {
+                "path": str(manifest_path),
+                "files": [],
+                "errors": [boundary_error],
+            },
+            {},
+        )
 
     errors: list[str] = []
     selected_files: list[dict[str, str]] = []
@@ -436,13 +528,20 @@ def _patch_manifest_for_app(
         if path is None:
             errors.append(f"{file_label}.path must be a normalized relative POSIX path")
             continue
+        path_eligible = True
+        if not _is_portable_text_path(Path(path)):
+            errors.append(f"{file_label}.path must use an approved text suffix")
+            path_eligible = False
         if any(part in _GENERATED_DIRS for part in PurePosixPath(path).parts):
             errors.append(f"{file_label}.path cannot name a generated file")
+            path_eligible = False
         if path in seen_paths:
             errors.append(f"{file_label}.path duplicates {path}")
+            path_eligible = False
         seen_paths.add(path)
         if path in generic_modified_paths:
             errors.append(f"{file_label}.path overlaps the generic onboarding allowance: {path}")
+            path_eligible = False
         upstream_hash = record.get("upstream_sha256")
         vendored_hash = record.get("vendored_sha256")
         if not isinstance(upstream_hash, str) or _SHA256_PATTERN.fullmatch(upstream_hash) is None:
@@ -455,7 +554,8 @@ def _patch_manifest_for_app(
         if not _bounded_text(record.get("reason"), maximum=512):
             errors.append(f"{file_label}.reason must be bounded non-empty text")
         selected_files.append(record)
-        selected_records[path] = record
+        if path_eligible:
+            selected_records[path] = record
 
     errors.extend(
         _validate_selected_patch_files(
@@ -487,8 +587,29 @@ def _validate_selected_patch_files(
 
     errors: list[str] = []
     for path, record in records.items():
-        upstream_actual = normalized_hash(upstream_app / Path(path))
-        vendored_actual = normalized_hash(vendored_app / Path(path))
+        upstream_path = upstream_app / Path(path)
+        vendored_path = vendored_app / Path(path)
+        boundary_errors = [
+            error
+            for error in (
+                _path_boundary_error(
+                    path=upstream_path,
+                    root=upstream_app,
+                    label=f"{path} upstream target",
+                ),
+                _path_boundary_error(
+                    path=vendored_path,
+                    root=vendored_app,
+                    label=f"{path} vendored target",
+                ),
+            )
+            if error is not None
+        ]
+        if boundary_errors:
+            errors.extend(boundary_errors)
+            continue
+        upstream_actual = normalized_hash(upstream_path)
+        vendored_actual = normalized_hash(vendored_path)
         if upstream_actual is None or vendored_actual is None:
             errors.append(f"{path} must exist in both upstream and vendored trees")
             continue

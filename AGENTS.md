@@ -17,7 +17,9 @@
 - Exceptional vendored webapp changes belong only in the app-local audit metadata
   `PATCHES.json`. They must not create a runtime registry, config key, launcher branch,
   or application capability axis. The onboarding audit validates its exact schema,
-  pinned revision, lineage, task IDs, and `sha256-lf-v1` file hashes.
+  pinned upstream revision, containment, and `sha256-lf-v1` file hashes. Full source
+  commits and task IDs are bounded declared lineage metadata for traceability; the
+  audit does not verify that those commits or tasks exist.
 
 # Repository guidance
 

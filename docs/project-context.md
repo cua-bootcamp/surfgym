@@ -31,8 +31,10 @@ wiring differences for every registered site.
 
 An application with additional task-required functional or build changes must carry
 an app-local `PATCHES.json`. This file is audit metadata only. Its strict schema pins
-the upstream revision, full source commits, actual task IDs, and every exceptional
-modified path with a category, reason, and upstream/vendored `sha256-lf-v1` hashes.
+the upstream revision and every exceptional modified path with a category, reason,
+and upstream/vendored `sha256-lf-v1` hashes. Full source commits and task IDs are
+bounded declarations recorded for lineage traceability; this audit does not query
+Git history or task data to prove that those identifiers exist.
 The audit normalizes UTF-8 text line endings for cross-platform comparison, retains
 raw hashing for non-text tree files, rejects stale or overlapping allowances, and
 does not expose the metadata to runtime consumers.

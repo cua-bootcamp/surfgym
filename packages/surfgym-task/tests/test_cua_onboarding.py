@@ -327,6 +327,120 @@ def test_inspect_app_accepts_exact_formatting_only_patch_provenance(
 @pytest.mark.parametrize(
     "case",
     [
+        "manifest_symlink",
+        "manifest_escape",
+        "manifest_parent_junction",
+        "vendored_target_symlink",
+        "vendored_target_escape",
+        "vendored_parent_junction",
+        "upstream_target_symlink",
+        "upstream_target_escape",
+        "upstream_parent_junction",
+    ],
+)
+def test_patch_manifest_rejects_links_and_containment_escape(
+    onboarding_tree: tuple[Path, Path],
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+    case: str,
+) -> None:
+    repo_root, upstream_root = onboarding_tree
+    vendored = (
+        repo_root
+        / "third_party"
+        / "cua-gym-hub"
+        / "websites"
+        / "instagram_mock"
+        / "src"
+        / "App.jsx"
+    )
+    upstream = upstream_root / "websites" / "instagram_mock" / "src" / "App.jsx"
+    vendored.write_text("export default { patched: true };\n", encoding="utf-8")
+    _write_patch_manifest(
+        repo_root,
+        upstream_sha256=_sha256(upstream),
+        vendored_sha256=_sha256(vendored),
+    )
+    manifest = vendored.parents[1] / "PATCHES.json"
+    flagged = {
+        "manifest_parent_junction": vendored.parents[1],
+        "vendored_parent_junction": vendored.parent,
+        "upstream_parent_junction": upstream.parent,
+    }.get(
+        case,
+        manifest
+        if case.startswith("manifest_")
+        else vendored
+        if case.startswith("vendored_")
+        else upstream,
+    )
+    if case.endswith("_junction"):
+        original_is_junction = Path.is_junction
+
+        def fake_is_junction(path: Path) -> bool:
+            return path == flagged or original_is_junction(path)
+
+        monkeypatch.setattr(Path, "is_junction", fake_is_junction)
+    elif case.endswith("_symlink"):
+        original_is_symlink = Path.is_symlink
+
+        def fake_is_symlink(path: Path) -> bool:
+            return path == flagged or original_is_symlink(path)
+
+        monkeypatch.setattr(Path, "is_symlink", fake_is_symlink)
+    else:
+        original_resolve = Path.resolve
+        outside = tmp_path / "outside" / flagged.name
+
+        def fake_resolve(path: Path, strict: bool = False) -> Path:
+            if path == flagged:
+                return outside
+            return original_resolve(path, strict=strict)
+
+        monkeypatch.setattr(Path, "resolve", fake_resolve)
+    monkeypatch.setattr(onboarding, "_git", lambda root, *args: _git_result(list(args)))
+
+    report = onboarding.inspect_app(
+        app_key="INSTAGRAM", repo_root=repo_root, upstream_root=upstream_root
+    )
+
+    check = next(item for item in report["checks"] if item["name"] == "patch_manifest")
+    assert report["status"] == "FAIL"
+    assert check["status"] == "FAIL"
+    assert check["evidence"]["errors"]
+
+
+def test_patch_manifest_rejects_non_text_exceptional_suffix(
+    onboarding_tree: tuple[Path, Path], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    repo_root, upstream_root = onboarding_tree
+    vendored_app = repo_root / "third_party" / "cua-gym-hub" / "websites" / "instagram_mock"
+    upstream_app = upstream_root / "websites" / "instagram_mock"
+    vendored = vendored_app / "src" / "App.bin"
+    upstream = upstream_app / "src" / "App.bin"
+    vendored.write_bytes(b"vendored\r\n")
+    upstream.write_bytes(b"upstream\n")
+    _write_patch_manifest(
+        repo_root,
+        path="src/App.bin",
+        upstream_sha256=_sha256(upstream),
+        vendored_sha256=_sha256(vendored),
+    )
+    monkeypatch.setattr(onboarding, "_git", lambda root, *args: _git_result(list(args)))
+
+    report = onboarding.inspect_app(
+        app_key="INSTAGRAM", repo_root=repo_root, upstream_root=upstream_root
+    )
+
+    check = next(item for item in report["checks"] if item["name"] == "patch_manifest")
+    assert report["status"] == "FAIL"
+    assert check["status"] == "FAIL"
+    assert any("text suffix" in error for error in check["evidence"]["errors"])
+
+
+@pytest.mark.parametrize(
+    "case",
+    [
         "extra_root_field",
         "wrong_schema",
         "boolean_schema",
@@ -573,6 +687,27 @@ def test_tree_audit_keeps_binary_differences_byte_exact(
     assert report["status"] == "FAIL"
     audit = report["provenance"]["vendored_hash_audit"]
     assert [item["path"] for item in audit["unexpected_modified"]] == ["public/logo.bin"]
+
+
+def test_tree_audit_keeps_printable_binary_line_endings_byte_exact(
+    onboarding_tree: tuple[Path, Path], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    repo_root, upstream_root = onboarding_tree
+    vendored_app = repo_root / "third_party" / "cua-gym-hub" / "websites" / "instagram_mock"
+    upstream_app = upstream_root / "websites" / "instagram_mock"
+    (vendored_app / "public").mkdir()
+    (upstream_app / "public").mkdir()
+    (vendored_app / "public" / "readable.bin").write_bytes(b"same\r\n")
+    (upstream_app / "public" / "readable.bin").write_bytes(b"same\n")
+    monkeypatch.setattr(onboarding, "_git", lambda root, *args: _git_result(list(args)))
+
+    report = onboarding.inspect_app(
+        app_key="INSTAGRAM", repo_root=repo_root, upstream_root=upstream_root
+    )
+
+    assert report["status"] == "FAIL"
+    audit = report["provenance"]["vendored_hash_audit"]
+    assert [item["path"] for item in audit["unexpected_modified"]] == ["public/readable.bin"]
 
 
 def test_inspect_app_allows_nonruntime_omissions_but_rejects_runtime_omissions(
