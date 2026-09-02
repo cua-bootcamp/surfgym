@@ -2,10 +2,11 @@ import argparse
 from pathlib import Path
 from typing import Iterable, get_args
 
+from pydantic import TypeAdapter
 from surfgym_contracts.task import Hook, LifecycleHooks, Task, Website
 
 from surfgym_task.hoare import HoareStateGenerator
-from surfgym_task.io import DetailWriter, InstructionWriter, SeedReader, Summary, TaskWriter
+from surfgym_task.io import DetailWriter, InstructionWriter, JsonIO, SeedReader, Summary, TaskWriter
 from surfgym_task.seed import (
     CriteriaSeedTask,
     Domain,
@@ -13,6 +14,7 @@ from surfgym_task.seed import (
     InfeasibleSeedTask,
     LLMJudgeSeedTask,
     Profile,
+    RawSeedTask,
     StateAtom,
 )
 from surfgym_task.web import DOCKER_FIXTURE_RELEASE_HOOK, WEB_STATE_RESET_HOOK
@@ -93,6 +95,23 @@ def _planned_task_ids(
             case LLMJudgeSeedTask() | InfeasibleSeedTask():
                 task_ids.append((seed_name, source))
     return task_ids
+
+
+def _validate_workspace_lineage(seed_dir: Path) -> None:
+    seen_source_task_ids: dict[str, str] = {}
+    adapter = TypeAdapter[RawSeedTask](RawSeedTask)
+    for seed_path in sorted((seed_dir / "seeds").glob("*.json")):
+        raw_seed = adapter.validate_python(JsonIO.read(seed_path))
+        if raw_seed.source_task_id is None:
+            continue
+        source = f"{seed_dir.name}/{seed_path.name}"
+        previous = seen_source_task_ids.get(raw_seed.source_task_id)
+        if previous is not None:
+            raise ValueError(
+                "Duplicate workspace source_task_id "
+                f"{raw_seed.source_task_id}: {previous} and {source}."
+            )
+        seen_source_task_ids[raw_seed.source_task_id] = source
 
 
 def _compile_domain(
@@ -214,6 +233,8 @@ def publish(
     seen_task_ids: dict[str, str] = {}
     for domain in selected_domains:
         seed_dir = data_root / domain
+        if domain == "workspace":
+            _validate_workspace_lineage(seed_dir)
         for task_id, source in _planned_task_ids(seed_dir, granularity, profile):
             previous = seen_task_ids.get(task_id)
             if previous is not None:

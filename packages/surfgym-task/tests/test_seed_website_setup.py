@@ -340,3 +340,45 @@ def test_workspace_seed_lineage_is_source_only_and_empty_start_is_implicit() -> 
     assert len(compiled_seed.states) == 2
     assert compiled_seed.states[0].atoms == []
     assert "source_task_id" not in compiled_seed.model_dump(mode="json")
+
+
+@pytest.mark.parametrize(
+    "source_task_id",
+    (
+        "",
+        " leading",
+        "trailing ",
+        "contains/slash",
+        "contains unicode",
+        "한글",
+        "control\ncharacter",
+        "x" * 129,
+    ),
+)
+def test_seed_source_task_id_rejects_unsafe_identifiers(source_task_id: str) -> None:
+    payload = json.loads(
+        (DATA_ROOT / "workspace" / "seeds" / "open_desktop_project_from_terminal.json").read_text()
+    )
+    payload["source_task_id"] = source_task_id
+
+    with pytest.raises(ValidationError, match="source_task_id"):
+        TypeAdapter[RawSeedTask](RawSeedTask).validate_python(payload)
+
+
+@pytest.mark.parametrize(
+    "source_task_id",
+    (
+        "a",
+        "A0._:-z",
+        "x" * 128,
+    ),
+)
+def test_seed_source_task_id_accepts_bounded_ascii_identifiers(source_task_id: str) -> None:
+    payload = json.loads(
+        (DATA_ROOT / "workspace" / "seeds" / "open_desktop_project_from_terminal.json").read_text()
+    )
+    payload["source_task_id"] = source_task_id
+
+    raw = TypeAdapter[RawSeedTask](RawSeedTask).validate_python(payload)
+
+    assert raw.source_task_id == source_task_id

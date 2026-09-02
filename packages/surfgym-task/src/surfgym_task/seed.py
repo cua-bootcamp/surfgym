@@ -252,6 +252,17 @@ class _RawSeedTask(FrozenBaseModel):
     domain: Optional[Domain] = None
     source_task_id: Optional[str] = None
 
+    @model_validator(mode="after")
+    def validate_source_task_id(self) -> "_RawSeedTask":
+        if self.source_task_id is not None and (
+            len(self.source_task_id) > 128
+            or re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._:-]*", self.source_task_id) is None
+        ):
+            raise ValueError(
+                "source_task_id must be a 1..128 character ASCII identifier"
+            )
+        return self
+
 
 class RawLLMJudgeSeedTask(_RawSeedTask):
     evaluation: LLMJudgeEvaluation

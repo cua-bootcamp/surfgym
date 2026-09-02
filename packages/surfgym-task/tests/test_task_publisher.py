@@ -91,6 +91,41 @@ def test_publish_rejects_duplicate_ids_before_mutating_output(tmp_path: Path) ->
     assert not (data_root / "word" / "out").exists()
 
 
+def test_publish_rejects_duplicate_workspace_lineage_before_mutating_output(
+    tmp_path: Path,
+) -> None:
+    data_root = tmp_path / "data"
+    seed_names = (
+        "brighten_presentation_image_in_gimp",
+        "open_desktop_project_from_terminal",
+    )
+    seed_dir = data_root / "workspace" / "seeds"
+    seed_dir.mkdir(parents=True)
+    for seed_name in seed_names:
+        path = seed_dir / f"{seed_name}.json"
+        shutil.copy2(SOURCE_DATA / "workspace" / "seeds" / path.name, path)
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        payload["source_task_id"] = "shared-source-id"
+        path.write_text(json.dumps(payload), encoding="utf-8")
+    output_path = tmp_path / "runtime" / "tasks.sqlite3"
+    output_path.parent.mkdir(parents=True)
+    output_path.write_bytes(b"unchanged-output")
+
+    with pytest.raises(ValueError, match="Duplicate workspace source_task_id") as error:
+        publish(
+            data_root=data_root,
+            domains=["workspace"],
+            output_path=output_path,
+            granularity="COARSE",
+            profile="ROLLOUT",
+        )
+
+    assert "workspace/brighten_presentation_image_in_gimp.json" in str(error.value)
+    assert "workspace/open_desktop_project_from_terminal.json" in str(error.value)
+    assert output_path.read_bytes() == b"unchanged-output"
+    assert not (data_root / "workspace" / "out").exists()
+
+
 def test_publish_cli_accepts_repeatable_explicit_domains(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(
         sys,
