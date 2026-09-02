@@ -273,9 +273,7 @@ def _path_boundary_error(*, path: Path, root: Path, label: str) -> str | None:
     return None
 
 
-def _portable_tree_sha256(path: Path, *, root: Path) -> str | None:
-    if _path_boundary_error(path=path, root=root, label=path.as_posix()) is not None:
-        return None
+def _portable_tree_sha256(path: Path) -> str | None:
     return _sha256_lf(path) or _sha256(path)
 
 
@@ -359,21 +357,58 @@ def _runtime_imports(entry_text: str) -> list[str]:
     ]
 
 
-def _tree_hashes(root: Path) -> dict[str, str]:
-    if not root.is_dir():
-        return {}
+def _tree_hashes(root: Path) -> tuple[dict[str, str], list[dict[str, str]]]:
     hashes: dict[str, str] = {}
-    for path in root.rglob("*"):
-        relative = path.relative_to(root)
+    errors: list[dict[str, str]] = []
+
+    def inspect_path(path: Path, relative: Path) -> None:
+        relative_label = relative.as_posix()
         if any(part in _GENERATED_DIRS for part in relative.parts):
-            continue
-        if relative.as_posix() == "PATCHES.json":
-            continue
-        if path.is_file():
-            digest = _portable_tree_sha256(path, root=root)
-            if digest is not None:
-                hashes[relative.as_posix()] = digest
-    return hashes
+            return
+        if relative_label == "PATCHES.json":
+            return
+        if boundary_error := _path_boundary_error(
+            path=path,
+            root=root,
+            label=relative_label,
+        ):
+            errors.append({"path": relative_label, "error": boundary_error})
+            return
+        if path.is_dir():
+            try:
+                children = sorted(path.iterdir(), key=lambda child: child.name)
+            except OSError as exc:
+                errors.append(
+                    {
+                        "path": relative_label,
+                        "error": f"{relative_label} could not be enumerated: {exc}",
+                    }
+                )
+                return
+            for child in children:
+                inspect_path(child, child.relative_to(root))
+            return
+        if not path.is_file():
+            errors.append(
+                {
+                    "path": relative_label,
+                    "error": f"{relative_label} is neither a regular file nor directory",
+                }
+            )
+            return
+        digest = _portable_tree_sha256(path)
+        if digest is None:
+            errors.append(
+                {
+                    "path": relative_label,
+                    "error": f"{relative_label} could not be hashed",
+                }
+            )
+            return
+        hashes[relative_label] = digest
+
+    inspect_path(root, Path("."))
+    return hashes, errors
 
 
 def _is_allowed_upstream_only(path: str) -> bool:
@@ -630,8 +665,16 @@ def _vendored_hash_audit(
     entry: Path | None,
     exceptional_modified: dict[str, dict[str, str]] | None = None,
 ) -> tuple[bool, dict[str, Any]]:
-    vendored = _tree_hashes(vendored_app)
-    upstream = _tree_hashes(upstream_app)
+    vendored, vendored_boundary_errors = _tree_hashes(vendored_app)
+    upstream, upstream_boundary_errors = _tree_hashes(upstream_app)
+    boundary_errors = [
+        {"tree": tree, **error}
+        for tree, errors in (
+            ("vendored", vendored_boundary_errors),
+            ("upstream", upstream_boundary_errors),
+        )
+        for error in errors
+    ]
     allowed_modified = {
         state_source.relative_to(vendored_app).as_posix(),
         "package.json",
@@ -674,6 +717,7 @@ def _vendored_hash_audit(
         "hash_algorithm": "sha256-lf-v1 for UTF-8 text; sha256-raw-v1 otherwise",
         "excluded_directories": sorted(_GENERATED_DIRS),
         "excluded_audit_metadata": ["PATCHES.json"],
+        "boundary_errors": boundary_errors,
         "allowlist": {
             "modified": sorted(allowed_modified),
             "new": sorted(_ALLOWED_NEW_PATHS),
@@ -693,7 +737,10 @@ def _vendored_hash_audit(
         "unexpected_upstream_only": unexpected_upstream_only,
     }
     return (
-        not unexpected_changed and not unexpected_new and not unexpected_upstream_only
+        not boundary_errors
+        and not unexpected_changed
+        and not unexpected_new
+        and not unexpected_upstream_only
     ), evidence
 
 

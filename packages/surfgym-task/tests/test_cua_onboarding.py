@@ -710,6 +710,164 @@ def test_tree_audit_keeps_printable_binary_line_endings_byte_exact(
     assert [item["path"] for item in audit["unexpected_modified"]] == ["public/readable.bin"]
 
 
+def test_tree_audit_rejects_unexpected_new_file_symlink_outside_root(
+    onboarding_tree: tuple[Path, Path],
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    repo_root, upstream_root = onboarding_tree
+    vendored_app = repo_root / "third_party" / "cua-gym-hub" / "websites" / "instagram_mock"
+    link = vendored_app / "src" / "escape.js"
+    outside = tmp_path / "outside.js"
+    outside.write_text("export const escaped = true;\n", encoding="utf-8")
+    try:
+        link.symlink_to(outside)
+    except OSError:
+        link.write_text(outside.read_text(encoding="utf-8"), encoding="utf-8")
+        original_is_symlink = Path.is_symlink
+        original_resolve = Path.resolve
+
+        def fake_is_symlink(path: Path) -> bool:
+            return path == link or original_is_symlink(path)
+
+        def fake_resolve(path: Path, strict: bool = False) -> Path:
+            if path == link:
+                return outside
+            return original_resolve(path, strict=strict)
+
+        monkeypatch.setattr(Path, "is_symlink", fake_is_symlink)
+        monkeypatch.setattr(Path, "resolve", fake_resolve)
+    monkeypatch.setattr(onboarding, "_git", lambda root, *args: _git_result(list(args)))
+
+    report = onboarding.inspect_app(
+        app_key="INSTAGRAM", repo_root=repo_root, upstream_root=upstream_root
+    )
+
+    check = next(item for item in report["checks"] if item["name"] == "vendored_hash_audit")
+    assert report["status"] == "FAIL"
+    assert check["status"] == "FAIL"
+    assert check["evidence"]["boundary_errors"] == [
+        {
+            "tree": "vendored",
+            "path": "src/escape.js",
+            "error": "src/escape.js must not traverse a symbolic link",
+        }
+    ]
+
+
+@pytest.mark.parametrize(
+    ("tree", "relative_path", "link_kind"),
+    [
+        ("vendored", "src", "symlink"),
+        ("upstream", "src", "junction"),
+        ("vendored", ".", "junction"),
+    ],
+)
+def test_tree_audit_rejects_internal_tree_links_and_junctions(
+    onboarding_tree: tuple[Path, Path],
+    monkeypatch: pytest.MonkeyPatch,
+    tree: str,
+    relative_path: str,
+    link_kind: str,
+) -> None:
+    repo_root, upstream_root = onboarding_tree
+    app_roots = {
+        "vendored": repo_root / "third_party" / "cua-gym-hub" / "websites" / "instagram_mock",
+        "upstream": upstream_root / "websites" / "instagram_mock",
+    }
+    flagged = app_roots[tree] if relative_path == "." else app_roots[tree] / relative_path
+    original_link_check = getattr(Path, f"is_{link_kind}")
+
+    def fake_link_check(path: Path) -> bool:
+        return path == flagged or original_link_check(path)
+
+    monkeypatch.setattr(Path, f"is_{link_kind}", fake_link_check)
+    monkeypatch.setattr(onboarding, "_git", lambda root, *args: _git_result(list(args)))
+
+    report = onboarding.inspect_app(
+        app_key="INSTAGRAM", repo_root=repo_root, upstream_root=upstream_root
+    )
+
+    check = next(item for item in report["checks"] if item["name"] == "vendored_hash_audit")
+    assert report["status"] == "FAIL"
+    assert check["status"] == "FAIL"
+    kind_label = "symbolic link" if link_kind == "symlink" else "junction"
+    assert check["evidence"]["boundary_errors"] == [
+        {
+            "tree": tree,
+            "path": relative_path,
+            "error": f"{relative_path} must not traverse a {kind_label}",
+        }
+    ]
+
+
+def test_tree_audit_rejects_upstream_containment_escape(
+    onboarding_tree: tuple[Path, Path],
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    repo_root, upstream_root = onboarding_tree
+    upstream = upstream_root / "websites" / "instagram_mock" / "src" / "App.jsx"
+    outside = tmp_path / "outside" / "App.jsx"
+    original_resolve = Path.resolve
+
+    def fake_resolve(path: Path, strict: bool = False) -> Path:
+        if path == upstream:
+            return outside
+        return original_resolve(path, strict=strict)
+
+    monkeypatch.setattr(Path, "resolve", fake_resolve)
+    monkeypatch.setattr(onboarding, "_git", lambda root, *args: _git_result(list(args)))
+
+    report = onboarding.inspect_app(
+        app_key="INSTAGRAM", repo_root=repo_root, upstream_root=upstream_root
+    )
+
+    check = next(item for item in report["checks"] if item["name"] == "vendored_hash_audit")
+    assert report["status"] == "FAIL"
+    assert check["status"] == "FAIL"
+    assert check["evidence"]["boundary_errors"] == [
+        {
+            "tree": "upstream",
+            "path": "src/App.jsx",
+            "error": "src/App.jsx resolves outside its application root",
+        }
+    ]
+
+
+def test_tree_audit_preserves_generated_directory_exclusion(
+    onboarding_tree: tuple[Path, Path], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    repo_root, upstream_root = onboarding_tree
+    generated = (
+        repo_root / "third_party" / "cua-gym-hub" / "websites" / "instagram_mock" / "node_modules"
+    )
+    generated.mkdir()
+    (generated / "outside.js").write_text("ignored\n", encoding="utf-8")
+    original_is_junction = Path.is_junction
+    original_iterdir = Path.iterdir
+
+    def fake_is_junction(path: Path) -> bool:
+        return path == generated or original_is_junction(path)
+
+    def guarded_iterdir(path: Path):
+        if path == generated:
+            raise AssertionError("generated directory must not be traversed")
+        return original_iterdir(path)
+
+    monkeypatch.setattr(Path, "is_junction", fake_is_junction)
+    monkeypatch.setattr(Path, "iterdir", guarded_iterdir)
+    monkeypatch.setattr(onboarding, "_git", lambda root, *args: _git_result(list(args)))
+
+    report = onboarding.inspect_app(
+        app_key="INSTAGRAM", repo_root=repo_root, upstream_root=upstream_root
+    )
+
+    audit = report["provenance"]["vendored_hash_audit"]
+    assert audit["boundary_errors"] == []
+    assert report["status"] == "PASS"
+
+
 def test_inspect_app_allows_nonruntime_omissions_but_rejects_runtime_omissions(
     onboarding_tree: tuple[Path, Path], monkeypatch: pytest.MonkeyPatch
 ) -> None:
