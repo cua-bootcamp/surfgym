@@ -9,6 +9,7 @@ import uvicorn
 from fastapi import Body, FastAPI, status
 from fastapi.responses import JSONResponse
 from surfgym_contracts.protocol.gateway_to_upstream import (
+    ArtifactRequest,
     ExecuteRequest,
     LiveContextsResponse,
     MasterAllocateRequest,
@@ -107,6 +108,13 @@ def create_app(
             observation=await worker.observe(context_id, request.criteria, request.hooks)
         )
 
+    @handle_instance_errors
+    async def artifact(
+        context_id: str,
+        request: Annotated[ArtifactRequest, Body()],
+    ):
+        return await worker.artifact(context_id, request.artifact)
+
     app = FastAPI(lifespan=lifespan)
     app.add_api_route("/health", health, methods=["GET"])
     app.add_api_route("/contexts", contexts, methods=["GET"])
@@ -115,6 +123,7 @@ def create_app(
     app.add_api_route("/execute", execute, methods=["POST"])
     app.add_api_route("/observe", observe, methods=["POST"])
     app.add_api_route("/screenshot", screenshot, methods=["POST"])
+    app.add_api_route("/artifact", artifact, methods=["POST"])
 
     return app
 

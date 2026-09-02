@@ -20,8 +20,12 @@ def test_release_retains_context_when_before_hook_fails_then_deletes_on_retry() 
     async def delete(context_id: str) -> None:
         deleted_context_ids.append(context_id)
 
+    context = SimpleNamespace(operation_lock=asyncio.Lock())
     worker._run_hooks = run_hooks  # type: ignore[method-assign]
-    worker.ctx_manager = SimpleNamespace(delete=delete)
+    worker.ctx_manager = SimpleNamespace(
+        delete=delete,
+        require_context=lambda _context_id: context,
+    )
 
     with pytest.raises(RuntimeError, match="fixture bridge is unavailable"):
         asyncio.run(

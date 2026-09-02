@@ -51,7 +51,9 @@ class Context:
     context: BrowserContext
     pages: dict[Website_ID, Page_Meta]
     active_page_id: Website_ID
+    native_page_ids: tuple[Website_ID, ...] = ()
     entered_page_ids: set[Website_ID] = field(default_factory=lambda: set[Website_ID]())
+    operation_lock: asyncio.Lock = field(default_factory=asyncio.Lock)
     cursor: PageCursor = PageCursor(0, 0)
     mouse_down_page_id: Website_ID | None = None
 
@@ -131,6 +133,9 @@ class ContextManager:
             context=browser_context,
             pages=pages,
             active_page_id=websites[0].website_id,
+            native_page_ids=tuple(
+                website.website_id for website in websites if website.surface == "native"
+            ),
         )
 
         self._contexts[context_id] = context

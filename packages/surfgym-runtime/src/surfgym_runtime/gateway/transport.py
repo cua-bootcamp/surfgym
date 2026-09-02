@@ -6,7 +6,9 @@ import requests
 from fastapi import status
 from pydantic import BaseModel, ValidationError
 from surfgym_contracts.command import Command
+from surfgym_contracts.protocol.artifact import ArtifactPayload, ArtifactSpec
 from surfgym_contracts.protocol.gateway_to_upstream import (
+    ArtifactRequest,
     ExecuteRequest,
     GatewayAllocateRequest,
     GatewayReleaseRequest,
@@ -100,6 +102,21 @@ class GatewayTransport:
             timeout=timeout,
         )
 
+    def artifact(
+        self,
+        *,
+        context_id: str,
+        instance_port: int,
+        artifact: ArtifactSpec,
+        timeout: float,
+    ) -> ArtifactPayload:
+        """Forward the caller's remaining shared budget without resetting it."""
+        return self._instance_client(instance_port).artifact(
+            context_id=context_id,
+            artifact=artifact,
+            timeout=timeout,
+        )
+
 
 class MasterClient:
     def __init__(self, host: str, port: int):
@@ -182,6 +199,22 @@ class InstanceClient:
             operation="instance.screenshot",
             params={"context_id": context_id},
             json=ScreenshotRequest().model_dump(mode="json"),
+            timeout=timeout,
+        )
+
+    def artifact(
+        self,
+        *,
+        context_id: str,
+        artifact: ArtifactSpec,
+        timeout: float,
+    ) -> ArtifactPayload:
+        return _request_model(
+            f"{self._get_base_url()}/artifact",
+            ArtifactPayload,
+            operation="instance.artifact",
+            params={"context_id": context_id},
+            json=ArtifactRequest(artifact=artifact).model_dump(mode="json"),
             timeout=timeout,
         )
 

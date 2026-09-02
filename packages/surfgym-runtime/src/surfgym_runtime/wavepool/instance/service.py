@@ -6,7 +6,9 @@ from typing import Literal, cast
 
 from PIL import Image
 from playwright.async_api import Page
+from pydantic import ValidationError
 from surfgym_contracts.command import Command
+from surfgym_contracts.protocol.artifact import ArtifactPayload, ArtifactSpec
 from surfgym_contracts.task import (
     ConsoleCriteria,
     Criteria,
@@ -94,11 +96,16 @@ class PlaywrightBrowserWorker:
         await self._run_hooks(context_id, hooks, timing="after")
 
     async def release(self, context_id: str, hooks: list[Hook]):
-        # A Docker release hook is the acknowledgement that the fixture reset
-        # was accepted.  Preserve the browser context on failure so the Master
-        # can retry this exact release instead of retrying a missing context.
-        await self._run_hooks(context_id, hooks, timing="before", entered_only=True)
-        await self.ctx_manager.delete(context_id)
+        ctx = self.ctx_manager.require_context(context_id)
+        async with ctx.operation_lock:
+            if self.ctx_manager.require_context(context_id) is not ctx:
+                raise InvalidCommand("context identity changed before release")
+
+            # A Docker release hook is the acknowledgement that the fixture reset
+            # was accepted. Preserve the browser context on failure so the Master
+            # can retry this exact release instead of retrying a missing context.
+            await self._run_hooks(context_id, hooks, timing="before", entered_only=True)
+            await self.ctx_manager.delete(context_id)
 
     async def execute(self, context_id: str, command: Command):
         ctx = self.ctx_manager.require_context(context_id)
@@ -261,6 +268,68 @@ class PlaywrightBrowserWorker:
 
         await self._run_hooks(context_id, hooks, timing="after")
         return observations
+
+    async def artifact(self, context_id: str, artifact: ArtifactSpec) -> ArtifactPayload:
+        ctx = self.ctx_manager.require_context(context_id)
+        async with ctx.operation_lock:
+            if self.ctx_manager.require_context(context_id) is not ctx:
+                raise InvalidCommand("context identity changed before artifact retrieval")
+            if len(ctx.native_page_ids) != 1:
+                raise InvalidCommand("artifact retrieval requires exactly one native surface")
+
+            page, _ = self.ctx_manager.require_page(context_id, ctx.native_page_ids[0])
+            result = await page.evaluate(
+                """
+                async (artifact) => {
+                    const response = await fetch("/artifact", {
+                        method: "POST",
+                        credentials: "same-origin",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify(artifact),
+                    });
+                    let payload;
+                    try {
+                        payload = await response.json();
+                    } catch (_) {
+                        throw new Error(
+                            `artifact endpoint returned HTTP ${response.status} without JSON`
+                        );
+                    }
+                    if (!response.ok) {
+                        throw new Error(`artifact endpoint returned HTTP ${response.status}`);
+                    }
+                    return payload;
+                }
+                """,
+                artifact.model_dump(mode="json"),
+            )
+
+            expected_keys = {
+                "ok",
+                "path",
+                "mime_type",
+                "sha256",
+                "size",
+                "encoding",
+                "data",
+            }
+            if (
+                not isinstance(result, dict)
+                or set(result) != expected_keys
+                or result.get("ok") is not True
+            ):
+                raise InvalidCommand("artifact endpoint returned an invalid success envelope")
+
+            try:
+                payload = ArtifactPayload.model_validate(
+                    {key: value for key, value in result.items() if key != "ok"}
+                )
+            except ValidationError as exc:
+                raise InvalidCommand("artifact endpoint returned an invalid payload") from exc
+
+            if payload.path != artifact.path or payload.size > artifact.max_bytes:
+                raise InvalidCommand("artifact response does not match the requested bounds")
+            return payload
 
     async def _run_hooks(
         self,
