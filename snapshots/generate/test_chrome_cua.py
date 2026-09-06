@@ -12,6 +12,8 @@ from surfgym_contracts.protocol.gateway_to_agent import ResponseAdapter
 sys.path.insert(0, str(Path(__file__).parent))
 
 import chrome_cua
+sys.path.insert(0, str(Path(__file__).parents[2] / "scripts"))
+import validate_chrome_cua
 from chrome_cua import (
     ActionCase,
     ChromeCuaRunner,
@@ -581,6 +583,17 @@ def test_cli_exposes_local_runtime_and_evidence_inputs() -> None:
     assert "--timeout-seconds" in completed.stdout
     assert "--plan" in completed.stdout
     assert "--provenance" in completed.stdout
+
+
+def test_default_output_dir_is_unique_and_repo_local() -> None:
+    """Fails if omitted Chrome evidence returns to a shared umbrella or collides with another run."""
+    first = validate_chrome_cua.default_output_dir()
+    second = validate_chrome_cua.default_output_dir()
+    expected_parent = Path(__file__).parents[2] / "output" / "verification" / "chrome-cua"
+
+    assert first.parent == expected_parent
+    assert second.parent == expected_parent
+    assert first != second
 
 
 def test_cli_accepts_the_canonical_docker_provenance_file(tmp_path: Path) -> None:

@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import sys
 import time
+import uuid
 from pathlib import Path
 
 _REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
@@ -18,6 +19,11 @@ from chrome_cua import (  # noqa: E402
 )
 
 
+def default_output_dir() -> Path:
+    """Return a fresh, ignored repository-local evidence directory."""
+    return _REPOSITORY_ROOT / "output" / "verification" / "chrome-cua" / uuid.uuid4().hex
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--gateway-url", required=True)
@@ -27,7 +33,12 @@ def parse_args() -> argparse.Namespace:
         help="Docker fixture Gateway /health endpoint for release reconciliation.",
     )
     parser.add_argument("--timeout-seconds", type=float, default=600.0)
-    parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=default_output_dir(),
+        help="Run evidence directory; defaults to a fresh repository-local directory.",
+    )
     parser.add_argument(
         "--provenance",
         type=Path,
