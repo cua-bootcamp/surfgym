@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import base64
 import hashlib
+from contextlib import asynccontextmanager
 from types import SimpleNamespace
 
 import pytest
@@ -92,9 +93,14 @@ def test_instance_artifact_route_requires_exact_nested_contract(
             {k: v for k, v in _payload(spec.path).items() if k != "ok"}
         )
 
+    @asynccontextmanager
+    async def operation(_self: PlaywrightBrowserWorker, _context_id: str):
+        yield object()
+
     monkeypatch.setattr(PlaywrightBrowserWorker, "open", no_op)
     monkeypatch.setattr(PlaywrightBrowserWorker, "close", no_op)
     monkeypatch.setattr(PlaywrightBrowserWorker, "artifact", artifact, raising=False)
+    monkeypatch.setattr(PlaywrightBrowserWorker, "operation", operation, raising=False)
 
     with TestClient(create_app(contexts_per_instance=1)) as client:
         response = client.post(
@@ -164,16 +170,38 @@ class _ContextManager:
             entered_page_ids=set(native_page_ids),
             operation_lock=asyncio.Lock(),
         )
+        self._release_task = None
+        self._entry = SimpleNamespace(
+            context=self.context, create_task=None, active_operation_task=None,
+            native_bindings={}, web_bindings={}
+        )
 
-    def require_context(self, context_id: str) -> object:
+    def require_context(self, context_id: str, **_lifecycle: object) -> object:
         if context_id != "context-id" or not self.active:
             raise InstanceError("context is no longer active", 409, False)
         return self.context
 
-    def require_page(self, context_id: str, website_id: str) -> tuple[_Page, None]:
+    def require_page(self, context_id: str, website_id: str, **_lifecycle: object) -> tuple[_Page, None]:
         assert self.require_context(context_id) is self.context
         assert website_id in self.context.native_page_ids
         return self.page, None
+
+    async def get_or_start_release_task(self, _context_id: str, factory):
+        if self._release_task is None:
+            self._release_task = asyncio.create_task(factory())
+        return self._release_task
+
+    async def seal(self, _context_id: str):
+        return self._entry
+
+    async def mark_closed(self, _context_id: str) -> None:
+        self.active = False
+
+    async def clear_release_task(self, _context_id: str, _task: object) -> None:
+        self._release_task = None
+
+    async def close_partial_browser_context(self, _context_id: str) -> None:
+        return None
 
     async def _delete_locked(self, context_id: str, expected_context: object) -> None:
         assert self.require_context(context_id) is expected_context is self.context

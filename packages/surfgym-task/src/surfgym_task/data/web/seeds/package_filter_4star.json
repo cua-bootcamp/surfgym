@@ -1,7 +1,7 @@
 {
   "instruction": "I only want to stay somewhere nice — filter these packages down to 4-star hotels only.",
   "website": {
-    "base": "http://localhost:3200/flight-hotel/search",
+    "base": "http://localhost:3002/flight-hotel/search",
     "param": {
       "origin": "London",
       "destination": "Barcelona",

@@ -1,6 +1,6 @@
 {
   "instruction": "Use an exact VLOOKUP to return the Unit Price for every order line from the SKU price table. Fill D2:D16 and preserve the source tables.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"SKU"},

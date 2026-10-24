@@ -1,6 +1,6 @@
 {
   "instruction": "Riverside Clinic does not book routine visits on weekends. In the five-month date grid, apply a solid red fill (#ff0000) to each Saturday and Sunday date. Preserve the title, month headings, weekday dates, and all empty month-end cells exactly as they are.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Riverside Clinic Booking Dates"},

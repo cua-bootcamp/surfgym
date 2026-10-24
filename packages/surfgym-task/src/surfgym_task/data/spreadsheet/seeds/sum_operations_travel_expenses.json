@@ -1,6 +1,6 @@
 {
   "instruction": "Sum the Amount for every Operations travel claim. Enter the SUMIF formula in H3 without changing the travel log.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Claim ID"},

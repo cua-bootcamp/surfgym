@@ -1,7 +1,10 @@
 import base64
+import copy
 import json
 import random
 import time
+import uuid
+from dataclasses import dataclass
 from io import BytesIO
 from typing import Callable, Optional, TypeVar
 
@@ -42,12 +45,22 @@ from surfgym_runtime.gateway.error import (
 )
 from surfgym_runtime.gateway.registry import Lease, SessionRegistry, SessionState
 from surfgym_runtime.gateway.transport import GatewayTransport
-from surfgym_runtime.gateway.worker import ReleaseWorker
+from surfgym_runtime.gateway.worker import ReleaseJob, ReleaseWorker
 from surfgym_runtime.support import Evaluator, TaskStore, WavepoolConfig
 from surfgym_runtime.support.config import DOCKER_ARTIFACT_CONTROL_TIMEOUT_SECONDS
 from surfgym_runtime.support.cua_evaluator import CuaSnapshot, evaluate_cua_reward
 
 _T = TypeVar("_T")
+
+
+@dataclass(frozen=True)
+class _CapturedRewardInputs:
+    """Copied live inputs; evaluation after cleanup must not touch the lease."""
+
+    observation: list[object] | None = None
+    cua_snapshots: dict[str, CuaSnapshot] | None = None
+    trace: tuple[object, ...] = ()
+    last_action: str | None = None
 
 
 class Service:
@@ -84,14 +97,24 @@ class Service:
     ) -> ActionResponse:
         self._session_registry.reserve_session(request.session_id)
         session_state = None
+        release_job = None
 
         try:
             task = self._require_task(request.task_id)
+            allocation_id = str(uuid.uuid4())
+            # This descriptor exists before the first remote allocate attempt.
+            # A lost response can still leave Master owning this UUID even though
+            # Gateway never received an instance port or SessionState.
+            release_job = ReleaseJob.from_allocation(
+                context_id=allocation_id,
+                release_hooks=task.lifecycle_hooks.release,
+            )
             context_id, port = self._allocate(
                 deadline,
                 task.website,
                 task.lifecycle_hooks.allocate,
                 task.lifecycle_hooks.release,
+                allocation_id,
             )
             session_state = SessionState(
                 task_id=request.task_id,
@@ -113,6 +136,8 @@ class Service:
             self._session_registry.end_session(request.session_id)
             if session_state is not None:
                 self._release_worker.enqueue(session_state)
+            elif release_job is not None:
+                self._release_worker.enqueue(release_job)
             raise
 
     def _handle_action(
@@ -173,7 +198,9 @@ class Service:
         ) as operation:
             session_state = operation.state
             try:
-                reward = self._compute_reward(
+                # All reads from the live browser/slot happen before release.
+                # The values below are immutable snapshots for the local phase.
+                captured = self._capture_reward_inputs(
                     task=task,
                     session_state=session_state,
                     deadline=deadline,
@@ -195,33 +222,102 @@ class Service:
                         mimeType=media_type,
                     )
 
-                response = RewardResponse(
-                    session_id=request.session_id,
-                    task_id=request.task_id,
-                    reward=reward,
-                    image=reward_image,
-                )
-                if request.artifacts is None:
-                    return response
-
-                artifact_deadline = deadline("artifact")
-                artifacts = [
+                artifacts = []
+                if request.artifacts is not None:
+                    artifact_deadline = deadline("artifact")
+                    artifacts = [
                     self._artifact(
                         deadline=artifact_deadline,
                         lease=session_state.lease,
                         artifact=artifact,
                     )
                     for artifact in request.artifacts
-                ]
-                return RewardBundleResponse(
-                    **response.model_dump(),
-                    artifacts=artifacts,
-                )
+                    ]
             finally:
                 try:
                     self._release_worker.enqueue(session_state)
                 finally:
                     self._session_registry.end_session_if_current(operation)
+
+        reward = self._evaluate_captured_reward(
+            task=task, captured=captured, deadline=deadline
+        )
+        response = RewardResponse(
+            session_id=request.session_id,
+            task_id=request.task_id,
+            reward=reward,
+            image=reward_image,
+        )
+        if request.artifacts is None:
+            return response
+        return RewardBundleResponse(**response.model_dump(), artifacts=artifacts)
+
+    def _capture_reward_inputs(
+        self,
+        *,
+        task: Task,
+        session_state: SessionState,
+        deadline: Callable[[str], Deadline],
+    ) -> _CapturedRewardInputs:
+        last_action = session_state.action_history[-1] if session_state.action_history else None
+        if isinstance(task.evaluation, (InfeasibleEvaluation, LLMJudgeEvaluation)):
+            if isinstance(task.evaluation, LLMJudgeEvaluation) and last_action != "FAIL":
+                screenshot_b64, media_type = self._screenshot(deadline, session_state.lease)
+                session_state.append_frame(kind="reward", image_b64=screenshot_b64, media_type=media_type)
+            return _CapturedRewardInputs(
+                trace=tuple(copy.deepcopy(session_state.trace)), last_action=last_action
+            )
+
+        if last_action == "FAIL":
+            return _CapturedRewardInputs(last_action=last_action)
+        if isinstance(task.evaluation, CriteriaEvaluation):
+            response = self._observe(
+                deadline=deadline, lease=session_state.lease,
+                criteria=task.evaluation.criteria, observe_hooks=task.lifecycle_hooks.observe,
+            )
+            return _CapturedRewardInputs(
+                observation=copy.deepcopy(list(response.observation)), last_action=last_action
+            )
+
+        criteria: list[Criteria] = [_cua_snapshot_criteria(state) for state in task.evaluation.states]
+        response = self._observe(
+            deadline=deadline, lease=session_state.lease, criteria=criteria, observe_hooks=[]
+        )
+        snapshots: dict[str, CuaSnapshot] = {}
+        for state, observation in zip(task.evaluation.states, response.observation):
+            if not isinstance(observation, dict):
+                raise InvalidRequest(f"CUA state observation for {state.app_base} must be an object")
+            snapshots[state.app_base] = CuaSnapshot(
+                initial_state=observation.get("initial_state"), current_state=observation.get("current_state")
+            )
+        return _CapturedRewardInputs(cua_snapshots=copy.deepcopy(snapshots), last_action=last_action)
+
+    def _evaluate_captured_reward(
+        self, *, task: Task, captured: _CapturedRewardInputs,
+        deadline: Callable[[str], Deadline],
+    ) -> float:
+        last_action = captured.last_action
+        if isinstance(task.evaluation, InfeasibleEvaluation):
+            return 1.0 if last_action == "FAIL" else 0.0
+        if last_action == "FAIL":
+            return 0.0
+        if isinstance(task.evaluation, CriteriaEvaluation):
+            assert captured.observation is not None
+            return self.evaluator.rule_based_eval(task.evaluation, captured.observation)
+        if isinstance(task.evaluation, LLMJudgeEvaluation):
+            judge_deadline = deadline("llm_judge")
+            return self.evaluator.llm_judge_eval(
+                task.instruction, list(captured.trace), task.evaluation,
+                judge_deadline.timeout_for(60.0),
+            )
+        assert captured.cua_snapshots is not None
+        reward_deadline = deadline("cua_reward")
+        result = evaluate_cua_reward(
+            task.evaluation.reward_script, source_task_id=task.evaluation.source_task_id,
+            sid=task.evaluation.states[0].sid, snapshots=captured.cua_snapshots,
+            timeout=reward_deadline.timeout_for(30.0),
+        )
+        return result.reward
 
     def _compute_reward(
         self,
@@ -310,17 +406,21 @@ class Service:
         websites: list[Website],
         allocate_hooks: list[Hook],
         release_hooks: list[Hook],
+        context_id: str | None = None,
     ) -> tuple[str, int]:
         d = deadline("allocate")
+        allocate_kwargs = dict(
+            deadline=d,
+            websites=websites,
+            allocate_hooks=allocate_hooks,
+            release_hooks=release_hooks,
+        )
+        if context_id is not None:
+            allocate_kwargs["context_id"] = context_id
         response = self._run_with_retry(
             min_attempt_time=0.0,
             deadline=d,
-            func=lambda: self.transport.allocate(
-                deadline=d,
-                websites=websites,
-                allocate_hooks=allocate_hooks,
-                release_hooks=release_hooks,
-            ),
+            func=lambda: self.transport.allocate(**allocate_kwargs),
         )
         return (response.context_id, response.instance_port)
 

@@ -19,7 +19,12 @@ from pathlib import Path
 from typing import Any, NoReturn, cast
 
 from pydantic import ValidationError
-from surfgym_contracts.local_static_sites import LOCAL_STATIC_SITES
+from surfgym_contracts.local_static_sites import (
+    LOCAL_STATIC_SITES,
+    SPREADSHEET_PORT,
+    TRAVELHUB_PORT,
+    WORD_PORT,
+)
 
 from surfgym_runtime.support.config import (
     DOCKER_ARTIFACT_CONTROL_TIMEOUT_SECONDS,
@@ -30,8 +35,13 @@ from surfgym_runtime.support.config import (
 from surfgym_runtime.support.task_store import TaskStore
 
 DOCKER_GATEWAY_PORT = 53001
-FIXTURE_CONTENT_PORT = 3000
-FIXTURE_INDEX_PATH = Path("packages/surfgym-fixture/src/surfgym_fixture/dist/index.html")
+FIXTURE_ENTRY_PATHS = (
+    Path("packages/surfgym-fixture/src/surfgym_fixture/dist/spreadsheet/index.html"),
+    Path("packages/surfgym-fixture/src/surfgym_fixture/dist/word/index.html"),
+)
+TRAVELHUB_BUILD_PATH = Path(
+    "packages/surfgym-travel-ad-hub/src/surfgym_travel_ad_hub/.next/BUILD_ID"
+)
 MAX_COUNT = 10_000
 MAX_TIMEOUT_SECONDS = 86_400.0
 MAX_PORT = 65_535
@@ -173,7 +183,7 @@ def compile_configs(config_path: Path, surf_repo: Path, docker_repo: Path) -> Ge
             "port",
             "workers",
             "max_in_flight",
-            "verl_timeout_seconds",
+            "agent_request_timeout_seconds",
             "artifact_reward_timeout_seconds",
             "in_flight_timeout_seconds",
             "deadline_margin_seconds",
@@ -188,15 +198,15 @@ def compile_configs(config_path: Path, surf_repo: Path, docker_repo: Path) -> Ge
     max_in_flight = _integer(gateway["max_in_flight"], "gateway.max_in_flight")
     if workers < max_in_flight:
         _error("gateway.workers must be greater than or equal to gateway.max_in_flight.")
-    verl_timeout = _timeout(gateway["verl_timeout_seconds"], "gateway.verl_timeout_seconds")
+    agent_request_timeout = _timeout(gateway["agent_request_timeout_seconds"], "gateway.agent_request_timeout_seconds")
     artifact_reward_timeout = _timeout(
         gateway["artifact_reward_timeout_seconds"],
         "gateway.artifact_reward_timeout_seconds",
     )
-    if artifact_reward_timeout < verl_timeout:
+    if artifact_reward_timeout < agent_request_timeout:
         _error(
             "gateway.artifact_reward_timeout_seconds must be greater than or equal to "
-            "gateway.verl_timeout_seconds."
+            "gateway.agent_request_timeout_seconds."
         )
     in_flight_timeout = _timeout(
         gateway["in_flight_timeout_seconds"], "gateway.in_flight_timeout_seconds"
@@ -240,6 +250,9 @@ def compile_configs(config_path: Path, surf_repo: Path, docker_repo: Path) -> Ge
         "observe_seconds",
         "execute_seconds",
         "layer_gap_seconds",
+        "binding_cleanup_horizon_seconds",
+        "binding_cleanup_request_timeout_seconds",
+        "binding_cleanup_retry_interval_seconds",
     }
     _exact_keys(timeouts, timeout_keys, "wavepool.timeouts")
     parsed_timeouts = {
@@ -254,6 +267,17 @@ def compile_configs(config_path: Path, surf_repo: Path, docker_repo: Path) -> Ge
             "gateway.artifact_reward_timeout_seconds minus "
             "gateway.deadline_margin_seconds must leave at least 35 seconds plus "
             "wavepool.timeouts.layer_gap_seconds."
+        )
+
+    if 2 * parsed_timeouts["binding_cleanup_request_timeout_seconds"] > parsed_timeouts["binding_cleanup_horizon_seconds"]:
+        _error(
+            "wavepool.timeouts.binding_cleanup_horizon_seconds must cover two "
+            "wavepool.timeouts.binding_cleanup_request_timeout_seconds attempts."
+        )
+    if parsed_timeouts["binding_cleanup_retry_interval_seconds"] > parsed_timeouts["binding_cleanup_request_timeout_seconds"]:
+        _error(
+            "wavepool.timeouts.binding_cleanup_retry_interval_seconds must be less than or equal to "
+            "wavepool.timeouts.binding_cleanup_request_timeout_seconds."
         )
 
     docker = _table(source["docker"], "docker")
@@ -298,7 +322,9 @@ def compile_configs(config_path: Path, surf_repo: Path, docker_repo: Path) -> Ge
 
     ports: dict[int, str] = {}
     for fixed_port, owner in (
-        (FIXTURE_CONTENT_PORT, "fixed fixture content endpoint"),
+        (SPREADSHEET_PORT, "fixed Spreadsheet endpoint"),
+        (WORD_PORT, "fixed Word endpoint"),
+        (TRAVELHUB_PORT, "fixed TravelHub endpoint"),
         (DOCKER_GATEWAY_PORT, "fixed Docker gateway endpoint"),
         (gateway_port, "SurfGym gateway"),
         (master_port, "WavePool master"),
@@ -358,7 +384,7 @@ def compile_configs(config_path: Path, surf_repo: Path, docker_repo: Path) -> Ge
             "port": gateway_port,
             "gateway_workers": workers,
             "gateway_in_flight": max_in_flight,
-            "verl_timeout": verl_timeout,
+            "agent_request_timeout": agent_request_timeout,
             "artifact_reward_timeout": artifact_reward_timeout,
             "in_flight_timeout": in_flight_timeout,
             "deadline_margin": deadline_margin,
@@ -376,6 +402,9 @@ def compile_configs(config_path: Path, surf_repo: Path, docker_repo: Path) -> Ge
                 "observe": parsed_timeouts["observe_seconds"],
                 "execute": parsed_timeouts["execute_seconds"],
                 "layer_gap": parsed_timeouts["layer_gap_seconds"],
+                "binding_cleanup_horizon": parsed_timeouts["binding_cleanup_horizon_seconds"],
+                "binding_cleanup_request_timeout": parsed_timeouts["binding_cleanup_request_timeout_seconds"],
+                "binding_cleanup_retry_interval": parsed_timeouts["binding_cleanup_retry_interval_seconds"],
             },
         },
     }
@@ -436,9 +465,13 @@ def validate_prerequisites(generated: GeneratedConfigs, surf_repo: Path) -> None
     else:
         task_store.close()
 
-    fixture_index = surf_repo.resolve() / FIXTURE_INDEX_PATH
-    if not fixture_index.is_file():
-        _error(f"Fixture build prerequisite is missing: {fixture_index}.")
+    for fixture_index in FIXTURE_ENTRY_PATHS:
+        resolved_index = surf_repo.resolve() / fixture_index
+        if not resolved_index.is_file():
+            _error(f"Fixture build prerequisite is missing: {resolved_index}.")
+    travelhub_build = surf_repo.resolve() / TRAVELHUB_BUILD_PATH
+    if not travelhub_build.is_file():
+        _error(f"TravelHub build prerequisite is missing: {travelhub_build}.")
     for site in LOCAL_STATIC_SITES:
         site_index = surf_repo.resolve() / site.source_dir / "dist" / "index.html"
         if not site_index.is_file():
@@ -457,7 +490,9 @@ def _generated_host_ports(generated: GeneratedConfigs) -> list[tuple[int, str]]:
     docker_apps = cast(list[object], docker_apps_value)
 
     ports: list[tuple[int, str]] = [
-        (FIXTURE_CONTENT_PORT, "fixed fixture content endpoint"),
+        (SPREADSHEET_PORT, "fixed Spreadsheet endpoint"),
+        (WORD_PORT, "fixed Word endpoint"),
+        (TRAVELHUB_PORT, "fixed TravelHub endpoint"),
         (_port(surf_gateway["port"], "generated SurfGym gateway port"), "SurfGym gateway"),
         (_port(wavepool["master_port"], "generated WavePool master port"), "WavePool master"),
         (

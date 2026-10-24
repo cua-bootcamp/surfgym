@@ -75,19 +75,19 @@ and must not be removed.
 
 `curl` (remember cookies):
 ```bash
-curl -i -c cookies.txt http://localhost:3200/api/state
-curl -b cookies.txt -X PATCH http://localhost:3200/api/state \
+curl -i -c cookies.txt http://localhost:3002/api/state
+curl -b cookies.txt -X PATCH http://localhost:3002/api/state \
   -H "Content-Type: application/json" \
   -d '{"data": {"step": 2, "parameters": {"alpha": 0.1}}, "note": "patched via curl"}'
-curl -b cookies.txt http://localhost:3200/api/info
-curl -b cookies.txt -F "files=@./report.pdf" http://localhost:3200/api/files
+curl -b cookies.txt http://localhost:3002/api/info
+curl -b cookies.txt -F "files=@./report.pdf" http://localhost:3002/api/files
 ```
 
 `httpie`:
 ```bash
-http --print=HBhb GET :3200/api/state
-http --print=HBhb PATCH :3200/api/state data:='{"foo": "bar"}'
-http DELETE :3200/api/state
+http --print=HBhb GET :3002/api/state
+http --print=HBhb PATCH :3002/api/state data:='{"foo": "bar"}'
+http DELETE :3002/api/state
 ```
 
 ## Error shape

@@ -1,5 +1,6 @@
 from typing import Annotated, Literal, Mapping, Optional, Union, cast
 from urllib.parse import urlsplit
+import re
 
 from pydantic import (
     BaseModel,
@@ -60,6 +61,39 @@ def infer_evaluation():
 
 class _WebsiteDependent(FrozenBaseModel):
     website_id: str = "_"
+
+
+class ServerReset(FrozenBaseModel):
+    """Explicit opt-in for a server-owned web state lifecycle."""
+
+    origin: str
+    cookie_name: str
+    reset_path: str
+
+    @model_validator(mode="after")
+    def validate_descriptor(self) -> "ServerReset":
+        parsed = urlsplit(self.origin)
+        if (
+            parsed.scheme not in {"http", "https"}
+            or not parsed.netloc
+            or parsed.path not in {"", "/"}
+            or parsed.username is not None
+            or parsed.password is not None
+            or parsed.query
+            or parsed.fragment
+        ):
+            raise ValueError("server_reset.origin must be an HTTP(S) origin without a path")
+        if not re.fullmatch(r"[!#$%&'*+.^_`|~0-9A-Za-z-]+", self.cookie_name):
+            raise ValueError("server_reset.cookie_name must be a non-empty cookie token")
+        if (
+            not self.reset_path.startswith("/")
+            or self.reset_path.startswith("//")
+            or "://" in self.reset_path
+            or "?" in self.reset_path
+            or "#" in self.reset_path
+        ):
+            raise ValueError("server_reset.reset_path must be an origin-relative path")
+        return self
 
 
 type Value = None | str | bool | int | float | list[Value] | dict[str, Value]
@@ -161,6 +195,13 @@ Evaluation = Annotated[
 class Website(_WebsiteDependent):
     url: str
     surface: Literal["web", "native"] = "web"
+    server_reset: ServerReset | None = None
+
+    @model_validator(mode="after")
+    def validate_server_reset_surface(self) -> "Website":
+        if self.server_reset is not None and self.surface != "web":
+            raise ValueError("server_reset is supported only for web surfaces")
+        return self
 
     @model_validator(mode="before")
     @classmethod
@@ -250,6 +291,23 @@ class Task(FrozenBaseModel):
                     "native and web surfaces must use different hostnames for cookie isolation; "
                     f"native website_id {native_website.website_id!r} conflicts with {conflicting_ids}"
                 )
+
+        descriptors: dict[tuple[str, str], ServerReset] = {}
+        hostname_scopes: dict[tuple[str, str], str] = {}
+        for website in self.website:
+            descriptor = website.server_reset
+            if descriptor is None:
+                continue
+            if urlsplit(website.url).scheme + "://" + urlsplit(website.url).netloc != descriptor.origin.rstrip("/"):
+                raise ValueError("server_reset.origin must match its website origin")
+            key = (descriptor.origin.rstrip("/"), descriptor.cookie_name)
+            existing = descriptors.setdefault(key, descriptor)
+            if existing != descriptor:
+                raise ValueError("shared server_reset origin/cookie descriptors must be identical")
+            hostname_scope = (urlsplit(descriptor.origin).hostname or "", descriptor.cookie_name)
+            scope_origin = hostname_scopes.setdefault(hostname_scope, descriptor.origin.rstrip("/"))
+            if scope_origin != descriptor.origin.rstrip("/"):
+                raise ValueError("server_reset cookie name cannot span multiple origins on one hostname")
 
         referenced_ids = {
             hook.website_id

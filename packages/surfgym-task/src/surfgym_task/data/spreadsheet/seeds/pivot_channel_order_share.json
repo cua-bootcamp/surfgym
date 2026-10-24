@@ -1,6 +1,6 @@
 {
   "instruction": "Create a pivot table on Sheet2 starting at A1 that counts orders by Sales Channel and displays each count as a percent of the grand total. Format the displayed percentages.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Order ID"},

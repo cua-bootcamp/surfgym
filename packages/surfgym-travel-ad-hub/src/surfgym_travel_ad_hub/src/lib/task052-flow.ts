@@ -78,13 +78,14 @@ export async function patchTask052Flow(
   patch: Partial<Task052FlowState>,
   note: string
 ): Promise<Task052FlowState> {
-  const { flow } = await getTask052Flow(userId);
-  const nextFlow = {
-    ...flow,
-    ...patch,
-  };
-  await stateStore.patchState(userId, { task052: nextFlow }, note);
-  return nextFlow;
+  return stateStore.withTransaction(userId, async (tx) => {
+    const { flow } = getTask052FlowFromState(
+      await tx.getState(userId) as UserState<Record<string, unknown>>
+    );
+    const nextFlow = { ...flow, ...patch };
+    await tx.patchState(userId, { task052: nextFlow }, note);
+    return nextFlow;
+  });
 }
 
 export function canShowTask052Checkout(flow: Task052FlowState): boolean {

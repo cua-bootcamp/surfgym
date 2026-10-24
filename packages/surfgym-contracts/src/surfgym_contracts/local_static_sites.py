@@ -9,6 +9,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+# Fixed public origins for SurfGym-owned local web applications. Spreadsheet
+# and Word share one static build and Caddy process; TravelHub is a separate
+# stateful Next.js process.
+SPREADSHEET_PORT = 3000
+WORD_PORT = 3001
+TRAVELHUB_PORT = 3002
+
 
 @dataclass(frozen=True)
 class LocalStaticSite:

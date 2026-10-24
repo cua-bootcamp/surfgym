@@ -1,6 +1,6 @@
 {
   "instruction": "Add a worksheet named \"Sheet2\" to the volunteer roster. Merge A1:C1 and enter \"Volunteer Coverage\". On the next row, merge A2:B2 for \"Morning Shift\" and C2:D2 for \"Evening Shift\". Leave the existing Sheet1 data intact.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "accumulation": "CUMULATIVE",
   "states": [
   [

@@ -18,9 +18,9 @@ host = "127.0.0.1"
 port = 18000
 workers = 6
 max_in_flight = 6
-verl_timeout_seconds = 20.0
+agent_request_timeout_seconds = 70.0
 # Total public budget for reward requests that explicitly request artifacts.
-artifact_reward_timeout_seconds = 40.0
+artifact_reward_timeout_seconds = 70.0
 in_flight_timeout_seconds = 20.0
 deadline_margin_seconds = 3.0
 
@@ -32,12 +32,19 @@ instances = 1
 contexts_per_instance = 6
 
 [wavepool.timeouts]
-allocate_seconds = 10.0
+allocate_seconds = 20.0
 release_seconds = 5.0
 screenshot_seconds = 5.0
-observe_seconds = 5.0
-execute_seconds = 5.0
+observe_seconds = 35.0
+execute_seconds = 15.0
 layer_gap_seconds = 1.0
+# Four serialized release owners have measured up to 601.248 seconds (4 x
+# 150.312); this is their retained ownership horizon, not a public request wait.
+binding_cleanup_horizon_seconds = 720.0
+# Each downstream wait is bounded and rejoins the same Context capability.
+binding_cleanup_request_timeout_seconds = 360.0
+# Fast UNKNOWN responses back off before polling the same cleanup owner again.
+binding_cleanup_retry_interval_seconds = 2.0
 
 [docker]
 # Lowercase stack identity used by Docker Compose and generated container names.

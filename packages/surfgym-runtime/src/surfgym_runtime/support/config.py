@@ -20,17 +20,17 @@ class GatewayConfig(FrozenBaseModel):
     gateway_workers: int
     gateway_in_flight: int
 
-    verl_timeout: float
+    agent_request_timeout: float
     artifact_reward_timeout: float = Field(strict=True, gt=0, allow_inf_nan=False)
     in_flight_timeout: float
     deadline_margin: float
 
     @model_validator(mode="after")
     def validate_artifact_reward_timeout(self) -> "GatewayConfig":
-        if self.artifact_reward_timeout < self.verl_timeout:
+        if self.artifact_reward_timeout < self.agent_request_timeout:
             raise ValueError(
                 "gateway.artifact_reward_timeout must be greater than or equal to "
-                "gateway.verl_timeout"
+                "gateway.agent_request_timeout"
             )
         return self
 
@@ -43,6 +43,23 @@ class ProcessTimeout(FrozenBaseModel):
     execute: float
 
     layer_gap: float
+    binding_cleanup_horizon: float = Field(default=720.0, gt=0, allow_inf_nan=False)
+    binding_cleanup_request_timeout: float = Field(default=360.0, gt=0, allow_inf_nan=False)
+    binding_cleanup_retry_interval: float = Field(default=2.0, gt=0, allow_inf_nan=False)
+
+    @model_validator(mode="after")
+    def validate_binding_cleanup_horizon(self) -> "ProcessTimeout":
+        if self.binding_cleanup_horizon < 2 * self.binding_cleanup_request_timeout:
+            raise ValueError(
+                "wavepool.process_timeout.binding_cleanup_horizon must be greater than or equal to "
+                "twice wavepool.process_timeout.binding_cleanup_request_timeout"
+            )
+        if self.binding_cleanup_retry_interval > self.binding_cleanup_request_timeout:
+            raise ValueError(
+                "wavepool.process_timeout.binding_cleanup_retry_interval must be less than or equal to "
+                "wavepool.process_timeout.binding_cleanup_request_timeout"
+            )
+        return self
 
 
 class WavepoolConfig(FrozenBaseModel):

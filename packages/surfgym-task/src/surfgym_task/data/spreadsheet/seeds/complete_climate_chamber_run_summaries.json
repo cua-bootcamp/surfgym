@@ -1,6 +1,6 @@
 {
   "instruction": "Complete the projected rate columns by extending the sample formulas in B2 and D2 through the final test run. Then add a column named \"Run Summary\" and, for every run, combine columns A through D as comma-and-space separated \"column header: value\" pairs. Show every number inside the summary with exactly two decimal places. Leave the input columns and all unrelated cells unchanged.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "accumulation": "CUMULATIVE",
   "states": [
   [

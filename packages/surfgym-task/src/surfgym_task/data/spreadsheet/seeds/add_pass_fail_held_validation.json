@@ -1,6 +1,6 @@
 {
   "instruction": "In the Pass/Fail/Held column, add a list data validation for D2:D29 with the choices Pass, Fail, and Held. Keep the order data unchanged.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Order ID"},

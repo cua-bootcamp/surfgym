@@ -27,6 +27,10 @@ from surfgym_contracts.task import Criteria, Hook, Website
 
 from surfgym_runtime.gateway.error import Deadline, RetryableError, UpstreamError
 from surfgym_runtime.support.config import WavepoolConfig
+from surfgym_runtime.wavepool.allocation_budget import (
+    ALLOCATION_REMAINING_HEADER,
+    encode_remaining_seconds,
+)
 
 _T = TypeVar("_T", bound=BaseModel)
 
@@ -54,13 +58,18 @@ class GatewayTransport:
         websites: list[Website],
         allocate_hooks: list[Hook],
         release_hooks: list[Hook],
+        context_id: str | None = None,
     ) -> MasterAllocateResponse:
         timeout = deadline.timeout_for(self._timeouts.allocate)
+        if timeout <= self._timeouts.layer_gap:
+            raise deadline.error
         return self._master_client.allocate(
             websites=websites,
             allocate_hooks=allocate_hooks,
             release_hooks=release_hooks,
+            context_id=context_id,
             timeout=timeout,
+            remaining_seconds=timeout - self._timeouts.layer_gap,
         )
 
     def release(self, *, deadline: Deadline, context_id: str, release_hooks: list[Hook]):
@@ -132,18 +141,27 @@ class MasterClient:
         websites: list[Website],
         allocate_hooks: list[Hook],
         release_hooks: list[Hook],
+        context_id: str | None = None,
         timeout: float,
+        remaining_seconds: float | None = None,
     ):
+        headers = (
+            {ALLOCATION_REMAINING_HEADER: encode_remaining_seconds(remaining_seconds)}
+            if remaining_seconds is not None
+            else None
+        )
         return _request_model(
             f"{self._get_base_url()}/allocate",
             MasterAllocateResponse,
             operation="master.allocate",
             json=GatewayAllocateRequest(
+                context_id=context_id,
                 websites=websites,
                 hooks=allocate_hooks,
                 release_hooks=release_hooks,
             ).model_dump(mode="json"),
             timeout=timeout,
+            headers=headers,
         )
 
     def release(self, *, context_id: str, release_hooks: list[Hook], timeout: float):

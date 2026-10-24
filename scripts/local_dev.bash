@@ -77,7 +77,7 @@ shift
 
 OPERATOR_CONFIG="${SURFGYM_OPERATOR_CONFIG:-$ROOT_DIR/config/runtime.toml}"
 DOCKER_REPO="${SURFGYM_DOCKER_REPO:-$(cd -- "$ROOT_DIR/.." && pwd)/surfgym-docker-dev}"
-READY_TIMEOUT_SECONDS="${SURFGYM_LOCAL_READY_TIMEOUT_SECONDS:-360}"
+READY_TIMEOUT_SECONDS="${SURFGYM_LOCAL_READY_TIMEOUT_SECONDS:-480}"
 READY_POLL_SECONDS="${SURFGYM_LOCAL_READY_POLL_SECONDS:-0.2}"
 
 while (($# > 0)); do
@@ -331,14 +331,18 @@ surf_processes_match() {
         process_identity_matches "$pid" "$identity" || return 1
         count=$((count + 1))
     done < "$SURF_PID_FILE"
-    [[ "$count" -eq 3 ]]
+    [[ "$count" -eq 4 ]]
 }
 
 static_sites_ready() {
+    local key
     local url
     local urls
     local count=0
-    [[ -f "$STATIC_PORTS_FILE" ]] || return 1
+    if [[ ! -f "$STATIC_PORTS_FILE" ]]; then
+        LAST_SURF_UNREADY="static-sites contract ($STATIC_PORTS_FILE is missing)"
+        return 1
+    fi
     if ! urls="$("$PYTHON_BIN" - "$STATIC_PORTS_FILE" <<'PY'
 import json
 import sys
@@ -354,37 +358,65 @@ expected = {
 if ports != expected:
     raise SystemExit("ports.json does not match the local static-site contract")
 for key in sorted(expected):
-    print(expected[key])
+    print(f"{key}\t{expected[key]}")
 PY
 )"; then
+        LAST_SURF_UNREADY="static-sites contract ($STATIC_PORTS_FILE)"
         return 1
     fi
-    while IFS= read -r url; do
+    while IFS=$'\t' read -r key url; do
+        url="${url%$'\r'}"
         [[ -n "$url" ]] || continue
-        curl -fsS "$url/" >/dev/null 2>&1 || return 1
+        if ! curl -fsS "$url/" >/dev/null 2>&1; then
+            LAST_SURF_UNREADY="static-site $key ($url/)"
+            return 1
+        fi
         count=$((count + 1))
     done <<< "$urls"
-    ((count > 0))
+    if ((count == 0)); then
+        LAST_SURF_UNREADY="static-sites contract (no endpoints)"
+        return 1
+    fi
+}
+
+endpoint_ready() {
+    local name="$1"
+    local url="$2"
+    if ! curl -fsS "$url" >/dev/null 2>&1; then
+        LAST_SURF_UNREADY="$name ($url)"
+        return 1
+    fi
+}
+
+surf_services_ready() {
+    if ! env \
+        SURFGYM_CONFIG="$SURF_OUTPUT" \
+        bash "$SCRIPT_DIR/health_check.bash" >/dev/null 2>&1; then
+        LAST_SURF_UNREADY="SurfGym gateway or WavePool"
+        return 1
+    fi
 }
 
 wait_for_surf_stack() {
     local deadline=$((SECONDS + READY_TIMEOUT_SECONDS))
+    LAST_SURF_UNREADY="readiness checks have not completed"
     while ((SECONDS < deadline)); do
         if ! surf_processes_match; then
             printf 'A SurfGym component exited before readiness.\n' >&2
             return 1
         fi
-        if env \
-            SURFGYM_CONFIG="$SURF_OUTPUT" \
-            bash "$SCRIPT_DIR/health_check.bash" >/dev/null 2>&1 \
-            && curl -fsS "http://127.0.0.1:3000/" >/dev/null 2>&1 \
+        if surf_services_ready \
+            && endpoint_ready "spreadsheet" "http://127.0.0.1:3000/" \
+            && endpoint_ready "word" "http://127.0.0.1:3001/" \
+            && endpoint_ready "travelhub" "http://127.0.0.1:3002/health" \
             && static_sites_ready; then
-            printf 'SurfGym gateway, WavePool, fixture, and local static endpoints are ready.\n'
+            printf 'SurfGym gateway, WavePool, local web apps, and static endpoints are ready.\n'
             return 0
         fi
         sleep "$READY_POLL_SECONDS"
     done
-    printf 'Timed out waiting for SurfGym gateway, WavePool, fixture, and local static endpoints.\n' >&2
+    printf 'Timed out waiting for SurfGym gateway, WavePool, local web apps, and static endpoints.\n' >&2
+    printf 'Last failing readiness gate: %s\n' "$LAST_SURF_UNREADY" >&2
     return 1
 }
 
@@ -526,6 +558,7 @@ wait_for_docker_supervisor "gateway" "gateway supervisor is running"
 printf 'Starting SurfGym components with generated config: %s\n' "$SURF_OUTPUT"
 surf_started=1
 env \
+    PYTHON_BIN="$PYTHON_BIN" \
     SURFGYM_CONFIG="$SURF_OUTPUT" \
     SURFGYM_PID_FILE="$SURF_PID_FILE" \
     SURFGYM_FIXTURE_CADDYFILE="$STATIC_CADDYFILE" \

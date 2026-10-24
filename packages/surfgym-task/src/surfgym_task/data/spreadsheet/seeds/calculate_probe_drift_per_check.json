@@ -1,6 +1,6 @@
 {
   "instruction": "The probe register lists annual sensor drift and its verification schedule. Add a new column labeled \"Drift per Check (%)\". For each probe, divide Annual Drift (%) by Checks per Year, keep the results as numeric values displayed to two decimal places, and set only the highest result's font color to green (#00ff00).",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Probe ID"},

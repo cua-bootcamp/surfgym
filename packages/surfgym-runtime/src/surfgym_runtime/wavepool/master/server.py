@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Annotated, Awaitable, Callable, ParamSpec, TypeVar
 
 import uvicorn
-from fastapi import Body, FastAPI, status
+from fastapi import Body, FastAPI, Header, status
 from fastapi.responses import JSONResponse
 from surfgym_contracts.protocol.gateway_to_upstream import (
     GatewayAllocateRequest,
@@ -19,6 +19,7 @@ from surfgym_runtime.support import WavepoolConfig, load_config, master_logger, 
 from surfgym_runtime.wavepool.master.error import MasterError
 from surfgym_runtime.wavepool.master.registry import LeaseRegistry
 from surfgym_runtime.wavepool.master.service import MasterService
+from surfgym_runtime.wavepool.allocation_budget import parse_remaining_seconds
 
 _P = ParamSpec("_P")
 _T = TypeVar("_T")
@@ -45,20 +46,34 @@ def create_app(config: WavepoolConfig) -> FastAPI:
             await master.close()
 
     @handle_master_errors
-    async def allocate(request: Annotated[GatewayAllocateRequest, Body()]):
-        return await master.allocate(request)
+    async def allocate(
+        request: Annotated[GatewayAllocateRequest, Body()],
+        remaining_ms: Annotated[str | None, Header(alias="X-SurfGym-Allocate-Remaining-Ms")] = None,
+    ):
+        try:
+            incoming_remaining_seconds = parse_remaining_seconds(remaining_ms)
+        except ValueError as exc:
+            raise MasterError(str(exc), status.HTTP_400_BAD_REQUEST) from exc
+        return await master.allocate(request, incoming_remaining_seconds=incoming_remaining_seconds)
 
     @handle_master_errors
     async def release(context_id: str, request: Annotated[GatewayReleaseRequest, Body()]):
         return await master.release(context_id, request)
 
+    @handle_master_errors
+    async def instance_exited(port: int, quiescent: bool = False):
+        await master.recover_instance_exit(port, quiescent=quiescent)
+        return {"accepted": True}
+
     async def health():
         return {"status": "ok"}
 
     app = FastAPI(lifespan=lifespan)
+    app.state.master = master
     app.add_api_route("/health", health, methods=["GET"])
     app.add_api_route("/allocate", allocate, methods=["POST"])
     app.add_api_route("/release", release, methods=["POST"])
+    app.add_api_route("/internal/instances/{port}/exited", instance_exited, methods=["POST"])
 
     return app
 

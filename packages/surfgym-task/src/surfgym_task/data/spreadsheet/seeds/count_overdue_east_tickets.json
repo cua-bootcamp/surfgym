@@ -1,6 +1,6 @@
 {
   "instruction": "Count tickets in the East region that are more than seven days old. Enter the COUNTIFS formula in H2.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Region"},

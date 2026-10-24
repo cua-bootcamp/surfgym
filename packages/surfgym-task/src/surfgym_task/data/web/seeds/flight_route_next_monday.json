@@ -1,7 +1,7 @@
 {
   "instruction": "Look up a flight from Frankfurt to Barcelona for next Monday.",
   "website": {
-    "base": "http://localhost:3200/flights"
+    "base": "http://localhost:3002/flights"
   },
   "states": [
   [

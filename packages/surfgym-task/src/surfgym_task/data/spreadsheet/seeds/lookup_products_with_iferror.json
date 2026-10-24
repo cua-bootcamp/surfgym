@@ -1,6 +1,6 @@
 {
   "instruction": "Use IFERROR with an exact VLOOKUP to return each product name from the catalog. If a code is absent, return Check Code. Fill F2:F5.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Product Code"},

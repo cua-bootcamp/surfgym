@@ -1,6 +1,6 @@
 {
   "instruction": "Freeze the first row and the first two columns so the A1:B1 header area stays visible while you work in the sheet.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Record"},

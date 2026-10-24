@@ -1,6 +1,6 @@
 {
   "instruction": "The permit tracker already lists each permit's effective date and its validity period in days. Add a new column named \"Expiration Date\", calculate every expiration date by adding the validity days to the effective date, and display the results as dates. Keep all existing cells unchanged.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Permit ID"},

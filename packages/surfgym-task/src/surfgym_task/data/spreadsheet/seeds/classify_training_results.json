@@ -1,6 +1,6 @@
 {
   "instruction": "Classify every learner in the Result column. Use an IF formula that returns Pass for scores of 70 or higher and Review otherwise. Do not alter the roster data.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Learner"},

@@ -1,6 +1,6 @@
 {
   "instruction": "Format A1:C1 to display exactly two decimal places. Preserve every numeric value.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":12.34},

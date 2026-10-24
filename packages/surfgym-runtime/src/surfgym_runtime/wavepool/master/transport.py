@@ -7,6 +7,7 @@ from surfgym_contracts.protocol.gateway_to_upstream import (
     GatewayAllocateRequest,
     GatewayReleaseRequest,
     LiveContextsResponse,
+    MasterAllocateRequest,
 )
 from surfgym_contracts.protocol.upstream_to_gateway import (
     ErrorResponse,
@@ -19,6 +20,12 @@ from surfgym_runtime.wavepool.master.error import (
     InstanceRequestFailed,
     MasterError,
     UnexpectedError,
+)
+from surfgym_runtime.wavepool.master.registry import Lease, NativeCleanupBinding, WebCleanupBinding
+from surfgym_runtime.wavepool.bindings import web_cleanup_cookie
+from surfgym_runtime.wavepool.allocation_budget import (
+    ALLOCATION_REMAINING_HEADER,
+    encode_remaining_seconds,
 )
 
 _T = TypeVar("_T", bound=BaseModel)
@@ -63,8 +70,25 @@ class InstanceClient:
         return f"http://{self.host}:{port}"
 
     async def allocate(
-        self, port: int, context_id: str, request: GatewayAllocateRequest
+        self,
+        port: int,
+        context_id: str,
+        request: MasterAllocateRequest,
+        *,
+        timeout: float | None = None,
+        remaining_seconds: float | None = None,
     ) -> InstanceAllocateResponse:
+        configured_timeout = self.timeouts.allocate - self.timeouts.layer_gap
+        timeout = configured_timeout if timeout is None else min(configured_timeout, timeout)
+        headers = (
+            {
+                ALLOCATION_REMAINING_HEADER: encode_remaining_seconds(
+                    min(remaining_seconds, timeout - self.timeouts.layer_gap)
+                )
+            }
+            if remaining_seconds is not None
+            else None
+        )
         response = await _post(
             self.client,
             f"{self.base_url(port)}/allocate",
@@ -72,7 +96,8 @@ class InstanceClient:
             port=port,
             params={"context_id": context_id},
             json=request.model_dump(mode="json"),
-            timeout=self.timeouts.allocate - self.timeouts.layer_gap,
+            timeout=timeout,
+            headers=headers,
         )
         return _handle_response(response, InstanceAllocateResponse, "allocate", port)
 
@@ -104,6 +129,47 @@ class InstanceClient:
                 f"error={type(exc).__name__}"
             ) from exc
         return _handle_response(response, LiveContextsResponse, "contexts", port).context_ids
+
+    async def release_retained_bindings(self, lease: Lease) -> None:
+        for binding in lease.native_bindings:
+            await self._release_native_binding(lease.context_id, binding)
+        for binding in lease.web_bindings:
+            await self._finalize_web_binding(lease.context_id, binding)
+
+    async def _release_native_binding(
+        self, context_id: str, binding: NativeCleanupBinding
+    ) -> None:
+        response = await self._retained_request(
+            "POST",
+            f"{binding.origin}/release-context",
+            json={
+                "context_id": context_id,
+                "website_id": binding.website_id,
+                "cleanup_capability": binding.cleanup_capability,
+            },
+        )
+        _require_cleanup_complete(response, "native binding release")
+
+    async def _finalize_web_binding(self, context_id: str, binding: WebCleanupBinding) -> None:
+        cookie = web_cleanup_cookie(context_id, binding.origin, binding.cookie_name)
+        response = await self._retained_request(
+            "DELETE",
+            f"{binding.origin}{binding.reset_path}",
+            headers={"X-SurfGym-Finalize": "1"},
+            cookies={binding.cookie_name: cookie},
+        )
+        _require_cleanup_complete(response, "web binding finalization")
+
+    async def _retained_request(self, method: str, url: str, **kwargs: Any) -> httpx.Response:
+        try:
+            return await self.client.request(
+                method,
+                url,
+                timeout=self.timeouts.release - self.timeouts.layer_gap,
+                **kwargs,
+            )
+        except httpx.RequestError as exc:
+            raise InstanceRequestFailed("retained binding cleanup response is UNKNOWN") from exc
 
 
 ################################################
@@ -139,3 +205,16 @@ def _handle_response(response: httpx.Response, schema: type[_T], operation: str,
         status_code=response.status_code,
         retryable=payload.retryable,
     )
+
+
+def _require_cleanup_complete(response: httpx.Response, operation: str) -> None:
+    if response.status_code != status.HTTP_200_OK:
+        raise InstanceRequestFailed(f"{operation} is incomplete")
+    try:
+        body: object = response.json()
+    except ValueError as exc:
+        raise InstanceRequestFailed(f"{operation} returned invalid JSON") from exc
+    if not isinstance(body, dict):
+        raise InstanceRequestFailed(f"{operation} returned an invalid response")
+    if body.get("ok") is not True or body.get("cleanup_complete") is not True:
+        raise InstanceRequestFailed(f"{operation} is incomplete")

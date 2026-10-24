@@ -25,6 +25,10 @@ HEALTH_CHECK_INTERVAL_SECONDS = 1.0
 SHUTDOWN_TIMEOUT_SECONDS = 3.0
 
 
+def _is_windows() -> bool:
+    return os.name == "nt"
+
+
 @dataclass(frozen=True)
 class ManagedProcess:
     name: str
@@ -41,6 +45,13 @@ class WavepoolSupervisor:
         self._stream_threads: list[threading.Thread] = []
         self._shutdown = threading.Event()
         self._cleaned = False
+        self._reported_exited_processes: set[int] = set()
+        # Draining a POSIX numeric process group is a one-shot ownership proof.
+        # Once it is gone, a later PID/PGID reuse must never receive another
+        # signal merely because Master has not acknowledged the notification.
+        self._drained_exited_processes: set[int] = set()
+        self._quiescent_exited_processes: set[int] = set()
+        self._cleanup_drained_groups: set[int] = set()
 
         self.master_port = config.master_port
         self.instance_ports: list[int] = [
@@ -95,16 +106,55 @@ class WavepoolSupervisor:
         deploy_logger.info("Clean Up")
         if self._cleaned:
             return
-        self._cleaned = True
-
-        managed = list(reversed(self.processes))
+        managed = list(
+            reversed(
+                [
+                    item
+                    for item in self.processes
+                    if _is_windows()
+                    or item.process.pid
+                    not in (self._cleanup_drained_groups | self._drained_exited_processes)
+                ]
+            )
+        )
+        windows_owned: list[ManagedProcess] = []
+        cleanup_errors: list[BaseException] = []
+        windows_remaining: list[ManagedProcess] = []
+        owned_groups: set[int] = set()
 
         for item in managed:
             process = item.process
+            if _is_windows():
+                try:
+                    if not process.terminate_and_check_quiescent(timeout=SHUTDOWN_TIMEOUT_SECONDS):
+                        cleanup_errors.append(RuntimeError(f"owned process tree is not quiescent: {item.name}"))
+                        windows_remaining.append(item)
+                except BaseException as exc:
+                    cleanup_errors.append(exc)
+                    windows_remaining.append(item)
+                finally:
+                    if item not in windows_remaining:
+                        windows_owned.append(item)
+                continue
+            owned_groups.add(process.pid)
             if process.poll() is not None:
+                self._terminate_owned_process_group(process.pid)
                 continue
             deploy_logger.info("Terminating process: %s", item.name)
             self._signal_group(process, signal.SIGTERM)
+
+        if _is_windows():
+            for item in windows_owned:
+                try:
+                    item.process.close()
+                except BaseException as exc:
+                    cleanup_errors.append(exc)
+                    windows_remaining.append(item)
+            self.processes = windows_remaining
+            if cleanup_errors:
+                raise RuntimeError("WavePool owned cleanup is UNKNOWN") from cleanup_errors[0]
+            self._cleaned = True
+            return
 
         deadline = time.monotonic() + SHUTDOWN_TIMEOUT_SECONDS
         while time.monotonic() < deadline:
@@ -116,7 +166,43 @@ class WavepoolSupervisor:
             process = item.process
             if process.poll() is None:
                 deploy_logger.warning("Killing unresponsive process: %s", item.name)
-                self._signal_group(process, signal.SIGKILL)
+                self._signal_group(process, getattr(signal, "SIGKILL", signal.SIGTERM))
+
+        # A dead leader is not proof that its owned session is gone.  Give the
+        # TERM sent above a bounded chance to drain, then escalate only that
+        # recorded process group.  We retain an UNKNOWN result instead of
+        # treating a parent poll as descendant cleanup.
+        pending_groups = {
+            pgid
+            for pgid in owned_groups - self._cleanup_drained_groups
+            if not self._owned_process_group_drained(pgid)
+        }
+        group_deadline = time.monotonic() + SHUTDOWN_TIMEOUT_SECONDS
+        while pending_groups and time.monotonic() < group_deadline:
+            pending_groups = {
+                pgid for pgid in pending_groups if not self._owned_process_group_drained(pgid)
+            }
+            if pending_groups:
+                time.sleep(min(0.05, SHUTDOWN_TIMEOUT_SECONDS))
+
+        self._cleanup_drained_groups.update(owned_groups - pending_groups)
+
+        for pgid in pending_groups:
+            try:
+                os.killpg(pgid, getattr(signal, "SIGKILL", signal.SIGTERM))
+            except ProcessLookupError:
+                self._cleanup_drained_groups.add(pgid)
+                continue
+            except (PermissionError, OSError) as exc:
+                cleanup_errors.append(exc)
+                continue
+            kill_deadline = time.monotonic() + SHUTDOWN_TIMEOUT_SECONDS
+            while not self._owned_process_group_drained(pgid) and time.monotonic() < kill_deadline:
+                time.sleep(min(0.05, SHUTDOWN_TIMEOUT_SECONDS))
+            if not self._owned_process_group_drained(pgid):
+                cleanup_errors.append(RuntimeError(f"owned process group remains live: {pgid}"))
+            else:
+                self._cleanup_drained_groups.add(pgid)
 
         for item in managed:
             try:
@@ -126,6 +212,21 @@ class WavepoolSupervisor:
 
         for thread in self._stream_threads:
             thread.join(timeout=1.0)
+        for item in windows_owned:
+            try:
+                item.process.close()
+            except BaseException as exc:
+                cleanup_errors.append(exc)
+        if cleanup_errors:
+            # Keep only unknown trees for a later bounded retry.  A proven
+            # drained numeric PGID is never touched again, avoiding PID reuse.
+            self.processes = [
+                item
+                for item in self.processes
+                if item.process.pid not in self._cleanup_drained_groups
+            ]
+            raise RuntimeError("WavePool owned cleanup is UNKNOWN") from cleanup_errors[0]
+        self._cleaned = True
 
     def _start_servers(self) -> None:
         self._spawn(
@@ -153,6 +254,12 @@ class WavepoolSupervisor:
                     str(self.log_path),
                     "--contexts-per-instance",
                     str(self.config.contexts_per_instance),
+                    "--binding-cleanup-horizon-seconds",
+                    str(self.config.process_timeout.binding_cleanup_horizon),
+                    "--binding-cleanup-request-timeout-seconds",
+                    str(self.config.process_timeout.binding_cleanup_request_timeout),
+                    "--binding-cleanup-retry-interval-seconds",
+                    str(self.config.process_timeout.binding_cleanup_retry_interval),
                 ],
             )
 
@@ -162,15 +269,20 @@ class WavepoolSupervisor:
         env = os.environ.copy()
         env["PYTHONUNBUFFERED"] = "1"
 
-        process = subprocess.Popen(
-            cmd,
+        if _is_windows():
+            from surfgym_runtime.wavepool.owned_process_windows import OwnedProcessWindows
+
+            process = OwnedProcessWindows.spawn(cmd, env=env)
+        else:
+            process = subprocess.Popen(
+                cmd,
             # stdout=subprocess.PIPE,
             # stderr=subprocess.STDOUT,
             text=True,
             # bufsize=1,
             start_new_session=True,
-            env=env,
-        )
+                env=env,
+            )
 
         self.processes.append(ManagedProcess(name=name, process=process))
 
@@ -236,17 +348,105 @@ class WavepoolSupervisor:
     def _check_all_child(self) -> None:
         for item in self.processes:
             code = item.process.poll()
-            if code is not None:
-                raise RuntimeError(f"{item.name} exited unexpectedly with code {code}")
+            if code is None:
+                continue
+            if item.name.startswith("instance:"):
+                self._notify_instance_exit(item, code)
+                continue
+            raise RuntimeError(f"{item.name} exited unexpectedly with code {code}")
+
+    def _notify_instance_exit(self, item: ManagedProcess, code: int) -> None:
+        """Tell Master about a confirmed owned Instance exit without touching siblings."""
+        port = int(item.name.removeprefix("instance:"))
+        if item.process.pid not in self._reported_exited_processes:
+            try:
+                response = httpx.post(
+                    f"http://{self.config.host}:{self.master_port}/internal/instances/{port}/exited",
+                    params={"quiescent": "false"},
+                    timeout=self.config.process_timeout.release - self.config.process_timeout.layer_gap,
+                )
+                response.raise_for_status()
+            except httpx.HTTPError:
+                deploy_logger.exception("Failed to retire exited Instance: port=%s code=%s", port, code)
+                return
+            self._reported_exited_processes.add(item.process.pid)
+        process_id = item.process.pid
+        if process_id not in self._drained_exited_processes:
+            try:
+                if _is_windows():
+                    quiescent = item.process.terminate_and_check_quiescent(
+                        timeout=SHUTDOWN_TIMEOUT_SECONDS
+                    )
+                else:
+                    self._terminate_owned_process_group(process_id)
+                    quiescent = self._owned_process_group_drained(process_id)
+            except BaseException:
+                deploy_logger.exception("Could not prove exited Instance quiescent: port=%s", port)
+                return
+            if not quiescent:
+                return
+            self._drained_exited_processes.add(process_id)
+        if process_id not in self._quiescent_exited_processes:
+            try:
+                self._notify_quiescent_instance_exit(port)
+            except httpx.HTTPError:
+                deploy_logger.exception("Failed to acknowledge quiescent Instance: port=%s", port)
+            else:
+                self._quiescent_exited_processes.add(process_id)
+
+    def _terminate_owned_process_group(self, pgid: int) -> None:
+        if _is_windows():
+            return
+        try:
+            os.killpg(pgid, signal.SIGTERM)
+        except ProcessLookupError:
+            return
+        except (AttributeError, PermissionError, OSError):
+            return
+        deadline = time.monotonic() + SHUTDOWN_TIMEOUT_SECONDS
+        while not self._owned_process_group_drained(pgid) and time.monotonic() < deadline:
+            time.sleep(min(0.05, SHUTDOWN_TIMEOUT_SECONDS))
+        if self._owned_process_group_drained(pgid):
+            return
+        try:
+            os.killpg(pgid, getattr(signal, "SIGKILL", signal.SIGTERM))
+        except (AttributeError, ProcessLookupError, PermissionError, OSError):
+            return
+
+    def _owned_process_group_drained(self, pgid: int) -> bool:
+        """POSIX can prove the owned session is gone; Windows fails closed pending a Job handle."""
+        if _is_windows():
+            return False
+        try:
+            os.killpg(pgid, 0)
+        except ProcessLookupError:
+            return True
+        except OSError:
+            return False
+        return False
+
+    def _notify_quiescent_instance_exit(self, port: int) -> None:
+        response = httpx.post(
+            f"http://{self.config.host}:{self.master_port}/internal/instances/{port}/exited",
+            params={"quiescent": "true"},
+            timeout=self.config.process_timeout.release - self.config.process_timeout.layer_gap,
+        )
+        response.raise_for_status()
 
     def _signal_group(self, process: subprocess.Popen[str], sig: int) -> None:
+        if _is_windows():
+            if sig == signal.SIGKILL:
+                process.kill()
+            else:
+                process.terminate()
+            return
         if process.poll() is not None:
             return
 
         try:
             os.killpg(process.pid, sig)
             return
-        except (ProcessLookupError, PermissionError, OSError):
+        except (AttributeError, ProcessLookupError, PermissionError, OSError):
             pass
 
         try:

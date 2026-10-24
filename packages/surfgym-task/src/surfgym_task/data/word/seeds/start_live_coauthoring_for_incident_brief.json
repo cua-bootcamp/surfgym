@@ -1,6 +1,6 @@
 {
   "instruction": "The incident-response brief is ready. Invite Mina Park and Devon Lee into a live coauthoring session so all three of us can edit this same document simultaneously and see one another’s changes as they type.",
-  "website": "http://localhost:3000/word",
+  "website": "http://localhost:3001",
   "evaluation": {
     "mode": "infeasible"
   },

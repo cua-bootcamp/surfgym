@@ -2,12 +2,22 @@ import { NextRequest } from "next/server";
 import { getUserId, createResponseWithCookie } from "@/lib/cookies";
 import { fileStore } from "@/lib/file-store";
 import { FileMetadata } from "@/lib/types";
+import { assertSessionOpen, isSessionFinalized } from "@/lib/session-lifecycle";
+
+function finalizedResponse(userId: string) {
+  return createResponseWithCookie(
+    { detail: "SurfGym session finalized" },
+    userId,
+    410
+  );
+}
 
 // POST /api/files - Upload files for the current user
 export async function POST(request: NextRequest) {
   const userId = await getUserId(request);
 
   try {
+    await assertSessionOpen(userId);
     const formData = await request.formData();
     const files = formData.getAll("files") as File[];
 
@@ -27,6 +37,7 @@ export async function POST(request: NextRequest) {
 
     return createResponseWithCookie(results, userId);
   } catch (error) {
+    if (isSessionFinalized(error)) return finalizedResponse(userId);
     console.error("File upload error:", error);
     return createResponseWithCookie(
       { detail: "Failed to upload files" },
@@ -41,9 +52,11 @@ export async function GET(request: NextRequest) {
   const userId = await getUserId(request);
 
   try {
+    await assertSessionOpen(userId);
     const files = await fileStore.listFiles(userId);
     return createResponseWithCookie(files, userId);
   } catch (error) {
+    if (isSessionFinalized(error)) return finalizedResponse(userId);
     console.error("File list error:", error);
     return createResponseWithCookie(
       { detail: "Failed to list files" },

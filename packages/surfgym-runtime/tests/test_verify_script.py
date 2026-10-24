@@ -39,9 +39,27 @@ exit \"${FAKE_PYTHON_EXIT:-0}\"
     path.chmod(0o755)
 
 
+def _write_fake_npm(path: Path) -> None:
+    path.write_text(
+        """#!/usr/bin/env bash
+set -euo pipefail
+for argument in "$@"; do
+  case "$argument" in
+    --outputFile=*) mkdir -p "$(dirname "${argument#--outputFile=}")"; printf '<testsuite/>\\n' > "${argument#--outputFile=}" ;;
+  esac
+done
+""",
+        encoding="utf-8",
+        newline="\n",
+    )
+    path.chmod(0o755)
+
+
 def _run_verify(tmp_path: Path, *, exit_code: int) -> tuple[subprocess.CompletedProcess[str], Path]:
     fake_python = tmp_path / "fake-python.bash"
+    fake_npm = tmp_path / "npm"
     _write_fake_python(fake_python)
+    _write_fake_npm(fake_npm)
     output_root = tmp_path / "reports"
     environment = os.environ | {
         "PYTHON_BIN": str(fake_python),
@@ -49,6 +67,7 @@ def _run_verify(tmp_path: Path, *, exit_code: int) -> tuple[subprocess.Completed
         "VERIFY_RUN_ID": "contract-run",
         "VERIFY_BASETEMP": str(tmp_path / "basetemp"),
         "FAKE_PYTHON_EXIT": str(exit_code),
+        "PATH": f"{tmp_path}{os.pathsep}{os.environ['PATH']}",
     }
     completed = subprocess.run(
         [_bash(), str(ROOT / "scripts" / "verify.sh")],
@@ -73,6 +92,7 @@ def test_verify_script_writes_reports_for_each_selected_suite(tmp_path: Path) ->
         "runtime.xml",
         "snapshots-chrome-cua.xml",
         "task.xml",
+        "travelhub-web.xml",
     ]
     assert sorted(path.name for path in (run_root / "logs").glob("*.log")) == [
         "console.log",
@@ -81,6 +101,7 @@ def test_verify_script_writes_reports_for_each_selected_suite(tmp_path: Path) ->
         "runtime.log",
         "snapshots-chrome-cua.log",
         "task.log",
+        "travelhub-web.log",
     ]
 
 

@@ -32,6 +32,12 @@ def parse_args() -> argparse.Namespace:
         required=True,
         help="Docker fixture Gateway /health endpoint for release reconciliation.",
     )
+    parser.add_argument(
+        "--expected-fixture-slots",
+        type=int,
+        default=1,
+        help="Total fixture slots that must all be idle before a case starts or release completes.",
+    )
     parser.add_argument("--timeout-seconds", type=float, default=600.0)
     parser.add_argument(
         "--output-dir",
@@ -70,6 +76,7 @@ def main() -> None:
     manifest_path = ChromeCuaRunner(
         gateway_url=args.gateway_url,
         fixture_health_url=args.fixture_health_url,
+        expected_fixture_slots=args.expected_fixture_slots,
         timeout_seconds=args.timeout_seconds,
         output_dir=args.output_dir,
     ).run(plan=plan, provenance=provenance)

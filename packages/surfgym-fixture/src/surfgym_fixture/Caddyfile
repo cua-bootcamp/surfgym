@@ -4,7 +4,24 @@
 
 	header Cache-Control "no-store"
 
-	try_files {path} {path}/index.html =404
+	@root path /
+	rewrite @root /spreadsheet/index.html
+	try_files {path} /spreadsheet/index.html
+
+	file_server {
+		precompressed zstd gzip
+	}
+}
+
+:{$WORD_PORT:3001} {
+	root * ./dist
+	encode zstd gzip
+
+	header Cache-Control "no-store"
+
+	@root path /
+	rewrite @root /word/index.html
+	try_files {path} /word/index.html
 
 	file_server {
 		precompressed zstd gzip

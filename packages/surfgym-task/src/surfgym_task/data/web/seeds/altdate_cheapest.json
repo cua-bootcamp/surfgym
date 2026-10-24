@@ -1,7 +1,7 @@
 {
   "instruction": "On the flight results for London Heathrow to Paris (departing 2026-09-15), use the alternative dates to change your departure to the cheapest date shown.",
   "website": {
-    "base": "http://localhost:3200/flights/search",
+    "base": "http://localhost:3002/flights/search",
     "param": {
       "originCode": "LHR",
       "destCode": "CDG",

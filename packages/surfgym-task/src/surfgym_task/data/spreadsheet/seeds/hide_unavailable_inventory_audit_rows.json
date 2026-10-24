@@ -1,6 +1,6 @@
 {
   "instruction": "Several cycle counts have not been reported yet and show #N/A under Counted Units. Temporarily hide those entire inventory rows so only completed counts remain visible. Keep every cell and formula intact; do not delete rows, clear cells, or apply a filter, and leave all other rows visible.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "accumulation": "CUMULATIVE",
   "states": [
   [

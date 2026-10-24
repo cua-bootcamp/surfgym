@@ -1,6 +1,6 @@
 {
   "instruction": "Use INDEX and MATCH with an exact match to return the training date for every requested employee. Fill E2:E5 without changing the employee/date table.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Employee ID"},

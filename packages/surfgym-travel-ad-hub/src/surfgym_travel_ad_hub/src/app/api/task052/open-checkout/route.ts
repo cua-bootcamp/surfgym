@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { createResponseWithCookie, getUserId } from "@/lib/cookies";
 import { consumeTask052ClickProof } from "@/lib/task052-click-sessions";
+import { assertSessionOpen, isSessionFinalized } from "@/lib/session-lifecycle";
 import {
   TASK052_TARGET_HOTEL_ID,
   TASK052_TARGET_HOTEL_NAME,
@@ -16,6 +17,8 @@ import {
 // POST /api/task052/open-checkout - Permit checkout only for the target room selected from details.
 export async function POST(request: NextRequest) {
   const userId = await getUserId(request);
+  try {
+    await assertSessionOpen(userId);
   if (
     request.headers.get(TASK052_CLIENT_HEADER_NAME) !==
     TASK052_CLIENT_HEADER_VALUE
@@ -85,4 +88,8 @@ export async function POST(request: NextRequest) {
     },
     userId
   );
+  } catch (error) {
+    if (isSessionFinalized(error)) return createResponseWithCookie({ detail: "SurfGym session finalized" }, userId, 410);
+    throw error;
+  }
 }

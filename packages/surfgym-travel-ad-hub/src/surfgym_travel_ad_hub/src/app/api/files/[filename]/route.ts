@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getUserId, setUserCookie } from "@/lib/cookies";
 import { fileStore } from "@/lib/file-store";
-import fs from "fs/promises";
 import mime from "mime-types";
+import { isSessionFinalized } from "@/lib/session-lifecycle";
 
 // GET /api/files/[filename] - Fetch a stored file for the current user
 export async function GET(
@@ -12,9 +12,22 @@ export async function GET(
   const userId = await getUserId(request);
   const { filename } = await params;
 
-  const targetPath = await fileStore.getFilePath(userId, filename);
+  let fileBuffer: Buffer | null;
+  try {
+    fileBuffer = await fileStore.readFile(userId, filename);
+  } catch (error) {
+    if (isSessionFinalized(error)) {
+      const response = NextResponse.json(
+        { detail: "SurfGym session finalized" },
+        { status: 410 }
+      );
+      setUserCookie(response, userId);
+      return response;
+    }
+    throw error;
+  }
 
-  if (!targetPath) {
+  if (!fileBuffer) {
     const errorResponse = NextResponse.json(
       { detail: "File not found" },
       { status: 404 }
@@ -24,11 +37,10 @@ export async function GET(
   }
 
   try {
-    const fileBuffer = await fs.readFile(targetPath);
     const displayName = fileStore.getDisplayName(filename);
     const contentType = mime.lookup(displayName) || "application/octet-stream";
 
-    const response = new NextResponse(fileBuffer, {
+    const response = new NextResponse(new Uint8Array(fileBuffer), {
       status: 200,
       headers: {
         "Content-Type": contentType,

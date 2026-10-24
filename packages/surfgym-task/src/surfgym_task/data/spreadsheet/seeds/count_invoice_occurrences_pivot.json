@@ -1,6 +1,6 @@
 {
   "instruction": "Create a pivot table on Sheet2 at A1 that counts how many times each invoice number appears.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Invoice No."},

@@ -232,6 +232,7 @@ class ChromeCuaRunner:
         *,
         gateway_url: str,
         fixture_health_url: str,
+        expected_fixture_slots: int = 1,
         timeout_seconds: float,
         health_timeout_seconds: float | None = None,
         health_poll_interval_seconds: float = 1.0,
@@ -243,6 +244,12 @@ class ChromeCuaRunner:
     ) -> None:
         if timeout_seconds <= 0:
             raise ValueError("timeout_seconds must be > 0")
+        if (
+            isinstance(expected_fixture_slots, bool)
+            or not isinstance(expected_fixture_slots, int)
+            or expected_fixture_slots <= 0
+        ):
+            raise ValueError("expected_fixture_slots must be a positive integer")
         if health_timeout_seconds is None:
             health_timeout_seconds = timeout_seconds
         if health_timeout_seconds <= 0 or health_timeout_seconds > timeout_seconds:
@@ -251,6 +258,7 @@ class ChromeCuaRunner:
             raise ValueError("health_poll_interval_seconds must be > 0")
         self.gateway_url = gateway_url
         self.fixture_health_url = fixture_health_url
+        self.expected_fixture_slots = expected_fixture_slots
         self.timeout_seconds = timeout_seconds
         self.health_timeout_seconds = health_timeout_seconds
         self.health_poll_interval_seconds = health_poll_interval_seconds
@@ -269,6 +277,7 @@ class ChromeCuaRunner:
             "run_status": "running",
             "gateway_url": self.gateway_url,
             "fixture_health_url": self.fixture_health_url,
+            "expected_fixture_slots": self.expected_fixture_slots,
             "timeout_seconds": self.timeout_seconds,
             "health_timeout_seconds": self.health_timeout_seconds,
             "health_poll_interval_seconds": self.health_poll_interval_seconds,
@@ -504,10 +513,9 @@ class ChromeCuaRunner:
             raise
         self._write_manifest(manifest)
 
-    @staticmethod
-    def _is_fixture_ready(slot_states: object) -> bool:
+    def _is_fixture_ready(self, slot_states: object) -> bool:
         return isinstance(slot_states, dict) and slot_states == {
-            "idle": 1,
+            "idle": self.expected_fixture_slots,
             "resetting": 0,
             "busy": 0,
             "broken": 0,

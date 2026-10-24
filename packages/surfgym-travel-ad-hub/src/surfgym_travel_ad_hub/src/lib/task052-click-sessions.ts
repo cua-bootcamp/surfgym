@@ -142,32 +142,14 @@ export function normalizeTask052PageTokens(
   });
 }
 
-async function getClickSessions(userId: string) {
-  const state = await stateStore.getState(userId);
-  const data = (state as UserState<Record<string, unknown>>).data;
+function getClickSessionsFromState(state: UserState<Record<string, unknown>>) {
+  const data = state.data;
   return normalizeTask052ClickSessions(data.task052_click_sessions);
 }
 
-async function getPageTokens(userId: string) {
-  const state = await stateStore.getState(userId);
-  const data = (state as UserState<Record<string, unknown>>).data;
+function getPageTokensFromState(state: UserState<Record<string, unknown>>) {
+  const data = state.data;
   return normalizeTask052PageTokens(data.task052_page_tokens);
-}
-
-async function patchClickSessions(
-  userId: string,
-  records: Task052ClickSessionRecord[],
-  note: string
-) {
-  await stateStore.patchState(userId, { task052_click_sessions: records }, note);
-}
-
-async function patchPageTokens(
-  userId: string,
-  records: Task052PageTokenRecord[],
-  note: string
-) {
-  await stateStore.patchState(userId, { task052_page_tokens: records }, note);
 }
 
 function pruneExpiredSessions(
@@ -259,90 +241,49 @@ export async function createTask052ClickSession(
     };
   }
 
-  const now = options.now ?? new Date();
-  const tokenResult = await consumeTask052PageToken(userId, pageToken, { now });
-  if (!tokenResult.ok) {
-    return {
-      ok: false,
-      detail: tokenResult.detail,
-      status: tokenResult.status,
+  return stateStore.withTransaction(userId, async (tx) => {
+    const now = options.now ?? new Date();
+    if (typeof pageToken !== "string" || !pageToken) {
+      return { ok: false, detail: "Missing task page token", status: 403 };
+    }
+    const state = await tx.getState(userId) as UserState<Record<string, unknown>>;
+    const tokens = pruneExpiredPageTokens(getPageTokensFromState(state), now);
+    const tokenIndex = tokens.findIndex((record) =>
+      isSameHash(record.token_hash, hashValue(pageToken))
+    );
+    if (tokenIndex === -1) {
+      return { ok: false, detail: "Invalid task page token", status: 403 };
+    }
+    const challenge = createChallenge();
+    const record: Task052ClickSessionRecord = {
+      id: uuidv4(), public_key: publicKey, challenge_hash: hashValue(challenge),
+      issued_at: now.toISOString(),
+      expires_at: new Date(now.getTime() + (options.ttlMs ?? TASK052_CLICK_SESSION_TTL_MS)).toISOString(),
     };
-  }
-
-  const challenge = createChallenge();
-  const record: Task052ClickSessionRecord = {
-    id: uuidv4(),
-    public_key: publicKey,
-    challenge_hash: hashValue(challenge),
-    issued_at: now.toISOString(),
-    expires_at: new Date(
-      now.getTime() + (options.ttlMs ?? TASK052_CLICK_SESSION_TTL_MS)
-    ).toISOString(),
-  };
-
-  await patchClickSessions(userId, [record], "Task 052 click session created");
-
-  return { ok: true, session_id: record.id, challenge };
+    await tx.patchState(userId, {
+      task052_page_tokens: tokens.filter((_, index) => index !== tokenIndex),
+      task052_click_sessions: [record],
+    }, "Task 052 click session created");
+    return { ok: true, session_id: record.id, challenge };
+  });
 }
 
 export async function createTask052PageToken(
   userId: string,
   options: TimingOptions = {}
 ): Promise<string> {
-  const now = options.now ?? new Date();
-  const ttlMs = options.ttlMs ?? TASK052_PAGE_TOKEN_TTL_MS;
-  const pageToken = randomBytes(32).toString("base64url");
-  const existing = pruneExpiredPageTokens(await getPageTokens(userId), now);
-  await patchPageTokens(
-    userId,
-    [
-      ...existing,
-      {
-        token_hash: hashValue(pageToken),
-        issued_at: now.toISOString(),
-        expires_at: new Date(now.getTime() + ttlMs).toISOString(),
-      },
-    ],
-    "Task 052 page token created"
-  );
-
-  return pageToken;
-}
-
-async function consumeTask052PageToken(
-  userId: string,
-  rawPageToken: unknown,
-  options: Pick<TimingOptions, "now"> = {}
-): Promise<{ ok: true } | { ok: false; detail: string; status: number }> {
-  if (typeof rawPageToken !== "string" || !rawPageToken) {
-    return {
-      ok: false,
-      detail: "Missing task page token",
-      status: 403,
-    };
-  }
-
-  const now = options.now ?? new Date();
-  const records = pruneExpiredPageTokens(await getPageTokens(userId), now);
-  const tokenIndex = records.findIndex((record) =>
-    isSameHash(record.token_hash, hashValue(rawPageToken))
-  );
-
-  if (tokenIndex === -1) {
-    return {
-      ok: false,
-      detail: "Invalid task page token",
-      status: 403,
-    };
-  }
-
-  await patchPageTokens(
-    userId,
-    records.filter((_, index) => index !== tokenIndex),
-    "Task 052 page token consumed"
-  );
-
-  return { ok: true };
+  return stateStore.withTransaction(userId, async (tx) => {
+    const now = options.now ?? new Date();
+    const pageToken = randomBytes(32).toString("base64url");
+    const existing = pruneExpiredPageTokens(
+      getPageTokensFromState(await tx.getState(userId) as UserState<Record<string, unknown>>), now
+    );
+    await tx.patchState(userId, { task052_page_tokens: [...existing, {
+      token_hash: hashValue(pageToken), issued_at: now.toISOString(),
+      expires_at: new Date(now.getTime() + (options.ttlMs ?? TASK052_PAGE_TOKEN_TTL_MS)).toISOString(),
+    }] }, "Task 052 page token created");
+    return pageToken;
+  });
 }
 
 export async function consumeTask052ClickProof(
@@ -376,63 +317,28 @@ export async function consumeTask052ClickProof(
     };
   }
 
-  const now = options.now ?? new Date();
-  const signedAtMs = Date.parse(proof.signed_at);
-  if (
-    !Number.isFinite(signedAtMs) ||
-    Math.abs(now.getTime() - signedAtMs) > TASK052_CLICK_PROOF_MAX_AGE_MS
-  ) {
-    return {
-      ok: false,
-      detail: "Task click proof has expired",
-      status: 403,
-    };
-  }
-
-  const sessions = pruneExpiredSessions(await getClickSessions(userId), now);
-  const sessionIndex = sessions.findIndex(
-    (session) => session.id === proof.session_id
-  );
-  if (sessionIndex === -1) {
-    return {
-      ok: false,
-      detail: "Invalid task click session",
-      status: 403,
-    };
-  }
-
-  const session = sessions[sessionIndex];
-  if (!isSameHash(session.challenge_hash, hashValue(proof.challenge))) {
-    return {
-      ok: false,
-      detail: "Invalid task click challenge",
-      status: 403,
-    };
-  }
-
-  const signatureValid = await verifyClickProofSignature(
-    session.public_key,
-    proof
-  ).catch(() => false);
-  if (!signatureValid) {
-    return {
-      ok: false,
-      detail: "Invalid task click signature",
-      status: 403,
-    };
-  }
-
-  const nextChallenge = createChallenge();
-  const nextSessions = [...sessions];
-  nextSessions[sessionIndex] = {
-    ...session,
-    challenge_hash: hashValue(nextChallenge),
-  };
-  await patchClickSessions(
-    userId,
-    nextSessions,
-    "Task 052 click proof consumed"
-  );
-
-  return { ok: true, next_challenge: nextChallenge };
+  return stateStore.withTransaction(userId, async (tx) => {
+    const now = options.now ?? new Date();
+    const signedAtMs = Date.parse(proof.signed_at);
+    if (!Number.isFinite(signedAtMs) || Math.abs(now.getTime() - signedAtMs) > TASK052_CLICK_PROOF_MAX_AGE_MS) {
+      return { ok: false, detail: "Task click proof has expired", status: 403 };
+    }
+    const sessions = pruneExpiredSessions(
+      getClickSessionsFromState(await tx.getState(userId) as UserState<Record<string, unknown>>), now
+    );
+    const sessionIndex = sessions.findIndex((session) => session.id === proof.session_id);
+    if (sessionIndex === -1) return { ok: false, detail: "Invalid task click session", status: 403 };
+    const session = sessions[sessionIndex];
+    if (!isSameHash(session.challenge_hash, hashValue(proof.challenge))) {
+      return { ok: false, detail: "Invalid task click challenge", status: 403 };
+    }
+    if (!await verifyClickProofSignature(session.public_key, proof).catch(() => false)) {
+      return { ok: false, detail: "Invalid task click signature", status: 403 };
+    }
+    const nextChallenge = createChallenge();
+    const nextSessions = [...sessions];
+    nextSessions[sessionIndex] = { ...session, challenge_hash: hashValue(nextChallenge) };
+    await tx.patchState(userId, { task052_click_sessions: nextSessions }, "Task 052 click proof consumed");
+    return { ok: true, next_challenge: nextChallenge };
+  });
 }

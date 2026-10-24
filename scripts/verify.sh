@@ -33,3 +33,14 @@ run_suite fixture "$ROOT_DIR/packages/surfgym-fixture/tests"
 run_suite runtime "$ROOT_DIR/packages/surfgym-runtime/tests"
 run_suite task "$ROOT_DIR/packages/surfgym-task/tests"
 run_suite snapshots-chrome-cua "$ROOT_DIR/snapshots/generate/test_chrome_cua.py"
+
+run_travelhub_web() {
+    local web_root="$ROOT_DIR/packages/surfgym-travel-ad-hub/src/surfgym_travel_ad_hub"
+    (
+        cd "$web_root"
+        npm run test:run -- --reporter=junit --outputFile="$JUNIT_DIR/travelhub-web.xml"
+        npm run type-check
+    ) 2>&1 | tee -a "$LOG_DIR/travelhub-web.log"
+}
+
+run_travelhub_web

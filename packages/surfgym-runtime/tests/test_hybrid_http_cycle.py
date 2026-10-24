@@ -45,6 +45,7 @@ class HybridRecordingTransport:
         websites: list[Website],
         allocate_hooks: list[Hook],
         release_hooks: list[Hook],
+        context_id: str | None = None,
     ) -> MasterAllocateResponse:
         self.allocated_websites = websites
         return MasterAllocateResponse(
@@ -145,7 +146,7 @@ def _config(task_path: Path, log_path: Path) -> Config:
             port=58000,
             gateway_workers=1,
             gateway_in_flight=1,
-            verl_timeout=5.0,
+            agent_request_timeout=5.0,
             artifact_reward_timeout=40.0,
             in_flight_timeout=1.0,
             deadline_margin=0.1,

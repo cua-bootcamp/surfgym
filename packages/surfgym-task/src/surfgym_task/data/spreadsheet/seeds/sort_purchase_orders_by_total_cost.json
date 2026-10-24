@@ -1,6 +1,6 @@
 {
   "instruction": "Arrange the purchase-order table from the smallest Total Cost to the largest. Move every complete row together so each Received Date, Supplier, and Material remains matched with its cost. Keep the header row and existing formatting unchanged, and do not change cells outside the table.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "accumulation": "DELTA",
   "states": [
   [

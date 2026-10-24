@@ -11,7 +11,7 @@ def _web_task_payload(**overrides: object) -> dict[str, object]:
         "hash": "travel-search",
         "instruction": "Search for a flight.",
         "website": {
-            "base": "http://localhost:3200/search?locale=en",
+            "base": "http://localhost:3002/search?locale=en",
             "param": {"origin": "New York", "direct": "true"},
         },
         "complexity": 2,
@@ -38,7 +38,7 @@ def test_load_web_tasks_normalizes_legacy_location_and_registers_reset(tmp_path:
     task = tasks[0]
     assert task.task_id == "travel-search"
     assert task.website[0].url == (
-        "http://localhost:3200/search?locale=en&origin=New+York&direct=true"
+        "http://localhost:3002/search?locale=en&origin=New+York&direct=true"
     )
     assert task.lifecycle_hooks.release == [web.WEB_STATE_RESET_HOOK]
 
@@ -76,7 +76,7 @@ def test_load_web_tasks_rejects_unknown_legacy_location_fields(tmp_path: Path):
         tmp_path / "travel.json",
         _web_task_payload(
             website={
-                "base": "http://localhost:3200/search",
+                "base": "http://localhost:3002/search",
                 "param": {},
                 "unexpected": "value",
             }

@@ -6,8 +6,8 @@
     "port": 18000,
     "gateway_workers": 6,
     "gateway_in_flight": 6,
-    "verl_timeout": 20,
-    "artifact_reward_timeout": 40.0,
+    "agent_request_timeout": 70.0,
+    "artifact_reward_timeout": 70.0,
     "in_flight_timeout": 20.0,
     "deadline_margin": 3.0
   },
@@ -18,12 +18,15 @@
     "instances": 1,
     "contexts_per_instance": 6,
     "process_timeout": {
-      "allocate": 10.0,
+      "allocate": 20.0,
       "release": 5.0,
       "screenshot": 5.0,
-      "observe": 5.0,
-      "execute": 5.0,
-      "layer_gap": 1.0
+      "observe": 35.0,
+      "execute": 15.0,
+      "layer_gap": 1.0,
+      "binding_cleanup_horizon": 720.0,
+      "binding_cleanup_request_timeout": 360.0,
+      "binding_cleanup_retry_interval": 2.0
     }
   }
 }

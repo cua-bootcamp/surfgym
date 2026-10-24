@@ -1,6 +1,6 @@
 {
   "instruction": "Create a clustered column chart on Sheet2 from the weekly Sales and COGS table and title it Sales & COGS.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Week"},

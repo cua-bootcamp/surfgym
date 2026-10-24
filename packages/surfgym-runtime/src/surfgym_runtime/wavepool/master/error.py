@@ -26,3 +26,15 @@ class InstanceRequestFailed(MasterError):
             status.HTTP_502_BAD_GATEWAY,
             True,
         )
+
+
+class AllocationDispatchedError(MasterError):
+    """An Instance allocation failed after Master reserved its Context ID.
+
+    The caller cannot safely retry ``/allocate``: the first dispatch may have
+    created browser/native state, and its retained release owner must finish
+    before capacity becomes available again.
+    """
+
+    def __init__(self, message: str, status_code: int):
+        super().__init__(message, status_code, retryable=False)

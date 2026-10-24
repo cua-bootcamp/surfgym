@@ -1,6 +1,6 @@
 {
   "instruction": "Format “Approved” in green text (#008000), give “Needs Review” a yellow background (#FFFF00), and format “Rejected” in red text (#FF0000). Preserve all other text and formatting.",
-  "website": "http://localhost:3000/word",
+  "website": "http://localhost:3001",
   "states": [
   [{"spec":{"kind":"body","property":"text"},"value":"Review Status Register\nApproved — the submission contains the required evidence and can proceed to publication.\nNeeds Review — the submission requires a source check before a final decision is recorded.\nRejected — the submission does not meet the stated acceptance criteria."}],
   [

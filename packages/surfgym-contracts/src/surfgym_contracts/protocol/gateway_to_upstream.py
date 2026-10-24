@@ -15,6 +15,9 @@ class _FrozenBaseModel(BaseModel):
 
 
 class GatewayAllocateRequest(_FrozenBaseModel):
+    # Created by Gateway before the first remote RPC. It is internal lifecycle
+    # correlation data and fences a late allocation after caller cancellation.
+    context_id: str | None = None
     websites: list[Website] = Field(min_length=1)
     hooks: list[Hook]
     release_hooks: list[Hook] = Field(default_factory=lambda: list[Hook]())
@@ -29,7 +32,15 @@ class GatewayReleaseRequest(_FrozenBaseModel):
 ##############################
 
 
-MasterAllocateRequest = GatewayAllocateRequest
+class MasterAllocateRequest(GatewayAllocateRequest):
+    """Master-to-Instance allocation descriptor.
+
+    Master issues this capability after Gateway admission and before Instance
+    dispatch.  It is deliberately absent from the Gateway-to-Master model, so
+    it cannot enter that wire payload or a public Gateway response path.
+    """
+
+    cleanup_capability: str = Field(min_length=1)
 
 MasterReleaseRequest = GatewayReleaseRequest
 

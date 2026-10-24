@@ -1,6 +1,6 @@
 {
   "instruction": "Calculate each department's budget utilization by dividing Actual Spend by Budget. Fill D2:D13, format the utilization as 0.00%, and preserve the currency columns.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Department"},

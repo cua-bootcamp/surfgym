@@ -1,6 +1,6 @@
 {
   "instruction": "In the opening safety paragraph directly below the subtitle, place one empty line after each of its four sentences so every sentence stands alone with a blank paragraph following it. Keep every word and the rest of the note unchanged.",
-  "website": "http://localhost:3000/word",
+  "website": "http://localhost:3001",
   "accumulation": "CUMULATIVE",
   "states": [
   [

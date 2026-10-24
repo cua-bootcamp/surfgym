@@ -2,9 +2,7 @@ from pathlib import Path
 
 from surfgym_task.io import SeedReader
 
-SEEDS_DIR = (
-    Path(__file__).parents[1] / "src" / "surfgym_task" / "data" / "word" / "seeds"
-)
+SEEDS_DIR = Path(__file__).parents[1] / "src" / "surfgym_task" / "data" / "word" / "seeds"
 
 EXPECTED_VARIANTS = {
     "insert_field_brief_page_break": {
@@ -30,12 +28,7 @@ EXPECTED_VARIANTS = {
     "request_bottom_left_page_numbers": {
         "initial": {
             "spec": {"kind": "body", "property": "textWithPageBreak"},
-            "value": (
-                "QUARTERLY FIELD REPORT\n"
-                "Page one summary.\n"
-                "\fAPPENDIX\n"
-                "Page two notes."
-            ),
+            "value": ("QUARTERLY FIELD REPORT\nPage one summary.\n\fAPPENDIX\nPage two notes."),
         },
         "final": {
             "spec": {"kind": "pageNumber", "property": "request"},
@@ -65,11 +58,7 @@ EXPECTED_VARIANTS = {
     "request_inline_screenshot": {
         "initial": {
             "spec": {"kind": "body", "property": "text"},
-            "value": (
-                "CLASS SCHEDULE\n"
-                "Insert the screenshot below this line.\n"
-                "END"
-            ),
+            "value": ("CLASS SCHEDULE\nInsert the screenshot below this line.\nEND"),
         },
         "final": {
             "spec": {"kind": "image", "property": "request"},
@@ -138,27 +127,19 @@ EXPECTED_VARIANTS = {
 
 def test_word_variants_parse_with_exact_supported_atom_contracts() -> None:
     variants = {
-        name: seed
-        for seed, name in SeedReader(SEEDS_DIR).get_seed()
-        if name in EXPECTED_VARIANTS
+        name: seed for seed, name in SeedReader(SEEDS_DIR).get_seed() if name in EXPECTED_VARIANTS
     }
 
     assert variants.keys() == EXPECTED_VARIANTS.keys()
     for name, expected in EXPECTED_VARIANTS.items():
         seed = variants[name]
         assert seed.domain == "word"
-        assert seed.website == "http://localhost:3000/word"
+        assert seed.website == "http://localhost:3001"
         assert seed.accumulation == "CUMULATIVE"
         assert len(seed.states) == 2
-        assert [
-            {"spec": atom.spec, "value": atom.value}
-            for atom in seed.states[0].atoms
-        ] == [
+        assert [{"spec": atom.spec, "value": atom.value} for atom in seed.states[0].atoms] == [
             expected["initial"]
         ]
-        assert [
-            {"spec": atom.spec, "value": atom.value}
-            for atom in seed.states[1].atoms
-        ] == [
+        assert [{"spec": atom.spec, "value": atom.value} for atom in seed.states[1].atoms] == [
             expected["final"]
         ]

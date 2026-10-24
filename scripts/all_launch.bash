@@ -54,6 +54,7 @@ launch_with_nohup() {
 launch_with_nohup "gateway" "$SCRIPT_DIR/gateway_launch.bash"
 launch_with_nohup "wavepool" "$SCRIPT_DIR/wavepool_launch.bash"
 launch_with_nohup "fixture" "$SCRIPT_DIR/fixture_launch.bash"
+launch_with_nohup "travelhub" "$SCRIPT_DIR/travelhub_launch.bash"
 
 LAUNCH_COMPLETE=1
 trap - EXIT

@@ -1,6 +1,6 @@
 {
   "instruction": "Create three percent-of-grand-total pivot tables from the Demographic Profile source. Put them on Sheet2 at A1, A6, and A11, leaving one blank row between each output. Format each pivot header row in bold.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Group"},

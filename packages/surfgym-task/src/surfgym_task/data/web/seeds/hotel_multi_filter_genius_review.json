@@ -1,7 +1,7 @@
 {
   "instruction": "Show hotels in Paris with Genius discounts enabled and a review score of Superb: 9+.",
   "website": {
-    "base": "http://localhost:3200/search",
+    "base": "http://localhost:3002/search",
     "param": {
       "destination": "Paris"
     }

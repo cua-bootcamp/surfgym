@@ -283,7 +283,7 @@ def test_reward_failure_still_releases_and_ends_session():
     def fail_reward(**kwargs: object) -> float:
         raise RuntimeError("reward failed")
 
-    service._compute_reward = fail_reward
+    service._evaluate_captured_reward = fail_reward
 
     with pytest.raises(RuntimeError, match="reward failed"):
         service._handle_reward(
@@ -294,6 +294,44 @@ def test_reward_failure_still_releases_and_ends_session():
     assert release_worker.enqueued == [session]
     with pytest.raises(InvalidRequest, match="not active"):
         session_registry.require_session_state(1, "task-id")
+
+
+def test_reward_evaluates_detached_capture_after_enqueue_mutates_live_session() -> None:
+    task = _task(
+        CriteriaEvaluation(criteria=[DomCriteria(selector="#result", value="done")])
+    )
+    service: Any = object.__new__(Service)
+    service.task_store = SingleTaskStore(task)
+    service._session_registry = SessionRegistry()
+    session = _session("DONE")
+    source_observation: list[Observation] = ["done"]
+    events: list[str] = []
+
+    class MutatingWorker:
+        def enqueue(self, state: SessionState) -> None:
+            events.append("enqueue")
+            state.action_history[:] = ["FAIL"]
+            state.trace.clear()
+            source_observation[0] = "mutated"
+
+    service._release_worker = MutatingWorker()
+    service._observe = lambda **_kwargs: SimpleNamespace(observation=source_observation)
+
+    def evaluate(*, captured: object, **_kwargs: object) -> float:
+        events.append("evaluate")
+        assert getattr(captured, "last_action") == "DONE"
+        assert getattr(captured, "observation") == ["done"]
+        return 1.0
+
+    service._evaluate_captured_reward = evaluate
+    service._session_registry.start_session(1, session)
+
+    response = service._handle_reward(
+        RewardRequest(op="reward", task_id="task-id", session_id=1), _deadline
+    )
+
+    assert response.reward == 1.0
+    assert events == ["enqueue", "evaluate"]
 
 
 def test_artifact_reward_returns_artifacts_in_declared_order_after_reward() -> None:
@@ -315,7 +353,7 @@ def test_artifact_reward_returns_artifacts_in_declared_order_after_reward() -> N
         events.append(spec.path)
         return _artifact_payload(spec.path)
 
-    service._compute_reward = compute_reward
+    service._evaluate_captured_reward = compute_reward
     service._artifact = artifact
     request = RewardRequest(
         op="reward",
@@ -334,7 +372,9 @@ def test_artifact_reward_returns_artifacts_in_declared_order_after_reward() -> N
         "Desktop/first.txt",
         "Desktop/second.txt",
     ]
-    assert events == ["reward", "Desktop/first.txt", "Desktop/second.txt"]
+    # Artifacts are copied from the live slot before cleanup; local evaluation
+    # runs only from captured values after the release is registered.
+    assert events == ["Desktop/first.txt", "Desktop/second.txt", "reward"]
     assert service._release_worker.enqueued == [session]
 
 
@@ -367,7 +407,7 @@ def test_every_reward_failure_enqueues_and_ends_exactly_once(failure_stage: str)
         spec = kwargs["artifact"]
         return _artifact_payload(spec.path)
 
-    service._compute_reward = compute_reward
+    service._evaluate_captured_reward = compute_reward
     service._screenshot = screenshot
     service._artifact = artifact
 
@@ -397,8 +437,7 @@ def test_duplicate_concurrent_rewards_compute_artifact_and_enqueue_once() -> Non
     service._release_worker = RecordingReleaseWorker()
     session = _session("FAIL")
     service._session_registry.start_session(1, session)
-    operation_lock = _install_observed_operation_lock(service)
-    entered = Barrier(2)
+    compute_entered = Event()
     release_compute = Event()
     compute_calls = 0
     artifact_calls = 0
@@ -407,7 +446,7 @@ def test_duplicate_concurrent_rewards_compute_artifact_and_enqueue_once() -> Non
     def compute_reward(**_kwargs: object) -> float:
         nonlocal compute_calls
         compute_calls += 1
-        entered.wait(timeout=2)
+        compute_entered.set()
         release_compute.wait(timeout=2)
         return 1.0
 
@@ -416,7 +455,7 @@ def test_duplicate_concurrent_rewards_compute_artifact_and_enqueue_once() -> Non
         artifact_calls += 1
         return _artifact_payload(kwargs["artifact"].path)
 
-    service._compute_reward = compute_reward
+    service._evaluate_captured_reward = compute_reward
     service._artifact = artifact
     request = RewardRequest(
         op="reward",
@@ -433,10 +472,9 @@ def test_duplicate_concurrent_rewards_compute_artifact_and_enqueue_once() -> Non
 
     first = Thread(target=call_reward)
     first.start()
-    entered.wait(timeout=2)
+    assert compute_entered.wait(timeout=2)
     second = Thread(target=call_reward)
     second.start()
-    assert operation_lock.contended_acquire.wait(timeout=2)
     release_compute.set()
     first.join(timeout=2)
     second.join(timeout=2)
@@ -454,7 +492,7 @@ def test_artifact_list_uses_one_shared_deadline_and_raw_bounded_timeouts() -> No
     service._session_registry = SessionRegistry()
     service._release_worker = RecordingReleaseWorker()
     service._session_registry.start_session(1, _session("FAIL"))
-    service._compute_reward = lambda **_kwargs: 1.0
+    service._evaluate_captured_reward = lambda **_kwargs: 1.0
     service.process_timeout = SimpleNamespace(layer_gap=0.5)
     deadline_contexts: list[str] = []
     timeout_caps: list[float] = []
@@ -507,7 +545,7 @@ def test_artifact_retryable_failure_is_not_retried() -> None:
     service._release_worker = RecordingReleaseWorker()
     session = _session("FAIL")
     service._session_registry.start_session(1, session)
-    service._compute_reward = lambda **_kwargs: 1.0
+    service._evaluate_captured_reward = lambda **_kwargs: 1.0
     service.process_timeout = SimpleNamespace(layer_gap=0.0)
     calls = 0
 

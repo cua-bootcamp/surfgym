@@ -1,4 +1,5 @@
 import asyncio
+from types import SimpleNamespace
 from typing import Any, cast
 
 import pytest
@@ -38,15 +39,40 @@ class _ContextManager:
             active_page_id=next(iter(pages)),
         )
         self.deleted_context_ids: list[str] = []
+        self._release_task = None
+        self._entry = SimpleNamespace(
+            context=self.context, create_task=None, active_operation_task=None,
+            native_bindings={}, web_bindings={}
+        )
 
     async def create(self, _context_id: str, _websites: list[Website]) -> None:
         return None
 
-    def require_context(self, _context_id: str):
+    def require_context(self, _context_id: str, **_lifecycle: object):
         return self.context
 
-    def require_page(self, _context_id: str, _website_id: str):
+    def require_page(self, _context_id: str, _website_id: str, **_lifecycle: object):
         return self.context.pages[_website_id]
+
+    async def activate(self, _context_id: str) -> None:
+        return None
+
+    async def get_or_start_release_task(self, _context_id: str, factory):
+        if self._release_task is None:
+            self._release_task = asyncio.create_task(factory())
+        return self._release_task
+
+    async def seal(self, _context_id: str):
+        return self._entry
+
+    async def mark_closed(self, _context_id: str) -> None:
+        return None
+
+    async def clear_release_task(self, _context_id: str, _task: object) -> None:
+        self._release_task = None
+
+    async def close_partial_browser_context(self, _context_id: str) -> None:
+        return None
 
     async def _delete_locked(self, context_id: str, expected_context: Context) -> None:
         assert expected_context is self.context

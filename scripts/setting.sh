@@ -55,4 +55,7 @@ readonly WAVEPOOL_MASTER_PORT="$(json_get '.wavepool.master_port')"
 readonly WAVEPOOL_INSTANCE_START_PORT="$(json_get '.wavepool.instance_start_port')"
 readonly WAVEPOOL_INSTANCE="$(json_get '.wavepool.instances')"
 
-readonly FIXTURE_MAIN_PORT=3000
+readonly SPREADSHEET_PORT="${SPREADSHEET_PORT:-3000}"
+readonly WORD_PORT="${WORD_PORT:-3001}"
+readonly TRAVELHUB_PORT="${TRAVELHUB_PORT:-3002}"
+readonly FIXTURE_MAIN_PORT="$SPREADSHEET_PORT"

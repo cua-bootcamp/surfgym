@@ -1,6 +1,6 @@
 {
   "instruction": "Export the current sheet as Harbor_Inventory.csv using the CSV option and confirm the export.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Item"},

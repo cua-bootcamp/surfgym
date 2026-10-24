@@ -1,6 +1,6 @@
 {
   "instruction": "Use the blank column immediately to the right of \"Campaign Expenses\" to complete the campaign table. Name it \"Net Funds\", then enter a formula for every campaign that deducts Campaign Expenses from Donations. Preserve the source columns and all other cells.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "accumulation": "CUMULATIVE",
   "states": [
   [

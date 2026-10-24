@@ -1,6 +1,6 @@
 {
   "instruction": "Turn the entries in \"Raw Workshop Names\" into publication-ready names in the adjacent \"Standardized Workshop Names\" column. For every row, remove leading and trailing spaces, collapse consecutive spaces inside the name to one, then capitalize the first letter of each word while making every remaining letter lowercase. Do not alter the source column, headers, or any other cells.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "accumulation": "CUMULATIVE",
   "states": [
   [

@@ -4,14 +4,7 @@ from pathlib import Path
 from surfgym_task.io import SeedReader
 from surfgym_task.seed import CriteriaSeedTask
 
-SEEDS_DIR = (
-    Path(__file__).parents[1]
-    / "src"
-    / "surfgym_task"
-    / "data"
-    / "spreadsheet"
-    / "seeds"
-)
+SEEDS_DIR = Path(__file__).parents[1] / "src" / "surfgym_task" / "data" / "spreadsheet" / "seeds"
 
 EXPECTED_SEEDS = {
     "assign_branch_officers",
@@ -52,7 +45,7 @@ class OSWorldSpreadsheetVariantSeedTests(unittest.TestCase):
             with self.subTest(seed_name=seed_name):
                 self.assertIsInstance(seed, CriteriaSeedTask)
                 self.assertEqual(seed.domain, "spreadsheet")
-                self.assertEqual(seed.website, "http://localhost:3000/spreadsheet")
+                self.assertEqual(seed.website, "http://localhost:3000")
                 self.assertEqual(len(seed.states), 2)
                 self.assertGreater(len(seed.states[0].atoms), 0)
                 self.assertGreater(len(seed.states[1].atoms), 0)
@@ -108,7 +101,8 @@ class OSWorldSpreadsheetVariantSeedTests(unittest.TestCase):
         parsed = {
             seed_name: seed
             for seed, seed_name in SeedReader(SEEDS_DIR).get_seed()
-            if seed_name in {
+            if seed_name
+            in {
                 "format_decimal_values_two_places",
                 "request_fit_to_one_page_pdf",
             }
@@ -119,7 +113,15 @@ class OSWorldSpreadsheetVariantSeedTests(unittest.TestCase):
         self.assertEqual(
             [(atom.spec, atom.value) for atom in decimal_seed.states[1].atoms],
             [
-                ({"kind": "cell", "sheet": "Sheet1", "cell": "A1:C1", "property": "numberFormat"}, "0.00"),
+                (
+                    {
+                        "kind": "cell",
+                        "sheet": "Sheet1",
+                        "cell": "A1:C1",
+                        "property": "numberFormat",
+                    },
+                    "0.00",
+                ),
                 ({"kind": "cell", "sheet": "Sheet1", "cell": "A1", "property": "value"}, 12.34),
                 ({"kind": "cell", "sheet": "Sheet1", "cell": "B1", "property": "value"}, -0.75),
                 ({"kind": "cell", "sheet": "Sheet1", "cell": "C1", "property": "value"}, 1000.5),

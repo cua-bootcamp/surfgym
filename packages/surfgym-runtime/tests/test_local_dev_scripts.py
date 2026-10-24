@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import signal
 import shutil
 import subprocess
 import time
@@ -35,7 +36,12 @@ def write_executable(path: Path, content: str) -> None:
 
 
 def run_bash(
-    cwd: Path, command: str, *, env: dict[str, str] | None = None
+    cwd: Path,
+    command: str,
+    *,
+    env: dict[str, str] | None = None,
+    capture_output: bool = True,
+    start_new_session: bool = False,
 ) -> subprocess.CompletedProcess[str]:
     merged_env = os.environ.copy()
     if env:
@@ -45,9 +51,10 @@ def run_bash(
         cwd=cwd,
         env=merged_env,
         check=False,
-        capture_output=True,
+        capture_output=capture_output,
         text=True,
         timeout=60,
+        start_new_session=start_new_session,
     )
 
 
@@ -64,6 +71,100 @@ def wait_for_file(path: Path, timeout: float = 5) -> None:
             return
         time.sleep(0.05)
     raise AssertionError(f"timed out waiting for {path}")
+
+
+def stop_owned_bash_tree(owner: subprocess.Popen[str]) -> None:
+    """Reap the exact test-owned Bash root and every child it created."""
+
+    if owner.poll() is not None:
+        return
+    if os.name == "nt":
+        result = subprocess.run(
+            ["taskkill", "/PID", str(owner.pid), "/T", "/F"],
+            capture_output=True,
+            text=True,
+            check=False,
+            timeout=5,
+        )
+        if result.returncode != 0:
+            raise AssertionError(
+                f"could not terminate test-owned Bash tree pid={owner.pid}: "
+                f"{result.stderr.strip()}"
+            )
+    else:
+        os.killpg(owner.pid, signal.SIGTERM)
+    try:
+        owner.wait(timeout=5)
+    except subprocess.TimeoutExpired as exc:
+        if os.name == "nt":
+            subprocess.run(
+                ["taskkill", "/PID", str(owner.pid), "/T", "/F"],
+                capture_output=True,
+                text=True,
+                check=False,
+                timeout=5,
+            )
+        else:
+            os.killpg(owner.pid, signal.SIGKILL)
+        try:
+            owner.wait(timeout=5)
+        except subprocess.TimeoutExpired as reap_exc:
+            raise AssertionError(
+                f"test-owned Bash tree did not reap pid={owner.pid}"
+            ) from reap_exc
+        raise AssertionError(
+            f"test-owned Bash tree required forced reap pid={owner.pid}"
+        ) from exc
+
+
+def stop_test_process(process: subprocess.Popen[str]) -> None:
+    """Reap one test-owned non-shell process through its Popen handle."""
+
+    if process.poll() is not None:
+        return
+    process.terminate()
+    try:
+        process.wait(timeout=5)
+    except subprocess.TimeoutExpired:
+        process.kill()
+        process.wait(timeout=5)
+
+
+def windows_process_exists(pid: str) -> bool:
+    powershell = shutil.which("powershell.exe")
+    assert powershell is not None
+    result = subprocess.run(
+        [
+            powershell,
+            "-NoProfile",
+            "-NonInteractive",
+            "-Command",
+            f"exit [int](-not (Get-Process -Id {int(pid)} -ErrorAction SilentlyContinue))",
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=10,
+    )
+    return result.returncode == 0
+
+
+def run_bash_detached_to_files(cwd: Path, command: str, *, env: dict[str, str], root: Path) -> int:
+    """Fixture-only runner that never gives Bash pytest's console pipes/group."""
+    merged = os.environ.copy(); merged.update(env)
+    flags = 0
+    if os.name == "nt":
+        flags = subprocess.CREATE_NEW_PROCESS_GROUP | subprocess.DETACHED_PROCESS
+    with (root / "runner.stdout.log").open("wb") as out, (root / "runner.stderr.log").open("wb") as err:
+        proc = subprocess.Popen([bash_executable(), "-lc", command], cwd=cwd, env=merged,
+                                stdin=subprocess.DEVNULL, stdout=out, stderr=err,
+                                creationflags=flags)
+        try:
+            rc = proc.wait(timeout=45)
+        except subprocess.TimeoutExpired:
+            proc.kill(); proc.wait(timeout=5); raise AssertionError("detached fixture runner timed out")
+    (root / "runner-result.json").write_text(json.dumps({"pid": proc.pid, "returncode": rc}), encoding="utf-8")
+    return rc
 
 
 def minimal_surf_config(path: Path) -> None:
@@ -103,7 +204,7 @@ def test_local_dev_restores_git_bash_tool_path() -> None:
 def test_local_dev_aligns_docker_supervisor_readiness_timeout() -> None:
     script = read_script("local_dev.bash")
 
-    assert 'READY_TIMEOUT_SECONDS="${SURFGYM_LOCAL_READY_TIMEOUT_SECONDS:-360}"' in script
+    assert 'READY_TIMEOUT_SECONDS="${SURFGYM_LOCAL_READY_TIMEOUT_SECONDS:-480}"' in script
     assert 'STACK_READY_TIMEOUT_SECONDS="$READY_TIMEOUT_SECONDS"' in script
 
 
@@ -111,17 +212,19 @@ def test_local_dev_uses_source_neutral_run_owned_static_host_artifacts() -> None
     script = read_script("local_dev.bash")
     fixture = read_script("fixture_launch.bash")
 
-    assert '.runtime/static-sites' in script
+    assert ".runtime/static-sites" in script
     assert "surfgym_fixture.local_static_host" in script
     assert "cua_hub_deploy" not in script
-    assert 'SURFGYM_STATIC_STATE_DIR' in script
-    assert 'SURFGYM_FIXTURE_CADDYFILE' in script
-    assert 'SURFGYM_STATIC_PORTS_FILE' in script
+    assert "SURFGYM_STATIC_STATE_DIR" in script
+    assert "SURFGYM_FIXTURE_CADDYFILE" in script
+    assert "SURFGYM_STATIC_PORTS_FILE" in script
     assert "ports != expected" in script
     assert "ports.json does not match the local static-site contract" in script
     assert 'exec caddy run --config "$SURFGYM_FIXTURE_CADDYFILE"' in fixture
     assert 'if [[ -z "${SURFGYM_FIXTURE_CADDYFILE:-}" ]]' in fixture
-    assert 'exec env MAIN_PORT="$FIXTURE_MAIN_PORT" pnpm run serve' in fixture
+    assert (
+        'exec env MAIN_PORT="$FIXTURE_MAIN_PORT" WORD_PORT="$WORD_PORT" pnpm run serve' in fixture
+    )
 
 
 def test_local_dev_prefers_repository_venvs_and_probes_runtime_imports(
@@ -160,6 +263,17 @@ def test_component_launchers_use_configured_runtime_python() -> None:
         script = read_script(name)
         assert 'exec env PYTHONUNBUFFERED=1 "$RUNTIME_PYTHON" -m' in script
         assert "exec env PYTHONUNBUFFERED=1 python -m" not in script
+
+    local_dev = read_script("local_dev.bash")
+    surf_launch = local_dev.split('printf \'Starting SurfGym components', 1)[1]
+    assert 'PYTHON_BIN="$PYTHON_BIN"' in surf_launch.split(
+        'bash "$SCRIPT_DIR/all_launch.bash"', 1
+    )[0]
+
+
+def test_local_dev_normalizes_windows_static_site_url_lines() -> None:
+    script = read_script("local_dev.bash")
+    assert 'url="${url%$\'\\r\'}"' in script
 
 
 @pytest.mark.skipif(os.name != "nt", reason="PowerShell to Git Bash is Windows-specific")
@@ -223,9 +337,24 @@ def test_all_launch_records_identity_and_all_stop_consumes_pid_file(tmp_path: Pa
         "process_identity.sh",
         "setting.sh",
     )
-    for component in ("gateway", "wavepool", "fixture"):
+    helper = scripts / "native_component_helper.py"
+    helper.write_text(
+        "import json, os, sys, time\n"
+        "from pathlib import Path\n"
+        "try:\n    import psutil\nexcept ImportError:\n    psutil = None\n"
+        "p = psutil.Process() if psutil else None\n"
+        "payload = {'component': sys.argv[1], 'pid': os.getpid(), 'ppid': os.getppid(), "
+        "'create_time': p.create_time() if p else None}\n"
+        "Path(os.environ['NATIVE_AUDIT_DIR']).joinpath(sys.argv[1] + '.json').write_text(json.dumps(payload), encoding='utf-8')\n"
+        "time.sleep(60)\n",
+        encoding="utf-8",
+    )
+    audit_dir = surf / "native-audit"
+    audit_dir.mkdir()
+    for component in ("gateway", "wavepool", "fixture", "travelhub"):
         write_executable(
-            scripts / f"{component}_launch.bash", "#!/usr/bin/env bash\nexec sleep 60\n"
+            scripts / f"{component}_launch.bash",
+            f"#!/usr/bin/env bash\nexec \"$TEST_NATIVE_PYTHON\" \"$(dirname \"$0\")/native_component_helper.py\" {component}\n",
         )
     config = surf / "config.json"
     minimal_surf_config(config)
@@ -234,18 +363,175 @@ def test_all_launch_records_identity_and_all_stop_consumes_pid_file(tmp_path: Pa
         "SURFGYM_CONFIG": str(config),
         "SURFGYM_PID_FILE": str(pid_file),
         "SURFGYM_STOP_GRACE_SECONDS": "1",
+        "TEST_NATIVE_PYTHON": Path(os.sys.executable).as_posix(),
+        "NATIVE_AUDIT_DIR": str(audit_dir),
     }
 
-    launched = run_bash(surf, "bash scripts/all_launch.bash", env=env)
-    assert launched.returncode == 0, launched.stderr
-    records = [line.split(maxsplit=3) for line in pid_file.read_text().splitlines()]
-    assert len(records) == 3
-    assert all(len(record) == 4 for record in records)
-    assert all(record[2].startswith(("linux:", "windows:")) for record in records)
+    # This is deliberately outside all_launch's job and process group.  A
+    # recorded identity must never cause all_stop to reach it.
+    sentinel = subprocess.Popen(
+        [os.sys.executable, "-c", "import time; time.sleep(60)"],
+        cwd=surf,
+        start_new_session=True,
+    )
+    try:
+        launch_root = surf / "launch-runner"
+        launch_root.mkdir()
+        assert run_bash_detached_to_files(
+            surf, "bash scripts/all_launch.bash", env=env, root=launch_root
+        ) == 0
+        records = [line.split(maxsplit=3) for line in pid_file.read_text().splitlines()]
+        assert len(records) == 4
+        assert {record[0] for record in records} == {
+            "gateway", "wavepool", "fixture", "travelhub",
+        }
+        assert all(len(record) == 4 for record in records)
+        assert all(record[2].startswith(("linux:", "windows:")) for record in records)
+        wait_for_file(audit_dir / "gateway.json")
+        native = {path.stem: json.loads(path.read_text(encoding="utf-8")) for path in audit_dir.glob("*.json")}
+        assert set(native) == {"gateway", "wavepool", "fixture", "travelhub"}
 
-    stopped = run_bash(surf, "bash scripts/all_stop.bash run.pids", env=env)
-    assert stopped.returncode == 0, stopped.stderr
-    assert not pid_file.exists()
+        audit = {
+            "pytest_pid": os.getpid(), "sentinel_pid": sentinel.pid,
+            "records": records, "msys_ps": [], "native": native,
+        }
+        for name, pid, token, _ in records:
+            observed = run_bash(surf, f"ps -p {pid}", env=env)
+            audit["msys_ps"].append({"pid": pid, "token": token, "stdout": observed.stdout})
+            assert str(os.getpid()) != pid
+            assert str(sentinel.pid) not in token
+            if token.startswith("windows:"):
+                recorded_windows_pid = int(token.split(":", 2)[1])
+                assert recorded_windows_pid not in {os.getpid(), sentinel.pid}
+                assert native[name]["ppid"] == recorded_windows_pid
+        (surf / "all-launch-target-audit.json").write_text(json.dumps(audit, indent=2), encoding="utf-8")
+
+        stop_root = surf / "stop-runner"
+        stop_root.mkdir()
+        assert run_bash_detached_to_files(
+            surf, "bash scripts/all_stop.bash run.pids", env=env, root=stop_root
+        ) == 0
+        assert not pid_file.exists()
+        assert sentinel.poll() is None
+        assert windows_process_exists(str(sentinel.pid))
+    finally:
+        if pid_file.exists():
+            run_bash_detached_to_files(
+                surf, "bash scripts/all_stop.bash run.pids", env=env, root=surf / "cleanup-runner"
+            )
+        stop_test_process(sentinel)
+
+
+def test_travelhub_launcher_fails_before_node_when_build_is_missing(tmp_path: Path) -> None:
+    surf = tmp_path / "surf"
+    scripts = surf / "scripts"
+    copy_scripts(scripts, "travelhub_launch.bash", "setting.sh")
+    config = surf / "config.json"
+    minimal_surf_config(config)
+
+    launched = run_bash(
+        surf,
+        "bash scripts/travelhub_launch.bash",
+        env={"SURFGYM_CONFIG": str(config), "NODE_BIN": "must-not-run"},
+    )
+
+    assert launched.returncode == 2
+    assert "TravelHub production build is missing" in launched.stderr
+    assert "cannot find Node.js" not in launched.stderr
+
+
+def test_travelhub_launcher_execs_node_as_the_owned_process(tmp_path: Path) -> None:
+    surf = tmp_path / "surf"
+    scripts = surf / "scripts"
+    copy_scripts(
+        scripts,
+        "travelhub_launch.bash",
+        "all_stop.bash",
+        "process_identity.sh",
+        "setting.sh",
+    )
+    config = surf / "config.json"
+    minimal_surf_config(config)
+
+    travelhub = (
+        surf
+        / "packages"
+        / "surfgym-travel-ad-hub"
+        / "src"
+        / "surfgym_travel_ad_hub"
+    )
+    (travelhub / ".next").mkdir(parents=True)
+    (travelhub / ".next" / "BUILD_ID").write_text("test-build\n", encoding="utf-8")
+    next_cli = travelhub / "node_modules" / "next" / "dist" / "bin" / "next"
+    next_cli.parent.mkdir(parents=True)
+    next_cli.write_text(
+        """const fs = require('fs');
+fs.writeFileSync(process.env.OBSERVATION_FILE, JSON.stringify({pid: process.pid, argv: process.argv.slice(2)}));
+setInterval(() => {}, 1000);
+""",
+        encoding="utf-8",
+    )
+    observation = surf / "travelhub-observation.json"
+    pid_file = surf / "travelhub.pids"
+    launcher_log = surf / "travelhub-launcher.log"
+    env = {
+        "SURFGYM_CONFIG": str(config),
+        "NODE_BIN": str(Path(shutil.which("node") or "node").resolve()),
+        "NPM_BIN": "must-not-run",
+        "OBSERVATION_FILE": str(observation),
+        # This is a host-process test boundary, not a service timeout. On
+        # loaded Windows hosts Node's native-process transition can outlast a
+        # one-second grace interval. all_stop still verifies identity before
+        # every signal and fails closed if that identity cannot be proven.
+        "SURFGYM_STOP_GRACE_SECONDS": "5",
+    }
+
+    launched = run_bash(
+        surf,
+        """source scripts/process_identity.sh
+nohup bash scripts/travelhub_launch.bash > travelhub-launcher.log 2>&1 &
+pid=$!
+identity=$(capture_process_identity_after_exec "$pid")
+printf 'travelhub %s %s ignored.log\n' "$pid" "$identity" > travelhub.pids
+""",
+        env=env,
+        start_new_session=True,
+    )
+    assert launched.returncode == 0, launched.stderr
+    sentinel = subprocess.Popen(
+        [os.sys.executable, "-c", "import time; time.sleep(60)"],
+        cwd=surf,
+        start_new_session=True,
+    )
+    try:
+        try:
+            wait_for_file(observation)
+        except AssertionError as exc:
+            record_text = pid_file.read_text(encoding="utf-8") if pid_file.exists() else "<missing>"
+            log_text = launcher_log.read_text(encoding="utf-8", errors="replace") if launcher_log.exists() else "<missing>"
+            raise AssertionError(
+                f"TravelHub did not publish observation; pid_record={record_text!r}; "
+                f"launcher_log={log_text!r}"
+            ) from exc
+        observed = json.loads(observation.read_text(encoding="utf-8"))
+        record = pid_file.read_text(encoding="utf-8").split()
+        assert observed["argv"] == ["start", "-p", "3002"]
+        process_identity_matches = run_bash(
+            surf,
+            f'source scripts/process_identity.sh; process_identity_matches "{record[1]}" "{record[2]}"',
+            env=env,
+        )
+        assert process_identity_matches.returncode == 0, process_identity_matches.stderr
+
+        stopped = run_bash(surf, "bash scripts/all_stop.bash travelhub.pids", env=env)
+        assert stopped.returncode == 0, stopped.stderr
+        assert not pid_file.exists()
+        assert sentinel.poll() is None, "all_stop signalled a foreign test sentinel"
+    finally:
+        if pid_file.exists():
+            cleanup = run_bash(surf, "bash scripts/all_stop.bash travelhub.pids", env=env)
+            assert cleanup.returncode == 0, cleanup.stderr
+        stop_test_process(sentinel)
 
 
 @pytest.mark.skipif(os.name != "nt", reason="MSYS native PID transitions are Windows-specific")
@@ -280,6 +566,7 @@ exec "$NATIVE_PYTHON" -c 'import os, time; from pathlib import Path; Path(os.env
         """source scripts/process_identity.sh
 nohup bash scripts/delayed_native.bash >/dev/null 2>&1 &
 pid=$!
+while [[ ! -s "$FINAL_WINPID_FILE" ]]; do sleep 0.05; done
 identity=$(capture_process_identity_after_exec "$pid")
 printf 'gateway %s %s ignored.log\n' "$pid" "$identity" > run.pids
 """,
@@ -313,9 +600,10 @@ def test_all_stop_refuses_live_pid_with_wrong_identity(tmp_path: Path) -> None:
         [
             bash_executable(),
             "-lc",
-            f"sleep 60 & child=$!; printf '%s' \"$child\" > '{child_record.as_posix()}'; wait \"$child\"",
+            f"printf '%s' \"$$\" > '{child_record.as_posix()}'; exec '{Path(os.sys.executable).as_posix()}' -c 'import time; time.sleep(60)'",
         ],
         cwd=surf,
+        start_new_session=True,
     )
     try:
         wait_for_file(child_record)
@@ -333,10 +621,8 @@ def test_all_stop_refuses_live_pid_with_wrong_identity(tmp_path: Path) -> None:
         assert pid_file.exists()
         assert run_bash(surf, f"kill -0 {child_pid}").returncode == 0
     finally:
-        if child_record.exists():
-            child_pid = child_record.read_text(encoding="utf-8")
-            run_bash(surf, f"kill -TERM {child_pid} 2>/dev/null || true")
-        owner.wait(timeout=5)
+        stop_test_process(owner)
+        assert owner.poll() is not None
 
 
 def make_local_dev_sandbox(
@@ -413,10 +699,10 @@ source "$(dirname "$0")/process_identity.sh"
 mkdir -p "$(dirname "$SURFGYM_PID_FILE")"
 : > "$SURFGYM_PID_FILE"
 printf 'surf=%s\n' "$SURFGYM_CONFIG" >> "$STUB_PROPAGATION"
-for name in gateway wavepool fixture; do
+for name in gateway wavepool fixture travelhub; do
   sleep 60 >/dev/null 2>&1 &
   pid=$!
-  token=$(process_identity_token "$pid")
+  token=$(capture_process_identity_after_exec "$pid")
   printf '%s %s %s %s.log\n' "$name" "$pid" "$token" "$name" >> "$SURFGYM_PID_FILE"
 done
 """,
@@ -432,7 +718,22 @@ set -euo pipefail
 if [[ "${1:-}" == "-" ]]; then
   config_path="$2"
   if [[ "$config_path" == */ports.json ]]; then
-    echo http://127.0.0.1:8051
+    while IFS=: read -r key port; do printf '%s\thttp://127.0.0.1:%s\n' "$key" "$port"; done <<'PORTS'
+GITHUB:8036
+GMAIL:8038
+HUBSPOT:8050
+INSTACART:8051
+INSTAGRAM:8052
+JIRA:8053
+LINKEDIN:8057
+MICROSOFT_TEAMS:8062
+PINTEREST:8070
+SHOPIFY_ADMIN:8077
+STRIPE_DASHBOARD:8079
+TRELLO:8082
+TWITTER:8084
+WECHAT:8088
+PORTS
     exit 0
   fi
   grep -q '"compose_project": "test-stack"' "$config_path"
@@ -463,7 +764,7 @@ if [[ "$*" == *"-m surfgym_fixture.local_static_host"* ]]; then
   if ((check_only == 0)); then
     mkdir -p "$output_dir"
     printf '{}\n' > "$output_dir/Caddyfile"
-    printf '{"INSTACART":"http://127.0.0.1:8051"}\n' > "$output_dir/ports.json"
+    printf '%s\n' '{"GITHUB":"http://127.0.0.1:8036","GMAIL":"http://127.0.0.1:8038","HUBSPOT":"http://127.0.0.1:8050","INSTACART":"http://127.0.0.1:8051","INSTAGRAM":"http://127.0.0.1:8052","JIRA":"http://127.0.0.1:8053","LINKEDIN":"http://127.0.0.1:8057","MICROSOFT_TEAMS":"http://127.0.0.1:8062","PINTEREST":"http://127.0.0.1:8070","SHOPIFY_ADMIN":"http://127.0.0.1:8077","STRIPE_DASHBOARD":"http://127.0.0.1:8079","TRELLO":"http://127.0.0.1:8082","TWITTER":"http://127.0.0.1:8084","WECHAT":"http://127.0.0.1:8088"}' > "$output_dir/ports.json"
   fi
   exit 0
 fi
@@ -492,7 +793,10 @@ fi
     shutil.copy2(bin_dir / "python-stub", bin_dir / "docker-python-stub")
     (bin_dir / "docker-python-stub").chmod(0o755)
     curl_status = 1 if fail_surf_readiness else 0
-    write_executable(bin_dir / "curl", f"#!/usr/bin/env bash\nexit {curl_status}\n")
+    write_executable(
+        bin_dir / "curl",
+        f'#!/usr/bin/env bash\nprintf \'%s\\n\' "$*" >> "$STUB_CURL_ARGS"\nexit {curl_status}\n',
+    )
     write_executable(
         bin_dir / "docker",
         '#!/usr/bin/env bash\nprintf \'%s\n\' "$*" >> "$STUB_DOCKER_ARGS"\n',
@@ -521,6 +825,7 @@ exit 2
         "STUB_DOCKER_ARGS": str(surf / "docker.args"),
         "STUB_PROPAGATION": str(surf / "propagation.log"),
         "STUB_RECONCILE_ARGS": str(surf / "reconcile.args"),
+        "STUB_CURL_ARGS": str(surf / "curl.args"),
         "SURFGYM_LOCAL_READY_TIMEOUT_SECONDS": "5",
         "SURFGYM_LOCAL_READY_POLL_SECONDS": "0.05",
         "SURFGYM_STOP_GRACE_SECONDS": "1",
@@ -564,6 +869,10 @@ def test_local_dev_up_waits_for_readiness_and_down_stops_recorded_processes(tmp_
     assert values["compose"].endswith("/.runtime/config/docker.json")
     assert values["surf"].endswith("/.runtime/config/surfgym.json")
     assert values["controls_timeout"] == values["gateway_timeout"] == "5"
+    readiness_urls = (surf / "curl.args").read_text(encoding="utf-8")
+    assert "http://127.0.0.1:3000/" in readiness_urls
+    assert "http://127.0.0.1:3001/" in readiness_urls
+    assert "http://127.0.0.1:3002/health" in readiness_urls
 
     stopped = run_bash(
         surf,
@@ -604,9 +913,10 @@ def test_local_dev_down_stops_delayed_native_docker_supervisor(tmp_path: Path) -
     initial_winpid = initial_winpid_file.read_text(encoding="utf-8").strip()
     final_winpid = final_winpid_file.read_text(encoding="utf-8").strip()
     assert initial_winpid != final_winpid
+    assert windows_process_exists(final_winpid)
     matched = run_bash(
         surf,
-        f'source scripts/process_identity.sh; process_identity_matches "{controls_pid}" "{controls_identity}"',
+        f'export PATH="$PWD/bin:$PATH"; source scripts/process_identity.sh; process_identity_matches "{controls_pid}" "{controls_identity}"',
         env=env,
     )
     assert matched.returncode == 0, matched.stderr
@@ -620,6 +930,7 @@ def test_local_dev_down_stops_delayed_native_docker_supervisor(tmp_path: Path) -
     assert stopped.returncode == 0, stopped.stderr
     assert not controls_pid_file.exists()
     assert run_bash(surf, f"kill -0 {controls_pid} 2>/dev/null").returncode != 0
+    assert not windows_process_exists(final_winpid)
 
 
 def test_local_dev_rolls_back_when_supervisor_exits_before_readiness(tmp_path: Path) -> None:
@@ -658,7 +969,15 @@ subprocess.run([sys.argv[1]], check=True)
 PY
 """,
     )
-    env["DOCKER_PYTHON_BIN"] = Path(os.sys.executable).as_posix()
+    probe_then_python = surf / "bin" / "probe-then-python"
+    write_executable(
+        probe_then_python,
+        f'''#!/usr/bin/env bash
+if [[ "${{1:-}}" == "-c" ]]; then exit 0; fi
+exec "{Path(os.sys.executable).as_posix()}" "$@"
+''',
+    )
+    env["DOCKER_PYTHON_BIN"] = probe_then_python.as_posix()
 
     started = run_bash(
         surf,
@@ -689,9 +1008,10 @@ def test_local_dev_rolls_back_when_http_readiness_never_succeeds(tmp_path: Path)
 
     assert started.returncode != 0
     assert (
-        "Timed out waiting for SurfGym gateway, WavePool, fixture, and local static endpoints"
+        "Timed out waiting for SurfGym gateway, WavePool, local web apps, and static endpoints"
         in started.stderr
     )
+    assert "Last failing readiness gate: spreadsheet (http://127.0.0.1:3000/)" in started.stderr
     assert "rolling back recorded resources" in started.stderr
     assert not (surf / "logs" / "nohup" / "all_launch_local_dev.pids").exists()
     assert not (docker / "src" / "runtime" / "pids" / "integrated_controls.pid").exists()
@@ -863,7 +1183,7 @@ def test_local_dev_down_discovers_repository_venvs_without_import_probes(
 
     stopped = run_bash(
         surf,
-        "bash scripts/local_dev.bash down --docker-repo ../docker",
+        'export PATH="$PWD/bin:$PATH"; bash scripts/local_dev.bash down --docker-repo ../docker',
         env=env,
     )
 

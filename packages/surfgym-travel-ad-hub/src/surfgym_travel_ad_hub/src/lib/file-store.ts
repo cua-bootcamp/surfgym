@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import fs from "fs/promises";
 import path from "path";
 import mime from "mime-types";
+import { withOpenSession } from "./session-lifecycle";
 
 const UPLOADS_DIR = path.join(process.cwd(), "uploads");
 
@@ -61,6 +62,42 @@ export const fileStore = {
     file: File,
     userId: string
   ): Promise<FileMetadata> {
+    return withOpenSession(userId, () => saveUploadUnchecked(file, userId));
+  },
+
+  async listFiles(userId: string): Promise<FileMetadata[]> {
+    return withOpenSession(userId, () => listFilesUnchecked(userId));
+  },
+
+  async getFilePath(userId: string, filename: string): Promise<string | null> {
+    return withOpenSession(userId, () => getFilePathUnchecked(userId, filename));
+  },
+
+  async readFile(userId: string, filename: string): Promise<Buffer | null> {
+    return withOpenSession(userId, async () => {
+      const targetPath = await getFilePathUnchecked(userId, filename);
+      return targetPath ? fs.readFile(targetPath) : null;
+    });
+  },
+
+  async deleteUserFiles(userId: string): Promise<void> {
+    await withOpenSession(userId, () => deleteUserFilesUnchecked(userId));
+  },
+
+  async deleteUserFilesForFinalization(userId: string): Promise<void> {
+    await deleteUserFilesUnchecked(userId);
+  },
+
+  // Get filename display name (strip the UUID prefix)
+  getDisplayName(filename: string): string {
+    if (filename.includes("__")) {
+      return filename.split("__", 2)[1];
+    }
+    return filename;
+  },
+};
+
+async function saveUploadUnchecked(file: File, userId: string): Promise<FileMetadata> {
     await ensureUploadsDir();
     const userDir = await ensureUserDir(userId);
 
@@ -83,9 +120,9 @@ export const fileStore = {
       url: buildUrl(storedName),
       filename: storedName,
     };
-  },
+}
 
-  async listFiles(userId: string): Promise<FileMetadata[]> {
+async function listFilesUnchecked(userId: string): Promise<FileMetadata[]> {
     const userDir = getUserDir(userId);
 
     try {
@@ -115,9 +152,9 @@ export const fileStore = {
     }
 
     return results;
-  },
+}
 
-  async getFilePath(userId: string, filename: string): Promise<string | null> {
+async function getFilePathUnchecked(userId: string, filename: string): Promise<string | null> {
     const safeFn = path.basename(filename);
     if (safeFn !== filename) {
       return null;
@@ -132,9 +169,9 @@ export const fileStore = {
     } catch {
       return null;
     }
-  },
+}
 
-  async deleteUserFiles(userId: string): Promise<void> {
+async function deleteUserFilesUnchecked(userId: string): Promise<void> {
     const userDir = getUserDir(userId);
 
     try {
@@ -151,13 +188,4 @@ export const fileStore = {
     if (!resolvedUserDir.startsWith(resolvedUploadsDir + path.sep)) return;
 
     await fs.rm(resolvedUserDir, { recursive: true, force: true });
-  },
-
-  // Get filename display name (strip the UUID prefix)
-  getDisplayName(filename: string): string {
-    if (filename.includes("__")) {
-      return filename.split("__", 2)[1];
-    }
-    return filename;
-  },
-};
+}

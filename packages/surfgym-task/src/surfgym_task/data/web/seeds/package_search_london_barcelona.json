@@ -1,7 +1,7 @@
 {
   "instruction": "Search for a Flight + Hotel package from London to Barcelona.",
   "website": {
-    "base": "http://localhost:3200/flight-hotel"
+    "base": "http://localhost:3002/flight-hotel"
   },
   "states": [
   [

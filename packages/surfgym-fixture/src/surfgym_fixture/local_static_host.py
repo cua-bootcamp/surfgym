@@ -10,9 +10,17 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Mapping, Sequence
 
-from surfgym_contracts.local_static_sites import LOCAL_STATIC_SITES, LocalStaticSite
+from surfgym_contracts.local_static_sites import (
+    LOCAL_STATIC_SITES,
+    SPREADSHEET_PORT,
+    WORD_PORT,
+    LocalStaticSite,
+)
 
-FIXTURE_PORT = 3000
+OFFICE_ENTRIES = (
+    ("spreadsheet", SPREADSHEET_PORT),
+    ("word", WORD_PORT),
+)
 
 
 @dataclass(frozen=True)
@@ -62,17 +70,22 @@ http://127.0.0.1:{site.port} {{
 
 
 def render_caddyfile(inputs: RenderInputs) -> str:
-    fixture = f"""\
-http://127.0.0.1:{FIXTURE_PORT} {{
+    fixture = "\n".join(
+        f"""\
+http://127.0.0.1:{port} {{
 \troot * {_caddy_path(inputs.fixture_dist)}
 \tencode zstd gzip
 \theader Cache-Control \"no-store\"
-\ttry_files {{path}} {{path}}/index.html =404
+\t@root path /
+\trewrite @root /{app}/index.html
+\ttry_files {{path}} /{app}/index.html
 \tfile_server {{
 \t\tprecompressed zstd gzip
 \t}}
 }}
 """
+        for app, port in OFFICE_ENTRIES
+    )
     sites = "\n".join(
         render_site_block(
             site,
@@ -97,9 +110,10 @@ def render_ports() -> dict[str, str]:
 
 def validate_builds(inputs: RenderInputs) -> None:
     missing: list[str] = []
-    fixture_index = inputs.fixture_dist / "index.html"
-    if not fixture_index.is_file():
-        missing.append(f"fixture ({fixture_index})")
+    for app, _port in OFFICE_ENTRIES:
+        fixture_index = inputs.fixture_dist / app / "index.html"
+        if not fixture_index.is_file():
+            missing.append(f"fixture {app} ({fixture_index})")
     for site in LOCAL_STATIC_SITES:
         index = inputs.repo_root / site.source_dir / "dist" / "index.html"
         if not index.is_file():
@@ -161,7 +175,9 @@ def write_runtime_files(inputs: RenderInputs, output_dir: Path) -> None:
             except OSError as exc:
                 rollback_error = exc
         if rollback_error is not None:
-            raise RuntimeError("failed to restore the previous static-host generation") from rollback_error
+            raise RuntimeError(
+                "failed to restore the previous static-host generation"
+            ) from rollback_error
         raise
     finally:
         for temporary, _ in staged:

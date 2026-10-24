@@ -1,7 +1,7 @@
 {
   "instruction": "Search hotels in Amsterdam, set the review score to Very good: 8+ and enable Genius discounts, without leaving the results page.",
   "website": {
-    "base": "http://localhost:3200/search",
+    "base": "http://localhost:3002/search",
     "param": {
       "destination": "Amsterdam"
     }

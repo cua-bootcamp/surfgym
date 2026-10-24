@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { createResponseWithCookie, getUserId } from "@/lib/cookies";
 import { consumeTask052ClickProof } from "@/lib/task052-click-sessions";
 import { patchTask052Flow } from "@/lib/task052-flow";
+import { assertSessionOpen, isSessionFinalized } from "@/lib/session-lifecycle";
 import {
   TASK052_CLIENT_HEADER_NAME,
   TASK052_CLIENT_HEADER_VALUE,
@@ -10,6 +11,8 @@ import {
 // POST /api/task052/ad-closed - Record closing the search-page ad popup.
 export async function POST(request: NextRequest) {
   const userId = await getUserId(request);
+  try {
+    await assertSessionOpen(userId);
   if (
     request.headers.get(TASK052_CLIENT_HEADER_NAME) !==
     TASK052_CLIENT_HEADER_VALUE
@@ -51,4 +54,8 @@ export async function POST(request: NextRequest) {
     { allowed: true, next_click_challenge: proofResult.next_challenge, flow },
     userId
   );
+  } catch (error) {
+    if (isSessionFinalized(error)) return createResponseWithCookie({ detail: "SurfGym session finalized" }, userId, 410);
+    throw error;
+  }
 }

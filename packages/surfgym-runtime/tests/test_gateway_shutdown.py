@@ -25,7 +25,7 @@ def _config(tmp_path: Path) -> Config:
             port=58000,
             gateway_workers=2,
             gateway_in_flight=2,
-            verl_timeout=5.0,
+            agent_request_timeout=5.0,
             artifact_reward_timeout=40.0,
             in_flight_timeout=1.0,
             deadline_margin=0.1,
@@ -107,9 +107,13 @@ def test_server_selects_artifact_budget_from_typed_reward_request_and_drains_exe
         assert artifact.status_code == 200
 
     assert remaining[0][0] is False
-    assert 4.0 < remaining[0][1] <= 4.9
+    assert 4.0 < remaining[0][1]
+    # `deadline_at` is formed by floating-point subtraction; retain the 4.9 s
+    # budget ceiling while allowing only representation-scale rounding.
+    assert remaining[0][1] <= 4.9 + 1e-9
     assert remaining[1][0] is True
-    assert 39.0 < remaining[1][1] <= 39.9
+    assert 39.0 < remaining[1][1]
+    assert remaining[1][1] <= 39.9 + 1e-9
     assert events[-3:] == ["executor:True:False", "service-close", "store"]
 
 

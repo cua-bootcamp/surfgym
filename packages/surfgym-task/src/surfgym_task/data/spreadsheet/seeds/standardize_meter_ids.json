@@ -1,6 +1,6 @@
 {
   "instruction": "The meter migration register already contains each site's legacy meter number. Copy those numbers into the \"New 8-Digit Meter ID\" column, then display every copied number as exactly eight digits with leading zeros. Keep the site names, legacy numbers, and all cells outside the destination column unchanged.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Site"},

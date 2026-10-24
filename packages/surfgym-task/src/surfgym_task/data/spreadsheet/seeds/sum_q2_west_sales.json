@@ -1,6 +1,6 @@
 {
   "instruction": "Sum sales for the West region in Q2. Enter the SUMIFS formula in H2 and do not modify the quarterly sales table.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Quarter"},

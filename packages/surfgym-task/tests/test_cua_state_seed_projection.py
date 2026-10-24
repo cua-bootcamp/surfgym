@@ -185,7 +185,7 @@ def test_published_cohort_has_expected_contract_and_hashes() -> None:
     assert summary.initial_atom_count == 366
     assert summary.terminal_criteria_count == 157
     assert summary.aggregate_seed_sha256 == (
-        "b9a34c451ce7577b16d05fb3adf7b7583e5c3e309a4684881cb18a50e7022fa1"
+        "df5c7d4e96f5fc72481b722f29ee63cbff5877d8ed2a7b38fbb37d491a12aedd"
     )
     assert len(summary.seed_names) == len(set(summary.seed_names)) == 42
     assert not (DATA_ROOT / "web" / "out" / "tasks.sqlite3").exists()

@@ -19,8 +19,8 @@ run_augmentation() {
   WEBSITE="$website" bash "$AUGMENTATION_RUN" "$seed_dir"
 }
 
-run_augmentation "spreadsheet" "$SPREADSHEET_DIR" "http://localhost:3000/spreadsheet"
-run_augmentation "word" "$WORD_DIR" "http://localhost:3000/word"
+run_augmentation "spreadsheet" "$SPREADSHEET_DIR" "http://localhost:3000"
+run_augmentation "word" "$WORD_DIR" "http://localhost:3001"
 
 mkdir -p "$OUT_DIR"
 

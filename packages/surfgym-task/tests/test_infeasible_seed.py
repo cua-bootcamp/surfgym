@@ -231,7 +231,7 @@ def test_transformed_word_collaboration_seed_generates_one_infeasible_task(
     assert task.task_id == _WORD_COLLABORATION_TASK_ID
     assert task.instruction == _WORD_COLLABORATION_INSTRUCTION
     assert task.evaluation.mode == "infeasible"
-    assert task.website[0].url == "http://localhost:3000/word"
+    assert task.website[0].url == "http://localhost:3001"
     assert len(task.lifecycle_hooks.allocate) == 1
     assert task.lifecycle_hooks.allocate[0].timing == "after"
     assert task.lifecycle_hooks.allocate[0].script == (

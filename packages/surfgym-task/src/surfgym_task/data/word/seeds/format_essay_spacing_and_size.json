@@ -1,6 +1,6 @@
 {
   "instruction": "Format this three-paragraph essay with single spacing for the introduction, double spacing for the body, and one-and-a-half spacing for the conclusion. Set the whole essay to 12 pt.",
-  "website": "http://localhost:3000/word",
+  "website": "http://localhost:3001",
   "domain": "word",
   "states": [
   [

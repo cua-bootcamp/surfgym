@@ -1,6 +1,6 @@
 {
   "instruction": "Use the value in B2 in the message in C2 and always show exactly two decimal places.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A2","property":"value"},"value":"Average duration"},

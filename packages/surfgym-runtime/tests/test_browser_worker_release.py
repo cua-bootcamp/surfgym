@@ -4,6 +4,7 @@ from types import SimpleNamespace
 import pytest
 from surfgym_contracts.task import Hook
 from surfgym_runtime.wavepool.instance.service import PlaywrightBrowserWorker
+from surfgym_runtime.wavepool.instance.session import ContextManager
 
 
 def test_release_retains_context_when_before_hook_fails_then_deletes_on_retry() -> None:
@@ -22,10 +23,10 @@ def test_release_retains_context_when_before_hook_fails_then_deletes_on_retry() 
 
     context = SimpleNamespace(operation_lock=asyncio.Lock())
     worker._run_hooks = run_hooks  # type: ignore[method-assign]
-    worker.ctx_manager = SimpleNamespace(
-        _delete_locked=delete_locked,
-        require_context=lambda _context_id: context,
-    )
+    manager = ContextManager(contexts_per_instance=1, vw=100, vh=100)
+    manager._contexts["context-id"] = context  # type: ignore[assignment]
+    manager._delete_locked = delete_locked  # type: ignore[method-assign]
+    worker.ctx_manager = manager
 
     with pytest.raises(RuntimeError, match="fixture bridge is unavailable"):
         asyncio.run(

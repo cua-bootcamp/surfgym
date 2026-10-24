@@ -160,6 +160,28 @@ describe("task052 click sessions", () => {
     expect(replayResult.ok).toBe(false);
   });
 
+  it("serializes concurrent proof consumption so one challenge has one winner", async () => {
+    const userId = createUserId();
+    const now = new Date("2026-01-01T00:00:00.000Z");
+    const keyPair = await webcrypto.subtle.generateKey(
+      { name: "ECDSA", namedCurve: "P-256" }, false, ["sign", "verify"]
+    );
+    const publicKey = await webcrypto.subtle.exportKey("jwk", keyPair.publicKey);
+    const pageToken = await createTask052PageToken(userId, { now });
+    const session = await createTask052ClickSession(userId, publicKey, pageToken, { now });
+    expect(session.ok).toBe(true);
+    if (!session.ok) return;
+
+    const proof = await createProof(keyPair.privateKey, session.session_id, session.challenge, "close_ad", {}, now);
+    const results = await Promise.all([
+      consumeTask052ClickProof(userId, proof, "close_ad", {}, { now }),
+      consumeTask052ClickProof(userId, proof, "close_ad", {}, { now }),
+    ]);
+
+    expect(results.filter((result) => result.ok)).toHaveLength(1);
+    expect(results.filter((result) => !result.ok)).toHaveLength(1);
+  });
+
   it("requires a page token and lets a refreshed page replace the old session", async () => {
     const userId = createUserId();
     const now = new Date("2026-01-01T00:00:00.000Z");

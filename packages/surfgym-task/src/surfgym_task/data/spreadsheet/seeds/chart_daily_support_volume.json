@@ -1,6 +1,6 @@
 {
   "instruction": "Create a line chart from A1:B15 for the daily support volume. Use columns as the data orientation and set the chart title to Daily Support Volume.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Date"},

@@ -52,7 +52,7 @@ class ExistingTaskAssetTests(unittest.TestCase):
     def test_freeze_panes_task_is_a_runnable_canonical_asset(self):
         seed = read_seed("spreadsheet", "freeze_first_row_and_two_columns")
         self.assertEqual(seed.domain, "spreadsheet")
-        self.assertEqual(seed.website, "http://localhost:3000/spreadsheet")
+        self.assertEqual(seed.website, "http://localhost:3000")
         self.assertEqual(len(seed.states), 2)
         self.assertEqual(
             atom_pairs(seed),
@@ -65,7 +65,7 @@ class ExistingTaskAssetTests(unittest.TestCase):
     def test_three_paragraph_spacing_task_is_a_runnable_canonical_asset(self):
         seed = read_seed("word", "format_essay_spacing_and_size")
         self.assertEqual(seed.domain, "word")
-        self.assertEqual(seed.website, "http://localhost:3000/word")
+        self.assertEqual(seed.website, "http://localhost:3001")
         self.assertEqual(len(seed.states), 2)
         self.assertEqual(
             atom_pairs(seed),

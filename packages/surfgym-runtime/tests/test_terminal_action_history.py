@@ -241,7 +241,6 @@ class _ReleaseWorker:
 
 def test_reward_claim_blocks_later_action_and_cleans_up_once() -> None:
     service, session, _executed = _service_with_session()
-    operation_lock = _install_observed_operation_lock(service)
     service.task_store = _TaskStore()
     service._release_worker = _ReleaseWorker()
     reward_entered = Event()
@@ -253,7 +252,7 @@ def test_reward_claim_blocks_later_action_and_cleans_up_once() -> None:
         release_reward.wait(timeout=2)
         return 1.0
 
-    service._compute_reward = compute_reward
+    service._evaluate_captured_reward = compute_reward
 
     reward_thread = Thread(
         target=lambda: service._handle_reward(
@@ -275,10 +274,12 @@ def test_reward_claim_blocks_later_action_and_cleans_up_once() -> None:
 
     action_thread = Thread(target=call_action)
     action_thread.start()
-    assert operation_lock.contended_acquire.wait(timeout=2)
+    # Evaluation is now local and runs after capture/release, so it must not
+    # retain the session operation lock or admit a late action.
+    action_thread.join(timeout=2)
+    assert not action_thread.is_alive()
     release_reward.set()
     reward_thread.join(timeout=2)
-    action_thread.join(timeout=2)
 
     assert len(service._release_worker.enqueued) == 1
     assert service._release_worker.enqueued == [session]
@@ -306,7 +307,7 @@ def test_action_first_finishes_before_reward_claim() -> None:
         return 0.5
 
     service._execute = execute
-    service._compute_reward = compute_reward
+    service._evaluate_captured_reward = compute_reward
     action_thread = Thread(
         target=lambda: results.append(
             service._handle_action(

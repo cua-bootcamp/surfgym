@@ -1,6 +1,6 @@
 {
   "instruction": "Calculate Gross Profit by subtracting every listed expense from Actual Sales, then create Year_Profit labels on Sheet2 using the year and integer gross profit.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Year"},

@@ -1,6 +1,6 @@
 {
   "instruction": "Create a pivot table on Sheet2 at A1 that sums Revenue with Promotion as the column field.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Promotion"},

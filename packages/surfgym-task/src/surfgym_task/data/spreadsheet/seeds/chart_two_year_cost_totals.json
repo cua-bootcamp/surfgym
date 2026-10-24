@@ -1,6 +1,6 @@
 {
   "instruction": "Create two column charts from the monthly cost totals, one for 2019 and one for 2020.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Year"},

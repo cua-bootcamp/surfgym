@@ -47,6 +47,9 @@ def create_app(config: Config):
     app = FastAPI(
         lifespan=lifespan,
     )
+    # Run-owned lifecycle observers attach to this already-created service;
+    # exposing it on application state does not alter request handling.
+    app.state.gateway_service = service
 
     async def health():
         return {"status": "ok"}
@@ -58,7 +61,7 @@ def create_app(config: Config):
         except ValidationError as exc:
             raise InvalidRequest("Invalid agent request.") from exc
 
-        request_timeout = gateway_config.verl_timeout
+        request_timeout = gateway_config.agent_request_timeout
         if isinstance(agent_request, RewardRequest) and agent_request.artifacts is not None:
             request_timeout = gateway_config.artifact_reward_timeout
         return await run_with_gateway_limit(

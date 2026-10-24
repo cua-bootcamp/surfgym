@@ -1,6 +1,6 @@
 {
   "instruction": "Complete the \"Trend\" column with one line sparkline per warehouse, using that row's Week 1 through Week 3 throughput values. Leave the warehouse labels and source readings unchanged.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "evaluation": {
     "mode": "infeasible"
   },

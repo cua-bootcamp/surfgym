@@ -1,6 +1,6 @@
 {
   "instruction": "Hide the entire inspection rows whose Submitted value is No. Keep rows marked Yes visible and do not delete data or apply a filter.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Inspection ID"},

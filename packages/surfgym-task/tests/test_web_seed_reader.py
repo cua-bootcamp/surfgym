@@ -19,7 +19,7 @@ def _write_seed(seeds_dir: Path, name: str, payload: dict[str, object]) -> None:
 def _criteria_payload(*, empty_start: bool | None = None) -> dict[str, object]:
     payload: dict[str, object] = {
         "instruction": "Open the requested attraction detail page.",
-        "website": "http://localhost:3200/attractions/searchresults.en-gb.html",
+        "website": "http://localhost:3002/attractions/searchresults.en-gb.html",
         "states": [
             [
                 {
@@ -47,7 +47,7 @@ def test_web_seed_reader_parses_criteria_and_llm(tmp_path: Path) -> None:
         "llm",
         {
             "instruction": "Complete the requested travel search.",
-            "website": "http://localhost:3200/flights/search",
+            "website": "http://localhost:3002/flights/search",
             "evaluation": {"mode": "llm"},
         },
     )

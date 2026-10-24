@@ -1,6 +1,6 @@
 {
   "instruction": "Create two pivot tables from the Summer Sales source data. Put both outputs on Sheet2, beginning at A1 and A8. Keep the two pivot outputs separate.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Region"},

@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Annotated, Awaitable, Callable, ParamSpec, TypeVar
 
 import uvicorn
-from fastapi import Body, FastAPI, status
+from fastapi import Body, FastAPI, Header, status
 from fastapi.responses import JSONResponse
 from surfgym_contracts.protocol.gateway_to_upstream import (
     ArtifactRequest,
@@ -29,6 +29,7 @@ from surfgym_contracts.protocol.upstream_to_gateway import (
 from surfgym_runtime.support import instance_logger, setup_logging
 from surfgym_runtime.wavepool.instance.error import InstanceError
 from surfgym_runtime.wavepool.instance.service import PlaywrightBrowserWorker
+from surfgym_runtime.wavepool.allocation_budget import parse_remaining_seconds
 
 _P = ParamSpec("_P")
 _T = TypeVar("_T")
@@ -38,11 +39,17 @@ def create_app(
     contexts_per_instance: int,
     headed: bool = False,
     ignore_https_errors: bool = False,
+    binding_cleanup_horizon_seconds: float = 720.0,
+    binding_cleanup_request_timeout_seconds: float = 360.0,
+    binding_cleanup_retry_interval_seconds: float = 2.0,
 ) -> FastAPI:
     worker = PlaywrightBrowserWorker(
         contexts_per_instance=contexts_per_instance,
         headed=headed,
         ignore_https_errors=ignore_https_errors,
+        binding_cleanup_horizon_seconds=binding_cleanup_horizon_seconds,
+        binding_cleanup_request_timeout_seconds=binding_cleanup_request_timeout_seconds,
+        binding_cleanup_retry_interval_seconds=binding_cleanup_retry_interval_seconds,
     )
 
     @asynccontextmanager
@@ -63,8 +70,24 @@ def create_app(
     async def allocate(
         context_id: str,
         request: Annotated[MasterAllocateRequest, Body()],
+        remaining_ms: Annotated[str | None, Header(alias="X-SurfGym-Allocate-Remaining-Ms")] = None,
     ):
-        await worker.allocate(context_id, request.websites, request.hooks)
+        try:
+            incoming_remaining_seconds = parse_remaining_seconds(remaining_ms)
+        except ValueError as exc:
+            raise InstanceError(str(exc), status.HTTP_400_BAD_REQUEST) from exc
+        allocate_args = (
+            context_id,
+            request.websites,
+            request.hooks,
+            request.cleanup_capability,
+        )
+        if incoming_remaining_seconds is None:
+            await worker.allocate(*allocate_args)
+        else:
+            await worker.allocate(
+                *allocate_args, incoming_remaining_seconds=incoming_remaining_seconds
+            )
         return InstanceAllocateResponse()
 
     @handle_instance_errors
@@ -80,7 +103,8 @@ def create_app(
         context_id: str,
         request: Annotated[ScreenshotRequest, Body()],
     ):
-        screenshot, x, y = await worker.screenshot(context_id)
+        async with worker.operation(context_id):
+            screenshot, x, y = await worker.screenshot(context_id)
         screenshot_b64 = base64.b64encode(screenshot.getvalue()).decode("ascii")
 
         return ScreenshotResponse(
@@ -95,7 +119,8 @@ def create_app(
         context_id: str,
         request: Annotated[ExecuteRequest, Body()],
     ):
-        await worker.execute(context_id, request.command)
+        async with worker.operation(context_id):
+            await worker.execute(context_id, request.command)
         return ExecuteResponse()
 
     @handle_instance_errors
@@ -104,9 +129,9 @@ def create_app(
         request: Annotated[ObserveRequest, Body()],
     ):
 
-        return ObserveResponse(
-            observation=await worker.observe(context_id, request.criteria, request.hooks)
-        )
+        async with worker.operation(context_id):
+            observation = await worker.observe(context_id, request.criteria, request.hooks)
+        return ObserveResponse(observation=observation)
 
     @handle_instance_errors
     async def artifact(
@@ -184,6 +209,9 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--contexts-per-instance", type=int, default=1)
     parser.add_argument("--headed", action="store_true")
     parser.add_argument("--ignore-https-errors", action="store_true")
+    parser.add_argument("--binding-cleanup-horizon-seconds", type=float, default=720.0)
+    parser.add_argument("--binding-cleanup-request-timeout-seconds", type=float, default=360.0)
+    parser.add_argument("--binding-cleanup-retry-interval-seconds", type=float, default=2.0)
     return parser.parse_args()
 
 
@@ -195,6 +223,9 @@ def launch():
             args.contexts_per_instance,
             headed=args.headed,
             ignore_https_errors=args.ignore_https_errors,
+            binding_cleanup_horizon_seconds=args.binding_cleanup_horizon_seconds,
+            binding_cleanup_request_timeout_seconds=args.binding_cleanup_request_timeout_seconds,
+            binding_cleanup_retry_interval_seconds=args.binding_cleanup_retry_interval_seconds,
         ),
         host=args.host,
         port=args.port,

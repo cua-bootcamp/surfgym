@@ -301,6 +301,26 @@ def test_runner_waits_for_one_idle_fixture_slot_before_start_and_after_reward(
     ]
 
 
+def test_runner_accepts_configured_multi_slot_fixture_readiness(tmp_path: Path) -> None:
+    health_transport = RecordingFixtureHealthTransport(
+        [{"slot_states": {"idle": 21, "resetting": 0, "busy": 0, "broken": 0}}]
+    )
+    runner = ChromeCuaRunner(
+        gateway_url="http://127.0.0.1:18000/",
+        fixture_health_url="http://127.0.0.1:53101/health",
+        expected_fixture_slots=21,
+        timeout_seconds=17.0,
+        output_dir=tmp_path,
+        transport=RecordingTransport([]),
+        health_transport=health_transport,
+    )
+
+    readiness = runner._wait_for_fixture_ready()
+
+    assert readiness["status"] == "ready"
+    assert readiness["polls"][0]["slot_states"]["idle"] == 21
+
+
 def test_runner_records_broken_fixture_health_in_failed_manifest(tmp_path: Path) -> None:
     """Fails if a broken slot aborts CUA without preserving the observed health state."""
     runner = ChromeCuaRunner(
@@ -580,6 +600,7 @@ def test_cli_exposes_local_runtime_and_evidence_inputs() -> None:
     assert completed.returncode == 0
     assert "--gateway-url" in completed.stdout
     assert "--fixture-health-url" in completed.stdout
+    assert "--expected-fixture-slots" in completed.stdout
     assert "--timeout-seconds" in completed.stdout
     assert "--plan" in completed.stdout
     assert "--provenance" in completed.stdout

@@ -1,6 +1,6 @@
 {
   "instruction": "Check whether the North and South monthly totals match. Enter the IF formula in F2 to show OK when B22 equals E22 and Review otherwise.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"North Month"},

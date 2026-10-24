@@ -151,6 +151,16 @@ def _create_valid_static_site_builds(surf_repo: Path) -> None:
         index.write_text("<!doctype html>", encoding="utf-8")
 
 
+def _create_valid_local_web_builds(surf_repo: Path) -> None:
+    for relative_path in operator_config.FIXTURE_ENTRY_PATHS:
+        index = surf_repo / relative_path
+        index.parent.mkdir(parents=True, exist_ok=True)
+        index.write_text("<!doctype html>", encoding="utf-8")
+    travel_build = surf_repo / operator_config.TRAVELHUB_BUILD_PATH
+    travel_build.parent.mkdir(parents=True, exist_ok=True)
+    travel_build.write_text("build-id", encoding="utf-8")
+
+
 def _replace(config_path: Path, old: str, new: str) -> None:
     text = config_path.read_text(encoding="utf-8")
     assert old in text
@@ -170,7 +180,7 @@ def _set_artifact_reward_timeout(config_path: Path, value: str | None) -> None:
         else:
             lines[index] = f"{key} = {value}"
     elif value is not None:
-        index = lines.index("verl_timeout_seconds = 20.0")
+        index = lines.index("agent_request_timeout_seconds = 70.0")
         lines.insert(index + 1, f"{key} = {value}")
 
     config_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -183,8 +193,22 @@ def test_default_config_preserves_legacy_semantics_and_capabilities(tmp_path: Pa
     template = json.loads((docker_repo / "config.json").read_text(encoding="utf-8"))
 
     assert generated.surfgym["gateway"] == legacy_surf["gateway"]
-    assert generated.surfgym["gateway"]["artifact_reward_timeout"] == 40.0
+    assert generated.surfgym["gateway"]["agent_request_timeout"] == 70.0
+    assert generated.surfgym["gateway"]["artifact_reward_timeout"] == 70.0
     assert generated.surfgym["wavepool"] == legacy_surf["wavepool"]
+    assert generated.surfgym["wavepool"]["process_timeout"]["allocate"] == 20.0
+    observe_timeout = generated.surfgym["wavepool"]["process_timeout"]["observe"]
+    reward_budget = (
+        generated.surfgym["gateway"]["agent_request_timeout"]
+        - generated.surfgym["gateway"]["deadline_margin"]
+    )
+    assert observe_timeout == 35.0
+    assert (
+        generated.surfgym["gateway"]["in_flight_timeout"]
+        + observe_timeout
+        + generated.surfgym["wavepool"]["process_timeout"]["screenshot"]
+        <= reward_budget
+    )
     assert (
         Path(generated.surfgym["task_file_path"])
         == tmp_path / "surf" / ".runtime/tasks/tasks.sqlite3"
@@ -217,6 +241,39 @@ def test_default_config_preserves_legacy_semantics_and_capabilities(tmp_path: Pa
         assert {key: value for key, value in actual.items() if key not in topology_keys} == {
             key: value for key, value in expected.items() if key not in topology_keys
         }
+
+
+def test_binding_cleanup_horizon_covers_four_retained_releases(tmp_path: Path) -> None:
+    config_path, docker_repo = _sandbox(tmp_path)
+    generated = _compile(config_path, docker_repo)
+    cleanup_horizon = generated.surfgym["wavepool"]["process_timeout"]["binding_cleanup_horizon"]
+    assert cleanup_horizon == 720.0
+    assert cleanup_horizon >= 4 * 150.312
+    assert generated.surfgym["wavepool"]["process_timeout"]["binding_cleanup_retry_interval"] == 2.0
+
+
+def test_binding_cleanup_horizon_covers_two_request_attempts(tmp_path: Path) -> None:
+    config_path, docker_repo = _sandbox(tmp_path)
+    _replace(
+        config_path,
+        "binding_cleanup_horizon_seconds = 720.0",
+        "binding_cleanup_horizon_seconds = 700.0",
+    )
+
+    with pytest.raises(OperatorConfigError, match="cover two"):
+        _compile(config_path, docker_repo)
+
+
+def test_binding_cleanup_retry_interval_cannot_exceed_request_timeout(tmp_path: Path) -> None:
+    config_path, docker_repo = _sandbox(tmp_path)
+    _replace(
+        config_path,
+        "binding_cleanup_retry_interval_seconds = 2.0",
+        "binding_cleanup_retry_interval_seconds = 361.0",
+    )
+
+    with pytest.raises(OperatorConfigError, match="retry_interval_seconds"):
+        _compile(config_path, docker_repo)
 
 
 def test_explicit_surf_repo_controls_relative_path_resolution(tmp_path: Path):
@@ -312,7 +369,7 @@ def test_generated_surf_json_round_trips_existing_loader(tmp_path: Path):
 
     loaded = load_config(output)
     assert loaded.gateway_config.gateway_in_flight == 6
-    assert loaded.gateway_config.artifact_reward_timeout == 40.0
+    assert loaded.gateway_config.artifact_reward_timeout == 70.0
     assert loaded.wavepool_config.contexts_per_instance == 6
 
 
@@ -321,6 +378,18 @@ def test_artifact_reward_timeout_is_required_by_operator_config(tmp_path: Path) 
     _set_artifact_reward_timeout(config_path, None)
 
     with pytest.raises(OperatorConfigError, match="Missing key.*artifact_reward_timeout_seconds"):
+        _compile(config_path, docker_repo)
+
+
+def test_operator_config_rejects_retired_verl_timeout_key(tmp_path: Path) -> None:
+    config_path, docker_repo = _sandbox(tmp_path)
+    _replace(
+        config_path,
+        "agent_request_timeout_seconds = 70.0",
+        "verl_timeout_seconds = 70.0",
+    )
+
+    with pytest.raises(OperatorConfigError, match="Unknown key.*verl_timeout_seconds"):
         _compile(config_path, docker_repo)
 
 
@@ -353,12 +422,13 @@ def test_artifact_reward_timeout_cannot_be_shorter_than_legacy_reward(
     config_path, docker_repo = _sandbox(tmp_path)
     _set_artifact_reward_timeout(config_path, "19.0")
 
-    with pytest.raises(OperatorConfigError, match="greater than or equal to.*verl_timeout"):
+    with pytest.raises(OperatorConfigError, match="greater than or equal to.*agent_request_timeout"):
         _compile(config_path, docker_repo)
 
 
 def test_artifact_reward_timeout_covers_docker_and_layer_deadlines(tmp_path: Path) -> None:
     config_path, docker_repo = _sandbox(tmp_path)
+    _replace(config_path, "agent_request_timeout_seconds = 70.0", "agent_request_timeout_seconds = 20.0")
     _set_artifact_reward_timeout(config_path, "38.0")
 
     with pytest.raises(OperatorConfigError, match="35.*layer_gap"):
@@ -370,8 +440,8 @@ def test_runtime_model_requires_exact_finite_positive_artifact_reward_timeout(
     invalid: object,
 ) -> None:
     payload = json.loads((SURF_REPO / "scripts" / "config.json").read_text(encoding="utf-8"))
-    payload["gateway"]["artifact_reward_timeout"] = 40.0
-    assert Config.model_validate(payload).gateway_config.artifact_reward_timeout == 40.0
+    payload["gateway"]["artifact_reward_timeout"] = 70.0
+    assert Config.model_validate(payload).gateway_config.artifact_reward_timeout == 70.0
 
     payload["gateway"]["artifact_reward_timeout"] = invalid
     with pytest.raises(ValidationError):
@@ -390,12 +460,13 @@ def test_runtime_model_rejects_artifact_budget_shorter_than_legacy_reward() -> N
     payload = json.loads((SURF_REPO / "scripts" / "config.json").read_text(encoding="utf-8"))
     payload["gateway"]["artifact_reward_timeout"] = 19.0
 
-    with pytest.raises(ValidationError, match="greater than or equal to.*verl_timeout"):
+    with pytest.raises(ValidationError, match="greater than or equal to.*agent_request_timeout"):
         Config.model_validate(payload)
 
 
 def test_runtime_model_rejects_artifact_budget_shorter_than_docker_bridge() -> None:
     payload = json.loads((SURF_REPO / "scripts" / "config.json").read_text(encoding="utf-8"))
+    payload["gateway"]["agent_request_timeout"] = 20.0
     payload["gateway"]["artifact_reward_timeout"] = 38.0
 
     with pytest.raises(ValidationError, match="35.*layer_gap"):
@@ -409,8 +480,8 @@ def test_runtime_model_rejects_artifact_budget_shorter_than_docker_bridge() -> N
         ("workers = 6", "workers = 5", "greater than or equal"),
         ("contexts_per_instance = 6", "contexts_per_instance = 5", "must not exceed"),
         ("port = 18000", "port = 0", "between 1 and 65535"),
-        ("allocate_seconds = 10.0", "allocate_seconds = -1.0", "greater than 0"),
-        ("allocate_seconds = 10.0", "allocate_seconds = nan", "greater than 0"),
+        ("allocate_seconds = 20.0", "allocate_seconds = -1.0", "greater than 0"),
+        ("allocate_seconds = 20.0", "allocate_seconds = nan", "greater than 0"),
         ("base_port = 59001", "base_port = 53001", "Port collision"),
         ('name = "impress"', 'name = "unknown"', "Unknown app"),
     ],
@@ -555,9 +626,7 @@ def test_prerequisites_reject_missing_static_site_build(tmp_path: Path) -> None:
     config_path, docker_repo = _sandbox(tmp_path)
     surf_repo = config_path.parent.parent
     _create_valid_task_database(surf_repo)
-    fixture_index = surf_repo / operator_config.FIXTURE_INDEX_PATH
-    fixture_index.parent.mkdir(parents=True)
-    fixture_index.write_text("<!doctype html>", encoding="utf-8")
+    _create_valid_local_web_builds(surf_repo)
     generated = _compile(config_path, docker_repo)
 
     with pytest.raises(OperatorConfigError, match="Local static site build prerequisite"):
@@ -570,9 +639,7 @@ def test_prerequisites_accept_valid_task_database_and_fixture_build(
     config_path, docker_repo = _sandbox(tmp_path)
     surf_repo = config_path.parent.parent
     _create_valid_task_database(surf_repo)
-    fixture_index = surf_repo / operator_config.FIXTURE_INDEX_PATH
-    fixture_index.parent.mkdir(parents=True)
-    fixture_index.write_text("<!doctype html>", encoding="utf-8")
+    _create_valid_local_web_builds(surf_repo)
     _create_valid_static_site_builds(surf_repo)
     monkeypatch.setattr(operator_config.shutil, "which", lambda _name: "caddy")
     generated = _compile(config_path, docker_repo)
@@ -602,8 +669,10 @@ def test_host_port_check_includes_all_generated_topology_and_fixed_fixture(
 
     validate_host_ports(generated)
 
-    assert len(bound) == 61
+    assert len(bound) == 63
     assert ("127.0.0.1", 3000) in bound
+    assert ("127.0.0.1", 3001) in bound
+    assert ("127.0.0.1", 3002) in bound
     assert ("127.0.0.1", 18000) in bound
     assert ("127.0.0.1", 53001) in bound
     assert ("127.0.0.1", 58021) in bound
@@ -619,6 +688,14 @@ def test_static_site_port_collision_fails_during_compile(tmp_path: Path) -> None
     _replace(config_path, "port = 18000", "port = 8052")
 
     with pytest.raises(OperatorConfigError, match="Port collision on 8052"):
+        _compile(config_path, docker_repo)
+
+
+def test_local_web_port_collision_fails_during_compile(tmp_path: Path) -> None:
+    config_path, docker_repo = _sandbox(tmp_path)
+    _replace(config_path, "port = 18000", "port = 3001")
+
+    with pytest.raises(OperatorConfigError, match="Port collision on 3001"):
         _compile(config_path, docker_repo)
 
 
@@ -740,9 +817,7 @@ def test_cli_check_prerequisites_validates_without_writing(
     config_path, docker_repo = _sandbox(tmp_path)
     surf_repo = config_path.parent.parent
     _create_valid_task_database(surf_repo)
-    fixture_index = surf_repo / operator_config.FIXTURE_INDEX_PATH
-    fixture_index.parent.mkdir(parents=True)
-    fixture_index.write_text("<!doctype html>", encoding="utf-8")
+    _create_valid_local_web_builds(surf_repo)
     _create_valid_static_site_builds(surf_repo)
     monkeypatch.setattr(operator_config.shutil, "which", lambda _name: "caddy")
     surf_output = tmp_path / "surfgym.json"

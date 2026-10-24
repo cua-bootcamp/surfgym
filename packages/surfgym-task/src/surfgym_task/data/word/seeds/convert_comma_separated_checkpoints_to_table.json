@@ -1,6 +1,6 @@
 {
   "instruction": "Replace the six comma-delimited lines under CHECKPOINT ROSTER with a 6-row by 4-column table. Use each comma to start the next cell, retain the existing row order and wording, and do not alter the text above the roster or the footer.",
-  "website": "http://localhost:3000/word",
+  "website": "http://localhost:3001",
   "accumulation": "CUMULATIVE",
   "states": [
   [

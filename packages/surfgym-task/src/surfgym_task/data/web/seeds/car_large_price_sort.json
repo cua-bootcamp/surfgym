@@ -1,7 +1,7 @@
 {
   "instruction": "Find a large car in Geneva and sort the results by lowest price.",
   "website": {
-    "base": "http://localhost:3200/cars/search",
+    "base": "http://localhost:3002/cars/search",
     "param": {
       "pickup": "Geneva"
     }

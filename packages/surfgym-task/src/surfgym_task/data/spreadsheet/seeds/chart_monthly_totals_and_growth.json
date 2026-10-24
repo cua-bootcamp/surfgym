@@ -1,6 +1,6 @@
 {
   "instruction": "Add monthly Total and month-on-month Growth rows, then create a bar chart for totals and a line chart for February through June growth with matching titles.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Region"},

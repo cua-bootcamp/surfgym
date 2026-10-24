@@ -1,7 +1,7 @@
 {
   "instruction": "In the Help Centre, find the article about how to cancel a booking.",
   "website": {
-    "base": "http://localhost:3200/help"
+    "base": "http://localhost:3002/help"
   },
   "states": [
   [

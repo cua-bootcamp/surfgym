@@ -1,6 +1,6 @@
 {
   "instruction": "Calculate Revenue from the Prices sheet using product price, quantity, and discount, then create a product revenue pivot on Sheet2 at A1.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Product"},

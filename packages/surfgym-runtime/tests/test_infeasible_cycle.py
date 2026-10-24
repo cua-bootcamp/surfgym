@@ -55,6 +55,7 @@ class RecordingTransport:
         websites: list[Website],
         allocate_hooks: list[Hook],
         release_hooks: list[Hook],
+        context_id: str | None = None,
     ) -> MasterAllocateResponse:
         return MasterAllocateResponse(
             context_id="context-id",

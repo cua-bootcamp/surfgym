@@ -1,6 +1,6 @@
 {
   "instruction": "Normalize the warehouse inspection register on Sheet1: within B1:E30, replace every blank cell with the value immediately above it so each inspection row carries its Facility Zone and Inspector. Keep all populated cells and anything outside B1:E30 unchanged.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "accumulation": "CUMULATIVE",
   "states": [
   [

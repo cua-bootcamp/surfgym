@@ -1,6 +1,6 @@
 {
   "instruction": "Fill columns B and C with the Parameter values expressed in millions and billions, rounded half up to one decimal place with a space before M or B.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Parameter"},

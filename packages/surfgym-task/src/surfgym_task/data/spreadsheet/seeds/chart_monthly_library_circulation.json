@@ -1,6 +1,6 @@
 {
   "instruction": "Add a \"System Total\" row beneath the branch table, total the circulation count for each month from January through June, then plot those six monthly totals as a line chart with the month headings on the horizontal axis. Leave the branch entries unchanged.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Branch"},

@@ -18,7 +18,10 @@ from surfgym_fixture.local_static_host import (
 def _built_tree(root: Path) -> RenderInputs:
     fixture_dist = root / "fixture" / "dist"
     fixture_dist.mkdir(parents=True)
-    (fixture_dist / "index.html").write_text("fixture", encoding="utf-8")
+    for app in ("spreadsheet", "word"):
+        entry = fixture_dist / app / "index.html"
+        entry.parent.mkdir(parents=True, exist_ok=True)
+        entry.write_text(app, encoding="utf-8")
     for site in LOCAL_STATIC_SITES:
         dist = root / site.source_dir / "dist"
         dist.mkdir(parents=True)
@@ -34,6 +37,12 @@ def test_renderer_combines_fixture_and_distinct_static_origins(tmp_path: Path) -
 
     assert "admin off" in caddyfile
     assert "http://127.0.0.1:3000" in caddyfile
+    assert "http://127.0.0.1:3001" in caddyfile
+    assert caddyfile.count("@root path /") == 2
+    assert "rewrite @root /spreadsheet/index.html" in caddyfile
+    assert "rewrite @root /word/index.html" in caddyfile
+    assert "try_files {path} /spreadsheet/index.html" in caddyfile
+    assert "try_files {path} /word/index.html" in caddyfile
     assert "http://127.0.0.1:8051" in caddyfile
     assert "http://127.0.0.1:8052" in caddyfile
     assert ":8051 {" not in caddyfile.replace("http://127.0.0.1:8051 {", "")
@@ -49,6 +58,14 @@ def test_renderer_combines_fixture_and_distinct_static_origins(tmp_path: Path) -
     assert ports["INSTACART"] == "http://127.0.0.1:8051"
     assert ports["INSTAGRAM"] == "http://127.0.0.1:8052"
     assert len(ports) == 14
+
+
+def test_missing_office_entry_build_fails_closed(tmp_path: Path) -> None:
+    inputs = _built_tree(tmp_path)
+    (inputs.fixture_dist / "word" / "index.html").unlink()
+
+    with pytest.raises(FileNotFoundError, match="word"):
+        validate_builds(inputs)
 
 
 def test_missing_site_build_fails_closed(tmp_path: Path) -> None:

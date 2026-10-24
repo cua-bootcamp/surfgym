@@ -9,7 +9,8 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3200 (port fixed via `-p 3200` in `package.json` scripts, to avoid colliding with surfgym's fixture server on 3000).
+Open http://localhost:3002. The package scripts fix this port so TravelHub has
+its own browser origin beside Spreadsheet (`3000`) and Word (`3001`).
 
 ## Highlights
 

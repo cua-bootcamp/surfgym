@@ -17,7 +17,7 @@ def test_web_seed_corpus_registers_without_building_a_database():
     assert len({name for _, name in seeds}) == 81
     assert all(seed.domain == "web" for seed, _ in seeds)
     assert all(
-        _website_base(seed).startswith(("http://localhost:3200/", "http://127.0.0.1:"))
+        _website_base(seed).startswith(("http://localhost:3002/", "http://127.0.0.1:"))
         for seed, _ in seeds
     )
     assert sum(isinstance(seed, CriteriaSeedTask) for seed, _ in seeds) == 79
@@ -28,16 +28,11 @@ def test_web_seed_corpus_registers_without_building_a_database():
     ]
     assert len(setup_criteria) == 46
     assert all(seed.accumulation == "DELTA" for seed in setup_criteria)
-    pilot = dict((name, seed) for seed, name in seeds)[
-        "prepare_instacart_health_items_order"
-    ]
+    pilot = dict((name, seed) for seed, name in seeds)["prepare_instacart_health_items_order"]
     assert isinstance(pilot, CriteriaSeedTask)
     assert pilot.website == (
-        "http://127.0.0.1:8151/store/store_1"
-        "?sid=3355ed6f-3f01-5bf3-99ee-a2f1aaff9717"
+        "http://127.0.0.1:8151/store/store_1?sid=3355ed6f-3f01-5bf3-99ee-a2f1aaff9717"
     )
-    assert {atom.spec.get("target") for atom in pilot.states[0].atoms} == {
-        "app_state"
-    }
+    assert {atom.spec.get("target") for atom in pilot.states[0].atoms} == {"app_state"}
     assert len(pilot.states) == 2
     assert not (data_dir / "out" / "tasks.sqlite3").exists()

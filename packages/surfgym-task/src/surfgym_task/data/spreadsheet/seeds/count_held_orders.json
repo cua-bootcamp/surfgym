@@ -1,6 +1,6 @@
 {
   "instruction": "Count the orders whose Status is Held. Put the COUNTIF formula in H2 and leave the order log unchanged.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"A1","property":"value"},"value":"Order ID"},

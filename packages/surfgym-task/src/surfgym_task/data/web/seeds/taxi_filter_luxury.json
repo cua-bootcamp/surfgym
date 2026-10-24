@@ -1,7 +1,7 @@
 {
   "instruction": "Only show me the Luxury vehicles in these taxi results.",
   "website": {
-    "base": "http://localhost:3200/airport-taxis/search",
+    "base": "http://localhost:3002/airport-taxis/search",
     "param": {
       "pickup": "LHR",
       "dropoff": "Central London",

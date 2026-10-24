@@ -34,7 +34,7 @@ def test_docker_fixture_urls_do_not_receive_the_generic_page_script() -> None:
     assert not manager.should_inject_page_script(
         Website(url="http://desktop.localhost:55301/gimp", surface="native")
     )
-    assert manager.should_inject_page_script(Website(url="http://127.0.0.1:3000/word"))
+    assert manager.should_inject_page_script(Website(url="http://127.0.0.1:3001"))
 
 
 def test_context_manager_configures_each_surface_independently() -> None:
@@ -76,7 +76,7 @@ def test_context_manager_configures_each_surface_independently() -> None:
         await manager.create(
             "ctx",
             [
-                Website(website_id="web", url="http://127.0.0.1:3000/word"),
+                Website(website_id="web", url="http://127.0.0.1:3001"),
                 Website(
                     website_id="native",
                     url="http://desktop.localhost:55301/gimp",

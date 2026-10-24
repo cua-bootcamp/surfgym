@@ -1,6 +1,6 @@
 {
   "instruction": "Transpose the training matrix in B2:F5 and paste the result starting at B8. Preserve the source matrix.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "states": [
   [
     {"spec":{"kind":"cell","sheet":"Sheet1","cell":"B2","property":"value"},"value":"Name"},

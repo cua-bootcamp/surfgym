@@ -7,7 +7,7 @@ if [[ -z "${SURFGYM_FIXTURE_CADDYFILE:-}" ]]; then
     cd "$ROOT_DIR/packages/surfgym-fixture/src/surfgym_fixture"
     printf 'No generated static-host config supplied; serving the legacy fixture root on %s.\n\n' \
         "$FIXTURE_MAIN_PORT"
-    exec env MAIN_PORT="$FIXTURE_MAIN_PORT" pnpm run serve
+    exec env MAIN_PORT="$FIXTURE_MAIN_PORT" WORD_PORT="$WORD_PORT" pnpm run serve
 fi
 
 [[ -f "$SURFGYM_FIXTURE_CADDYFILE" ]] || {

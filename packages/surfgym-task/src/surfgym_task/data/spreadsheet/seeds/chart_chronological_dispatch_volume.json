@@ -1,6 +1,6 @@
 {
   "instruction": "Put the dispatch log in chronological order by Scan Time, earliest first, keeping every row intact. Then add a line chart that uses Scan Time along the horizontal axis and plots Pallets as the only series. Preserve the headers and record values.",
-  "website": "http://localhost:3000/spreadsheet",
+  "website": "http://localhost:3000",
   "accumulation": "CUMULATIVE",
   "states": [
   [

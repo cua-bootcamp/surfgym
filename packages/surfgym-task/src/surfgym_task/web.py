@@ -125,7 +125,7 @@ def _normalize_website(value: object) -> object:
         ]
         return urlunsplit(parsed._replace(query=urlencode(query)))
 
-    unsupported = fields - {"url", "website_id", "surface"}
+    unsupported = fields - {"url", "website_id", "surface", "server_reset"}
     if unsupported:
         raise ValueError(f"unsupported website fields: {sorted(unsupported)}")
     return [website]

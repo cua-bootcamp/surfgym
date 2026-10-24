@@ -1,6 +1,6 @@
 {
   "instruction": "In the EQUIPMENT ACTIVITY block, treat the second comma-separated field as the equipment ID. Keep only the earliest line for each equipment ID, preserve the surviving lines in their original order, and leave the headings, explanatory note, log owner, and footer unchanged.",
-  "website": "http://localhost:3000/word",
+  "website": "http://localhost:3001",
   "accumulation": "CUMULATIVE",
   "states": [
   [
